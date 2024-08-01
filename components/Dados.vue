@@ -124,7 +124,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <NuxtLink to="home">
+      <NuxtLink to="/home">
         <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
       </NuxtLink>
 
@@ -153,20 +153,22 @@ const initialState = {
   doc_identificacao: "",
   cpf_pai: "",
   cpf_mae: "",
-  estado_civil: "",
   local_trabalho: "",
   tipo_pessoa: "FISICA",
-  pais_nascimento: "",
-  uf_model: " ",
-  cidade_nascimento: "",
   tabvalores_estadocivil_id: "",
   tabvalores_capacidadecivil_id: "",
   cidade_natural_id: "",
+  cartorio_id: useCookie("user-data").value.cartorio_id,
+  user_id: useCookie("user-data").value.usuario_id,
 };
 
 const state = reactive({
   ...initialState,
 });
+
+function removeFormatting(value) {
+  return value.replace(/[.\-]/g, "");
+}
 
 const {
   data: dados,
@@ -208,25 +210,22 @@ const v$ = useVuelidate(rules, state);
 
 async function onSubmit() {
   if (await v$.value.$validate()) {
+    const payload = {
+      ...state,
+      doc_identificacao: removeFormatting(state.doc_identificacao),
+      cpf_pai: removeFormatting(state.cpf_pai),
+      cpf_mae: removeFormatting(state.cpf_mae),
+    };
     await $fetch("http://localhost:3200/createPessoa", {
       method: "POST",
-      body: state,
+      body: payload,
     });
     $toast.success("Pessoa cadastrada com sucesso!");
     emit("saved");
-    console.log(state);
+    console.log(payload);
   } else {
     $toast.error("Erro ao cadastrar pessoa");
-    console.log(error,state);
   }
-  // await $fetch("http://localhost:3200/createPessoa", {
-  //   method: "POST",
-  //   body: state,
-  // });
-  // $toast.success("Pessoa cadastrada com sucesso!");
-  // emit("saved");
-
-  // $toast.error("Erro ao cadastrar pessoa");
 }
 </script>
 

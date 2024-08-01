@@ -1,7 +1,8 @@
-const logado = true;
-
 export default defineNuxtRouteMiddleware((to, from) => {
-  if (to.path !== "/login" && !logado) {
+  const tokenCookie = useCookie('auth_token');
+  const token = tokenCookie.value;
+
+  if (!token && to.path !== "/login") {
     return navigateTo("/login");
   }
 });

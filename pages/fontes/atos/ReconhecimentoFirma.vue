@@ -3,7 +3,7 @@
     <v-container> 
       <v-row>
         <div style="width: 600px;margin: 20px 0px 20px 10px;">
-          <v-autocomplete
+        <v-autocomplete
         v-model="pessoa"
         :items="pessoasItems"
         item-title="nome"
@@ -12,7 +12,7 @@
       >
       </v-autocomplete>
         </div>
-        <NuxtLink to="pessoas">
+        <NuxtLink to="/pessoas">
           <img class="btn-pointer" style="width: 40px; height: 40px;"
             src="../../../assets/visualizar.png"></img>
         </NuxtLink>

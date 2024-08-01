@@ -5,6 +5,7 @@ import { createVuetify } from 'vuetify'
 import { VDateInput } from 'vuetify/labs/VDateInput'
 import { pt } from 'vuetify/locale';
 import VueTheMask from 'vue-the-mask'
+import { VDataTable } from 'vuetify/lib/components/index.mjs'
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
@@ -25,9 +26,10 @@ export default defineNuxtPlugin((app) => {
       VTextField: {
         density:"compact",
       }
-    }
+    },
   })
   app.vueApp.use(vuetify)
+  app.vueApp.use(VDataTable)
   app.vueApp.use(VueTheMask)
 })
 

@@ -44,20 +44,35 @@
       :items="items"
       item-key="name"
     ></v-data-table>
+    <NuxtLink to="/home">
+      <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
+    </NuxtLink>
   </v-container>
 </template>
 
 <script setup>
-
 const selectedItem = ref(null);
-const valorTitulos = ref('');
+const valorTitulos = ref("");
 const state = reactive({
-  uf_model: '',
-  emissao: '',
-  validade: ''
+  uf_model: "",
+  emissao: "",
+  validade: "",
 });
-
-const {data:paisItems,pending} = await useLazyFetch('http://localhost:3200/listarPais')
+const headers = [
+  { title: "País",},
+  { title: "CEP",  },
+  { title: "Endereço",  },
+  {
+    title: "N*"
+  },
+  {
+    title: "Bairro"
+  },
+  {
+    title: "Cidade"
+  },
+];
+const { data: paisItems, pending } = await useLazyFetch(
+  "http://localhost:3200/listarPais"
+);
 </script>
-
-

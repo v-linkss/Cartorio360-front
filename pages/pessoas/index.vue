@@ -1,9 +1,9 @@
 <template>
   <v-card width="1300">
-    <h1 style="background-color: #53b2e2; color: white; padding-left: 20px">
+    <h1 style="background-color: #C8FCCA; color: #429946; padding: 10px 0px 0px 20px">
       Cadastramento de pessoas
     </h1>
-    <div style="background-color: #53b2e2; padding: 20px 0px 20px 20px">
+    <div style="background-color: #C8FCCA; padding: 20px 0px 20px 20px">
       <v-autocomplete
         v-model="state.tipo_pessoa"
         style="width: 200px"
@@ -14,7 +14,7 @@
       </v-autocomplete>
     </div>
 
-    <v-tabs v-model="tab" bg-color="#53B2E2">
+    <v-tabs v-model="tab" bg-color="#C8FCCA">
       <v-tab value="dados">Dados</v-tab>
       <v-tab v-if="showTabs" value="documento">Documentos</v-tab>
       <v-tab v-if="showTabs" value="endereco">Endereços</v-tab>

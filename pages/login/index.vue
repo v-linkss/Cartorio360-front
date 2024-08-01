@@ -11,8 +11,9 @@
       <div class="text">Log in</div>
       <v-text-field
         autofocus
-        v-model="loginData.email"
+        autocomplete="email"
         type="email"
+        v-model="loginData.email"
         persistent-hint
         class="input"
         density="compact"
@@ -85,7 +86,6 @@
       </v-dialog>
       <a
         class="text-decoration-none"
-        href="/esqueci-senha"
         rel="noopener noreferrer"
         style="color: #429946"
       >
@@ -102,11 +102,11 @@ definePageMeta({
   layout: "false",
 });
 const router = useRouter();
-
+const { $toast } = useNuxtApp();
 const loginData = ref({
-    senha: '',
-    email: '',
-})
+  senha: "",
+  email: "",
+});
 
 const visible = ref(false);
 const dialog = ref(false);
@@ -119,26 +119,56 @@ const closeAlert = () => {
   showPasswordError.value = false;
   showEmailError.value = false;
   showError.value = false;
+  dialog.value = false;
 };
-const config = useRuntimeConfig();
-const auth = config.public.auth;
+// const config = useRuntimeConfig();
+// const auth = config.public.auth;
 
 const login = async () => {
-  try {
-    const { data: responseData } = await useFetch("http://localhost:3333/login", {
-        method: 'POST',
-        body: { 
-          senha: loginData.value.senha,
-          email: loginData.value.email,
-        }
-    })
-    console.log(responseData.value)
+  const {
+    data: responseData,
+    status,
+    error,
+  } = await useFetch("http://localhost:3333/login", {
+    method: "POST",
+    body: {
+      senha: loginData.value.senha,
+      email: loginData.value.email,
+    },
+  });
 
+  if (status.value === "success") {
     router.push("/home");
-  } catch (error) {
-    console.error(error);
-    showError.value = true;
-    dialog.value = true;
+    const userInfo = responseData.value[0].func_autentica_acesso_v1[0].registro[0]
+    const userCookie = useCookie("user-data");
+    userCookie.value = userCookie.value = JSON.stringify({
+      nome: userInfo.nome,
+      usuario_id: userInfo.id,
+      cartorio_id: userInfo.cartorios[0].cartorio_id,
+      cartorio_nome:userInfo.cartorios[0].cartorio_descricao
+    });
+    $toast.success("Login realizado com sucesso!");
+    const tokenAuth = responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
+    const tokenCookie = useCookie("auth_token");
+    tokenCookie.value = tokenAuth;
+  } else {
+    const counter = useCookie("counter");
+    counter.value = 1;
+    console.log(useCookie("value").value);
+    const errorData = error.value.data[0].func_autentica_acesso_v1[0];
+    switch (errorData.status_mensagem) {
+      case "Esse email não está cadastrado no Durabil.":
+        showEmailError.value = true;
+        break;
+      case "Senha inválida.":
+        showPasswordError.value = true;
+        break;
+      default:
+        if (errorData.error === "Erro ao autenticar usuário") {
+          showError.value = true;
+        }
+        break;
+    }
   }
 };
 </script>
