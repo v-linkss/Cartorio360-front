@@ -129,7 +129,7 @@ const login = async () => {
     data: responseData,
     status,
     error,
-  } = await useFetch("http://localhost:3333/login", {
+  } = await useFetch("http://45.55.192.246:3746", {
     method: "POST",
     body: {
       senha: loginData.value.senha,
