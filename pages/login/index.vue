@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+eslint-disable vue/multi-word-component-names
 <template>
   <div class="container-main">
     <div class="container-form">
