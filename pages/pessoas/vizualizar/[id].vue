@@ -55,7 +55,7 @@ const route = useRoute();
 const { id } = route.params;
 
 const { data: PessoaView, pending } = await useFetch(
-  `http://localhost:3200/getPessoaById/${id}`
+  `http://45.55.192.246:3746/getPessoaById/${id}`
 );
 
 </script>

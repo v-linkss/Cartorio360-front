@@ -73,6 +73,6 @@ const headers = [
   },
 ];
 const { data: paisItems, pending } = await useLazyFetch(
-  "http://localhost:3200/listarPais"
+  "http://45.55.192.246:3746/listarPais"
 );
 </script>

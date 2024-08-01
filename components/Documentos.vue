@@ -83,8 +83,8 @@ const headers = [
 
 const { data: documentos,status,pending } = await useLazyAsyncData("cliente-documentos", async () => {
   const [tipoDocumentoItems, ufItems] = await Promise.all([
-    $fetch("http://localhost:3200/listarTipoDocumento"),
-    $fetch( "http://localhost:3200/listarUF"),
+    $fetch("http://45.55.192.246:3746/listarTipoDocumento"),
+    $fetch( "http://45.55.192.246:3746/listarUF"),
   ]);
 
   return { tipoDocumentoItems,ufItems };

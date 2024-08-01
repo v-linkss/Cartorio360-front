@@ -67,13 +67,13 @@ const headers = [
   { value: "actions" },
 ];
 const { data: pessoasItems, pending } = await useLazyFetch(
-  "http://localhost:3200/getAllPessoa"
+  "http://45.55.192.246:3746/getAllPessoa"
 );
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`http://localhost:3200/updatePessoa/${item.id}`, {
+    await useFetch(`http://45.55.192.246:3746/updatePessoa/${item.id}`, {
       method: 'PUT',
       body: JSON.stringify({ excluido: item.excluido }),
     });

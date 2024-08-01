@@ -35,7 +35,7 @@
 
 <script setup>
 const pessoa = ref('')
-const {data:pessoasItems,pending} = await useLazyFetch('http://localhost:3200/getAllPessoa')
+const {data:pessoasItems,pending} = await useLazyFetch('http://45.55.192.246:3746/getAllPessoa')
 </script>
 
 <style scoped>

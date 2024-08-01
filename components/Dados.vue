@@ -178,9 +178,9 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems] =
     await Promise.all([
-      $fetch("http://localhost:3200/listarEstadoCivil"),
-      $fetch("http://localhost:3200/listarCapacidadeCivil"),
-      $fetch("http://localhost:3200/listarCidades"),
+      $fetch("http://45.55.192.246:3746/listarEstadoCivil"),
+      $fetch("http://45.55.192.246:3746/listarCapacidadeCivil"),
+      $fetch("http://45.55.192.246:3746/listarCidades"),
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -216,7 +216,7 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
     };
-    await $fetch("http://localhost:3200/createPessoa", {
+    await $fetch("http://45.55.192.246:3746/createPessoa", {
       method: "POST",
       body: payload,
     });
