@@ -34,8 +34,10 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
+const pessoasLista = config.public.allPessoaApiUrl;
 const pessoa = ref('')
-const {data:pessoasItems,pending} = await useLazyFetch('http://localhost:3200/getAllPessoa')
+const {data:pessoasItems,pending} = await useLazyFetch(pessoasLista)
 </script>
 
 <style scoped>

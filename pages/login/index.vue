@@ -121,38 +121,42 @@ const closeAlert = () => {
   showError.value = false;
   dialog.value = false;
 };
-// const config = useRuntimeConfig();
-// const auth = config.public.auth;
+const config = useRuntimeConfig();
+const auth = config.public.auth;
 
 const login = async () => {
   const {
     data: responseData,
     status,
     error,
-  } = await useFetch("http://localhost:3333/login", {
+  } = await useFetch(auth, {
     method: "POST",
     body: {
       senha: loginData.value.senha,
       email: loginData.value.email,
     },
   });
-
+  console.log(responseData,error)
   if (status.value === "success") {
     const userInfo =
       responseData.value[0].func_autentica_acesso_v1[0].registro[0];
+
     const userCookie = useCookie("user-data");
     userCookie.value = userCookie.value = JSON.stringify({
       nome: userInfo.nome,
       usuario_id: userInfo.id,
       cartorio_id: userInfo.cartorios[0].cartorio_id,
       cartorio_nome: userInfo.cartorios[0].cartorio_descricao,
+      cartorio_token: userInfo.cartorios[0].cartorio_token,
     });
+
     $toast.success("Login realizado com sucesso!");
     const tokenAuth =
       responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
     const tokenCookie = useCookie("auth_token");
     tokenCookie.value = tokenAuth;
-    router.push("/home");
+
+    router.push("/home")
   } else {
     if (status.value === 'error' && error.value.statusCode === 500){
     (showError.value = true);

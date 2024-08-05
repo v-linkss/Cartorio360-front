@@ -144,6 +144,13 @@ const emit = defineEmits(["saved"]);
 const router = useRouter();
 const { $toast } = useNuxtApp();
 
+const config = useRuntimeConfig();
+const createPessoa = config.public.createPessoaUrl
+const updatePessoa = config.public.updatePessoaUrl;
+const estadoCivil = config.public.listarEstadoCivilUrl
+const capacidadeCivil = config.public.listarCapacidadeCivilUrl
+const cidades = config.public.listarCidadesUrl
+
 const initialState = {
   nome: "",
   nome_pai: "",
@@ -186,9 +193,9 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems] =
     await Promise.all([
-      $fetch("http://localhost:3200/listarEstadoCivil"),
-      $fetch("http://localhost:3200/listarCapacidadeCivil"),
-      $fetch("http://localhost:3200/listarCidades"),
+      $fetch(estadoCivil),
+      $fetch(capacidadeCivil),
+      $fetch(cidades)
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -228,7 +235,7 @@ async function onSubmit() {
       cpf_mae: removeFormatting(state.cpf_mae),
     };
     const { data, error } = await useFetch(
-      "http://localhost:3200/createPessoa",
+      createPessoa,
       {
         method: "POST",
         body: payloadFormated,
@@ -240,6 +247,7 @@ async function onSubmit() {
     $toast.success("Pessoa cadastrada com sucesso!");
     isEditMode.value = true;
     emit("saved");
+    console.log(payloadFormated)
   } else {
     $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
     console.log(state);
@@ -258,7 +266,7 @@ async function onUpdate() {
     cpf_mae: removeFormatting(state.cpf_mae),
   };
   const { data, error } = await useFetch(
-    `http://localhost:3200/updatePessoa/${pessoaId.value}`,
+    `${updatePessoa}/${pessoaId.value}`,
     {
       method: "PUT",
       body: payloadFormated,

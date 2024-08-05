@@ -60,6 +60,10 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
+const pessoasLista = config.public.allPessoaApiUrl
+const pessoasUpdate = config.public.updatePessoaUrl
+
 const router = useRouter();
 const headers = [
   { title: "Documento", value: "doc_identificacao" },
@@ -67,13 +71,13 @@ const headers = [
   { value: "actions" },
 ];
 const { data: pessoasItems, pending } = await useLazyFetch(
-  "http://localhost:3200/getAllPessoa"
+  pessoasLista
 );
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`http://localhost:3200/updatePessoa/${item.id}`, {
+    await useFetch(`${pessoasUpdate}/${item.id}`, {
       method: 'PUT',
       body: JSON.stringify({ excluido: item.excluido }),
     });

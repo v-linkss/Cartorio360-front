@@ -130,6 +130,13 @@ const { $toast } = useNuxtApp();
 const route = useRoute();
 const { id } = route.params;
 
+const config = useRuntimeConfig();
+const updatePessoa = config.public.updatePessoaUrl;
+const estadoCivil = config.public.listarEstadoCivilUrl
+const capacidadeCivil = config.public.listarCapacidadeCivilUrl
+const cidades = config.public.listarCidadesUrl
+const buscarPessoa = config.public.getPessoaByIdUrl
+
 const initialState = {
   nome: "",
   nome_pai: "",
@@ -169,10 +176,10 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, pessoa] =
     await Promise.all([
-      $fetch("http://localhost:3200/listarEstadoCivil"),
-      $fetch("http://localhost:3200/listarCapacidadeCivil"),
-      $fetch("http://localhost:3200/listarCidades"),
-      $fetch(`http://localhost:3200/getPessoaById/${id}`),
+      $fetch(estadoCivil),
+      $fetch(capacidadeCivil),
+      $fetch(cidades),
+      $fetch(`${buscarPessoa}/${id}`),
     ]);
 
   // Atribuir os dados da pessoa ao estado reativo
@@ -202,7 +209,7 @@ function formatPayload(payload) {
 async function onUpdate() {
     const payloadFormated = formatPayload(state);
     const { data, error } = await useFetch(
-      `http://localhost:3200/updatePessoa/${id}`,
+      `${updatePessoa}/${id}`,
       {
         method: "PUT",
         body: payloadFormated,

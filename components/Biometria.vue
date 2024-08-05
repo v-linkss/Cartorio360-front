@@ -101,7 +101,8 @@ const token = tokenCookie.value;
 const pessoaNome = useCookie("user-data").value
 const nomePessoa = pessoaNome.nome;
 
-console.log(nomePessoa)
+const config = useRuntimeConfig();
+const enviarFoto = config.public.minioUploadFaceIdUrl
 
 const { $toast } = useNuxtApp();
 
@@ -169,7 +170,7 @@ const handleCapture = async () => {
     formData.append('file', blob, `${nomePessoa}.jpg`);
     formData.append('pessoa_token', token); // Adiciona o token ao FormData
 
-    const { status } = await useFetch('http://localhost:3200/uploadFaceId', {
+    const { status } = await useFetch(enviarFoto, {
       method: 'POST',
       body: formData,
     });

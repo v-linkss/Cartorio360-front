@@ -54,8 +54,11 @@
 const route = useRoute();
 const { id } = route.params;
 
+const config = useRuntimeConfig();
+const pessoasView = config.public.getPessoaByIdUrl
+
 const { data: PessoaView, pending } = await useFetch(
-  `http://localhost:3200/getPessoaById/${id}`
+  `${pessoasView}/${id}`
 );
 
 </script>
