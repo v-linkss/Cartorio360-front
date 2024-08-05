@@ -36,15 +36,15 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-container style="overflow: hidden;" >
+              <v-container style="overflow: hidden;">
                 <v-col>
                   <video
                     class="ml-3"
                     ref="video"
                     width="640"
                     height="480"
-                    autoplay    
-                    :style="{ transform: `scale(${zoomLevel})`,transformOrigin: ' center center' }"  
+                    autoplay
+                    :style="{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center' }"
                   ></video>
                 </v-col>
               </v-container>
@@ -61,14 +61,14 @@
             <v-row class="mt-10 justify-space-around">
               <div @click="closeDialog">
                 <img
-                 style="cursor: pointer;"
+                  style="cursor: pointer;"
                   src="../assets/sair.png"
                   alt="Excluir"
                 />
               </div>
-              <div @click="closeDialog">
+              <div @click="handleCapture">
                 <img
-                   style="cursor: pointer;"
+                  style="cursor: pointer;"
                   src="../assets/salvar.png"
                   alt="Salvar"
                 />
@@ -88,11 +88,22 @@
 </template>
 
 <script setup>
+
 const video = ref(null);
 const devices = ref([]);
 const selectedDeviceId = ref("");
 const isDialogActive = ref(false);
 const zoomLevel = ref(1);
+
+const tokenCookie = useCookie('auth_token');
+const token = tokenCookie.value;
+
+const pessoaNome = useCookie("user-data").value
+const nomePessoa = pessoaNome.nome;
+
+console.log(nomePessoa)
+
+const { $toast } = useNuxtApp();
 
 const updateDevices = async () => {
   const mediaDevices = await navigator.mediaDevices.enumerateDevices();
@@ -132,13 +143,53 @@ const startVideo = async () => {
   }
 };
 
+const handleCapture = async () => {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  const width = video.value.videoWidth;
+  const height = video.value.videoHeight;
+  const scaledWidth = width * zoomLevel.value;
+  const scaledHeight = height * zoomLevel.value;
+  const offsetX = (width - scaledWidth) / 2;
+  const offsetY = (height - scaledHeight) / 2;
+
+  canvas.width = width;
+  canvas.height = height;
+
+  context.drawImage(
+    video.value,
+    offsetX,
+    offsetY,
+    scaledWidth,
+    scaledHeight
+  );
+
+  canvas.toBlob(async (blob) => {
+    const formData = new FormData();
+    formData.append('file', blob, `${nomePessoa}.jpg`);
+    formData.append('pessoa_token', token); // Adiciona o token ao FormData
+
+    const { status } = await useFetch('http://localhost:3200/uploadFaceId', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (status.value === 'success') {
+      $toast.success("Imagem enviada!");
+      closeDialog();
+    } else {
+      $toast.error("Erro ao enviar imagem para o sistema.");
+    }
+  }, 'image/jpeg');
+};
+
 onMounted(async () => {
   try {
     await navigator.mediaDevices.getUserMedia({ video: true }); // Solicitar permissão do usuário
     await updateDevices(); // Atualizar a lista de dispositivos após obter permissão
+
   } catch (error) {
     console.error("Erro ao acessar dispositivos de mídia:", error);
   }
 });
 </script>
-

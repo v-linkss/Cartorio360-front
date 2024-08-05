@@ -71,7 +71,7 @@
             </v-btn>
           </template>
         </v-card>
-        <v-card v-if="showError" text="Erro no sistema">
+        <v-card v-if="showError" text="Erro no sistema, fora do ar.">
           <template v-slot:actions>
             <v-spacer></v-spacer>
 
@@ -138,23 +138,25 @@ const login = async () => {
   });
 
   if (status.value === "success") {
-    router.push("/home");
-    const userInfo = responseData.value[0].func_autentica_acesso_v1[0].registro[0]
+    const userInfo =
+      responseData.value[0].func_autentica_acesso_v1[0].registro[0];
     const userCookie = useCookie("user-data");
     userCookie.value = userCookie.value = JSON.stringify({
       nome: userInfo.nome,
       usuario_id: userInfo.id,
       cartorio_id: userInfo.cartorios[0].cartorio_id,
-      cartorio_nome:userInfo.cartorios[0].cartorio_descricao
+      cartorio_nome: userInfo.cartorios[0].cartorio_descricao,
     });
     $toast.success("Login realizado com sucesso!");
-    const tokenAuth = responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
+    const tokenAuth =
+      responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
     const tokenCookie = useCookie("auth_token");
     tokenCookie.value = tokenAuth;
+    router.push("/home");
   } else {
-    const counter = useCookie("counter");
-    counter.value = 1;
-    console.log(useCookie("value").value);
+    if (status.value === 'error' && error.value.statusCode === 500){
+    (showError.value = true);
+  } 
     const errorData = error.value.data[0].func_autentica_acesso_v1[0];
     switch (errorData.status_mensagem) {
       case "Esse email não está cadastrado no Durabil.":

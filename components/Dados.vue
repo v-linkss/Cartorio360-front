@@ -70,8 +70,8 @@
           label="Capacidade Civil"
           item-title="descricao"
           item-value="id"
-        ></v-autocomplete
-      ></v-col>
+        ></v-autocomplete>
+      </v-col>
       <v-col cols="12" md="4">
         <v-autocomplete
           v-model="state.cidade_natural_id"
@@ -86,11 +86,8 @@
       <v-col cols="12" md="4">
         <v-text-field
           v-model.date="state.cpf_pai"
-          :error-messages="v$.cpf_pai.$errors.map((e) => e.$message)"
           label="CPF do Pai"
           v-mask="'###.###.###-##'"
-          @blur="v$.cpf_pai.$touch"
-          @input="v$.cpf_pai.$touch"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="4">
@@ -128,19 +125,23 @@
         <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
       </NuxtLink>
 
-      <img class="btn-pointer" src="../assets/salvar.png" @click="onSubmit" />
+      <img
+        class="btn-pointer"
+        src="../assets/salvar.png"
+        @click="isEditMode ? onUpdate() : onSubmit()"
+      />
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { cpf } from "~/composables/validaCpf";
 
 const emit = defineEmits(["saved"]);
-
+const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const initialState = {
@@ -162,12 +163,19 @@ const initialState = {
   user_id: useCookie("user-data").value.usuario_id,
 };
 
+const isEditMode = ref(false);
+const pessoaId = useCookie("pessoa-id");
+
 const state = reactive({
   ...initialState,
 });
 
 function removeFormatting(value) {
-  return value.replace(/[.\-]/g, "");
+  if (value) {
+    return value.replace(/[.\-]/g, "");
+  } else {
+    value = null;
+  }
 }
 
 const {
@@ -201,31 +209,63 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatorio", required),
     cpf,
   },
-  cpf_pai: {
-    cpf,
-  },
 };
 
 const v$ = useVuelidate(rules, state);
 
 async function onSubmit() {
   if (await v$.value.$validate()) {
-    const payload = {
-      ...state,
+    const payload = { ...state };
+    for (const key in payload) {
+      if (payload[key] === "") {
+        payload[key] = null;
+      }
+    }
+    const payloadFormated = {
+      ...payload,
       doc_identificacao: removeFormatting(state.doc_identificacao),
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
     };
-    await $fetch("http://localhost:3200/createPessoa", {
-      method: "POST",
-      body: payload,
-    });
+    const { data, error } = await useFetch(
+      "http://localhost:3200/createPessoa",
+      {
+        method: "POST",
+        body: payloadFormated,
+      }
+    );
+    const pessoaIdValue = data.value.id;
+
+    pessoaId.value = pessoaIdValue;
     $toast.success("Pessoa cadastrada com sucesso!");
+    isEditMode.value = true;
     emit("saved");
-    console.log(payload);
   } else {
-    $toast.error("Erro ao cadastrar pessoa");
+    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
+    console.log(state);
   }
+}
+async function onUpdate() {
+  const payload = { ...state };
+  for (const key in payload) {
+    if (payload[key] === "") {
+      payload[key] = null;
+    }
+  }
+  const payloadFormated = {
+    ...payload,
+    doc_identificacao: removeFormatting(state.doc_identificacao),
+    cpf_mae: removeFormatting(state.cpf_mae),
+  };
+  const { data, error } = await useFetch(
+    `http://localhost:3200/updatePessoa/${pessoaId.value}`,
+    {
+      method: "PUT",
+      body: payloadFormated,
+    }
+  );
+  $toast.success("Pessoa atualizada com sucesso!");
+  router.push("/pessoas/registros");
 }
 </script>
 

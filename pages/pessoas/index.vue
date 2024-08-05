@@ -10,6 +10,7 @@
         :items="pessoa_tipo"
         label="Tipo de pessoa"
         bg-color="#F6F6F6"
+         :disabled="autocompleteDisabled"
       >
       </v-autocomplete>
     </div>
@@ -47,6 +48,7 @@
 <script setup>
 const tab = ref(null);
 const showTabs = ref(false);
+const autocompleteDisabled = ref(false);
 
 const initialState = {
   tipo_pessoa: "FISICA",
@@ -60,6 +62,7 @@ const pessoa_tipo = ["FISICA", "JURIDICA", "ESTRANGEIRA"];
 
 const handleSave = () => {
   showTabs.value = true;
+  autocompleteDisabled.value = true; 
 };
 </script>
 

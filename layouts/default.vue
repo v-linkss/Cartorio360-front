@@ -62,11 +62,11 @@ function itemClick(title) {
 }
 
 function logout() {
-  // Limpe os cookies
+  // Limpe os cookies  
+  useCookie("user-data").value ='';
+  useCookie("auth_token").value ='';
   router.push("/login");
-  // useCookie("user-data").value = null;
-  // useCookie("auth_token").value = null;
-  deleteCookie
+
 
   
 

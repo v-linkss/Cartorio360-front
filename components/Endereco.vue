@@ -44,7 +44,7 @@
       :items="items"
       item-key="name"
     ></v-data-table>
-    <NuxtLink to="/home">
+    <NuxtLink to="/pessoas/registros">
       <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>

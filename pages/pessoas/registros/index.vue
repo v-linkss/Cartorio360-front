@@ -19,7 +19,7 @@
           </div>
           <div
             class="btn-pointer"
-            @click="redirectToView(item.id)"
+            @click="redirectToUpdate(item.id)"
             title="Visualizar"
           >
             <img
@@ -84,6 +84,10 @@ async function deletePessoa(item) {
 
 function redirectToView(id) {
   router.push({ path: `/pessoas/vizualizar/${id}` });
+}
+
+function redirectToUpdate(id) {
+  router.push({ path: `/pessoas/atualizar/${id}` });
 }
 </script>
 
