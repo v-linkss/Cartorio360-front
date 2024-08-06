@@ -82,7 +82,7 @@
       <img class="btn-pointer" src="../assets/trash.png" alt="Excluir" />
     </v-col>
   </v-row>
-  <NuxtLink to="home">
+  <NuxtLink to="/pessoas/registros">
     <img class="mt-15" src="../assets/sair.png" alt="Sair" />
   </NuxtLink>
 </template>

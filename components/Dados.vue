@@ -121,7 +121,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <NuxtLink to="/home">
+      <NuxtLink to="/pessoas/registros">
         <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
       </NuxtLink>
 

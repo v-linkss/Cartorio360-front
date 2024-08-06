@@ -12,6 +12,12 @@
             Nome/Razão Social : {{ PessoaView.nome }}
           </v-sheet>
         </v-col>
+        <v-col>
+          <v-sheet class="pa-2 ma-2">
+            Local de Trabalho:
+            {{ PessoaView.data_nascimento }}
+          </v-sheet>
+        </v-col>
 
         <v-responsive width="100%"></v-responsive>
 

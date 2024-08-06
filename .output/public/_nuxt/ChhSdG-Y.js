@@ -1,1 +1,0 @@
-import{C as n,aa as o,aw as r,D as l,a4 as i,J as c,b as u}from"./DO1PfR-s.js";const m=n({fluid:{type:Boolean,default:!1},...o(),...r()},"VContainer"),p=l()({name:"VContainer",props:m(),setup(a,e){let{slots:s}=e;const{rtlClasses:t}=i();return c(()=>u(a.tag,{class:["v-container",{"v-container--fluid":a.fluid},t.value,a.class],style:a.style},s)),{}}});export{p as V};

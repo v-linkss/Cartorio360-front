@@ -29,7 +29,6 @@ const pages = [
   { title: "Testamento", value: "Testamento" },
 ];
 const selectedPage = ref<string>("");
-  console.log(useCookie('user-data'))
 const selectedComponent = computed(() => {
   return components[selectedPage.value as keyof typeof components];
 });
