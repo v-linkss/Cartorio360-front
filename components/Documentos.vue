@@ -80,10 +80,10 @@ import { helpers, required } from "@vuelidate/validators";
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const allTipos = config.public.listarTipoDocumentoUrl
-const allUf = config.public.listarUfUrl;
-const allDoc = config.public.allPessoaDocApiUrl
-const createDoc = config.public.createPessoaDocUrl
+const allTipos = `${config.public.managemant}/listarTipoDocumento`
+const allUf = `${config.public.managemant}/listarUF`;
+const allDoc = `${config.public.managemant}/getAllPessoaDoc`
+const createDoc = `${config.public.managemant}/createPessoaDoc`
 
 const state = reactive({
   tabvalores_tipodoc_id: "",

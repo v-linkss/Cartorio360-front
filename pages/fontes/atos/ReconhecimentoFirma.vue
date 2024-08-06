@@ -35,7 +35,7 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = config.public.allPessoaApiUrl;
+const pessoasLista = `${config.public.managemant}/getAllPessoa`;
 const pessoa = ref('')
 const {data:pessoasItems,pending} = await useLazyFetch(pessoasLista)
 </script>

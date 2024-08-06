@@ -61,8 +61,8 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = config.public.allPessoaApiUrl
-const pessoasUpdate = config.public.updatePessoaUrl
+const pessoasLista = `${config.public.managemant}/getAllPessoa`
+const pessoasUpdate = `${config.public.managemant}/deletePessoa`
 
 const router = useRouter();
 const headers = [

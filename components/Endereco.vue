@@ -87,10 +87,9 @@ import { helpers, required } from "@vuelidate/validators";
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const allPaises = config.public.listarPaisUrl
-const allEnderecos = config.public.getAllPessoaEnderecoUrl
-const cidades = config.public.listarCidadesUrl
-const criarEnderecos = config.public.createPessoaEnderecoUrl
+const allPaises = `${config.public.managemant}/listarPais`
+const allEnderecos = `${config.public.managemant}/getAllPessoaEndereco`
+const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`
 
 const state = reactive({
   tabvalores_pais_id: "",
@@ -145,7 +144,7 @@ const {
   const [paisItems, enderecosItems,cidadesItems] = await Promise.all([
     $fetch(allPaises),
     $fetch(allEnderecos),
-    $fetch(cidades),
+    $fetch(`${config.public.managemant}/listarCidades`),
   ]);
 
   return { paisItems, enderecosItems,cidadesItems };

@@ -145,11 +145,12 @@ const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createPessoa = config.public.createPessoaUrl
+const createPessoa = `${config.public.managemant}/createPessoa`
 const updatePessoa = config.public.updatePessoaUrl;
-const estadoCivil = config.public.listarEstadoCivilUrl
-const capacidadeCivil = config.public.listarCapacidadeCivilUrl
-const cidades = config.public.listarCidadesUrl
+const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
+const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
+const cidade = `${config.public.managemant}/listarCidades`
+
 
 const initialState = {
   nome: "",
@@ -195,7 +196,7 @@ const {
     await Promise.all([
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
-      $fetch(cidades)
+      $fetch(cidade)
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
