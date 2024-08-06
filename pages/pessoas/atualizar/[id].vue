@@ -131,7 +131,7 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const updatePessoa = config.public.updatePessoaUrl;
+const updatePessoa = `${config.public.managemant}/updatePessoa`
 const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
 const cidades = `${config.public.managemant}/listarCidades`
