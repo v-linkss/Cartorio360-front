@@ -146,7 +146,7 @@ const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
 const createPessoa = `${config.public.managemant}/createPessoa`
-const updatePessoa = config.public.updatePessoaUrl;
+const updatePessoa = `${config.public.managemant}/updatePessoa`
 const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
 const cidade = `${config.public.managemant}/listarCidades`
