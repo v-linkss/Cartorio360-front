@@ -121,7 +121,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <NuxtLink to="/home">
+      <NuxtLink to="/pessoas/registros">
         <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
       </NuxtLink>
 
@@ -221,37 +221,38 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 async function onSubmit() {
-  if (await v$.value.$validate()) {
-    const payload = { ...state };
-    for (const key in payload) {
-      if (payload[key] === "") {
-        payload[key] = null;
-      }
-    }
-    const payloadFormated = {
-      ...payload,
-      doc_identificacao: removeFormatting(state.doc_identificacao),
-      cpf_pai: removeFormatting(state.cpf_pai),
-      cpf_mae: removeFormatting(state.cpf_mae),
-    };
-    const { data, error } = await useFetch(
-      createPessoa,
-      {
-        method: "POST",
-        body: payloadFormated,
-      }
-    );
-    const pessoaIdValue = data.value.id;
+  emit("saved");
+  // if (await v$.value.$validate()) {
+  //   const payload = { ...state };
+  //   for (const key in payload) {
+  //     if (payload[key] === "") {
+  //       payload[key] = null;
+  //     }
+  //   }
+  //   const payloadFormated = {
+  //     ...payload,
+  //     doc_identificacao: removeFormatting(state.doc_identificacao),
+  //     cpf_pai: removeFormatting(state.cpf_pai),
+  //     cpf_mae: removeFormatting(state.cpf_mae),
+  //   };
+  //   const { data, error } = await useFetch(
+  //     createPessoa,
+  //     {
+  //       method: "POST",
+  //       body: payloadFormated,
+  //     }
+  //   );
+  //   const pessoaIdValue = data.value.id;
 
-    pessoaId.value = pessoaIdValue;
-    $toast.success("Pessoa cadastrada com sucesso!");
-    isEditMode.value = true;
-    emit("saved");
-    console.log(payloadFormated)
-  } else {
-    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
-    console.log(state);
-  }
+  //   pessoaId.value = pessoaIdValue;
+  //   $toast.success("Pessoa cadastrada com sucesso!");
+  //   isEditMode.value = true;
+  //   emit("saved");
+  //   console.log(payloadFormated)
+  // } else {
+  //   $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
+  //   console.log(state);
+  // }
 }
 async function onUpdate() {
   const payload = { ...state };

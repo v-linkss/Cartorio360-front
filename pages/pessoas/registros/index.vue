@@ -53,7 +53,7 @@
       </template>
     </v-data-table>
 
-    <NuxtLink to="/home">
+    <NuxtLink to="/pessoas/registro">
       <img src="../../../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>

@@ -138,8 +138,7 @@ const {
 });
 
 async function onSubmit() {
-  if (await v$.value.$validate()) {
-    const payload = { ...state };
+  const payload = { ...state };
     for (const key in payload) {
       if (payload[key] === "") {
         payload[key] = null;
@@ -148,21 +147,32 @@ async function onSubmit() {
     const payloadFormated = {
       ...payload,
     };
-    const { data, error,status } = await useFetch(
-     createDoc,
-      {
-        method: "POST",
-        body: payloadFormated,
-      }
-    );
-    if (status.value === 'error' && error.value.statusCode === 500){
-      $toast.error("Erro ao cadastrar documento,falta de id obrigatorios.");
-    }else{
+    console.log(payloadFormated)
+  // if (await v$.value.$validate()) {
+  //   const payload = { ...state };
+  //   for (const key in payload) {
+  //     if (payload[key] === "") {
+  //       payload[key] = null;
+  //     }
+  //   }
+  //   const payloadFormated = {
+  //     ...payload,
+  //   };
+  //   const { data, error,status } = await useFetch(
+  //    createDoc,
+  //     {
+  //       method: "POST",
+  //       body: payloadFormated,
+  //     }
+  //   );
+  //   if (status.value === 'error' && error.value.statusCode === 500){
+  //     $toast.error("Erro ao cadastrar documento,falta de id obrigatorios.");
+  //   }else{
 
-      $toast.success("Documento cadastrado com sucesso!");
-    }
-  } else {
-    $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
-  }
+  //     $toast.success("Documento cadastrado com sucesso!");
+  //   }
+  // } else {
+  //   $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
+  // }
 }
 </script>
