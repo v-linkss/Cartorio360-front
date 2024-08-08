@@ -55,7 +55,7 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const pessoasView = config.public.getPessoaByIdUrl
+const pessoasView = `${config.public.managemant}/getPessoaById`
 
 const { data: PessoaView, pending } = await useFetch(
   `${pessoasView}/${id}`

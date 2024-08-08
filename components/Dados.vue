@@ -145,11 +145,11 @@ const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createPessoa = config.public.createPessoaUrl
-const updatePessoa = config.public.updatePessoaUrl;
-const estadoCivil = config.public.listarEstadoCivilUrl
-const capacidadeCivil = config.public.listarCapacidadeCivilUrl
-const cidades = config.public.listarCidadesUrl
+const createPessoa = `${config.public.managemant}/createPessoa`
+const updatePessoa = `${config.public.managemant}/updatePessoa`
+const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
+const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
+const cidades = `${config.public.managemant}/listarCidades`
 
 const initialState = {
   nome: "",
@@ -195,7 +195,7 @@ const {
     await Promise.all([
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
-      $fetch(cidades)
+      $fetch(cidades),
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -221,38 +221,35 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 async function onSubmit() {
-  emit("saved");
-  // if (await v$.value.$validate()) {
-  //   const payload = { ...state };
-  //   for (const key in payload) {
-  //     if (payload[key] === "") {
-  //       payload[key] = null;
-  //     }
-  //   }
-  //   const payloadFormated = {
-  //     ...payload,
-  //     doc_identificacao: removeFormatting(state.doc_identificacao),
-  //     cpf_pai: removeFormatting(state.cpf_pai),
-  //     cpf_mae: removeFormatting(state.cpf_mae),
-  //   };
-  //   const { data, error } = await useFetch(
-  //     createPessoa,
-  //     {
-  //       method: "POST",
-  //       body: payloadFormated,
-  //     }
-  //   );
-  //   const pessoaIdValue = data.value.id;
-
-  //   pessoaId.value = pessoaIdValue;
-  //   $toast.success("Pessoa cadastrada com sucesso!");
-  //   isEditMode.value = true;
-  //   emit("saved");
-  //   console.log(payloadFormated)
-  // } else {
-  //   $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
-  //   console.log(state);
-  // }
+  if (await v$.value.$validate()) {
+    const payload = { ...state };
+    for (const key in payload) {
+      if (payload[key] === "") {
+        payload[key] = null;
+      }
+    }
+    const payloadFormated = {
+      ...payload,
+      doc_identificacao: removeFormatting(state.doc_identificacao),
+      cpf_pai: removeFormatting(state.cpf_pai),
+      cpf_mae: removeFormatting(state.cpf_mae),
+    };
+    const { data, error, status } = await useFetch(createPessoa, {
+      method: "POST",
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
+      $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
+    } else {
+      $toast.success("Pessoa cadastrada com sucesso!");
+      const pessoaIdValue = data.value.id;
+      pessoaId.value = pessoaIdValue;
+      emit("saved");
+      isEditMode.value = true;
+    }
+  } else {
+    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
+  }
 }
 async function onUpdate() {
   const payload = { ...state };
@@ -266,15 +263,19 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error } = await useFetch(
+  const { data, error, status } = await useFetch(
     `${updatePessoa}/${pessoaId.value}`,
     {
       method: "PUT",
       body: payloadFormated,
     }
   );
-  $toast.success("Pessoa atualizada com sucesso!");
-  router.push("/pessoas/registros");
+  if (status.value === "error" && error.value.statusCode === 500) {
+    $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
+  } else {
+    $toast.success("Pessoa atualizada com sucesso!");
+    router.push("/pessoas/registros");
+  }
 }
 </script>
 

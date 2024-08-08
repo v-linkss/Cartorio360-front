@@ -136,7 +136,6 @@ const login = async () => {
       email: loginData.value.email,
     },
   });
-  console.log(responseData,error)
   if (status.value === "success") {
     const userInfo =
       responseData.value[0].func_autentica_acesso_v1[0].registro[0];
@@ -152,7 +151,7 @@ const login = async () => {
 
     $toast.success("Login realizado com sucesso!");
     const tokenAuth =
-      responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
+    responseData.value[0].func_autentica_acesso_v1[0].registro[0].token;
     const tokenCookie = useCookie("auth_token");
     tokenCookie.value = tokenAuth;
 

@@ -66,7 +66,42 @@
       :headers="headers"
       :items="documentos.pessoasDocsItems"
       item-key="name"
-    ></v-data-table>
+    >
+    <template v-slot:item.actions="{ item }">
+        <v-row>
+          <div
+            @click="redirectToUpdate(item.id)"
+            title="Visualizar"
+          >
+            <img
+              style="width: 40px; height: 40px;cursor: pointer;"
+              src="../assets/editar.png"
+              alt="Visualizar"
+            />
+          </div>
+          <div
+            @click="deleteDocumento(item)"
+            title="Visualizar"
+          >
+            <img
+              v-if="item.excluido"
+              style="width: 40px; height: 40px;cursor: pointer;"
+              src="../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../assets/trash.png"
+              alt="Excluir"
+              class="trash-icon"
+              style="width: 40px; height: 40px;cursor: pointer;"
+              title="Excluir"
+            />
+          </div>
+        </v-row>
+      </template>
+  </v-data-table>
     <NuxtLink to="/pessoas/registros">
       <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
     </NuxtLink>
@@ -80,10 +115,11 @@ import { helpers, required } from "@vuelidate/validators";
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const allTipos = config.public.listarTipoDocumentoUrl
-const allUf = config.public.listarUfUrl;
-const allDoc = config.public.allPessoaDocApiUrl
-const createDoc = config.public.createPessoaDocUrl
+const allTipos = `${config.public.managemant}/listarTipoDocumento`
+const allUf = `${config.public.managemant}/listarUF`;
+const allDoc = `${config.public.managemant}/getPessoaDocById`
+const createDoc = `${config.public.managemant}/createPessoaDoc`
+const updateDoc = `${config.public.managemant}/updatePessoaDoc`
 
 const state = reactive({
   tabvalores_tipodoc_id: "",
@@ -93,15 +129,17 @@ const state = reactive({
   data_emissao: "",
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
+  user_id: useCookie("user-data").value.usuario_id,
+  pessoa_id: useCookie("pessoa-id").value
 });
 
 const headers = [
-  { title: "Tipo", value: "tabvalores_tipodoc_id" },
+  { title: "Tipo", value: "tipoDocumento.descricao" },
   { title: "Número", value: "numero" },
   { title: "Emissor", value: "emissor" },
   {
     title: "UF",
-    value: "tabvalores_ufemissor_id",
+    value: "ufEmissor.descricao",
   },
   {
     title: "Emissão",
@@ -111,6 +149,7 @@ const headers = [
     title: "Validade",
     value: "data_vencimento",
   },
+  { value: "actions" },
 ];
 
 const rules = {
@@ -131,14 +170,15 @@ const {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
     $fetch(allTipos),
     $fetch(allUf),
-    $fetch(allDoc),
+    $fetch(`${allDoc}/${ useCookie("pessoa-id").value}`),
   ]);
 
   return { tipoDocumentoItems, ufItems, pessoasDocsItems };
 });
 
 async function onSubmit() {
-  const payload = { ...state };
+  if (await v$.value.$validate()) {
+    const payload = { ...state };
     for (const key in payload) {
       if (payload[key] === "") {
         payload[key] = null;
@@ -147,32 +187,43 @@ async function onSubmit() {
     const payloadFormated = {
       ...payload,
     };
-    console.log(payloadFormated)
-  // if (await v$.value.$validate()) {
-  //   const payload = { ...state };
-  //   for (const key in payload) {
-  //     if (payload[key] === "") {
-  //       payload[key] = null;
-  //     }
-  //   }
-  //   const payloadFormated = {
-  //     ...payload,
-  //   };
-  //   const { data, error,status } = await useFetch(
-  //    createDoc,
-  //     {
-  //       method: "POST",
-  //       body: payloadFormated,
-  //     }
-  //   );
-  //   if (status.value === 'error' && error.value.statusCode === 500){
-  //     $toast.error("Erro ao cadastrar documento,falta de id obrigatorios.");
-  //   }else{
+    const { data, error,status } = await useFetch(
+     createDoc,
+      {
+        method: "POST",
+        body: payloadFormated,
+      }
+    );
+    if (status.value === 'error' && error.value.statusCode === 500){
+      $toast.error("Erro ao cadastrar documento,falta de id obrigatorios.");
 
-  //     $toast.success("Documento cadastrado com sucesso!");
-  //   }
-  // } else {
-  //   $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
-  // }
+    }else{
+      documentos.value.pessoasDocsItems.push(data.value);
+      $toast.success("Documento cadastrado com sucesso!");
+      Object.assign(state, {
+      tabvalores_tipodoc_id: "",
+      emissor: "",
+      validade: "",
+      numero: "",
+      data_emissao: "",
+      data_vencimento: "",
+      tabvalores_ufemissor_id: "",
+    });
+    }
+  } else {
+    $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
+  }
+}
+
+async function deleteDocumento(item) {
+  item.excluido = !item.excluido;
+  try {
+    await useFetch(`${updateDoc}/${item.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ excluido: item.excluido }),
+    });
+  } catch (error) {
+    console.error('Erro ao excluir pessoa:', error);
+  }
 }
 </script>

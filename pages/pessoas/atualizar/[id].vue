@@ -124,18 +124,17 @@ import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 
 const emit = defineEmits(["saved"]);
-const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const updatePessoa = config.public.updatePessoaUrl;
-const estadoCivil = config.public.listarEstadoCivilUrl
-const capacidadeCivil = config.public.listarCapacidadeCivilUrl
-const cidades = config.public.listarCidadesUrl
-const buscarPessoa = config.public.getPessoaByIdUrl
+const updatePessoa = `${config.public.managemant}/updatePessoa`
+const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
+const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
+const cidades = `${config.public.managemant}/listarCidades`
+const buscarPessoa = `${config.public.managemant}/getPessoaById`
 
 const initialState = {
   nome: "",

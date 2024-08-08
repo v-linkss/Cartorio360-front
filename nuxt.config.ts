@@ -23,7 +23,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      auth: process.env.AUTH_API_URL,
+      auth: 'http://45.55.192.246:3746',
+      managemant: 'http://45.55.192.246:5982',
 
       //Funcoes-banco
       listarEstadoCivilUrl: process.env.LISTAR_ESTADO_CIVIL_URL,
