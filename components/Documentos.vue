@@ -65,11 +65,104 @@
     <v-data-table
       :headers="headers"
       :items="documentos.pessoasDocsItems"
-      item-key="name"
-    ></v-data-table>
+      item-key="id"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-row>
+          <div @click="redirectToUpdate(item.id)" title="editar">
+            <img
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../assets/editar.png"
+              alt="editar"
+            />
+          </div>
+          <div @click="deleteDocumento(item)" title="deletar">
+            <img
+              v-if="item.excluido"
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../assets/excluido.png"
+              alt="deletar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../assets/trash.png"
+              alt="reativar"
+              class="trash-icon"
+              style="width: 40px; height: 40px; cursor: pointer"
+              title="reativar"
+            />
+          </div>
+        </v-row>
+      </template>
+    </v-data-table>
     <NuxtLink to="/pessoas/registros">
       <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
     </NuxtLink>
+    <v-dialog v-model="isModalOpen" max-width="600px">
+      <v-card>
+        <v-card-title style="color: green">Atualizar Endereço</v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete
+                v-model="selectedDoc.tabvalores_tipodoc_id"
+                :items="documentos.tipoDocumentoItems"
+                label="Tipo"
+                item-title="descricao"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedDoc.numero"
+                label="Número"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedDoc.emissor"
+                label="Número"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-autocomplete
+                v-model="selectedDoc.tabvalores_ufemissor_id"
+                :items="documentos.ufItems"
+                label="UF"
+                item-title="descricao"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedDoc.data_emissao"
+                type="date"
+                label="Emissão"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedDoc.data_vencimento"
+                type="date"
+                label="Validade"
+              ></v-text-field>
+            </v-col>
+
+            <!-- Outros campos que precisar -->
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" text @click="isModalOpen = false"
+            >Cancelar</v-btn
+          >
+          <v-btn color="green" text @click="onUpdate(selectedDoc.id)"
+            >Salvar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -81,9 +174,13 @@ const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
 const allTipos = `${config.public.managemant}/listarTipoDocumento`
-const allUf = `${config.public.managemant}/listarUF`;
+const allUf = `${config.public.managemant}/listarUF`
 const allDoc = `${config.public.managemant}/getAllPessoaDoc`
 const createDoc = `${config.public.managemant}/createPessoaDoc`
+const updateDoc = `${config.public.managemant}/updatePessoaDoc`
+
+const isModalOpen = ref(false); // Controla a visibilidade do modal
+const selectedDoc = ref(null);
 
 const state = reactive({
   tabvalores_tipodoc_id: "",
@@ -163,6 +260,34 @@ async function onSubmit() {
     }
   } else {
     $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
+  }
+}
+function redirectToUpdate(id) {
+  const documento = documentos.value.pessoasDocsItems.find(
+    (item) => item.id === id
+  );
+  if (documento) {
+    selectedDoc.value = documento;
+    isModalOpen.value = true;
+  }
+}
+
+async function onUpdate(id) {
+  const payloadFormated = {
+    tabvalores_tipodoc_id: selectedDoc.value.tabvalores_tipodoc_id,
+    numero: selectedDoc.value.numero,
+    emissor: selectedDoc.value.emissor,
+    tabvalores_ufemissor_id: selectedDoc.value.tabvalores_ufemissor_id,
+    data_vencimento: selectedDoc.value.data_vencimento,
+    data_emissao: selectedDoc.value.data_emissao,
+  };
+  const { status } = await useFetch(`${updateDoc}/${id}`, {
+    method: "PUT",
+    body: payloadFormated,
+  });
+  if (status.value === "success") {
+    isModalOpen.value = false
+    $toast.success("Pessoa atualizada com sucesso!");
   }
 }
 </script>

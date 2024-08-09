@@ -13,7 +13,7 @@
       <v-col>
         <v-text-field
           v-model="state.codcep"
-           v-mask="'########'"
+          v-mask="'########'"
           :error-messages="v$.codcep.$errors.map((e) => e.$message)"
           required
           @blur="v$.codcep.$touch"
@@ -72,11 +72,102 @@
     <v-data-table
       :headers="headers"
       :items="enderecos.enderecosItems"
-      item-key="name"
-    ></v-data-table>
+      item-key="id"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-row>
+          <div @click="redirectToUpdate(item.id)" title="Visualizar">
+            <img
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../assets/editar.png"
+              alt="Visualizar"
+            />
+          </div>
+          <div @click="deleteEndereco(item)" title="Visualizar">
+            <img
+              v-if="item.excluido"
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../assets/trash.png"
+              alt="Excluir"
+              class="trash-icon"
+              style="width: 40px; height: 40px; cursor: pointer"
+              title="Excluir"
+            />
+          </div>
+        </v-row>
+      </template>
+    </v-data-table>
     <NuxtLink to="/pessoas/registros">
       <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
     </NuxtLink>
+    <v-dialog v-model="isModalOpen" max-width="600px">
+      <v-card>
+        <v-card-title style="color: green">Atualizar Endereço</v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete
+                v-model="selectedEndereco.tabvalores_pais_id"
+                :items="enderecos.paisItems"
+                label="País"
+                item-title="descricao"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedEndereco.logradouro"
+                label="Logradouro"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedEndereco.numero"
+                label="Número"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedEndereco.bairro"
+                label="Bairro"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedEndereco.codcep"
+                label="CEP"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-autocomplete
+                v-model="selectedEndereco.cidade_id"
+                :items="enderecos.cidadesItems"
+                label="Cidade"
+                item-title="descricao"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+
+            <!-- Outros campos que precisar -->
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" text @click="isModalOpen = false"
+            >Cancelar</v-btn
+          >
+          <v-btn color="green" text @click="onUpdate(selectedEndereco.id)"
+            >Salvar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -90,6 +181,7 @@ const config = useRuntimeConfig();
 const allPaises = `${config.public.managemant}/listarPais`
 const allEnderecos = `${config.public.managemant}/getAllPessoaEndereco`
 const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`
+const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`
 
 const state = reactive({
   tabvalores_pais_id: "",
@@ -118,6 +210,9 @@ const headers = [
     value: " tabvalores_ufemissor_id",
   },
 ];
+
+const isModalOpen = ref(false); // Controla a visibilidade do modal
+const selectedEndereco = ref(null);
 
 const rules = {
   numero: {
@@ -176,6 +271,35 @@ async function onSubmit() {
     }
   } else {
     $toast.error("Erro ao cadastrar Endereço, preencha os campos obrigatorios.");
+  }
+}
+
+function redirectToUpdate(id) {
+  const endereco = enderecos.value.enderecosItems.find(
+    (item) => item.id === id
+  );
+  if (endereco) {
+    selectedEndereco.value = endereco;
+    isModalOpen.value = true;
+  }
+}
+
+async function onUpdate(id) {
+  const payloadFormated = {
+    tabvalores_pais_id: selectedEndereco.value.tabvalores_pais_id,
+    cidade_id: selectedEndereco.value.cidade_id,
+    codcep: selectedEndereco.value.codcep,
+    logradouro: selectedEndereco.value.logradouro,
+    numero: selectedEndereco.value.numero,
+    bairro: selectedEndereco.value.bairro,
+  };
+  const { status } = await useFetch(`${updateEndereco}/${id}`, {
+    method: "PUT",
+    body: payloadFormated,
+  });
+  if (status.value === "success") {
+    isModalOpen.value = false
+    $toast.success("Pessoa atualizada com sucesso!");
   }
 }
 </script>
