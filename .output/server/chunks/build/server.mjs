@@ -667,17 +667,17 @@ const _routes = [
   {
     name: "fontes-atos-ReconhecimentoFirma",
     path: "/fontes/atos/ReconhecimentoFirma",
-    component: () => import('./ReconhecimentoFirma-DK3Zx2-O.mjs').then((m) => m.default || m)
+    component: () => import('./ReconhecimentoFirma-_RX9JAn7.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-Testamento",
     path: "/fontes/atos/Testamento",
-    component: () => import('./Testamento-DjFXRBcO.mjs').then((m) => m.default || m)
+    component: () => import('./Testamento-lEkVbxPG.mjs').then((m) => m.default || m)
   },
   {
     name: "home",
     path: "/home",
-    component: () => import('./index-nw2sKjH9.mjs').then((m) => m.default || m)
+    component: () => import('./index-HKW__dLL.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -688,7 +688,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-DMcj-uXx.mjs').then((m) => m.default || m)
+    component: () => import('./index-BpYY8fhI.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
@@ -698,12 +698,12 @@ const _routes = [
   {
     name: "pessoas",
     path: "/pessoas",
-    component: () => import('./index-BPfkwvxI.mjs').then((m) => m.default || m)
+    component: () => import('./index-fWv3Zyc-.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-wLHG1x9y.mjs').then((m) => m.default || m)
+    component: () => import('./index-tUEdbQ0W.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
