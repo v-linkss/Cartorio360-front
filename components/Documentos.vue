@@ -304,4 +304,16 @@ async function onUpdate(id) {
     $toast.success("Pessoa atualizada com sucesso!");
   }
 }
+
+async function deleteDocumento(item) {
+  item.excluido = !item.excluido;
+  try {
+    await useFetch(`${updateDoc}/${item.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ excluido: item.excluido }),
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
+}
 </script>
