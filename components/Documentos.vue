@@ -253,7 +253,7 @@ async function onSubmit() {
       }
     );
     if (status.value === 'error' && error.value.statusCode === 500){
-      $toast.error("Erro ao cadastrar documento,falta de id obrigatorios.");
+      $toast.error("Erro ao cadastrar documento,erro no sistema.");
     }else{
 
       $toast.success("Documento cadastrado com sucesso!");

@@ -264,9 +264,8 @@ async function onSubmit() {
       }
     );
     if (status.value === 'error' && error.value.statusCode === 500){
-      $toast.error("Erro ao cadastrar endereço,falta de id obrigatorios.");
+      $toast.error("Erro ao cadastrar endereço,erro no sistema.");
     }else{
-
       $toast.success("Endereço cadastrado com sucesso!");
     }
   } else {

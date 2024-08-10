@@ -151,7 +151,6 @@ const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
 const cidade = `${config.public.managemant}/listarCidades`
 
-
 const initialState = {
   nome: "",
   nome_pai: "",
@@ -235,23 +234,21 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
     };
-    const { data, error } = await useFetch(
-      createPessoa,
-      {
-        method: "POST",
-        body: payloadFormated,
-      }
-    );
-    const pessoaIdValue = data.value.id;
-
-    pessoaId.value = pessoaIdValue;
-    $toast.success("Pessoa cadastrada com sucesso!");
-    isEditMode.value = true;
-    emit("saved");
-    console.log(payloadFormated)
+    const { data, error, status } = await useFetch(createPessoa, {
+      method: "POST",
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
+      $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
+    } else {
+      $toast.success("Pessoa cadastrada com sucesso!");
+      const pessoaIdValue = data.value.id;
+      pessoaId.value = pessoaIdValue;
+      emit("saved");
+      isEditMode.value = true;
+    }
   } else {
-    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
-    console.log(state);
+    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.")
   }
 }
 async function onUpdate() {
