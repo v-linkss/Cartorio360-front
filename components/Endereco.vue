@@ -179,7 +179,7 @@ const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
 const allPaises = `${config.public.managemant}/listarPais`
-const allEnderecos = `${config.public.managemant}/getAllPessoaEndereco`
+const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`
 const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`
 const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`
 
@@ -192,9 +192,11 @@ const state = reactive({
   bairro: "",
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
+  user_id: useCookie("user-data").value.usuario_id,
+  pessoa_id: useCookie("pessoa-id").value,
 });
 const headers = [
-  { title: "País", value: "tabvalores_pais_id" },
+  { title: "País", value: "pais.descricao" },
   { title: "CEP", value: "codcep" },
   { title: "Endereço", value: "logradouro" },
   {
@@ -203,11 +205,14 @@ const headers = [
   },
   {
     title: "Bairro",
-    value: "data_vencimento",
+    value: "logradouro",
   },
   {
     title: "Cidade",
-    value: " tabvalores_ufemissor_id",
+    value: "cidades.nome",
+  },
+  {
+    value: "actions",
   },
 ];
 
@@ -238,7 +243,7 @@ const {
 } = await useLazyAsyncData("cliente-enderecos", async () => {
   const [paisItems, enderecosItems,cidadesItems] = await Promise.all([
     $fetch(allPaises),
-    $fetch(allEnderecos),
+    $fetch(`${allEnderecos}/${useCookie("pessoa-id").value}`),
     $fetch(`${config.public.managemant}/listarCidades`),
   ]);
 
@@ -266,7 +271,17 @@ async function onSubmit() {
     if (status.value === 'error' && error.value.statusCode === 500){
       $toast.error("Erro ao cadastrar endereço,erro no sistema.");
     }else{
+      enderecos.value.enderecosItems.push(data.value);
       $toast.success("Endereço cadastrado com sucesso!");
+      Object.assign(state, {
+        tabvalores_pais_id: "",
+        cidade_id: "",
+        codcep: "",
+        logradouro: "",
+        numero: "",
+        bairro: "",
+        tabvalores_ufemissor_id: "",
+      });
     }
   } else {
     $toast.error("Erro ao cadastrar Endereço, preencha os campos obrigatorios.");

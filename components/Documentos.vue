@@ -175,7 +175,7 @@ const { $toast } = useNuxtApp();
 const config = useRuntimeConfig();
 const allTipos = `${config.public.managemant}/listarTipoDocumento`
 const allUf = `${config.public.managemant}/listarUF`
-const allDoc = `${config.public.managemant}/getAllPessoaDoc`
+const allDoc = `${config.public.managemant}/getPessoaDocById`
 const createDoc = `${config.public.managemant}/createPessoaDoc`
 const updateDoc = `${config.public.managemant}/updatePessoaDoc`
 
@@ -190,15 +190,17 @@ const state = reactive({
   data_emissao: "",
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
+  user_id: useCookie("user-data").value.usuario_id,
+  pessoa_id: useCookie("pessoa-id").value,
 });
 
 const headers = [
-  { title: "Tipo", value: "tabvalores_tipodoc_id" },
+  { title: "Tipo", value: "tipoDocumento.descricao" },
   { title: "Número", value: "numero" },
   { title: "Emissor", value: "emissor" },
   {
     title: "UF",
-    value: "tabvalores_ufemissor_id",
+    value: "ufEmissor.descricao",
   },
   {
     title: "Emissão",
@@ -207,6 +209,9 @@ const headers = [
   {
     title: "Validade",
     value: "data_vencimento",
+  },
+  {
+    value: "actions",
   },
 ];
 
@@ -228,7 +233,7 @@ const {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
     $fetch(allTipos),
     $fetch(allUf),
-    $fetch(allDoc),
+    $fetch(`${allDoc}/${useCookie("pessoa-id").value}`),
   ]);
 
   return { tipoDocumentoItems, ufItems, pessoasDocsItems };
@@ -255,8 +260,17 @@ async function onSubmit() {
     if (status.value === 'error' && error.value.statusCode === 500){
       $toast.error("Erro ao cadastrar documento,erro no sistema.");
     }else{
-
+      documentos.value.pessoasDocsItems.push(data.value);
       $toast.success("Documento cadastrado com sucesso!");
+      Object.assign(state, {
+        tabvalores_tipodoc_id: "",
+        emissor: "",
+        validade: "",
+        numero: "",
+        data_emissao: "",
+        data_vencimento: "",
+        tabvalores_ufemissor_id: "",
+      });
     }
   } else {
     $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
