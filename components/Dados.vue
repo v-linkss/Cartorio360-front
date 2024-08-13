@@ -221,36 +221,35 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 async function onSubmit() {
-  emit("saved");
-  // if (await v$.value.$validate()) {
-  //   const payload = { ...state };
-  //   for (const key in payload) {
-  //     if (payload[key] === "") {
-  //       payload[key] = null;
-  //     }
-  //   }
-  //   const payloadFormated = {
-  //     ...payload,
-  //     doc_identificacao: removeFormatting(state.doc_identificacao),
-  //     cpf_pai: removeFormatting(state.cpf_pai),
-  //     cpf_mae: removeFormatting(state.cpf_mae),
-  //   };
-  //   const { data, error, status } = await useFetch(createPessoa, {
-  //     method: "POST",
-  //     body: payloadFormated,
-  //   });
-  //   if (status.value === "error" && error.value.statusCode === 500) {
-  //     $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
-  //   } else {
-  //     $toast.success("Pessoa cadastrada com sucesso!");
-  //     const pessoaIdValue = data.value.id;
-  //     pessoaId.value = pessoaIdValue;
-
-  //     isEditMode.value = true;
-  //   }
-  // } else {
-  //   $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.")
-  // }
+  if (await v$.value.$validate()) {
+    const payload = { ...state };
+    for (const key in payload) {
+      if (payload[key] === "") {
+        payload[key] = null;
+      }
+    }
+    const payloadFormated = {
+      ...payload,
+      doc_identificacao: removeFormatting(state.doc_identificacao),
+      cpf_pai: removeFormatting(state.cpf_pai),
+      cpf_mae: removeFormatting(state.cpf_mae),
+    };
+    const { data, error, status } = await useFetch(createPessoa, {
+      method: "POST",
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
+      $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
+    } else {
+      $toast.success("Pessoa cadastrada com sucesso!");
+      const pessoaIdValue = data.value.id;
+      pessoaId.value = pessoaIdValue;
+      emit("saved");
+      isEditMode.value = true;
+    }
+  } else {
+    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.")
+  }
 }
 async function onUpdate() {
   const payload = { ...state };

@@ -177,6 +177,9 @@ import { helpers, required } from "@vuelidate/validators";
 
 const { $toast } = useNuxtApp();
 
+const route = useRoute();
+const { id } = route.params;
+
 const config = useRuntimeConfig();
 const allPaises = `${config.public.managemant}/listarPais`
 const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`
@@ -193,7 +196,7 @@ const state = reactive({
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
   user_id: useCookie("user-data").value.usuario_id,
-  pessoa_id: useCookie("pessoa-id").value,
+  pessoa_id: useCookie("pessoa-id").value || id,
 });
 const headers = [
   { title: "País", value: "pais.descricao" },
@@ -240,10 +243,11 @@ const {
   data: enderecos,
   status,
   pending,
+  refresh
 } = await useLazyAsyncData("cliente-enderecos", async () => {
   const [paisItems, enderecosItems,cidadesItems] = await Promise.all([
     $fetch(allPaises),
-    $fetch(`${allEnderecos}/${useCookie("pessoa-id").value}`),
+    $fetch(`${allEnderecos}/${state.pessoa_id}`),
     $fetch(`${config.public.managemant}/listarCidades`),
   ]);
 
@@ -271,17 +275,12 @@ async function onSubmit() {
     if (status.value === 'error' && error.value.statusCode === 500){
       $toast.error("Erro ao cadastrar endereço,erro no sistema.");
     }else{
-      enderecos.value.enderecosItems.push(data.value);
       $toast.success("Endereço cadastrado com sucesso!");
-      Object.assign(state, {
-        tabvalores_pais_id: "",
-        cidade_id: "",
-        codcep: "",
-        logradouro: "",
-        numero: "",
-        bairro: "",
-        tabvalores_ufemissor_id: "",
-      });
+      refresh();
+      for (const key in state) {
+        state[key] = "";
+      }
+      v$.value.$reset();
     }
   } else {
     $toast.error("Erro ao cadastrar Endereço, preencha os campos obrigatorios.");
@@ -313,7 +312,8 @@ async function onUpdate(id) {
   });
   if (status.value === "success") {
     isModalOpen.value = false
-    $toast.success("Pessoa atualizada com sucesso!");
+    $toast.success("Endereço atualizado com sucesso!");
+    refresh();
   }
 }
 

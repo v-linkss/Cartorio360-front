@@ -172,6 +172,9 @@ import { helpers, required } from "@vuelidate/validators";
 
 const { $toast } = useNuxtApp();
 
+const route = useRoute();
+const { id } = route.params;
+
 const config = useRuntimeConfig();
 const allTipos = `${config.public.managemant}/listarTipoDocumento`
 const allUf = `${config.public.managemant}/listarUF`
@@ -191,7 +194,7 @@ const state = reactive({
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
   user_id: useCookie("user-data").value.usuario_id,
-  pessoa_id: useCookie("pessoa-id").value,
+  pessoa_id: useCookie("pessoa-id").value || id,
 });
 
 const headers = [
@@ -229,11 +232,12 @@ const v$ = useVuelidate(rules, state);
 const {
   data: documentos,
   pending,
+  refresh
 } = await useLazyAsyncData("cliente-documentos", async () => {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
     $fetch(allTipos),
     $fetch(allUf),
-    $fetch(`${allDoc}/${useCookie("pessoa-id").value}`),
+    $fetch(`${allDoc}/${state.pessoa_id}`),
   ]);
 
   return { tipoDocumentoItems, ufItems, pessoasDocsItems };
@@ -260,17 +264,12 @@ async function onSubmit() {
     if (status.value === 'error' && error.value.statusCode === 500){
       $toast.error("Erro ao cadastrar documento,erro no sistema.");
     }else{
-      documentos.value.pessoasDocsItems.push(data.value);
       $toast.success("Documento cadastrado com sucesso!");
-      Object.assign(state, {
-        tabvalores_tipodoc_id: "",
-        emissor: "",
-        validade: "",
-        numero: "",
-        data_emissao: "",
-        data_vencimento: "",
-        tabvalores_ufemissor_id: "",
-      });
+      refresh();
+      for (const key in state) {
+        state[key] = "";
+      }
+      v$.value.$reset();
     }
   } else {
     $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
@@ -302,6 +301,7 @@ async function onUpdate(id) {
   if (status.value === "success") {
     isModalOpen.value = false
     $toast.success("Pessoa atualizada com sucesso!");
+    refresh()
   }
 }
 
