@@ -667,17 +667,17 @@ const _routes = [
   {
     name: "fontes-atos-ReconhecimentoFirma",
     path: "/fontes/atos/ReconhecimentoFirma",
-    component: () => import('./ReconhecimentoFirma-_RX9JAn7.mjs').then((m) => m.default || m)
+    component: () => import('./ReconhecimentoFirma-CrMj9R9_.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-Testamento",
     path: "/fontes/atos/Testamento",
-    component: () => import('./Testamento-lEkVbxPG.mjs').then((m) => m.default || m)
+    component: () => import('./Testamento-sVreYZYD.mjs').then((m) => m.default || m)
   },
   {
     name: "home",
     path: "/home",
-    component: () => import('./index-HKW__dLL.mjs').then((m) => m.default || m)
+    component: () => import('./index-FWfz2AB5.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,12 +693,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-DRhE9sE3.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DR1aoBvu.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas",
     path: "/pessoas",
-    component: () => import('./index-fWv3Zyc-.mjs').then((m) => m.default || m)
+    component: () => import('./index-DK6Ghefe.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
