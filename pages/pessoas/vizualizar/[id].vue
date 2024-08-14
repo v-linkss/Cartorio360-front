@@ -14,8 +14,8 @@
         </v-col>
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Local de Trabalho:
-            {{ PessoaView.data_nascimento }}
+            Data de Nascimento:
+            {{ formatDate(PessoaView.data_nascimento )}}
           </v-sheet>
         </v-col>
 
@@ -66,7 +66,7 @@ const pessoasView = `${config.public.managemant}/getPessoaById`
 const { data: PessoaView, pending } = await useFetch(
   `${pessoasView}/${id}`
 );
-
+console.log(pessoasView)
 </script>
 
 <style scoped>

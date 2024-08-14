@@ -10,7 +10,7 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-      <v-col>
+      <v-col md="2">
         <v-text-field
           v-model="state.codcep"
           v-mask="'########'"
@@ -21,7 +21,7 @@
           label="CEP"
         ></v-text-field>
       </v-col>
-      <v-col md="2">
+      <v-col md="6">
         <v-text-field
           v-model="state.logradouro"
           label="Endereço"
@@ -41,7 +41,21 @@
           label="N*"
         ></v-text-field>
       </v-col>
-      <v-col md="2">
+      <div class="mt-3">
+        <img
+          style="width: 40px; height: 40px; cursor: pointer"
+          src="../assets/novo.png"
+          alt="novo"
+          @click="onSubmit"
+        />
+      </div>
+      <v-col md="6">
+        <v-text-field
+          v-model="state.complemento"
+          label="Complemento"
+        ></v-text-field>
+      </v-col>
+      <v-col md="3">
         <v-text-field
           v-model="state.bairro"
           :error-messages="v$.bairro.$errors.map((e) => e.$message)"
@@ -53,21 +67,19 @@
       </v-col>
       <v-col md="2">
         <v-autocomplete
+          v-if="!isForeign"
           v-model="state.cidade_id"
           :items="enderecos.cidadesItems"
           label="Cidade"
           item-title="descricao"
           item-value="id"
         ></v-autocomplete>
+        <v-text-field
+          v-else
+          v-model="state.cidade_estrangeira"
+          label="Cidade Estrangeira"
+        ></v-text-field>
       </v-col>
-      <div class="mt-3">
-        <img
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../assets/novo.png"
-          alt="novo"
-          @click="onSubmit"
-        />
-      </div>
     </v-row>
     <v-data-table
       :headers="headers"
@@ -75,7 +87,7 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row>
+        <v-row style="display: flex; gap: 10px">
           <div @click="redirectToUpdate(item.id)" title="Visualizar">
             <img
               style="width: 40px; height: 40px; cursor: pointer"
@@ -93,7 +105,7 @@
             />
             <img
               v-else
-              src="../assets/trash.png"
+              src="../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
               style="width: 40px; height: 40px; cursor: pointer"
@@ -124,6 +136,12 @@
               <v-text-field
                 v-model="selectedEndereco.logradouro"
                 label="Logradouro"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="selectedEndereco.complemento"
+                label="Complemento"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
@@ -176,27 +194,29 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
 const { $toast } = useNuxtApp();
-
 const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allPaises = `${config.public.managemant}/listarPais`
-const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`
-const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`
-const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`
+const allPaises = `${config.public.managemant}/listarPais`;
+const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
+const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`;
+const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
+
+const user_id = ref(useCookie("user-data").value.usuario_id).value;
+const pessoa_id = Number(useCookie("pessoa-id").value || id);
 
 const state = reactive({
   tabvalores_pais_id: "",
-  cidade_id:"",
+  cidade_id: "",
   codcep: "",
   logradouro: "",
   numero: "",
   bairro: "",
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
-  user_id: useCookie("user-data").value.usuario_id,
-  pessoa_id: useCookie("pessoa-id").value || id,
+  complemento: "",
+  cidade_estrangeira: "",
 });
 const headers = [
   { title: "País", value: "pais.descricao" },
@@ -205,6 +225,10 @@ const headers = [
   {
     title: "N*",
     value: "numero",
+  },
+  {
+    title: "Complemento",
+    value: "complemento",
   },
   {
     title: "Bairro",
@@ -222,6 +246,13 @@ const headers = [
 const isModalOpen = ref(false); // Controla a visibilidade do modal
 const selectedEndereco = ref(null);
 
+const isForeign = computed(() => {
+  const selectedPais = enderecos.value.paisItems.find(
+    (pais) => pais.id === state.tabvalores_pais_id
+  );
+  return selectedPais ? selectedPais.estrangeiro : false;
+});
+
 const rules = {
   numero: {
     required: helpers.withMessage("O campo é obrigatorio", required),
@@ -233,7 +264,10 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
   codcep: {
-    required: helpers.withMessage("O campo é obrigatorio e precisa de 8 digitos", required),
+    required: helpers.withMessage(
+      "O campo é obrigatorio e precisa de 8 digitos",
+      required
+    ),
   },
 };
 
@@ -243,15 +277,14 @@ const {
   data: enderecos,
   status,
   pending,
-  refresh
+  refresh,
 } = await useLazyAsyncData("cliente-enderecos", async () => {
-  const [paisItems, enderecosItems,cidadesItems] = await Promise.all([
+  const [paisItems, enderecosItems, cidadesItems] = await Promise.all([
     $fetch(allPaises),
-    $fetch(`${allEnderecos}/${state.pessoa_id}`),
+    $fetch(`${allEnderecos}/${pessoa_id}`),
     $fetch(`${config.public.managemant}/listarCidades`),
   ]);
-
-  return { paisItems, enderecosItems,cidadesItems };
+  return { paisItems, enderecosItems, cidadesItems };
 });
 
 async function onSubmit() {
@@ -264,17 +297,16 @@ async function onSubmit() {
     }
     const payloadFormated = {
       ...payload,
+      user_id,
+      pessoa_id,
     };
-    const { data, error,status } = await useFetch(
-      criarEnderecos,
-      {
-        method: "POST",
-        body: payloadFormated,
-      }
-    );
-    if (status.value === 'error' && error.value.statusCode === 500){
+    const { data, error, status } = await useFetch(criarEnderecos, {
+      method: "POST",
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
       $toast.error("Erro ao cadastrar endereço,erro no sistema.");
-    }else{
+    } else {
       $toast.success("Endereço cadastrado com sucesso!");
       refresh();
       for (const key in state) {
@@ -283,7 +315,9 @@ async function onSubmit() {
       v$.value.$reset();
     }
   } else {
-    $toast.error("Erro ao cadastrar Endereço, preencha os campos obrigatorios.");
+    $toast.error(
+      "Erro ao cadastrar Endereço, preencha os campos obrigatorios."
+    );
   }
 }
 
@@ -305,18 +339,18 @@ async function onUpdate(id) {
     logradouro: selectedEndereco.value.logradouro,
     numero: selectedEndereco.value.numero,
     bairro: selectedEndereco.value.bairro,
+    complemento: selectedEndereco.value.complemento,
   };
   const { status } = await useFetch(`${updateEndereco}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
   if (status.value === "success") {
-    isModalOpen.value = false
+    isModalOpen.value = false;
     $toast.success("Endereço atualizado com sucesso!");
     refresh();
   }
 }
-
 
 async function deleteEndereco(item) {
   item.excluido = !item.excluido;
@@ -330,4 +364,3 @@ async function deleteEndereco(item) {
   }
 }
 </script>
-

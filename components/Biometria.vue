@@ -3,9 +3,8 @@
     <v-col cols="auto">
       <v-img src="../assets/biometria.png" :width="500" class="mr-4"></v-img>
     </v-col>
-    <v-spacer></v-spacer>
     <v-col cols="auto">
-      <v-dialog max-width="700" v-model="isDialogActive">
+      <v-dialog max-width="700" v-model="isDialogActiveBiometria">
         <template v-slot:activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
@@ -19,6 +18,7 @@
 
         <template v-slot:default="{ isActive }">
           <v-card title="Biometria">
+            <!-- Conteúdo do diálogo de biometria -->
             <v-row>
               <v-col>
                 <v-select
@@ -76,10 +76,17 @@
             </v-row>
           </v-card>
         </template>
-      </v-dialog>
+      </v-dialog> 
+      <img class="btn-pointer" style="width: 40px;margin-left: 10px;" src="../assets/mudarStatus.png" alt="Excluir" />
     </v-col>
-    <v-col>
-      <img class="btn-pointer" src="../assets/trash.png" alt="Excluir" />
+    <v-col cols="auto">
+      <v-btn
+        variant="outlined"
+        style="width: 200px; height: 200px"
+        @click="printPage"
+      >
+        <img src="../assets/imprimirFicha.png" style="width: 180px; height: 180px" />
+      </v-btn>
     </v-col>
   </v-row>
   <NuxtLink to="/pessoas/registros">
@@ -92,17 +99,18 @@
 const video = ref(null);
 const devices = ref([]);
 const selectedDeviceId = ref("");
-const isDialogActive = ref(false);
+const isDialogActiveBiometria = ref(false);
+
 const zoomLevel = ref(1);
 
 const tokenCookie = useCookie('auth_token');
 const token = tokenCookie.value;
 
-const pessoaNome = useCookie("user-data").value
+const pessoaNome = useCookie("user-data").value;
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/uploadFaceId`
+const enviarFoto = `${config.public.managemant}/uploadFaceId`;
 
 const { $toast } = useNuxtApp();
 
@@ -117,7 +125,7 @@ const updateDevices = async () => {
 };
 
 const openDialog = async () => {
-  isDialogActive.value = true;
+  isDialogActiveBiometria.value = true;
   try {
     await navigator.mediaDevices.getUserMedia({ video: true }); // Solicitar permissão do usuário
     await updateDevices(); // Atualizar a lista de dispositivos após obter permissão
@@ -127,7 +135,7 @@ const openDialog = async () => {
 };
 
 const closeDialog = () => {
-  isDialogActive.value = false;
+  isDialogActiveBiometria.value = false;
   const stream = video.value.srcObject;
   if (stream) {
     const tracks = stream.getTracks();
@@ -183,6 +191,11 @@ const handleCapture = async () => {
       $toast.error("Erro ao enviar imagem para o sistema.");
     }
   }, 'image/jpeg');
+};
+
+// Função para imprimir a página
+const printPage = () => {
+  window.print();
 };
 
 onMounted(async () => {

@@ -239,7 +239,7 @@ async function onSubmit() {
       body: payloadFormated,
     });
     if (status.value === "error" && error.value.statusCode === 500) {
-      $toast.error("Erro ao cadastrar documento,o CPF já existe no banco");
+      $toast.error("Erro ao cadastrar pessoa,o CPF já está cadastrado.");
     } else {
       $toast.success("Pessoa cadastrada com sucesso!");
       const pessoaIdValue = data.value.id;

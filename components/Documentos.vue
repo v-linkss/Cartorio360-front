@@ -68,7 +68,7 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row>
+        <v-row style="display: flex;gap: 10px;">
           <div @click="redirectToUpdate(item.id)" title="editar">
             <img
               style="width: 40px; height: 40px; cursor: pointer"
@@ -86,7 +86,7 @@
             />
             <img
               v-else
-              src="../assets/trash.png"
+              src="../assets/mudarStatus.png"
               alt="reativar"
               class="trash-icon"
               style="width: 40px; height: 40px; cursor: pointer"
@@ -171,7 +171,6 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
 const { $toast } = useNuxtApp();
-
 const route = useRoute();
 const { id } = route.params;
 
@@ -184,6 +183,8 @@ const updateDoc = `${config.public.managemant}/updatePessoaDoc`
 
 const isModalOpen = ref(false); // Controla a visibilidade do modal
 const selectedDoc = ref(null);
+const user_id = ref(useCookie("user-data").value.usuario_id).value
+const pessoa_id = Number(useCookie("pessoa-id").value || id);
 
 const state = reactive({
   tabvalores_tipodoc_id: "",
@@ -193,8 +194,6 @@ const state = reactive({
   data_emissao: "",
   data_vencimento: "",
   tabvalores_ufemissor_id: "",
-  user_id: useCookie("user-data").value.usuario_id,
-  pessoa_id: useCookie("pessoa-id").value || id,
 });
 
 const headers = [
@@ -237,10 +236,17 @@ const {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
     $fetch(allTipos),
     $fetch(allUf),
-    $fetch(`${allDoc}/${state.pessoa_id}`),
+    $fetch(`${allDoc}/${pessoa_id}`),
   ]);
+  const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
+    return {
+      ...doc,
+      data_emissao: formatDate(doc.data_emissao),
+      data_vencimento: formatDate(doc.data_vencimento),
+    };
+  });
 
-  return { tipoDocumentoItems, ufItems, pessoasDocsItems };
+  return { tipoDocumentoItems, ufItems, pessoasDocsItems: formattedPessoasDocsItems };
 });
 
 async function onSubmit() {
@@ -253,6 +259,8 @@ async function onSubmit() {
     }
     const payloadFormated = {
       ...payload,
+      user_id,
+      pessoa_id
     };
     const { data, error,status } = await useFetch(
      createDoc,

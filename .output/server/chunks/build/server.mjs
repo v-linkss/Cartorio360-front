@@ -672,12 +672,12 @@ const _routes = [
   {
     name: "fontes-atos-Testamento",
     path: "/fontes/atos/Testamento",
-    component: () => import('./Testamento-sVreYZYD.mjs').then((m) => m.default || m)
+    component: () => import('./Testamento-D7snBXI7.mjs').then((m) => m.default || m)
   },
   {
     name: "home",
     path: "/home",
-    component: () => import('./index-FWfz2AB5.mjs').then((m) => m.default || m)
+    component: () => import('./index-DGBQ_MMY.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,22 +693,22 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-DR1aoBvu.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BMLw3yBx.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas",
     path: "/pessoas",
-    component: () => import('./index-DK6Ghefe.mjs').then((m) => m.default || m)
+    component: () => import('./index-CTqov60i.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-tUEdbQ0W.mjs').then((m) => m.default || m)
+    component: () => import('./index-BbyAKF13.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-Ctw1L5y2.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BSnoLlMq.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
