@@ -25,7 +25,7 @@
     </v-row>
     <v-data-table :search="search" :headers="headers" :items="pessoasItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex;gap: 10px;">
+        <v-row style="display: flex;gap: 10px; justify-content: flex-end">
           <div
             class="btn-pointer"
             @click="redirectToView(item.id)"

@@ -49,7 +49,7 @@
           @click="onSubmit"
         />
       </div>
-      <v-col md="6">
+      <v-col md="5">
         <v-text-field
           v-model="state.complemento"
           label="Complemento"
@@ -65,7 +65,7 @@
           label="Bairro"
         ></v-text-field>
       </v-col>
-      <v-col md="2">
+      <v-col md="3">
         <v-autocomplete
           v-if="!isForeign"
           v-model="state.cidade_id"

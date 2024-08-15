@@ -35,7 +35,7 @@
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="biometria">
         <v-container class="mt-5">
-          <Biometria />
+          <Biometria/>
         </v-container>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="restricao">
@@ -46,6 +46,7 @@
 </template>
 
 <script setup>
+
 const tab = ref(null);
 const showTabs = ref(false);
 const autocompleteDisabled = ref(false);
