@@ -22,26 +22,26 @@ export default defineNuxtConfig({
       },
     },
   },
-  devServer: {
-    https: {
-      key: fs
-        .readFileSync(
-          path.resolve(
-            __dirname,
-            "/var/www/certificado-cartorio360/Certificados/server.key"
-          )
-        )
-        .toString(),
-      cert: fs
-        .readFileSync(
-          path.resolve(
-            __dirname,
-            "/var/www/certificado-cartorio360/Certificados/server.crt"
-          )
-        )
-        .toString(),
-    },
-  },
+  // devServer: {
+  //   https: {
+  //     key: fs
+  //       .readFileSync(
+  //         path.resolve(
+  //           __dirname,
+  //           "/var/www/certificado-cartorio360/Certificados/server.key"
+  //         )
+  //       )
+  //       .toString(),
+  //     cert: fs
+  //       .readFileSync(
+  //         path.resolve(
+  //           __dirname,
+  //           "/var/www/certificado-cartorio360/Certificados/server.crt"
+  //         )
+  //       )
+  //       .toString(),
+  //   },
+  // },
   runtimeConfig: {
     public: {
       // auth: "http://localhost:3333",
