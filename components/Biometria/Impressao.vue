@@ -45,6 +45,7 @@ const printContent = () => {
   if (iframe) {
     iframe.contentWindow.print();
   }
+  
 };
 </script>
 

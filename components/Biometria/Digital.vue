@@ -83,33 +83,39 @@ function getBiometria(finger) {
 
 // Função para capturar e enviar a biometria
 async function captureBiometria() {
-  try {
-    console.log("Iniciando captura biométrica...");
+  navigator.usb.getDevices().then((devices) => {
+  devices.forEach((device) => {
+    console.log(device.productName); // "Arduino Micro"
+    console.log(device.manufacturerName); // "Arduino LLC"
+  });
+});
+  // try {
+  //   console.log("Iniciando captura biométrica...");
 
-    if (biometricDevice.value) {
-      console.log("Dispositivo biométrico detectado:", biometricDevice.value);
-      const biometriaData = await initiateBiometricCapture(
-        selectedFinger.value
-      );
-      const formData = new FormData();
-      const tokenCookie = useCookie('auth_token');
-      const token = tokenCookie.value;
-      formData.append("file", biometriaData);
-      formData.append("token", token);
+  //   if (biometricDevice.value) {
+  //     console.log("Dispositivo biométrico detectado:", biometricDevice.value);
+  //     const biometriaData = await initiateBiometricCapture(
+  //       selectedFinger.value
+  //     );
+  //     const formData = new FormData();
+  //     const tokenCookie = useCookie('auth_token');
+  //     const token = tokenCookie.value;
+  //     formData.append("file", biometriaData);
+  //     formData.append("token", token);
 
-      const { status } = await useFetch(enviarDigital, {
-        method: "POST",
-        body: formData,
-      });
+  //     const { status } = await useFetch(enviarDigital, {
+  //       method: "POST",
+  //       body: formData,
+  //     });
 
-      console.log("Biometria capturada e enviada com sucesso.");
-      closeModal();
-    } else {
-      console.log("Nenhum dispositivo biométrico encontrado.");
-    }
-  } catch (error) {
-    console.error("Erro ao capturar ou enviar a biometria:", error);
-  }
+  //     console.log("Biometria capturada e enviada com sucesso.");
+  //     closeModal();
+  //   } else {
+  //     console.log("Nenhum dispositivo biométrico encontrado.");
+  //   }
+  // } catch (error) {
+  //   console.error("Erro ao capturar ou enviar a biometria:", error);
+  // }
 }
 
 // Função para detectar o dispositivo biométrico
