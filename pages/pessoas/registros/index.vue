@@ -3,36 +3,45 @@
     <NuxtLink to="/pessoas">
       <img class="btn-pointer" src="../../../assets/novo.png" alt="Cadastro" />
     </NuxtLink>
-    <v-row style="gap: 2rem;">
-      <v-text-field
-        class="mt-7 mb-4"
-        v-model="search"
-        label="Pessoa"
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        hide-details
-        single-line
-      ></v-text-field>
-      <v-text-field
-        class="mt-7 mb-4"
-        v-model="searchDoc"
-        label="Documento"
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        hide-details
-        single-line
-      ></v-text-field>
+    <v-row style="gap: 10rem">
+      <div style="width: 200px">
+        <v-text-field
+          class="mt-7 mb-4"
+          v-model="searchDoc"
+          label="Documento"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+          single-line
+        ></v-text-field>
+      </div>
+      <div style="width: 300px">
+        <v-text-field
+          class="mt-7 mb-4"
+          v-model="search"
+          label="Pessoa"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+          single-line
+        ></v-text-field>
+      </div>
     </v-row>
-    <v-data-table :search="search" :headers="headers" :items="pessoasItems" item-key="id">
+    <v-data-table
+      density="compact"
+      :headers="headers"
+      :items="filteredPessoas"
+      item-key="id"
+    >
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex;gap: 10px; justify-content: flex-end">
+        <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
             class="btn-pointer"
             @click="redirectToView(item.id)"
             title="Visualizar"
           >
             <img
-              style="width: 40px; height: 40px"
+              style="width: 30px; height: 30px"
               src="../../../assets/visualizar.png"
               alt="Visualizar"
             />
@@ -43,19 +52,15 @@
             title="Atualizar"
           >
             <img
-              style="width: 40px; height: 40px"
+              style="width: 30px; height: 30px"
               src="../../../assets/editar.png"
               alt="Atualizar"
             />
           </div>
-          <div
-            class="btn-pointer"
-            @click="deletePessoa(item)"
-            title="Deletar"
-          >
+          <div class="btn-pointer" @click="deletePessoa(item)" title="Deletar">
             <img
               v-if="item.excluido"
-              style="width: 40px; height: 40px"
+              style="width: 30px; height: 30px"
               src="../../../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
@@ -65,7 +70,7 @@
               src="../../../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
-              style="width: 40px; height: 40px"
+              style="width: 30px; height: 30px"
               title="Excluir"
             />
           </div>
@@ -80,32 +85,44 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.managemant}/getAllPessoa`
-const pessoasUpdate = `${config.public.managemant}/deletePessoa`
+const pessoasLista = `${config.public.managemant}/getAllPessoa`;
+const pessoasUpdate = `${config.public.managemant}/deletePessoa`;
 
 const router = useRouter();
 
-const search = ref('')
-const searchDoc = ref('')
+const search = ref("");
+const searchDoc = ref("");
 
 const headers = [
-  { title: "Documento", value: "doc_identificacao", search: "", },
-  { title: "Nome/Razão Social", value: "nome", search: "", },
+  { title: "Documento", value: "doc_identificacao" },
+  { title: "Nome/Razão Social", value: "nome" },
   { value: "actions" },
 ];
-const { data: pessoasItems, pending } = await useLazyFetch(
-  pessoasLista
-);
+const { data: pessoasItems, pending } = await useLazyFetch(pessoasLista);
+
+const filteredPessoas = computed(() => {
+  return pessoasItems.value.filter((item) => {
+    const docIdentificacao = item.doc_identificacao
+      ? item.doc_identificacao.toLowerCase()
+      : "";
+    const nome = item.nome ? item.nome.toLowerCase() : "";
+
+    const matchesDoc = docIdentificacao.includes(searchDoc.value.toLowerCase());
+    const matchesNome = nome.includes(search.value.toLowerCase());
+
+    return matchesDoc && matchesNome;
+  });
+});
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
     await useFetch(`${pessoasUpdate}/${item.id}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });
   } catch (error) {
-    console.error('Erro ao excluir pessoa:', error);
+    console.error("Erro ao excluir pessoa:", error);
   }
 }
 

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs-pro-vue-v3": "^1.5.0",
     "@mdi/font": "^7.4.47",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",

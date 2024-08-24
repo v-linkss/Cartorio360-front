@@ -8,7 +8,8 @@
               style="width: 300px; height: 300px"
               @click="openDialog"
             >
-              <img src="../../assets/camera.png" />
+              <img v-if="!capturedPhoto" src="../../assets/camera.png" />
+              <img v-if="capturedPhoto" :src="capturedPhoto" style="width: 100%; height: 100%; object-fit: cover;" />
             </v-btn>
           </template>
   
@@ -73,7 +74,7 @@
             </v-card>
           </template>
         </v-dialog> 
-        <img class="btn-pointer" style="width: 40px;margin-left: 10px;" src="../../assets/mudarStatus.png" alt="Excluir" />
+        <img @click="handleDelete" style="width: 40px;margin-left: 10px;cursor: pointer;" src="../../assets/mudarStatus.png" alt="Excluir" />
       </v-col>
   </template>
   
@@ -83,7 +84,8 @@
   const devices = ref([]);
   const selectedDeviceId = ref("");
   const isDialogActiveBiometria = ref(false);
-  
+  const capturedPhoto = ref(null);
+
   const zoomLevel = ref(1);
   
   const tokenCookie = useCookie('auth_token');
@@ -168,7 +170,9 @@
       });
   
       if (status.value === 'success') {
+        const photoUrl = URL.createObjectURL(blob);
         $toast.success("Imagem enviada!");
+        capturedPhoto.value = photoUrl;
         closeDialog();
       } else {
         $toast.error("Erro ao enviar imagem para o sistema.");
@@ -176,11 +180,14 @@
     }, 'image/jpeg');
   };
 
+  const handleDelete = () => {
+    capturedPhoto.value = null; 
+};
+
   onMounted(async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true }); // Solicitar permissão do usuário
-      await updateDevices(); // Atualizar a lista de dispositivos após obter permissão
-  
+      await navigator.mediaDevices.getUserMedia({ video: true }); 
+      await updateDevices(); 
     } catch (error) {
       console.error("Erro ao acessar dispositivos de mídia:", error);
     }
