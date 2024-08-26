@@ -15,7 +15,6 @@
   
           <template v-slot:default="{ isActive }">
             <v-card title="Biometria">
-              <!-- Conteúdo do diálogo de biometria -->
               <v-row>
                 <v-col>
                   <v-select

@@ -18,7 +18,6 @@
         @click="openModal(finger)"
       ></div>
     </div>
-
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title> Captura de Biometria </v-card-title>
@@ -39,8 +38,8 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="captureBiometria">Capturar</v-btn>
-          <v-btn color="secondary" @click="closeModal">Cancelar</v-btn>
+          <v-btn color="green" @click="captureBiometria">Capturar</v-btn>
+          <v-btn color="red" @click="closeModal">Cancelar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -59,7 +58,7 @@ const biometricDevice = ref(null);
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const enviarDigital = `${config.public.capturaDigital}/capture-hash`;
+const enviarDigital = `${config.public.capturaDigital}/capture-finger`;
 
 // Função para abrir o modal e verificar se a biometria do dedo já existe
 function openModal(finger) {
@@ -76,14 +75,15 @@ function closeModal() {
 }
 
 async function captureBiometria() {
-  const { status } = await useFetch(enviarDigital, {
+  const { status,data } = await useFetch(enviarDigital, {
     method: "GET",
   });
   if (status.value === 'success') {
-        $toast.success("Imagem enviada!");
-        closeDialog();
+        $toast.success("Biometria enviada com sucesso!");
+        // console.log(data.value.hash)
+        closeModal();
       } else {
-        $toast.error("Erro ao enviar imagem para o sistema.");
+        $toast.error("Erro ao enviar biometria para o sistema.");
       }
 }
 
