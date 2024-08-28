@@ -47,18 +47,23 @@
 </template>
 
 <script setup>
-const leftFingers = ref(["e_1", "e_2", "e_3", "e_4", "e_5"]);
-const rightFingers = ref(["d_1", "d_2", "d_3", "d_4", "d_5"]);
+const leftFingers = ref(["E1", "E2", "E3", "E4", "E5"]);
+const rightFingers = ref(["D1", "D2", "D3", "D4", "D5"]);
 
 const isModalOpen = ref(false);
 const selectedFinger = ref(null);
 const currentFingerBiometria = ref(null);
 const biometricDevice = ref(null);
-  
+
+const route = useRoute();
+const { id } = route.params;
+
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
 const enviarDigital = `${config.public.capturaDigital}/capture-finger`;
+const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
+const listarDedos = `${config.public.managemant}/getPessoaBiometriaById`;
 
 // Função para abrir o modal e verificar se a biometria do dedo já existe
 function openModal(finger) {
@@ -74,39 +79,102 @@ function closeModal() {
   biometricDevice.value = null;
 }
 
-async function captureBiometria() {
-  const { status,data } = await useFetch(enviarDigital, {
+async function getFingers() {
+  const { status, data: fingerData } = await useFetch(`${listarDedos}/${id}`, {
     method: "GET",
   });
-  if (status.value === 'success') {
-        $toast.success("Biometria enviada com sucesso!");
-        // console.log(data.value.hash)
-        closeModal();
-      } else {
-        $toast.error("Erro ao enviar biometria para o sistema.");
+
+  if (status.value === "success" && fingerData.value) {
+    console.log(fingerData.value);
+    updateFingerColor("E1", "green");
+    fingerData.value.forEach((finger) => {
+      if (leftFingers.value.includes(finger.dedo)) {
+        updateFingerColor(finger.dedo, "green");
+        console.log(finger)
+      } else if (rightFingers.value.includes(finger.dedo)) {
+        updateFingerColor(finger.dedo, "green");
       }
+    });
+  }
+}
+
+// Chame a função `getFingers` quando o componente for montado
+onMounted(() => {
+  getFingers();
+});
+async function captureBiometria() {
+  const { status, data: captureData } = await useFetch(enviarDigital, {
+    method: "GET",
+  });
+  if (status.value === "success") {
+    const hash = captureData.value.hash;
+    const bodyDigital = {
+      user_id: useCookie("user-data").value.usuario_id,
+      pessoa_id: Number(id),
+      dedo: selectedFinger.value,
+      hash,
+    };
+
+    closeModal();
+    // const { status, data } = await useFetch(enviarDigitalBanco, {
+    //   method: "POST",
+    //   body:bodyDigital
+    // });
+    // if (status.value ==='success') {
+    //   $toast.success("Biometria enviada com sucesso!");
+    //   closeModal();
+    // } else {
+    //   $toast.error("Falha ao enviar a biometria.");
+    // }
+  } else {
+    $toast.error("Erro ao Capturar biometria para o sistema.");
+  }
+}
+
+function updateFingerColor(finger, color) {
+  const leftIndex = leftFingers.value.findIndex(f => f.dedo === finger);
+  console.log(leftIndex)
+  if (leftIndex !== -1) {
+    leftFingers.value[leftIndex].color = color;
+  } else {
+    const rightIndex = rightFingers.value.findIndex(f => f.dedo === finger);
+    if (rightIndex !== -1) {
+      rightFingers.value[rightIndex].color = color;
+    }
+  }
 }
 
 // Estilo dos dedos (posição e cor)
 function getFingerStyle(finger, side) {
   const baseTopLeft = {
-    e_1: { top: 82, left: -10 },
-    e_2: { top: 35, left: 4 },
-    e_3: { top: 0, left: 30 },
-    e_4: { top: 15, left: 75 },
-    e_5: { top: 50, left: 170 },
+    E1: { top: 82, left: -10 },
+    E2: { top: 35, left: 4 },
+    E3: { top: 0, left: 30 },
+    E4: { top: 15, left: 75 },
+    E5: { top: 50, left: 170 },
 
-    d_1: { top: 50, left: 210 },
-    d_2: { top: 18, left: 300 },
-    d_3: { top: 5, left: 350 },
-    d_4: { top: 35, left: 375 },
-    d_5: { top: 80, left: 390 },
+    D1: { top: 50, left: 210 },
+    D2: { top: 18, left: 300 },
+    D3: { top: 5, left: 350 },
+    D4: { top: 35, left: 375 },
+    D5: { top: 80, left: 390 },
   };
 
   const position = baseTopLeft[finger];
+  let color = "red"; // Default color
 
+  let fingerData;
+  if (side === "left") {
+    fingerData = leftFingers.value.find(f => f.dedo === finger);
+  } else if (side === "right") {
+    fingerData = rightFingers.value.find(f => f.dedo === finger);
+  }
+
+  if (fingerData && fingerData.color) {
+    color = fingerData.color;
+  }
   return {
-    backgroundColor: "red", // Todos os dedos inicialmente vermelhos
+    backgroundColor: color,
     top: `${position.top}px`,
     left: `${position.left}px`,
   };
