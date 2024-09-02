@@ -48,28 +48,7 @@
 
 <script setup>
 const leftFingers = ref(["E1", "E2", "E3", "E4", "E5"]);
-var colorLeftFingers = ref(["red", "red", "red", "red", "red"]);
 const rightFingers = ref(["D1", "D2", "D3", "D4", "D5"]);
-var colorRightFingers = ref(["red", "red", "red", "red", "red"]);
-
-const leftFingers2 = ref([
-  { finger: "E1", color: "red" },
-  { finger: "E2", color: "red" },
-  { finger: "E3", color: "red" },
-  { finger: "E4", color: "red" },
-  { finger: "E5", color: "red" }
-]);
-const rightFingers2 = ref([
-  { finger: "D1", color: "red" },
-  { finger: "D2", color: "red" },
-  { finger: "D3", color: "red" },
-  { finger: "D4", color: "red" },
-  { finger: "D5", color: "red" }
-]);
-
-
-
-var colorFingers = ''
 
 const isModalOpen = ref(false);
 const selectedFinger = ref(null);
@@ -104,12 +83,13 @@ async function getFingers() {
   const { status, data: fingerData } = await useFetch(`${listarDedos}/${id}`, {
     method: "GET",
   });
-
+76
+  console.log("@@@@@@@@@@@@@",fingerData.value)
   if (status.value === "success" && fingerData.value) {
-    console.log(fingerData.value);
     updateFingerColor("E1", "green");
     fingerData.value.forEach((finger) => {
       if (leftFingers.value.includes(finger.dedo)) {
+
         updateFingerColor(finger.dedo, "green");
         console.log(finger)
       } else if (rightFingers.value.includes(finger.dedo)) {
@@ -165,14 +145,14 @@ function updateFingerColor(finger, color) {
   if (leftIndex !== -1) {
     console.log("###-dentor do if-####\n",leftIndex)
     console.log("wwww\n",leftFingers.value[leftIndex])
-    colorLeftFingers.value[leftIndex] = color;
-    console.log("Color :",colorLeftFingers.value[leftIndex])
+    console.log("Color :",color)
+    leftFingers.value[leftIndex].color = color;
   
   } else {
-    const rightIndex = rightFingers.value.findIndex(f => f === finger);
+    const rightIndex = rightFingers.value.findIndex(f => f.dedo === finger);
     if (rightIndex !== -1) {
-      colorLeftFingers.value[leftIndex] = color;
-      console.log("Color :",colorLeftFingers.value[leftIndex])    }
+      rightFingers.value[rightIndex].color = color;
+    }
   }
 }
 
