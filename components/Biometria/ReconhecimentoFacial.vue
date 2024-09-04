@@ -161,7 +161,6 @@
       const formData = new FormData();
       formData.append('file', blob, `${nomePessoa}.jpg`);
       formData.append('pessoa_token', token); // Adiciona o token ao FormData
-      formData.append('bucket', 'cartorio-teste'); // Adiciona o campo bucket
   
       const { status } = await useFetch(enviarFoto, {
         method: 'POST',

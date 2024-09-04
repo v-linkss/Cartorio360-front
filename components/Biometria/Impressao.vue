@@ -6,11 +6,7 @@
         src="../../assets/imprimirFicha.png"
         style="width: 280px; height: 120px; cursor: pointer"
       />
-      <img
-        @click="printPage2"
-        src="../../assets/escanearFicha.png"
-        style="width: 280px; height: 120px; cursor: pointer; margin-top: 30px"
-      />
+      <BiometriaScanner/>
     </div>
     <v-dialog v-model="isPrintModalOpen" max-width="800">
       <v-card>

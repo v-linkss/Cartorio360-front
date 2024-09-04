@@ -52,12 +52,6 @@ var colorLeftFingers = ref(["red", "red", "red", "red", "red"]);
 const rightFingers = ref(["D1", "D2", "D3", "D4", "D5"]);
 var colorRightFingers = ref(["red", "red", "red", "red", "red"]);
 
-
-
-
-
-var colorFingers = ''
-
 const isModalOpen = ref(false);
 const selectedFinger = ref(null);
 const currentFingerBiometria = ref(null);
@@ -93,12 +87,10 @@ async function getFingers() {
   });
 
   if (status.value === "success" && fingerData.value) {
-    console.log(fingerData.value);
     updateFingerColor("E1", "green");
     fingerData.value.forEach((finger) => {
       if (leftFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
-        console.log(finger)
       } else if (rightFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
       }
@@ -106,7 +98,6 @@ async function getFingers() {
   }
 }
 
-// Chame a função `getFingers` quando o componente for montado
 onMounted(() => {
   getFingers();
 });
@@ -123,43 +114,35 @@ async function captureBiometria() {
       hash,
     };
 
+    const { status, data } = await useFetch(enviarDigitalBanco, {
+      method: "POST",
+      body: bodyDigital,
+    });
+    if (status.value === "success") {
+      $toast.success("Biometria enviada com sucesso!");
+      closeModal();
+    } else {
+      $toast.error("Falha ao enviar a biometria.");
+    }
     closeModal();
-    // const { status, data } = await useFetch(enviarDigitalBanco, {
-    //   method: "POST",
-    //   body:bodyDigital
-    // });
-    // if (status.value ==='success') {
-    //   $toast.success("Biometria enviada com sucesso!");
-    //   closeModal();
-    // } else {
-    //   $toast.error("Falha ao enviar a biometria.");
-    // }
   } else {
     $toast.error("Erro ao Capturar biometria para o sistema.");
   }
 }
 
 function updateFingerColor(finger, color) {
-  console.log("#######\n",finger)
-  // const leftIndex = leftFingers.value.findIndex(f => f.dedo === finger.dedo);
   const leftIndex = leftFingers.value.findIndex((f, index) => {
-    if(f === finger){
-      console.log(`Interação ${index + 1}: dedo=${f}, procurando por=${finger}`);
+    if (f === finger) {
       return f === finger;
-
     }
   });
   if (leftIndex !== -1) {
-    console.log("###-dentor do if-####\n",leftIndex)
-    console.log("wwww\n",leftFingers.value[leftIndex])
     colorLeftFingers.value[leftIndex] = color;
-    console.log("Color :",colorLeftFingers.value[leftIndex])
-  
   } else {
-    const rightIndex = rightFingers.value.findIndex(f => f === finger);
+    const rightIndex = rightFingers.value.findIndex((f) => f === finger);
     if (rightIndex !== -1) {
       colorLeftFingers.value[leftIndex] = color;
-      console.log("Color :",colorLeftFingers.value[leftIndex])    }
+    }
   }
 }
 
