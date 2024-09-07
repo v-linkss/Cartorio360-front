@@ -1,0 +1,251 @@
+<template>
+  <v-container class="mt-5">
+    <v-row
+      style="display: flex; justify-content: space-between; margin-bottom: 30px"
+    >
+      <h1>Ordens de Serviço</h1>
+      <NuxtLink to="./OrdensServico/criar-registro">
+        <img
+          style="width: 60px; height: 60px; cursor: pointer"
+          src="../../assets/novo.png"
+          alt="novo"
+        />
+      </NuxtLink>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-model="state.numero"
+          label="Número"
+          style="width: 110px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_inicio"
+          v-mask="'########'"
+          label="Abertura de"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_fim"
+          label="Abertura até"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_lavratura_inicio"
+          label="Lavratura de"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_lavratura_fim"
+          label="Lavratura até"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.protocolo"
+          label="Protocolo"
+          style="width: 105px"
+        ></v-text-field>
+      </v-col>
+      <v-col md="1">
+        <v-text-field
+          v-model="state.livro"
+          label="Livro"
+          style="width: 80px"
+        ></v-text-field>
+      </v-col>
+      <v-col md="1">
+        <v-text-field
+          v-model="state.folha"
+          label="Folha"
+          style="width: 80px"
+        ></v-text-field>
+      </v-col>
+      <v-col md="2">
+        <v-autocomplete
+          v-model="state.situacao"
+          :items="situacaoItems"
+          label="Situação"
+        ></v-autocomplete>
+      </v-col>
+      <v-col md="2">
+        <v-autocomplete
+          v-model="state.usuario_token"
+          item-title="descricao"
+          item-value="id"
+          label="Usuario"
+        ></v-autocomplete>
+      </v-col>
+      <v-col md="1">
+        <v-text-field v-model="state.selo" label="Selo"></v-text-field>
+      </v-col>
+      <v-col md="3">
+        <v-autocomplete
+          v-model="state.ato_tipo_token"
+          :items="tipoAtosItems"
+          item-title="descricao"
+          item-value="token"
+          label="Serviço"
+        ></v-autocomplete>
+      </v-col>
+      <v-col md="3">
+        <v-autocomplete
+          v-model="state.apresentante"
+          label="Apresentante"
+        ></v-autocomplete>
+      </v-col>
+      <v-col>
+        <div>
+          <img
+            style="width: 40px; height: 40px; cursor: pointer"
+            src="../../assets/visualizar.png"
+            alt="Pesquisar"
+          />
+        </div>
+      </v-col>
+    </v-row>
+    <v-data-table :headers="headers" :items="servicosItems" item-key="id">
+      <template v-slot:item.actions="{ item }">
+        <v-row style="display: flex; gap: 10px">
+          <div @click="redirectToUpdate(item.id)" title="Receber">
+            <img
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../../assets/recebe.png"
+              alt="Receber"
+            />
+          </div>
+
+          <div
+            :class="{ disabled: !item.btn_editar }"
+            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+            :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
+          >
+            <img
+              :style="{
+                cursor: item.btn_editar ? 'pointer' : 'default',
+                width: '40px',
+                height: '40px',
+              }"
+              src="../../assets/editar.png"
+              alt="Editar"
+            />
+          </div>
+
+          <div
+            :disabled="!item.btn_cancelar"
+            @click="item.btn_cancelar ? deleteEndereco(item) : null"
+            title="Excluir"
+          >
+            <img
+              v-if="item.excluido"
+              style="width: 40px; height: 40px; cursor: pointer"
+              src="../../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../../assets/mudarStatus.png"
+              alt="Excluir"
+              class="trash-icon"
+              style="width: 40px; height: 40px; cursor: pointer"
+              title="Excluir"
+            />
+          </div>
+        </v-row>
+      </template>
+    </v-data-table>
+    <NuxtLink to="/home">
+      <img class="btn-pointer" src="../../assets/sair.png" alt="Sair" />
+    </NuxtLink>
+  </v-container>
+</template>
+
+<script setup>
+const { $toast } = useNuxtApp();
+const route = useRoute();
+const router = useRouter();
+const { id } = route.params;
+
+const config = useRuntimeConfig();
+const allUsuarios = `${config.public.managemant}/listarUsuarios`;
+const allServicos = `${config.public.managemant}/listarOrdensServico`;
+const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+
+const usuario_token = ref(useCookie("user-data").value.usuario_id).value;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const servicosItems = ref([]);
+const usuariosItems = ref([]);
+const tipoAtosItems = ref([]);
+const situacaoItems = ref(["EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+
+const state = reactive({
+  tabvalores_pais_id: "",
+  cidade_id: "",
+  codcep: "",
+  logradouro: "",
+  numero: "",
+  bairro: "",
+  data_vencimento: "",
+  tabvalores_ufemissor_id: "",
+  complemento: "",
+  cidade_estrangeira: "",
+});
+
+const headers = [
+  { title: "Número", value: "numero" },
+  { title: "Data", value: "data" },
+  { title: "Situação", value: "situacao" },
+  { title: "Apresentante", value: "apresentante" },
+  { title: "Usuario", value: "usuario_nome" },
+  { title: "Data Recebimento", value: "dt_pagto" },
+
+  {
+    value: "actions",
+  },
+];
+
+async function usuariosDataPayload() {
+  const { data: usuarioData, error } = await useFetch(allUsuarios, {
+    method: "GET",
+  });
+  usuariosItems.value = usuarioData.value;
+}
+
+async function tipoAtosDataPayload() {
+  const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
+    method: "POST",
+    body: {
+      cartorio_token: cartorio_token,
+      usuario_token: usuario_token,
+    },
+  });
+  tipoAtosItems.value = tipoAtosData.value;
+}
+
+async function servicosDataTable() {
+  const { data: servicosData, error } = await useFetch(allServicos, {
+    method: "POST",
+    body: {
+      cartorio_token: cartorio_token,
+    },
+  });
+  servicosItems.value = servicosData.value;
+}
+tipoAtosDataPayload();
+servicosDataTable();
+
+async function deleteEndereco(item) {
+  console.log("excluido");
+}
+</script>

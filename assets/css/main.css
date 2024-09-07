@@ -8,4 +8,9 @@ body span{
 
 .v-text-field input {
     font-size: 14px; 
-  }
+}
+
+body h1{
+    color: #777777;
+    font-weight: bolder;
+}

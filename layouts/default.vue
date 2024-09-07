@@ -17,6 +17,16 @@
       </v-menu>
       <v-menu>
         <template v-slot:activator="{ props }">
+          <v-btn style="color: #429946" v-bind="props"> Atendimento </v-btn>
+        </template>
+        <v-list>
+          <v-list-item >
+            <NuxtLink style="text-decoration: none; color: inherit;" to="/OrdensServico"> Ordens de Serviços </NuxtLink>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-menu>
+        <template v-slot:activator="{ props }">
           <v-btn class="user" v-bind="props"
             >{{ useCookie("user-data").value.nome }}
           </v-btn>

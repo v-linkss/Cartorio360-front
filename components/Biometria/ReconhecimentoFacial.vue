@@ -160,7 +160,7 @@
     canvas.toBlob(async (blob) => {
       const formData = new FormData();
       formData.append('file', blob, `${nomePessoa}.jpg`);
-      formData.append('pessoa_token', token); // Adiciona o token ao FormData
+      formData.append('pessoa_token', token); 
   
       const { status } = await useFetch(enviarFoto, {
         method: 'POST',
