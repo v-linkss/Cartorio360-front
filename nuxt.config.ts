@@ -44,11 +44,11 @@ export default defineNuxtConfig({
   // },
   runtimeConfig: {
     public: {
-      auth: "http://localhost:3746",
-      managemant: "http://localhost:5982",
-      capturaDigital:"http://localhost:5000/apiservice",
-      // auth: 'http://45.55.192.246:3746',
-      // managemant: 'http://45.55.192.246:5982',
+     //  auth: "http://localhost:3333",
+     //  managemant: "http://localhost:3200",
+     //  capturaDigital:"http://localhost:5000/apiservice",
+      auth: 'http://45.55.192.246:3746',
+      managemant: 'http://45.55.192.246:5982',
     },
   },
   css: ["~/assets/css/main.css"],
