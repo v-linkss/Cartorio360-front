@@ -42,7 +42,7 @@ const _sfc_main = {
     const pessoaNome = useCookie("user-data").value;
     const nomePessoa = pessoaNome.nome;
     const config = useRuntimeConfig();
-    const enviarFoto = `${config.public.managemant}/uploadFaceId`;
+    const enviarFoto = `${config.public.managemant}/upload`;
     const { $toast } = useNuxtApp();
     const updateDevices = async () => {
       const mediaDevices = await (void 0).mediaDevices.enumerateDevices();
@@ -99,6 +99,7 @@ const _sfc_main = {
         formData.append("file", blob, `${nomePessoa}.jpg`);
         formData.append("pessoa_token", token);
         formData.append("bucket", "cartorio-teste");
+        formData.append("tipo", "foto"); //foto -> faceId, biometria -> impreção digital e ficha -> ficha escaneada(Scanner)
         const { status } = await useFetch(enviarFoto, {
           method: "POST",
           body: formData

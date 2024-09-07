@@ -102,7 +102,7 @@ const pessoaNome = useCookie("user-data").value
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/uploadFaceId`
+const enviarFoto = `${config.public.managemant}/upload`
 
 const { $toast } = useNuxtApp();
 
@@ -170,6 +170,7 @@ const handleCapture = async () => {
     formData.append('file', blob, `${nomePessoa}.jpg`);
     formData.append('pessoa_token', token); // Adiciona o token ao FormData
     formData.append('bucket', 'cartorio-teste'); // Adiciona o campo bucket
+    formData.append("tipo", "foto"); //foto -> faceId, biometria -> impreção digital e ficha -> ficha escaneada(Scanner)
 
     const { status } = await useFetch(enviarFoto, {
       method: 'POST',
