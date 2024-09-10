@@ -25,6 +25,9 @@ export default defineNuxtPlugin((app) => {
       },
       VTextField: {
         density:"compact",
+      },
+      VDataTable:{
+         density:"compact"
       }
     },
   })

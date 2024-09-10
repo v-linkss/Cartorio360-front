@@ -8,15 +8,20 @@
 
     <v-row>
       <v-col md="3">
+        <v-autocomplete
+          label="Nacionalidade"
+          :items="nacionalidade"
+        ></v-autocomplete>
+      </v-col>
+      <v-col md="2">
         <v-text-field
-          v-model="state.tabvalores_pais_id"
+        v-model="state.cpf"
           label="CPF"
         ></v-text-field>
       </v-col>
-      <v-col md="6">
+      <v-col md="4">
         <v-text-field
-          v-model="state.codcep"
-          v-mask="'########'"
+        v-model="state.apresentante"
           label="Nome Apresentante"
         ></v-text-field>
       </v-col>
@@ -32,14 +37,15 @@
     </v-row>
     <v-row style="display: flex; margin-bottom: 10px; gap: 2rem">
       <h1 class="ml-5">Atos</h1>
-      <img
-        style="width: 45px; height: 45px; cursor: pointer"
-        src="../../assets/novo.png"
-        alt="novo"
-        @click="onSubmit"
-      />
+      <NuxtLink to="/OrdensServico/criar-ato">
+        <img
+          style="width: 45px; height: 45px; cursor: pointer"
+          src="../../assets/novo.png"
+          alt="novo"
+        />
+      </NuxtLink>
     </v-row>
-    <v-data-table
+    <!-- <v-data-table
       :headers="headers"
       item-key="id"
     >
@@ -78,9 +84,9 @@
           </div>
         </v-row>
       </template>
-    </v-data-table>
-    <NuxtLink to="/OrdensServico">
-      <img class="btn-pointer" src="../../assets/sair.png" alt="Sair" />
+    </v-data-table> -->
+    <NuxtLink  to="/OrdensServico">
+      <img class="btn-pointer mt-10" src="../../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>
 </template>
@@ -101,17 +107,16 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const pessoa_id = Number(useCookie("pessoa-id").value || id);
 
 const state = reactive({
-  tabvalores_pais_id: "",
-  cidade_id: "",
-  codcep: "",
-  logradouro: "",
-  numero: "",
-  bairro: "",
-  data_vencimento: "",
-  tabvalores_ufemissor_id: "",
-  complemento: "",
-  cidade_estrangeira: "",
+  cpf:'',
+  apresentante:'',
+
 });
+
+const nacionalidade = [
+{ title: "BRASILEIRO", value: "brasileiro" },
+{ title: "ESTRANGEIRO", value: "estrangeiro" },
+]
+
 const headers = [
   { title: "Protocolo", value: "pais.descricao" },
   { title: "Lavratura", value: "codcep" },

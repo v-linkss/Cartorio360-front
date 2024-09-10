@@ -1,19 +1,16 @@
 <template>
   <v-container class="mt-5">
-    <v-row
-      style="display: flex; justify-content: space-between; margin-bottom: 30px"
-    >
+    <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
       <NuxtLink to="./OrdensServico/criar-registro">
         <img
-          style="width: 60px; height: 60px; cursor: pointer"
+          style="width: 60px; height: 60px; cursor: pointer;margin-left: 70px;"
           src="../../assets/novo.png"
           alt="novo"
         />
       </NuxtLink>
     </v-row>
-
-    <v-row>
+    <v-row style="margin-bottom: -35px">
       <v-col>
         <v-text-field
           v-model="state.numero"
@@ -24,7 +21,7 @@
       <v-col>
         <v-text-field
           v-model="state.data_inicio"
-          v-mask="'########'"
+          type="date"
           label="Abertura de"
           style="width: 150px"
         ></v-text-field>
@@ -32,6 +29,7 @@
       <v-col>
         <v-text-field
           v-model="state.data_fim"
+          type="date"
           label="Abertura até"
           style="width: 150px"
         ></v-text-field>
@@ -39,6 +37,7 @@
       <v-col>
         <v-text-field
           v-model="state.data_lavratura_inicio"
+          type="date"
           label="Lavratura de"
           style="width: 150px"
         ></v-text-field>
@@ -46,6 +45,7 @@
       <v-col>
         <v-text-field
           v-model="state.data_lavratura_fim"
+          type="date"
           label="Lavratura até"
           style="width: 150px"
         ></v-text-field>
@@ -54,7 +54,7 @@
         <v-text-field
           v-model="state.protocolo"
           label="Protocolo"
-          style="width: 105px"
+          style="width: 110px"
         ></v-text-field>
       </v-col>
       <v-col md="1">
@@ -71,7 +71,9 @@
           style="width: 80px"
         ></v-text-field>
       </v-col>
-      <v-col md="2">
+    </v-row>
+    <v-row>
+      <v-col md="3">
         <v-autocomplete
           v-model="state.situacao"
           :items="situacaoItems"
@@ -98,15 +100,16 @@
           label="Serviço"
         ></v-autocomplete>
       </v-col>
-      <v-col md="3">
-        <v-autocomplete
+      <v-col md="2">
+        <v-text-field
           v-model="state.apresentante"
           label="Apresentante"
-        ></v-autocomplete>
+        ></v-text-field>
       </v-col>
       <v-col>
         <div>
           <img
+            @click="searchOrdersService"
             style="width: 40px; height: 40px; cursor: pointer"
             src="../../assets/visualizar.png"
             alt="Pesquisar"
@@ -114,12 +117,13 @@
         </div>
       </v-col>
     </v-row>
+    <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px">
+        <v-row style="display: flex; gap: 10px;margin-top: -5px;">
           <div @click="redirectToUpdate(item.id)" title="Receber">
             <img
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../../assets/recebe.png"
               alt="Receber"
             />
@@ -133,8 +137,8 @@
             <img
               :style="{
                 cursor: item.btn_editar ? 'pointer' : 'default',
-                width: '40px',
-                height: '40px',
+                width: '30px',
+                height: '30px',
               }"
               src="../../assets/editar.png"
               alt="Editar"
@@ -148,7 +152,7 @@
           >
             <img
               v-if="item.excluido"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
@@ -158,7 +162,7 @@
               src="../../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               title="Excluir"
             />
           </div>
@@ -172,10 +176,6 @@
 </template>
 
 <script setup>
-const { $toast } = useNuxtApp();
-const route = useRoute();
-const router = useRouter();
-const { id } = route.params;
 
 const config = useRuntimeConfig();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
@@ -189,17 +189,21 @@ const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
 const situacaoItems = ref(["EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 
+
 const state = reactive({
-  tabvalores_pais_id: "",
-  cidade_id: "",
-  codcep: "",
-  logradouro: "",
-  numero: "",
-  bairro: "",
-  data_vencimento: "",
-  tabvalores_ufemissor_id: "",
-  complemento: "",
-  cidade_estrangeira: "",
+  numero: '',
+  data_inicio: '',
+  data_fim: '',
+  data_lavratura_inicio: '',
+  data_lavratura_fim: '',
+  protocolo: '',
+  livro: '',
+  folha: '',
+  situacao: null,
+  usuario_token: null,
+  selo: '',
+  ato_tipo_token: null,
+  apresentante: '',
 });
 
 const headers = [
@@ -222,6 +226,14 @@ async function usuariosDataPayload() {
   usuariosItems.value = usuarioData.value;
 }
 
+async function searchOrdersService() {
+  // const { data: usuarioData, error } = await useFetch(allUsuarios, {
+  //   method: "GET",
+  // });
+  // usuariosItems.value = usuarioData.value;
+  console.log(state)
+}
+
 async function tipoAtosDataPayload() {
   const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
     method: "POST",
@@ -241,6 +253,7 @@ async function servicosDataTable() {
     },
   });
   servicosItems.value = servicosData.value;
+  console.log(servicosItems)
 }
 tipoAtosDataPayload();
 servicosDataTable();

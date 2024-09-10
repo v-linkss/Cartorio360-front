@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
 import Testamento from "../fontes/atos/Testamento.vue";
 import ReconhecimentoFirma from "../fontes/atos/ReconhecimentoFirma.vue";
 
@@ -36,6 +35,6 @@ const selectedComponent = computed(() => {
 
 <style scoped>
 .menu-texts .v-btn {
-  color: #429946; /* Texto branco para contraste */
+  color: #429946; 
 }
 </style>
