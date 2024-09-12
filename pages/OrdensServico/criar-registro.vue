@@ -11,17 +11,19 @@
         <v-autocomplete
           label="Nacionalidade"
           :items="nacionalidade"
+          v-model="state.nacionalidade"
         ></v-autocomplete>
       </v-col>
       <v-col md="2">
         <v-text-field
-        v-model="state.cpf"
+          autofocus="true"
+          v-model="state.cpf"
           label="CPF"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-text-field
-        v-model="state.apresentante"
+          v-model="state.apresentante"
           label="Nome Apresentante"
         ></v-text-field>
       </v-col>
@@ -45,48 +47,8 @@
         />
       </NuxtLink>
     </v-row>
-    <!-- <v-data-table
-      :headers="headers"
-      item-key="id"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px">
-          <div @click="redirectToUpdate(item.id)" title="Editar">
-            <img
-              style="width: 40px; height: 40px; cursor: pointer"
-              src="../../assets/recebe.png"
-              alt="Editar"
-            />
-          </div>
-          <div @click="redirectToUpdate(item.id)" title="Editar">
-            <img
-              style="width: 40px; height: 40px; cursor: pointer"
-              src="../../assets/editar.png"
-              alt="Editar"
-            />
-          </div>
-          <div @click="deleteEndereco(item)" title="Visualizar">
-            <img
-              v-if="item.excluido"
-              style="width: 40px; height: 40px; cursor: pointer"
-              src="../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 40px; height: 40px; cursor: pointer"
-              title="Excluir"
-            />
-          </div>
-        </v-row>
-      </template>
-    </v-data-table> -->
-    <NuxtLink  to="/OrdensServico">
-      <img class="btn-pointer mt-10" src="../../assets/sair.png" alt="Sair" />
+    <NuxtLink to="/OrdensServico">
+      <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>
 </template>
@@ -107,48 +69,13 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const pessoa_id = Number(useCookie("pessoa-id").value || id);
 
 const state = reactive({
-  cpf:'',
-  apresentante:'',
-
+  nacionalidade: "BRASILEIRO", // Nacionalidade padrão
+  cpf: "",
+  apresentante: "",
 });
 
 const nacionalidade = [
-{ title: "BRASILEIRO", value: "brasileiro" },
-{ title: "ESTRANGEIRO", value: "estrangeiro" },
-]
-
-const headers = [
-  { title: "Protocolo", value: "pais.descricao" },
-  { title: "Lavratura", value: "codcep" },
-  { title: "Situação", value: "codcep" },
-  { title: "Tipo", value: "codcep" },
-  { title: "Usuário", value: "codcep" },
-  { title: "Livro", value: "codcep" },
-  { title: "Folha", value: "codcep" },
-  { title: "Valor", value: "codcep" },
-  {
-    value: "actions",
-  },
+  { title: "BRASILEIRO", value: "brasileiro" },
+  { title: "ESTRANGEIRO", value: "estrangeiro" },
 ];
-
-const isModalOpen = ref(false);
-const selectedEndereco = ref(null);
-
-
-async function onSubmit() {
-
-}
-
-function redirectToUpdate(id) {
-
-
-}
-
-async function onUpdate(id) {
- 
-}
-
-async function deleteEndereco(item) {
- 
-}
 </script>

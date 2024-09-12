@@ -182,7 +182,7 @@ const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 
-const usuario_token = ref(useCookie("user-data").value.usuario_id).value;
+const usuario_token = ref(useCookie("auth_token").value);
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
@@ -219,6 +219,14 @@ const headers = [
   },
 ];
 
+function getCurrentDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Meses começam do 0
+  const dd = String(today.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
 async function usuariosDataPayload() {
   const { data: usuarioData, error } = await useFetch(allUsuarios, {
     method: "GET",
@@ -238,23 +246,27 @@ async function tipoAtosDataPayload() {
   const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
     method: "POST",
     body: {
-      cartorio_token: cartorio_token,
-      usuario_token: usuario_token,
+      cartorio_token: cartorio_token.value,
+      usuario_token: usuario_token.value,
     },
   });
   tipoAtosItems.value = tipoAtosData.value;
 }
 
 async function servicosDataTable() {
+  const currentDate = getCurrentDate();
   const { data: servicosData, error } = await useFetch(allServicos, {
     method: "POST",
     body: {
-      cartorio_token: cartorio_token,
+      cartorio_token: cartorio_token.value,
+      // usuario_token: usuario_token,
+      // data_inicio: currentDate,
+      // data_fim: currentDate
     },
   });
   servicosItems.value = servicosData.value;
-  console.log(servicosItems)
 }
+usuariosDataPayload()
 tipoAtosDataPayload();
 servicosDataTable();
 
