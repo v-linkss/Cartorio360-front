@@ -82,9 +82,10 @@
       </v-col>
       <v-col md="2">
         <v-autocomplete
+          :items="usuariosItems"
           v-model="state.usuario_token"
-          item-title="descricao"
-          item-value="id"
+          item-title="user_nome"
+          item-value="user_token"
           label="Usuario"
         ></v-autocomplete>
       </v-col>
@@ -229,7 +230,10 @@ function getCurrentDate() {
 
 async function usuariosDataPayload() {
   const { data: usuarioData, error } = await useFetch(allUsuarios, {
-    method: "GET",
+    method: "POST",
+    body:{
+      cartorio_token:cartorio_token.value
+    }
   });
   usuariosItems.value = usuarioData.value;
 }
@@ -264,7 +268,14 @@ async function servicosDataTable() {
       // data_fim: currentDate
     },
   });
-  servicosItems.value = servicosData.value;
+  const formattedOs = servicosData.value.map((os) => {
+    return {
+      ...os,
+      dt_pagto: formatDate(os.dt_pagto),
+      data: formatDate(os.data),
+    };
+  });
+  servicosItems.value = formattedOs;
 }
 usuariosDataPayload()
 tipoAtosDataPayload();

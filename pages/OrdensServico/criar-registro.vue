@@ -16,14 +16,14 @@
       </v-col>
       <v-col md="2">
         <v-text-field
-          autofocus="true"
-          v-model="state.cpf"
+          autofocus
+          v-model="state.apresentante_cpf"
           label="CPF"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-text-field
-          v-model="state.apresentante"
+          v-model="state.apresentante_nome"
           label="Nome Apresentante"
         ></v-text-field>
       </v-col>
@@ -33,6 +33,7 @@
             style="width: 40px; height: 40px; cursor: pointer"
             src="../../assets/salvar.png"
             alt="Salvar"
+            @click="onSubmit()"
           />
         </div>
       </v-col>
@@ -59,23 +60,32 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allPaises = `${config.public.managemant}/listarPais`;
-const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
-const allServicos = `${config.public.managemant}/listarOrdensServico`;
-const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
-const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const createOs = `${config.public.managemant}/createOrdensServico`;
 
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const pessoa_id = Number(useCookie("pessoa-id").value || id);
+const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
+const pessoa_id = ref(useCookie("user-data").value.usuario_id);
 
 const state = reactive({
-  nacionalidade: "BRASILEIRO", // Nacionalidade padrão
-  cpf: "",
-  apresentante: "",
+  nacionalidade: "BRASILEIRO",
+  apresentante_nome: "",
+  apresentante_cpf: "",
+  user_id:pessoa_id.value,
+  cartorio_id:cartorio_id.value
 });
 
 const nacionalidade = [
   { title: "BRASILEIRO", value: "brasileiro" },
   { title: "ESTRANGEIRO", value: "estrangeiro" },
 ];
+
+async function onSubmit() {
+  console.log(state)
+    const { data, error,status } = await useFetch(
+   createOs,
+    {
+      method: "POST",
+      body: state,
+    }
+  );
+}
 </script>
