@@ -69,8 +69,8 @@ const state = reactive({
   nacionalidade: "BRASILEIRO",
   apresentante_nome: "",
   apresentante_cpf: "",
-  user_id:pessoa_id.value,
-  cartorio_id:cartorio_id.value
+  user_id: pessoa_id.value,
+  cartorio_id: cartorio_id.value,
 });
 
 const nacionalidade = [
@@ -79,13 +79,15 @@ const nacionalidade = [
 ];
 
 async function onSubmit() {
-  console.log(state)
-    const { data, error,status } = await useFetch(
-   createOs,
-    {
-      method: "POST",
-      body: state,
-    }
-  );
+  console.log(state);
+  const { data, error, status } = await useFetch(createOs, {
+    method: "POST",
+    body: state,
+  });
+  if (status.value === "error" && error.value.statusCode === 500) {
+    $toast.error("Erro ao cadastrar ordem,erro no sistema.");
+  } else {
+    $toast.success("Ordem registrada com sucesso!");
+  }
 }
 </script>

@@ -223,7 +223,7 @@ const headers = [
 function getCurrentDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Meses começam do 0
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); 
   const dd = String(today.getDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
 }
@@ -263,15 +263,11 @@ async function servicosDataTable() {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
-      // usuario_token: usuario_token,
-      // data_inicio: currentDate,
-      // data_fim: currentDate
     },
   });
   const formattedOs = servicosData.value.map((os) => {
     return {
       ...os,
-      dt_pagto: formatDate(os.dt_pagto),
       data: formatDate(os.data),
     };
   });

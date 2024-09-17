@@ -7,17 +7,15 @@
         :items="pages"
         v-model="selectedPage"
       ></v-autocomplete>
-      <v-autocomplete
-
-      ></v-autocomplete>
+      <v-autocomplete></v-autocomplete>
     </v-row>
   </v-container>
   <v-container>
     <component :is="selectedComponent" />
   </v-container>
-  <NuxtLink  to="/OrdensServico/criar-registro">
-      <img class="btn-pointer mt-10" src="../../assets/sair.png" alt="Sair" />
-    </NuxtLink>
+  <NuxtLink to="/OrdensServico/criar-registro">
+    <img class="btn-pointer mt-10" src="../../assets/sair.png" alt="Sair" />
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
