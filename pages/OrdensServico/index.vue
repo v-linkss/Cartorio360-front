@@ -209,7 +209,6 @@ const state = reactive({
 
 const headers = [
   { title: "Número", value: "numero" },
-  { title: "Data", value: "data" },
   { title: "Situação", value: "situacao" },
   { title: "Apresentante", value: "apresentante" },
   { title: "Usuario", value: "usuario_nome" },
@@ -268,7 +267,6 @@ async function servicosDataTable() {
   const formattedOs = servicosData.value.map((os) => {
     return {
       ...os,
-      data: formatDate(os.data),
     };
   });
   servicosItems.value = formattedOs;
