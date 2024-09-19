@@ -135,7 +135,6 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { cpf } from "~/composables/validaCpf";
