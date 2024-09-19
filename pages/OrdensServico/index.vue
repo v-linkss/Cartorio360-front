@@ -170,7 +170,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/home">
+    <NuxtLink to="/">
       <img class="btn-pointer" src="../../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>
@@ -188,23 +188,23 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
-const situacaoItems = ref(["EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+const situacaoItems = ref(["PENDENTE","EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 
 
 const state = reactive({
-  numero: '',
-  data_inicio: '',
-  data_fim: '',
-  data_lavratura_inicio: '',
-  data_lavratura_fim: '',
-  protocolo: '',
-  livro: '',
-  folha: '',
+  numero: null,
+  data_inicio: null,
+  data_fim: null,
+  data_lavratura_inicio: null,
+  data_lavratura_fim: null,
+  protocolo: null,
+  livro: null,
+  folha: null,
   situacao: null,
   usuario_token: null,
-  selo: '',
+  selo: null,
   ato_tipo_token: null,
-  apresentante: '',
+  apresentante: null,
 });
 
 const headers = [
@@ -238,11 +238,32 @@ async function usuariosDataPayload() {
 }
 
 async function searchOrdersService() {
-  // const { data: usuarioData, error } = await useFetch(allUsuarios, {
-  //   method: "GET",
-  // });
-  // usuariosItems.value = usuarioData.value;
-  console.log(state)
+
+  try {
+    const { data: servicosData, error } = await useFetch(allServicos, {
+      method: "POST",
+      body: {
+        cartorio_token: cartorio_token.value,
+        numero: state.numero,
+        data_inicio: state.data_inicio,
+        data_fim: state.data_fim,
+        data_lavratura_inicio: state.data_lavratura_inicio,
+        data_lavratura_fim: state.data_lavratura_fim,
+        protocolo: state.protocolo,
+        livro: state.livro,
+        folha: state.folha,
+        situacao: state.situacao,
+        usuario_token: state.usuario_token,
+        selo: state.selo,
+        ato_tipo_token: state.ato_tipo_token,
+        apresentante: state.apresentante,
+      },
+    });
+
+    servicosItems.value = servicosData.value
+  } catch (error) {
+    console.error("Erro na requisição", error);
+  }
 }
 
 async function tipoAtosDataPayload() {
@@ -264,12 +285,8 @@ async function servicosDataTable() {
       cartorio_token: cartorio_token.value,
     },
   });
-  const formattedOs = servicosData.value.map((os) => {
-    return {
-      ...os,
-    };
-  });
-  servicosItems.value = formattedOs;
+
+  servicosItems.value = servicosData.value;
 }
 usuariosDataPayload()
 tipoAtosDataPayload();

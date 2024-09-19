@@ -136,7 +136,6 @@ const login = async () => {
       email: loginData.value.email,
     },
   });
-  console.log(responseData,error)
   if (status.value === "success") {
     const userInfo =
       responseData.value[0].func_autentica_acesso_v1[0].registro[0];
@@ -156,7 +155,7 @@ const login = async () => {
     const tokenCookie = useCookie("auth_token");
     tokenCookie.value = tokenAuth;
 
-    router.push("/home")
+    router.push("/")
   } else {
     if (status.value === 'error' && error.value.statusCode === 500){
     (showError.value = true);
