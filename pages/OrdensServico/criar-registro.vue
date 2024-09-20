@@ -23,7 +23,7 @@
           required
           :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
           @blur="v$.apresentante_cpf.$touch"
-          @input="v$.apresentante_cpf.$touch"
+          @input="validarCpf(state.apresentante_cpf)"
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -32,7 +32,6 @@
           label="Nome Apresentante"
           required
           :error-messages="v$.apresentante_nome.$errors.map((e) => e.$message)"
-          @blur="v$.apresentante_nome.$touch"
           @input="v$.apresentante_nome.$touch"
         ></v-text-field>
       </v-col>
@@ -74,9 +73,11 @@ const { id } = route.params;
 
 const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;
+const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
+let isValidatingCpf = false;
 
 const state = reactive({
   nacionalidade: "brasileiro",
@@ -125,6 +126,38 @@ async function onSubmit() {
       $toast.error("Erro ao cadastrar ordem,erro no sistema.");
     } else {
       $toast.success("Ordem registrada com sucesso!");
+    }
+  }
+}
+
+async function validarCpf(cpf) {
+  const cpfFormated = removeFormatting(cpf);
+
+  if (cpfFormated.length === 11 && !isValidatingCpf) {
+    isValidatingCpf = true;
+
+    const payloadFormated = {
+      cpf: cpfFormated,
+    };
+
+    try {
+      const { data, error, status } = await useFetch(routeValidaCpf, {
+        method: "POST",
+        body: payloadFormated,
+      });
+
+      if (status.value === "error" && error.value.statusCode === 500) {
+        $toast.error("Erro ao cadastrar pessoa, o CPF já está cadastrado.");
+      } else if (data.value.cpfValidation === true) {
+        state.apresentante_nome = data.value.nome;
+        $toast.success("Cpf autenticado com sucesso!");
+      } else if (data.value.cpfValidation === false) {
+        $toast.error("Cpf não cadastrado!");
+      }
+    } catch (error) {
+      console.error("Erro ao validar CPF:", error);
+    } finally {
+      isValidatingCpf = false;
     }
   }
 }
