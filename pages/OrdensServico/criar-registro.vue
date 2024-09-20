@@ -22,8 +22,9 @@
           v-mask="'###.###.###-##'"
           required
           :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
-          @blur="v$.apresentante_cpf.$touch"
+          @blur="validarCpf"
           @input="v$.apresentante_cpf.$touch"
+          
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -83,7 +84,7 @@ const state = reactive({
   apresentante_nome: null,
   apresentante_cpf: null,
 });
-
+const routeValidaCpf =  `${config.public.managemant}/validarCpf`
 console.log("#################\n",state)
 const nacionalidade = [
   { title: "BRASILEIRO", value: "brasileiro" },
@@ -95,6 +96,7 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
   apresentante_cpf: {
+    
     required: helpers.withMessage("O campo é obrigatorio", required),
     cpf,
   },
@@ -129,4 +131,33 @@ async function onSubmit() {
     }
   }
 }
+
+
+async function validarCpf() {
+  const cpf = removeFormatting(state.apresentante_cpf);
+  if (cpf) {
+      const payloadFormated = {
+        cpf: cpf,
+      };
+      const { data, error, status } = await useFetch(routeValidaCpf, {
+        method: "POST",
+        body: payloadFormated,
+      });
+      if (status.value === "error" && error.value.statusCode === 500) {
+
+          $toast.error("Erro ao cadastrar pessoa,o CPF já está cadastrado.");
+
+        } else if (data._value.cpfValidation === true) {
+          state.apresentante_nome = data._value.nome
+          $toast.success("Cpf autenticado com sucesso!");
+
+        } else if (data._value.cpfValidation === false) {
+
+          toast.error("Cpf Não cadastrado!");
+
+        };
+
+  }
+}
+
 </script>
