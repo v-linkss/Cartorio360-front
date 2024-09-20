@@ -3,11 +3,18 @@
     <v-row>
       <v-autocomplete
         class="mr-5"
-        label="Selecione o ato"
-        :items="pages"
-        v-model="selectedPage"
+        label="Selecione o Servico"
+        :items="servicos"
+        item-title="descricao"
+        v-model="selectedServico"
       ></v-autocomplete>
-      <v-autocomplete></v-autocomplete>
+      <v-autocomplete
+        label="Selecione o tipo de ato"
+        v-model="selectedAto"
+        item-title="descricao"
+        item-value="rota"
+        :items="atos"
+      ></v-autocomplete>
     </v-row>
   </v-container>
   <v-container>
@@ -18,23 +25,37 @@
   </NuxtLink>
 </template>
 
-<script setup lang="ts">
-import Testamento from "../fontes/atos/Testamento.vue";
-import ReconhecimentoFirma from "../fontes/atos/ReconhecimentoFirma.vue";
+<script setup>
+import semelhanca from "../fontes/atos/semelhanca.vue";
+import autencidade from "../fontes/atos/autencidade.vue";
+
+const config = useRuntimeConfig();
+const getTiposAtos = `${config.public.managemant}/tipoAtos`;
+
+const usuario_token = useCookie("auth_token").value;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const components = {
-  ReconhecimentoFirma,
-  Testamento,
+  "/fontes/atos/semelhanca": semelhanca,
+  "/fontes/atos/autenticidade": autencidade,
 };
 
-const pages = [
-  { title: "Reconhecimento de Firma", value: "ReconhecimentoFirma" },
-  { title: "Testamento", value: "Testamento" },
-];
-const selectedPage = ref<string>("");
+
+const servicos = ref([]);
+const atos = ref([]);
+const selectedServico = ref("");
+const selectedAto = ref("");
 const selectedComponent = computed(() => {
-  return components[selectedPage.value as keyof typeof components];
+  return components[selectedAto.value];
 });
+
+const { data } = await useFetch(getTiposAtos, {
+  method: "POST",
+  body: { usuario_token: usuario_token, cartorio_token: cartorio_token },
+});
+servicos.value = data.value;
+atos.value = servicos.value[0].atos;
+
 </script>
 
 <style scoped>

@@ -267,7 +267,6 @@ async function onUpdate() {
     method: "PUT",
     body: payloadFormated,
   });
-  console.log(payloadFormated)
   $toast.success("Pessoa atualizada com sucesso!");
   router.push("/pessoas/registros");
 }
