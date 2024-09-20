@@ -5,7 +5,7 @@
       <div style="width: 600px; margin-top: 10px;">
         <v-autocomplete label="Tabelião/escrivão"></v-autocomplete>
       </div>
-      <div style="width: 600px; margin-top: 20px;">
+      <div style="width: 100px; margin-top: 20px;">
         <v-text-field label="Quantidade"> </v-text-field>
       </div>
       <v-row>

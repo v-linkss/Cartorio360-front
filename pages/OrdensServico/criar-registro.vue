@@ -1,9 +1,11 @@
 <template>
   <v-container class="mt-5">
-    <v-row
-      style="display: flex; justify-content: space-between; margin-bottom: 30px"
+    <v-row class="mb-5" 
     >
       <h1>Ordens de Serviço</h1>
+      <h1 style="color: red; margin-left: 30px">
+        {{ useCookie("user-service").value.numero }}
+      </h1>
     </v-row>
 
     <v-row>
@@ -126,6 +128,11 @@ async function onSubmit() {
       $toast.error("Erro ao cadastrar ordem,erro no sistema.");
     } else {
       $toast.success("Ordem registrada com sucesso!");
+      const serviceCookie = useCookie("user-service");
+      serviceCookie.value = serviceCookie.value = JSON.stringify({
+        numero: data.value.numero,
+        token: data.value.token,
+      });
     }
   }
 }
