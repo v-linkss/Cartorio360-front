@@ -170,7 +170,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/home">
+    <NuxtLink to="/">
       <img class="btn-pointer" src="../../assets/sair.png" alt="Sair" />
     </NuxtLink>
   </v-container>
@@ -188,28 +188,27 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
-const situacaoItems = ref(["EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+const situacaoItems = ref(["PENDENTE","EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 
 
 const state = reactive({
-  numero: '',
-  data_inicio: '',
-  data_fim: '',
-  data_lavratura_inicio: '',
-  data_lavratura_fim: '',
-  protocolo: '',
-  livro: '',
-  folha: '',
+  numero: null,
+  data_inicio: null,
+  data_fim: null,
+  data_lavratura_inicio: null,
+  data_lavratura_fim: null,
+  protocolo: null,
+  livro: null,
+  folha: null,
   situacao: null,
   usuario_token: null,
-  selo: '',
+  selo: null,
   ato_tipo_token: null,
-  apresentante: '',
+  apresentante: null,
 });
 
 const headers = [
   { title: "Número", value: "numero" },
-  { title: "Data", value: "data" },
   { title: "Situação", value: "situacao" },
   { title: "Apresentante", value: "apresentante" },
   { title: "Usuario", value: "usuario_nome" },
@@ -223,7 +222,7 @@ const headers = [
 function getCurrentDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Meses começam do 0
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); 
   const dd = String(today.getDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
 }
@@ -239,11 +238,32 @@ async function usuariosDataPayload() {
 }
 
 async function searchOrdersService() {
-  // const { data: usuarioData, error } = await useFetch(allUsuarios, {
-  //   method: "GET",
-  // });
-  // usuariosItems.value = usuarioData.value;
-  console.log(state)
+
+  try {
+    const { data: servicosData, error } = await useFetch(allServicos, {
+      method: "POST",
+      body: {
+        cartorio_token: cartorio_token.value,
+        numero: state.numero,
+        data_inicio: state.data_inicio,
+        data_fim: state.data_fim,
+        data_lavratura_inicio: state.data_lavratura_inicio,
+        data_lavratura_fim: state.data_lavratura_fim,
+        protocolo: state.protocolo,
+        livro: state.livro,
+        folha: state.folha,
+        situacao: state.situacao,
+        usuario_token: state.usuario_token,
+        selo: state.selo,
+        ato_tipo_token: state.ato_tipo_token,
+        apresentante: state.apresentante,
+      },
+    });
+
+    servicosItems.value = servicosData.value
+  } catch (error) {
+    console.error("Erro na requisição", error);
+  }
 }
 
 async function tipoAtosDataPayload() {
@@ -263,19 +283,10 @@ async function servicosDataTable() {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
-      // usuario_token: usuario_token,
-      // data_inicio: currentDate,
-      // data_fim: currentDate
     },
   });
-  const formattedOs = servicosData.value.map((os) => {
-    return {
-      ...os,
-      dt_pagto: formatDate(os.dt_pagto),
-      data: formatDate(os.data),
-    };
-  });
-  servicosItems.value = formattedOs;
+
+  servicosItems.value = servicosData.value;
 }
 usuariosDataPayload()
 tipoAtosDataPayload();

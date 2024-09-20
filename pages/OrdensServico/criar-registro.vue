@@ -19,12 +19,21 @@
           autofocus
           v-model="state.apresentante_cpf"
           label="CPF"
+          v-mask="'###.###.###-##'"
+          required
+          :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
+          @blur="v$.apresentante_cpf.$touch"
+          @input="v$.apresentante_cpf.$touch"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-text-field
           v-model="state.apresentante_nome"
           label="Nome Apresentante"
+          required
+          :error-messages="v$.apresentante_nome.$errors.map((e) => e.$message)"
+          @blur="v$.apresentante_nome.$touch"
+          @input="v$.apresentante_nome.$touch"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -55,6 +64,10 @@
 </template>
 
 <script setup>
+import { helpers, required } from "@vuelidate/validators";
+import { cpf } from "~/composables/validaCpf";
+import { useVuelidate } from "@vuelidate/core";
+
 const { $toast } = useNuxtApp();
 const route = useRoute();
 const { id } = route.params;
@@ -66,11 +79,9 @@ const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
 
 const state = reactive({
-  nacionalidade: "BRASILEIRO",
-  apresentante_nome: "",
-  apresentante_cpf: "",
-  user_id:pessoa_id.value,
-  cartorio_id:cartorio_id.value
+  nacionalidade: "brasileiro",
+  apresentante_nome: null,
+  apresentante_cpf: null,
 });
 
 console.log("#################\n",state)
@@ -79,14 +90,43 @@ const nacionalidade = [
   { title: "ESTRANGEIRO", value: "estrangeiro" },
 ];
 
+const rules = {
+  apresentante_nome: {
+    required: helpers.withMessage("O campo é obrigatorio", required),
+  },
+  apresentante_cpf: {
+    required: helpers.withMessage("O campo é obrigatorio", required),
+    cpf,
+  },
+};
+
+const v$ = useVuelidate(rules, state);
+
+function removeFormatting(value) {
+  if (value) {
+    return value.replace(/[.\-]/g, "");
+  } else {
+    value = null;
+  }
+}
+
 async function onSubmit() {
-  console.log(state)
-    const { data, error,status } = await useFetch(
-   createOs,
-    {
+  if (await v$.value.$validate()) {
+    const payloadFormated = {
+      apresentante_cpf: removeFormatting(state.apresentante_cpf),
+      apresentante_nome: state.apresentante_nome,
+      user_id: pessoa_id.value,
+      cartorio_id: cartorio_id.value,
+    };
+    const { data, error, status } = await useFetch(createOs, {
       method: "POST",
-      body: state,
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
+      $toast.error("Erro ao cadastrar ordem,erro no sistema.");
+    } else {
+      $toast.success("Ordem registrada com sucesso!");
     }
-  );
+  }
 }
 </script>
