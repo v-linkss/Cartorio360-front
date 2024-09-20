@@ -147,7 +147,7 @@ const { $toast } = useNuxtApp();
 const config = useRuntimeConfig();
 const createPessoa = `${config.public.managemant}/createPessoa`
 const updatePessoa = `${config.public.managemant}/updatePessoa`
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
+const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
 const cidade = `${config.public.managemant}/listarCidades`
 
@@ -176,6 +176,8 @@ const pessoaId = useCookie("pessoa-id");
 const state = reactive({
   ...initialState,
 });
+const userCookie = useCookie("user-data");
+const token = userCookie.value?.token; 
 
 function removeFormatting(value) {
   if (value) {
@@ -193,11 +195,17 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems] =
     await Promise.all([
-      $fetch(estadoCivil),
+      $fetch(estadoCivil,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }),
       $fetch(capacidadeCivil),
       $fetch(cidade)
     ]);
 
+    console.log("estadoCivil",estadoCivil)
+    console.log("estadoCivilItems",estadoCivilItems)
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
 });
 

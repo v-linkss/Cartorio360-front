@@ -73,6 +73,7 @@ const state = reactive({
   cartorio_id:cartorio_id.value
 });
 
+console.log("#################\n",state)
 const nacionalidade = [
   { title: "BRASILEIRO", value: "brasileiro" },
   { title: "ESTRANGEIRO", value: "estrangeiro" },
