@@ -70,8 +70,6 @@ import { cpf } from "~/composables/validaCpf";
 import { useVuelidate } from "@vuelidate/core";
 
 const { $toast } = useNuxtApp();
-const route = useRoute();
-const { id } = route.params;
 
 const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;

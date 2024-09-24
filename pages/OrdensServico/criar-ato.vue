@@ -25,11 +25,6 @@
   <v-container>
     <component :is="selectedComponent" />
   </v-container>
-  <div>
-    <NuxtLink to="/OrdensServico/criar-registro">
-      <img class="btn-pointer mt-10" src="../../assets/sair.png" alt="Sair" />
-    </NuxtLink>
-  </div>
 </template>
 
 <script setup>
