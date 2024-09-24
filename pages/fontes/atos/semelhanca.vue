@@ -1,13 +1,3 @@
 <template>
-  <div>
-    <h1>test</h1>
-  </div>
+  <h1>Semelhança</h1>
 </template>
-
-<script setup>
-
-</script>
-
-<style lang="scss" scoped>
-
-</style>

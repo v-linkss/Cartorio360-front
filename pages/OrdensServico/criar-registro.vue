@@ -2,9 +2,9 @@
   <v-container class="mt-5">
     <v-row class="mb-5" 
     >
-      <h1>Ordens de Serviço</h1>
+      <h1>Ordem de Serviço nº</h1>
       <h1 style="color: red; margin-left: 30px">
-        {{ useCookie("user-service").value.numero }}
+        {{ useCookie("user-service").value?.numero }}
       </h1>
     </v-row>
 
@@ -48,7 +48,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row style="display: flex; margin-bottom: 10px; gap: 2rem">
+    <v-row v-if="showCreateAtos" style="display: flex; margin-bottom: 10px; gap: 2rem">
       <h1 class="ml-5">Atos</h1>
       <NuxtLink to="/OrdensServico/criar-ato">
         <img
@@ -79,6 +79,7 @@ const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
+let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let isValidatingCpf = false;
 
 const state = reactive({
@@ -128,6 +129,7 @@ async function onSubmit() {
       $toast.error("Erro ao cadastrar ordem,erro no sistema.");
     } else {
       $toast.success("Ordem registrada com sucesso!");
+      showCreateAtos.value = true
       const serviceCookie = useCookie("user-service");
       serviceCookie.value = serviceCookie.value = JSON.stringify({
         numero: data.value.numero,
