@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>autencidade</h1>
+    <h1>Autencidade</h1>
     <div>
       <NuxtLink to="/OrdensServico/criar-registro">
         <img
@@ -12,4 +12,11 @@
     </div>
   </div>
 </template>
-
+<script setup>
+// defineProps({
+//   token: {
+//     type: String,
+//     required: true,
+//   },
+// });
+</script>
