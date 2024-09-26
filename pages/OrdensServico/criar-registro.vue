@@ -37,7 +37,7 @@
           @input="v$.apresentante_nome.$touch"
         ></v-text-field>
       </v-col>
-      <v-col>
+      <v-col v-if="showCreateOrdemServ">
         <div>
           <img
             style="width: 40px; height: 40px; cursor: pointer"
@@ -59,7 +59,7 @@
       </NuxtLink>
     </v-row>
     <NuxtLink to="/OrdensServico">
-      <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" />
+      <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" @click="limparDados"/>
     </NuxtLink>
   </v-container>
 </template>
@@ -78,12 +78,13 @@ const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
+let showCreateOrdemServ = ref(useCookie("ordem-button").value)
 let isValidatingCpf = false;
 
 const state = reactive({
   nacionalidade: "brasileiro",
-  apresentante_nome: null,
-  apresentante_cpf: null,
+  apresentante_nome: null ||useCookie("user-service").value?.apresentante_nome ,
+  apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
 });
 
 const nacionalidade = [
@@ -111,6 +112,14 @@ function removeFormatting(value) {
   }
 }
 
+function limparDados() {
+  const serviceCookie = useCookie("user-service");
+  const isTrueOrdemServ = useCookie("ordem-button")
+  serviceCookie.value = null;
+  isTrueOrdemServ.value = null
+  
+}
+
 async function onSubmit() {
   if (await v$.value.$validate()) {
     const payloadFormated = {
@@ -127,10 +136,18 @@ async function onSubmit() {
       $toast.error("Erro ao cadastrar ordem,erro no sistema.");
     } else {
       $toast.success("Ordem registrada com sucesso!");
+      
       showCreateAtos.value = true
+      showCreateOrdemServ.value = false
+
+      const isTrueOrdemServ = useCookie("ordem-button")
+      isTrueOrdemServ.value = showCreateOrdemServ.value;
+
       const serviceCookie = useCookie("user-service");
       serviceCookie.value = serviceCookie.value = JSON.stringify({
         numero: data.value.numero,
+        apresentante_cpf: data.value.apresentante_cpf,
+        apresentante_nome: data.value.apresentante_nome,
         token: data.value.token,
       });
     }

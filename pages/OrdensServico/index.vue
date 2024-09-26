@@ -7,6 +7,7 @@
           style="width: 60px; height: 60px; cursor: pointer;margin-left: 70px;"
           src="../../assets/novo.png"
           alt="novo"
+          @click="showCreateOrdem"
         />
       </NuxtLink>
     </v-row>
@@ -294,5 +295,12 @@ servicosDataTable();
 
 async function deleteEndereco(item) {
   console.log("excluido");
+}
+
+const showCreateOrdemServ = ref(null)
+const showCreateOrdem = () =>{
+  const isTrueOrdemServ = useCookie("ordem-button")
+  showCreateOrdemServ.value = true
+  isTrueOrdemServ.value = showCreateOrdemServ.value;
 }
 </script>

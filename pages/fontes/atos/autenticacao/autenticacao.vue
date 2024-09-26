@@ -93,11 +93,9 @@ const etiquetaAutentica = async (ato_token) => {
     const newWindow = window.open("", "_blank");
     newWindow.document.open();
     newWindow.document.write(data.value.etiqueta);
-    console.log(data.value.etiqueta)
     newWindow.document.close();
   }
 };
-
 </script>
 
 <style scoped>
