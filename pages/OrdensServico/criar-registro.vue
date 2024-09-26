@@ -145,9 +145,11 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "Protocolo", value: "numero" },
-  { title: "Usuario", value: "situacao" },
-  { title: "Situação", value: "apresentante" },
+  { title: "Protocolo", value: "protocolo" },
+  { title: "Usuario", value: "usuario_nome" },
+  { title: "Situação", value: "situacao" },
+  { title: "Valor", value: "valor" },
+  { title: "Tipo", value: "tipo" },
   {
     value: "actions",
   },
@@ -253,8 +255,8 @@ async function validarCpf(cpf) {
 }
 
 const { data } = await useFetch(atosPayload, {
-      method: "POST",
-      body:{cartorio_token:cartorio_token,ordemserv_token:ordemserv_token},
-    });
-data.value = atosItems.value    
+  method: "POST",
+  body: {cartorio_token: cartorio_token,ordemserv_token: ordemserv_token},
+});
+atosItems.value = data.value
 </script>
