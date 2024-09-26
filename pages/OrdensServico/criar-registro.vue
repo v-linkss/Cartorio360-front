@@ -57,6 +57,57 @@
           alt="novo"
         />
       </NuxtLink>
+      <v-data-table :headers="headers" :items="atosItems" item-key="id">
+      <template v-slot:item.actions="{ item }">
+        <v-row style="display: flex; gap: 10px;margin-top: -5px;">
+          <div @click="redirectToUpdate(item.id)" title="Receber">
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../assets/recebe.png"
+              alt="Receber"
+            />
+          </div>
+
+          <div
+            :class="{ disabled: !item.btn_editar }"
+            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+            :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
+          >
+            <img
+              :style="{
+                cursor: item.btn_editar ? 'pointer' : 'default',
+                width: '30px',
+                height: '30px',
+              }"
+              src="../../assets/editar.png"
+              alt="Editar"
+            />
+          </div>
+
+          <div
+            :disabled="!item.btn_cancelar"
+            @click="item.btn_cancelar ? deleteEndereco(item) : null"
+            title="Excluir"
+          >
+            <img
+              v-if="item.excluido"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../../assets/mudarStatus.png"
+              alt="Excluir"
+              class="trash-icon"
+              style="width: 30px; height: 30px; cursor: pointer"
+              title="Excluir"
+            />
+          </div>
+        </v-row>
+      </template>
+    </v-data-table>
     </v-row>
     <NuxtLink to="/OrdensServico">
       <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" @click="limparDados"/>
@@ -74,18 +125,33 @@ const { $toast } = useNuxtApp();
 const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;
 const routeValidaCpf = `${config.public.managemant}/validarCpf`;
+const atosPayload = `${config.public.managemant}/listarAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
+const ordemserv_token = ref(useCookie("user-service").value?.token).value
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
+
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value)
+
 let isValidatingCpf = false;
+const atosItems = ref([])
 
 const state = reactive({
   nacionalidade: "brasileiro",
   apresentante_nome: null ||useCookie("user-service").value?.apresentante_nome ,
   apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
 });
+
+const headers = [
+  { title: "Protocolo", value: "numero" },
+  { title: "Usuario", value: "situacao" },
+  { title: "Situação", value: "apresentante" },
+  {
+    value: "actions",
+  },
+];
 
 const nacionalidade = [
   { title: "BRASILEIRO", value: "brasileiro" },
@@ -136,7 +202,7 @@ async function onSubmit() {
       $toast.error("Erro ao cadastrar ordem,erro no sistema.");
     } else {
       $toast.success("Ordem registrada com sucesso!");
-      
+
       showCreateAtos.value = true
       showCreateOrdemServ.value = false
 
@@ -185,4 +251,10 @@ async function validarCpf(cpf) {
     }
   }
 }
+
+const { data } = await useFetch(atosPayload, {
+      method: "POST",
+      body:{cartorio_token:cartorio_token,ordemserv_token:ordemserv_token},
+    });
+data.value = atosItems.value    
 </script>
