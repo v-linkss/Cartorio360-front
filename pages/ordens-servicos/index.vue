@@ -180,8 +180,8 @@ const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 
-const usuario_token = ref(useCookie("auth_token").value)||null;
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token)||null;
+const usuario_token = ref(useCookie("auth_token").value) || null;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
@@ -281,11 +281,16 @@ async function servicosDataTable() {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
-      usuario_token: usuario_token.value
+      usuario_token: usuario_token.value,
+      data_fim: currentDate,
+      data_inicio: currentDate,
     },
   });
-
-  servicosItems.value = servicosData.value;
+  if (servicosData.value.length > 0) {
+    servicosItems.value = servicosData.value;
+  } else {
+    servicosItems.value = [];
+  }
 }
 usuariosDataPayload();
 tipoAtosDataPayload();
