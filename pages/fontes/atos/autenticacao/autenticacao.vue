@@ -4,19 +4,23 @@
       <div style="width: 600px; margin-top: 10px">
         <v-autocomplete
           label="Tabelião/escrivão"
-          v-model="escrevente"
+          v-model="state.escrevente"
           :items="escreventesItems"
           item-title="nome"
           item-value="token"
+          required
+          :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
+          @blur="v$.escrevente.$touch"
+          @input="v$.escrevente.$touch"
         ></v-autocomplete>
       </div>
       <div style="width: 180px; margin-top: 20px">
-        <v-text-field type="number" label="Quantidade" v-model="quantidade">
+        <v-text-field type="number" label="Quantidade" v-model="state.quantidade">
         </v-text-field>
       </div>
       <v-row>
         <div>
-          <NuxtLink to="/OrdensServico/criar-registro">
+          <NuxtLink to="/ordens-servicos/criar-registro">
             <img
               class="btn-pointer mt-10 mb-5"
               src="../../../../assets/sair.png"
@@ -36,6 +40,8 @@
 </template>
 
 <script setup>
+import { useVuelidate } from "@vuelidate/core";
+import { helpers, required } from "@vuelidate/validators";
 
 // defineProps({
 //   token: {
@@ -53,9 +59,11 @@ const usuario_token = useCookie("auth_token").value;
 const autenticaAtos = `${config.public.managemant}/atoAutentica`;
 const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
 
-const escrevente = ref(null)
+const state = reactive({
+  escrevente:null,
+  quantidade:1
+})
 const escreventesItems = ref([]);
-const quantidade = ref(1);
 
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
@@ -63,20 +71,29 @@ const { data } = await useFetch(allEscreventes, {
 });
 escreventesItems.value = data.value[0].func_json_escreventes;
 
-const atoAutentica = async () => {
-  const { data:ato_token,status } = await useFetch(autenticaAtos, {
-    method: "POST",
-    body: {
-      usuario_token: usuario_token,
-      cartorio_token: cartorio_token,
-      quantidade: Number(quantidade.value),
-      ordemserv_token: ordemserv_token,
-      ato_tipo_token:"bFsdV"
-    },
-  });
-  if(status.value === 'success'){
+const rules = {
+  escrevente: {
+    required: helpers.withMessage("O campo é obrigatorio", required),
+  },
+};
 
-    etiquetaAutentica(ato_token.value.token)
+const v$ = useVuelidate(rules, state);
+
+const atoAutentica = async () => {
+  if (await v$.value.$validate()) {
+    const { data:ato_token,status } = await useFetch(autenticaAtos, {
+      method: "POST",
+      body: {
+        usuario_token: usuario_token,
+        cartorio_token: cartorio_token,
+        quantidade: Number(state.quantidade),
+        ordemserv_token: ordemserv_token,
+        ato_tipo_token:"bFsdV"
+      },
+    });
+    if(status.value === 'success'){
+      etiquetaAutentica(ato_token.value.token)
+    }
   }
 };
 
@@ -84,7 +101,7 @@ const etiquetaAutentica = async (ato_token) => {
   const { data,status} = await useFetch(autenticaEtiquetas, {
     method: "POST",
     body: {
-      escrevente_token: escrevente.value,
+      escrevente_token: state.escrevente,
       cartorio_token: cartorio_token,
       ato_token:ato_token
     },

@@ -50,7 +50,7 @@
     </v-row>
     <v-row v-if="showCreateAtos" style="display: flex; margin-bottom: 10px; gap: 2rem">
       <h1 class="ml-5">Atos</h1>
-      <NuxtLink to="/OrdensServico/criar-ato">
+      <NuxtLink to="/ordens-servicos/criar-ato">
         <img
           style="width: 45px; height: 45px; cursor: pointer"
           src="../../assets/novo.png"
@@ -109,7 +109,7 @@
       </template>
     </v-data-table>
     </v-row>
-    <NuxtLink to="/OrdensServico">
+    <NuxtLink to="/ordens-servicos">
       <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" @click="limparDados"/>
     </NuxtLink>
   </v-container>
@@ -129,7 +129,7 @@ const atosPayload = `${config.public.managemant}/listarAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
-const ordemserv_token = ref(useCookie("user-service").value?.token).value
+const ordemserv_token = ref(useCookie("user-service").value?.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
@@ -256,7 +256,16 @@ async function validarCpf(cpf) {
 
 const { data } = await useFetch(atosPayload, {
   method: "POST",
-  body: {cartorio_token: cartorio_token,ordemserv_token: ordemserv_token},
+  body: {
+    cartorio_token: cartorio_token,
+    ordemserv_token: ordemserv_token,
+  },
 });
-atosItems.value = data.value
+
+if (data.value.length > 0) {
+  atosItems.value = data.value
+} else {
+  atosItems.value = [];
+}
+
 </script>

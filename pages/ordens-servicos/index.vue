@@ -2,9 +2,9 @@
   <v-container class="mt-5">
     <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
-      <NuxtLink to="./OrdensServico/criar-registro">
+      <NuxtLink to="/ordens-servicos/criar-registro">
         <img
-          style="width: 60px; height: 60px; cursor: pointer;margin-left: 70px;"
+          style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px"
           src="../../assets/novo.png"
           alt="novo"
           @click="showCreateOrdem"
@@ -122,11 +122,11 @@
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px;margin-top: -5px;">
+        <v-row style="display: flex; gap: 10px; margin-top: -5px">
           <div @click="redirectToUpdate(item.id)" title="Receber">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/recebe.png"
+              src="../../assets/selo.png"
               alt="Receber"
             />
           </div>
@@ -171,38 +171,33 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/">
-      <img class="btn-pointer" src="../../assets/sair.png" alt="Sair" />
-    </NuxtLink>
   </v-container>
 </template>
 
 <script setup>
-
 const config = useRuntimeConfig();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 
-const usuario_token = ref(useCookie("auth_token").value);
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const usuario_token = ref(useCookie("auth_token").value)||null;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token)||null;
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
-const situacaoItems = ref(["PENDENTE","EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
-
+const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 
 const state = reactive({
   numero: null,
-  data_inicio: null,
-  data_fim: null,
+  data_inicio: null || getCurrentDate(),
+  data_fim: null || getCurrentDate(),
   data_lavratura_inicio: null,
   data_lavratura_fim: null,
   protocolo: null,
   livro: null,
   folha: null,
   situacao: null,
-  usuario_token: null,
+  usuario_token: null || usuario_token.value,
   selo: null,
   ato_tipo_token: null,
   apresentante: null,
@@ -223,23 +218,22 @@ const headers = [
 function getCurrentDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); 
-  const dd = String(today.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
+  const MM = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  return `${yyyy}-${MM}-${dd}`;
 }
 
 async function usuariosDataPayload() {
   const { data: usuarioData, error } = await useFetch(allUsuarios, {
     method: "POST",
-    body:{
-      cartorio_token:cartorio_token.value
-    }
+    body: {
+      cartorio_token: cartorio_token.value,
+    },
   });
   usuariosItems.value = usuarioData.value;
 }
 
 async function searchOrdersService() {
-
   try {
     const { data: servicosData, error } = await useFetch(allServicos, {
       method: "POST",
@@ -260,8 +254,11 @@ async function searchOrdersService() {
         apresentante: state.apresentante,
       },
     });
-
-    servicosItems.value = servicosData.value
+    if (servicosData.value.length > 0) {
+      servicosItems.value = servicosData.value;
+    } else {
+      servicosItems.value = [];
+    }
   } catch (error) {
     console.error("Erro na requisição", error);
   }
@@ -284,12 +281,13 @@ async function servicosDataTable() {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
+      usuario_token: usuario_token.value
     },
   });
 
   servicosItems.value = servicosData.value;
 }
-usuariosDataPayload()
+usuariosDataPayload();
 tipoAtosDataPayload();
 servicosDataTable();
 
@@ -297,10 +295,10 @@ async function deleteEndereco(item) {
   console.log("excluido");
 }
 
-const showCreateOrdemServ = ref(null)
-const showCreateOrdem = () =>{
-  const isTrueOrdemServ = useCookie("ordem-button")
-  showCreateOrdemServ.value = true
+const showCreateOrdemServ = ref(null);
+const showCreateOrdem = () => {
+  const isTrueOrdemServ = useCookie("ordem-button");
+  showCreateOrdemServ.value = true;
   isTrueOrdemServ.value = showCreateOrdemServ.value;
-}
+};
 </script>

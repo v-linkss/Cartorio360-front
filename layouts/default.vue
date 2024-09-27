@@ -21,7 +21,7 @@
         </template>
         <v-list>
           <v-list-item >
-            <NuxtLink style="text-decoration: none; color: inherit;" to="/OrdensServico"> Ordens de Serviços </NuxtLink>
+            <NuxtLink style="text-decoration: none; color: inherit;" to="/ordens-servicos"> Ordens de Serviços </NuxtLink>
           </v-list-item>
         </v-list>
       </v-menu>

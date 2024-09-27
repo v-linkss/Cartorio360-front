@@ -101,12 +101,8 @@
       <v-col cols="12" md="4">
         <v-text-field
           v-model.date="state.cpf_mae"
-          :error-messages="v$.cpf_mae.$errors.map((e) => e.$message)"
           label="CPF da Mãe"
           v-mask="'###.###.###-##'"
-          required
-          @blur="v$.cpf_mae.$touch"
-          @input="v$.cpf_mae.$touch"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="4">
@@ -208,10 +204,6 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
   doc_identificacao: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
-    cpf,
-  },
-  cpf_mae: {
     required: helpers.withMessage("O campo é obrigatorio", required),
     cpf,
   },
