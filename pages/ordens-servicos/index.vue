@@ -302,7 +302,9 @@ async function deleteEndereco(item) {
 
 const showCreateOrdemServ = ref(null);
 const showCreateOrdem = () => {
+  const serviceCookie = useCookie("user-service");
   const isTrueOrdemServ = useCookie("ordem-button");
+  serviceCookie.value = null;
   showCreateOrdemServ.value = true;
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
