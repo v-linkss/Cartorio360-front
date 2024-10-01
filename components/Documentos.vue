@@ -181,7 +181,7 @@ const allDoc = `${config.public.managemant}/getPessoaDocById`
 const createDoc = `${config.public.managemant}/createPessoaDoc`
 const updateDoc = `${config.public.managemant}/updatePessoaDoc`
 
-const isModalOpen = ref(false); // Controla a visibilidade do modal
+const isModalOpen = ref(false); 
 const selectedDoc = ref(null);
 const user_id = ref(useCookie("user-data").value.usuario_id).value
 const pessoa_id = Number(useCookie("pessoa-id").value || id);

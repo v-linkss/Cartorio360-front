@@ -180,6 +180,8 @@ const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 
+const router = useRouter();
+
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 const servicosItems = ref([]);
@@ -206,7 +208,8 @@ const state = reactive({
 const headers = [
   { title: "Número", value: "numero" },
   { title: "Situação", value: "situacao" },
-  { title: "Apresentante", value: "apresentante" },
+  { title: "CPF", value:"apresentante_cpf" },
+  { title: "Apresentante", value:"apresentante_nome" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Data Recebimento", value: "dt_pagto" },
 
@@ -288,6 +291,7 @@ async function servicosDataTable() {
   });
   if (servicosData.value.length > 0) {
     servicosItems.value = servicosData.value;
+    console.log(servicosData.value)
   } else {
     servicosItems.value = [];
   }
@@ -298,6 +302,15 @@ servicosDataTable();
 
 async function deleteEndereco(item) {
   console.log("excluido");
+}
+
+function redirectToUpdate(id) {
+  const serviceCookie = useCookie("user-service");
+  const servico = servicosItems.value.find(
+    (item) => item.id === id
+  );
+  serviceCookie.value = servico.token
+  router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 
 const showCreateOrdemServ = ref(null);

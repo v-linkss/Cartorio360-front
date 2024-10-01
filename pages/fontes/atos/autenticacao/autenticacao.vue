@@ -55,7 +55,7 @@ const config = useRuntimeConfig();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
-const ordemserv_token = ref(useCookie("user-service").value.token).value;
+const ordemserv_token = ref(useCookie("user-service").value.token).value || ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
 const autenticaAtos = `${config.public.managemant}/atoAutentica`;
 const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
@@ -91,7 +91,7 @@ const atoAutentica = async () => {
         usuario_token: usuario_token,
         cartorio_token: cartorio_token,
         quantidade: Number(state.quantidade),
-        // ordemserv_token: ordemserv_token,
+        ordemserv_token: ordemserv_token,
         ato_tipo_token:"bFsdV"
       },
     });

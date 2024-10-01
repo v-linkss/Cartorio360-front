@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="!pending" class="mt-5">
-    <NuxtLink to="/pessoas">
+    <NuxtLink to="/pessoas/cadastro">
       <img class="btn-pointer" src="../../../assets/novo.png" alt="Cadastro" />
     </NuxtLink>
     <v-row style="gap: 10rem">
