@@ -36,6 +36,7 @@
         />
       </v-row>
     </v-container>
+    <ErrorModalCard :show="errorModalVisible" :errorMessage="errorMessage" @close="errorModalVisible = false"/>
   </v-card>
 </template>
 
@@ -59,6 +60,9 @@ const usuario_token = useCookie("auth_token").value;
 const autenticaAtos = `${config.public.managemant}/atoAutentica`;
 const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
 
+const errorModalVisible = ref(false);  // Controle de visibilidade do modal
+const errorMessage = ref('');  
+
 const state = reactive({
   escrevente:null,
   quantidade:1
@@ -81,18 +85,22 @@ const v$ = useVuelidate(rules, state);
 
 const atoAutentica = async () => {
   if (await v$.value.$validate()) {
-    const { data:ato_token,status } = await useFetch(autenticaAtos, {
+    const { data:ato_token,status,error } = await useFetch(autenticaAtos, {
       method: "POST",
       body: {
         usuario_token: usuario_token,
         cartorio_token: cartorio_token,
         quantidade: Number(state.quantidade),
-        ordemserv_token: ordemserv_token,
+        // ordemserv_token: ordemserv_token,
         ato_tipo_token:"bFsdV"
       },
     });
     if(status.value === 'success'){
       etiquetaAutentica(ato_token.value.token)
+    } else {
+      errorModalVisible.value = true;
+      errorMessage.value = error.value.data.details
+      console.log(ato_token)
     }
   }
 };

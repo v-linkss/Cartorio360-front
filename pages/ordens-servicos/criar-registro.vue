@@ -1,7 +1,6 @@
 <template>
   <v-container class="mt-5">
-    <v-row class="mb-5" 
-    >
+    <v-row class="mb-5">
       <h1>Ordem de Serviço nº</h1>
       <h1 style="color: red; margin-left: 30px">
         {{ useCookie("user-service").value?.numero }}
@@ -18,6 +17,7 @@
       </v-col>
       <v-col md="2">
         <v-text-field
+          v-if="state.nacionalidade === 'brasileiro'"
           autofocus
           v-model="state.apresentante_cpf"
           label="CPF"
@@ -26,6 +26,15 @@
           :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
           @blur="v$.apresentante_cpf.$touch"
           @input="validarCpf(state.apresentante_cpf)"
+        ></v-text-field>
+        <v-text-field
+          v-else
+          autofocus
+          v-model="state.apresentante_cpf"
+          label="Documento"
+          required
+          :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
+          @blur="v$.apresentante_cpf.$touch"
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -48,7 +57,10 @@
         </div>
       </v-col>
     </v-row>
-    <v-row v-if="showCreateAtos" style="display: flex; margin-bottom: 10px; gap: 2rem">
+    <v-row
+      v-if="showCreateAtos"
+      style="display: flex; margin-bottom: 10px; gap: 2rem"
+    >
       <h1 class="ml-5">Atos</h1>
       <NuxtLink to="/ordens-servicos/criar-ato">
         <img
@@ -58,66 +70,70 @@
         />
       </NuxtLink>
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
-      <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px;margin-top: -5px;">
-          <div @click="redirectToUpdate(item.id)" title="Receber">
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/recebe.png"
-              alt="Receber"
-            />
-          </div>
+        <template v-slot:item.actions="{ item }">
+          <v-row style="display: flex; gap: 10px; margin-top: -5px">
+            <div @click="redirectToUpdate(item.id)" title="Receber">
+              <img
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../assets/recebe.png"
+                alt="Receber"
+              />
+            </div>
 
-          <div
-            :class="{ disabled: !item.btn_editar }"
-            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
-          >
-            <img
-              :style="{
-                cursor: item.btn_editar ? 'pointer' : 'default',
-                width: '30px',
-                height: '30px',
-              }"
-              src="../../assets/editar.png"
-              alt="Editar"
-            />
-          </div>
+            <div
+              :class="{ disabled: !item.btn_editar }"
+              @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+              :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
+            >
+              <img
+                :style="{
+                  cursor: item.btn_editar ? 'pointer' : 'default',
+                  width: '30px',
+                  height: '30px',
+                }"
+                src="../../assets/editar.png"
+                alt="Editar"
+              />
+            </div>
 
-          <div
-            :disabled="!item.btn_cancelar"
-            @click="item.btn_cancelar ? deleteEndereco(item) : null"
-            title="Excluir"
-          >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px; cursor: pointer"
+            <div
+              :disabled="!item.btn_cancelar"
+              @click="item.btn_cancelar ? deleteEndereco(item) : null"
               title="Excluir"
-            />
-          </div>
-        </v-row>
-      </template>
-    </v-data-table>
+            >
+              <img
+                v-if="item.excluido"
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../assets/excluido.png"
+                alt="Visualizar"
+                title="Reativar"
+              />
+              <img
+                v-else
+                src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px; cursor: pointer"
+                title="Excluir"
+              />
+            </div>
+          </v-row>
+        </template>
+      </v-data-table>
     </v-row>
     <NuxtLink to="/ordens-servicos">
-      <img class="btn-pointer mt-5" src="../../assets/sair.png" alt="Sair" @click="limparDados"/>
+      <img
+        class="btn-pointer mt-5"
+        src="../../assets/sair.png"
+        alt="Sair"
+        @click="limparDados"
+      />
     </NuxtLink>
   </v-container>
 </template>
 
 <script setup>
 import { helpers, required } from "@vuelidate/validators";
-import { cpf } from "~/composables/validaCpf";
 import { useVuelidate } from "@vuelidate/core";
 
 const { $toast } = useNuxtApp();
@@ -129,19 +145,21 @@ const atosPayload = `${config.public.managemant}/listarAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
-const ordemserv_token = ref(useCookie("user-service").value?.token).value || null;
+const ordemserv_token =
+  ref(useCookie("user-service").value?.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
-let showCreateOrdemServ = ref(useCookie("ordem-button").value)
+let showCreateOrdemServ = ref(useCookie("ordem-button").value);
 
 let isValidatingCpf = false;
-const atosItems = ref([])
+const atosItems = ref([]);
 
 const state = reactive({
   nacionalidade: "brasileiro",
-  apresentante_nome: null ||useCookie("user-service").value?.apresentante_nome ,
+  apresentante_nome: null || useCookie("user-service").value?.apresentante_nome,
   apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
+  documento: null,
 });
 
 const headers = [
@@ -166,7 +184,6 @@ const rules = {
   },
   apresentante_cpf: {
     required: helpers.withMessage("O campo é obrigatorio", required),
-    cpf,
   },
 };
 
@@ -182,20 +199,19 @@ function removeFormatting(value) {
 
 function limparDados() {
   const serviceCookie = useCookie("user-service");
-  const isTrueOrdemServ = useCookie("ordem-button")
+  const isTrueOrdemServ = useCookie("ordem-button");
   serviceCookie.value = null;
-  isTrueOrdemServ.value = null
-  
+  isTrueOrdemServ.value = null;
 }
 
 async function onSubmit() {
+  const payloadFormated = {
+    apresentante_cpf: removeFormatting(state.apresentante_cpf),
+    apresentante_nome: state.apresentante_nome,
+    user_id: pessoa_id.value,
+    cartorio_id: cartorio_id.value,
+  };
   if (await v$.value.$validate()) {
-    const payloadFormated = {
-      apresentante_cpf: removeFormatting(state.apresentante_cpf),
-      apresentante_nome: state.apresentante_nome,
-      user_id: pessoa_id.value,
-      cartorio_id: cartorio_id.value,
-    };
     const { data, error, status } = await useFetch(createOs, {
       method: "POST",
       body: payloadFormated,
@@ -263,9 +279,8 @@ const { data } = await useFetch(atosPayload, {
 });
 
 if (data.value.length > 0) {
-  atosItems.value = data.value
+  atosItems.value = data.value;
 } else {
   atosItems.value = [];
 }
-
 </script>
