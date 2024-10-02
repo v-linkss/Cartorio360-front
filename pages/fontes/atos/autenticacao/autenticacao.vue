@@ -20,7 +20,7 @@
       </div>
       <v-row>
         <div>
-          <NuxtLink to="/ordens-servicos/criar-registro">
+          <NuxtLink @click="goBack">
             <img
               class="btn-pointer mt-10 mb-5"
               src="../../../../assets/sair.png"
@@ -50,7 +50,8 @@ import { helpers, required } from "@vuelidate/validators";
 //     required: true,
 //   },
 // });
-
+const router = useRouter();
+const route = useRoute();
 const config = useRuntimeConfig();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 
@@ -119,6 +120,16 @@ const etiquetaAutentica = async (ato_token) => {
     newWindow.document.open();
     newWindow.document.write(data.value.etiqueta);
     newWindow.document.close();
+  }
+};
+
+const goBack = () => {
+  const origem = route.query.origem || 'criar';
+  const id = route.query.id;  
+  if (origem === 'atualizar') {
+    router.push(`/ordens-servicos/atualizar/${id}`); 
+  } else {
+    router.push('/ordens-servicos/criar-registro'); 
   }
 };
 </script>

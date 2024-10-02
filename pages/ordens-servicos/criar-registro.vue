@@ -62,7 +62,7 @@
       style="display: flex; margin-bottom: 10px; gap: 2rem"
     >
       <h1 class="ml-5">Atos</h1>
-      <NuxtLink to="/ordens-servicos/criar-ato">
+      <NuxtLink :to="{ path: '/ordens-servicos/criar-ato', query: { origem: 'criar' } }">
         <img
           style="width: 45px; height: 45px; cursor: pointer"
           src="../../assets/novo.png"
