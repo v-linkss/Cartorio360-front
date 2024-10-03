@@ -72,11 +72,11 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
-            <div @click="redirectToUpdate(item.id)" title="Receber">
+            <div @click="redirectToModalReimprimir()" title="Reimprimir">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
-                src="../../assets/recebe.png"
-                alt="Receber"
+                src="../../assets/selo.png"
+                alt="Reimprimir"
               />
             </div>
 
@@ -120,6 +120,7 @@
           </v-row>
         </template>
       </v-data-table>
+      <ReimpressaoSelos :show="isModalReimprimirOpen"  @close="isModalReimprimirOpen = false"/>
     </v-row>
     <NuxtLink to="/ordens-servicos">
       <img
@@ -153,6 +154,7 @@ let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value);
 
 let isValidatingCpf = false;
+const isModalReimprimirOpen = ref(false)
 const atosItems = ref([]);
 
 const state = reactive({
@@ -202,6 +204,10 @@ function limparDados() {
   const isTrueOrdemServ = useCookie("ordem-button");
   serviceCookie.value = null;
   isTrueOrdemServ.value = null;
+}
+
+const redirectToModalReimprimir = () =>{
+    isModalReimprimirOpen.value = true
 }
 
 async function onSubmit() {
