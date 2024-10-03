@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "pm2": "pm2 start .output/server/index.mjs --name 'nuxt-app'",
-    "pm2-stop": "pm2 stop nuxt-app",
+    "pm2": "pm2 start .output/server/index.mjs --name 'cartorio360-front-produção' --watch -- 3000",
+    "pm2-stop": "pm2 stop cartorio360-front-produção",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",

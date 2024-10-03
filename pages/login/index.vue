@@ -123,6 +123,7 @@ const closeAlert = () => {
 };
 const config = useRuntimeConfig();
 const auth = config.public.auth;
+console.log(auth)
 
 const login = async () => {
   const {

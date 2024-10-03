@@ -44,9 +44,9 @@ export default defineNuxtConfig({
     public: {
       // auth: "http://localhost:3333",
       // managemant: "http://localhost:3200",
-      biometria:"http://localhost:5000/apiservice",
-      auth: 'http://45.55.192.246:3746',
-      managemant: 'http://45.55.192.246:5982',
+      biometria:process.env.MS_MANAGEMENT,
+      auth: process.env.MS_AUTH,
+      managemant: process.env.BIOMETRIA,
     },
   },
   css: ["~/assets/css/main.css"],
