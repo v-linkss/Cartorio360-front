@@ -156,7 +156,6 @@ const initialState = {
   doc_identificacao: "",
   cpf_pai: "",
   cpf_mae: "",
-  local_trabalho: "",
   tipo_pessoa: "FISICA",
   tabvalores_estadocivil_id: "",
   tabvalores_capacidadecivil_id: "",
