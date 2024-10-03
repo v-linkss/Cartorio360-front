@@ -42,7 +42,11 @@ export default defineNuxtConfig({
   // },
   runtimeConfig: {
     public: {
+<<<<<<< HEAD
       // auth: "http://localhost:3746",
+=======
+      // auth: "http://localhost:3333",
+>>>>>>> c84a781f429f8b2526204c711cded6694b3a0ac5
       // managemant: "http://localhost:3200",
       biometria:process.env.BIOMETRIA,
       auth: process.env.MS_AUTH,

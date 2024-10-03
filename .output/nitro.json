@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "date": "2024-10-03T14:16:45.583Z",
+=======
+  "date": "2024-10-03T19:15:58.571Z",
+>>>>>>> c84a781f429f8b2526204c711cded6694b3a0ac5
   "preset": "node-server",
   "framework": {
     "name": "nuxt",

@@ -191,7 +191,6 @@ const initialState = {
   nome_pai: "",
   nome_mae: "",
   profissao: "",
-  local_trabalho: "",
   data_nascimento: "",
   doc_identificacao: "",
   cpf_pai: "",
