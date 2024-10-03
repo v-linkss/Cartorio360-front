@@ -69,10 +69,10 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
-            <div @click="redirectToUpdate(item.id)" title="Receber">
+            <div @click="redirectToModalReimprimir()" title="Receber">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/recebe.png"
+                src="../../../assets/selo.png"
                 alt="Receber"
               />
             </div>
@@ -117,6 +117,7 @@
           </v-row>
         </template>
       </v-data-table>
+      <ReimpressaoSelos :show="isModalReimprimirOpen"  @close="isModalReimprimirOpen = false"/>
     </v-row>
     <NuxtLink to="/ordens-servicos">
       <img class="btn-pointer mt-5" src="../../../assets/sair.png" alt="Sair" />
@@ -145,6 +146,7 @@ const ordemserv_token = ref(useCookie("user-service").value).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const atosItems = ref([]);
+const isModalReimprimirOpen = ref(false)
 const numeroOs = ref(null);
 
 const state = reactive({
@@ -187,6 +189,10 @@ function removeFormatting(value) {
   } else {
     value = null;
   }
+}
+
+const redirectToModalReimprimir = () =>{
+    isModalReimprimirOpen.value = true
 }
 
 async function onUpdate() {
