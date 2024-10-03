@@ -69,14 +69,13 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
-            <div @click="redirectToModalReimprimir()" title="Receber">
+            <div @click="redirectToModalReimprimir(item.token)" title="Receber">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../../assets/selo.png"
                 alt="Receber"
               />
             </div>
-
             <div
               :class="{ disabled: !item.btn_editar }"
               @click="item.btn_editar ? redirectToUpdate(item.id) : null"
@@ -117,7 +116,7 @@
           </v-row>
         </template>
       </v-data-table>
-      <ReimpressaoSelos :show="isModalReimprimirOpen"  @close="isModalReimprimirOpen = false"/>
+      <ReimpressaoSelos :show="isModalReimprimirOpen" :ato_token="ato_token"  @close="isModalReimprimirOpen = false"/>
     </v-row>
     <NuxtLink to="/ordens-servicos">
       <img class="btn-pointer mt-5" src="../../../assets/sair.png" alt="Sair" />
@@ -147,6 +146,7 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const atosItems = ref([]);
 const isModalReimprimirOpen = ref(false)
+const ato_token = ref(null)
 const numeroOs = ref(null);
 
 const state = reactive({
@@ -191,7 +191,8 @@ function removeFormatting(value) {
   }
 }
 
-const redirectToModalReimprimir = () =>{
+const redirectToModalReimprimir = (token) =>{
+    ato_token.value = token
     isModalReimprimirOpen.value = true
 }
 

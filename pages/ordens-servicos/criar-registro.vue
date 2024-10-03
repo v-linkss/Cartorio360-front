@@ -79,7 +79,6 @@
                 alt="Reimprimir"
               />
             </div>
-
             <div
               :class="{ disabled: !item.btn_editar }"
               @click="item.btn_editar ? redirectToUpdate(item.id) : null"

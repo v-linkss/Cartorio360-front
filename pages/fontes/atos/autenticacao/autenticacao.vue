@@ -101,7 +101,6 @@ const atoAutentica = async () => {
     } else {
       errorModalVisible.value = true;
       errorMessage.value = error.value.data.details
-      console.log(ato_token)
     }
   }
 };
