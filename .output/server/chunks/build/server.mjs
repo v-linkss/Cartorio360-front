@@ -667,7 +667,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CiCj1lyT.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-BIz6v72R.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-semelhanca",
@@ -683,22 +683,22 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-COJqt7s1.mjs').then((m) => m.default || m)
+    component: () => import('./index-Bk5tBhjr.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-CTRxxZw2.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-xsDbTjWz.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-B8M8pvle.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-D1ZjapR-.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-Dr53cwuh.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-oqErFYec.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
@@ -708,22 +708,22 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-tzbSf_oq.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-Z7o6qOAC.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-BpsqXEHl.mjs').then((m) => m.default || m)
+    component: () => import('./index-DG8sUExQ.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-NnjdLlJN.mjs').then((m) => m.default || m)
+    component: () => import('./index-DL1xxvp5.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-BlfzPCGg.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-idoXmpah.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -16392,7 +16392,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-D7RgwRaW.mjs').then((m) => m.default || m)
+  default: () => import('./default-BcZ7Lc0K.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
