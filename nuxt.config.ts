@@ -44,7 +44,7 @@ export default defineNuxtConfig({
     public: {
       // auth: "http://localhost:3333",
       // managemant: "http://localhost:3200",
-      biometria:"http://0.0.0.0:5000/apiservice/capture-hash",
+      biometria:"http://10.0.0.104:5000/apiservice/capture-finger",
       auth: process.env.MS_AUTH,
       managemant: process.env.MS_MANAGEMENT,
     },

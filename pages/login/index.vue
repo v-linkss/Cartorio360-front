@@ -123,7 +123,6 @@ const closeAlert = () => {
 };
 const config = useRuntimeConfig();
 const auth = config.public.auth;
-console.log(auth)
 
 const login = async () => {
   const {
@@ -172,6 +171,7 @@ const login = async () => {
       default:
         if (errorData.error === "Erro ao autenticar usuário") {
           showError.value = true;
+ 
         }
         break;
     }
