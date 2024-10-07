@@ -149,7 +149,9 @@
 
           <div
             :disabled="!item.btn_cancelar"
-            @click="item.btn_cancelar ? deleteEndereco(item) : null"
+            @click="
+              item.btn_cancelar ? redirectToCancelamento(item.numero) : null
+            "
             title="Excluir"
           >
             <img
@@ -171,7 +173,16 @@
         </v-row>
       </template>
     </v-data-table>
-    <RecebimentoOrdem :show="isModalRecebimentoOpen" :numero_os="numero_os"  @close="isModalRecebimentoOpen = false"/>
+    <RecebimentoOrdem
+      :show="isModalRecebimentoOpen"
+      :numero_os="numero_os"
+      @close="isModalRecebimentoOpen = false"
+    />
+    <CancelamentoOrdem
+      :show="isModalCancelamentoOpen"
+      :numero_os="numero_os"
+      @close="isModalCancelamentoOpen = false"
+    />
   </v-container>
 </template>
 
@@ -189,7 +200,8 @@ const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
-const isModalRecebimentoOpen = ref(false)
+const isModalRecebimentoOpen = ref(false);
+const isModalCancelamentoOpen = ref(false);
 const showCreateOrdemServ = ref(null);
 const numero_os = ref(null);
 
@@ -212,8 +224,8 @@ const state = reactive({
 const headers = [
   { title: "Número", value: "numero" },
   { title: "Situação", value: "situacao" },
-  { title: "CPF", value:"apresentante_cpf" },
-  { title: "Apresentante", value:"apresentante_nome" },
+  { title: "CPF", value: "apresentante_cpf" },
+  { title: "Apresentante", value: "apresentante_nome" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Data Recebimento", value: "dt_pagto" },
 
@@ -242,6 +254,8 @@ async function usuariosDataPayload() {
 
 async function searchOrdersService() {
   try {
+    sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
+
     const { data: servicosData, error } = await useFetch(allServicos, {
       method: "POST",
       body: {
@@ -282,45 +296,49 @@ async function tipoAtosDataPayload() {
   tipoAtosItems.value = tipoAtosData.value;
 }
 
-async function servicosDataTable() {
-  const currentDate = getCurrentDate();
-  const { data: servicosData, error } = await useFetch(allServicos, {
-    method: "POST",
-    body: {
-      cartorio_token: cartorio_token.value,
-      usuario_token: usuario_token.value,
-      data_fim: currentDate,
-      data_inicio: currentDate,
-    },
-  });
-  if (servicosData.value.length > 0) {
-    servicosItems.value = servicosData.value;
-    console.log(servicosData.value)
-  } else {
-    servicosItems.value = [];
+const servicosDataTable =async()=> {
+  try {
+    const currentDate = getCurrentDate();
+    const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
+    const dadosRestaurados = JSON.parse(pesquisaSalva);
+    const { data: servicosData, error } = await useFetch(allServicos, {
+      method: "POST",
+      body: {
+        cartorio_token: cartorio_token.value,
+        usuario_token: usuario_token.value,
+        data_fim: dadosRestaurados?.data_fim || currentDate,
+        data_inicio: dadosRestaurados?.data_inicio || currentDate,
+      },
+    });
+    if (servicosData.value.length > 0) {
+      servicosItems.value = servicosData.value;
+    } else {
+      servicosItems.value = [];
+    }
+  } catch (error) {
+    console.error("Erro ao buscar serviços", error);
   }
 }
+
 usuariosDataPayload();
 tipoAtosDataPayload();
-servicosDataTable();
 
-async function deleteEndereco(item) {
-  console.log("excluido");
+
+function redirectToCancelamento(numero) {
+  numero_os.value = numero;
+  isModalCancelamentoOpen.value = true;
 }
 
 function redirectToUpdate(id) {
   const serviceCookie = useCookie("user-service");
-  const servico = servicosItems.value.find(
-    (item) => item.id === id
-  );
-  serviceCookie.value = servico.token
+  const servico = servicosItems.value.find((item) => item.id === id);
+  serviceCookie.value = servico.token;
   router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 
 function redirectToRecebimento(numero) {
-  console.log(numero)
-  numero_os.value = numero
-  isModalRecebimentoOpen.value = true
+  numero_os.value = numero;
+  isModalRecebimentoOpen.value = true;
 }
 
 const showCreateOrdem = () => {
@@ -330,4 +348,17 @@ const showCreateOrdem = () => {
   showCreateOrdemServ.value = true;
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
+
+onMounted(() => {
+  nextTick(async () => {
+    const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
+
+    if (pesquisaSalva) {
+      const dadosRestaurados = JSON.parse(pesquisaSalva);
+      Object.assign(state, dadosRestaurados);
+    }
+    
+    await servicosDataTable();
+  });
+});
 </script>
