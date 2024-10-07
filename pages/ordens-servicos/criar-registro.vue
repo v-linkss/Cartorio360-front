@@ -62,7 +62,9 @@
       style="display: flex; margin-bottom: 10px; gap: 2rem"
     >
       <h1 class="ml-5">Atos</h1>
-      <NuxtLink :to="{ path: '/ordens-servicos/criar-ato', query: { origem: 'criar' } }">
+      <NuxtLink
+        :to="{ path: '/ordens-servicos/criar-ato', query: { origem: 'criar' } }"
+      >
         <img
           style="width: 45px; height: 45px; cursor: pointer"
           src="../../assets/novo.png"
@@ -119,7 +121,10 @@
           </v-row>
         </template>
       </v-data-table>
-      <ReimpressaoSelos :show="isModalReimprimirOpen"  @close="isModalReimprimirOpen = false"/>
+      <ReimpressaoSelos
+        :show="isModalReimprimirOpen"
+        @close="isModalReimprimirOpen = false"
+      />
     </v-row>
     <NuxtLink to="/ordens-servicos">
       <img
@@ -153,7 +158,7 @@ let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value);
 
 let isValidatingCpf = false;
-const isModalReimprimirOpen = ref(false)
+const isModalReimprimirOpen = ref(false);
 const atosItems = ref([]);
 
 const state = reactive({
@@ -205,9 +210,9 @@ function limparDados() {
   isTrueOrdemServ.value = null;
 }
 
-const redirectToModalReimprimir = () =>{
-    isModalReimprimirOpen.value = true
-}
+const redirectToModalReimprimir = () => {
+  isModalReimprimirOpen.value = true;
+};
 
 async function onSubmit() {
   const payloadFormated = {
@@ -226,10 +231,10 @@ async function onSubmit() {
     } else {
       $toast.success("Ordem registrada com sucesso!");
 
-      showCreateAtos.value = true
-      showCreateOrdemServ.value = false
+      showCreateAtos.value = true;
+      showCreateOrdemServ.value = false;
 
-      const isTrueOrdemServ = useCookie("ordem-button")
+      const isTrueOrdemServ = useCookie("ordem-button");
       isTrueOrdemServ.value = showCreateOrdemServ.value;
 
       const serviceCookie = useCookie("user-service");

@@ -123,10 +123,10 @@
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
-          <div @click="redirectToUpdate(item.id)" title="Receber">
+          <div @click="redirectToRecebimento(item.numero)" title="Receber">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/selo.png"
+              src="../../assets/recebe.png"
               alt="Receber"
             />
           </div>
@@ -171,6 +171,7 @@
         </v-row>
       </template>
     </v-data-table>
+    <RecebimentoOrdem :show="isModalRecebimentoOpen" :numero_os="numero_os"  @close="isModalRecebimentoOpen = false"/>
   </v-container>
 </template>
 
@@ -188,6 +189,9 @@ const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+const isModalRecebimentoOpen = ref(false)
+const showCreateOrdemServ = ref(null);
+const numero_os = ref(null);
 
 const state = reactive({
   numero: null,
@@ -313,7 +317,12 @@ function redirectToUpdate(id) {
   router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 
-const showCreateOrdemServ = ref(null);
+function redirectToRecebimento(numero) {
+  console.log(numero)
+  numero_os.value = numero
+  isModalRecebimentoOpen.value = true
+}
+
 const showCreateOrdem = () => {
   const serviceCookie = useCookie("user-service");
   const isTrueOrdemServ = useCookie("ordem-button");
