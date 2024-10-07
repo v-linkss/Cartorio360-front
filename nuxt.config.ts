@@ -50,8 +50,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       biometria: "http://10.0.0.104:5000/apiservice/capture-finger",
-      auth: process.env.MS_AUTH ,
-      managemant: process.env.MS_MANAGEMENT,
+      auth: process.env.MS_AUTH || "http://localhost:3333",
+      managemant: process.env.MS_MANAGEMENT || "http://localhost:3200",
     },
   },
 
