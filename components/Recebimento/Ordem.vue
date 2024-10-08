@@ -19,8 +19,8 @@
               class="mb-5 mr-5"
               label="Forma"
               v-model="state.escrevente"
-              :items="escreventesItems"
-              item-title="nome"
+              :items="formaItens"
+              item-title="descricao"
               item-value="token"
               required
               :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
@@ -55,7 +55,7 @@
           <img
             src="../../assets/salvar.png"
             style="cursor: pointer"
-            @click="reimprimeSelosAtos"
+            @click="receberOs"
           />
         </div>
       </div>
@@ -74,10 +74,11 @@ const props = defineProps({
 
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
+const cartorio_token = useCookie("user-data").value.cartorio_token;
 const getSelos = `${config.public.managemant}/listarSelos`;
 const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const formaItens = ref([]);
 
 const selosItems = ref([]);
 const selectedSelos = ref([]);
@@ -104,6 +105,8 @@ const headers = [
   },
 ];
 
+const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
+const routereceberOs = `${config.public.managemant}/receberOs`;
 watch(
   () => props.show,
   (newVal) => {
@@ -115,5 +118,65 @@ const closeModal = () => {
   emit("close");
 };
 
-const escreventesItems = ref([]);
-</script>
+// Função para enviar os dados para a API
+const receberOs = async () => {
+  try {
+
+    const body = {
+      ordemserv_token: "ZA3Ng",  // Substitua pelo token adequado
+      usuario_token: "QT0KB",    // Substitua pelo token do usuário
+      recebimentos: [
+        {
+          forma_receb_token: "QT0KB",  // Substitua pelo token da forma de recebimento
+          valor: 12.5,                 // Substitua pelo valor recebido
+        },
+      ],
+    };
+
+    // Requisição POST para a API
+    const { data: responseData, error, status } = await useFetch(
+      "http://45.55.192.246:14193/receberOs",
+      {
+        method: "POST",
+        body: JSON.stringify(body),  // Convertendo o objeto para JSON string
+        headers: {
+          "Content-Type": "application/json",  // Definindo o tipo do conteúdo
+        },
+      }
+    );
+
+    if (status.value === 200) {  // Verificando se a requisição foi bem-sucedida
+      console.log("Resposta da API:", responseData.value);  // Imprimindo a resposta no console
+    } else {
+      console.error("Erro ao enviar os dados:", error.value);
+    }
+  } catch (error) {
+    console.error("Erro ao realizar a requisição:", error);
+  }
+};
+
+// Carregar formas de recebimento ao montar o componente
+const loadEscreventes = async () => {
+  console.log(listarFormasReceb)
+  console.log(cartorio_token)
+
+  try {
+    const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
+    const body = {
+      cartorio_token: cartorio_token.value
+    }
+
+    const { data: forma ,error } = await useFetch(listarFormasReceb,      {
+        method: "POST",
+        body: JSON.stringify(body),  // Convertendo o objeto para JSON string
+   
+      });
+      formaItens.value = toRaw(forma.value); // Assign the array to formaItens.value
+      window.console.log("Resposta da API:", toRaw(forma.value));    
+  } catch (error) {
+    console.error("Erro ao realizar a requisição:", error);
+  }
+}
+
+loadEscreventes()
+;</script>

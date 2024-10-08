@@ -217,17 +217,17 @@ const _routes = [
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-DZpRcvFr.mjs').then((m) => m.default || m)
+    component: () => import('./index-noqrYYLJ.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-B0-U44zz.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-F4xaAc3q.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-CdzZIGtR.mjs').then((m) => m.default || m)
+    component: () => import('./index-CYd8CcOZ.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
@@ -237,7 +237,7 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-DeEXF313.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DAs6QZGK.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -15906,7 +15906,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-BVLXbDKc.mjs').then((m) => m.default || m)
+  default: () => import('./default-DdjWxg2U.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -16302,6 +16302,10 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
+<<<<<<< HEAD
 export { IconValue as $, useFilter as A, useScrolling as B, useRender as C, forwardRefs as D, VMenu as E, VList as F, VListItem as G, VVirtualScroll as H, VCheckboxBtn as I, VAvatar as J, VIcon as K, ensureValidVNode as L, VChip as M, VDefaultsProvider as N, noop as O, wrapInArray as P, matchesSelector as Q, makeVOverlayProps as R, VDialogTransition as S, useScopeId as T, VOverlay as U, VBtn as V, makeComponentProps as W, provideDefaults as X, makeTagProps as Y, createSimpleFunctional as Z, _export_sfc as _, navigateTo as a, useLayoutItem as a$, makeDensityProps as a0, makeBorderProps as a1, makeDimensionProps as a2, makeElevationProps as a3, makeLoaderProps as a4, makeLocationProps as a5, makePositionProps as a6, makeRoundedProps as a7, makeRouterProps as a8, makeThemeProps as a9, useSsrBoot as aA, useLazy as aB, MaybeTransition as aC, convertToUnit as aD, getDecimals as aE, createRange as aF, clamp as aG, VScaleTransition as aH, keyValues as aI, useBackgroundColor as aJ, makeFocusProps as aK, makeVInputProps as aL, useFocus as aM, VInput as aN, VLabel as aO, makeVBtnProps as aP, animate as aQ, standardEasing as aR, makeVSlideGroupProps as aS, isObject as aT, VSlideGroup as aU, VSelect as aV, VSheet as aW, VResponsive as aX, VExpandTransition as aY, makeLayoutItemProps as aZ, useToggleScope as a_, makeVariantProps as aa, Ripple as ab, provideTheme as ac, useBorder as ad, useVariant as ae, useDensity as af, useDimension as ag, useElevation as ah, useLoader as ai, useLocation as aj, usePosition as ak, useRounded as al, useLink as am, VImg as an, LoaderSlot as ao, genOverlays as ap, useRtl as aq, breakpoints as ar, VSpacer as as, VDataTable as at, VProgressCircular as au, keys as av, useGroup as aw, makeGroupItemProps as ax, makeLazyProps as ay, useGroupItem as az, useRuntimeConfig as b, useLayout as b0, VApp as b1, VListItemTitle as b2, useRoute$1 as c, useCookie as d, entry$1 as default, VTextField as e, useNuxtApp as f, asyncDataDefaults as g, createError as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeSelectProps as l, makeFilterProps as m, nuxtLinkDefaults as n, omit as o, propsFactory as p, makeVTextFieldProps as q, resolveUnrefHeadInput as r, makeTransitionProps$1 as s, genericComponent as t, useRouter$1 as u, useLocale as v, useProxiedModel as w, useItems as x, useTextColor as y, useForm as z };
 >>>>>>> 453616216b7fdbf211f333044e28fe3dc5efecf3
+=======
+export { IconValue as $, useFilter as A, useScrolling as B, useRender as C, forwardRefs as D, VMenu as E, VList as F, VListItem as G, VVirtualScroll as H, VCheckboxBtn as I, VAvatar as J, VIcon as K, ensureValidVNode as L, VChip as M, VDefaultsProvider as N, noop as O, wrapInArray as P, matchesSelector as Q, makeVOverlayProps as R, VDialogTransition as S, useScopeId as T, VOverlay as U, VBtn as V, makeComponentProps as W, provideDefaults as X, makeTagProps as Y, createSimpleFunctional as Z, _export_sfc as _, navigateTo as a, VSlideGroup as a$, makeDensityProps as a0, makeBorderProps as a1, makeDimensionProps as a2, makeElevationProps as a3, makeLoaderProps as a4, makeLocationProps as a5, makePositionProps as a6, makeRoundedProps as a7, makeRouterProps as a8, makeThemeProps as a9, filterFieldProps as aA, VField as aB, VCounter as aC, callEvent as aD, convertToUnit as aE, clamp as aF, VProgressCircular as aG, keys as aH, useGroup as aI, makeGroupItemProps as aJ, makeLazyProps as aK, useGroupItem as aL, useSsrBoot as aM, useLazy as aN, MaybeTransition as aO, getDecimals as aP, createRange as aQ, VScaleTransition as aR, keyValues as aS, useBackgroundColor as aT, makeFocusProps as aU, VLabel as aV, makeVBtnProps as aW, animate as aX, standardEasing as aY, makeVSlideGroupProps as aZ, isObject as a_, makeVariantProps as aa, Ripple as ab, provideTheme as ac, useBorder as ad, useVariant as ae, useDensity as af, useDimension as ag, useElevation as ah, useLoader as ai, useLocation as aj, usePosition as ak, useRounded as al, useLink as am, VImg as an, LoaderSlot as ao, genOverlays as ap, useRtl as aq, breakpoints as ar, VSpacer as as, VDataTable as at, makeVInputProps as au, makeVFieldProps as av, Intersect as aw, useFocus as ax, filterInputAttrs as ay, VInput as az, useRuntimeConfig as b, VSelect as b0, VSheet as b1, VResponsive as b2, VExpandTransition as b3, makeLayoutItemProps as b4, useToggleScope as b5, useLayoutItem as b6, useLayout as b7, VApp as b8, VListItemTitle as b9, useRoute$1 as c, useCookie as d, entry$1 as default, VTextField as e, useNuxtApp as f, asyncDataDefaults as g, createError as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeSelectProps as l, makeFilterProps as m, nuxtLinkDefaults as n, omit as o, propsFactory as p, makeVTextFieldProps as q, resolveUnrefHeadInput as r, makeTransitionProps$1 as s, genericComponent as t, useRouter$1 as u, useLocale as v, useProxiedModel as w, useItems as x, useTextColor as y, useForm as z };
+>>>>>>> 94126230219c630ae8f8cd2e3089913d0ad226a7
 //# sourceMappingURL=server.mjs.map
