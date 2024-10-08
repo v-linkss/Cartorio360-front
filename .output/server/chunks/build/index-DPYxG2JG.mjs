@@ -724,7 +724,8 @@ const _sfc_main$1 = {
   __ssrInlineRender: true,
   props: {
     show: Boolean,
-    numero_os: Number
+    numero_os: Number,
+    ordemserv_token: String
   },
   emits: ["close"],
   setup(__props, { emit: __emit }) {
@@ -732,21 +733,20 @@ const _sfc_main$1 = {
     const isVisible = ref(props.show);
     const config = useRuntimeConfig();
     ref(useCookie("user-data").value.cartorio_token).value;
-    `${config.public.managemant}/listarSelos`;
-    `${config.public.managemant}/reimprimirSelo`;
-    `${config.public.managemant}/listarEscrevente`;
-    ref([]);
-    ref([]);
+    const usuario_token = useCookie("auth_token").value;
+    const analisaCancelamento = `${config.public.managemant}/analisaCancelamento`;
+    const cancelarOs = `${config.public.managemant}/cancelaOs`;
     const state = reactive({
-      escrevente: null
+      motivo: null
     });
+    const analiseCancela = ref(null);
     const emit = __emit;
     const rules = {
-      escrevente: {
+      motivo: {
         required: helpers.withMessage("O campo \xE9 obrigatorio", required)
       }
     };
-    useVuelidate(rules, state);
+    const v$ = useVuelidate(rules, state);
     watch(
       () => props.show,
       (newVal) => {
@@ -757,7 +757,22 @@ const _sfc_main$1 = {
       isVisible.value = false;
       emit("close");
     };
-    ref([]);
+    const analisaCancelamentoOs = async () => {
+      const { data, error } = await useFetch(`${analisaCancelamento}`, {
+        method: "POST",
+        body: { ordemserv_token: props.ordemserv_token }
+      }, "$1fnrIk2fgs");
+      analiseCancela.value = data.value.mensagem;
+    };
+    analisaCancelamentoOs();
+    const cancelarOrdemServ = async () => {
+      if (await v$.value.$validate()) {
+        await useFetch(`${cancelarOs}`, {
+          method: "POST",
+          body: { usuario_token, motivo: state.motivo, ordemserv_token: props.ordemserv_token }
+        }, "$21WlhUNXeM");
+      }
+    };
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(VDialog, mergeProps({
         persistent: "",
@@ -795,10 +810,10 @@ const _sfc_main$1 = {
                                     _push6(ssrRenderComponent(VCardText, null, {
                                       default: withCtx((_6, _push7, _parent7, _scopeId6) => {
                                         if (_push7) {
-                                          _push7(` Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! `);
+                                          _push7(`${ssrInterpolate(unref(analiseCancela))}`);
                                         } else {
                                           return [
-                                            createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                            createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                           ];
                                         }
                                       }),
@@ -808,7 +823,7 @@ const _sfc_main$1 = {
                                     return [
                                       createVNode(VCardText, null, {
                                         default: withCtx(() => [
-                                          createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                          createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                         ]),
                                         _: 1
                                       })
@@ -817,21 +832,37 @@ const _sfc_main$1 = {
                                 }),
                                 _: 1
                               }, _parent5, _scopeId4));
-                              _push5(ssrRenderComponent(VTextarea, { label: "Motivo" }, null, _parent5, _scopeId4));
+                              _push5(ssrRenderComponent(VTextarea, {
+                                label: "Motivo",
+                                modelValue: unref(state).motivo,
+                                "onUpdate:modelValue": ($event) => unref(state).motivo = $event,
+                                required: "",
+                                "error-messages": unref(v$).motivo.$errors.map((e) => e.$message),
+                                onBlur: unref(v$).motivo.$touch,
+                                onInput: unref(v$).motivo.$touch
+                              }, null, _parent5, _scopeId4));
                             } else {
                               return [
                                 createVNode(VCard, { class: "mb-5" }, {
                                   default: withCtx(() => [
                                     createVNode(VCardText, null, {
                                       default: withCtx(() => [
-                                        createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                        createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                       ]),
                                       _: 1
                                     })
                                   ]),
                                   _: 1
                                 }),
-                                createVNode(VTextarea, { label: "Motivo" })
+                                createVNode(VTextarea, {
+                                  label: "Motivo",
+                                  modelValue: unref(state).motivo,
+                                  "onUpdate:modelValue": ($event) => unref(state).motivo = $event,
+                                  required: "",
+                                  "error-messages": unref(v$).motivo.$errors.map((e) => e.$message),
+                                  onBlur: unref(v$).motivo.$touch,
+                                  onInput: unref(v$).motivo.$touch
+                                }, null, 8, ["modelValue", "onUpdate:modelValue", "error-messages", "onBlur", "onInput"])
                               ];
                             }
                           }),
@@ -852,14 +883,22 @@ const _sfc_main$1 = {
                                 default: withCtx(() => [
                                   createVNode(VCardText, null, {
                                     default: withCtx(() => [
-                                      createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                      createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                     ]),
                                     _: 1
                                   })
                                 ]),
                                 _: 1
                               }),
-                              createVNode(VTextarea, { label: "Motivo" })
+                              createVNode(VTextarea, {
+                                label: "Motivo",
+                                modelValue: unref(state).motivo,
+                                "onUpdate:modelValue": ($event) => unref(state).motivo = $event,
+                                required: "",
+                                "error-messages": unref(v$).motivo.$errors.map((e) => e.$message),
+                                onBlur: unref(v$).motivo.$touch,
+                                onInput: unref(v$).motivo.$touch
+                              }, null, 8, ["modelValue", "onUpdate:modelValue", "error-messages", "onBlur", "onInput"])
                             ]),
                             _: 1
                           })
@@ -886,14 +925,22 @@ const _sfc_main$1 = {
                               default: withCtx(() => [
                                 createVNode(VCardText, null, {
                                   default: withCtx(() => [
-                                    createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                    createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                   ]),
                                   _: 1
                                 })
                               ]),
                               _: 1
                             }),
-                            createVNode(VTextarea, { label: "Motivo" })
+                            createVNode(VTextarea, {
+                              label: "Motivo",
+                              modelValue: unref(state).motivo,
+                              "onUpdate:modelValue": ($event) => unref(state).motivo = $event,
+                              required: "",
+                              "error-messages": unref(v$).motivo.$errors.map((e) => e.$message),
+                              onBlur: unref(v$).motivo.$touch,
+                              onInput: unref(v$).motivo.$touch
+                            }, null, 8, ["modelValue", "onUpdate:modelValue", "error-messages", "onBlur", "onInput"])
                           ]),
                           _: 1
                         })
@@ -912,8 +959,8 @@ const _sfc_main$1 = {
                         createVNode("img", {
                           src: _imports_1$1,
                           style: { "cursor": "pointer" },
-                          onClick: _ctx.reimprimeSelosAtos
-                        }, null, 8, ["onClick"])
+                          onClick: cancelarOrdemServ
+                        })
                       ])
                     ])
                   ];
@@ -940,14 +987,22 @@ const _sfc_main$1 = {
                             default: withCtx(() => [
                               createVNode(VCardText, null, {
                                 default: withCtx(() => [
-                                  createTextVNode(" Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minima qui laudantium repellat molestias, amet cumque excepturi perspiciatis impedit dolorem modi rem facere animi temporibus praesentium ullam blanditiis laboriosam placeat! ")
+                                  createTextVNode(toDisplayString(unref(analiseCancela)), 1)
                                 ]),
                                 _: 1
                               })
                             ]),
                             _: 1
                           }),
-                          createVNode(VTextarea, { label: "Motivo" })
+                          createVNode(VTextarea, {
+                            label: "Motivo",
+                            modelValue: unref(state).motivo,
+                            "onUpdate:modelValue": ($event) => unref(state).motivo = $event,
+                            required: "",
+                            "error-messages": unref(v$).motivo.$errors.map((e) => e.$message),
+                            onBlur: unref(v$).motivo.$touch,
+                            onInput: unref(v$).motivo.$touch
+                          }, null, 8, ["modelValue", "onUpdate:modelValue", "error-messages", "onBlur", "onInput"])
                         ]),
                         _: 1
                       })
@@ -966,8 +1021,8 @@ const _sfc_main$1 = {
                       createVNode("img", {
                         src: _imports_1$1,
                         style: { "cursor": "pointer" },
-                        onClick: _ctx.reimprimeSelosAtos
-                      }, null, 8, ["onClick"])
+                        onClick: cancelarOrdemServ
+                      })
                     ])
                   ])
                 ]),
@@ -1006,6 +1061,7 @@ const _sfc_main = {
     const isModalRecebimentoOpen = ref(false);
     const isModalCancelamentoOpen = ref(false);
     const showCreateOrdemServ = ref(null);
+    const ordemserv_token = ref(null);
     const numero_os = ref(null);
     const state = reactive({
       numero: null,
@@ -1092,8 +1148,9 @@ const _sfc_main = {
     }
     usuariosDataPayload();
     tipoAtosDataPayload();
-    function redirectToCancelamento(numero) {
+    function redirectToCancelamento(numero, token) {
       numero_os.value = numero;
+      ordemserv_token.value = token;
       isModalCancelamentoOpen.value = true;
     }
     function redirectToUpdate(id) {
@@ -1674,11 +1731,11 @@ const _sfc_main = {
                           cursor: item.btn_editar ? "pointer" : "default",
                           width: "30px",
                           height: "30px"
-                        })}"${ssrRenderAttr("src", _imports_2$1)} alt="Editar"${_scopeId3}></div><div${ssrIncludeBooleanAttr(!item.btn_cancelar) ? " disabled" : ""} title="Excluir"${_scopeId3}>`);
+                        })}"${ssrRenderAttr("src", _imports_2$1)} alt="Editar"${_scopeId3}></div><div${ssrIncludeBooleanAttr(!item.btn_cancelar) ? " disabled" : ""} title="Cancelamento"${_scopeId3}>`);
                         if (item.excluido) {
                           _push4(`<img style="${ssrRenderStyle({ "width": "30px", "height": "30px", "cursor": "pointer" })}"${ssrRenderAttr("src", _imports_3)} alt="Visualizar" title="Reativar"${_scopeId3}>`);
                         } else {
-                          _push4(`<img${ssrRenderAttr("src", _imports_4)} alt="Excluir" class="trash-icon" style="${ssrRenderStyle({ "width": "30px", "height": "30px", "cursor": "pointer" })}" title="Excluir"${_scopeId3}>`);
+                          _push4(`<img${ssrRenderAttr("src", _imports_4)} alt="Cancelamento" class="trash-icon" style="${ssrRenderStyle({ "width": "30px", "height": "30px", "cursor": "pointer" })}" title="Cancelamento"${_scopeId3}>`);
                         }
                         _push4(`</div>`);
                       } else {
@@ -1710,8 +1767,8 @@ const _sfc_main = {
                           ], 10, ["onClick", "title"]),
                           createVNode("div", {
                             disabled: !item.btn_cancelar,
-                            onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero) : null,
-                            title: "Excluir"
+                            onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero, item.token) : null,
+                            title: "Cancelamento"
                           }, [
                             item.excluido ? (openBlock(), createBlock("img", {
                               key: 0,
@@ -1722,10 +1779,10 @@ const _sfc_main = {
                             })) : (openBlock(), createBlock("img", {
                               key: 1,
                               src: _imports_4,
-                              alt: "Excluir",
+                              alt: "Cancelamento",
                               class: "trash-icon",
                               style: { "width": "30px", "height": "30px", "cursor": "pointer" },
-                              title: "Excluir"
+                              title: "Cancelamento"
                             }))
                           ], 8, ["disabled", "onClick"])
                         ];
@@ -1764,8 +1821,8 @@ const _sfc_main = {
                         ], 10, ["onClick", "title"]),
                         createVNode("div", {
                           disabled: !item.btn_cancelar,
-                          onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero) : null,
-                          title: "Excluir"
+                          onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero, item.token) : null,
+                          title: "Cancelamento"
                         }, [
                           item.excluido ? (openBlock(), createBlock("img", {
                             key: 0,
@@ -1776,10 +1833,10 @@ const _sfc_main = {
                           })) : (openBlock(), createBlock("img", {
                             key: 1,
                             src: _imports_4,
-                            alt: "Excluir",
+                            alt: "Cancelamento",
                             class: "trash-icon",
                             style: { "width": "30px", "height": "30px", "cursor": "pointer" },
-                            title: "Excluir"
+                            title: "Cancelamento"
                           }))
                         ], 8, ["disabled", "onClick"])
                       ]),
@@ -1798,6 +1855,7 @@ const _sfc_main = {
             _push2(ssrRenderComponent(_component_CancelamentoOrdem, {
               show: unref(isModalCancelamentoOpen),
               numero_os: unref(numero_os),
+              ordemserv_token: unref(ordemserv_token),
               onClose: ($event) => isModalCancelamentoOpen.value = false
             }, null, _parent2, _scopeId));
           } else {
@@ -2027,8 +2085,8 @@ const _sfc_main = {
                       ], 10, ["onClick", "title"]),
                       createVNode("div", {
                         disabled: !item.btn_cancelar,
-                        onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero) : null,
-                        title: "Excluir"
+                        onClick: ($event) => item.btn_cancelar ? redirectToCancelamento(item.numero, item.token) : null,
+                        title: "Cancelamento"
                       }, [
                         item.excluido ? (openBlock(), createBlock("img", {
                           key: 0,
@@ -2039,10 +2097,10 @@ const _sfc_main = {
                         })) : (openBlock(), createBlock("img", {
                           key: 1,
                           src: _imports_4,
-                          alt: "Excluir",
+                          alt: "Cancelamento",
                           class: "trash-icon",
                           style: { "width": "30px", "height": "30px", "cursor": "pointer" },
-                          title: "Excluir"
+                          title: "Cancelamento"
                         }))
                       ], 8, ["disabled", "onClick"])
                     ]),
@@ -2059,8 +2117,9 @@ const _sfc_main = {
               createVNode(_component_CancelamentoOrdem, {
                 show: unref(isModalCancelamentoOpen),
                 numero_os: unref(numero_os),
+                ordemserv_token: unref(ordemserv_token),
                 onClose: ($event) => isModalCancelamentoOpen.value = false
-              }, null, 8, ["show", "numero_os", "onClose"])
+              }, null, 8, ["show", "numero_os", "ordemserv_token", "onClose"])
             ];
           }
         }),
@@ -2077,4 +2136,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=index-noqrYYLJ.mjs.map
+//# sourceMappingURL=index-DPYxG2JG.mjs.map

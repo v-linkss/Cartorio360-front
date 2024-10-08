@@ -11,13 +11,17 @@
         <v-container>
           <v-card class="mb-5">
             <v-card-text>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius
-              minima qui laudantium repellat molestias, amet cumque excepturi
-              perspiciatis impedit dolorem modi rem facere animi temporibus
-              praesentium ullam blanditiis laboriosam placeat!
+              {{ analiseCancela }}
             </v-card-text>
           </v-card>
-          <v-textarea label="Motivo"></v-textarea>
+          <v-textarea
+            label="Motivo"
+            v-model="state.motivo"
+            required
+            :error-messages="v$.motivo.$errors.map((e) => e.$message)"
+            @blur="v$.motivo.$touch"
+            @input="v$.motivo.$touch"
+          ></v-textarea>
         </v-container>
       </v-container>
 
@@ -33,7 +37,7 @@
           <img
             src="../../assets/salvar.png"
             style="cursor: pointer"
-            @click="reimprimeSelosAtos"
+            @click="cancelarOrdemServ"
           />
         </div>
       </div>
@@ -48,39 +52,31 @@ import { helpers, required } from "@vuelidate/validators";
 const props = defineProps({
   show: Boolean,
   numero_os: Number,
+  ordemserv_token: String,
 });
 
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
-const getSelos = `${config.public.managemant}/listarSelos`;
-const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-
-const selosItems = ref([]);
-const selectedSelos = ref([]);
+const usuario_token = useCookie("auth_token").value;
+const analisaCancelamento = `${config.public.managemant}/analisaCancelamento`;
+const cancelarOs = `${config.public.managemant}/cancelaOs`;
 
 const state = reactive({
-  escrevente: null,
+  motivo: null,
 });
+
+const analiseCancela = ref(null)
 
 const emit = defineEmits(["close"]);
 
 const rules = {
-  escrevente: {
+  motivo: {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
 };
 
 const v$ = useVuelidate(rules, state);
-
-const headers = [
-  { title: "Forma", value: "numero" },
-  { title: "Valor", value: "referencia" },
-  {
-    value: "actions",
-  },
-];
 
 watch(
   () => props.show,
@@ -93,5 +89,22 @@ const closeModal = () => {
   emit("close");
 };
 
-const escreventesItems = ref([]);
+const analisaCancelamentoOs = async () => {
+  const { data, error } = await useFetch(`${analisaCancelamento}`, {
+      method: "POST",
+      body: { ordemserv_token:props.ordemserv_token },
+    });
+    analiseCancela.value = data.value.mensagem
+};
+
+analisaCancelamentoOs()
+
+const cancelarOrdemServ = async () => {
+  if (await v$.value.$validate()) {
+    const { data, error } = await useFetch(`${cancelarOs}`, {
+      method: "POST",
+      body: { usuario_token: usuario_token, motivo:state.motivo, ordemserv_token:props.ordemserv_token },
+    });
+  }
+};
 </script>

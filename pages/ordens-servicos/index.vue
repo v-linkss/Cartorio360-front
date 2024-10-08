@@ -150,9 +150,9 @@
           <div
             :disabled="!item.btn_cancelar"
             @click="
-              item.btn_cancelar ? redirectToCancelamento(item.numero) : null
+              item.btn_cancelar ? redirectToCancelamento(item.numero,item.token) : null
             "
-            title="Excluir"
+            title="Cancelamento"
           >
             <img
               v-if="item.excluido"
@@ -164,10 +164,10 @@
             <img
               v-else
               src="../../assets/mudarStatus.png"
-              alt="Excluir"
+              alt="Cancelamento"
               class="trash-icon"
               style="width: 30px; height: 30px; cursor: pointer"
-              title="Excluir"
+              title="Cancelamento"
             />
           </div>
         </v-row>
@@ -181,6 +181,7 @@
     <CancelamentoOrdem
       :show="isModalCancelamentoOpen"
       :numero_os="numero_os"
+      :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false"
     />
   </v-container>
@@ -203,6 +204,7 @@ const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"])
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 const showCreateOrdemServ = ref(null);
+const ordemserv_token = ref(null)
 const numero_os = ref(null);
 
 const state = reactive({
@@ -324,8 +326,9 @@ usuariosDataPayload();
 tipoAtosDataPayload();
 
 
-function redirectToCancelamento(numero) {
+function redirectToCancelamento(numero,token) {
   numero_os.value = numero;
+  ordemserv_token.value = token
   isModalCancelamentoOpen.value = true;
 }
 
