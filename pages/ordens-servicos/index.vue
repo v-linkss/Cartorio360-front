@@ -123,7 +123,7 @@
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
-          <div @click="redirectToRecebimento(item.numero)" title="Receber">
+          <div @click="redirectToRecebimento(item.numero, item.token)" title="Receber">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../assets/recebe.png"
@@ -176,6 +176,7 @@
     <RecebimentoOrdem
       :show="isModalRecebimentoOpen"
       :numero_os="numero_os"
+      :ordemserv_token="token_os"
       @close="isModalRecebimentoOpen = false"
     />
     <CancelamentoOrdem
@@ -204,6 +205,7 @@ const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 const showCreateOrdemServ = ref(null);
 const numero_os = ref(null);
+const token_os = ref(null);
 
 const state = reactive({
   numero: null,
@@ -275,6 +277,7 @@ async function searchOrdersService() {
         apresentante: state.apresentante,
       },
     });
+    console.log('servicosData.value:',servicosData.value)
     if (servicosData.value.length > 0) {
       servicosItems.value = servicosData.value;
     } else {
@@ -336,8 +339,10 @@ function redirectToUpdate(id) {
   router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 
-function redirectToRecebimento(numero) {
+function redirectToRecebimento(numero, ordemserv_token) {
+
   numero_os.value = numero;
+  token_os.value = ordemserv_token
   isModalRecebimentoOpen.value = true;
 }
 

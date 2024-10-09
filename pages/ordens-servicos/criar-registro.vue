@@ -150,8 +150,7 @@ const atosPayload = `${config.public.managemant}/listarAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
-const ordemserv_token =
-  ref(useCookie("user-service").value?.token).value || null;
+const ordemserv_token = ref(useCookie("user-service").value?.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);

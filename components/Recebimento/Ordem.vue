@@ -18,22 +18,25 @@
             <v-autocomplete
               class="mb-5 mr-5"
               label="Forma"
-              v-model="state.escrevente"
+              v-model="state.token"
               :items="formaItens"
               item-title="descricao"
               item-value="token"
               required
               :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
               @blur="v$.escrevente.$touch"
-              @input="v$.escrevente.$touch"
+              @input="handleFormaSelect($event.target.textContent)"
             ></v-autocomplete>
-            <v-text-field label="Valor"> </v-text-field>
+            <v-text-field 
+              label="Valor"
+              v-model="state.valor"
+            > </v-text-field>
             <div>
               <img
                 src="../../assets/novo.png"
                 class="ml-5"
                 style="cursor: pointer; height: 40px; width: 40px"
-                @click="reimprimeSelosAtos"
+                @click="addNewRow"
               />
             </div>
           </v-row>
@@ -70,6 +73,8 @@ import { helpers, required } from "@vuelidate/validators";
 const props = defineProps({
   show: Boolean,
   numero_os: Number,
+  ordemserv_token: String
+  
 });
 
 const isVisible = ref(props.show);
@@ -81,12 +86,14 @@ const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const formaItens = ref([]);
 
 const selosItems = ref([]);
+const recebimentos = ref([]);
 const selectedSelos = ref([]);
 
 const state = reactive({
-  escrevente: null,
+        descricao: null,
+        token: null,
+        valor:null
 });
-
 const emit = defineEmits(["close"]);
 
 const rules = {
@@ -98,11 +105,17 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const headers = [
-  { title: "Forma", value: "numero" },
-  { title: "Valor", value: "referencia" },
+
+  { title: "Forma", value: "forma" },
+
+  { title: "Valor", value: "valor" },
+
   {
+
     value: "actions",
+
   },
+
 ];
 
 const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
@@ -120,45 +133,34 @@ const closeModal = () => {
 
 // Função para enviar os dados para a API
 const receberOs = async () => {
-  try {
+
+
+    try {
+      const usuario_token = useCookie("auth_token").value;
+
 
     const body = {
-      ordemserv_token: "ZA3Ng",  // Substitua pelo token adequado
-      usuario_token: "QT0KB",    // Substitua pelo token do usuário
-      recebimentos: [
-        {
-          forma_receb_token: "QT0KB",  // Substitua pelo token da forma de recebimento
-          valor: 12.5,                 // Substitua pelo valor recebido
-        },
-      ],
+      ordemserv_token: props.ordemserv_token,  
+      usuario_token: usuario_token,    
+      recebimentos: recebimentos.value,
     };
-
-    // Requisição POST para a API
-    const { data: responseData, error, status } = await useFetch(
-      "http://45.55.192.246:14193/receberOs",
-      {
+    console.log(body)
+    const { data: forma ,error } = await useFetch(routereceberOs,      {
         method: "POST",
         body: JSON.stringify(body),  // Convertendo o objeto para JSON string
-        headers: {
-          "Content-Type": "application/json",  // Definindo o tipo do conteúdo
-        },
-      }
-    );
 
-    if (status.value === 200) {  // Verificando se a requisição foi bem-sucedida
-      console.log("Resposta da API:", responseData.value);  // Imprimindo a resposta no console
-    } else {
-      console.error("Erro ao enviar os dados:", error.value);
-    }
+      });
+      window.console.log("Resposta da API:", toRaw(forma.value));
   } catch (error) {
     console.error("Erro ao realizar a requisição:", error);
   }
+
+
 };
 
 // Carregar formas de recebimento ao montar o componente
 const loadEscreventes = async () => {
-  console.log(listarFormasReceb)
-  console.log(cartorio_token)
+
 
   try {
     const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
@@ -169,14 +171,33 @@ const loadEscreventes = async () => {
     const { data: forma ,error } = await useFetch(listarFormasReceb,      {
         method: "POST",
         body: JSON.stringify(body),  // Convertendo o objeto para JSON string
-   
+
       });
       formaItens.value = toRaw(forma.value); // Assign the array to formaItens.value
-      window.console.log("Resposta da API:", toRaw(forma.value));    
+      window.console.log("Resposta da API:", toRaw(forma.value));
   } catch (error) {
     console.error("Erro ao realizar a requisição:", error);
   }
 }
+const addNewRow = () => {
+  console.log("descrição", state.descricao)
+  selosItems.value.push({
+    forma: state.descricao,
+    valor: state.valor,
+  });
+  recebimentos.value.push({
+    forma_receb_token: state.token,
+    valor: state.valor,
+  });
+  state.token = null;
+  state.valor = null;
+  state.descricao = null;
 
+};
+
+const handleFormaSelect = (descricao) => {
+  console.log("##########################\n",descricao)
+  state.descricao = descricao;
+};
 loadEscreventes()
 ;</script>
