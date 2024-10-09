@@ -123,9 +123,18 @@
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
-          <div @click="redirectToRecebimento(item.numero)" title="Receber">
+          <div
+            :class="{ disabled: !item.btn_receber }"
+            :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
+            @click="item.btn_receber ? redirectToRecebimento(item.numero, item): null"
+            title="Receber"
+          >
             <img
-              style="width: 30px; height: 30px; cursor: pointer"
+            :style="{
+                cursor: item.btn_receber ? 'pointer' : 'default',
+                width: '30px',
+                height: '30px',
+              }"
               src="../../assets/recebe.png"
               alt="Receber"
             />
@@ -134,7 +143,7 @@
           <div
             :class="{ disabled: !item.btn_editar }"
             @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
+            :title="item.btn_editar ? 'Editar' : 'Bloqueado'"
           >
             <img
               :style="{
@@ -150,16 +159,18 @@
           <div
             :disabled="!item.btn_cancelar"
             @click="
-              item.btn_cancelar ? redirectToCancelamento(item.numero,item.token) : null
+              item.btn_cancelar
+                ? redirectToCancelamento(item.numero, item.token)
+                : null
             "
             title="Cancelamento"
           >
             <img
               v-if="item.excluido"
-              style="width: 30px; height: 30px; cursor: pointer"
+              style="width: 30px; height: 30px"
               src="../../assets/excluido.png"
               alt="Visualizar"
-              title="Reativar"
+              title="Bloqueado"
             />
             <img
               v-else
@@ -176,6 +187,7 @@
     <RecebimentoOrdem
       :show="isModalRecebimentoOpen"
       :numero_os="numero_os"
+      :ordem="selectedOrder"
       @close="isModalRecebimentoOpen = false"
     />
     <CancelamentoOrdem
@@ -204,8 +216,9 @@ const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"])
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 const showCreateOrdemServ = ref(null);
-const ordemserv_token = ref(null)
+const ordemserv_token = ref(null);
 const numero_os = ref(null);
+const selectedOrder = ref({});
 
 const state = reactive({
   numero: null,
@@ -298,7 +311,7 @@ async function tipoAtosDataPayload() {
   tipoAtosItems.value = tipoAtosData.value;
 }
 
-const servicosDataTable =async()=> {
+const servicosDataTable = async () => {
   try {
     const currentDate = getCurrentDate();
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
@@ -314,21 +327,21 @@ const servicosDataTable =async()=> {
     });
     if (servicosData.value.length > 0) {
       servicosItems.value = servicosData.value;
+      console.log(servicosItems.value);
     } else {
       servicosItems.value = [];
     }
   } catch (error) {
     console.error("Erro ao buscar serviços", error);
   }
-}
+};
 
 usuariosDataPayload();
 tipoAtosDataPayload();
 
-
-function redirectToCancelamento(numero,token) {
+function redirectToCancelamento(numero, token, item) {
   numero_os.value = numero;
-  ordemserv_token.value = token
+  ordemserv_token.value = token;
   isModalCancelamentoOpen.value = true;
 }
 
@@ -339,8 +352,14 @@ function redirectToUpdate(id) {
   router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 
-function redirectToRecebimento(numero) {
+function redirectToRecebimento(numero, item) {
   numero_os.value = numero;
+  selectedOrder.value = {
+    token: item.token,
+    numero: item.numero,
+    valor: item.valor,
+    valor_pago: item.valor_pago,
+  };
   isModalRecebimentoOpen.value = true;
 }
 
@@ -360,7 +379,7 @@ onMounted(() => {
       const dadosRestaurados = JSON.parse(pesquisaSalva);
       Object.assign(state, dadosRestaurados);
     }
-    
+
     await servicosDataTable();
   });
 });

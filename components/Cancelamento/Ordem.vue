@@ -1,6 +1,6 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="650">
-    <v-card>
+    <v-card >
       <v-container>
         <v-row class="mb-5 mt-1 ml-2">
           <h1>Cancelamento da OS nº</h1>
@@ -9,7 +9,7 @@
           </h1>
         </v-row>
         <v-container>
-          <v-card class="mb-5">
+          <v-card variant="outlined" class="mb-5">
             <v-card-text>
               {{ analiseCancela }}
             </v-card-text>
@@ -101,10 +101,14 @@ analisaCancelamentoOs()
 
 const cancelarOrdemServ = async () => {
   if (await v$.value.$validate()) {
-    const { data, error } = await useFetch(`${cancelarOs}`, {
+    const { status } = await useFetch(`${cancelarOs}`, {
       method: "POST",
       body: { usuario_token: usuario_token, motivo:state.motivo, ordemserv_token:props.ordemserv_token },
     });
+    if(status.value ==='success'){
+      window.location.reload()
+      closeModal()
+    }
   }
 };
 </script>

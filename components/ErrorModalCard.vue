@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isVisible" max-width="500">
+  <v-dialog persistent v-model="isVisible" per max-width="500">
     <v-card>
       <v-card-title class="text-h5">Erro na Requisição</v-card-title>
       <v-card-text>
