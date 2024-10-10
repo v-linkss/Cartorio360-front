@@ -160,10 +160,14 @@ const receberOs = async () => {
       recebimentos: [recebimentos.value],
     };
     if (props.ordem.valor === 0) {
-      const { data: forma, error } = await useFetch(routereceberOs, {
+      const { data, error } = await useFetch(routereceberOs, {
         method: "POST",
         body: JSON.stringify(body),
       });
+      if (data.value[0].status === "OK") {
+        $toast.success("Valores Recebidos com Sucesso!");
+        closeModal()
+      }
     }
   } catch (error) {
     console.error("Erro ao realizar a requisição:", error);
@@ -199,7 +203,6 @@ const addNewRow = async () => {
     (forma) => forma.token === state.forma
   );
 
-  // Verifica se a forma foi selecionada
   if (!selectedForma) {
     $toast.error("Por favor, selecione uma forma.");
     return;
@@ -222,14 +225,14 @@ const addNewRow = async () => {
   });
   props.ordem.valor_pago =
     parseFloat(props.ordem.valor_pago) + parseFloat(state.valor);
-  props.ordem.valor = parseFloat(props.ordem.valor) - parseFloat(state.valor); 
+  props.ordem.valor = parseFloat(props.ordem.valor) - parseFloat(state.valor);
 
   state.forma = null;
-  state.valor = "0.00"; 
+  state.valor = "0.00";
 };
 
 const removeFormValueFromTable = (itemRemove) => {
-  const index = selosItems.value.indexOf(itemRemove); 
+  const index = selosItems.value.indexOf(itemRemove);
 
   if (index !== -1) {
     selosItems.value.splice(index, 1);
