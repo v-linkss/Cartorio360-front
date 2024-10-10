@@ -5,14 +5,27 @@
         <v-row class="mb-5 mt-1 ml-2">
           <h1>Ordem de Serviço nº</h1>
           <h1 style="color: red; margin-left: 18px">
-            {{ props.numero_os }}
+            {{ props.ordem.numero }}
           </h1>
         </v-row>
         <v-container>
           <v-row>
-            <v-text-field class="mr-5" label="Recebido"  v-model="props.ordem.valor_pago" disabled> </v-text-field>
+            <v-text-field
+              class="mr-5"
+              label="Recebido"
+              v-model="props.ordem.valor_pago"
+              disabled
+              @input="formatDecimal"
+            >
+            </v-text-field>
 
-            <v-text-field label="Falta Receber"  v-model="props.ordem.valor" disabled> </v-text-field>
+            <v-text-field
+              label="Falta Receber"
+              v-model="props.ordem.valor"
+              disabled
+              @input="formatDecimal"
+            >
+            </v-text-field>
           </v-row>
           <v-row>
             <v-autocomplete
@@ -22,11 +35,14 @@
               :items="formaItens"
               item-title="descricao"
               item-value="token"
-              required
-              :error-messages="v$.forma.$errors.map((e) => e.$message)"
-              @blur="v$.forma.$touch"
             ></v-autocomplete>
-            <v-text-field label="Valor" v-model="state.valor" type="number"> </v-text-field>
+            <v-text-field
+              label="Valor"
+              v-model="state.valor"
+              required
+              @input="formatDecimal"
+            >
+            </v-text-field>
             <div>
               <img
                 src="../../assets/novo.png"
@@ -42,6 +58,19 @@
           <template v-slot:item.forma="{ item }">
             {{ item.descricao }}
           </template>
+          <template v-slot:item.actions="{ item }">
+            <div
+              style="display: flex; justify-content: flex-end"
+              @click="removeFormValueFromTable(item)"
+              title="Remover"
+            >
+              <img
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../assets/trash.png"
+                alt="Remover"
+              />
+            </div>
+          </template>
         </v-data-table>
       </v-container>
 
@@ -53,7 +82,7 @@
             @click="closeModal"
           />
         </div>
-        <div class="ml-12">
+        <div class="ml-12 mb-5">
           <img
             src="../../assets/salvar.png"
             style="cursor: pointer"
@@ -62,28 +91,31 @@
         </div>
       </div>
     </v-card>
+    <ModalRecebimentoCond
+      v-model="isMoreOrLess"
+      :faltaReceber="faltaReceber"
+      @close="isMoreOrLess = false"
+    />
   </v-dialog>
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-
 const props = defineProps({
   show: Boolean,
-  numero_os: Number,
-  ordemserv_token: String,
   ordem: {
     type: Object,
     required: true,
   },
 });
-
+const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
+const isMoreOrLess = ref(false);
 const config = useRuntimeConfig();
 const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
 const routereceberOs = `${config.public.managemant}/receberOs`;
+const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
+const faltaReceber = ref(null);
 
 const selosItems = ref([]);
 const recebimentos = ref([]);
@@ -91,17 +123,9 @@ const recebimentos = ref([]);
 const state = reactive({
   descricao: null,
   forma: null,
-  valor: 0.00,
+  valor: 0.0,
 });
 const emit = defineEmits(["close"]);
-
-const rules = {
-  forma: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
-  },
-};
-
-const v$ = useVuelidate(rules, state);
 
 const headers = [
   { title: "Forma", value: "forma" },
@@ -126,23 +150,34 @@ const closeModal = () => {
 
 const receberOs = async () => {
   try {
-    const usuario_token = useCookie("auth_token").value;
-
+    if (props.ordem.valor > 0) {
+      faltaReceber.value = props.ordem.valor;
+      isMoreOrLess.value = true;
+    }
     const body = {
-      ordemserv_token: props.ordemserv_token,
+      ordemserv_token: props.ordem.token,
       usuario_token: usuario_token,
-      recebimentos: recebimentos.value,
+      recebimentos: [recebimentos.value],
     };
-    const { data: forma, error } = await useFetch(routereceberOs, {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
+    if (props.ordem.valor === 0) {
+      const { data: forma, error } = await useFetch(routereceberOs, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    }
   } catch (error) {
     console.error("Erro ao realizar a requisição:", error);
   }
 };
 
-// Carregar formas de recebimento ao montar o componente
+const formatDecimal = () => {
+  props.ordem.valor = parseFloat(props.ordem.valor).toFixed(2);
+  props.ordem.valor_pago = parseFloat(props.ordem.valor_pago).toFixed(2);
+  if (state.valor) {
+    state.valor = parseFloat(state.valor).toFixed(2);
+  }
+};
+
 const loadEscreventes = async () => {
   try {
     const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
@@ -158,24 +193,53 @@ const loadEscreventes = async () => {
     console.error("Erro ao realizar a requisição:", error);
   }
 };
-const addNewRow = () => {
+
+const addNewRow = async () => {
   const selectedForma = formaItens.value.find(
     (forma) => forma.token === state.forma
   );
-  if (selectedForma) {
-    selosItems.value.push({
-      forma: state.forma, 
-      descricao: selectedForma.descricao, 
-      valor: state.valor,
-    });
+
+  // Verifica se a forma foi selecionada
+  if (!selectedForma) {
+    $toast.error("Por favor, selecione uma forma.");
+    return;
   }
-  // recebimentos.value.push({
-  //   forma_receb_token: state.token,
-  //   valor: state.valor,
-  // });
-  // state.token = null;
-  // state.valor = null;
-  // state.descricao = null;
+
+  if (props.ordem.valor <= 0) {
+    $toast.error(
+      "O valor recebido não deve ultrapassar o valor total da ordem."
+    );
+    return;
+  }
+  selosItems.value.push({
+    forma: state.forma,
+    descricao: selectedForma.descricao,
+    valor: state.valor,
+  });
+  recebimentos.value.push({
+    forma_receb_token: state.forma,
+    valor: state.valor,
+  });
+  props.ordem.valor_pago =
+    parseFloat(props.ordem.valor_pago) + parseFloat(state.valor);
+  props.ordem.valor = parseFloat(props.ordem.valor) - parseFloat(state.valor); 
+
+  state.forma = null;
+  state.valor = "0.00"; 
+};
+
+const removeFormValueFromTable = (itemRemove) => {
+  const index = selosItems.value.indexOf(itemRemove); 
+
+  if (index !== -1) {
+    selosItems.value.splice(index, 1);
+    recebimentos.value.splice(index, 1);
+
+    props.ordem.valor_pago =
+      parseFloat(props.ordem.valor_pago) - parseFloat(itemRemove.valor);
+    props.ordem.valor =
+      parseFloat(props.ordem.valor) + parseFloat(itemRemove.valor);
+  }
 };
 
 loadEscreventes();

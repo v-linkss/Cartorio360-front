@@ -28,7 +28,7 @@ export default defineNuxtPlugin((app) => {
       },
       VDataTable:{
          density:"compact"
-      }
+      },
     },
   })
   app.vueApp.use(vuetify)

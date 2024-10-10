@@ -113,7 +113,6 @@ const atoAutentica = async () => {
     if (status.value === "success" && ato_token.value.status === "OK") {
       etiquetaAutentica(ato_token.value.token);
     } else {
-      console.log(ato_token.value.status_mensagem);
       errorModalVisible.value = true;
       errorMessage.value =
         ato_token.value.status_mensagem || error.value.data.details;
