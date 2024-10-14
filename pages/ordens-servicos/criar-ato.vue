@@ -28,8 +28,8 @@
 </template>
 
 <script setup>
-import semelhanca from "../fontes/atos/semelhanca.vue";
-import autencidade from "../fontes/atos/autencidade.vue";
+import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
+import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
 
 const config = useRuntimeConfig();
@@ -39,8 +39,8 @@ const usuario_token = useCookie("auth_token").value;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const components = {
-  "/fontes/atos/semelhanca": semelhanca,
-  "/fontes/atos/autenticidade": autencidade,
+  "/fontes/atos/reconhecimento/semelhanca": semelhanca,
+  "/fontes/atos/reconhecimento/autenticidade": autencidade,
   "/fontes/atos/autenticacao/autenticacao": autenticacao,
 };
 
