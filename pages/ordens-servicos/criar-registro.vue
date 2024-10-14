@@ -70,8 +70,7 @@
           src="../../assets/novo.png"
           alt="novo"
         />
-      </NuxtLink>
-      <v-data-table :headers="headers" :items="atosItems" item-key="id">
+      </NuxtLink>  <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
             <div @click="redirectToModalReimprimir()" title="Reimprimir">
@@ -121,6 +120,7 @@
           </v-row>
         </template>
       </v-data-table>
+    
       <ReimpressaoSelos
         :show="isModalReimprimirOpen"
         @close="isModalReimprimirOpen = false"
