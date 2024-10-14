@@ -22,9 +22,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container>
-    <component :is="selectedComponent" />
-  </v-container>
+  <component :is="selectedComponent" />
 </template>
 
 <script setup>
