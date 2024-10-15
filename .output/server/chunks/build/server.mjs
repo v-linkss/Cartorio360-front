@@ -672,7 +672,7 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-D8FC2XYz.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-CIh75_mS.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,7 +693,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-Cy1GwHi7.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-DSHDFBSK.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
