@@ -688,7 +688,7 @@ const _routes = [
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-C9uGHpze.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-ClM4UGlE.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
@@ -698,7 +698,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-BKtfAn9S.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-DYt46psU.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",

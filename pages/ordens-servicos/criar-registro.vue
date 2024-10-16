@@ -17,7 +17,7 @@
       </v-col>
       <v-col md="2">
         <v-text-field
-          v-if="state.nacionalidade === 'brasileiro'"
+          v-if="state.nacionalidade === false"
           autofocus
           v-model="state.apresentante_cpf"
           label="CPF"
@@ -162,7 +162,7 @@ const isModalReimprimirOpen = ref(false);
 const atosItems = ref([]);
 
 const state = reactive({
-  nacionalidade: "brasileiro",
+  nacionalidade: false,
   apresentante_nome: null || useCookie("user-service").value?.apresentante_nome,
   apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
   documento: null,
@@ -180,8 +180,8 @@ const headers = [
 ];
 
 const nacionalidade = [
-  { title: "BRASILEIRO", value: "brasileiro" },
-  { title: "ESTRANGEIRO", value: "estrangeiro" },
+  { title: "BRASILEIRO", value: false },
+  { title: "ESTRANGEIRO", value: true },
 ];
 
 const rules = {
@@ -220,6 +220,7 @@ async function onSubmit() {
     apresentante_nome: state.apresentante_nome,
     user_id: pessoa_id.value,
     cartorio_id: cartorio_id.value,
+    estrangeiro: state.nacionalidade
   };
   if (await v$.value.$validate()) {
     const { data, error, status } = await useFetch(createOs, {

@@ -177,8 +177,8 @@ const headers = [
 ];
 
 const nacionalidade = [
-  { title: "BRASILEIRO", value: "brasileiro" },
-  { title: "ESTRANGEIRO", value: "estrangeiro" },
+  { title: "BRASILEIRO", value: false },
+  { title: "ESTRANGEIRO", value: true },
 ];
 
 const rules = {
@@ -229,6 +229,7 @@ const { data: dataOs } = await useFetch(`${getOsPayload}/${id}`, {
   method: "GET",
 });
 numeroOs.value = dataOs.value.numero;
+state.nacionalidade = dataOs.value.estrangeiro
 state.apresentante_cpf = dataOs.value.apresentante_cpf;
 state.apresentante_nome = dataOs.value.apresentante_nome;
 
