@@ -8,6 +8,10 @@
         :items="escreventesItems"
         item-title="nome"
         item-value="token"
+        required
+          :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
+          @blur="v$.escrevente.$touch"
+          @input="v$.escrevente.$touch"
       >
       </v-autocomplete>
     </v-col>
@@ -52,7 +56,6 @@
     </v-col>
 
     <v-col>
-      <!-- Exibir os itens selecionados na segunda tabela -->
       <v-data-table
         :headers="headers"
         :items="selectedObjects"
@@ -88,16 +91,24 @@
 
     <div>
       <img
-        class="mt-10 mb-5"
+        class="mt-10 mb-5 ml-10"
         @click="reconhecerAtoSemelhanca"
         style="cursor: pointer"
         src="../../../../assets/salvar.png"
       />
     </div>
   </v-row>
+  <ErrorModalCard
+      :show="errorModalVisible"
+      :errorMessage="errorMessage"
+      @close="errorModalVisible = false"
+    />
 </template>
 
 <script setup>
+import { useVuelidate } from '@vuelidate/core'
+import { helpers, required } from "@vuelidate/validators";
+
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -111,9 +122,12 @@ const ordemserv_token =
   ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
 
-const pessoasItems = ref([]); // Itens da primeira tabela
-const selectedPessoasSemelhanca = ref([]); // Itens selecionados para a segunda tabela
+const pessoasItems = ref([]);
+const selectedPessoasSemelhanca = ref([]);
+const escreventesItems = ref([]);
 const selectedObjects = ref([]);
+const errorModalVisible = ref(false); 
+const errorMessage = ref("");
 
 const headers = [
   {
@@ -124,7 +138,7 @@ const headers = [
   {
     title: "Pessoa",
     align: "start",
-    key: "nome", // Exibe o campo "nome"
+    key: "nome", 
   },
   { value: "actions" },
 ];
@@ -136,8 +150,13 @@ const state = reactive({
   documento: null,
 });
 
-const escreventesItems = ref([]);
+const rules = {
+  escrevente: {
+    required: helpers.withMessage("O campo é obrigatorio", required),
+  },
+};
 
+const v$ = useVuelidate(rules, state)
 // Requisição para buscar escreventes
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
@@ -183,42 +202,56 @@ function updateSelectedPessoas(selectedItems) {
 
 function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
-    (pessoa) => pessoa.token !== item.token
+    (pessoa) => pessoa.pessoa_token !== item.pessoa_token
   );
 }
 
 async function reconhecerAtoSemelhanca() {
-  const selectedTokens = selectedObjects.value.map((item) => {
-    return { pessoa_token: item.pessoa_token };
-  });
-  try {
-    const { data, error } = await useFetch(reconhecerPessoa, {
-      method: "POST",
-      body: {
-        pessoas: [selectedTokens],
-        cartorio_token: cartorio_token.value,
-        ordemserv_token: ordemserv_token,
-        quantidade:state.quantidade,
-        usuario_token: usuario_token,
-        ato_tipo_token:"yXA3K"
-      },
+  if (await v$.value.$validate()) {
+    const selectedTokens = selectedObjects.value.map((item) => {
+      return { pessoa_token: item.pessoa_token };
     });
-    await reconhecerEtiquetaSemelhanca()
-  } catch (error) {
-    console.error("Erro na requisição", error);
+    try {
+      const { data, error,status } = await useFetch(reconhecerPessoa, {
+        method: "POST",
+        body: {
+          pessoas: [selectedTokens],
+          cartorio_token: cartorio_token.value,
+          ordemserv_token: ordemserv_token,
+          quantidade: state.quantidade,
+          usuario_token: usuario_token,
+          ato_tipo_token: "yXA3K",
+        },
+      });
+      if (status.value ==='success' && data.value[0].status === "OK") {
+        reconhecerEtiquetaSemelhanca(data.value[0].token);
+      } else {
+        errorModalVisible.value = true;
+        errorMessage.value =
+          ato_token.value.status_mensagem || error.value.data.details;
+      }
+    } catch (error) {
+      console.error("Erro na requisição", error);
+    }
   }
 }
 
-async function reconhecerEtiquetaSemelhanca() {
+async function reconhecerEtiquetaSemelhanca(token) {
   try {
-    const { data, error } = await useFetch(etiquetaSemelhanca, {
+    const { data, error, status } = await useFetch(etiquetaSemelhanca, {
       method: "POST",
       body: {
-        ato_token: [selectedTokens],
+        ato_token: token,
         cartorio_token: cartorio_token.value,
         escrevente_token: ordemserv_token,
       },
     });
+    if (status.value === "success") {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value[0].etiqueta);
+      newWindow.document.close();
+    }
   } catch (error) {
     console.error("Erro na requisição", error);
   }
