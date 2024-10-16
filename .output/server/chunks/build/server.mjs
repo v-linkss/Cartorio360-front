@@ -703,7 +703,7 @@ const _routes = [
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-DvQ2Tzgw.mjs').then((m) => m.default || m)
+    component: () => import('./index-C1YwTtV3.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",

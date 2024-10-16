@@ -123,7 +123,7 @@ const recebimentos = ref([]);
 const state = reactive({
   descricao: null,
   forma: null,
-  valor: 0.0,
+  valor: '0.00',
 });
 const emit = defineEmits(["close"]);
 
