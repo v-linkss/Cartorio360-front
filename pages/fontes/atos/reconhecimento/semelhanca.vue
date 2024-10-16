@@ -9,9 +9,9 @@
         item-title="nome"
         item-value="token"
         required
-          :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
-          @blur="v$.escrevente.$touch"
-          @input="v$.escrevente.$touch"
+        :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
+        @blur="v$.escrevente.$touch"
+        @input="v$.escrevente.$touch"
       >
       </v-autocomplete>
     </v-col>
@@ -99,14 +99,14 @@
     </div>
   </v-row>
   <ErrorModalCard
-      :show="errorModalVisible"
-      :errorMessage="errorMessage"
-      @close="errorModalVisible = false"
-    />
+    :show="errorModalVisible"
+    :errorMessage="errorMessage"
+    @close="errorModalVisible = false"
+  />
 </template>
 
 <script setup>
-import { useVuelidate } from '@vuelidate/core'
+import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
 const router = useRouter();
@@ -126,7 +126,7 @@ const pessoasItems = ref([]);
 const selectedPessoasSemelhanca = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
-const errorModalVisible = ref(false); 
+const errorModalVisible = ref(false);
 const errorMessage = ref("");
 
 const headers = [
@@ -138,7 +138,7 @@ const headers = [
   {
     title: "Pessoa",
     align: "start",
-    key: "nome", 
+    key: "nome",
   },
   { value: "actions" },
 ];
@@ -156,7 +156,7 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, state)
+const v$ = useVuelidate(rules, state);
 // Requisição para buscar escreventes
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
@@ -212,7 +212,7 @@ async function reconhecerAtoSemelhanca() {
       return { pessoa_token: item.pessoa_token };
     });
     try {
-      const { data, error,status } = await useFetch(reconhecerPessoa, {
+      const { data, error, status } = await useFetch(reconhecerPessoa, {
         method: "POST",
         body: {
           pessoas: [selectedTokens],
@@ -223,7 +223,7 @@ async function reconhecerAtoSemelhanca() {
           ato_tipo_token: "yXA3K",
         },
       });
-      if (status.value ==='success' && data.value[0].status === "OK") {
+      if (status.value === "success" && data.value[0].status === "OK") {
         reconhecerEtiquetaSemelhanca(data.value[0].token);
       } else {
         errorModalVisible.value = true;
@@ -243,7 +243,7 @@ async function reconhecerEtiquetaSemelhanca(token) {
       body: {
         ato_token: token,
         cartorio_token: cartorio_token.value,
-        escrevente_token: ordemserv_token,
+        escrevente_token: state.escrevente,
       },
     });
     if (status.value === "success") {
