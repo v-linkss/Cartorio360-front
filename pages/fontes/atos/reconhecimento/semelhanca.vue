@@ -215,7 +215,7 @@ async function reconhecerAtoSemelhanca() {
       const { data, error, status } = await useFetch(reconhecerPessoa, {
         method: "POST",
         body: {
-          pessoas: [selectedTokens],
+          pessoas: selectedTokens,
           cartorio_token: cartorio_token.value,
           ordemserv_token: ordemserv_token,
           quantidade: state.quantidade,
