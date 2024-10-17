@@ -270,24 +270,23 @@ async function usuariosDataPayload() {
 async function searchOrdersService() {
   try {
     sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
-
     const { data: servicosData, error } = await useFetch(allServicos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        numero: state.numero,
-        data_inicio: state.data_inicio,
-        data_fim: state.data_fim,
-        data_lavratura_inicio: state.data_lavratura_inicio,
-        data_lavratura_fim: state.data_lavratura_fim,
-        protocolo: state.protocolo,
-        livro: state.livro,
-        folha: state.folha,
-        situacao: state.situacao,
+        numero: state.numero || null,
+        data_inicio: state.data_inicio|| null,
+        data_fim: state.data_fim|| null,
+        data_lavratura_inicio: state.data_lavratura_inicio|| null,
+        data_lavratura_fim: state.data_lavratura_fim|| null,
+        protocolo: state.protocolo|| null,
+        livro: state.livro|| null,
+        folha: state.folha|| null,
+        situacao: state.situacao|| null,
         usuario_token: state.usuario_token,
-        selo: state.selo,
+        selo: state.selo|| null,
         ato_tipo_token: state.ato_tipo_token,
-        apresentante: state.apresentante,
+        apresentante: state.apresentante|| null,
       },
     });
     if (servicosData.value.length > 0) {
