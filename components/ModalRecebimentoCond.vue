@@ -17,8 +17,13 @@
       <v-card-actions>
         <v-btn
           style="background-color: #429946; color: white"
+          @click="confirmarRecebimento"
+          >Confirmar</v-btn
+        >
+        <v-btn
+          style="background-color: red; color: white"
           @click="closeModal"
-          >OK</v-btn
+          >Cancelar</v-btn
         >
       </v-card-actions>
     </v-card>
@@ -32,7 +37,7 @@ const props = defineProps({
 });
 
 const isVisible = ref(props.show);
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "confirmar"]);
 
 watch(
   () => props.show,
@@ -40,6 +45,11 @@ watch(
     isVisible.value = newVal;
   }
 );
+
+const confirmarRecebimento = () => {
+  emit("confirmar");
+  closeModal()
+};
 
 const closeModal = () => {
   isVisible.value = false;

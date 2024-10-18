@@ -688,22 +688,22 @@ const _routes = [
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-ClM4UGlE.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-C3_Cyeo-.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-BSZtWqRR.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-oGRU6VMU.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-DYt46psU.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-dDx3Xl6g.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-CY0-59jS.mjs').then((m) => m.default || m)
+    component: () => import('./index-z5JI5IfA.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",

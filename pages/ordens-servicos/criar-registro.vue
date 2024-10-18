@@ -1,9 +1,9 @@
 <template>
   <v-container class="mt-5">
     <v-row class="mb-5">
-      <h1>Ordem de Serviço nº</h1>
+      <h1>Ordem de Serviço nº </h1>
       <h1 style="color: red; margin-left: 30px">
-        {{ useCookie("user-service").value?.numero }}
+        {{ ordemNumero || useCookie("user-service").value?.numero }}
       </h1>
     </v-row>
 
@@ -153,6 +153,7 @@ const pessoa_id = ref(useCookie("user-data").value.usuario_id);
 const ordemserv_token =
   ref(useCookie("user-service").value?.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
+const ordemNumero = ref(useCookie("user-service").value?.numero);
 
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value);
@@ -234,6 +235,7 @@ async function onSubmit() {
 
       showCreateAtos.value = true;
       showCreateOrdemServ.value = false;
+      ordemNumero.value = data.value.numero;
 
       const isTrueOrdemServ = useCookie("ordem-button");
       isTrueOrdemServ.value = showCreateOrdemServ.value;

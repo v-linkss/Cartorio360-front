@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <!-- <v-row class="mb-5">
+    <v-row class="mb-5">
       <h1>Ordem de Serviço nº</h1>
       <h1 style="color: red; margin-left: 30px">
-        {{ numeroOs }}
+        {{ numeroOs || useCookie("user-service").value?.numero || null }}
       </h1>
-    </v-row> -->
+    </v-row>
     <v-row>
       <v-col md="6">
         <v-autocomplete
@@ -28,7 +28,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <component :is="selectedComponent" :ato_token="selectedAto"/>
+  <component :is="selectedComponent" :ato_token="selectedAto" />
 </template>
 
 <script setup>
@@ -36,10 +36,13 @@ import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
 import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
 
+const route = useRoute();
+const numeroOs = route.query.numeroOs;
+
 const components = {
-  "yXA3K": semelhanca,
-  "WrhCH": autencidade,
-  "bFsdV": autenticacao,
+  yXA3K: semelhanca,
+  WrhCH: autencidade,
+  bFsdV: autenticacao,
 };
 
 const servicos = ref([]);

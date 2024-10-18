@@ -35,7 +35,7 @@
               item-value="token"
             ></v-autocomplete>
             <div style="max-width: 180px">
-              <MoneyInput v-model="state.valor"/>
+              <MoneyInput v-model="state.valor" />
             </div>
             <div>
               <img
@@ -78,9 +78,16 @@
         </div>
         <div class="ml-12 mb-5">
           <img
+            v-if="Number(props.ordem.valor) > 0"
             src="../../assets/salvar.png"
             style="cursor: pointer"
-            @click="receberOs"
+            @click="receberOsParcial"
+          />
+          <img
+            v-else
+            src="../../assets/salvar.png"
+            style="cursor: pointer"
+            @click="realizarRecebimentoCompleto"
           />
         </div>
       </div>
@@ -89,6 +96,7 @@
       v-model="isMoreOrLess"
       :faltaReceber="faltaReceber"
       @close="isMoreOrLess = false"
+      @confirmar="realizarRecebimentoCompleto"
     />
   </v-dialog>
 </template>
@@ -142,29 +150,27 @@ const closeModal = () => {
   emit("close");
 };
 
-const receberOs = async () => {
-  try {
-    if (props.ordem.valor > 0) {
-      faltaReceber.value = props.ordem.valor;
-      isMoreOrLess.value = true;
-    }
-    const body = {
-      ordemserv_token: props.ordem.token,
-      usuario_token: usuario_token,
-      recebimentos: [recebimentos.value],
-    };
-    if (props.ordem.valor === 0) {
-      const { data, error } = await useFetch(routereceberOs, {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      if (data.value[0].status === "OK") {
-        $toast.success("Valores Recebidos com Sucesso!");
-        closeModal();
-      }
-    }
-  } catch (error) {
-    console.error("Erro ao realizar a requisição:", error);
+const receberOsParcial = async () => {
+    faltaReceber.value = Number(props.ordem.valor);
+    isMoreOrLess.value = true;
+};
+
+const realizarRecebimentoCompleto = async () => {
+  const body = {
+    ordemserv_token: props.ordem.token,
+    usuario_token: usuario_token,
+    recebimentos: [recebimentos.value],
+  };
+
+  const { data, error } = await useFetch(routereceberOs, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+
+  if (data.value[0].status === "OK") {
+    $toast.success("Valores Recebidos com Sucesso!");
+    selosItems.value = []
+    closeModal();
   }
 };
 
@@ -199,7 +205,7 @@ const addNewRow = async () => {
     return;
   }
 
-  if (props.ordem.valor <= 0) {
+  if (Number(props.ordem.valor) <= 0) {
     $toast.error(
       "O valor recebido não deve ultrapassar o valor total da ordem."
     );
@@ -212,7 +218,7 @@ const addNewRow = async () => {
   });
   recebimentos.value.push({
     forma_receb_token: state.forma,
-    valor: state.valor,
+    valor: Number(state.valor),
   });
   props.ordem.valor_pago =
     parseFloat(props.ordem.valor_pago) + parseFloat(state.valor);
@@ -220,7 +226,7 @@ const addNewRow = async () => {
 
   state.forma = null;
   state.valor = "0.00";
-  formatDecimal()
+  formatDecimal();
 };
 
 const removeFormValueFromTable = (itemRemove) => {

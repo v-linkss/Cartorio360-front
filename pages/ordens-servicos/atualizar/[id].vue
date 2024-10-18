@@ -62,7 +62,7 @@
       <NuxtLink
         :to="{
           path: '/ordens-servicos/criar-ato',
-          query: { origem: 'atualizar', id: id },
+          query: { origem: 'atualizar', id: id, numeroOs: numeroOs },
         }"
       >
         <img

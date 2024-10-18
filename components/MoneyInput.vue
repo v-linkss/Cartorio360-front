@@ -11,6 +11,7 @@
         v-model.lazy="amount"
         v-money3="config"
       />
+      {{ typeof(amount) }}
     </div>
   </template>
   
@@ -27,7 +28,7 @@
     },
     data() {
       return {
-        amount: this.modelValue,
+        amount:this.modelValue,
         config: {
           thousands: "",
           decimal: ".",
