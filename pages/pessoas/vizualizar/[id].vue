@@ -66,7 +66,6 @@ const pessoasView = `${config.public.managemant}/getPessoaById`
 const { data: PessoaView, pending } = await useFetch(
   `${pessoasView}/${id}`
 );
-console.log(pessoasView)
 </script>
 
 <style scoped>

@@ -52,12 +52,13 @@
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
-// defineProps({
-//   token: {
-//     type: String,
-//     required: true,
-//   },
-// });
+const props = defineProps({
+  ato_token:{
+    type: String,
+    required: true
+  }
+});
+
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -73,7 +74,6 @@ const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
 
 const errorModalVisible = ref(false); // Controle de visibilidade do modal
 const errorMessage = ref("");
-
 const state = reactive({
   escrevente: null,
   quantidade: 1,
@@ -107,7 +107,7 @@ const atoAutentica = async () => {
         cartorio_token: cartorio_token,
         quantidade: Number(state.quantidade),
         ordemserv_token: ordemserv_token,
-        ato_tipo_token: "bFsdV",
+        ato_tipo_token: props.ato_token,
       },
     });
     if (status.value === "success" && ato_token.value.status === "OK") {

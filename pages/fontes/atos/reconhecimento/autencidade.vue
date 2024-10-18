@@ -15,6 +15,13 @@
 </template>
 <script setup>
 
+const props = defineProps({
+  ato_token:{
+    type: String,
+    required: true
+  }
+});
+
 const router = useRouter();
 const route = useRoute();
 

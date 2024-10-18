@@ -109,6 +109,13 @@
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
+const props = defineProps({
+  ato_token:{
+    type: String,
+    required: true
+  }
+});
+
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -204,6 +211,9 @@ function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
     (pessoa) => pessoa.pessoa_token !== item.pessoa_token
   );
+  selectedPessoasSemelhanca.value = selectedPessoasSemelhanca.value.filter(
+    (pessoa) => pessoa !== `${item.nome}-${item.documento}-${item.pessoa_token}`
+  );
 }
 
 async function reconhecerAtoSemelhanca() {
@@ -220,7 +230,7 @@ async function reconhecerAtoSemelhanca() {
           ordemserv_token: ordemserv_token,
           quantidade: state.quantidade,
           usuario_token: usuario_token,
-          ato_tipo_token: "yXA3K",
+          ato_tipo_token: props.ato_token,
         },
       });
       if (status.value === "success" && data.value[0].status === "OK") {

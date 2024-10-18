@@ -662,17 +662,17 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-C3xpCd12.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-CbjDXGhO.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-6B0TjINj.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BWlbOK2c.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-DBn5xQG3.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-CGhOD00j.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,7 +693,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-jhv1rQa4.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-BSZtWqRR.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
@@ -703,7 +703,7 @@ const _routes = [
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-DVyfZQaD.mjs').then((m) => m.default || m)
+    component: () => import('./index-CY0-59jS.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
@@ -723,7 +723,7 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-DAs6QZGK.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-C7pxqhl6.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {

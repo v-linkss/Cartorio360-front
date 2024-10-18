@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <!-- <v-row class="mb-5">
+      <h1>Ordem de Serviço nº</h1>
+      <h1 style="color: red; margin-left: 30px">
+        {{ numeroOs }}
+      </h1>
+    </v-row> -->
     <v-row>
       <v-col md="6">
         <v-autocomplete
@@ -7,7 +13,7 @@
           label="Selecione o Servico"
           :items="servicos"
           item-title="descricao"
-          item-value="atos"
+          item-value="token"
           v-model="selectedServico"
         ></v-autocomplete>
       </v-col>
@@ -16,13 +22,13 @@
           label="Selecione o tipo de ato"
           v-model="selectedAto"
           item-title="descricao"
-          item-value="rota"
+          item-value="token"
           :items="atos"
         ></v-autocomplete>
       </v-col>
     </v-row>
   </v-container>
-  <component :is="selectedComponent" />
+  <component :is="selectedComponent" :ato_token="selectedAto"/>
 </template>
 
 <script setup>
@@ -30,49 +36,53 @@ import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
 import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
 
+const components = {
+  "yXA3K": semelhanca,
+  "WrhCH": autencidade,
+  "bFsdV": autenticacao,
+};
+
+const servicos = ref([]);
+const atos = ref([]);
+const selectedServico = ref("");
+const selectedAto = ref(" ");
+const selectedComponent = computed(() => components[selectedAto.value]);
+
 const config = useRuntimeConfig();
 const getTiposAtos = `${config.public.managemant}/tipoAtos`;
 
 const usuario_token = useCookie("auth_token").value;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
-const components = {
-  "/fontes/atos/reconhecimento/semelhanca": semelhanca,
-  "/fontes/atos/reconhecimento/autenticidade": autencidade,
-  "/fontes/atos/autenticacao/autenticacao": autenticacao,
+const loadServicos = async () => {
+  const { data } = await useFetch(getTiposAtos, {
+    method: "POST",
+    body: { usuario_token: usuario_token, cartorio_token: cartorio_token },
+  });
+  servicos.value = data.value;
+  if (servicos.value.length > 0) {
+    selectedServico.value = servicos.value[0].token;
+  }
 };
 
-const servicos = ref([]);
-const atos = ref([]);
-const selectedServico = ref("");
-const selectedAto = ref("");
-const selectedComponent = computed(() => {
-  return components[selectedAto.value];
-});
+const onServicoChange = async (token) => {
+  const { data } = await useFetch(getTiposAtos, {
+    method: "POST",
+    body: {
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+      servico_token: token,
+    },
+  });
+  atos.value = data.value;
+};
 
-const { data } = await useFetch(getTiposAtos, {
-  method: "POST",
-  body: { usuario_token: usuario_token, cartorio_token: cartorio_token },
-});
+loadServicos();
 
-servicos.value = data.value.map((servico) => ({
-  descricao: servico.descricao,
-  atos: JSON.stringify(servico.atos),
-}));
-
-if (servicos.value.length > 0) {
-  selectedServico.value = servicos.value[0].atos;
-  atos.value = JSON.parse(servicos.value[0].atos);
-
-  if (atos.value.length > 0) {
-    selectedAto.value = atos.value[0].rota;
-  }
-}
-
-watch(selectedServico, (newValue) => {
+watch(selectedServico, async (newValue) => {
   if (newValue) {
-    atos.value = JSON.parse(newValue);
-    selectedAto.value = atos.value.length > 0 ? atos.value[0].rota : "";
+    await onServicoChange(newValue);
+    selectedAto.value = atos.value.length > 0 ? atos.value[0].token : [];
   }
 });
 </script>

@@ -15,7 +15,6 @@
               label="Recebido"
               v-model="props.ordem.valor_pago"
               disabled
-              @input="formatDecimal"
             >
             </v-text-field>
 
@@ -23,7 +22,6 @@
               label="Falta Receber"
               v-model="props.ordem.valor"
               disabled
-              @input="formatDecimal"
             >
             </v-text-field>
           </v-row>
@@ -36,13 +34,9 @@
               item-title="descricao"
               item-value="token"
             ></v-autocomplete>
-            <v-text-field
-              label="Valor"
-              v-model="state.valor"
-              required
-              @input="formatDecimal"
-            >
-            </v-text-field>
+            <div style="max-width: 180px">
+              <MoneyInput v-model="state.valor"/>
+            </div>
             <div>
               <img
                 src="../../assets/novo.png"
@@ -123,7 +117,7 @@ const recebimentos = ref([]);
 const state = reactive({
   descricao: null,
   forma: null,
-  valor: '0.00',
+  valor: "",
 });
 const emit = defineEmits(["close"]);
 
@@ -166,7 +160,7 @@ const receberOs = async () => {
       });
       if (data.value[0].status === "OK") {
         $toast.success("Valores Recebidos com Sucesso!");
-        closeModal()
+        closeModal();
       }
     }
   } catch (error) {
@@ -177,9 +171,6 @@ const receberOs = async () => {
 const formatDecimal = () => {
   props.ordem.valor = parseFloat(props.ordem.valor).toFixed(2);
   props.ordem.valor_pago = parseFloat(props.ordem.valor_pago).toFixed(2);
-  if (state.valor) {
-    state.valor = parseFloat(state.valor).toFixed(2);
-  }
 };
 
 const loadEscreventes = async () => {
@@ -229,6 +220,7 @@ const addNewRow = async () => {
 
   state.forma = null;
   state.valor = "0.00";
+  formatDecimal()
 };
 
 const removeFormValueFromTable = (itemRemove) => {
