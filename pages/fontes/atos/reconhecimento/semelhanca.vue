@@ -28,14 +28,26 @@
     <v-col cols="4">
       <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
     </v-col>
-    <div>
+
+      <div>
+        <img
+          class="btn-pointer mt-3"
+          src="../../../../assets/visualizar.png"
+          style="width: 40px; cursor: pointer"
+          title="Pesquisar Pessoa"
+          @click="searchPessoasService"
+        />
+      </div>
+      <div>
       <img
-        class="btn-pointer mt-3"
-        src="../../../../assets/visualizar.png"
+        class="btn-pointer mt-3 ml-2"
+        src="../../../../assets/novo.png"
         style="width: 40px; cursor: pointer"
-        @click="searchPessoasService"
+        title="Criar Pessoa"
+        @click="createPessoa"
       />
     </div>
+ 
   </v-row>
 
   <v-row>
@@ -78,7 +90,7 @@
       </v-data-table>
     </v-col>
   </v-row>
-
+<ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false"/>
   <v-row>
     <NuxtLink @click="goBack">
       <img
@@ -134,6 +146,7 @@ const selectedPessoasSemelhanca = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
 const errorModalVisible = ref(false);
+const isModalRegistroOpen = ref(false);
 const errorMessage = ref("");
 
 const headers = [
@@ -164,7 +177,7 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-// Requisição para buscar escreventes
+
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
@@ -189,6 +202,10 @@ async function searchPessoasService() {
   } catch (error) {
     console.error("Erro na requisição", error);
   }
+}
+
+const createPessoa = () => {
+  isModalRegistroOpen.value = true
 }
 
 function updateSelectedPessoas(selectedItems) {

@@ -1,16 +1,6 @@
 <template>
   <div>
     <h1>Reconhecimento por Autencidade</h1>
-    <div>
-      <NuxtLink @click="goBack">
-        <img
-          class="btn-pointer mt-10 mb-5"
-          src="../../../../assets/sair.png"
-          alt="Sair"
-          style="cursor: pointer;"
-        />
-      </NuxtLink>
-    </div>
   </div>
 </template>
 <script setup>

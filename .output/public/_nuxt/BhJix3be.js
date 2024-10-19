@@ -1,0 +1,1 @@
+import{u as e,E as t,o,c as a,a as s}from"./C-Rpz3cn.js";const n=s("h1",null,"Reconhecimento por Autencidade",-1),r=[n],i={__name:"autencidade",props:{ato_token:{type:String,required:!0}},setup(c){return e(),t(),(u,_)=>(o(),a("div",null,r))}};export{i as default};
