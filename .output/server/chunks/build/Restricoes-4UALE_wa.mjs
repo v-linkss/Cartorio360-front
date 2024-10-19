@@ -14,7 +14,7 @@ import { V as VContainer } from './VContainer-chgtNZst.mjs';
 import { V as VRow } from './VRow-BuaJrtx0.mjs';
 import { V as VCol } from './VCol-uBIoF0At.mjs';
 import { V as VAutocomplete, _ as _imports_1 } from './salvar-DRINGrxl.mjs';
-import { V as VDialog, a as VCard, b as VCardTitle, c as VCardText, d as VCardActions } from './VCard-DfTYaOUe.mjs';
+import { V as VDialog, a as VCard, b as VCardTitle, d as VCardText, c as VCardActions } from './VCard-DfTYaOUe.mjs';
 
 const handleGesture = (wrapper) => {
   const {

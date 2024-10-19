@@ -29,16 +29,16 @@
       <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
     </v-col>
 
-      <div>
-        <img
-          class="btn-pointer mt-3"
-          src="../../../../assets/visualizar.png"
-          style="width: 40px; cursor: pointer"
-          title="Pesquisar Pessoa"
-          @click="searchPessoasService"
-        />
-      </div>
-      <div>
+    <div>
+      <img
+        class="btn-pointer mt-3"
+        src="../../../../assets/visualizar.png"
+        style="width: 40px; cursor: pointer"
+        title="Pesquisar Pessoa"
+        @click="searchPessoasService"
+      />
+    </div>
+    <div>
       <img
         class="btn-pointer mt-3 ml-2"
         src="../../../../assets/novo.png"
@@ -47,7 +47,6 @@
         @click="createPessoa"
       />
     </div>
- 
   </v-row>
 
   <v-row>
@@ -56,14 +55,20 @@
         style="height: 465px"
         :headers="headers"
         :items="pessoasItems"
-        show-select
-        v-model="selectedPessoasSemelhanca"
-        :item-value="
-          (pessoasItems) =>
-            `${pessoasItems.nome}-${pessoasItems.documento}-${pessoasItems.token}`
-        "
-        :onchange="updateSelectedPessoas(selectedPessoasSemelhanca)"
       >
+        <template v-slot:item.actions="{ item }">
+          <div
+            style="display: flex; cursor: pointer; justify-content: flex-end"
+            @click="redirectToFicha(item)"
+            title="Visualizar Ficha"
+          >
+            <img
+              style="width: 30px; height: 30px"
+              src="../../../../assets/visualizar.png"
+              alt="Visualizar"
+            />
+          </div>
+        </template>
       </v-data-table>
     </v-col>
 
@@ -90,7 +95,16 @@
       </v-data-table>
     </v-col>
   </v-row>
-<ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false"/>
+  <ModalRegistroPessoas
+    :show="isModalRegistroOpen"
+    @close="isModalRegistroOpen = false"
+  />
+  <ModalFichaCard
+   :show="isModalFichaOpen"
+   :item="selectedItem" 
+   @confirmar="confirmItem(selectedItem)"
+   @close="isModalFichaOpen = false"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <img
@@ -122,10 +136,10 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
 const props = defineProps({
-  ato_token:{
+  ato_token: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const router = useRouter();
@@ -147,6 +161,8 @@ const escreventesItems = ref([]);
 const selectedObjects = ref([]);
 const errorModalVisible = ref(false);
 const isModalRegistroOpen = ref(false);
+const isModalFichaOpen = ref(false);
+const selectedItem = ref(null);
 const errorMessage = ref("");
 
 const headers = [
@@ -205,23 +221,16 @@ async function searchPessoasService() {
 }
 
 const createPessoa = () => {
-  isModalRegistroOpen.value = true
+  isModalRegistroOpen.value = true;
+};
+
+function confirmItem(item) {
+  selectedObjects.value.push(item);
 }
 
-function updateSelectedPessoas(selectedItems) {
-  if (selectedItems.length > 0) {
-    selectedObjects.value = selectedItems.map((item) => {
-      const [nome, documento, pessoa_token] = item.split("-");
-
-      return {
-        nome,
-        documento: documento === "null" ? null : documento,
-        pessoa_token,
-      };
-    });
-  } else {
-    console.log("Nenhum item selecionado");
-  }
+const redirectToFicha = (item) =>{
+  selectedItem.value = item;
+  isModalFichaOpen.value = true
 }
 
 function removeFormValueFromTable(item) {
