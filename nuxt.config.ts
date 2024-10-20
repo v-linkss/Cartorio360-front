@@ -44,7 +44,7 @@ export default defineNuxtConfig({
     public: {
       // auth: process.env.MS_AUTH_DESENV,
       // managemant_desenv:  process.env.MS_MANAGEMENT_DESENV,
-      biometria:"http://10.0.0.104:5000/apiservice/capture-finger",
+      biometria:"http://localhost:5000/apiservice/capture-finger",
       auth: process.env.MS_AUTH,
       managemant: process.env.MS_MANAGEMENT,
     },
