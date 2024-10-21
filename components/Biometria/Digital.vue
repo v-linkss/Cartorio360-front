@@ -87,7 +87,7 @@ async function getFingers() {
   });
 
   if (status.value === "success" && fingerData.value) {
-    updateFingerColor("E1", "green");
+    //updateFingerColor("E1", "green");
     fingerData.value.forEach((finger) => {
       if (leftFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
