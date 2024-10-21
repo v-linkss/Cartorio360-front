@@ -9,9 +9,6 @@
         item-title="nome"
         item-value="token"
         required
-        :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
-        @blur="v$.escrevente.$touch"
-        @input="v$.escrevente.$touch"
       >
       </v-autocomplete>
     </v-col>
@@ -118,7 +115,7 @@
     <div>
       <img
         class="mt-10 mb-5 ml-10"
-        @click="reconhecerAtoSemelhanca"
+        @click="reconhecerAtoAutencidade"
         style="cursor: pointer"
         src="../../../../assets/salvar.png"
       />
@@ -132,8 +129,6 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
 
 const props = defineProps({
   ato_token: {
@@ -145,10 +140,11 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
+const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
-const etiquetaAutencidade = `${config.public.managemant}/etiquetaReconhecimento`;
+const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -156,7 +152,6 @@ const ordemserv_token =
 const usuario_token = useCookie("auth_token").value;
 
 const pessoasItems = ref([]);
-const selectedPessoasSemelhanca = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
 const errorModalVisible = ref(false);
@@ -185,14 +180,6 @@ const state = reactive({
   nome: null,
   documento: null,
 });
-
-const rules = {
-  escrevente: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
-  },
-};
-
-const v$ = useVuelidate(rules, state);
 
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
@@ -235,19 +222,20 @@ const redirectToFicha = (item) =>{
 
 function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
-    (pessoa) => pessoa.pessoa_token !== item.pessoa_token
+    (pessoa) => pessoa.token !== item.token
   );
-  selectedPessoasSemelhanca.value = selectedPessoasSemelhanca.value.filter(
-    (pessoa) => pessoa !== `${item.nome}-${item.documento}-${item.pessoa_token}`
-  );
+
 }
 
-async function reconhecerAtoSemelhanca() {
-  if (await v$.value.$validate()) {
-    const selectedTokens = selectedObjects.value.map((item) => {
-      return { pessoa_token: item.pessoa_token };
-    });
-    try {
+async function reconhecerAtoAutencidade() {
+  if (!state.escrevente) {
+    $toast.error("Por favor selecione um Escrevente")
+    return
+  }
+  try {
+      const selectedTokens = selectedObjects.value.map((item) => {
+        return { pessoa_token: item.token };
+      });
       const { data, error, status } = await useFetch(reconhecerPessoa, {
         method: "POST",
         body: {
@@ -270,7 +258,7 @@ async function reconhecerAtoSemelhanca() {
       console.error("Erro na requisição", error);
     }
   }
-}
+
 
 async function reconhecerEtiquetaAutencidade(token) {
   try {
