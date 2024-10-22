@@ -4,29 +4,26 @@
     <v-col cols="5">
       <v-autocomplete
         label="Tabelião/escrevente"
-        v-model="state.escrevente"
+        v-model="stateSemelhanca.escrevente"
         :items="escreventesItems"
         item-title="nome"
         item-value="token"
         required
-        :error-messages="v$.escrevente.$errors.map((e) => e.$message)"
-        @blur="v$.escrevente.$touch"
-        @input="v$.escrevente.$touch"
       >
       </v-autocomplete>
     </v-col>
     <v-col cols="2">
-      <v-text-field label="Quantidade" type="number" v-model="state.quantidade">
+      <v-text-field label="Quantidade" type="number" v-model="stateSemelhanca.quantidade">
       </v-text-field>
     </v-col>
   </v-row>
 
   <v-row>
     <v-col cols="3">
-      <v-text-field label="Documento" v-model="state.documento"> </v-text-field>
+      <v-text-field label="Documento" v-model="stateSemelhanca.documento"> </v-text-field>
     </v-col>
     <v-col cols="4">
-      <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
+      <v-text-field label="Pessoa" v-model="stateSemelhanca.nome"> </v-text-field>
     </v-col>
 
     <div>
@@ -132,8 +129,6 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
 
 const props = defineProps({
   ato_token: {
@@ -145,6 +140,7 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
+const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
@@ -156,7 +152,6 @@ const ordemserv_token =
 const usuario_token = useCookie("auth_token").value;
 
 const pessoasItems = ref([]);
-const selectedPessoasSemelhanca = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
 const errorModalVisible = ref(false);
@@ -179,20 +174,13 @@ const headers = [
   { value: "actions" },
 ];
 
-const state = reactive({
+const stateSemelhanca = reactive({
   quantidade: 1,
   escrevente: null,
   nome: null,
   documento: null,
 });
 
-const rules = {
-  escrevente: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
-  },
-};
-
-const v$ = useVuelidate(rules, state);
 
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
@@ -206,8 +194,8 @@ async function searchPessoasService() {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        documento: state.documento,
-        nome: state.nome,
+        documento: stateSemelhanca.documento,
+        nome: stateSemelhanca.nome,
       },
     });
     if (pessoasData.value.length > 0) {
@@ -235,17 +223,17 @@ const redirectToFicha = (item) =>{
 
 function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
-    (pessoa) => pessoa.pessoa_token !== item.pessoa_token
-  );
-  selectedPessoasSemelhanca.value = selectedPessoasSemelhanca.value.filter(
-    (pessoa) => pessoa !== `${item.nome}-${item.documento}-${item.pessoa_token}`
+    (pessoa) => pessoa.token !== item.token
   );
 }
 
 async function reconhecerAtoSemelhanca() {
-  if (await v$.value.$validate()) {
+  if (!stateSemelhanca.escrevente) {
+    $toast.error("Por favor selecione um Escrevente")
+    return
+  }
     const selectedTokens = selectedObjects.value.map((item) => {
-      return { pessoa_token: item.pessoa_token };
+      return { pessoa_token: item.token };
     });
     try {
       const { data, error, status } = await useFetch(reconhecerPessoa, {
@@ -254,7 +242,7 @@ async function reconhecerAtoSemelhanca() {
           pessoas: selectedTokens,
           cartorio_token: cartorio_token.value,
           ordemserv_token: ordemserv_token,
-          quantidade: state.quantidade,
+          quantidade: stateSemelhanca.quantidade,
           usuario_token: usuario_token,
           ato_tipo_token: props.ato_token,
         },
@@ -270,7 +258,7 @@ async function reconhecerAtoSemelhanca() {
       console.error("Erro na requisição", error);
     }
   }
-}
+
 
 async function reconhecerEtiquetaSemelhanca(token) {
   try {
@@ -279,7 +267,7 @@ async function reconhecerEtiquetaSemelhanca(token) {
       body: {
         ato_token: token,
         cartorio_token: cartorio_token.value,
-        escrevente_token: state.escrevente,
+        escrevente_token: stateSemelhanca.escrevente,
       },
     });
     if (status.value === "success") {

@@ -87,12 +87,12 @@ async function getFingers() {
   });
 
   if (status.value === "success" && fingerData.value) {
-    //updateFingerColor("E1", "green");
     fingerData.value.forEach((finger) => {
       if (leftFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
       } else if (rightFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
+        console.log(finger.dedo,fingerData.value)
       }
     });
   }
@@ -120,6 +120,7 @@ async function captureBiometria() {
     });
     if (status.value === "success") {
       $toast.success("Biometria enviada com sucesso!");
+      updateFingerColor(selectedFinger.value, "green");
       closeModal();
     } else {
       $toast.error("Falha ao enviar a biometria.");
@@ -131,17 +132,13 @@ async function captureBiometria() {
 }
 
 function updateFingerColor(finger, color) {
-  const leftIndex = leftFingers.value.findIndex((f, index) => {
-    if (f === finger) {
-      return f === finger;
-    }
-  });
+  const leftIndex = leftFingers.value.findIndex((f) => f === finger);
   if (leftIndex !== -1) {
     colorLeftFingers.value[leftIndex] = color;
   } else {
     const rightIndex = rightFingers.value.findIndex((f) => f === finger);
     if (rightIndex !== -1) {
-      colorLeftFingers.value[leftIndex] = color;
+      colorRightFingers.value[rightIndex] = color;
     }
   }
 }
@@ -163,7 +160,7 @@ function getFingerStyle(finger, side) {
   };
 
   const position = baseTopLeft[finger];
-  let color = "red"; // Default color
+  let color = "red"; 
 
   if (side === "left") {
     const leftIndex = leftFingers.value.indexOf(finger);
