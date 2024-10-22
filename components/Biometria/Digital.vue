@@ -63,7 +63,7 @@ const { id } = route.params;
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const enviarDigital = `${config.public.biometria}`;
+const enviarDigital = `${config.public.biometria}/capture-finger`;
 const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
 const listarDedos = `${config.public.managemant}/getPessoaBiometriaById`;
 
