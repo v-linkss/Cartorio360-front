@@ -1,23 +1,15 @@
 <template>
   <v-card width="1300">
-    <h1
-      style="
+    <h1 style="
         background-color: #c8fcca;
         color: #429946;
         padding: 10px 0px 0px 20px;
-      "
-    >
+      ">
       {{ id ? 'Atualização de Pessoas' : 'Cadastramento de Pessoas' }}
     </h1>
     <div style="background-color: #c8fcca; padding: 20px 0px 20px 20px">
-      <v-autocomplete
-        v-model="state.tipo_pessoa"
-        style="width: 200px"
-        :items="pessoa_tipo"
-        label="Tipo de pessoa"
-        bg-color="#F6F6F6"
-        disabled
-      >
+      <v-autocomplete v-model="state.tipo_pessoa" style="width: 200px" :items="pessoa_tipo" label="Tipo de pessoa"
+        bg-color="#F6F6F6" disabled>
       </v-autocomplete>
     </div>
     <v-tabs v-model="tab" bg-color="#C8FCCA">
@@ -29,125 +21,117 @@
     </v-tabs>
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <v-progress-circular
-          class="loading-spinner"
-          indeterminate
-          size="64"
-          v-if="pending"
-        ></v-progress-circular>
-        <div v-else-if="error">{{ error.message }}</div>
-        <v-container v-if="!pending" class="mt-5">
-          <v-row>
-            <v-col cols="12" md="8">
-              <v-text-field v-model="state.nome" label="Nome"></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.doc_identificacao"
-                label="CPF"
-                v-mask="'###.###.###-##'"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.tabvalores_estadocivil_id"
-                :items="dados.estadoCivilItems"
-                item-title="descricao"
-                item-value="id"
-                label="Estado Civil"
-              >
-              </v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.profissao"
-                label="Profissão"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.local_trabalho"
-                label="Local de trabalho"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.data_nascimento"
-                type="date"
-                prepend-icon=""
-                label="Data de nascimento"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.tabvalores_capacidadecivil_id"
-                :items="dados.capacidadeCivilItems"
-                label="Capacidade Civil"
-                item-title="descricao"
-                item-value="id"
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.cidade_natural_id"
-                :items="dados.cidadeNascimentoItems"
-                label="Cidade de nascimento"
-                item-title="descricao"
-                item-value="id"
-              ></v-autocomplete>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.cpf_pai"
-                label="CPF do Pai"
-                v-mask="'###.###.###-##'"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.nome_pai"
-                label="Nome do Pai"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.cpf_mae"
-                label="CPF da Mãe"
-                v-mask="'###.###.###-##'"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.nome_mae"
-                label="Nome da Mãe"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <NuxtLink to="/pessoas/registros">
-              <img
-                class="btn-pointer"
-                src="../../../assets/sair.png"
-                alt="Sair"
-              />
-            </NuxtLink>
+        <v-container class="mt-5">
+    <v-row>
+      <v-col cols="12" md="8">
+        <v-text-field
+          v-model="state.nome"
+          label="Nome"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model="state.doc_identificacao"
+          label="CPF"
+          v-mask="'###.###.###-##'"
 
-            <img
-              class="btn-pointer"
-              src="../../../assets/salvar.png"
-              @click="onUpdate()"
-            />
-          </v-row>
-        </v-container>
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="4">
+        <v-autocomplete
+          v-model="state.tabvalores_estadocivil_id"
+          :items="estadoCivilItemsData"
+          item-title="descricao"
+          item-value="id"
+          label="Estado Civil"
+        >
+        </v-autocomplete>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model="state.profissao"
+          label="Profissão"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model="state.local_trabalho"
+          label="Local de trabalho"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model="state.data_nascimento"
+          type="date"
+          prepend-icon=""
+          label="Data de nascimento"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-autocomplete
+          v-model="state.tabvalores_capacidadecivil_id"
+          :items="capacidadeCivilItemsData"
+          label="Capacidade Civil"
+          item-title="descricao"
+          item-value="id"
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-autocomplete
+          v-model="state.cidade_natural_id"
+          :items="cidadeNascimentoItemsData"
+          label="Cidade de nascimento"
+          item-title="descricao"
+          item-value="id"
+        ></v-autocomplete>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model.date="state.cpf_pai"
+          label="CPF do Pai"
+          v-mask="'###.###.###-##'"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model.date="state.nome_pai"
+          label="Nome do Pai"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model.date="state.cpf_mae"
+          label="CPF da Mãe"
+          v-mask="'###.###.###-##'"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          v-model.date="state.nome_mae"
+          label="Nome da Mãe"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <NuxtLink to="/pessoas/registros">
+        <img class="btn-pointer" src="../../../assets/sair.png" alt="Sair" />
+      </NuxtLink>
+
+      <img
+        class="btn-pointer"
+        src="../../../assets/salvar.png"
+        @click=" onUpdate() "
+      />
+    </v-row>
+  </v-container>
       </v-tabs-window-item>
       <v-tabs-window-item value="documento">
         <Documentos />
@@ -168,7 +152,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 
 const tab = ref(null);
@@ -185,6 +169,10 @@ const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
 const cidades = `${config.public.managemant}/listarCidades`;
 const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+
+const estadoCivilItemsData = ref([])
+const capacidadeCivilItemsData = ref([])
+const cidadeNascimentoItemsData = ref([])
 
 const initialState = {
   nome: "",
@@ -215,31 +203,44 @@ function removeFormatting(value) {
   }
 }
 
-const {
-  data: dados,
-  status,
-  pending,
-  error,
-} = await useLazyAsyncData("cliente-dados", async () => {
-  const [
-    estadoCivilItems,
-    capacidadeCivilItems,
-    cidadeNascimentoItems,
-    pessoa,
-  ] = await Promise.all([
-    $fetch(estadoCivil),
-    $fetch(capacidadeCivil),
-    $fetch(cidades),
-    $fetch(`${buscarPessoa}/${id}`),
-  ]);
-
-  // Atribuir os dados da pessoa ao estado reativo
-  Object.assign(state, pessoa);
-
-  return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
-});
-
 const v$ = useVuelidate(state);
+
+// Função para carregar dados da pessoa e popular o formulário
+async function loadPessoaData() {
+  try {
+    const [
+      estadoCivilItems,
+      capacidadeCivilItems,
+      cidadeNascimentoItems,
+      pessoa,
+    ] = await Promise.all([
+      $fetch(estadoCivil),
+      $fetch(capacidadeCivil),
+      $fetch(cidades),
+      $fetch(`${buscarPessoa}/${id}`),
+    ]);
+
+    const pessoa_token = useCookie('pessoa_token');
+    pessoa_token.value = pessoa.token;
+
+    estadoCivilItemsData.value = estadoCivilItems
+    capacidadeCivilItemsData.value = capacidadeCivilItems
+    cidadeNascimentoItemsData.value = cidadeNascimentoItems
+    // Atribuir os dados da pessoa ao estado reativo
+    Object.assign(state, pessoa);
+
+    return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
+  } catch (error) {
+    console.error("Erro ao carregar os dados da pessoa:", error);
+  }
+}
+
+// Chamando a função para carregar dados quando o componente é montado
+onMounted(() => {
+  if (id) {
+    loadPessoaData();
+  }
+});
 
 function formatPayload(payload) {
   const formattedPayload = {};

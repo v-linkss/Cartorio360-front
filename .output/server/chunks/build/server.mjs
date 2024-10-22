@@ -708,12 +708,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-D3-FaUTM.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-zqMOClWw.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-CDusd6zT.mjs').then((m) => m.default || m)
+    component: () => import('./index-CwBeiGte.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
