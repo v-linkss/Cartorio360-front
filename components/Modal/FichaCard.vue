@@ -7,10 +7,10 @@
         <v-btn
           style="background-color: #429946; color: white"
           @click="confirmarRecebimento"
-          >Confirmar</v-btn
+          >Reconhecer</v-btn
         >
         <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Cancelar</v-btn
+          >Voltar</v-btn
         >
       </v-card-actions>
     </v-card>
