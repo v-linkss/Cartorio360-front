@@ -20,31 +20,11 @@ export default defineNuxtConfig({
       },
     },
   },
-  // devServer: {
-  //   https: {
-  //     key: fs
-  //       .readFileSync(
-  //         path.resolve(
-  //           __dirname,
-  //           "/var/www/certificado-cartorio360/Certificados/server.key"
-  //         )
-  //       )
-  //       .toString(),
-  //     cert: fs
-  //       .readFileSync(
-  //         path.resolve(
-  //           __dirname,
-  //           "/var/www/certificado-cartorio360/Certificados/server.crt"
-  //         )
-  //       )
-  //       .toString(),
-  //   },
-  // },
   runtimeConfig: {
     public: {
       // auth: process.env.MS_AUTH_DESENV,
-      // managemant_desenv:  process.env.MS_MANAGEMENT_DESENV,
-      biometria:"http://localhost:5000/apiservice/capture-finger",
+      // managemant:  process.env.MS_MANAGEMENT_DESENV,
+      biometria: process.env.BIOMETRIA,
       auth: process.env.MS_AUTH,
       managemant: process.env.MS_MANAGEMENT,
     },

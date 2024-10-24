@@ -227,12 +227,12 @@ function removeFormValueFromTable(item) {
 
 }
 
-async function reconhecerAtoAutencidade() {
-  if (!state.escrevente) {
-    $toast.error("Por favor selecione um Escrevente")
-    return
-  }
-  try {
+  async function reconhecerAtoAutencidade() {
+    if (!state.escrevente) {
+      $toast.error("Por favor selecione um Escrevente")
+      return
+    }
+    try {
       const selectedTokens = selectedObjects.value.map((item) => {
         return { pessoa_token: item.token };
       });
@@ -249,6 +249,7 @@ async function reconhecerAtoAutencidade() {
       });
       if (status.value === "success" && data.value[0].status === "OK") {
         reconhecerEtiquetaAutencidade(data.value[0].token);
+        goBack();
       } else {
         errorModalVisible.value = true;
         errorMessage.value =
