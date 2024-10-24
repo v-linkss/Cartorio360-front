@@ -221,7 +221,7 @@ const state = reactive({
 const headers = [
   { title: "País", value: "pais.descricao" },
   { title: "CEP", value: "codcep" },
-  { title: "Endereço", value: "logradouro" },
+  { title: "Endereço", value: "logradouro",width:"200px"},
   {
     title: "N*",
     value: "numero",
@@ -232,7 +232,7 @@ const headers = [
   },
   {
     title: "Bairro",
-    value: "logradouro",
+    value: "bairro",
   },
   {
     title: "Cidade",

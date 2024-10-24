@@ -40,9 +40,9 @@ const route = useRoute();
 const numeroOs = route.query.numeroOs;
 
 const components = {
-  yXA3K: semelhanca,
-  WrhCH: autencidade,
-  bFsdV: autenticacao,
+ "yXA3K": semelhanca,
+ "WrhCH": autencidade,
+ "bFsdV": autenticacao,
 };
 
 const servicos = ref([]);
