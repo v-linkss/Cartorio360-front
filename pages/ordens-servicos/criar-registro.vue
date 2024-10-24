@@ -13,6 +13,7 @@
           label="Nacionalidade"
           :items="nacionalidade"
           v-model="state.nacionalidade"
+           :disabled="isDisabledCookie ||isDisabled"
         ></v-autocomplete>
       </v-col>
       <v-col md="2">
@@ -26,6 +27,7 @@
           :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
           @blur="v$.apresentante_cpf.$touch"
           @input="validarCpf(state.apresentante_cpf)"
+           :disabled="isDisabledCookie ||isDisabled"
         ></v-text-field>
         <v-text-field
           v-else
@@ -35,6 +37,7 @@
           required
           :error-messages="v$.apresentante_cpf.$errors.map((e) => e.$message)"
           @blur="v$.apresentante_cpf.$touch"
+           :disabled="isDisabledCookie ||isDisabled"
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -44,6 +47,7 @@
           required
           :error-messages="v$.apresentante_nome.$errors.map((e) => e.$message)"
           @input="v$.apresentante_nome.$touch"
+           :disabled="isDisabledCookie ||isDisabled"
         ></v-text-field>
       </v-col>
       <v-col v-if="showCreateOrdemServ">
@@ -154,6 +158,7 @@ const ordemserv_token =
   ref(useCookie("user-service").value?.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const ordemNumero = ref(useCookie("user-service").value?.numero);
+const isDisabledCookie = ref(useCookie("user-service").value?.isDisabled)
 
 let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value);
@@ -163,11 +168,12 @@ const isModalReimprimirOpen = ref(false);
 const atosItems = ref([]);
 
 const state = reactive({
-  nacionalidade: false,
+  nacionalidade: false || useCookie("user-service").value?.estrangeiro,
   apresentante_nome: null || useCookie("user-service").value?.apresentante_nome,
   apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
-  documento: null,
 });
+
+const isDisabled = ref(false);
 
 const headers = [
   { title: "Protocolo", value: "protocolo" },
@@ -245,8 +251,12 @@ async function onSubmit() {
         numero: data.value.numero,
         apresentante_cpf: data.value.apresentante_cpf,
         apresentante_nome: data.value.apresentante_nome,
+        estrangeiro: data.value.estrangeiro,
         token: data.value.token,
+        isDisabled: true
       });
+
+      isDisabled.value = true;
     }
   }
 }

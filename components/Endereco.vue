@@ -87,10 +87,10 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px">
+        <v-row style="display: flex;margin-top: -8px; gap: 10px">
           <div @click="redirectToUpdate(item.id)" title="Visualizar">
             <img
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../assets/editar.png"
               alt="Visualizar"
             />
@@ -98,7 +98,7 @@
           <div @click="deleteEndereco(item)" title="Visualizar">
             <img
               v-if="item.excluido"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
@@ -108,7 +108,7 @@
               src="../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               title="Excluir"
             />
           </div>

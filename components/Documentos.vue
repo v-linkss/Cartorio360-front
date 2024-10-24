@@ -68,10 +68,10 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex;gap: 10px;">
+        <v-row style="display: flex;margin-top: -8px;gap: 10px;">
           <div @click="redirectToUpdate(item.id)" title="editar">
             <img
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../assets/editar.png"
               alt="editar"
             />
@@ -79,7 +79,7 @@
           <div @click="deleteDocumento(item)" title="deletar">
             <img
               v-if="item.excluido"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../assets/excluido.png"
               alt="deletar"
               title="Reativar"
@@ -89,7 +89,7 @@
               src="../assets/mudarStatus.png"
               alt="reativar"
               class="trash-icon"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 30px; height: 30px; cursor: pointer"
               title="reativar"
             />
           </div>

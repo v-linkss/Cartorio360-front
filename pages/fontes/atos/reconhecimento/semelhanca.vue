@@ -271,6 +271,7 @@ async function reconhecerEtiquetaSemelhanca(token) {
       },
     });
     if (status.value === "success") {
+      goBack()
       const newWindow = window.open("", "_blank");
       newWindow.document.open();
       newWindow.document.write(data.value[0].etiqueta);
