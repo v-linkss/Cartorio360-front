@@ -662,17 +662,17 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CbjDXGhO.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-CDb5ULUh.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-B2PN6FAX.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BZTjSela.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-CjtnguPC.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-B_ceA1HY.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,12 +693,12 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-BklBib6P.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-B0sQls6m.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-iM0Zotpu.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-B3dbr_dc.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
@@ -708,12 +708,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-Dv_5bDJn.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-De7n9Lw5.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-B9t21b3m.mjs').then((m) => m.default || m)
+    component: () => import('./index-BbZQU1ij.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",

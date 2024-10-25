@@ -7,7 +7,7 @@
         :key="index"
         class="finger"
         :style="getFingerStyle(finger, 'left')"
-        @click="openModal(finger)"
+       @click="captureBiometria(finger)"
       ></div>
       <!-- Mão direita -->
       <div
@@ -15,34 +15,10 @@
         :key="index"
         class="finger"
         :style="getFingerStyle(finger, 'right')"
-        @click="openModal(finger)"
+       @click="captureBiometria(finger)"
       ></div>
     </div>
-    <v-dialog v-model="isModalOpen" max-width="600px">
-      <v-card>
-        <v-card-title> Captura de Biometria </v-card-title>
-        <v-card-text>
-          <div v-if="currentFingerBiometria">
-            <p>Biometria existente para {{ selectedFinger }}.</p>
-            <v-img :src="currentFingerBiometria" alt="Biometria" />
-            <p>Deseja substituir?</p>
-          </div>
-          <div v-else>
-            <p>
-              Nenhuma biometria encontrada para {{ selectedFinger }}. Capturando
-              nova biometria...
-            </p>
-          </div>
-          <div v-if="biometricDevice">
-            <p>Dispositivo biométrico detectado: {{ biometricDevice }}</p>
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="green" @click="captureBiometria">Capturar</v-btn>
-          <v-btn color="red" @click="closeModal">Cancelar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+
   </v-col>
 </template>
 
@@ -51,11 +27,6 @@ const leftFingers = ref(["E1", "E2", "E3", "E4", "E5"]);
 var colorLeftFingers = ref(["red", "red", "red", "red", "red"]);
 const rightFingers = ref(["D1", "D2", "D3", "D4", "D5"]);
 var colorRightFingers = ref(["red", "red", "red", "red", "red"]);
-
-const isModalOpen = ref(false);
-const selectedFinger = ref(null);
-const currentFingerBiometria = ref(null);
-const biometricDevice = ref(null);
 
 const route = useRoute();
 const { id } = route.params;
@@ -66,20 +37,6 @@ const config = useRuntimeConfig();
 const enviarDigital = `${config.public.biometria}/capture-finger`;
 const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
 const listarDedos = `${config.public.managemant}/getPessoaBiometriaById`;
-
-// Função para abrir o modal e verificar se a biometria do dedo já existe
-function openModal(finger) {
-  selectedFinger.value = finger;
-  isModalOpen.value = true;
-}
-
-// Função para fechar o modal
-function closeModal() {
-  isModalOpen.value = false;
-  selectedFinger.value = null;
-  currentFingerBiometria.value = null;
-  biometricDevice.value = null;
-}
 
 async function getFingers() {
   const { status, data: fingerData } = await useFetch(`${listarDedos}/${id}`, {
@@ -92,7 +49,6 @@ async function getFingers() {
         updateFingerColor(finger.dedo, "green");
       } else if (rightFingers.value.includes(finger.dedo)) {
         updateFingerColor(finger.dedo, "green");
-        console.log(finger.dedo,fingerData.value)
       }
     });
   }
@@ -101,7 +57,7 @@ async function getFingers() {
 onMounted(() => {
   getFingers();
 });
-async function captureBiometria() {
+async function captureBiometria(finger) {
   const { status, data: captureData } = await useFetch(enviarDigital, {
     method: "GET",
   });
@@ -110,22 +66,20 @@ async function captureBiometria() {
     const bodyDigital = {
       user_id: useCookie("user-data").value.usuario_id,
       pessoa_id: Number(id),
-      dedo: selectedFinger.value,
+      dedo: finger,
       hash,
     };
 
-    const { status, data } = await useFetch(enviarDigitalBanco, {
+    const { status } = await useFetch(enviarDigitalBanco, {
       method: "POST",
       body: bodyDigital,
     });
     if (status.value === "success") {
       $toast.success("Biometria enviada com sucesso!");
-      updateFingerColor(selectedFinger.value, "green");
-      closeModal();
+      updateFingerColor(finger, "green");
     } else {
       $toast.error("Falha ao enviar a biometria.");
     }
-    closeModal();
   } else {
     $toast.error("Erro ao Capturar biometria para o sistema.");
   }
