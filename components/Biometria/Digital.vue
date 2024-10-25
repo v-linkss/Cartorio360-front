@@ -29,17 +29,17 @@ const rightFingers = ref(["D1", "D2", "D3", "D4", "D5"]);
 var colorRightFingers = ref(["red", "red", "red", "red", "red"]);
 
 const route = useRoute();
-const { id } = route.params;
-
 const { $toast } = useNuxtApp();
-
 const config = useRuntimeConfig();
+const { id } = route.params;
+const pessoa_id = ref(useCookie('pessoa-id').value).value;
+
 const enviarDigital = `${config.public.biometria}/capture-finger`;
 const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
 const listarDedos = `${config.public.managemant}/getPessoaBiometriaById`;
 
 async function getFingers() {
-  const { status, data: fingerData } = await useFetch(`${listarDedos}/${id}`, {
+  const { status, data: fingerData } = await useFetch(`${listarDedos}/${id || pessoa_id}`, {
     method: "GET",
   });
 
@@ -65,7 +65,7 @@ async function captureBiometria(finger) {
     const hash = captureData.value.hash;
     const bodyDigital = {
       user_id: useCookie("user-data").value.usuario_id,
-      pessoa_id: Number(id),
+      pessoa_id: Number(id) || pessoa_id,
       dedo: finger,
       hash,
     };

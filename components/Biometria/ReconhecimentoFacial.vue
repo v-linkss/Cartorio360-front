@@ -87,7 +87,7 @@ const capturedPhoto = ref(null);
 
 const zoomLevel = ref(1);
 
-const tokenCookie = useCookie('auth_token');
+const tokenCookie = useCookie('pessoa_token');
 const token = tokenCookie.value;
 
 const pessoaNome = useCookie("user-data").value;

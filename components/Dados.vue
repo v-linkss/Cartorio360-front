@@ -234,6 +234,8 @@ async function onSubmit() {
       $toast.success("Pessoa cadastrada com sucesso!");
       const pessoaIdValue = data.value.id;
       pessoaId.value = pessoaIdValue;
+      const pessoa_token = useCookie('pessoa_token');
+    pessoa_token.value = data.value.token;
       emit("saved");
       isEditMode.value = true;
     }
