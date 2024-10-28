@@ -58,7 +58,7 @@ onMounted(() => {
   getFingers();
 });
 async function captureBiometria(finger) {
-  const { status, data: captureData } = await useFetch("http://localhost:5000/apiservice/capture-fingersd", {
+  const { status, data: captureData } = await useFetch("http://localhost:5000/apiservice/capture-finger", {
     method: "GET",
   });
   if (status.value === "success") {
