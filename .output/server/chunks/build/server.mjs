@@ -662,7 +662,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CDb5ULUh.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-D3H_tYQb.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -683,7 +683,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-BZcc2Sqa.mjs').then((m) => m.default || m)
+    component: () => import('./index-Cfu6IysR.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-atualizar-id",
@@ -693,7 +693,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-B0sQls6m.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-3sJ2gE85.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
@@ -708,22 +708,22 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-Bw9YubIa.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-8xBiP0XG.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-B4DmSlnH.mjs').then((m) => m.default || m)
+    component: () => import('./index-DCFZiHB4.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-B-IuB-Ko.mjs').then((m) => m.default || m)
+    component: () => import('./index-CA5DhmFM.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-C7pxqhl6.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DSfrbaZZ.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -16392,7 +16392,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-izoFShx7.mjs').then((m) => m.default || m)
+  default: () => import('./default-BKRS3GeD.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
