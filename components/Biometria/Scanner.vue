@@ -2,7 +2,7 @@
   <div>
     <!-- Botão de Imagem para abrir o Modal -->
     <img
-      @click="isModalOpen = true"
+      @click="openScannerAndModal"
       src="../../assets/escanearFicha.png"
       style="width: 280px; height: 120px; cursor: pointer; margin-top: 30px"
     />
@@ -47,7 +47,6 @@ const isModalOpen = ref(false);
 const tokenCookie = useCookie('pessoa_token');
 const token = tokenCookie.value;
 
-// Função para abrir a pasta e listar os arquivos
 async function openDirectory() {
   try {
     const directoryHandle = await window.showDirectoryPicker();
@@ -86,6 +85,13 @@ async function uploadFile(file) {
   } catch (error) {
     console.error('Erro no upload:', error);
   }
+}
+
+const openScannerAndModal = async() =>{
+  isModalOpen.value = true
+  const { data } = await useFetch(acionarScanner, {
+    method: "GET"
+  });
 }
 </script>
 
