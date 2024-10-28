@@ -78,7 +78,7 @@ async function uploadFile(file) {
       method: "POST",
       body: formData
     });
-    if (status.value === 200) {
+    if (status.value === 'success') {
       $toast.success("Documento enviado com sucesso!");
     } else {
       $toast.error("Falha no envio do documento.");
@@ -89,6 +89,4 @@ async function uploadFile(file) {
 }
 </script>
 
-<style scoped>
-/* Estilização do modal, caso necessário */
-</style>
+
