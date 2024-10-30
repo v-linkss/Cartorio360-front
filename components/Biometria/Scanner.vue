@@ -92,6 +92,7 @@ const openScannerAndModal = async() =>{
   const { data } = await useFetch(acionarScanner, {
     method: "GET"
   });
+  console.log(acionarScanner)
 }
 </script>
 
