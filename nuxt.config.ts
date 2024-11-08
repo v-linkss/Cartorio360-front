@@ -27,6 +27,7 @@ export default defineNuxtConfig({
       biometria: process.env.BIOMETRIA,
       auth: process.env.MS_AUTH,
       managemant: process.env.MS_MANAGEMENT,
+      envioDoc: process.env.OBSERVER
     },
   },
   css: ["~/assets/css/main.css"],

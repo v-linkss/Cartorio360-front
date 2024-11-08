@@ -8,8 +8,8 @@
             style="width: 300px; height: 300px"
             @click="openDialog"
           >
-            <img v-if="!capturedPhoto" src="../../assets/camera.png" />
-            <img v-if="capturedPhoto" :src="capturedPhoto" style="width: 100%; height: 100%; object-fit: cover;" />
+            <img v-if="!fotoRender" src="../../assets/camera.png" />
+            <img v-if="fotoRender" :src="capturedPhoto || fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />
           </v-btn>
         </template>
 
@@ -84,6 +84,7 @@ const devices = ref([]);
 const selectedDeviceId = ref("");
 const isDialogActiveBiometria = ref(false);
 const capturedPhoto = ref(null);
+const fotoRender = ref(null)
 
 const zoomLevel = ref(1);
 
@@ -95,6 +96,7 @@ const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
 const enviarFoto = `${config.public.managemant}/upload`;
+const redenrizarFoto = `${config.public.managemant}/download`;
 
 const { $toast } = useNuxtApp();
 
@@ -183,6 +185,12 @@ const handleCapture = async () => {
 const handleDelete = () => {
   capturedPhoto.value = null; 
 };
+
+const { data:imagemBiometria } = await useFetch(redenrizarFoto, {
+      method: 'POST',
+      body: {path:'foto',bucket:'cartorio-teste',token:token},
+});
+fotoRender.value = imagemBiometria.value
 
 onMounted(async () => {
   try {
