@@ -199,6 +199,7 @@ async function searchPessoasService() {
     });
     if (pessoasData.value.length > 0) {
       pessoasItems.value = pessoasData.value;
+      console.log(pessoasItems.value)
     } else {
       pessoasItems.value = [];
     }

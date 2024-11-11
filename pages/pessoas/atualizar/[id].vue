@@ -227,6 +227,7 @@ async function loadPessoaData() {
     capacidadeCivilItemsData.value = capacidadeCivilItems
     cidadeNascimentoItemsData.value = cidadeNascimentoItems
     // Atribuir os dados da pessoa ao estado reativo
+    console.log(pessoa)
     Object.assign(state, pessoa);
 
     return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };

@@ -10,6 +10,7 @@
           >
             <img v-if="!fotoRender" src="../../assets/camera.png" />
             <img v-if="fotoRender" :src="capturedPhoto || fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />
+            
           </v-btn>
         </template>
 
@@ -86,6 +87,9 @@ const isDialogActiveBiometria = ref(false);
 const capturedPhoto = ref(null);
 const fotoRender = ref(null)
 
+const route = useRoute();
+const { id } = route.params;
+
 const zoomLevel = ref(1);
 
 const tokenCookie = useCookie('pessoa_token');
@@ -96,7 +100,7 @@ const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
 const enviarFoto = `${config.public.managemant}/upload`;
-const redenrizarFoto = `${config.public.managemant}/download`;
+const buscarPessoa = `${config.public.managemant}/getPessoaById`;
 
 const { $toast } = useNuxtApp();
 
@@ -186,11 +190,11 @@ const handleDelete = () => {
   capturedPhoto.value = null; 
 };
 
-const { data:imagemBiometria } = await useFetch(redenrizarFoto, {
-      method: 'POST',
-      body: {path:'foto',bucket:'cartorio-teste',token:token},
+const { data:imagemBiometria } = await useFetch(`${buscarPessoa}/${id}`, {
+      method: 'GET',
+  
 });
-fotoRender.value = imagemBiometria.value
+fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link_foto}`;
 
 onMounted(async () => {
   try {

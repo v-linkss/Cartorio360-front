@@ -1,8 +1,8 @@
 <template>
-  <v-dialog persistent v-model="isVisible" per max-width="700">
+  <v-dialog persistent v-model="isVisible" max-width="700">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
-      <v-img src="../../assets/ficha.png"/>
+      <v-img :src="fichaRender"/>
       <v-card-actions>
         <v-btn
           style="background-color: #429946; color: white"
@@ -20,16 +20,22 @@
 <script setup>
 const props = defineProps({
   show: Boolean,
+  item: Object
 });
 
+const config = useRuntimeConfig();
+const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+
 const isVisible = ref(props.show);
+const fichaRender = ref()
 
 const emit = defineEmits(["close","confirmar"]);
 
 watch(
   () => props.show,
-  (newVal) => {
+  async(newVal) => {
     isVisible.value = newVal;
+    await beforeOpenFicha();
   }
 );
 
@@ -38,8 +44,29 @@ const confirmarRecebimento = () => {
   closeModal();
 };
 
+const beforeOpenFicha = async () => {
+  try {
+    const { data: imagemBiometria } = await useFetch(
+      `${buscarPessoa}/${props.item.id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (imagemBiometria.value && imagemBiometria.value.link_ficha) {
+      fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link_ficha}`;
+    } else {
+      fichaRender.value = null; // ou uma imagem placeholder
+    }
+  } catch (error) {
+    console.error("Erro ao buscar a imagem da ficha:", error);
+  }
+};
+
+
 const closeModal = () => {
   isVisible.value = false;
+  fichaRender.value = null;
   emit("close");
 };
 </script>

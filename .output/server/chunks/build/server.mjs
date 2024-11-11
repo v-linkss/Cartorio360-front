@@ -667,12 +667,12 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-BZTjSela.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-DGPE9qOZ.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-B_ceA1HY.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-sw_lNzE7.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -693,7 +693,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-B0sQls6m.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-OHs8h26f.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
@@ -708,12 +708,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BPqoe2c7.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-3ok0H7Td.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-CHcjPAJf.mjs').then((m) => m.default || m)
+    component: () => import('./index-Bn8Eo6i2.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",

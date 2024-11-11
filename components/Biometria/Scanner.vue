@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Botão de Imagem para abrir o Modal -->
     <img
       @click="handleScannerClick"
       src="../../assets/escanearFicha.png"
@@ -19,8 +18,6 @@ const viewDoc = `${config.public.envioDoc}`;
 const acionarScanner = `${config.public.biometria}/run-scanner`;
 const tokenCookie = useCookie('pessoa_token');
 const token = tokenCookie.value;
-
-const showModal = ref(false);
 
 // Função principal ao clicar na imagem
 async function handleScannerClick() {
