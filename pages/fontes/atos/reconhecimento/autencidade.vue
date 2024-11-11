@@ -102,6 +102,11 @@
    @confirmar="confirmItem(selectedItem)"
    @close="isModalFichaOpen = false"
   />
+  <ErrorModalCard
+    :show="errorModalVisible"
+    :errorMessage="errorMessage"
+    @close="errorModalVisible = false"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <img
@@ -121,11 +126,6 @@
       />
     </div>
   </v-row>
-  <ErrorModalCard
-    :show="errorModalVisible"
-    :errorMessage="errorMessage"
-    @close="errorModalVisible = false"
-  />
 </template>
 
 <script setup>
@@ -199,7 +199,6 @@ async function searchPessoasService() {
     });
     if (pessoasData.value.length > 0) {
       pessoasItems.value = pessoasData.value;
-      console.log(pessoasItems.value)
     } else {
       pessoasItems.value = [];
     }

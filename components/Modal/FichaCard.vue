@@ -24,7 +24,7 @@ const props = defineProps({
 });
 
 const config = useRuntimeConfig();
-const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 
 const isVisible = ref(props.show);
 const fichaRender = ref()
@@ -47,16 +47,17 @@ const confirmarRecebimento = () => {
 const beforeOpenFicha = async () => {
   try {
     const { data: imagemBiometria } = await useFetch(
-      `${buscarPessoa}/${props.item.id}`,
+      `${buscarPessoa}`,
       {
-        method: "GET",
+        method: "POST",
+        body:{id:props.item.id,tipo:'ficha'}
       }
     );
 
-    if (imagemBiometria.value && imagemBiometria.value.link_ficha) {
-      fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link_ficha}`;
+    if (imagemBiometria.value && imagemBiometria.value.link) {
+      fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
     } else {
-      fichaRender.value = null; // ou uma imagem placeholder
+      fichaRender.value = null; 
     }
   } catch (error) {
     console.error("Erro ao buscar a imagem da ficha:", error);

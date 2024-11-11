@@ -96,6 +96,7 @@ const headers = [
   { value: "actions" },
 ];
 const { data: pessoasItems, pending } = await useLazyFetch(pessoasLista);
+console.log(pessoasItems.value)
 
 const filteredPessoas = computed(() => {
   return pessoasItems.value.filter((item) => {

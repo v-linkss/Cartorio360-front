@@ -44,7 +44,7 @@ async function enviarArquivo() {
   try {
     const { status } = await useFetch(viewDoc, {
       method: 'POST',
-      body: { bucket: 'cartorio-teste', tipo: 'ficha', pessoa_token: token }
+      body: { tipo: 'ficha', pessoa_token: token }
     });
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);

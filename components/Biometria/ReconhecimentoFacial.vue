@@ -8,9 +8,8 @@
             style="width: 300px; height: 300px"
             @click="openDialog"
           >
-            <img v-if="!fotoRender" src="../../assets/camera.png" />
-            <img v-if="fotoRender" :src="capturedPhoto || fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />
-            
+          <img v-if="imagemBiometria.link_foto === null" src="../../assets/camera.png" />
+          <img v-if="imagemBiometria.link_foto !== null" :src="capturedPhoto || fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />            
           </v-btn>
         </template>
 
@@ -99,8 +98,8 @@ const pessoaNome = useCookie("user-data").value;
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/upload`;
-const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+const enviarFoto = `${config.public.managemant}/uploadPessoa`;
+const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 
 const { $toast } = useNuxtApp();
 
@@ -166,15 +165,15 @@ const handleCapture = async () => {
   canvas.toBlob(async (blob) => {
     const formData = new FormData();
     formData.append('file', blob, `${nomePessoa}.jpg`);
-    formData.append('pessoa_token', token); // Adiciona o token ao FormData
-    formData.append('bucket', 'cartorio-teste'); // Adiciona o campo bucket
-    formData.append("tipo", "foto"); //foto -> faceId, biometria -> impreção digital e ficha -> ficha escaneada(Scanner)
+    formData.append('pessoa_token', token); 
+    formData.append('bucket', 'cartorio-teste'); 
+    formData.append("tipo", "foto"); 
 
     const { status } = await useFetch(enviarFoto, {
       method: 'POST',
       body: formData,
     });
-
+    console.log(status.value)
     if (status.value === 'success') {
       const photoUrl = URL.createObjectURL(blob);
       $toast.success("Imagem enviada!");
@@ -190,11 +189,11 @@ const handleDelete = () => {
   capturedPhoto.value = null; 
 };
 
-const { data:imagemBiometria } = await useFetch(`${buscarPessoa}/${id}`, {
-      method: 'GET',
-  
+const { data:imagemBiometria } = await useFetch(buscarPessoa, {
+      method: 'POST',
+      body:{tipo:'foto',id:id}
 });
-fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link_foto}`;
+fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
 
 onMounted(async () => {
   try {
