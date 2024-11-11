@@ -8,8 +8,8 @@
             style="width: 300px; height: 300px"
             @click="openDialog"
           >
-          <img v-if="imagemBiometria.link_foto === null" src="../../assets/camera.png" />
-          <img v-if="imagemBiometria.link_foto !== null" :src="capturedPhoto || fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />            
+          <img v-if="imagemBiometria.link === null" src="../../assets/camera.png" />
+          <img v-if="imagemBiometria.link !== null" :src="fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />            
           </v-btn>
         </template>
 
@@ -166,18 +166,16 @@ const handleCapture = async () => {
     const formData = new FormData();
     formData.append('file', blob, `${nomePessoa}.jpg`);
     formData.append('pessoa_token', token); 
-    formData.append('bucket', 'cartorio-teste'); 
     formData.append("tipo", "foto"); 
 
     const { status } = await useFetch(enviarFoto, {
       method: 'POST',
       body: formData,
     });
-    console.log(status.value)
     if (status.value === 'success') {
-      const photoUrl = URL.createObjectURL(blob);
       $toast.success("Imagem enviada!");
-      capturedPhoto.value = photoUrl;
+      const photoUrl = URL.createObjectURL(blob);
+      fotoRender.value = photoUrl;
       closeDialog();
     } else {
       $toast.error("Erro ao enviar imagem para o sistema.");
@@ -193,6 +191,7 @@ const { data:imagemBiometria } = await useFetch(buscarPessoa, {
       method: 'POST',
       body:{tipo:'foto',id:id}
 });
+
 fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
 
 onMounted(async () => {
