@@ -25,6 +25,7 @@
           item-value="token"
           :items="atos"
         ></v-autocomplete>
+
       </v-col>
     </v-row>
   </v-container>
@@ -35,6 +36,7 @@
 import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
 import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
+import procuracao from "../fontes/atos/procuracoes/procuracao.vue";
 
 const route = useRoute();
 const numeroOs = route.query.numeroOs;
@@ -43,6 +45,7 @@ const components = {
  "yXA3K": semelhanca,
  "WrhCH": autencidade,
  "bFsdV": autenticacao,
+ "xkyaA": procuracao
 };
 
 const servicos = ref([]);
