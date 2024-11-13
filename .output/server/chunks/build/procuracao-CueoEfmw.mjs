@@ -1,128 +1,58 @@
-<template>
-  <ClientOnly>
-    <h1 class="mb-2">Procuração</h1>
-    <div>
-      <input type="file" accept=".docx" @change="importWordFile" />
-      <div class="main-container">
-        <div
-          class="editor-container editor-container_document-editor editor-container_include-style"
-          ref="editorContainerElement"
-        >
-          <div
-            class="editor-container__menu-bar"
-            ref="editorMenuBarElement"
-          ></div>
-          <div
-            class="editor-container__toolbar"
-            ref="editorToolbarElement"
-          ></div>
-          <div class="editor-container__editor-wrapper">
-            <div class="editor-container__editor">
-              <div ref="editorElement">
-                <ckeditor
-                  v-if="isLayoutReady"
-                  v-model="config.initialData"
-                  :editor="editor"
-                  :config="config"
-                  @ready="onReady"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ClientOnly>
-</template>
+import { defineComponent, ref, provide, createElementBlock, useSSRContext } from 'vue';
+import mammoth from 'mammoth';
+import { DecoupledEditor, AccessibilityHelp, Alignment, Autoformat, AutoImage, AutoLink, Autosave, BalloonToolbar, Base64UploadAdapter, BlockQuote, Bold, Code, CodeBlock, Essentials, FindAndReplace, FontBackgroundColor, FontColor, FontFamily, FontSize, GeneralHtmlSupport, Heading, Highlight, HorizontalLine, HtmlComment, HtmlEmbed, ImageBlock, ImageCaption, ImageInline, ImageInsert, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, ImageUpload, Indent, IndentBlock, Italic, Link, LinkImage, List, ListProperties, Markdown, MediaEmbed, PageBreak, Paragraph, PasteFromMarkdownExperimental, PasteFromOffice, RemoveFormat, SelectAll, ShowBlocks, SpecialCharacters, SpecialCharactersArrows, SpecialCharactersCurrency, SpecialCharactersEssentials, SpecialCharactersLatin, SpecialCharactersMathematical, SpecialCharactersText, Strikethrough, Style, Subscript, Superscript, Table, TableCaption, TableCellProperties, TableColumnResize, TableProperties, TableToolbar, TextTransformation, TodoList, Underline, Undo } from 'ckeditor5';
+import translations from 'ckeditor5/translations/pt.js';
+import { ssrRenderComponent } from 'vue/server-renderer';
+import { _ as _export_sfc } from './server.mjs';
+import '../runtime.mjs';
+import 'node:http';
+import 'node:https';
+import 'fs';
+import 'path';
+import 'node:fs';
+import 'node:url';
+import '../routes/renderer.mjs';
+import 'vue-bundle-renderer/runtime';
+import 'devalue';
+import '@unhead/ssr';
+import 'unhead';
+import '@unhead/shared';
+import 'vue-router';
+import '@ckeditor/ckeditor5-vue';
+import 'vue3-toastify';
+import 'vue-the-mask';
 
-<script>
-import mammoth from "mammoth";
-import {
-  DecoupledEditor,
-  AccessibilityHelp,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  AutoLink,
-  Autosave,
-  BalloonToolbar,
-  Base64UploadAdapter,
-  BlockQuote,
-  Bold,
-  Code,
-  CodeBlock,
-  Essentials,
-  FindAndReplace,
-  FontBackgroundColor,
-  FontColor,
-  FontFamily,
-  FontSize,
-  GeneralHtmlSupport,
-  Heading,
-  Highlight,
-  HorizontalLine,
-  HtmlComment,
-  HtmlEmbed,
-  ImageBlock,
-  ImageCaption,
-  ImageInline,
-  ImageInsert,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageStyle,
-  ImageTextAlternative,
-  ImageToolbar,
-  ImageUpload,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  Markdown,
-  MediaEmbed,
-  PageBreak,
-  Paragraph,
-  PasteFromMarkdownExperimental,
-  PasteFromOffice,
-  RemoveFormat,
-  SelectAll,
-  ShowBlocks,
-  SpecialCharacters,
-  SpecialCharactersArrows,
-  SpecialCharactersCurrency,
-  SpecialCharactersEssentials,
-  SpecialCharactersLatin,
-  SpecialCharactersMathematical,
-  SpecialCharactersText,
-  Strikethrough,
-  Style,
-  Subscript,
-  Superscript,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-  Undo,
-} from "ckeditor5";
-
-import translations from "ckeditor5/translations/pt.js";
-
-import "ckeditor5/ckeditor5.css";
-
-export default {
+const clientOnlySymbol = Symbol.for("nuxt:client-only");
+const __nuxt_component_0 = defineComponent({
+  name: "ClientOnly",
+  inheritAttrs: false,
+  props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
+  setup(_, { slots, attrs }) {
+    const mounted = ref(false);
+    provide(clientOnlySymbol, true);
+    return (props) => {
+      var _a;
+      if (mounted.value) {
+        return (_a = slots.default) == null ? void 0 : _a.call(slots);
+      }
+      const slot = slots.fallback || slots.placeholder;
+      if (slot) {
+        return slot();
+      }
+      const fallbackStr = props.fallback || props.placeholder || "";
+      const fallbackTag = props.fallbackTag || props.placeholderTag || "span";
+      return createElementBlock(fallbackTag, attrs, fallbackStr);
+    };
+  }
+});
+const _sfc_main = {
   name: "app",
   data() {
     return {
       isLayoutReady: false,
-      config: null, // CKEditor needs the DOM tree before calculating the configuration.
-      editor: DecoupledEditor,
+      config: null,
+      // CKEditor needs the DOM tree before calculating the configuration.
+      editor: DecoupledEditor
     };
   },
   mounted() {
@@ -171,9 +101,9 @@ export default {
           "numberedList",
           "todoList",
           "outdent",
-          "indent",
+          "indent"
         ],
-        shouldNotGroupWhenFull: false,
+        shouldNotGroupWhenFull: false
       },
       plugins: [
         AccessibilityHelp,
@@ -246,7 +176,7 @@ export default {
         TextTransformation,
         TodoList,
         Underline,
-        Undo,
+        Undo
       ],
       balloonToolbar: [
         "bold",
@@ -256,59 +186,59 @@ export default {
         "insertImage",
         "|",
         "bulletedList",
-        "numberedList",
+        "numberedList"
       ],
       fontFamily: {
-        supportAllValues: true,
+        supportAllValues: true
       },
       fontSize: {
         options: [10, 12, 14, "default", 18, 20, 22],
-        supportAllValues: true,
+        supportAllValues: true
       },
       heading: {
         options: [
           {
             model: "paragraph",
             title: "Paragraph",
-            class: "ck-heading_paragraph",
+            class: "ck-heading_paragraph"
           },
           {
             model: "heading1",
             view: "h1",
             title: "Heading 1",
-            class: "ck-heading_heading1",
+            class: "ck-heading_heading1"
           },
           {
             model: "heading2",
             view: "h2",
             title: "Heading 2",
-            class: "ck-heading_heading2",
+            class: "ck-heading_heading2"
           },
           {
             model: "heading3",
             view: "h3",
             title: "Heading 3",
-            class: "ck-heading_heading3",
+            class: "ck-heading_heading3"
           },
           {
             model: "heading4",
             view: "h4",
             title: "Heading 4",
-            class: "ck-heading_heading4",
+            class: "ck-heading_heading4"
           },
           {
             model: "heading5",
             view: "h5",
             title: "Heading 5",
-            class: "ck-heading_heading5",
+            class: "ck-heading_heading5"
           },
           {
             model: "heading6",
             view: "h6",
             title: "Heading 6",
-            class: "ck-heading_heading6",
-          },
-        ],
+            class: "ck-heading_heading6"
+          }
+        ]
       },
       htmlSupport: {
         allow: [
@@ -316,9 +246,9 @@ export default {
             name: /^.*$/,
             styles: true,
             attributes: true,
-            classes: true,
-          },
-        ],
+            classes: true
+          }
+        ]
       },
       image: {
         toolbar: [
@@ -329,8 +259,8 @@ export default {
           "imageStyle:wrapText",
           "imageStyle:breakText",
           "|",
-          "resizeImage",
-        ],
+          "resizeImage"
+        ]
       },
       language: "pt",
       link: {
@@ -341,70 +271,70 @@ export default {
             mode: "manual",
             label: "Downloadable",
             attributes: {
-              download: "file",
-            },
-          },
-        },
+              download: "file"
+            }
+          }
+        }
       },
       list: {
         properties: {
           styles: true,
           startIndex: true,
-          reversed: true,
-        },
+          reversed: true
+        }
       },
       menuBar: {
-        isVisible: true,
+        isVisible: true
       },
-      placeholder: "Coloque o conteúdo aqui!",
+      placeholder: "Coloque o conte\xFAdo aqui!",
       style: {
         definitions: [
           {
             name: "Article category",
             element: "h3",
-            classes: ["category"],
+            classes: ["category"]
           },
           {
             name: "Title",
             element: "h2",
-            classes: ["document-title"],
+            classes: ["document-title"]
           },
           {
             name: "Subtitle",
             element: "h3",
-            classes: ["document-subtitle"],
+            classes: ["document-subtitle"]
           },
           {
             name: "Info box",
             element: "p",
-            classes: ["info-box"],
+            classes: ["info-box"]
           },
           {
             name: "Side quote",
             element: "blockquote",
-            classes: ["side-quote"],
+            classes: ["side-quote"]
           },
           {
             name: "Marker",
             element: "span",
-            classes: ["marker"],
+            classes: ["marker"]
           },
           {
             name: "Spoiler",
             element: "span",
-            classes: ["spoiler"],
+            classes: ["spoiler"]
           },
           {
             name: "Code (dark)",
             element: "pre",
-            classes: ["fancy-code", "fancy-code-dark"],
+            classes: ["fancy-code", "fancy-code-dark"]
           },
           {
             name: "Code (bright)",
             element: "pre",
-            classes: ["fancy-code", "fancy-code-bright"],
-          },
-        ],
+            classes: ["fancy-code", "fancy-code-bright"]
+          }
+        ]
       },
       table: {
         contentToolbar: [
@@ -412,47 +342,34 @@ export default {
           "tableRow",
           "mergeTableCells",
           "tableProperties",
-          "tableCellProperties",
-        ],
+          "tableCellProperties"
+        ]
       },
-      translations: [translations],
+      translations: [translations]
     };
-
     this.isLayoutReady = true;
   },
-
   methods: {
     onReady(editor) {
-      Array.from(this.$refs.editorToolbarElement.children).forEach((child) =>
-        child.remove()
+      Array.from(this.$refs.editorToolbarElement.children).forEach(
+        (child) => child.remove()
       );
-      Array.from(this.$refs.editorMenuBarElement.children).forEach((child) =>
-        child.remove()
+      Array.from(this.$refs.editorMenuBarElement.children).forEach(
+        (child) => child.remove()
       );
-
       this.$refs.editorToolbarElement.appendChild(
         editor.ui.view.toolbar.element
       );
       this.$refs.editorMenuBarElement.appendChild(
         editor.ui.view.menuBarView.element
       );
-
-      // Guarda a instância do editor para uso futuro
       this.editorInstance = editor;
     },
     async importWordFile(event) {
       const file = event.target.files[0];
-
-      if (
-        file &&
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
+      if (file && file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
         try {
-          
           const arrayBuffer = await file.arrayBuffer();
-
-          // Opções para tentar preservar mais da formatação original
           const options = {
             styleMap: [
               "b => strong",
@@ -467,25 +384,20 @@ export default {
               "r[style-name='Underline'] => u",
               "highlight => span.highlight"
             ],
-            includeDefaultStyleMap: true, // Incluir mapa de estilos padrão
-            convertImage: mammoth.images.imgElement((image) =>
-              image.read("base64").then((imageBuffer) => ({
-                src: `data:image/jpeg;base64,${imageBuffer}`,
+            includeDefaultStyleMap: true,
+            // Incluir mapa de estilos padrão
+            convertImage: mammoth.images.imgElement(
+              (image) => image.read("base64").then((imageBuffer) => ({
+                src: `data:image/jpeg;base64,${imageBuffer}`
               }))
             ),
-            ignoreEmptyParagraphs: false,
+            ignoreEmptyParagraphs: false
           };
-
-          
-          // Converte o arquivo com as opções definidas
           const result = await mammoth.convertToHtml({ arrayBuffer }, options);
-
-          // Verifica se o editor está pronto e insere o conteúdo
           if (this.editorInstance) {
-            // Define o conteúdo no editor
             this.editorInstance.setData(result.value);
           } else {
-            console.error("Editor não está pronto.");
+            console.error("Editor n\xE3o est\xE1 pronto.");
           }
         } catch (error) {
           console.error("Erro ao importar o arquivo Word:", error);
@@ -493,7 +405,20 @@ export default {
       } else {
         alert("Por favor, selecione um arquivo .docx");
       }
-    },
-  },
+    }
+  }
 };
-</script>
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_ClientOnly = __nuxt_component_0;
+  _push(ssrRenderComponent(_component_ClientOnly, _attrs, {}, _parent));
+}
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/fontes/atos/procuracoes/procuracao.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const procuracao = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]);
+
+export { procuracao as default };
+//# sourceMappingURL=procuracao-CueoEfmw.mjs.map
