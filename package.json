@@ -12,11 +12,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-vue": "^7.2.0",
     "@mdi/font": "^7.4.47",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.7.2",
+    "ckeditor5": "^43.3.1",
+    "mammoth": "^1.8.0",
     "nuxt": "^3.12.2",
     "v-money3": "^3.24.1",
     "vue": "latest",

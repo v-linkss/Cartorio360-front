@@ -4,6 +4,7 @@ import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead, CapoPlugin } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
 import { useRoute as useRoute$2, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
+import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 import Vue3Toastify, { toast } from 'vue3-toastify';
 import VueTheMask from 'vue-the-mask';
 import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
@@ -662,73 +663,73 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CDb5ULUh.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-C2YdNZeO.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-D51Ho_5_.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-X0IhvI9R.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-DpiSX4aY.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BOP1Xret.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-C3etiCHD.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-CWZiYGFq.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CjWD5RTQ.mjs').then((m) => m.default || m)
+    component: () => import('./index-dtVDJW4j.mjs').then((m) => m.default || m)
   },
   {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-BZcc2Sqa.mjs').then((m) => m.default || m)
+    component: () => import('./index-Bxzpy-xJ.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-CCUTjOuJ.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CMqwZ1ev.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-b_BVmZ73.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-BTY2arUh.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-B3dbr_dc.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-Bim52vab.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-Cqvh7T4Q.mjs').then((m) => m.default || m)
+    component: () => import('./index-B9MBvnQI.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BunKE7C0.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CIFjvVv-.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-BOYdYAga.mjs').then((m) => m.default || m)
+    component: () => import('./index-BD_6dpLb.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-CgqjaUAh.mjs').then((m) => m.default || m)
+    component: () => import('./index-CncYmx7L.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-C7pxqhl6.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CFbPLwH5.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -1113,6 +1114,9 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
 });
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:global-components"
+});
+const ckeditor_xw6yZxUxkA = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(CkeditorPlugin);
 });
 const toast_ysMjUcU7eJ = /* @__PURE__ */ defineNuxtPlugin(({ vueApp }) => {
   vueApp.use(Vue3Toastify, {
@@ -16269,6 +16273,7 @@ const plugins = [
   plugin,
   revive_payload_server_eJ33V7gbc6,
   components_plugin_KR1HBZs4kY,
+  ckeditor_xw6yZxUxkA,
   toast_ysMjUcU7eJ,
   vuetify_7h9QAQEssH
 ];
@@ -16397,7 +16402,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-izoFShx7.mjs').then((m) => m.default || m)
+  default: () => import('./default-DjA22tgI.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -16711,8 +16716,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-BfGb2RI7.mjs').then((r) => r.default || r));
-    const _Error = defineAsyncComponent(() => import('./error-500-5ktNSoSf.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-4hAhkHKX.mjs').then((r) => r.default || r));
+    const _Error = defineAsyncComponent(() => import('./error-500-FkxlQcoS.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
