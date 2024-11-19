@@ -40,14 +40,6 @@
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
-          <!-- <v-switch
-            style="display: flex; padding-left: 10px; color: red"
-            inset
-            color="info"
-            v-model="darkMode"
-            @change="toggleTheme()"
-            :label="` ${darkMode ? 'Escuro' : 'Claro'}`"
-          ></v-switch> -->
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -76,9 +68,6 @@ function logout() {
   useCookie("user-data").value ='';
   useCookie("auth_token").value ='';
   router.push("/login");
-
-
-  
 
 }
 </script>
