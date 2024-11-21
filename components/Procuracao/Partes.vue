@@ -31,10 +31,10 @@
             <v-col cols="4">
             <v-autocomplete
               label="Selecione a Pessoa"
-              v-model="state.escrevente"
-              :items="escreventesItems"
+              v-model="state.pessoa"
+              :items="pessoasItems"
               item-title="nome"
-              item-value="token"
+              item-value="documento"
               required
             >
             </v-autocomplete>
@@ -42,10 +42,10 @@
           <v-col cols="3">
             <v-autocomplete
               label="Papel"
-              v-model="state.escrevente"
-              :items="escreventesItems"
-              item-title="nome"
-              item-value="token"
+              v-model="state.papeis"
+              :items="papeisItems"
+              item-title="descricao"
+              item-value="descricao"
               required
             >
             </v-autocomplete>
@@ -55,8 +55,8 @@
               class="btn-pointer mt-3 "
               src="../../assets/novo.png"
               style="width: 40px; cursor: pointer"
-              title="Criar Pessoa"
-              @click="createPessoa"
+              title="Criar Representante"
+              @click="createRepresentante"
             />
           </div>
         </v-row>
@@ -66,20 +66,59 @@
             <v-data-table
               style="height: 465px"
               :headers="headers"
-              :items="pessoasItems"
+              :items="pessoasTable"
             >
               <template v-slot:item.actions="{ item }">
-                <div
-                  style="display: flex; cursor: pointer; justify-content: flex-end"
-                  @click="redirectToFicha(item)"
-                  title="Visualizar Ficha"
-                >
-                  <img
-                    style="width: 30px; height: 30px"
-                    src="../../assets/visualizar.png"
-                    alt="Visualizar"
-                  />
-                </div>
+                <v-row>
+                  <div
+                    style="display: flex; cursor: pointer; justify-content: flex-end"
+                    class="mr-2"
+                    @click="redirectToFicha(item)"
+                    title="Visualizar Ficha"
+                  >
+                    <img
+                      style="width: 30px; height: 30px"
+                      src="../../assets/visualizar.png"
+                      alt="Visualizar"
+                    />
+                  </div>
+                  <div
+                    style="display: flex; cursor: pointer; justify-content: flex-end"
+                    @click="redirectToFicha(item)"
+                    class="mr-2"
+                    title="Visualizar Ficha"
+                  >
+                    <img
+                      style="width: 30px; height: 30px"
+                      src="../../assets/editar.png"
+                      alt="Visualizar"
+                    />
+                  </div>
+                  <div
+                    class="mr-2"
+                    style="display: flex; cursor: pointer; justify-content: flex-end"
+                    @click="redirectToFicha(item)"
+                    title="Visualizar Ficha"
+                  >
+                    <img
+                      style="width: 30px; height: 30px"
+                      src="../../assets/mudarStatus.png"
+                      alt="Visualizar"
+                    />
+                  </div>
+                  <div
+                    style="display: flex; cursor: pointer; justify-content: flex-end"
+                    class="mr-2"
+                    @click="redirectToFicha(item)"
+                    title="Visualizar Ficha"
+                  >
+                    <img
+                      style="width: 30px; height: 30px"
+                      src="../../assets/btn-pessoa.png"
+                      alt="Visualizar"
+                    />
+                  </div>
+                </v-row>
               </template>
             </v-data-table>
           </v-col>
@@ -127,10 +166,10 @@
   const route = useRoute();
   const config = useRuntimeConfig();
   const { $toast } = useNuxtApp();
-  const allEscreventes = `${config.public.managemant}/listarEscrevente`;
   const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
   const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
   const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
+  const papeisApresentante = `${config.public.managemant}/listarPapeis`;
   const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
   const ordemserv_token =
     ref(useCookie("user-service").value.token).value ||
@@ -138,7 +177,8 @@
   const usuario_token = useCookie("auth_token").value;
   
   const pessoasItems = ref([]);
-  const escreventesItems = ref([]);
+  const pessoasTable = ref([])
+  const papeisItems = ref([]);
   const selectedObjects = ref([]);
   const errorModalVisible = ref(false);
   const isModalRegistroOpen = ref(false);
@@ -150,17 +190,17 @@
     {
       title: "Documento",
       align: "start",
-      key: "documento",
+      key: "pessoa.documento",
     },
     {
       title: "Pessoa",
       align: "start",
-      key: "nome",
+      key: "pessoa.nome",
     },
     {
       title: "Papel",
       align: "start",
-      key: "nome",
+      key: "papel",
     },
     {
       title: "Representante",
@@ -171,17 +211,17 @@
   ];
   
   const state = reactive({
-    quantidade: 1,
-    escrevente: null,
+    papeis:null,
     nome: null,
+    pessoa: null,
     documento: null,
   });
-  
-  const { data } = await useFetch(allEscreventes, {
+
+  const { data } = await useFetch(papeisApresentante, {
     method: "POST",
-    body: { cartorio_token: cartorio_token },
+    body: { tipo_ato_token: props.ato_token },
   });
-  escreventesItems.value = data.value[0].func_json_escreventes;
+  papeisItems.value = data.value
   
   async function searchPessoasService() {
     try {
@@ -195,6 +235,7 @@
       });
       if (pessoasData.value.length > 0) {
         pessoasItems.value = pessoasData.value;
+        state.pessoa = pessoasItems.value[0];
       } else {
         pessoasItems.value = [];
       }
@@ -207,12 +248,22 @@
     isModalRegistroOpen.value = true;
   };
   
+  const createRepresentante = () => {
+    const representante = {
+      pessoa: state.pessoa,
+      papel: state.papeis,
+    };
+
+    pessoasTable.value.push(representante);
+  };
+  
+
   function confirmItem(item) {
     selectedObjects.value.push(item);
   }
   
   const redirectToFicha = (item) =>{
-    selectedItem.value = item;
+    selectedItem.value = item.pessoa.id;
     isModalFichaOpen.value = true
   }
   
@@ -224,10 +275,6 @@
   }
   
     async function reconhecerAtoAutencidade() {
-      if (!state.escrevente) {
-        $toast.error("Por favor selecione um Escrevente")
-        return
-      }
       try {
         const selectedTokens = selectedObjects.value.map((item) => {
           return { pessoa_token: item.token };
@@ -264,7 +311,6 @@
         body: {
           ato_token: token,
           cartorio_token: cartorio_token.value,
-          escrevente_token: state.escrevente,
         },
       });
       if (status.value === "success") {

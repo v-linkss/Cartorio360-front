@@ -53,7 +53,6 @@ const beforeOpenFicha = async () => {
         body:{id:props.item.id,tipo:'ficha'}
       }
     );
-
     if (imagemBiometria.value && imagemBiometria.value.link) {
       fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
     } else {

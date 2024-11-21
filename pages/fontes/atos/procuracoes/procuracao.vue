@@ -12,10 +12,10 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <ProcuracaoDados />
+        <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="partes">
-        <ProcuracaoPartes />
+        <ProcuracaoPartes :ato_token="selectedAto"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="texto">
         <ProcuracaoTexto/>
@@ -35,21 +35,19 @@
 
 <script setup>
 
+const props = defineProps({
+    ato_token: {
+      type: String,
+      required: true,
+    },
+  });
+
 const tab = ref(null);
-const showTabs = ref(true);
-const autocompleteDisabled = ref(false);
-
-const initialState = {
-  tipo_pessoa: "FISICA",
-};
-
-const state = reactive({
-  ...initialState,
-});
+const showTabs = ref(false);
+const selectedAto = ref(props.ato_token)
 
 const handleSave = () => {
   showTabs.value = true;
-  autocompleteDisabled.value = true; 
 };
 </script>
 
