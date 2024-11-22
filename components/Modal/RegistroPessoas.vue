@@ -122,24 +122,19 @@
           </v-col>
         </v-row>
         <v-row>
-          <div>
-            <img
+            <v-btn
               class="ml-5"
-              style="cursor: pointer"
-              src="../../assets/sair.png"
-              alt="Sair"
+              color="red"
+              size="large"
               @click="closeModal"
-            />
-          </div>
+            >Fechar</v-btn>
 
-          <div>
-            <img
-              style="cursor: pointer"
+            <v-btn
               class="ml-5"
-              src="../../assets/salvar.png"
+              color="green"
+              size="large"
               @click="onSubmit()"
-            />
-          </div>
+            >Salvar</v-btn>
         </v-row>
       </v-container>
     </v-card>

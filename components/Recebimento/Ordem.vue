@@ -69,27 +69,24 @@
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
-        <div class="ml-10">
-          <img
-            src="../../assets/sair.png"
-            style="cursor: pointer"
-            @click="closeModal"
-          />
-        </div>
-        <div class="ml-12 mb-5">
-          <img
-            v-if="Number(props.ordem.valor) > 0"
-            src="../../assets/salvar.png"
-            style="cursor: pointer"
-            @click="receberOsParcial"
-          />
-          <img
-            v-else
-            src="../../assets/salvar.png"
-            style="cursor: pointer"
-            @click="realizarRecebimentoCompleto"
-          />
-        </div>
+        <v-btn class="ml-8" size="large" @click="closeModal" color="red">Voltar</v-btn>
+
+        <v-btn
+          v-if="Number(props.ordem.valor) > 0"
+          class="ml-6 mb-6"
+          size="large"
+          color="green"
+          @click="receberOsParcial"
+          >Salvar</v-btn
+        >
+        <v-btn
+          v-else
+          size="large"
+          class="ml-6 mb-6"
+          color="green"
+          @click="realizarRecebimentoCompleto"
+          >Salvar</v-btn
+        >
       </div>
     </v-card>
     <ModalRecebimentoCond
@@ -151,8 +148,8 @@ const closeModal = () => {
 };
 
 const receberOsParcial = async () => {
-    faltaReceber.value = Number(props.ordem.valor);
-    isMoreOrLess.value = true;
+  faltaReceber.value = Number(props.ordem.valor);
+  isMoreOrLess.value = true;
 };
 
 const realizarRecebimentoCompleto = async () => {
@@ -169,7 +166,7 @@ const realizarRecebimentoCompleto = async () => {
 
   if (data.value[0].status === "OK") {
     $toast.success("Valores Recebidos com Sucesso!");
-    selosItems.value = []
+    selosItems.value = [];
     closeModal();
   }
 };

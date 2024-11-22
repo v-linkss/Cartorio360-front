@@ -5,7 +5,7 @@
     <BiometriaImpressao/>
   </v-row>
   <NuxtLink to="/pessoas/registros">
-    <img class="mt-15" src="../../assets/sair.png" alt="Sair" />
+    <v-btn class="mt-10" size="large" color="red">Voltar</v-btn>
   </NuxtLink>
 </template>
 

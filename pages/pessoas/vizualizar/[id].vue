@@ -52,7 +52,7 @@
     </v-container>
 </div>
 <NuxtLink class="mt-10" to="/pessoas/registros">
-  <img class="btn-pointer" src="../../../assets/sair.png" alt="Sair" />
+   <v-btn size="large" color="red">Voltar</v-btn>
 </NuxtLink>
 </template>
 

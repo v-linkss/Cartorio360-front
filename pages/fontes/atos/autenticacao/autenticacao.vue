@@ -22,22 +22,14 @@
         >
         </v-text-field>
       </div>
-      <v-row>
-        <div>
-          <NuxtLink @click="goBack">
-            <img
-              class="btn-pointer mt-10 mb-5"
-              src="../../../../assets/sair.png"
-              alt="Sair"
-            />
-          </NuxtLink>
-        </div>
+      <v-row class="mb-3 mt-2">
+        <NuxtLink @click="goBack">
+          <v-btn class="ml-4" size="large" color="red">Voltar</v-btn>
+        </NuxtLink>
 
-        <img
-          class="btn-pointer mt-10"
-          src="../../../../assets/salvar.png"
-          @click="atoAutentica"
-        />
+        <v-btn class="ml-4" size="large" color="green" @click="atoAutentica"
+          >Salvar</v-btn
+        >
       </v-row>
     </v-container>
     <ErrorModalCard
@@ -53,10 +45,10 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 
 const props = defineProps({
-  ato_token:{
+  ato_token: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const router = useRouter();
@@ -130,7 +122,7 @@ const etiquetaAutentica = async (ato_token) => {
     },
   });
   if (status.value === "success") {
-    goBack()
+    goBack();
     const newWindow = window.open("", "_blank");
     newWindow.document.open();
     newWindow.document.write(data.value.etiqueta);

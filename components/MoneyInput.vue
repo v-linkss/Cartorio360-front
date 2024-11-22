@@ -11,7 +11,6 @@
         v-model.lazy="amount"
         v-money3="config"
       />
-      {{ typeof(amount) }}
     </div>
   </template>
   

@@ -97,7 +97,7 @@
       </template>
     </v-data-table>
     <NuxtLink to="/pessoas/registros">
-      <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
+      <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>

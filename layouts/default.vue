@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar color="#C8FCCA" height="85">
-      <h5 style="color: #429946; margin-left: 30px">
+    <v-app-bar color="#f5f2f2" height="85">
+      <h5 style="color: #525050; margin-left: 30px">
         {{ useCookie("user-data").value.cartorio_nome }}
       </h5>
       <v-spacer></v-spacer>
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn style="color: #429946" v-bind="props"> Cadastros </v-btn>
+          <v-btn style="color: #525050" v-bind="props"> Cadastros </v-btn>
         </template>
         <v-list>
           <v-list-item >
@@ -17,7 +17,7 @@
       </v-menu>
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn style="color: #429946" v-bind="props"> Atendimento </v-btn>
+          <v-btn style="color: #525050" v-bind="props"> Atendimento </v-btn>
         </template>
         <v-list>
           <v-list-item >

@@ -116,16 +116,17 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mb-3">
       <NuxtLink to="/pessoas/registros">
-        <img class="btn-pointer" src="../assets/sair.png" alt="Sair" />
+        <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-
-      <img
-        class="btn-pointer"
-        src="../assets/salvar.png"
+      <v-btn
         @click="isEditMode ? onUpdate() : onSubmit()"
-      />
+        class="ml-4"
+        size="large"
+        color="green"
+        >Salvar</v-btn
+      >
     </v-row>
   </v-container>
 </template>
@@ -140,11 +141,11 @@ const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createPessoa = `${config.public.managemant}/createPessoa`
-const updatePessoa = `${config.public.managemant}/updatePessoa`
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`
-const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`
-const cidade = `${config.public.managemant}/listarCidades`
+const createPessoa = `${config.public.managemant}/createPessoa`;
+const updatePessoa = `${config.public.managemant}/updatePessoa`;
+const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
+const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
+const cidade = `${config.public.managemant}/listarCidades`;
 
 const initialState = {
   nome: "",
@@ -189,7 +190,7 @@ const {
     await Promise.all([
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
-      $fetch(cidade)
+      $fetch(cidade),
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -234,13 +235,13 @@ async function onSubmit() {
       $toast.success("Pessoa cadastrada com sucesso!");
       const pessoaIdValue = data.value.id;
       pessoaId.value = pessoaIdValue;
-      const pessoa_token = useCookie('pessoa_token');
-    pessoa_token.value = data.value.token;
+      const pessoa_token = useCookie("pessoa_token");
+      pessoa_token.value = data.value.token;
       emit("saved");
       isEditMode.value = true;
     }
   } else {
-    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.")
+    $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");
   }
 }
 async function onUpdate() {
@@ -255,13 +256,10 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error } = await useFetch(
-    `${updatePessoa}/${pessoaId.value}`,
-    {
-      method: "PUT",
-      body: payloadFormated,
-    }
-  );
+  const { data, error } = await useFetch(`${updatePessoa}/${pessoaId.value}`, {
+    method: "PUT",
+    body: payloadFormated,
+  });
   $toast.success("Pessoa atualizada com sucesso!");
   router.push("/pessoas/registros");
 }

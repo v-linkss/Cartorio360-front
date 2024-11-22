@@ -25,20 +25,20 @@
         </v-container>
       </v-container>
 
-      <div style="display: flex; justify-content: flex-start">
-        <div class="ml-10">
-          <img
-            src="../../assets/sair.png"
-            style="cursor: pointer"
+      <div class="mb-5" style="display: flex; justify-content: flex-start">
+        <div class="ml-6">
+          <v-btn
+            size="large"
+            color="red"
             @click="closeModal"
-          />
+          >Fechar</v-btn>
         </div>
-        <div class="ml-12">
-          <img
-            src="../../assets/salvar.png"
-            style="cursor: pointer"
+        <div class="ml-6">
+          <v-btn
+             size="large"
+            color="green"
             @click="cancelarOrdemServ"
-          />
+          >Salvar</v-btn>
         </div>
       </div>
     </v-card>

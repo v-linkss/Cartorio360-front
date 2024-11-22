@@ -131,12 +131,11 @@
       />
     </v-row>
     <NuxtLink to="/ordens-servicos">
-      <img
-        class="btn-pointer mt-5"
-        src="../../assets/sair.png"
-        alt="Sair"
+      <v-btn
+        size="large"
+        color="red"
         @click="limparDados"
-      />
+      >Voltar</v-btn>
     </NuxtLink>
   </v-container>
 </template>

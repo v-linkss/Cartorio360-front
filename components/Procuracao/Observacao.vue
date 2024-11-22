@@ -41,12 +41,7 @@
 
     <v-row>
       <NuxtLink @click="goBack">
-        <img
-          class="btn-pointer mt-10 mb-5"
-          src="../../assets/sair.png"
-          alt="Sair"
-          style="cursor: pointer"
-        />
+        <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     </v-row>
   </v-container>
