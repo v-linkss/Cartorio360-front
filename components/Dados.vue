@@ -237,8 +237,8 @@ async function onSubmit() {
       pessoaId.value = pessoaIdValue;
       const pessoa_token = useCookie("pessoa_token");
       pessoa_token.value = data.value.token;
-      emit("saved");
       isEditMode.value = true;
+      emit("saved");
     }
   } else {
     $toast.error("Erro ao cadastrar pessoa, preencha os campos obrigatorios.");

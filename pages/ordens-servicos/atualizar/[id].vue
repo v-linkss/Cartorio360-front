@@ -74,7 +74,10 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
-            <div @click="redirectToModalReimprimir(item.token)" title="Reimprimir">
+            <div
+              @click="redirectToModalReimprimir(item.token)"
+              title="Reimprimir"
+            >
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../../assets/selo.png"
@@ -128,10 +131,7 @@
       />
     </v-row>
     <NuxtLink to="/ordens-servicos">
-      <v-btn
-        size="large"
-        color="red"
-      >Voltar</v-btn>
+      <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
   </v-container>
 </template>
@@ -153,7 +153,8 @@ const atosPayload = `${config.public.managemant}/listarAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
-const ordemserv_token = ref(useCookie("user-service").value).value || null;
+const ordemserv_token =
+  ref(useCookie("user-service").value.token).value || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const atosItems = ref([]);
@@ -232,7 +233,7 @@ const { data: dataOs } = await useFetch(`${getOsPayload}/${id}`, {
   method: "GET",
 });
 numeroOs.value = dataOs.value.numero;
-state.nacionalidade = dataOs.value.estrangeiro
+state.nacionalidade = dataOs.value.estrangeiro;
 state.apresentante_cpf = dataOs.value.apresentante_cpf;
 state.apresentante_nome = dataOs.value.apresentante_nome;
 
@@ -243,7 +244,7 @@ const { data } = await useFetch(atosPayload, {
     ordemserv_token: ordemserv_token,
   },
 });
-
+console.log(data.value);
 if (data.value.length > 0) {
   atosItems.value = data.value;
 } else {

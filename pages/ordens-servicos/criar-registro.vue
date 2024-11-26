@@ -13,7 +13,7 @@
           label="Nacionalidade"
           :items="nacionalidade"
           v-model="state.nacionalidade"
-           :disabled="isDisabledCookie ||isDisabled"
+          :disabled="isDisabledCookie ||isDisabled"
         ></v-autocomplete>
       </v-col>
       <v-col md="2">
@@ -74,7 +74,9 @@
           src="../../assets/novo.png"
           alt="novo"
         />
-      </NuxtLink>  <v-data-table :headers="headers" :items="atosItems" item-key="id">
+      </NuxtLink> 
+       <v-data-table :headers="headers" :items="atosItems" item-key="id">
+        {{ atosItems }}
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
             <div @click="redirectToModalReimprimir()" title="Reimprimir">

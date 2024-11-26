@@ -199,6 +199,7 @@ const login = async () => {
 }
 
 .container-main {
+  overflow: hidden;
   margin-left: 20px;
   display: flex;
   align-items: center;
@@ -214,6 +215,7 @@ const login = async () => {
   background-position: center;
   flex: 1;
 }
+
 .image {
   display: flex;
   margin-left: 120px;

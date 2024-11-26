@@ -689,12 +689,12 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-CL_CoV6C.mjs').then((m) => m.default || m)
+    component: () => import('./index-DPs3z6pR.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-D3h38dm5.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CKsHbuf-.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-Dro7OQRA.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-D-HPUbEI.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
@@ -719,7 +719,7 @@ const _routes = [
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-Ca38cq2A.mjs').then((m) => m.default || m)
+    component: () => import('./index-moyQNFvK.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",

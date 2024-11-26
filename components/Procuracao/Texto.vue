@@ -436,7 +436,6 @@
           editor.ui.view.menuBarView.element
         );
   
-        // Guarda a instância do editor para uso futuro
         this.editorInstance = editor;
       },
       async importWordFile(event) {
