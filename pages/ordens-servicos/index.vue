@@ -126,11 +126,13 @@
           <div
             :class="{ disabled: !item.btn_receber }"
             :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
-            @click="item.btn_receber ? redirectToRecebimento(item.numero, item): null"
+            @click="
+              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+            "
             title="Receber"
           >
             <img
-            :style="{
+              :style="{
                 cursor: item.btn_receber ? 'pointer' : 'default',
                 width: '30px',
                 height: '30px',
@@ -348,7 +350,11 @@ function redirectToCancelamento(numero, token, item) {
 function redirectToUpdate(id) {
   const serviceCookie = useCookie("user-service");
   const servico = servicosItems.value.find((item) => item.id === id);
-  serviceCookie.value = servico.token;
+  serviceCookie.value = serviceCookie.value = JSON.stringify({
+    id: servico.id,
+    token: servico.token,
+  });
+
   router.push({ path: `/ordens-servicos/atualizar/${id}` });
 }
 

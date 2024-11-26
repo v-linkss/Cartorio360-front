@@ -167,7 +167,7 @@ const isModalReimprimirOpen = ref(false);
 const atosItems = ref([]);
 
 const state = reactive({
-  nacionalidade: false || useCookie("user-service").value?.estrangeiro,
+  nacionalidade: useCookie("user-service").value?.estrangeiro || false ,
   apresentante_nome: null || useCookie("user-service").value?.apresentante_nome,
   apresentante_cpf: null || useCookie("user-service").value?.apresentante_cpf,
 });
@@ -246,8 +246,10 @@ async function onSubmit() {
       isTrueOrdemServ.value = showCreateOrdemServ.value;
 
       const serviceCookie = useCookie("user-service");
+;
       serviceCookie.value = serviceCookie.value = JSON.stringify({
         numero: data.value.numero,
+        id:data.value.id,
         apresentante_cpf: data.value.apresentante_cpf,
         apresentante_nome: data.value.apresentante_nome,
         estrangeiro: data.value.estrangeiro,

@@ -63,8 +63,7 @@ const ordemserv_token =
 const usuario_token = useCookie("auth_token").value;
 const autenticaAtos = `${config.public.managemant}/atoAutentica`;
 const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
-
-const errorModalVisible = ref(false); // Controle de visibilidade do modal
+const errorModalVisible = ref(false); 
 const errorMessage = ref("");
 const state = reactive({
   escrevente: null,

@@ -81,6 +81,7 @@ const onServicoChange = async (token) => {
     },
   });
   atos.value = data.value;
+  console.log(atos.value)
 };
 
 loadServicos();
