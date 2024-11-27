@@ -43,6 +43,48 @@ const client_manifest = {
     "file": "B63BRiqs.js",
     "name": "excluido"
   },
+  "_B7rJ_w7K.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "B7rJ_w7K.js",
+    "name": "index",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": [
+      "index.CEo2B5Ox.css"
+    ]
+  },
+  "index.CEo2B5Ox.css": {
+    "file": "index.CEo2B5Ox.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "_BHDw2_82.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "BHDw2_82.js",
+    "name": "validaCpf",
+    "imports": [
+      "_B7rJ_w7K.js"
+    ]
+  },
+  "_BL7Q-07Y.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "BL7Q-07Y.js",
+    "name": "VRow",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
   "_BUe_X6z7.js": {
     "resourceType": "script",
     "module": true,
@@ -51,26 +93,87 @@ const client_manifest = {
     "file": "BUe_X6z7.js",
     "name": "formatDate"
   },
-  "_BVFuYJGx.js": {
+  "_C0VUysvL.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "BVFuYJGx.js",
+    "file": "C0VUysvL.js",
+    "name": "VCol",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
+  "_CCVovMl5.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "CCVovMl5.js",
+    "name": "nuxt-link",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
+  "_Cfe2q35H.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "Cfe2q35H.js",
+    "name": "VCard",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ],
+    "css": [
+      "VCard.CnIr4qjD.css"
+    ]
+  },
+  "VCard.CnIr4qjD.css": {
+    "file": "VCard.CnIr4qjD.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
+  },
+  "_CkThUMTF.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "CkThUMTF.js",
+    "name": "VContainer",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
+  "_CrE-eFFQ.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "CrE-eFFQ.js",
+    "name": "mudarStatus"
+  },
+  "_D5CfoMlg.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "D5CfoMlg.js",
     "name": "Restricoes",
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_BUe_X6z7.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
-      "_C1BiXLQA.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js",
+      "_B7rJ_w7K.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js",
       "_37abXc2X.js"
     ],
     "css": [
@@ -106,114 +209,6 @@ const client_manifest = {
     "prefetch": true,
     "mimeType": "image/png"
   },
-  "_BilO1oej.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "BilO1oej.js",
-    "name": "VContainer",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ]
-  },
-  "_BkUIGpbv.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "BkUIGpbv.js",
-    "name": "VCard",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ],
-    "css": [
-      "VCard.CnIr4qjD.css"
-    ]
-  },
-  "VCard.CnIr4qjD.css": {
-    "file": "VCard.CnIr4qjD.css",
-    "resourceType": "style",
-    "prefetch": true,
-    "preload": true
-  },
-  "_C1BiXLQA.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "C1BiXLQA.js",
-    "name": "index",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ],
-    "css": [
-      "index.CEo2B5Ox.css"
-    ]
-  },
-  "index.CEo2B5Ox.css": {
-    "file": "index.CEo2B5Ox.css",
-    "resourceType": "style",
-    "prefetch": true,
-    "preload": true
-  },
-  "_CAG4ncxV.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "CAG4ncxV.js",
-    "name": "fetch",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ]
-  },
-  "_Ccml4xam.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "Ccml4xam.js",
-    "name": "VRow",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ]
-  },
-  "_Cn7GK_Ke.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "Cn7GK_Ke.js",
-    "name": "VCol",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
-    ]
-  },
-  "_CrE-eFFQ.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "CrE-eFFQ.js",
-    "name": "mudarStatus"
-  },
-  "_D0vv-aHJ.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "D0vv-aHJ.js",
-    "name": "Selos",
-    "imports": [
-      "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js"
-    ]
-  },
   "_D7MG7sly.js": {
     "resourceType": "script",
     "module": true,
@@ -230,75 +225,80 @@ const client_manifest = {
     "file": "DCsXQasW.js",
     "name": "visualizar"
   },
-  "_DeNR32x_.js": {
+  "_DgP6oAmZ.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "DeNR32x_.js",
+    "file": "DgP6oAmZ.js",
     "name": "FichaCard",
     "imports": [
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_WmS-HKnJ.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js"
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_BHDw2_82.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js"
     ]
   },
-  "_Mqxgirhj.js": {
+  "_DocQ8qbS.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "Mqxgirhj.js",
-    "name": "nuxt-link",
+    "file": "DocQ8qbS.js",
+    "name": "ErrorModalCard",
+    "imports": [
+      "_Cfe2q35H.js",
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
+  "_DxZY0PWY.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "DxZY0PWY.js",
+    "name": "fetch",
     "imports": [
       "node_modules/nuxt/dist/app/entry.js"
     ]
   },
-  "_QFr8qSXO.js": {
+  "_PrJNIyW_.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "QFr8qSXO.js",
+    "file": "PrJNIyW_.js",
     "name": "vue.f36acd1f",
     "imports": [
       "node_modules/nuxt/dist/app/entry.js"
     ]
   },
-  "_WmS-HKnJ.js": {
+  "_TC7CwnAT.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "WmS-HKnJ.js",
-    "name": "validaCpf",
+    "file": "TC7CwnAT.js",
+    "name": "Selos",
     "imports": [
-      "_C1BiXLQA.js"
+      "node_modules/nuxt/dist/app/entry.js",
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js"
     ]
   },
-  "_gU58mZs9.js": {
+  "_UzmX34bO.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "gU58mZs9.js",
-    "name": "ErrorModalCard",
-    "imports": [
-      "_BkUIGpbv.js",
-      "node_modules/nuxt/dist/app/entry.js"
-    ]
-  },
-  "_uMMcPCZK.js": {
-    "resourceType": "script",
-    "module": true,
-    "prefetch": true,
-    "preload": true,
-    "file": "uMMcPCZK.js",
+    "file": "UzmX34bO.js",
     "name": "VTabs",
     "imports": [
       "node_modules/nuxt/dist/app/entry.js"
@@ -360,14 +360,14 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "DavYP4Qo.js",
+    "file": "DP_vGtt0.js",
     "name": "default",
     "src": "layouts/default.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_BilO1oej.js"
+      "_CkThUMTF.js"
     ],
     "css": []
   },
@@ -406,13 +406,13 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "D9LtdVuD.js",
+    "file": "BtCiqX1c.js",
     "name": "error-404",
     "src": "node_modules/nuxt/dist/app/components/error-404.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
-      "_QFr8qSXO.js",
+      "_CCVovMl5.js",
+      "_PrJNIyW_.js",
       "node_modules/nuxt/dist/app/entry.js"
     ],
     "css": []
@@ -428,12 +428,12 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "CD1DX7qa.js",
+    "file": "DuWKwPDb.js",
     "name": "error-500",
     "src": "node_modules/nuxt/dist/app/components/error-500.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_QFr8qSXO.js",
+      "_PrJNIyW_.js",
       "node_modules/nuxt/dist/app/entry.js"
     ],
     "css": []
@@ -449,7 +449,7 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "D4Ul81L2.js",
+    "file": "289ws5cy.js",
     "name": "entry",
     "src": "node_modules/nuxt/dist/app/entry.js",
     "isEntry": true,
@@ -500,19 +500,19 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "BqJGMO4g.js",
+    "file": "CDfEole4.js",
     "name": "autenticacao",
     "src": "pages/fontes/atos/autenticacao/autenticacao.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
-      "_gU58mZs9.js",
+      "_CCVovMl5.js",
+      "_DocQ8qbS.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_Ccml4xam.js",
-      "_BilO1oej.js",
-      "_BkUIGpbv.js"
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_BL7Q-07Y.js",
+      "_CkThUMTF.js",
+      "_Cfe2q35H.js"
     ],
     "css": []
   },
@@ -527,26 +527,26 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "9vS0PfQk.js",
+    "file": "BYXPGlBB.js",
     "name": "procuracao",
     "src": "pages/fontes/atos/procuracoes/procuracao.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_BilO1oej.js",
-      "_DeNR32x_.js",
-      "_gU58mZs9.js",
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_CkThUMTF.js",
+      "_DgP6oAmZ.js",
+      "_DocQ8qbS.js",
       "_DCsXQasW.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
-      "_BkUIGpbv.js",
-      "_uMMcPCZK.js",
-      "_WmS-HKnJ.js"
+      "_Cfe2q35H.js",
+      "_UzmX34bO.js",
+      "_BHDw2_82.js"
     ],
     "css": [
       "procuracao.Bmx7ftR3.css"
@@ -572,24 +572,24 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "C0Lw7EO0.js",
+    "file": "CFflKoWN.js",
     "name": "autencidade",
     "src": "pages/fontes/atos/reconhecimento/autencidade.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_DeNR32x_.js",
-      "_gU58mZs9.js",
-      "_Mqxgirhj.js",
+      "_DgP6oAmZ.js",
+      "_DocQ8qbS.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_DCsXQasW.js",
       "_CrE-eFFQ.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_C1BiXLQA.js",
-      "_WmS-HKnJ.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js"
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_B7rJ_w7K.js",
+      "_BHDw2_82.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js"
     ]
   },
   "pages/fontes/atos/reconhecimento/semelhanca.vue": {
@@ -597,24 +597,24 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "CPEgPZtt.js",
+    "file": "DHMEbHKE.js",
     "name": "semelhanca",
     "src": "pages/fontes/atos/reconhecimento/semelhanca.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_DeNR32x_.js",
-      "_Mqxgirhj.js",
-      "_gU58mZs9.js",
+      "_DgP6oAmZ.js",
+      "_CCVovMl5.js",
+      "_DocQ8qbS.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_DCsXQasW.js",
       "_CrE-eFFQ.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_C1BiXLQA.js",
-      "_WmS-HKnJ.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js"
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_B7rJ_w7K.js",
+      "_BHDw2_82.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js"
     ]
   },
   "pages/index.vue": {
@@ -622,7 +622,7 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "9dnfdDUy.js",
+    "file": "d3T1-FGt.js",
     "name": "index",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
@@ -635,14 +635,14 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "Cdaz-_7g.js",
+    "file": "CPDBq4pb.js",
     "name": "index",
     "src": "pages/login/index.vue",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_BkUIGpbv.js"
+      "_DxZY0PWY.js",
+      "_Cfe2q35H.js"
     ],
     "css": [],
     "assets": [
@@ -673,24 +673,24 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "By7p6BCo.js",
+    "file": "96MDa4kH.js",
     "name": "_id_",
     "src": "pages/ordens-servicos/atualizar/[id].vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
-      "_D0vv-aHJ.js",
+      "_CCVovMl5.js",
+      "_TC7CwnAT.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_37abXc2X.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
-      "_C1BiXLQA.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_BkUIGpbv.js"
+      "_B7rJ_w7K.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_Cfe2q35H.js"
     ]
   },
   "pages/ordens-servicos/criar-ato.vue": {
@@ -698,30 +698,30 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "CwZY8qzE.js",
+    "file": "B7qzRH17.js",
     "name": "criar-ato",
     "src": "pages/ordens-servicos/criar-ato.vue",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "pages/fontes/atos/reconhecimento/semelhanca.vue",
       "pages/fontes/atos/reconhecimento/autencidade.vue",
       "pages/fontes/atos/autenticacao/autenticacao.vue",
       "pages/fontes/atos/procuracoes/procuracao.vue",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_C1BiXLQA.js",
-      "_DeNR32x_.js",
-      "_WmS-HKnJ.js",
-      "_BkUIGpbv.js",
-      "_Mqxgirhj.js",
-      "_gU58mZs9.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_B7rJ_w7K.js",
+      "_DgP6oAmZ.js",
+      "_BHDw2_82.js",
+      "_Cfe2q35H.js",
+      "_CCVovMl5.js",
+      "_DocQ8qbS.js",
       "_DCsXQasW.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
-      "_uMMcPCZK.js"
+      "_UzmX34bO.js"
     ],
     "css": []
   },
@@ -736,25 +736,25 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "DvbAD3_n.js",
+    "file": "Dq677jvS.js",
     "name": "criar-registro",
     "src": "pages/ordens-servicos/criar-registro.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
-      "_D0vv-aHJ.js",
+      "_CCVovMl5.js",
+      "_TC7CwnAT.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_WmS-HKnJ.js",
+      "_DxZY0PWY.js",
+      "_BHDw2_82.js",
       "_37abXc2X.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
-      "_C1BiXLQA.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_BkUIGpbv.js"
+      "_B7rJ_w7K.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_Cfe2q35H.js"
     ]
   },
   "pages/ordens-servicos/index.vue": {
@@ -762,23 +762,23 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "WHCrQmHC.js",
+    "file": "CpBwlMhb.js",
     "name": "index",
     "src": "pages/ordens-servicos/index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_BkUIGpbv.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_CAG4ncxV.js",
+      "_Cfe2q35H.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_DxZY0PWY.js",
       "_CrE-eFFQ.js",
-      "_C1BiXLQA.js",
+      "_B7rJ_w7K.js",
       "_DCsXQasW.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
-      "_Cn7GK_Ke.js"
+      "_C0VUysvL.js"
     ],
     "css": [
       "index.DQLO0t3O.css"
@@ -795,21 +795,21 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "B2nnWZPd.js",
+    "file": "CfudEa8e.js",
     "name": "_id_",
     "src": "pages/pessoas/atualizar/[id].vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
-      "_BVFuYJGx.js",
+      "_CCVovMl5.js",
+      "_D5CfoMlg.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_BkUIGpbv.js",
-      "_uMMcPCZK.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_Cfe2q35H.js",
+      "_UzmX34bO.js",
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
       "_BUe_X6z7.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
@@ -829,57 +829,48 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "DPNAc37n.js",
+    "file": "BhPbHMOm.js",
     "name": "index",
     "src": "pages/pessoas/cadastro/index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
-      "_C1BiXLQA.js",
-      "_WmS-HKnJ.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js",
-      "_BilO1oej.js",
-      "_BVFuYJGx.js",
-      "_BkUIGpbv.js",
-      "_uMMcPCZK.js",
+      "_DxZY0PWY.js",
+      "_B7rJ_w7K.js",
+      "_BHDw2_82.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js",
+      "_CkThUMTF.js",
+      "_D5CfoMlg.js",
+      "_Cfe2q35H.js",
+      "_UzmX34bO.js",
       "_BUe_X6z7.js",
       "_CrE-eFFQ.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
       "_37abXc2X.js"
-    ],
-    "css": [
-      "index.DZtR6P6V.css"
     ]
-  },
-  "index.DZtR6P6V.css": {
-    "file": "index.DZtR6P6V.css",
-    "resourceType": "style",
-    "prefetch": true,
-    "preload": true
   },
   "pages/pessoas/registros/index.vue": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "DTzzdNyu.js",
+    "file": "B3WxCWv4.js",
     "name": "index",
     "src": "pages/pessoas/registros/index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_CrE-eFFQ.js",
       "_DCsXQasW.js",
       "_D7MG7sly.js",
       "_B63BRiqs.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js"
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js"
     ],
     "css": []
   },
@@ -894,18 +885,18 @@ const client_manifest = {
     "module": true,
     "prefetch": true,
     "preload": true,
-    "file": "C_-vVmUZ.js",
+    "file": "CPpl6O_D.js",
     "name": "_id_",
     "src": "pages/pessoas/vizualizar/[id].vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Mqxgirhj.js",
+      "_CCVovMl5.js",
       "node_modules/nuxt/dist/app/entry.js",
-      "_CAG4ncxV.js",
+      "_DxZY0PWY.js",
       "_BUe_X6z7.js",
-      "_BilO1oej.js",
-      "_Ccml4xam.js",
-      "_Cn7GK_Ke.js"
+      "_CkThUMTF.js",
+      "_BL7Q-07Y.js",
+      "_C0VUysvL.js"
     ],
     "css": []
   },

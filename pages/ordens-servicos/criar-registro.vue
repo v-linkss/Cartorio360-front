@@ -76,7 +76,6 @@
         />
       </NuxtLink> 
        <v-data-table :headers="headers" :items="atosItems" item-key="id">
-        {{ atosItems }}
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
             <div @click="redirectToModalReimprimir()" title="Reimprimir">

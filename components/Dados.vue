@@ -265,12 +265,4 @@ async function onUpdate() {
 }
 </script>
 
-<style scoped>
-.btn-pointer {
-  width: 50px;
-  height: 50px;
-  margin-left: 25px;
-  margin-top: 20px;
-  cursor: pointer;
-}
-</style>
+

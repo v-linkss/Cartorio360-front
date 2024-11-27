@@ -694,7 +694,7 @@ const _routes = [
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-CKsHbuf-.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CaYqeJ6E.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-D-HPUbEI.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-FFHuzpmX.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
@@ -719,7 +719,7 @@ const _routes = [
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-moyQNFvK.mjs').then((m) => m.default || m)
+    component: () => import('./index-HMP3Oncq.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",

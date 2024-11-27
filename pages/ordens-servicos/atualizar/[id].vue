@@ -244,7 +244,6 @@ const { data } = await useFetch(atosPayload, {
     ordemserv_token: ordemserv_token,
   },
 });
-console.log(data.value);
 if (data.value.length > 0) {
   atosItems.value = data.value;
 } else {

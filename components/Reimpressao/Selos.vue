@@ -101,6 +101,7 @@ const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
+
 escreventesItems.value = data.value[0].func_json_escreventes;
 
 const reimprimeSelosAtos = async () => {
@@ -130,7 +131,9 @@ const fetchSelos = async () => {
     method: "POST",
     body: { ato_token: props.ato_token },
   });
-  if (!error.value) {
+  if (data.value.selos === null) {
+    selosItems.value = []
+  }else{
     selosItems.value = data.value.selos;
   }
 };
