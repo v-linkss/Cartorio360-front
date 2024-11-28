@@ -112,7 +112,7 @@ async function onSubmit() {
   
     if (status.value === "success") {
       $toast.success("Situação registrada com sucesso");
-      emit("saved");
+      emit("saved",data.value.id);
     }
   } else {
     $toast.error("Preencha os campos obrigatorios.");

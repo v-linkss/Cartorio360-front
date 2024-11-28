@@ -35,7 +35,8 @@
           v-model="state.pessoa"
           :items="pessoasItems"
           item-title="nome"
-          item-value="documento"
+          item-value="id"
+          return-object
           required
         >
         </v-autocomplete>
@@ -46,7 +47,7 @@
           v-model="state.papeis"
           :items="papeisItems"
           item-title="descricao"
-          item-value="descricao"
+          item-value="id"
           required
         >
         </v-autocomplete>
@@ -95,7 +96,7 @@
                 "
                 @click="redirectToFicha(item)"
                 class="mr-2"
-                title="Visualizar Ficha"
+                title="Alterar Papel"
               >
                 <img
                   style="width: 30px; height: 30px"
@@ -110,8 +111,8 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
+                @click="deletePessoa(item)"
+                title="Deletar Pessoa"
               >
                 <img
                   style="width: 30px; height: 30px"
@@ -126,8 +127,8 @@
                   justify-content: flex-end;
                 "
                 class="mr-2"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
+                @click="redirectToRepresentante(item)"
+                title="Selecionar Representante"
               >
                 <img
                   style="width: 30px; height: 30px"
@@ -169,6 +170,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  ato_id: {
+    type: Number,
+    required: true,
+  },
 });
 
 const router = useRouter();
@@ -176,8 +181,7 @@ const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
-const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
-const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
+const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
@@ -209,7 +213,7 @@ const headers = [
   {
     title: "Papel",
     align: "start",
-    key: "papel",
+    key: "papel.descricao",
   },
   {
     title: "Representante",
@@ -257,12 +261,21 @@ const createPessoa = () => {
   isModalRegistroOpen.value = true;
 };
 
-const createRepresentante = () => {
+const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
-    papel: state.papeis,
+    papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
   };
-
+  // const { data, error, status } = await useFetch(criarAtoPessoa, {
+  //   method: "POST",
+  //   body: {
+  //     ato_id: props.ato_id,
+  //     pessoa_id: state.pessoa.id,
+  //     tipo_parte_id: state.papeis,
+  //     user_id: useCookie("user-data").value.usuario_id,
+  //   },
+  // });
+  console.log(representante);
   pessoasTable.value.push(representante);
 };
 
@@ -275,60 +288,7 @@ const redirectToFicha = (item) => {
   isModalFichaOpen.value = true;
 };
 
-function removeFormValueFromTable(item) {
-  selectedObjects.value = selectedObjects.value.filter(
-    (pessoa) => pessoa.token !== item.token
-  );
-}
-
-async function reconhecerAtoAutencidade() {
-  try {
-    const selectedTokens = selectedObjects.value.map((item) => {
-      return { pessoa_token: item.token };
-    });
-    const { data, error, status } = await useFetch(reconhecerPessoa, {
-      method: "POST",
-      body: {
-        pessoas: selectedTokens,
-        cartorio_token: cartorio_token.value,
-        ordemserv_token: ordemserv_token,
-        quantidade: state.quantidade,
-        usuario_token: usuario_token,
-        ato_tipo_token: props.ato_token,
-      },
-    });
-    if (status.value === "success" && data.value[0].status === "OK") {
-      reconhecerEtiquetaAutencidade(data.value[0].token);
-      goBack();
-    } else {
-      errorModalVisible.value = true;
-      errorMessage.value =
-        ato_token.value.status_mensagem || error.value.data.details;
-    }
-  } catch (error) {
-    console.error("Erro na requisição", error);
-  }
-}
-
-async function reconhecerEtiquetaAutencidade(token) {
-  try {
-    const { data, error, status } = await useFetch(etiquetaAutencidade, {
-      method: "POST",
-      body: {
-        ato_token: token,
-        cartorio_token: cartorio_token.value,
-      },
-    });
-    if (status.value === "success") {
-      const newWindow = window.open("", "_blank");
-      newWindow.document.open();
-      newWindow.document.write(data.value[0].etiqueta);
-      newWindow.document.close();
-    }
-  } catch (error) {
-    console.error("Erro na requisição", error);
-  }
-}
+async function reconhecerAtoAutencidade() {}
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

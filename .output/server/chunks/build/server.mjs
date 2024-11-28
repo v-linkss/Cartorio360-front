@@ -668,7 +668,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-D2sWYJ_W.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-DahlDEn8.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -694,37 +694,37 @@ const _routes = [
   {
     name: "ordens-servicos-atualizar-id",
     path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-CaYqeJ6E.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DTWcfyXF.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-CXYeyj6o.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-Cgkx73PN.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",
     path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-FFHuzpmX.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-DK12vUwr.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos",
     path: "/ordens-servicos",
-    component: () => import('./index-C3QWoPZk.mjs').then((m) => m.default || m)
+    component: () => import('./index-BdEcM6jg.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BgWy9jHT.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-gygVhhSG.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-HMP3Oncq.mjs').then((m) => m.default || m)
+    component: () => import('./index-DuAGI-Xw.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-registros",
     path: "/pessoas/registros",
-    component: () => import('./index-htyvrxKz.mjs').then((m) => m.default || m)
+    component: () => import('./index-Dkslp7Hy.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",

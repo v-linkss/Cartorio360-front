@@ -12,41 +12,42 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto"/>
+        <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto" />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="partes">
-        <ProcuracaoPartes :ato_token="selectedAto"/>
+        <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="texto">
-        <ProcuracaoTexto/>
+        <ProcuracaoTexto />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="imagem">
-        <ProcuracaoImagem/>
+        <ProcuracaoImagem />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="observacao">
-        <ProcuracaoObservacao/>
+        <ProcuracaoObservacao :ato_id="ato_id_prop" />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="anexo">
-        <ProcuracaoAnexos/>
+        <ProcuracaoAnexos />
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
 </template>
 
 <script setup>
-
 const props = defineProps({
-    ato_token: {
-      type: String,
-      required: true,
-    },
-  });
+  ato_token: {
+    type: String,
+    required: true,
+  },
+});
 
+const ato_id_prop = ref(null);
 const tab = ref(null);
 const showTabs = ref(false);
-const selectedAto = ref(props.ato_token)
+const selectedAto = ref(props.ato_token);
 
-const handleSave = () => {
+const handleSave = (atoId) => {
+  ato_id_prop.value = atoId;
   showTabs.value = true;
 };
 </script>

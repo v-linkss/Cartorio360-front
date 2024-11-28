@@ -245,7 +245,7 @@ const { data } = await useFetch(atosPayload, {
   },
 });
 if (data.value.length > 0) {
-  atosItems.value = data.value;
+  atosItems.value = data.value
 } else {
   atosItems.value = [];
 }
