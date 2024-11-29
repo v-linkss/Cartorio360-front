@@ -115,9 +115,19 @@
                 title="Deletar Pessoa"
               >
                 <img
+                  v-if="item.excluido"
                   style="width: 30px; height: 30px"
-                  src="../../assets/mudarStatus.png"
+                  src="../../assets/excluido.png"
                   alt="Visualizar"
+                  title="Reativar"
+                />
+                <img
+                  v-else
+                  src="../../assets/mudarStatus.png"
+                  alt="Excluir"
+                  class="trash-icon"
+                  style="width: 30px; height: 30px"
+                  title="Excluir"
                 />
               </div>
               <div
@@ -153,9 +163,11 @@
     />
     <ModalPapel
       :representante_nome="representante_nome"
-      :papeis="papeisItems"
+      :ato_token="props.ato_token"
+      :ato_id="ato_pessoa_id"
       :show="isModalPapelOpen"
       @close="isModalPapelOpen = false"
+      @updatePapel="atualizarPapel"
     />
     <v-dialog v-model="isModalFichaOpen" width="600">
       <v-card max-width="600" title="Ficha">
@@ -196,6 +208,8 @@ const { $toast } = useNuxtApp();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
+const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const pessoasItems = ref([]);
@@ -206,6 +220,7 @@ const isModalRegistroOpen = ref(false);
 const isModalFichaOpen = ref(false);
 const isModalPapelOpen = ref(false);
 const representante_nome = ref(null);
+const ato_pessoa_id = ref(null);
 const fichaRender = ref(null);
 
 const headers = [
@@ -270,22 +285,35 @@ const createPessoa = () => {
   isModalRegistroOpen.value = true;
 };
 
+const atualizarPapel = (descricao) => {
+  const papelEncontrado = pessoasTable.value.find(
+    (item) => item.papel.id === state.papeis
+  );
+
+  papelEncontrado.papel.descricao = descricao;
+};
+
 const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
   };
 
-  // const { data, error, status } = await useFetch(criarAtoPessoa, {
-  //   method: "POST",
-  //   body: {
-  //     ato_id: props.ato_id,
-  //     pessoa_id: state.pessoa.id,
-  //     tipo_parte_id: state.papeis,
-  //     user_id: useCookie("user-data").value.usuario_id,
-  //   },
-  // });
-  pessoasTable.value.push(representante);
+  const { data, error, status } = await useFetch(criarAtoPessoa, {
+    method: "POST",
+    body: {
+      ato_id: props.ato_id,
+      pessoa_id: state.pessoa.id,
+      tipo_parte_id: state.papeis,
+      user_id: useCookie("user-data").value.usuario_id,
+    },
+  });
+  if (status.value === "success") {
+    ato_pessoa_id.value = data.value.id
+    $toast.success("Pessoa Registrada com Sucesso!");
+    pessoasTable.value.push(representante);
+  }
+
 };
 
 const redirectToFicha = async (item) => {
@@ -314,6 +342,17 @@ const redirectToPapel = (item) => {
   representante_nome.value = item.pessoa.nome;
 };
 
+async function deletePessoa(item) {
+  item.excluido = !item.excluido;
+  try {
+    await useFetch(`${pessoasUpdate}/${ato_pessoa_id.value}`, {
+      method: "PUT",
+      body: JSON.stringify({ excluido: item.excluido }),
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
+}
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
