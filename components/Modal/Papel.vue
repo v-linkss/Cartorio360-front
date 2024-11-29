@@ -3,16 +3,16 @@
       <v-card>
         <v-container>
           <v-row class="mt-1 mb-3" style="justify-content: space-between">
-            <h1 class=" ml-4">Representante para: {{ props.representante_nome }}</h1>
+            <h1 class=" ml-4">Altere o papel para: {{ props.representante_nome }}</h1>
   
           </v-row>
           <hr class="mb-5" />
           <v-autocomplete
             class="mb-5"
-            label="Selecione o Representante"
-            v-model="state.representante_id"
-            :items="escreventesItems"
-            item-title="nome"
+            label="Selecione o Papel"
+            v-model="state.papel_id"
+            :items="props.papeis"
+            item-title="descricao"
             item-value="token"
           ></v-autocomplete>
         </v-container>
@@ -31,14 +31,14 @@
   const props = defineProps({
     show: Boolean,
     ato_token: String,
-    representante_nome:String
+    representante_nome:String,
+    papeis: Array,
   });
-
   const isVisible = ref(props.show);
   const config = useRuntimeConfig();
   
   const state = reactive({
-    representante_id: null,
+    papel_id: null,
   });
   
   const emit = defineEmits(["close"]);
@@ -54,8 +54,6 @@
     isVisible.value = false;
     emit("close");
   };
-  
-  const escreventesItems = ref([]);
   
   </script>
   

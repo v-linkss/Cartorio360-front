@@ -94,7 +94,7 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                @click="redirectToFicha(item)"
+                @click="redirectToPapel(item)"
                 class="mr-2"
                 title="Alterar Papel"
               >
@@ -141,21 +141,34 @@
         </v-data-table>
       </v-col>
     </v-row>
+
     <ModalRegistroPessoas
       :show="isModalRegistroOpen"
       @close="isModalRegistroOpen = false"
     />
-    <ModalFichaCard
-      :show="isModalFichaOpen"
-      :item="selectedItem"
-      @confirmar="confirmItem(selectedItem)"
-      @close="isModalFichaOpen = false"
+    <ModalRepresentante
+      :representante_nome="representante_nome"
+      :show="isModalRepresentanteOpen"
+      @close="isModalRepresentanteOpen = false"
     />
-    <ErrorModalCard
-      :show="errorModalVisible"
-      :errorMessage="errorMessage"
-      @close="errorModalVisible = false"
+    <ModalPapel
+      :representante_nome="representante_nome"
+      :papeis="papeisItems"
+      :show="isModalPapelOpen"
+      @close="isModalPapelOpen = false"
     />
+    <v-dialog v-model="isModalFichaOpen" width="600">
+      <v-card max-width="600" title="Ficha">
+        <v-img :src="fichaRender" />
+        <v-btn
+          class="ms-auto mt-3 mb-3"
+          text="Fechar"
+          size="large"
+          color="red"
+          @click="isModalFichaOpen = false"
+        ></v-btn>
+      </v-card>
+    </v-dialog>
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -181,23 +194,19 @@ const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
-const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
+const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const ordemserv_token =
-  ref(useCookie("user-service").value.token).value ||
-  ref(useCookie("user-service").value).value;
-const usuario_token = useCookie("auth_token").value;
 
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
-const selectedObjects = ref([]);
-const errorModalVisible = ref(false);
+const isModalRepresentanteOpen = ref(false);
 const isModalRegistroOpen = ref(false);
 const isModalFichaOpen = ref(false);
-const selectedItem = ref(null);
-const errorMessage = ref("");
+const isModalPapelOpen = ref(false);
+const representante_nome = ref(null);
+const fichaRender = ref(null);
 
 const headers = [
   {
@@ -266,6 +275,7 @@ const createRepresentante = async () => {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
   };
+
   // const { data, error, status } = await useFetch(criarAtoPessoa, {
   //   method: "POST",
   //   body: {
@@ -275,20 +285,35 @@ const createRepresentante = async () => {
   //     user_id: useCookie("user-data").value.usuario_id,
   //   },
   // });
-  console.log(representante);
   pessoasTable.value.push(representante);
 };
 
-function confirmItem(item) {
-  selectedObjects.value.push(item);
-}
-
-const redirectToFicha = (item) => {
-  selectedItem.value = item.pessoa.id;
+const redirectToFicha = async (item) => {
   isModalFichaOpen.value = true;
+
+  fichaRender.value = null;
+
+  const { data: imagemBiometria } = await useFetch(`${buscarPessoa}`, {
+    method: "POST",
+    body: { id: item.pessoa.id, tipo: "ficha" },
+  });
+  if (imagemBiometria.value && imagemBiometria.value.link) {
+    fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
+  } else {
+    fichaRender.value = null;
+  }
 };
 
-async function reconhecerAtoAutencidade() {}
+const redirectToRepresentante = (item) => {
+  isModalRepresentanteOpen.value = true;
+  representante_nome.value = item.pessoa.nome;
+};
+
+const redirectToPapel = (item) => {
+  isModalPapelOpen.value = true;
+  representante_nome.value = item.pessoa.nome;
+};
+
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

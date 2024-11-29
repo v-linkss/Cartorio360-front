@@ -668,17 +668,17 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DahlDEn8.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-IaHUc_Hv.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-CTUYxMlb.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BkNbBP-c.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-DSX0WQBL.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-DZKlN5T0.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -699,7 +699,7 @@ const _routes = [
   {
     name: "ordens-servicos-criar-ato",
     path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-Cgkx73PN.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-BzEL5dxN.mjs').then((m) => m.default || m)
   },
   {
     name: "ordens-servicos-criar-registro",

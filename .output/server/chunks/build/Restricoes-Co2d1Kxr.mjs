@@ -13,7 +13,7 @@ import { V as VContainer } from './VContainer-Dd724oJ4.mjs';
 import { V as VRow } from './VRow-CVrt2SWs.mjs';
 import { V as VCol } from './VCol-DvbNDJG_.mjs';
 import { V as VAutocomplete } from './VAutocomplete-D1-afj5_.mjs';
-import { V as VDialog, a as VCard, b as VCardTitle, d as VCardText, c as VCardActions } from './VCard-uMKFEuGZ.mjs';
+import { V as VDialog, a as VCard, c as VCardTitle, d as VCardText, b as VCardActions } from './VCard-uMKFEuGZ.mjs';
 import { _ as _imports_2$1 } from './salvar-BTacXYiF.mjs';
 
 const VSliderSymbol = Symbol.for("vuetify:v-slider");

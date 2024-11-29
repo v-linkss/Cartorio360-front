@@ -4,7 +4,7 @@ import { u as useFetch } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { V as VDialog, a as VCard, c as VCardActions } from './VCard-uMKFEuGZ.mjs';
+import { V as VDialog, a as VCard, b as VCardActions } from './VCard-uMKFEuGZ.mjs';
 import { V as VContainer } from './VContainer-Dd724oJ4.mjs';
 import { V as VRow } from './VRow-CVrt2SWs.mjs';
 import { V as VAutocomplete } from './VAutocomplete-D1-afj5_.mjs';
