@@ -158,6 +158,7 @@
     />
     <ModalRepresentante
       :representante_nome="representante_nome"
+      :representantes="pessoasRepresentantes"
       :show="isModalRepresentanteOpen"
       @close="isModalRepresentanteOpen = false"
     />
@@ -215,10 +216,12 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
+
 const isModalRepresentanteOpen = ref(false);
 const isModalRegistroOpen = ref(false);
 const isModalFichaOpen = ref(false);
 const isModalPapelOpen = ref(false);
+const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const fichaRender = ref(null);
@@ -293,6 +296,14 @@ const atualizarPapel = (descricao) => {
   papelEncontrado.papel.descricao = descricao;
 };
 
+const atualizarRepreseante = (descricao) => {
+  const papelEncontrado = pessoasTable.value.find(
+    (item) => item.pessoa.id === state.pessoa
+  );
+
+  papelEncontrado.papel.descricao = descricao;
+};
+
 const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
@@ -333,6 +344,13 @@ const redirectToFicha = async (item) => {
 };
 
 const redirectToRepresentante = (item) => {
+  const pessoasFiltradas = pessoasTable.value
+    .filter((p) => p.pessoa.id !== item.pessoa.id) // Excluir a pessoa selecionada
+    .map((p) => ({
+      id: p.pessoa.id,
+      nome: p.pessoa.nome,
+    })); 
+  pessoasRepresentantes.value = pessoasFiltradas
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
 };
