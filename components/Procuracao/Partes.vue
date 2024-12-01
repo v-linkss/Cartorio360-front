@@ -159,8 +159,10 @@
     <ModalRepresentante
       :representante_nome="representante_nome"
       :representantes="pessoasRepresentantes"
+      :ato_id="ato_pessoa_id"
       :show="isModalRepresentanteOpen"
       @close="isModalRepresentanteOpen = false"
+      @updateRepresentante="atualizarRepresentante"
     />
     <ModalPapel
       :representante_nome="representante_nome"
@@ -224,6 +226,7 @@ const isModalPapelOpen = ref(false);
 const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
+const representante_pessoa_id = ref(null);
 const fichaRender = ref(null);
 
 const headers = [
@@ -245,7 +248,7 @@ const headers = [
   {
     title: "Representante",
     align: "start",
-    key: "nome",
+    key: "representante.nome",
   },
   { value: "actions" },
 ];
@@ -292,24 +295,21 @@ const atualizarPapel = (descricao) => {
   const papelEncontrado = pessoasTable.value.find(
     (item) => item.papel.id === state.papeis
   );
-
   papelEncontrado.papel.descricao = descricao;
 };
-
-const atualizarRepreseante = (descricao) => {
-  const papelEncontrado = pessoasTable.value.find(
-    (item) => item.pessoa.id === state.pessoa
+const atualizarRepresentante = (nome) => {
+  const pessoaAtualizada = pessoasTable.value.find(
+    (item) => item.pessoa.id === representante_pessoa_id.value
   );
-
-  papelEncontrado.papel.descricao = descricao;
+    pessoaAtualizada.representante.nome = nome;
 };
 
 const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
+    representante:{nome:null}
   };
-
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
     body: {
@@ -324,7 +324,6 @@ const createRepresentante = async () => {
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
   }
-
 };
 
 const redirectToFicha = async (item) => {
@@ -345,14 +344,16 @@ const redirectToFicha = async (item) => {
 
 const redirectToRepresentante = (item) => {
   const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id) // Excluir a pessoa selecionada
+    .filter((p) => p.pessoa.id !== item.pessoa.id) 
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
     })); 
+
   pessoasRepresentantes.value = pessoasFiltradas
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
+  representante_pessoa_id.value = item.pessoa.id
 };
 
 const redirectToPapel = (item) => {

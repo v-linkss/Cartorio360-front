@@ -57,6 +57,7 @@ watch(
   }
 );
 const closeModal = () => {
+  state.representante_id = null
   isVisible.value = false;
   emit("close");
 };
