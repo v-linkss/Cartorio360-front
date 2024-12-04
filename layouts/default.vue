@@ -13,6 +13,9 @@
           <v-list-item >
             <NuxtLink style="text-decoration: none; color: inherit;" to="/pessoas/registros"> Pessoas </NuxtLink>
           </v-list-item>
+          <v-list-item >
+            <NuxtLink style="text-decoration: none; color: inherit;" to="/selo-tipo"> Selos </NuxtLink>
+          </v-list-item>
         </v-list>
       </v-menu>
       <v-menu>
