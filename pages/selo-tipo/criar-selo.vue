@@ -33,56 +33,55 @@ const HandleCreateSelo = async () => {
       body: novoSelo,
     });
 
-    form.uf = null;
-    form.cor = null;
-    form.descricao = null;
-    form.valor = null
+    navigateTo('/selo-tipo')
   } catch (error) {
     console.error('Erro ao criar selo:', error);
-    alert('Erro ao criar selo. Tente novamente.');
   }
 };
 </script>
 
 <template>
-  <v-container class="d-flex justify-center align-center" style="height: 100vh;">
-    <v-card elevation="3" max-width="500">
+    <v-card elevation="4" max-width="1000">
       <v-card-title>
         <span class="text-h6">Criar Novo Selo</span>
       </v-card-title>
-
-      <v-card-text>
-        <v-form @submit.prevent="HandleCreateSelo">
-            <v-autocomplete
-            v-model="form.uf"
-            :items="ufList"
-            item-title="descricao"
-            item-value="sigla"
-            label="UF"
-            required
-            outlined
-          />
-          <v-text-field
-            v-model="form.cor"
-            label="Cor"
-            required
-            outlined
-          />
-          <v-text-field
-            v-model="form.descricao"
-            label="Descrição"
-            required
-            outlined
-          />
-          <MoneyInput required v-model="form.vlr_compra" />
-          <v-card-actions>
-            <v-btn text to="/selo-tipo">Voltar</v-btn>
-            <v-btn color="primary" type="submit" >Salvar</v-btn>
-          </v-card-actions>
+      <v-form @submit.prevent="HandleCreateSelo">
+          <v-container>
+              <v-autocomplete
+                v-model="form.uf"
+                :items="ufList"
+                item-title="descricao"
+                item-value="sigla"
+                label="UF"
+                required
+                outlined
+                class="mb-5"
+              />
+            <v-text-field
+              v-model="form.cor"
+              label="Cor"
+              required
+              outlined
+            />
+            <v-text-field
+              v-model="form.descricao"
+              label="Descrição"
+              required
+              outlined
+            />
+            <MoneyInput required v-model="form.vlr_compra" />
+            <v-card-actions>
+              <v-btn size="large" color="red" to="/selo-tipo">Voltar</v-btn>
+              <v-btn
+                type="submit"
+                class="ml-4"
+                size="large"
+                color="green"
+              >
+                Salvar
+              </v-btn>
+            </v-card-actions>
+            </v-container>
         </v-form>
-      </v-card-text>
-
-      
     </v-card>
-  </v-container>
 </template>

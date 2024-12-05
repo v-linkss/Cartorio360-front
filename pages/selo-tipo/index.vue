@@ -2,8 +2,7 @@
 const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/tipo-selos`;
 const updateSelo = `${config.public.managemant}/tipo-selos`;
-const findByIdSelo = `${config.public.managemant}/tipo-selos`;
-const deleteSelo = `${config.public.managemant}/tipo-selos`;
+const deleteSelo = `${config.public.managemant}/tipo-selos-delete`;
 const getUfs = `${config.public.managemant}/uf`;
 
 const selos = ref([])
@@ -20,11 +19,10 @@ const editForm = ref({
 
 const { data: ufs } = await useFetch(getUfs, {method: 'GET'})
 ufList.value = ufs.value
-console.log(ufList)
+
 
 const { data: selosList } = await useFetch(getSelo, {method: 'GET'})
 selos.value = selosList.value
-console.log(selos)
 
 const headers = [
   { title: 'ID', value: 'id' },
@@ -46,7 +44,7 @@ async function HandleSubmitEdit() {
       uf: editForm.value.uf,
       cor: editForm.value.cor,
       descricao: editForm.value.descricao,
-      valor: editForm.value.vlr_compra,
+      vlr_compra: editForm.value.vlr_compra,
     }
 
     await useFetch(`${updateSelo}/${editForm.value.id}`,{
@@ -55,42 +53,64 @@ async function HandleSubmitEdit() {
     }
     )
     location.reload()
-    console.log(edicaoSelo, editForm.value.id)
     isEditModalOpen = false; 
   } catch (error) {
     console.error('Erro ao atualizar pessoa:', error);
   }
 }
 
-async function HandleDeleteSelo(id) {
+async function HandleDeleteSelo(item) {
+  item.excluido = !item.excluido
+  
+  const updatedItem = JSON.stringify({excluido: !item.excluido })
+  
+  console.log('item:', item)
+  console.log('update item:', updatedItem)
   try {
-    await useFetch(`${deleteSelo}/${id}`, {method: 'DELETE'})
-    selos.value = selos.value.filter(selo => selo.id !== id);
+     const { error } = await useFetch(`${deleteSelo}/${item.id}`, {
+      method: "PUT",
+      body: updatedItem
+    })
+
+    if( error) {
+      console.log('caiu no erro', error)
+    }
+
   } catch (err) {
-    alert('Erro ao deletar selo', err)
+    console.error("Erro ao excluir selo:", err);
   }
 }
+
+console.log(selosList.value)
+
 </script>
 
 <template>
-    <v-contaier>
+    <v-container>
+      <NuxtLink to="/selo-tipo/criar-selo">
+        <img class="btn-pointer" src="../../assets/novo.png" alt="Cadastro" />
+      </NuxtLink>
         <v-card>
           <v-card-title class="d-flex justify-space-between align-center">
-            <h2>Lista de Selos</h2>
-            <v-btn to="/selo-tipo/criar-selo">Criar selo</v-btn>
+            <h2>Tipos de Selos</h2>
           </v-card-title>
           <v-data-table
-            :items="selos"
+            :items="selosList"
             :headers="headers"
             class="elevation-1"
             item-value="id"
           >
             <template #item.actions="{ item }">
+            <div style="">
               <v-btn icon @click="editSelo(item)">
-                <v-icon>mdi-pencil</v-icon>
+                <img
+                style="width: 30px; height: 30px"
+                src="../../assets/editar.png"
+                alt="Atualizar"
+              />
               </v-btn>
-              <v-btn icon @click="HandleDeleteSelo(item.id)">
-                <div class="btn-pointer" @click="deletePessoa(item)" title="Deletar">
+              <v-btn icon @click="HandleDeleteSelo(item)">
+                <div class="btn-pointer" title="Deletar">
                   <img
                     v-if="item.excluido"
                     style="width: 30px; height: 30px"
@@ -108,10 +128,11 @@ async function HandleDeleteSelo(id) {
                   />
                 </div>
               </v-btn>
+            </div>
             </template>
           </v-data-table>
         </v-card>
-    </v-contaier>
+    </v-container>
     
 
     <!-- Modal de edição -->
@@ -145,8 +166,12 @@ async function HandleDeleteSelo(id) {
                 />
                 <MoneyInput required v-model="editForm.vlr_compra" />
                 <v-card-actions>
-                <v-btn type="submit" color="primary">Salvar</v-btn>
-                <v-btn text @click="isEditModalOpen = false">Cancelar</v-btn>
+                <v-btn type="submit" color="green" size="large">Salvar</v-btn>
+                <v-btn 
+                color="red" 
+                size="large" 
+                @click="isEditModalOpen = false"
+                >Cancelar</v-btn>
                 </v-card-actions>
             </v-form>
             </v-card-text>
