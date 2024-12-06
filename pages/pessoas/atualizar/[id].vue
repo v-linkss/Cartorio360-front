@@ -2,25 +2,25 @@
   <v-card width="1300">
     <h1
       style="
-        background-color: #c8fcca;
-        color: #429946;
+        background-color: #f5f2f2;
+        color: #525050;
         padding: 10px 0px 0px 20px;
       "
     >
       {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
     </h1>
-    <div style="background-color: #c8fcca; padding: 20px 0px 20px 20px">
+    <div style="background-color: #f5f2f2; padding: 20px 0px 20px 20px">
       <v-autocomplete
         v-model="state.tipo_pessoa"
         style="width: 200px"
         :items="pessoa_tipo"
         label="Tipo de pessoa"
         bg-color="#F6F6F6"
-        disabled
+        disabled=""
       >
       </v-autocomplete>
     </div>
-    <v-tabs v-model="tab" bg-color="#C8FCCA">
+    <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab value="documento">Documentos</v-tab>
       <v-tab value="endereco">Endereços</v-tab>
@@ -125,7 +125,7 @@
             </v-col>
           </v-row>
           <v-row class="mb-3">
-            <NuxtLink to="/pessoas/registros">
+            <NuxtLink to="/pessoas/lista">
               <v-btn size="large" color="red">Voltar</v-btn>
             </NuxtLink>
             <v-btn @click="onUpdate()" class="ml-4" size="large" color="green">Salvar</v-btn>
@@ -225,8 +225,7 @@ async function loadPessoaData() {
     estadoCivilItemsData.value = estadoCivilItems;
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
-    // Atribuir os dados da pessoa ao estado reativo
-    console.log(pessoa);
+
     Object.assign(state, pessoa);
 
     return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -267,7 +266,7 @@ async function onUpdate() {
     body: payloadFormated,
   });
   $toast.success("Pessoa atualizada com sucesso!");
-  router.push("/pessoas/registros");
+  router.push("/pessoas/lista");
 }
 </script>
 

@@ -10,7 +10,7 @@
       </v-col>
       <div>
         <img
-          class="btn-pointer mt-3"
+          class="mt-3"
           src="../../assets/visualizar.png"
           style="width: 40px; cursor: pointer"
           title="Pesquisar Pessoa"
@@ -19,7 +19,7 @@
       </div>
       <div>
         <img
-          class="btn-pointer mt-3 ml-2"
+          class="mt-3 ml-2"
           src="../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Pessoa"
@@ -54,7 +54,7 @@
       </v-col>
       <div>
         <img
-          class="btn-pointer mt-3"
+          class="mt-3"
           src="../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Representante"

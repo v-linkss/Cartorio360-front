@@ -670,17 +670,17 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DMLdx6gv.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-SDfMeoLy.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-UcOIZ_Zr.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-kaa0i5j8.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-BqyU9blU.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-CLuoBt6-.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -702,42 +702,42 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-BXu785hs.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-B-EKQjM-.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-Da6-OukF.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-CeoLjW50.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-CBdq-3tP.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-BdYN7MoU.mjs').then((m) => m.default || m)
   },
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-CwzqIry6.mjs').then((m) => m.default || m)
+    component: () => import('./index-DiY_l5VJ.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BvCTTXAd.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BjYLSA1z.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-BfzAhxOI.mjs').then((m) => m.default || m)
+    component: () => import('./index-SXo-5f1C.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-BWC-Pfy2.mjs').then((m) => m.default || m)
+    component: () => import('./index-FJakXWNC.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-BQk8v-cJ.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-Bn4qWW0M.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-criar-selo",
@@ -747,7 +747,7 @@ const _routes = [
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
-    component: () => import('./lista-B4jedL2n.mjs').then((m) => m.default || m)
+    component: () => import('./lista-DR_hu-dO.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {

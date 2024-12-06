@@ -117,7 +117,7 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <NuxtLink to="/pessoas/registros">
+      <NuxtLink to="/pessoas/lista">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
       <v-btn
@@ -261,7 +261,7 @@ async function onUpdate() {
     body: payloadFormated,
   });
   $toast.success("Pessoa atualizada com sucesso!");
-  router.push("/pessoas/registros");
+  router.push("/pessoas/lista");
 }
 </script>
 

@@ -47,7 +47,6 @@ async function enviarArquivo() {
       method: 'POST',
       body: { tipo: 'ficha', pessoa_token: token }
     });
-    console.log(status.value)
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }

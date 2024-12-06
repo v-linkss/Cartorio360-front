@@ -16,7 +16,7 @@ const printHtml = ref("");
 
 const config = useRuntimeConfig();
 const impressao = `${config.public.managemant}/gerarRelatorio`;
-//  console.log(useCookie('pessoa_token').value);
+
 const consultaFicha = async () => {
   const response = await useFetch(impressao, {
     method: "POST",

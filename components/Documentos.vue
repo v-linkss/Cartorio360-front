@@ -96,7 +96,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/pessoas/registros">
+    <NuxtLink to="/pessoas/lista">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-dialog v-model="isModalOpen" max-width="600px">

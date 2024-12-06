@@ -51,7 +51,7 @@
       </v-row>
     </v-container>
 </div>
-<NuxtLink class="mt-10" to="/pessoas/registros">
+<NuxtLink class="mt-10" to="/pessoas/lista">
    <v-btn size="large" color="red">Voltar</v-btn>
 </NuxtLink>
 </template>

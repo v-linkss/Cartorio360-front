@@ -1,22 +1,28 @@
 <template>
   <v-col cols="auto">
-      <v-dialog max-width="700" v-model="isDialogActiveBiometria">
-        <template v-slot:activator="{ props: activatorProps }">
-          <v-btn
-            v-bind="activatorProps"
-            variant="outlined"
-            style="width: 300px; height: 300px"
-            @click="openDialog"
-          >
-          <img v-if="imagemBiometria.link === null" src="../../assets/camera.png" />
-          <img v-if="imagemBiometria.link !== null" :src="fotoRender" style="width: 100%; height: 100%; object-fit: cover;" />            
-          </v-btn>
-        </template>
+    <v-dialog max-width="700" v-model="isDialogActiveBiometria">
+      <template v-slot:activator="{ props: activatorProps }">
+        <v-btn
+          v-bind="activatorProps"
+          variant="outlined"
+          style="width: 300px; height: 300px"
+          @click="openDialog"
+        >
+          <img v-if="fotoRender === null" src="../../assets/camera.png" />
+          <img
+            v-if="fotoRender !== null"
+            :src="fotoRender"
+            style="width: 100%; height: 100%; object-fit: cover"
+          />
+        </v-btn>
+      </template>
 
-        <template v-slot:default="{ isActive }">
-          <v-card title="Biometria">
-            <v-row>
-              <v-col>
+      <template v-slot:default="{ isActive }">
+        <v-card title="Biometria">
+          <v-row>
+            <v-col>
+              <v-container>
+
                 <v-select
                   :items="devices"
                   v-model="selectedDeviceId"
@@ -24,74 +30,70 @@
                   item-value="deviceId"
                   label="Selecionar Webcam"
                 ></v-select>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-btn @click="startVideo">Exibir</v-btn>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-container style="overflow: hidden;">
-                <v-col>
-                  <video
-                    class="ml-3"
-                    ref="video"
-                    width="640"
-                    height="480"
-                    autoplay
-                    :style="{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center' }"
-                  ></video>
-                </v-col>
               </v-container>
-            </v-row>
-            <v-container>
-              <v-slider
-                v-model="zoomLevel"
-                :min="1"
-                :max="3"
-                step="0.1"
-                label="Zoom"
-              ></v-slider>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn size="large" class="ml-5" @click="startVideo">Exibir</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-container style="overflow: hidden">
+              <v-col>
+                <video
+                  class="ml-3"
+                  ref="video"
+                  width="640"
+                  height="480"
+                  autoplay
+                  :style="{
+                    transform: `scale(${zoomLevel})`,
+                    transformOrigin: 'center center',
+                  }"
+                ></video>
+              </v-col>
             </v-container>
-            <v-row class="mt-10 justify-space-around">
-              <div @click="closeDialog">
-                <img
-                  style="cursor: pointer;"
-                  src="../../assets/sair.png"
-                  alt="Excluir"
-                />
-              </div>
-              <div @click="handleCapture">
-                <img
-                  style="cursor: pointer;"
-                  src="../../assets/salvar.png"
-                  alt="Salvar"
-                />
-              </div>
-            </v-row>
-          </v-card>
-        </template>
-      </v-dialog> 
-      <img @click="handleDelete" style="width: 40px;margin-left: 10px;cursor: pointer;" src="../../assets/mudarStatus.png" alt="Excluir" />
-    </v-col>
+          </v-row>
+          <v-container>
+            <v-slider
+              v-model="zoomLevel"
+              :min="1"
+              :max="3"
+              step="0.1"
+              label="Zoom"
+            ></v-slider>
+          </v-container>
+          <v-row class="mt-10 mb-5 ml-5">
+            <v-btn color="red" size="large" @click="closeDialog">Fechar</v-btn>
+            <v-btn color="green" size="large" class="ml-5" @click="handleCapture">Salvar</v-btn>
+          </v-row>
+        </v-card>
+      </template>
+    </v-dialog>
+    <img
+      @click="handleDelete"
+      style="width: 40px; margin-left: 10px; cursor: pointer"
+      src="../../assets/mudarStatus.png"
+      alt="Excluir"
+    />
+  </v-col>
 </template>
 
 <script setup>
-
 const video = ref(null);
 const devices = ref([]);
 const selectedDeviceId = ref("");
 const isDialogActiveBiometria = ref(false);
 const capturedPhoto = ref(null);
-const fotoRender = ref(null)
+const fotoRender = ref(null);
 
 const route = useRoute();
 const { id } = route.params;
 
 const zoomLevel = ref(1);
 
-const tokenCookie = useCookie('pessoa_token');
+const tokenCookie = useCookie("pessoa_token");
 const token = tokenCookie.value;
 
 const pessoaNome = useCookie("user-data").value;
@@ -142,8 +144,8 @@ const startVideo = async () => {
 };
 
 const handleCapture = async () => {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
   const width = video.value.videoWidth;
   const height = video.value.videoHeight;
   const scaledWidth = width * zoomLevel.value;
@@ -154,25 +156,19 @@ const handleCapture = async () => {
   canvas.width = width;
   canvas.height = height;
 
-  context.drawImage(
-    video.value,
-    offsetX,
-    offsetY,
-    scaledWidth,
-    scaledHeight
-  );
+  context.drawImage(video.value, offsetX, offsetY, scaledWidth, scaledHeight);
 
   canvas.toBlob(async (blob) => {
     const formData = new FormData();
-    formData.append('file', blob, `${nomePessoa}.jpg`);
-    formData.append('pessoa_token', token); 
-    formData.append("tipo", "foto"); 
+    formData.append("file", blob, `${nomePessoa}.jpg`);
+    formData.append("pessoa_token", token);
+    formData.append("tipo", "foto");
 
     const { status } = await useFetch(enviarFoto, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
-    if (status.value === 'success') {
+    if (status.value === "success") {
       $toast.success("Imagem enviada!");
       const photoUrl = URL.createObjectURL(blob);
       fotoRender.value = photoUrl;
@@ -180,24 +176,28 @@ const handleCapture = async () => {
     } else {
       $toast.error("Erro ao enviar imagem para o sistema.");
     }
-  }, 'image/jpeg');
+  }, "image/jpeg");
 };
 
 const handleDelete = () => {
-  capturedPhoto.value = null; 
+  capturedPhoto.value = null;
 };
 
-const { data:imagemBiometria } = await useFetch(buscarPessoa, {
-      method: 'POST',
-      body:{tipo:'foto',id:id}
-});
+if (id) {
+  const { data: imagemBiometria } = await useFetch(buscarPessoa, {
+    method: "POST",
+    body: { tipo: "foto", id: id },
+  });
 
-fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
+  if (imagemBiometria.value !== null && imagemBiometria.value.link !== null) {
+    fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
+  }
+}
 
 onMounted(async () => {
   try {
-    await navigator.mediaDevices.getUserMedia({ video: true }); 
-    await updateDevices(); 
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    await updateDevices();
   } catch (error) {
     console.error("Erro ao acessar dispositivos de mídia:", error);
   }
