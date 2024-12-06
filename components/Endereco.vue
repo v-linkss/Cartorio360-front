@@ -357,7 +357,7 @@ async function deleteEndereco(item) {
   try {
     await useFetch(`${updateEndereco}/${item.id}`, {
       method: "PUT",
-      body: JSON.stringify({ excluido: item.excluido }),
+      body: { excluido: item.excluido },
     });
   } catch (error) {
     console.error("Erro ao excluir pessoa:", error);

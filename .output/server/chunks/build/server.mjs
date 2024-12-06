@@ -1,10 +1,9 @@
-import { hasInjectionContext, inject as inject$1, version as version$1, unref, ref, watch, onScopeDispose, isVNode, Comment, Fragment, computed, provide, defineComponent as defineComponent$1, capitalize, camelize, h, toRaw, createVNode, mergeProps, nextTick, shallowRef, isRef, toRef, reactive, toRefs, Text, watchEffect, Transition, resolveDynamicComponent, withDirectives, createTextVNode, Teleport, vShow, resolveDirective, cloneVNode, Suspense, readonly, withModifiers, toDisplayString, shallowReactive, getCurrentInstance as getCurrentInstance$1, effectScope, warn, TransitionGroup, useSSRContext, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, defineAsyncComponent, isReadonly, withCtx, isShallow, isReactive } from 'vue';
+import { hasInjectionContext, inject as inject$1, version as version$1, unref, ref, watch, onScopeDispose, isVNode, Comment, Fragment, computed, provide, defineComponent as defineComponent$1, capitalize, camelize, h, toRaw, createVNode, mergeProps, nextTick, shallowRef, isRef, toRef, reactive, toRefs, Text, watchEffect, Transition, resolveDynamicComponent, withDirectives, createTextVNode, Teleport, vShow, resolveDirective, markRaw, cloneVNode, Suspense, readonly, withModifiers, toDisplayString, shallowReactive, getCurrentInstance as getCurrentInstance$1, effectScope, warn, TransitionGroup, useSSRContext, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, defineAsyncComponent, isReadonly, withCtx, isShallow, isReactive } from 'vue';
 import { $ as $fetch, w as withQuery, l as hasProtocol, m as isScriptProtocol, n as joinURL, h as createError$1, o as klona, p as parse$1, q as getRequestHeader, r as defu, t as sanitizeStatusCode, v as destr, x as isEqual$1, y as setCookie, z as getCookie, A as deleteCookie, B as createHooks, C as toRouteMatcher, D as createRouter$1 } from '../runtime.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead, CapoPlugin } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
 import { useRoute as useRoute$2, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
-import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 import Vue3Toastify, { toast } from 'vue3-toastify';
 import VueTheMask from 'vue-the-mask';
 import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
@@ -656,6 +655,9 @@ async function getRouteRules(url) {
     return defu({}, ..._routeRulesMatcher.matchAll(url).reverse());
   }
 }
+const __nuxt_page_meta$1 = {
+  layout: "false"
+};
 const __nuxt_page_meta = {
   layout: "false"
 };
@@ -663,73 +665,89 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-C2Ri5mIk.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-DIqiBbhQ.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-ieztQuTd.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-CIi7S9FC.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-BkNbBP-c.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-UcOIZ_Zr.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-DZKlN5T0.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-BqyU9blU.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-dtVDJW4j.mjs').then((m) => m.default || m)
+    component: () => import('./index-CjWD5RTQ.mjs').then((m) => m.default || m)
   },
   {
     name: "login",
     path: "/login",
+    meta: __nuxt_page_meta$1 || {},
+    component: () => import('./index-MBcd2g4V.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "login-tipo-perfil",
+    path: "/login/tipo-perfil",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-DPs3z6pR.mjs').then((m) => m.default || m)
+    component: () => import('./tipo-perfil-CWFS4qUb.mjs').then((m) => m.default || m)
   },
   {
-    name: "ordens-servicos-atualizar-id",
-    path: "/ordens-servicos/atualizar/:id()",
-    component: () => import('./_id_-DTWcfyXF.mjs').then((m) => m.default || m)
+    name: "os-atualizar-id",
+    path: "/os/atualizar/:id()",
+    component: () => import('./_id_-BXu785hs.mjs').then((m) => m.default || m)
   },
   {
-    name: "ordens-servicos-criar-ato",
-    path: "/ordens-servicos/criar-ato",
-    component: () => import('./criar-ato-BDiTS2y6.mjs').then((m) => m.default || m)
+    name: "os-criar-ato",
+    path: "/os/criar-ato",
+    component: () => import('./criar-ato-Bi1rrNv7.mjs').then((m) => m.default || m)
   },
   {
-    name: "ordens-servicos-criar-registro",
-    path: "/ordens-servicos/criar-registro",
-    component: () => import('./criar-registro-DK12vUwr.mjs').then((m) => m.default || m)
+    name: "os-criar-registro",
+    path: "/os/criar-registro",
+    component: () => import('./criar-registro-CBdq-3tP.mjs').then((m) => m.default || m)
   },
   {
-    name: "ordens-servicos",
-    path: "/ordens-servicos",
-    component: () => import('./index-BdEcM6jg.mjs').then((m) => m.default || m)
+    name: "os-lista",
+    path: "/os/lista",
+    component: () => import('./index-CwzqIry6.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-gygVhhSG.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BvCTTXAd.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-DuAGI-Xw.mjs').then((m) => m.default || m)
+    component: () => import('./index-BfzAhxOI.mjs').then((m) => m.default || m)
   },
   {
-    name: "pessoas-registros",
-    path: "/pessoas/registros",
-    component: () => import('./index-Dkslp7Hy.mjs').then((m) => m.default || m)
+    name: "pessoas-lista",
+    path: "/pessoas/lista",
+    component: () => import('./index-BWC-Pfy2.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-dVnfxNWu.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BQk8v-cJ.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "tiposSelos-criar-selo",
+    path: "/tiposSelos/criar-selo",
+    component: () => import('./criar-selo-DqQBlVNN.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "tiposSelos-lista",
+    path: "/tiposSelos/lista",
+    component: () => import('./lista-B4jedL2n.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -1114,9 +1132,6 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
 });
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:global-components"
-});
-const ckeditor_xw6yZxUxkA = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(CkeditorPlugin);
 });
 const toast_ysMjUcU7eJ = /* @__PURE__ */ defineNuxtPlugin(({ vueApp }) => {
   vueApp.use(Vue3Toastify, {
@@ -9425,6 +9440,126 @@ const VMessages = genericComponent()({
   }
 });
 const FormKey = Symbol.for("vuetify:form");
+const makeFormProps = propsFactory({
+  disabled: Boolean,
+  fastFail: Boolean,
+  readonly: Boolean,
+  modelValue: {
+    type: Boolean,
+    default: null
+  },
+  validateOn: {
+    type: String,
+    default: "input"
+  }
+}, "form");
+function createForm(props) {
+  const model = useProxiedModel(props, "modelValue");
+  const isDisabled = computed(() => props.disabled);
+  const isReadonly2 = computed(() => props.readonly);
+  const isValidating = shallowRef(false);
+  const items = ref([]);
+  const errors = ref([]);
+  async function validate2() {
+    const results = [];
+    let valid = true;
+    errors.value = [];
+    isValidating.value = true;
+    for (const item of items.value) {
+      const itemErrorMessages = await item.validate();
+      if (itemErrorMessages.length > 0) {
+        valid = false;
+        results.push({
+          id: item.id,
+          errorMessages: itemErrorMessages
+        });
+      }
+      if (!valid && props.fastFail) break;
+    }
+    errors.value = results;
+    isValidating.value = false;
+    return {
+      valid,
+      errors: errors.value
+    };
+  }
+  function reset() {
+    items.value.forEach((item) => item.reset());
+  }
+  function resetValidation() {
+    items.value.forEach((item) => item.resetValidation());
+  }
+  watch(items, () => {
+    let valid = 0;
+    let invalid = 0;
+    const results = [];
+    for (const item of items.value) {
+      if (item.isValid === false) {
+        invalid++;
+        results.push({
+          id: item.id,
+          errorMessages: item.errorMessages
+        });
+      } else if (item.isValid === true) valid++;
+    }
+    errors.value = results;
+    model.value = invalid > 0 ? false : valid === items.value.length ? true : null;
+  }, {
+    deep: true,
+    flush: "post"
+  });
+  provide(FormKey, {
+    register: (_ref) => {
+      let {
+        id,
+        vm,
+        validate: validate3,
+        reset: reset2,
+        resetValidation: resetValidation2
+      } = _ref;
+      if (items.value.some((item) => item.id === id)) {
+        consoleWarn(`Duplicate input name "${id}"`);
+      }
+      items.value.push({
+        id,
+        validate: validate3,
+        reset: reset2,
+        resetValidation: resetValidation2,
+        vm: markRaw(vm),
+        isValid: null,
+        errorMessages: []
+      });
+    },
+    unregister: (id) => {
+      items.value = items.value.filter((item) => {
+        return item.id !== id;
+      });
+    },
+    update: (id, isValid2, errorMessages) => {
+      const found = items.value.find((item) => item.id === id);
+      if (!found) return;
+      found.isValid = isValid2;
+      found.errorMessages = errorMessages;
+    },
+    isDisabled,
+    isReadonly: isReadonly2,
+    isValidating,
+    isValid: model,
+    items,
+    validateOn: toRef(props, "validateOn")
+  });
+  return {
+    errors,
+    isDisabled,
+    isReadonly: isReadonly2,
+    isValidating,
+    isValid: model,
+    items,
+    validate: validate2,
+    reset,
+    resetValidation
+  };
+}
 function useForm() {
   return inject$1(FormKey, null);
 }
@@ -16273,7 +16408,6 @@ const plugins = [
   plugin,
   revive_payload_server_eJ33V7gbc6,
   components_plugin_KR1HBZs4kY,
-  ckeditor_xw6yZxUxkA,
   toast_ysMjUcU7eJ,
   vuetify_7h9QAQEssH
 ];
@@ -16402,7 +16536,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-6-zyV9n6.mjs').then((m) => m.default || m)
+  default: () => import('./default-C_ycTCQw.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -16716,8 +16850,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-4hAhkHKX.mjs').then((r) => r.default || r));
-    const _Error = defineAsyncComponent(() => import('./error-500-FkxlQcoS.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-BfGb2RI7.mjs').then((r) => r.default || r));
+    const _Error = defineAsyncComponent(() => import('./error-500-5ktNSoSf.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -16798,5 +16932,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { usePosition as $, makeTagProps as A, createSimpleFunctional as B, makeDensityProps as C, VAvatar as D, VIcon as E, makeBorderProps as F, makeDimensionProps as G, makeElevationProps as H, IconValue as I, makeLoaderProps as J, makeLocationProps as K, makePositionProps as L, makeRoundedProps as M, makeRouterProps as N, makeThemeProps as O, makeVariantProps as P, provideTheme as Q, Ripple as R, useBorder as S, useVariant as T, useDensity as U, VTextField as V, useDimension as W, useElevation as X, useLoader as Y, useLocation as Z, _export_sfc as _, navigateTo as a, VLabel as a$, useRounded as a0, useLink as a1, VImg as a2, LoaderSlot as a3, genOverlays as a4, useRtl as a5, makeFilterProps as a6, makeSelectProps as a7, omit as a8, makeVTextFieldProps as a9, MaybeTransition as aA, convertToUnit as aB, makeVBtnProps as aC, animate as aD, standardEasing as aE, makeVSlideGroupProps as aF, useBackgroundColor as aG, isObject as aH, VSlideGroup as aI, VProgressCircular as aJ, VSpacer as aK, makeVInputProps as aL, makeVFieldProps as aM, Intersect as aN, useFocus as aO, filterInputAttrs as aP, VInput as aQ, filterFieldProps as aR, VField as aS, VCounter as aT, callEvent as aU, clamp as aV, getDecimals as aW, createRange as aX, VScaleTransition as aY, keyValues as aZ, makeFocusProps as a_, makeTransitionProps$1 as aa, useLocale as ab, useItems as ac, useTextColor as ad, useForm as ae, useFilter as af, useScrolling as ag, VMenu as ah, VList as ai, VListItem as aj, VVirtualScroll as ak, VCheckboxBtn as al, ensureValidVNode as am, VChip as an, noop as ao, wrapInArray as ap, matchesSelector as aq, breakpoints as ar, VDataTable as as, keys as at, useGroup as au, makeGroupItemProps as av, makeLazyProps as aw, useGroupItem as ax, useSsrBoot as ay, useLazy as az, useRuntimeConfig as b, VSelect as b0, VSheet as b1, VResponsive as b2, VExpandTransition as b3, makeLayoutItemProps as b4, useToggleScope as b5, useLayoutItem as b6, useLayout as b7, VApp as b8, VListItemTitle as b9, useRoute$1 as c, useCookie as d, entry$1 as default, VBtn as e, useNuxtApp as f, asyncDataDefaults as g, createError as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, VDialogTransition as l, makeVOverlayProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useProxiedModel as q, resolveUnrefHeadInput as r, useScopeId as s, useRender as t, useRouter$1 as u, forwardRefs as v, VOverlay as w, VDefaultsProvider as x, makeComponentProps as y, provideDefaults as z };
+export { useRtl as $, makeDimensionProps as A, makeElevationProps as B, makeLoaderProps as C, makeLocationProps as D, makePositionProps as E, makeRoundedProps as F, makeRouterProps as G, makeThemeProps as H, IconValue as I, makeVariantProps as J, provideTheme as K, useBorder as L, useVariant as M, useDensity as N, useDimension as O, useElevation as P, useLoader as Q, Ripple as R, useLocation as S, usePosition as T, useRounded as U, VTextField as V, useLink as W, VImg as X, LoaderSlot as Y, genOverlays as Z, _export_sfc as _, navigateTo as a, VLabel as a$, makeFilterProps as a0, makeSelectProps as a1, omit as a2, makeVTextFieldProps as a3, makeTransitionProps$1 as a4, useLocale as a5, useProxiedModel as a6, useItems as a7, useTextColor as a8, useForm as a9, MaybeTransition as aA, convertToUnit as aB, makeVBtnProps as aC, animate as aD, standardEasing as aE, makeVSlideGroupProps as aF, useBackgroundColor as aG, isObject as aH, VSlideGroup as aI, VProgressCircular as aJ, VSpacer as aK, makeVInputProps as aL, makeVFieldProps as aM, Intersect as aN, useFocus as aO, filterInputAttrs as aP, VInput as aQ, filterFieldProps as aR, VField as aS, VCounter as aT, callEvent as aU, clamp as aV, getDecimals as aW, createRange as aX, VScaleTransition as aY, keyValues as aZ, makeFocusProps as a_, useFilter as aa, useScrolling as ab, forwardRefs as ac, VMenu as ad, VList as ae, VListItem as af, VVirtualScroll as ag, VCheckboxBtn as ah, ensureValidVNode as ai, VChip as aj, noop as ak, wrapInArray as al, matchesSelector as am, breakpoints as an, makeVOverlayProps as ao, VDialogTransition as ap, useScopeId as aq, VOverlay as ar, VDataTable as as, keys as at, useGroup as au, makeGroupItemProps as av, makeLazyProps as aw, useGroupItem as ax, useSsrBoot as ay, useLazy as az, useRuntimeConfig as b, VSelect as b0, VSheet as b1, VResponsive as b2, makeFormProps as b3, createForm as b4, VExpandTransition as b5, makeLayoutItemProps as b6, useToggleScope as b7, useLayoutItem as b8, useLayout as b9, VApp as ba, VListItemTitle as bb, useRoute$1 as c, useCookie as d, entry$1 as default, VBtn as e, useNuxtApp as f, asyncDataDefaults as g, createError as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, genericComponent as l, makeComponentProps as m, nuxtLinkDefaults as n, useRender as o, provideDefaults as p, propsFactory as q, resolveUnrefHeadInput as r, makeTagProps as s, createSimpleFunctional as t, useRouter$1 as u, makeDensityProps as v, VAvatar as w, VIcon as x, VDefaultsProvider as y, makeBorderProps as z };
 //# sourceMappingURL=server.mjs.map

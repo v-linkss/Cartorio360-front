@@ -167,9 +167,9 @@ const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
   if (origem === "atualizar") {
-    router.push(`/ordens-servicos/atualizar/${id}`);
+    router.push(`/os/atualizar/${id}`);
   } else {
-    router.push("/ordens-servicos/criar-registro");
+    router.push("/os/criar-registro");
   }
 };
 </script>
