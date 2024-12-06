@@ -8,7 +8,7 @@ import { V as VCard, c as VCardText, a as VCardActions } from './VCard-DyET5wem.
 import { V as VContainer } from './VContainer-BgUKde2W.mjs';
 import { V as VRow } from './VRow-TyzvXDuI.mjs';
 import { q as propsFactory, aL as makeVInputProps, aM as makeVFieldProps, l as genericComponent, aN as Intersect, a6 as useProxiedModel, aO as useFocus, o as useRender, aP as filterInputAttrs, aQ as VInput, aR as filterFieldProps, aS as VField, aT as VCounter, ac as forwardRefs, u as useRouter$1, d as useCookie, V as VTextField, as as VDataTable, aU as callEvent, aB as convertToUnit, b as useRuntimeConfig, aV as clamp, f as useNuxtApp, e as VBtn } from './server.mjs';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { _ as _imports_0, a as _imports_3 } from './mudarStatus-Cy2HtZEH.mjs';
 import { V as VAutocomplete } from './VAutocomplete-B1xN05m5.mjs';
 import { useVuelidate } from '@vuelidate/core';

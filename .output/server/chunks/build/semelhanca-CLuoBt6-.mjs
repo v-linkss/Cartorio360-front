@@ -4,7 +4,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _sfc_main$3 } from './ErrorModalCard-ls3_gCwP.mjs';
 import { u as useRouter$1, c as useRoute$1, f as useNuxtApp, d as useCookie, V as VTextField, as as VDataTable, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, withCtx, unref, createVNode, createTextVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { _ as _imports_1 } from './visualizar-BoZ30DMV.mjs';
 import { _ as _imports_0, a as _imports_3 } from './mudarStatus-Cy2HtZEH.mjs';

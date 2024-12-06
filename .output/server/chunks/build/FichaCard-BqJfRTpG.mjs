@@ -1,6 +1,6 @@
 import { X as VImg, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { V as VDialog } from './VDialog-BwIFCBiT.mjs';
 import { V as VCard, b as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';

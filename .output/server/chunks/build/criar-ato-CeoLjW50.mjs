@@ -1,6 +1,6 @@
 import { _ as _export_sfc, c as useRoute$1, d as useCookie, b as useRuntimeConfig } from './server.mjs';
 import { ref, computed, watch, withCtx, unref, createVNode, toDisplayString, isRef, resolveDynamicComponent, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrRenderVNode } from 'vue/server-renderer';
 import _sfc_main$1 from './semelhanca-CLuoBt6-.mjs';
 import _sfc_main$2 from './autencidade-kaa0i5j8.mjs';

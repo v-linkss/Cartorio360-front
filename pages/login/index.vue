@@ -122,6 +122,7 @@ const closeAlert = () => {
   dialog.value = false;
 };
 const config = useRuntimeConfig();
+const listarMenu = `${config.public.managemant}/listarMenu`;
 const auth = config.public.auth;
 
 const authenticateUser = async () => {
@@ -182,14 +183,26 @@ const login = async () => {
 
     if (userInfo.cartorios.length > 1) {
       router.push({
-      path: "/login/tipo-perfil",
-      query: { cartorios: JSON.stringify(userInfo.cartorios) }, 
-    });
-    return
+        path: "/login/tipo-perfil",
+        query: { cartorios: JSON.stringify(userInfo.cartorios) },
+      });
+      return;
     }
-
     $toast.success("Login realizado com sucesso!");
-    router.push("/");
+    const { data: menuItems, status: statusMenu } = await useLazyFetch(
+      listarMenu,
+      {
+        method: "POST",
+        body: { perfil_descricao: userInfo.cartorios[0].perfil_descricao },
+      }
+    );
+    if (statusMenu.value === "success") {
+      const menuItemsCookie = useCookie("menu-navbar");
+      menuItemsCookie.value = menuItems.value;
+      router.push({
+        path: "/",
+      });
+    }
   } else {
     if (status === "error" && error?.statusCode === 500) {
       showError.value = true;

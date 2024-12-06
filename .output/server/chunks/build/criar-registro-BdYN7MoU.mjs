@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _imports_0, a as _imports_2, b as _sfc_main$1 } from './salvar-6F79Bl8w.mjs';
 import { f as useNuxtApp, d as useCookie, V as VTextField, as as VDataTable, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, resolveDirective, mergeProps, withCtx, unref, createVNode, toDisplayString, withDirectives, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrGetDirectiveProps, ssrRenderAttr, ssrRenderClass, ssrIncludeBooleanAttr } from 'vue/server-renderer';
 import { _ as _imports_0$1, a as _imports_3 } from './mudarStatus-Cy2HtZEH.mjs';
 import { _ as _imports_1, a as _imports_2$1 } from './excluido-BjtyjLDf.mjs';

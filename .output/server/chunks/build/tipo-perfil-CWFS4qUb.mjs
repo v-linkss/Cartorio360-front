@@ -1,7 +1,7 @@
 import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { u as useRouter$1, c as useRoute$1, X as VImg, e as VBtn, b as useRuntimeConfig, d as useCookie } from './server.mjs';
 import { ref, resolveComponent, withCtx, createVNode, unref, isRef, createTextVNode, useSSRContext } from 'vue';
-import { a as useLazyFetch } from './fetch-bT3G74K0.mjs';
+import { u as useLazyFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { _ as _imports_0 } from './cartorio_logo-BZAUeW2y.mjs';
 import { V as VRow } from './VRow-TyzvXDuI.mjs';

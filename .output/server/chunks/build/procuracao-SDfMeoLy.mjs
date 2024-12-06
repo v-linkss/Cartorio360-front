@@ -2,7 +2,7 @@ import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { u as useRouter$1, c as useRoute$1, f as useNuxtApp, d as useCookie, V as VTextField, e as VBtn, as as VDataTable, X as VImg, _ as _export_sfc, b as useRuntimeConfig } from './server.mjs';
 import { ref, withCtx, unref, isRef, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext, reactive, withAsyncContext, provide, watch, mergeProps, toDisplayString } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle, ssrRenderAttrs, ssrInterpolate } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';

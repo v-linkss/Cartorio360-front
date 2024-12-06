@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _sfc_main$1 } from './ErrorModalCard-ls3_gCwP.mjs';
 import { _ as _export_sfc, u as useRouter$1, c as useRoute$1, d as useCookie, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, mergeProps, withCtx, unref, createTextVNode, createVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderStyle } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';

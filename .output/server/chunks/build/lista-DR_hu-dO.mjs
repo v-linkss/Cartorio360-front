@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as __nuxt_component_1 } from './MoneyInput-CqoPZ5qG.mjs';
 import { as as VDataTable, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, withAsyncContext, withCtx, createVNode, unref, openBlock, createBlock, isRef, createTextVNode, withModifiers, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { _ as _imports_0, a as _imports_3 } from './mudarStatus-Cy2HtZEH.mjs';
 import { _ as _imports_1, a as _imports_2 } from './excluido-BjtyjLDf.mjs';

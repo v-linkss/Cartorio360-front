@@ -1,7 +1,7 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _export_sfc, u as useRouter$1, V as VTextField, as as VDataTable, b as useRuntimeConfig } from './server.mjs';
 import { ref, withAsyncContext, computed, unref, mergeProps, withCtx, createVNode, isRef, openBlock, createBlock, useSSRContext } from 'vue';
-import { a as useLazyFetch, u as useFetch } from './fetch-bT3G74K0.mjs';
+import { u as useLazyFetch, a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { _ as _imports_0, a as _imports_3 } from './mudarStatus-Cy2HtZEH.mjs';
 import { _ as _imports_1 } from './visualizar-BoZ30DMV.mjs';

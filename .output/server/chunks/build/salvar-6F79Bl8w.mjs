@@ -1,7 +1,7 @@
 import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { useSSRContext, ref, reactive, watch, withAsyncContext, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode } from 'vue';
 import { d as useCookie, x as VIcon, as as VDataTable, b as useRuntimeConfig } from './server.mjs';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';

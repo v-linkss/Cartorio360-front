@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _sfc_main$7, a as _sfc_main$6, b as __nuxt_component_3, c as __nuxt_component_4 } from './Restricoes-mlsZMTGX.mjs';
 import { ref, reactive, resolveDirective, mergeProps, withCtx, unref, isRef, createTextVNode, createVNode, withDirectives, toDisplayString, useSSRContext } from 'vue';
 import { _ as _export_sfc, u as useRouter$1, f as useNuxtApp, c as useRoute$1, d as useCookie, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrGetDirectiveProps } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { V as VCard } from './VCard-DyET5wem.mjs';

@@ -1,6 +1,6 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _export_sfc, c as useRoute$1, b1 as VSheet, b2 as VResponsive, e as VBtn, b as useRuntimeConfig } from './server.mjs';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { _ as __unimport_formatDate } from './formatDate-B6RUKh9-.mjs';
 import { withAsyncContext, unref, withCtx, createTextVNode, toDisplayString, createVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';

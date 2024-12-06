@@ -1,7 +1,7 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { u as useRouter$1, f as useNuxtApp, d as useCookie, aJ as VProgressCircular, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, mergeProps, withCtx, unref, isRef, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext, withAsyncContext, resolveDirective, withDirectives } from 'vue';
-import { b as useLazyAsyncData, u as useFetch } from './fetch-bT3G74K0.mjs';
+import { b as useLazyAsyncData, a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrGetDirectiveProps } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';

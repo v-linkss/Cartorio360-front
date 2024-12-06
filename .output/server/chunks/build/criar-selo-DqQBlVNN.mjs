@@ -1,7 +1,7 @@
 import { _ as __nuxt_component_1 } from './MoneyInput-CqoPZ5qG.mjs';
 import { V as VTextField, e as VBtn, b as useRuntimeConfig, d as useCookie, a as navigateTo } from './server.mjs';
 import { ref, withAsyncContext, mergeProps, withCtx, createVNode, unref, createTextVNode, withModifiers, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-bT3G74K0.mjs';
+import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { V as VCard, b as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';
 import { V as VForm } from './VForm-CswDZHD8.mjs';

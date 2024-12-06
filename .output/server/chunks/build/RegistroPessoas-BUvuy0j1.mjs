@@ -1,6 +1,6 @@
 import { ref, reactive, watch, withAsyncContext, resolveDirective, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, withDirectives, openBlock, createBlock, toDisplayString, createCommentVNode, useSSRContext } from 'vue';
 import { f as useNuxtApp, d as useCookie, aJ as VProgressCircular, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
-import { b as useLazyAsyncData, u as useFetch } from './fetch-bT3G74K0.mjs';
+import { b as useLazyAsyncData, a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrInterpolate, ssrGetDirectiveProps } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
