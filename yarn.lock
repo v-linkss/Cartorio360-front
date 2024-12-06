@@ -1489,6 +1489,19 @@
     "@syncfusion/ej2-lists" "~27.2.3"
     "@syncfusion/ej2-popups" "~27.2.2"
 
+"@syncfusion/ej2-charts@~27.2.2":
+  version "27.2.5"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-charts/-/ej2-charts-27.2.5.tgz#61137299759666db5110d67f3778a179e9ec7220"
+  integrity sha512-fm6DxHEX1uWCkipm3HcJTWqw6cecdh0XLdwS3xQDXrqfI83KUDtU3cGPhSG1PygnTJz73O/AJgaHPldyQTKjuQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.2.5"
+    "@syncfusion/ej2-calendars" "~27.2.3"
+    "@syncfusion/ej2-data" "~27.2.2"
+    "@syncfusion/ej2-excel-export" "~27.2.2"
+    "@syncfusion/ej2-navigations" "~27.2.5"
+    "@syncfusion/ej2-pdf-export" "~27.2.2"
+    "@syncfusion/ej2-svg-base" "~27.2.2"
+
 "@syncfusion/ej2-compression@~27.2.2":
   version "27.2.2"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-compression/-/ej2-compression-27.2.2.tgz#509eb4f4e1250820fe7886e378d06b22d5d4b44d"
@@ -1502,6 +1515,23 @@
   integrity sha512-RN0dJLRQ+lTrbPL7lu5xh4z4bIp4ff+8m53wSPmQFdDeSdbPkFkp3QEZmYP9H/3QqX0R7+tsjU52i5lBIPEgqQ==
   dependencies:
     "@syncfusion/ej2-base" "~27.2.2"
+
+"@syncfusion/ej2-documenteditor@27.2.5":
+  version "27.2.5"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-documenteditor/-/ej2-documenteditor-27.2.5.tgz#43304650ec919449e2a3403d9dd006100dc690cf"
+  integrity sha512-Yd2Qr9A5072v43v21Ju1YipQ/CUnS6sWWr2eve6jOvzfS5F3m+DZxDwPl6DjqWOsG3juJEay6ouKvj9UBQCb7A==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.2.5"
+    "@syncfusion/ej2-buttons" "~27.2.4"
+    "@syncfusion/ej2-calendars" "~27.2.3"
+    "@syncfusion/ej2-compression" "~27.2.2"
+    "@syncfusion/ej2-dropdowns" "~27.2.5"
+    "@syncfusion/ej2-file-utils" "~27.2.2"
+    "@syncfusion/ej2-inputs" "~27.2.4"
+    "@syncfusion/ej2-navigations" "~27.2.5"
+    "@syncfusion/ej2-office-chart" "~27.2.2"
+    "@syncfusion/ej2-popups" "~27.2.2"
+    "@syncfusion/ej2-splitbuttons" "~27.2.2"
 
 "@syncfusion/ej2-dropdowns@~27.2.5":
   version "27.2.5"
@@ -1619,6 +1649,13 @@
     "@syncfusion/ej2-buttons" "~27.2.4"
     "@syncfusion/ej2-popups" "~27.2.2"
 
+"@syncfusion/ej2-office-chart@~27.2.2":
+  version "27.2.2"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-office-chart/-/ej2-office-chart-27.2.2.tgz#606c852e9bae4f694800e116de22d36257acac42"
+  integrity sha512-XDONr8wncwUOM8C6Rh37HzU+SCZKd0Zjntyj6UH42S4uUfpoHvlygUy+9OpsfnbbLD/eqjJmHLrls7RzoG8s7g==
+  dependencies:
+    "@syncfusion/ej2-charts" "~27.2.2"
+
 "@syncfusion/ej2-pdf-export@~27.2.2":
   version "27.2.2"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-pdf-export/-/ej2-pdf-export-27.2.2.tgz#2cc0a6afb1fb9571ffb0e91561e9774220d31e5b"
@@ -1656,12 +1693,28 @@
     "@syncfusion/ej2-base" "~27.2.2"
     "@syncfusion/ej2-popups" "~27.2.2"
 
+"@syncfusion/ej2-svg-base@~27.2.2":
+  version "27.2.2"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-svg-base/-/ej2-svg-base-27.2.2.tgz#ba8099c51b2883a1a8c5a194015c50611ede86b7"
+  integrity sha512-BMKow6dg121FnRe2JlypxYOuq/mu9PyJgu2AVv+Qzpd9Lr/+G7HFQ4VowAHCqJ1ZKw/I9SJQPtCD2rgSOk+GmQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.2.2"
+
 "@syncfusion/ej2-vue-base@~27.2.2":
   version "27.2.2"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-vue-base/-/ej2-vue-base-27.2.2.tgz#9f46832d84df4643173d0d2f41e4923bd072e5fa"
   integrity sha512-yeKS6olDpluIn9fiUQpz6B5Hw2zHLztrYFAS0abcagtIrVx5q508UemNexvyqS/l9SjYCeBBGjnM1MJts/xNZg==
   dependencies:
     "@syncfusion/ej2-base" "~27.2.2"
+
+"@syncfusion/ej2-vue-documenteditor@^27.2.5":
+  version "27.2.5"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-vue-documenteditor/-/ej2-vue-documenteditor-27.2.5.tgz#ec47bd1cc21a7080743908cb0e8d751dce3bcdbc"
+  integrity sha512-NGgzzpDEu+W2DTtWVP8GDCR8AHiqmggsAzgwibLAC4AC0DD84f/4kXzcgUnuaYOC3QlyzXwQ9Gsrx+21+r/2XQ==
+  dependencies:
+    "@syncfusion/ej2-base" "~27.2.5"
+    "@syncfusion/ej2-documenteditor" "27.2.5"
+    "@syncfusion/ej2-vue-base" "~27.2.2"
 
 "@syncfusion/ej2-vue-richtexteditor@^27.2.5":
   version "27.2.5"

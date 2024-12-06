@@ -18,7 +18,7 @@
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="texto">
-        <ProcuracaoTexto />
+        <ProcuracaoTexto style="height: 1000px;"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="imagem">
         <ProcuracaoImagem />
