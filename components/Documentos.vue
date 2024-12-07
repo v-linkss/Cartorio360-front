@@ -175,11 +175,12 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allTipos = `${config.public.managemant}/listarTipoDocumento`
-const allUf = `${config.public.managemant}/listarUF`
-const allDoc = `${config.public.managemant}/getPessoaDocById`
-const createDoc = `${config.public.managemant}/createPessoaDoc`
-const updateDoc = `${config.public.managemant}/updatePessoaDoc`
+const allTipos = `${config.public.auth}/service/gerencia/listarTipoDocumento`
+const allUf = `${config.public.auth}/service/gerencia/listarUF`
+// const allDoc = `${config.public.auth}/service/gerencia/pessoas_doc`
+// const createDoc = `${config.public.auth}/service/gerencia/createPessoaDoc`
+// const updateDoc = `${config.public.auth}/service/gerencia/updatePessoaDoc`
+const pessoas_doc = `${config.public.auth}/service/gerencia/pessoas_doc`
 
 const isModalOpen = ref(false); 
 const selectedDoc = ref(null);
@@ -234,9 +235,9 @@ const {
   refresh
 } = await useLazyAsyncData("cliente-documentos", async () => {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
-    $fetch(allTipos),
-    $fetch(allUf),
-    $fetch(`${allDoc}/${pessoa_id}`),
+    $fetchWithToken(allTipos),
+    $fetchWithToken(allUf),
+    $fetchWithToken(`${pessoas_doc}/${pessoa_id}`),
   ]);
   const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
     return {
@@ -262,8 +263,8 @@ async function onSubmit() {
       user_id,
       pessoa_id
     };
-    const { data, error,status } = await useFetch(
-     createDoc,
+    const { data, error,status } = await fetchWithToken(
+      pessoas_doc,
       {
         method: "POST",
         body: payloadFormated,
@@ -302,7 +303,7 @@ async function onUpdate(id) {
     data_vencimento: selectedDoc.value.data_vencimento,
     data_emissao: selectedDoc.value.data_emissao,
   };
-  const { status } = await useFetch(`${updateDoc}/${id}`, {
+  const { status } = await fetchWithToken(`${pessoas_doc}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
@@ -316,7 +317,7 @@ async function onUpdate(id) {
 async function deleteDocumento(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${updateDoc}/${item.id}`, {
+    await fetchWithToken(`${pessoas_doc}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

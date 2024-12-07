@@ -64,9 +64,11 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const allSituacoes = `${config.public.managemant}/listarSituacoes`;
-const createAtoProcuracao = `${config.public.managemant}/createAtos`;
-const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
+const allSituacoes = `${config.public.auth}/service/gerencia/listarSituacoes`;
+// const createAtoProcuracao = `${config.public.auth}/service/gerencia/createAtos`;
+// const getAtoId = `${config.public.auth}/service/gerencia/getAtosTiposByToken`;
+const atos = `${config.public.auth}/service/gerencia/atos/atos_tipos`;
+
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const body = route.query.id
   ? { ato_token: props.ato_token }
@@ -90,13 +92,13 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
+const { data: tipoAtoId } = await fetchWithToken(`${atos}/${props.ato_token}`, {
   method: "GET",
 });
 
 async function onSubmit() {
   if (await v$.value.$validate()) {
-    const { data, error, status } = await useFetch(createAtoProcuracao, {
+    const { data, error, status } = await fetchWithToken(atos, {
       method: "POST",
       body: {
         ato_tipo_id: tipoAtoId.value.id,
@@ -127,7 +129,7 @@ function getCurrentDate() {
   return `${yyyy}-${MM}-${dd}`;
 }
 
-const { data: situacaoData } = await useFetch(allSituacoes, {
+const { data: situacaoData } = await fetchWithToken(allSituacoes, {
   method: "POST",
   body: body,
 });

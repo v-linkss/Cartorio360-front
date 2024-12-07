@@ -148,9 +148,10 @@ import { useVuelidate } from "@vuelidate/core";
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createOs = `${config.public.managemant}/createOrdensServico`;
-const routeValidaCpf = `${config.public.managemant}/validarCpf`;
-const atosPayload = `${config.public.managemant}/listarAtos`;
+// const createOs = `${config.public.auth}/service/gerencia/createOrdensServico`;
+const routeValidaCpf = `${config.public.auth}/service/gerencia/pessoas/validarCpf`;
+const atosPayload = `${config.public.auth}/service/gerencia/listarAtos`;
+const ordemserv = `${config.public.auth}/service/gerencia/ordemserv`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -230,7 +231,7 @@ async function onSubmit() {
     estrangeiro: state.nacionalidade
   };
   if (await v$.value.$validate()) {
-    const { data, error, status } = await useFetch(createOs, {
+    const { data, error, status } = await fetchWithToken(ordemserv, {
       method: "POST",
       body: payloadFormated,
     });
@@ -274,7 +275,7 @@ async function validarCpf(cpf) {
     };
 
     try {
-      const { data, error, status } = await useFetch(routeValidaCpf, {
+      const { data, error, status } = await fetchWithToken(routeValidaCpf, {
         method: "POST",
         body: payloadFormated,
       });

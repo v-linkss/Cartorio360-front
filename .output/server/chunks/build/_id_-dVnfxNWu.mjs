@@ -33,7 +33,7 @@ const _sfc_main = {
     const route = useRoute$1();
     const { id } = route.params;
     const config = useRuntimeConfig();
-    const pessoasView = `${config.public.managemant}/getPessoaById`;
+    const pessoasView = `${config.public.auth}/service/gerencia/getPessoaById`;
     const { data: PessoaView, pending } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       `${pessoasView}/${id}`,
       "$df2lemleOL"

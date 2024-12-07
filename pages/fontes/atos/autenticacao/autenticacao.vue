@@ -54,15 +54,15 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
 
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
   ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
-const autenticaAtos = `${config.public.managemant}/atoAutentica`;
-const autenticaEtiquetas = `${config.public.managemant}/etiquetaAutentica`;
+const autenticaAtos = `${config.public.auth}/service/gerencia/atoAutentica`;
+const autenticaEtiquetas = `${config.public.auth}/service/gerencia/etiquetaAutentica`;
 const errorModalVisible = ref(false); 
 const errorMessage = ref("");
 const state = reactive({

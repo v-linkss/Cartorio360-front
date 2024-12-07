@@ -42,7 +42,7 @@ const props = defineProps({
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const pessoasUpdate = `${config.public.auth}/service/gerencia/atos_pessoas`;
 
 const state = reactive({
  representante_id: null,
@@ -63,7 +63,7 @@ const closeModal = () => {
 };
 
 const updateAtoPessoa = async () => {
-  const { data, error, status } = await useFetch(
+  const { data, error, status } = await fetchWithToken(
     `${pessoasUpdate}/${props.ato_id}`,
     {
       method: "PUT",

@@ -52,9 +52,9 @@ const props = defineProps({
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
-const getSelos = `${config.public.managemant}/listarSelos`;
-const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const getSelos = `${config.public.auth}/service/gerencia/listarSelos`;
+const reimprimeSelos = `${config.public.auth}/service/gerencia/reimprimirSelo`;
+const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
 
 const selosItems = ref([]);
 const selectedSelos = ref([]);
@@ -97,7 +97,7 @@ const closeModal = () => {
 
 const escreventesItems = ref([]);
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await fetchWithToken(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
@@ -112,7 +112,7 @@ const reimprimeSelosAtos = async () => {
       ato_token: props.ato_token,
       selos: selosJson,
     };
-    const { data, error, status } = await useFetch(`${reimprimeSelos}`, {
+    const { data, error, status } = await fetchWithToken(`${reimprimeSelos}`, {
       method: "POST",
       body: body,
     });
@@ -127,7 +127,7 @@ const reimprimeSelosAtos = async () => {
 };
 
 const fetchSelos = async () => {
-  const { data, error } = await useFetch(`${getSelos}`, {
+  const { data, error } = await fetchWithToken(`${getSelos}`, {
     method: "POST",
     body: { ato_token: props.ato_token },
   });

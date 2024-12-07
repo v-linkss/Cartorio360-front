@@ -208,11 +208,12 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
-const papeisApresentante = `${config.public.managemant}/listarPapeis`;
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
-const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const procurarPessoa = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
+const papeisApresentante = `${config.public.auth}/service/gerencia/listarPapeis`;
+const buscarPessoa = `${config.public.auth}/service/gerencia/pessoas/getLinkTipo`;
+// const criarAtoPessoa = `${config.public.auth}/service/gerencia/createAtosPessoa`;
+// const pessoasUpdate = `${config.public.auth}/service/gerencia/updateAtosPessoa`;
+const atos_pessoas = `${config.public.auth}/service/gerencia/atos_pessoas`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const pessoasItems = ref([]);
@@ -260,7 +261,7 @@ const state = reactive({
   documento: null,
 });
 
-const { data } = await useFetch(papeisApresentante, {
+const { data } = await fetchWithToken(papeisApresentante, {
   method: "POST",
   body: { tipo_ato_token: props.ato_token },
 });
@@ -268,7 +269,7 @@ papeisItems.value = data.value;
 
 async function searchPessoasService() {
   try {
-    const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+    const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -310,7 +311,7 @@ const createRepresentante = async () => {
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
     representante:{nome:null}
   };
-  const { data, error, status } = await useFetch(criarAtoPessoa, {
+  const { data, error, status } = await fetchWithToken(atos_pessoas, {
     method: "POST",
     body: {
       ato_id: props.ato_id,
@@ -331,7 +332,7 @@ const redirectToFicha = async (item) => {
 
   fichaRender.value = null;
 
-  const { data: imagemBiometria } = await useFetch(`${buscarPessoa}`, {
+  const { data: imagemBiometria } = await fetchWithToken(`${buscarPessoa}`, {
     method: "POST",
     body: { id: item.pessoa.id, tipo: "ficha" },
   });
@@ -364,7 +365,7 @@ const redirectToPapel = (item) => {
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${pessoasUpdate}/${ato_pessoa_id.value}`, {
+    await fetchWithToken(`${atos_pessoas}/${ato_pessoa_id.value}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

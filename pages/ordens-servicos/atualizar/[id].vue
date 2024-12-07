@@ -147,9 +147,10 @@ const { id } = route.params;
 const router = useRouter();
 
 const config = useRuntimeConfig();
-const updateOs = `${config.public.managemant}/updateOrdensServico`;
-const getOsPayload = `${config.public.managemant}/getOrdensServicoById`;
-const atosPayload = `${config.public.managemant}/listarAtos`;
+// const updateOs = `${config.public.auth}/service/gerencia/updateOrdensServico`;
+// const getOsPayload = `${config.public.auth}/service/gerenciaordemserv`;
+const atosPayload = `${config.public.auth}/service/gerencia/listarAtos`;
+const ordemserv = `${config.public.auth}/service/gerencia/ordemserv`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -217,7 +218,7 @@ async function onUpdate() {
     cartorio_id: cartorio_id.value,
   };
 
-  const { error, status } = await useFetch(`${updateOs}/${id}`, {
+  const { error, status } = await useFetch(`${ordemserv}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
@@ -229,7 +230,7 @@ async function onUpdate() {
   }
 }
 
-const { data: dataOs } = await useFetch(`${getOsPayload}/${id}`, {
+const { data: dataOs } = await useFetch(`${ordemserv}/${id}`, {
   method: "GET",
 });
 numeroOs.value = dataOs.value.numero;

@@ -98,8 +98,8 @@ const pessoaNome = useCookie("user-data").value;
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/uploadPessoa`;
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const enviarFoto = `${config.public.auth}/service/gerencia/pessoas/uploadPessoa`;
+const buscarPessoa = `${config.public.auth}/service/gerencia/pessoas/getLinkTipo`;
 
 const { $toast } = useNuxtApp();
 
@@ -168,7 +168,7 @@ const handleCapture = async () => {
     formData.append('pessoa_token', token); 
     formData.append("tipo", "foto"); 
 
-    const { status } = await useFetch(enviarFoto, {
+    const { status } = await fetchWithToken(enviarFoto, {
       method: 'POST',
       body: formData,
     });
@@ -187,7 +187,7 @@ const handleDelete = () => {
   capturedPhoto.value = null; 
 };
 
-const { data:imagemBiometria } = await useFetch(buscarPessoa, {
+const { data:imagemBiometria } = await fetchWithToken(buscarPessoa, {
       method: 'POST',
       body:{tipo:'foto',id:id}
 });

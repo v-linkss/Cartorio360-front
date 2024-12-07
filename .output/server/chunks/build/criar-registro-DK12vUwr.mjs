@@ -40,9 +40,9 @@ const _sfc_main = {
     let __temp, __restore;
     const { $toast } = useNuxtApp();
     const config = useRuntimeConfig();
-    const createOs = `${config.public.managemant}/createOrdensServico`;
-    const routeValidaCpf = `${config.public.managemant}/validarCpf`;
-    const atosPayload = `${config.public.managemant}/listarAtos`;
+    const createOs = `${config.public.auth}/service/gerencia/createOrdensServico`;
+    const routeValidaCpf = `${config.public.auth}/service/gerencia/validarCpf`;
+    const atosPayload = `${config.public.auth}/service/gerencia/listarAtos`;
     const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
     const pessoa_id = ref(useCookie("user-data").value.usuario_id);
     const ordemserv_token = ref((_a = useCookie("user-service").value) == null ? void 0 : _a.token).value || null;

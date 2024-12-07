@@ -82,8 +82,9 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.managemant}/getAllPessoa`;
-const pessoasUpdate = `${config.public.managemant}/deletePessoa`;
+// const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
+// const pessoasUpdate = `${config.public.auth}/service/gerencia/deletePessoa`;
+const pessoa = `${config.public.auth}/service/gerencia/pessoas`;
 
 const router = useRouter();
 
@@ -95,7 +96,8 @@ const headers = [
   { title: "Nome/Razão Social", value: "nome" },
   { value: "actions" },
 ];
-const { data: pessoasItems, pending } = await useLazyFetch(pessoasLista);
+// const { data: pessoasItems, pending } = await useLazyFetch(pessoasLista);
+const { data: pessoasItems, pending } = await fetchWithToken(pessoa);
 
 const filteredPessoas = computed(() => {
   return pessoasItems.value.filter((item) => {
@@ -114,7 +116,7 @@ const filteredPessoas = computed(() => {
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${pessoasUpdate}/${item.id}`, {
+    await fetchWithToken(`${pessoa}/delete/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

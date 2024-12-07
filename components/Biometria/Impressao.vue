@@ -15,10 +15,10 @@
 const printHtml = ref("");
 
 const config = useRuntimeConfig();
-const impressao = `${config.public.managemant}/gerarRelatorio`;
+const impressao = `${config.public.auth}service/gerencia/gerarRelatorio`;
 //  console.log(useCookie('pessoa_token').value);
 const consultaFicha = async () => {
-  const response = await useFetch(impressao, {
+  const response = await fetchWithToken(impressao, {
     method: "POST",
     body :{
       consulta:"FICHA ASSINATURA",

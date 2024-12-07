@@ -15,7 +15,7 @@ const _sfc_main = {
   setup(__props, { emit: __emit }) {
     const props = __props;
     const config = useRuntimeConfig();
-    const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+    const buscarPessoa = `${config.public.auth}/service/gerencia/getLinkTipo`;
     const isVisible = ref(props.show);
     const fichaRender = ref();
     const emit = __emit;

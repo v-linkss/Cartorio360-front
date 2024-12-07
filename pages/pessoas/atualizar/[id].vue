@@ -163,11 +163,12 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const updatePessoa = `${config.public.managemant}/updatePessoa`;
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-const cidades = `${config.public.managemant}/listarCidades`;
-const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+const cidades = `${config.public.auth}/service/gerencia/listarCidades`;
+// const buscarPessoa = `${config.public.auth}/service/gerencia/getPessoaById`;
+// const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+const pessoas = `${config.public.auth}/service/gerencia/pessoas`;
 
 const estadoCivilItemsData = ref([]);
 const capacidadeCivilItemsData = ref([]);
@@ -216,7 +217,7 @@ async function loadPessoaData() {
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
       $fetch(cidades),
-      $fetch(`${buscarPessoa}/${id}`),
+      $fetchWithToken(`${pessoas}/${id}`),
     ]);
 
     const pessoa_token = useCookie("pessoa_token");
@@ -262,7 +263,7 @@ function formatPayload(payload) {
 
 async function onUpdate() {
   const payloadFormated = formatPayload(state);
-  const { data, error } = await useFetch(`${updatePessoa}/${id}`, {
+  const { data, error } = await fetchWithToken(`${pessoa}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });

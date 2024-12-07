@@ -59,8 +59,8 @@ const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const usuario_token = useCookie("auth_token").value;
-const analisaCancelamento = `${config.public.managemant}/analisaCancelamento`;
-const cancelarOs = `${config.public.managemant}/cancelaOs`;
+const analisaCancelamento = `${config.public.auth}/service/gerencia/analisaCancelamento`;
+const cancelarOs = `${config.public.auth}service/gerencia/cancelaOs`;
 
 const state = reactive({
   motivo: null,
@@ -90,7 +90,7 @@ const closeModal = () => {
 };
 
 const analisaCancelamentoOs = async () => {
-  const { data, error } = await useFetch(`${analisaCancelamento}`, {
+  const { data, error } = await fetchWithToken(`${analisaCancelamento}`, {
       method: "POST",
       body: { ordemserv_token:props.ordemserv_token },
     });
@@ -101,7 +101,7 @@ analisaCancelamentoOs()
 
 const cancelarOrdemServ = async () => {
   if (await v$.value.$validate()) {
-    const { status } = await useFetch(`${cancelarOs}`, {
+    const { status } = await fetchWithToken(`${cancelarOs}`, {
       method: "POST",
       body: { usuario_token: usuario_token, motivo:state.motivo, ordemserv_token:props.ordemserv_token },
     });

@@ -203,9 +203,9 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const allUsuarios = `${config.public.managemant}/listarUsuarios`;
-const allServicos = `${config.public.managemant}/listarOrdensServico`;
-const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const allUsuarios = `${config.public.auth}/service/gerencia/listarUsuarios`;
+const allServicos = `${config.public.auth}/service/gerencia/listarOrdensServico`;
+const allTiposAtos = `${config.public.auth}/service/gerencia/tipoAtos`;
 
 const router = useRouter();
 

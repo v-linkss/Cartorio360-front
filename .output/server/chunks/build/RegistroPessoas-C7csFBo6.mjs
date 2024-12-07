@@ -25,10 +25,10 @@ const _sfc_main = {
     const emit = __emit;
     const { $toast } = useNuxtApp();
     const config = useRuntimeConfig();
-    const createPessoa = `${config.public.managemant}/createPessoa`;
-    const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-    const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-    const cidade = `${config.public.managemant}/listarCidades`;
+    const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
+    const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+    const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+    const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
     const initialState = {
       nome: "",
       nome_pai: "",

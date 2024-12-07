@@ -198,10 +198,10 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allPaises = `${config.public.managemant}/listarPais`;
-const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
-const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`;
-const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
+const allPaises = `${config.public.auth}/service/gerencia/listarPais`;
+const allEnderecos = `${config.public.auth}/service/gerencia/pessoas_enderecos/pessoas`;
+const pessoas_enderecos = `${config.public.auth}/service/gerencia/pessoas_enderecos`;
+// const updateEndereco = `${config.public.auth}/service/gerencia/pessoas_enderecos`;
 
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
 const pessoa_id = Number(useCookie("pessoa-id").value || id);
@@ -280,9 +280,9 @@ const {
   refresh,
 } = await useLazyAsyncData("cliente-enderecos", async () => {
   const [paisItems, enderecosItems, cidadesItems] = await Promise.all([
-    $fetch(allPaises),
-    $fetch(`${allEnderecos}/${pessoa_id}`),
-    $fetch(`${config.public.managemant}/listarCidades`),
+    $fetchWithToken(allPaises),
+    $fetchWithToken(`${allEnderecos}/${pessoa_id}`),
+    $fetchWithToken(`${config.public.auth}service/gerencia/listarCidades`),
   ]);
   return { paisItems, enderecosItems, cidadesItems };
 });
@@ -300,7 +300,7 @@ async function onSubmit() {
       user_id,
       pessoa_id,
     };
-    const { data, error, status } = await useFetch(criarEnderecos, {
+    const { data, error, status } = await fetchWithToken(pessoas_enderecos, {
       method: "POST",
       body: payloadFormated,
     });
@@ -341,7 +341,7 @@ async function onUpdate(id) {
     bairro: selectedEndereco.value.bairro,
     complemento: selectedEndereco.value.complemento,
   };
-  const { status } = await useFetch(`${updateEndereco}/${id}`, {
+  const { status } = await fetchWithToken(`${pessoas_enderecos}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });

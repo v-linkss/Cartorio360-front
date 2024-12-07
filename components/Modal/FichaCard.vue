@@ -24,7 +24,7 @@ const props = defineProps({
 });
 
 const config = useRuntimeConfig();
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const buscarPessoa = `${config.public.auth}/service/gerencia/pessoas/getLinkTipo`;
 
 const isVisible = ref(props.show);
 const fichaRender = ref()
@@ -46,7 +46,7 @@ const confirmarRecebimento = () => {
 
 const beforeOpenFicha = async () => {
   try {
-    const { data: imagemBiometria } = await useFetch(
+    const { data: imagemBiometria } = await fetchWithToken(
       `${buscarPessoa}`,
       {
         method: "POST",

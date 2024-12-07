@@ -745,11 +745,11 @@ const _sfc_main$7 = {
     const route = useRoute$1();
     const { id } = route.params;
     const config = useRuntimeConfig();
-    const allTipos = `${config.public.managemant}/listarTipoDocumento`;
-    const allUf = `${config.public.managemant}/listarUF`;
-    const allDoc = `${config.public.managemant}/getPessoaDocById`;
-    const createDoc = `${config.public.managemant}/createPessoaDoc`;
-    const updateDoc = `${config.public.managemant}/updatePessoaDoc`;
+    const allTipos = `${config.public.auth}/service/gerencia/listarTipoDocumento`;
+    const allUf = `${config.public.auth}/service/gerencia/listarUF`;
+    const allDoc = `${config.public.auth}/service/gerencia/getPessoaDocById`;
+    const createDoc = `${config.public.auth}/service/gerencia/createPessoaDoc`;
+    const updateDoc = `${config.public.auth}/service/gerencia/updatePessoaDoc`;
     const isModalOpen = ref(false);
     const selectedDoc = ref(null);
     const user_id = ref(useCookie("user-data").value.usuario_id).value;
@@ -2294,10 +2294,10 @@ const _sfc_main$6 = {
     const route = useRoute$1();
     const { id } = route.params;
     const config = useRuntimeConfig();
-    const allPaises = `${config.public.managemant}/listarPais`;
-    const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
-    const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`;
-    const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
+    const allPaises = `${config.public.auth}/service/gerencia/listarPais`;
+    const allEnderecos = `${config.public.auth}/service/gerencia/getPessoaEnderecoById`;
+    const criarEnderecos = `${config.public.auth}/service/gerencia/createPessoaEndereco`;
+    const updateEndereco = `${config.public.auth}/service/gerencia/updatePessoaEndereco`;
     const user_id = ref(useCookie("user-data").value.usuario_id).value;
     const pessoa_id = Number(useCookie("pessoa-id").value || id);
     const state = reactive({
@@ -2371,7 +2371,7 @@ const _sfc_main$6 = {
       const [paisItems, enderecosItems, cidadesItems] = await Promise.all([
         $fetch(allPaises),
         $fetch(`${allEnderecos}/${pessoa_id}`),
-        $fetch(`${config.public.managemant}/listarCidades`)
+        $fetch(`${config.public.auth}/service/gerencia/listarCidades`)
       ]);
       return { paisItems, enderecosItems, cidadesItems };
     })), __temp = await __temp, __restore(), __temp);
@@ -4033,8 +4033,8 @@ const _sfc_main$5 = {
     const { id } = route.params;
     const pessoa_id = ref(useCookie("pessoa-id").value).value;
     `${config.public.biometria}/capture-finger`;
-    const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
-    `${config.public.managemant}/getPessoaBiometriaById`;
+    const enviarDigitalBanco = `${config.public.auth}/service/gerencia/createPessoaBiometria`;
+    `${config.public.auth}/service/gerencia/getPessoaBiometriaById`;
     async function captureBiometria(finger) {
       const { status, data: captureData } = await useFetch("http://localhost:5000/apiservice/capture-finger", {
         method: "GET"
@@ -4177,8 +4177,8 @@ const _sfc_main$4 = {
     const pessoaNome = useCookie("user-data").value;
     const nomePessoa = pessoaNome.nome;
     const config = useRuntimeConfig();
-    const enviarFoto = `${config.public.managemant}/uploadPessoa`;
-    const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+    const enviarFoto = `${config.public.auth}/service/gerencia/uploadPessoa`;
+    const buscarPessoa = `${config.public.auth}/service/gerencia/getLinkTipo`;
     const { $toast } = useNuxtApp();
     const updateDevices = async () => {
       const mediaDevices = await (void 0).mediaDevices.enumerateDevices();
@@ -4926,7 +4926,7 @@ const _sfc_main$2 = {
   setup(__props) {
     const printHtml = ref("");
     const config = useRuntimeConfig();
-    const impressao = `${config.public.managemant}/gerarRelatorio`;
+    const impressao = `${config.public.auth}/service/gerencia/gerarRelatorio`;
     const consultaFicha = async () => {
       const response = await useFetch(impressao, {
         method: "POST",

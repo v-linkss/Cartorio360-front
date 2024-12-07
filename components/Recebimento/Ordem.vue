@@ -110,8 +110,8 @@ const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);
 const config = useRuntimeConfig();
-const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
-const routereceberOs = `${config.public.managemant}/receberOs`;
+const listarFormasReceb = `${config.public.auth}service/gerencia/listarFormasReceb`;
+const routereceberOs = `${config.public.auth}service/gerencia/receberOs`;
 const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
 const faltaReceber = ref(null);
@@ -159,7 +159,7 @@ const realizarRecebimentoCompleto = async () => {
     recebimentos: [recebimentos.value],
   };
 
-  const { data, error } = await useFetch(routereceberOs, {
+  const { data, error } = await fetchWithToken(routereceberOs, {
     method: "POST",
     body: JSON.stringify(body),
   });
@@ -182,7 +182,7 @@ const loadEscreventes = async () => {
     const body = {
       cartorio_token: cartorio_token.value,
     };
-    const { data: forma, error } = await useFetch(listarFormasReceb, {
+    const { data: forma, error } = await fetchWithToken(listarFormasReceb, {
       method: "POST",
       body: JSON.stringify(body),
     });

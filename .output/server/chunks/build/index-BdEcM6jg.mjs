@@ -596,8 +596,8 @@ const _sfc_main$2 = {
     const isVisible = ref(props.show);
     const isMoreOrLess = ref(false);
     const config = useRuntimeConfig();
-    const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
-    const routereceberOs = `${config.public.managemant}/receberOs`;
+    const listarFormasReceb = `${config.public.auth}/service/gerencia/listarFormasReceb`;
+    const routereceberOs = `${config.public.auth}/service/gerencia/receberOs`;
     const usuario_token = useCookie("auth_token").value;
     const formaItens = ref([]);
     const faltaReceber = ref(null);
@@ -1358,8 +1358,8 @@ const _sfc_main$1 = {
     const config = useRuntimeConfig();
     ref(useCookie("user-data").value.cartorio_token).value;
     const usuario_token = useCookie("auth_token").value;
-    const analisaCancelamento = `${config.public.managemant}/analisaCancelamento`;
-    const cancelarOs = `${config.public.managemant}/cancelaOs`;
+    const analisaCancelamento = `${config.public.auth}/service/gerencia/analisaCancelamento`;
+    const cancelarOs = `${config.public.auth}/service/gerencia/cancelaOs`;
     const state = reactive({
       motivo: null
     });
@@ -1751,9 +1751,9 @@ const _sfc_main = {
   __ssrInlineRender: true,
   setup(__props) {
     const config = useRuntimeConfig();
-    const allUsuarios = `${config.public.managemant}/listarUsuarios`;
-    const allServicos = `${config.public.managemant}/listarOrdensServico`;
-    const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+    const allUsuarios = `${config.public.auth}/service/gerencia/listarUsuarios`;
+    const allServicos = `${config.public.auth}/service/gerencia/listarOrdensServico`;
+    const allTiposAtos = `${config.public.auth}/service/gerencia/tipoAtos`;
     const router = useRouter$1();
     const usuario_token = ref(useCookie("auth_token").value) || null;
     const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;

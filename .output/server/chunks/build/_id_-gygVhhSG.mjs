@@ -45,11 +45,11 @@ const _sfc_main = {
     const route = useRoute$1();
     const { id } = route.params;
     const config = useRuntimeConfig();
-    const updatePessoa = `${config.public.managemant}/updatePessoa`;
-    `${config.public.managemant}/listarEstadoCivil`;
-    `${config.public.managemant}/listarCapacidadeCivil`;
-    `${config.public.managemant}/listarCidades`;
-    `${config.public.managemant}/getPessoaById`;
+    const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+    `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+    `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+    `${config.public.auth}/service/gerencia/listarCidades`;
+    `${config.public.auth}/service/gerencia/getPessoaById`;
     const estadoCivilItemsData = ref([]);
     const capacidadeCivilItemsData = ref([]);
     const cidadeNascimentoItemsData = ref([]);

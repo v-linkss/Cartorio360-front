@@ -45,11 +45,11 @@ const _sfc_main$1 = {
     const router = useRouter$1();
     const { $toast } = useNuxtApp();
     const config = useRuntimeConfig();
-    const createPessoa = `${config.public.managemant}/createPessoa`;
-    const updatePessoa = `${config.public.managemant}/updatePessoa`;
-    const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-    const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-    const cidade = `${config.public.managemant}/listarCidades`;
+    const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
+    const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+    const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+    const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+    const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
     const initialState = {
       nome: "",
       nome_pai: "",

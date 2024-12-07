@@ -32,8 +32,8 @@ const _sfc_main = {
   async setup(__props) {
     let __temp, __restore;
     const config = useRuntimeConfig();
-    const pessoasLista = `${config.public.managemant}/getAllPessoa`;
-    const pessoasUpdate = `${config.public.managemant}/deletePessoa`;
+    const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
+    const pessoasUpdate = `${config.public.auth}/service/gerencia/deletePessoa`;
     const router = useRouter$1();
     const search = ref("");
     const searchDoc = ref("");

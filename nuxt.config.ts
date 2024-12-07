@@ -22,11 +22,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      // auth: process.env.MS_AUTH_DESENV,
-      // managemant:  process.env.MS_MANAGEMENT_DESENV,
+      auth: process.env.MS_AUTH_DESENV,
+      managemant:  process.env.MS_MANAGEMENT_DESENV,
       biometria: process.env.BIOMETRIA,
-      auth: process.env.MS_AUTH,
-      managemant: process.env.MS_MANAGEMENT,
+      // auth: process.env.MS_AUTH,
+      // managemant: process.env.MS_MANAGEMENT,
       envioDoc: process.env.OBSERVER
     },
   },

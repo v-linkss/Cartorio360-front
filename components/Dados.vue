@@ -141,11 +141,12 @@ const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createPessoa = `${config.public.managemant}/createPessoa`;
-const updatePessoa = `${config.public.managemant}/updatePessoa`;
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-const cidade = `${config.public.managemant}/listarCidades`;
+// const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
+// const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
+const pessoa = `${config.public.auth}/service/gerencia/pessoas`;
 
 const initialState = {
   nome: "",
@@ -188,9 +189,9 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems] =
     await Promise.all([
-      $fetch(estadoCivil),
-      $fetch(capacidadeCivil),
-      $fetch(cidade),
+      $fetchWithToken(estadoCivil),
+      $fetchWithToken(capacidadeCivil),
+      $fetchWithToken(cidade),
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
@@ -225,7 +226,7 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
     };
-    const { data, error, status } = await useFetch(createPessoa, {
+    const { data, error, status } = await fetchWithToken(pessoa, {
       method: "POST",
       body: payloadFormated,
     });
@@ -256,7 +257,7 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error } = await useFetch(`${updatePessoa}/${pessoaId.value}`, {
+  const { data, error } = await fetchWithToken(`${pessoa}/${pessoaId.value}`, {
     method: "PUT",
     body: payloadFormated,
   });

@@ -61,7 +61,7 @@ const _sfc_main = {
     const selectedAto = ref(" ");
     const selectedComponent = computed(() => components[selectedAto.value]);
     const config = useRuntimeConfig();
-    const getTiposAtos = `${config.public.managemant}/tipoAtos`;
+    const getTiposAtos = `${config.public.auth}/service/gerencia/tipoAtos`;
     const usuario_token = useCookie("auth_token").value;
     const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
     const loadServicos = async () => {

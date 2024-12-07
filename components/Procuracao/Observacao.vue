@@ -77,10 +77,10 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/createAtosObservacao`;
-const observacaoUpdate = `${config.public.managemant}/updateAtosObservacao`;
+const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
+const getAtoId = `${config.public.auth}/service/gerencia/atos/atos_tipos`;
+const createAtoObservacao = `${config.public.auth}/service/gerencia/ordemserv`;
+const observacaoUpdate = `${config.public.auth}/service/gerencia/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const observacoesItems = ref([]);
@@ -118,13 +118,13 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
+const { data: tipoAtoId } = await fetchWithToken(`${getAtoId}/${props.ato_token}`, {
   method: "GET",
 });
 
 async function onSubmit() {
   if (await v$.value.$validate()) {
-    const { data, error, status } = await useFetch(createAtoObservacao, {
+    const { data, error, status } = await fetchWithToken(createAtoObservacao, {
       method: "POST",
       body: {
         ato_id: props.ato_id,
@@ -148,7 +148,7 @@ async function onSubmit() {
 async function deleteObservacao(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${observacaoUpdate}/${item.id}`, {
+    await fetchWithToken(`${observacaoUpdate}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });
@@ -157,7 +157,7 @@ async function deleteObservacao(item) {
   }
 }
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await fetchWithToken(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });

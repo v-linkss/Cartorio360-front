@@ -42,8 +42,9 @@ const props = defineProps({
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
-const papeisApresentante = `${config.public.managemant}/listarPapeis`;
+const pessoasUpdate = `${config.public.auth}/service/gerencia/atos_pessoas`;
+
+const papeisApresentante = `${config.public.auth}/service/gerencia/listarPapeis`;
 const papeisItems = ref([]);
 
 const state = reactive({
@@ -67,7 +68,7 @@ const closeModal = () => {
 };
 
 const getPapeis = async () => {
-  const { data } = await useFetch(papeisApresentante, {
+  const { data } = await fetchWithToken(papeisApresentante, {
     method: "POST",
     body: { tipo_ato_token: props.ato_token },
   });
@@ -75,7 +76,7 @@ const getPapeis = async () => {
 };
 
 const updateAtoPessoa = async () => {
-    const { data, error, status } = await useFetch(`${pessoasUpdate}/${props.ato_id}`, {
+    const { data, error, status } = await fetchWithToken(`${pessoasUpdate}/${props.ato_id}`, {
       method: "PUT",
       body: {
         tipo_parte_id: state.tipo_parte_id.id,

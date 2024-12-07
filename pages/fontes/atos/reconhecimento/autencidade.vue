@@ -134,10 +134,10 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
-const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
-const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
+const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
+const procurarPessoa = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
+const reconhecerPessoa = `${config.public.auth}/service/gerencia/atoReconhecimento`;
+const etiquetaAutencidade = `${config.public.auth}/service/gerencia/etiquetaAutenticidade`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||

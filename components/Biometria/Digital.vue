@@ -35,11 +35,12 @@ const { id } = route.params;
 const pessoa_id = ref(useCookie('pessoa-id').value).value;
 
 const enviarDigital = `${config.public.biometria}/capture-finger`;
-const enviarDigitalBanco = `${config.public.managemant}/createPessoaBiometria`;
-const listarDedos = `${config.public.managemant}/getPessoaBiometriaById`;
+// const enviarDigitalBanco = `${config.public.auth}/service/gerencia/pessoas_biometria`;
+// const listarDedos = `${config.public.auth}/service/gerencia/pessoas_biometria`;
+const pessoas_biometria = `${config.public.auth}/service/gerencia/pessoas_biometria`;
 
 async function getFingers() {
-  const { status, data: fingerData } = await useFetch(`${listarDedos}/${id || pessoa_id}`, {
+  const { status, data: fingerData } = await fetchWithToken(`${pessoas_biometria}/${id || pessoa_id}`, {
     method: "GET",
   });
 
@@ -70,7 +71,7 @@ async function captureBiometria(finger) {
       hash,
     };
 
-    const { status } = await useFetch(enviarDigitalBanco, {
+    const { status } = await fetchWithToken(pessoas_biometria, {
       method: "POST",
       body: bodyDigital,
     });
