@@ -1,6 +1,6 @@
 import { ref, reactive, watch, withAsyncContext, resolveDirective, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, withDirectives, openBlock, createBlock, toDisplayString, createCommentVNode, useSSRContext } from 'vue';
 import { f as useNuxtApp, d as useCookie, aJ as VProgressCircular, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
-import { a as useLazyAsyncData, u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { a as useLazyAsyncData, u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrInterpolate, ssrGetDirectiveProps } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -106,7 +106,7 @@ const _sfc_main = {
           cpf_pai: removeFormatting(state.cpf_pai),
           cpf_mae: removeFormatting(state.cpf_mae)
         };
-        const { data, error: error2, status: status2 } = await useFetch(createPessoa, {
+        const { data, error: error2, status: status2 } = await fetchWithToken(createPessoa, {
           method: "POST",
           body: payloadFormated
         }, "$BiOjXVCR5N");

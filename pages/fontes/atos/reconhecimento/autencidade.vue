@@ -174,7 +174,7 @@ const state = reactive({
   documento: null,
 });
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await fetchWithToken(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
@@ -182,7 +182,7 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 
 async function searchPessoasService() {
   try {
-    const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+    const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -229,7 +229,7 @@ function removeFormValueFromTable(item) {
       const selectedTokens = selectedObjects.value.map((item) => {
         return { pessoa_token: item.token };
       });
-      const { data, error, status } = await useFetch(reconhecerPessoa, {
+      const { data, error, status } = await fetchWithToken(reconhecerPessoa, {
         method: "POST",
         body: {
           pessoas: selectedTokens,
@@ -256,7 +256,7 @@ function removeFormValueFromTable(item) {
 
 async function reconhecerEtiquetaAutencidade(token) {
   try {
-    const { data, error, status } = await useFetch(etiquetaAutencidade, {
+    const { data, error, status } = await fetchWithToken(etiquetaAutencidade, {
       method: "POST",
       body: {
         ato_token: token,

@@ -355,7 +355,7 @@ async function onUpdate(id) {
 async function deleteEndereco(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${updateEndereco}/${item.id}`, {
+    await fetchWithToken(`${updateEndereco}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

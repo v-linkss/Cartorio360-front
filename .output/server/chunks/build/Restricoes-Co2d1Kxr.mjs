@@ -2,7 +2,7 @@ import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { _ as __nuxt_component_0$1 } from './nuxt-link-DyZc7qn_.mjs';
 import { p as propsFactory, M as makeRoundedProps, H as makeElevationProps, y as makeComponentProps, o as genericComponent, R as Ripple, a5 as useRtl, X as useElevation, ad as useTextColor, t as useRender, aB as convertToUnit, aY as VScaleTransition, a0 as useRounded, aG as useBackgroundColor, a_ as makeFocusProps, aL as makeVInputProps, q as useProxiedModel, aO as useFocus, aQ as VInput, a$ as VLabel, f as useNuxtApp, c as useRoute$1, d as useCookie, V as VTextField, as as VDataTable, e as VBtn, aK as VSpacer, _ as _export_sfc, aW as getDecimals, aX as createRange, b as useRuntimeConfig, aV as clamp, aZ as keyValues, b0 as VSelect } from './server.mjs';
 import { inject, computed, createVNode, withDirectives, resolveDirective, vShow, ref, mergeProps, Fragment, reactive, withAsyncContext, unref, withCtx, openBlock, createBlock, createTextVNode, isRef, useSSRContext, toRef, shallowRef, provide, renderList, createCommentVNode } from 'vue';
-import { a as useLazyAsyncData, u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { a as useLazyAsyncData, u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { _ as __unimport_formatDate } from './formatDate-B6RUKh9-.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrRenderAttr, ssrGetDirectiveProps, ssrRenderAttrs, ssrRenderList } from 'vue/server-renderer';
 import { _ as _imports_0$3, a as _imports_4 } from './mudarStatus-D3vc2C0t.mjs';
@@ -824,7 +824,7 @@ const _sfc_main$7 = {
           user_id,
           pessoa_id
         };
-        const { data, error, status } = await useFetch(
+        const { data, error, status } = await fetchWithToken(
           createDoc,
           {
             method: "POST",
@@ -864,7 +864,7 @@ const _sfc_main$7 = {
         data_vencimento: selectedDoc.value.data_vencimento,
         data_emissao: selectedDoc.value.data_emissao
       };
-      const { status } = await useFetch(`${updateDoc}/${id2}`, {
+      const { status } = await fetchWithToken(`${updateDoc}/${id2}`, {
         method: "PUT",
         body: payloadFormated
       }, "$2fkU5kgcxs");
@@ -877,7 +877,7 @@ const _sfc_main$7 = {
     async function deleteDocumento(item) {
       item.excluido = !item.excluido;
       try {
-        await useFetch(`${updateDoc}/${item.id}`, {
+        await fetchWithToken(`${updateDoc}/${item.id}`, {
           method: "PUT",
           body: JSON.stringify({ excluido: item.excluido })
         }, "$lMq37v4cfh");
@@ -2388,7 +2388,7 @@ const _sfc_main$6 = {
           user_id,
           pessoa_id
         };
-        const { data, error, status: status2 } = await useFetch(criarEnderecos, {
+        const { data, error, status: status2 } = await fetchWithToken(criarEnderecos, {
           method: "POST",
           body: payloadFormated
         }, "$xTfPNGciav");
@@ -2427,7 +2427,7 @@ const _sfc_main$6 = {
         bairro: selectedEndereco.value.bairro,
         complemento: selectedEndereco.value.complemento
       };
-      const { status: status2 } = await useFetch(`${updateEndereco}/${id2}`, {
+      const { status: status2 } = await fetchWithToken(`${updateEndereco}/${id2}`, {
         method: "PUT",
         body: payloadFormated
       }, "$DfOGkJVB8l");
@@ -2440,7 +2440,7 @@ const _sfc_main$6 = {
     async function deleteEndereco(item) {
       item.excluido = !item.excluido;
       try {
-        await useFetch(`${updateEndereco}/${item.id}`, {
+        await fetchWithToken(`${updateEndereco}/${item.id}`, {
           method: "PUT",
           body: JSON.stringify({ excluido: item.excluido })
         }, "$u4gWF5EA7L");
@@ -4036,7 +4036,7 @@ const _sfc_main$5 = {
     const enviarDigitalBanco = `${config.public.auth}/service/gerencia/createPessoaBiometria`;
     `${config.public.auth}/service/gerencia/getPessoaBiometriaById`;
     async function captureBiometria(finger) {
-      const { status, data: captureData } = await useFetch("http://localhost:5000/apiservice/capture-finger", {
+      const { status, data: captureData } = await fetchWithToken("http://localhost:5000/apiservice/capture-finger", {
         method: "GET"
       }, "$b5yqRnLFV9");
       if (status.value === "success") {
@@ -4047,7 +4047,7 @@ const _sfc_main$5 = {
           dedo: finger,
           hash
         };
-        const { status: status2 } = await useFetch(enviarDigitalBanco, {
+        const { status: status2 } = await fetchWithToken(enviarDigitalBanco, {
           method: "POST",
           body: bodyDigital
         }, "$cWP9jlCX2Z");
@@ -4235,7 +4235,7 @@ const _sfc_main$4 = {
         formData.append("file", blob, `${nomePessoa}.jpg`);
         formData.append("pessoa_token", token);
         formData.append("tipo", "foto");
-        const { status } = await useFetch(enviarFoto, {
+        const { status } = await fetchWithToken(enviarFoto, {
           method: "POST",
           body: formData
         }, "$fRRPU47ULS");
@@ -4252,7 +4252,7 @@ const _sfc_main$4 = {
     const handleDelete = () => {
       capturedPhoto.value = null;
     };
-    const { data: imagemBiometria } = ([__temp, __restore] = withAsyncContext(() => useFetch(buscarPessoa, {
+    const { data: imagemBiometria } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(buscarPessoa, {
       method: "POST",
       body: { tipo: "foto", id }
     }, "$N16ZtKMkSh")), __temp = await __temp, __restore(), __temp);
@@ -4928,7 +4928,7 @@ const _sfc_main$2 = {
     const config = useRuntimeConfig();
     const impressao = `${config.public.auth}/service/gerencia/gerarRelatorio`;
     const consultaFicha = async () => {
-      const response = await useFetch(impressao, {
+      const response = await fetchWithToken(impressao, {
         method: "POST",
         body: {
           consulta: "FICHA ASSINATURA",

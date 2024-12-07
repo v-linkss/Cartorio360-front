@@ -1,6 +1,6 @@
 import { a2 as VImg, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { V as VDialog, a as VCard, c as VCardTitle, b as VCardActions } from './VCard-uMKFEuGZ.mjs';
 
@@ -32,7 +32,7 @@ const _sfc_main = {
     };
     const beforeOpenFicha = async () => {
       try {
-        const { data: imagemBiometria } = await useFetch(
+        const { data: imagemBiometria } = await fetchWithToken(
           `${buscarPessoa}`,
           {
             method: "POST",

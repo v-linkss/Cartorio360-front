@@ -6,7 +6,7 @@ import { p as propsFactory, aL as makeVInputProps, aM as makeVFieldProps, o as g
 import { V as VDialog, a as VCard, d as VCardText, b as VCardActions } from './VCard-uMKFEuGZ.mjs';
 import { V as VContainer } from './VContainer-Dd724oJ4.mjs';
 import { V as VRow } from './VRow-CVrt2SWs.mjs';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { _ as _imports_0, a as _imports_4 } from './mudarStatus-D3vc2C0t.mjs';
 import { V as VAutocomplete } from './VAutocomplete-D1-afj5_.mjs';
 import { useVuelidate } from '@vuelidate/core';
@@ -636,7 +636,7 @@ const _sfc_main$2 = {
         usuario_token,
         recebimentos: [recebimentos.value]
       };
-      const { data, error } = await useFetch(routereceberOs, {
+      const { data, error } = await fetchWithToken(routereceberOs, {
         method: "POST",
         body: JSON.stringify(body)
       }, "$vhMIR8Sr2p");
@@ -656,7 +656,7 @@ const _sfc_main$2 = {
         const body = {
           cartorio_token: cartorio_token.value
         };
-        const { data: forma, error } = await useFetch(listarFormasReceb, {
+        const { data: forma, error } = await fetchWithToken(listarFormasReceb, {
           method: "POST",
           body: JSON.stringify(body)
         }, "$eiMzO5y6Bb");
@@ -1382,7 +1382,7 @@ const _sfc_main$1 = {
       emit("close");
     };
     const analisaCancelamentoOs = async () => {
-      const { data, error } = await useFetch(`${analisaCancelamento}`, {
+      const { data, error } = await fetchWithToken(`${analisaCancelamento}`, {
         method: "POST",
         body: { ordemserv_token: props.ordemserv_token }
       }, "$1fnrIk2fgs");
@@ -1391,7 +1391,7 @@ const _sfc_main$1 = {
     analisaCancelamentoOs();
     const cancelarOrdemServ = async () => {
       if (await v$.value.$validate()) {
-        const { status } = await useFetch(`${cancelarOs}`, {
+        const { status } = await fetchWithToken(`${cancelarOs}`, {
           method: "POST",
           body: { usuario_token, motivo: state.motivo, ordemserv_token: props.ordemserv_token }
         }, "$21WlhUNXeM");
@@ -1801,7 +1801,7 @@ const _sfc_main = {
       return `${yyyy}-${MM}-${dd}`;
     }
     async function usuariosDataPayload() {
-      const { data: usuarioData, error } = await useFetch(allUsuarios, {
+      const { data: usuarioData, error } = await fetchWithToken(allUsuarios, {
         method: "POST",
         body: {
           cartorio_token: cartorio_token.value
@@ -1812,7 +1812,7 @@ const _sfc_main = {
     async function searchOrdersService() {
       try {
         sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
-        const { data: servicosData, error } = await useFetch(allServicos, {
+        const { data: servicosData, error } = await fetchWithToken(allServicos, {
           method: "POST",
           body: {
             cartorio_token: cartorio_token.value,
@@ -1841,7 +1841,7 @@ const _sfc_main = {
       }
     }
     async function tipoAtosDataPayload() {
-      const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
+      const { data: tipoAtosData, error } = await fetchWithToken(allTiposAtos, {
         method: "POST",
         body: {
           cartorio_token: cartorio_token.value,

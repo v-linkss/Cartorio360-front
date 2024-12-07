@@ -1,6 +1,6 @@
 import { useSSRContext, ref, reactive, watch, withAsyncContext, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode } from 'vue';
 import { d as useCookie, E as VIcon, as as VDataTable, b as useRuntimeConfig } from './server.mjs';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -60,7 +60,7 @@ const _sfc_main = {
       emit("close");
     };
     const escreventesItems = ref([]);
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(allEscreventes, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(allEscreventes, {
       method: "POST",
       body: { cartorio_token }
     }, "$V2ulT7DYvP")), __temp = await __temp, __restore(), __temp);
@@ -73,7 +73,7 @@ const _sfc_main = {
           ato_token: props.ato_token,
           selos: selosJson
         };
-        const { data: data2, error, status } = await useFetch(`${reimprimeSelos}`, {
+        const { data: data2, error, status } = await fetchWithToken(`${reimprimeSelos}`, {
           method: "POST",
           body
         }, "$45J51uHTfa");
@@ -87,7 +87,7 @@ const _sfc_main = {
       }
     };
     const fetchSelos = async () => {
-      const { data: data2, error } = await useFetch(`${getSelos}`, {
+      const { data: data2, error } = await fetchWithToken(`${getSelos}`, {
         method: "POST",
         body: { ato_token: props.ato_token }
       }, "$rLWIRtrfDz");

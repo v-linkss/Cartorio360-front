@@ -218,7 +218,7 @@ async function onUpdate() {
     cartorio_id: cartorio_id.value,
   };
 
-  const { error, status } = await useFetch(`${ordemserv}/${id}`, {
+  const { error, status } = await fetchWithToken(`${ordemserv}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
@@ -230,7 +230,7 @@ async function onUpdate() {
   }
 }
 
-const { data: dataOs } = await useFetch(`${ordemserv}/${id}`, {
+const { data: dataOs } = await fetchWithToken(`${ordemserv}/${id}`, {
   method: "GET",
 });
 numeroOs.value = dataOs.value.numero;
@@ -238,7 +238,7 @@ state.nacionalidade = dataOs.value.estrangeiro;
 state.apresentante_cpf = dataOs.value.apresentante_cpf;
 state.apresentante_nome = dataOs.value.apresentante_nome;
 
-const { data } = await useFetch(atosPayload, {
+const { data } = await fetchWithToken(atosPayload, {
   method: "POST",
   body: {
     cartorio_token: cartorio_token,

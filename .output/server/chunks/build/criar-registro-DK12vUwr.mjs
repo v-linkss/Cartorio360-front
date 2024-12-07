@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _imports_2$1, a as _sfc_main$1 } from './Selos-BQ1wK6CR.mjs';
 import { f as useNuxtApp, d as useCookie, V as VTextField, as as VDataTable, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, resolveDirective, mergeProps, withCtx, unref, createVNode, toDisplayString, withDirectives, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrGetDirectiveProps, ssrRenderAttr, ssrRenderClass, ssrIncludeBooleanAttr } from 'vue/server-renderer';
 import { _ as _imports_2 } from './salvar-BTacXYiF.mjs';
 import { _ as _imports_0, a as _imports_4 } from './mudarStatus-D3vc2C0t.mjs';
@@ -108,7 +108,7 @@ const _sfc_main = {
         estrangeiro: state.nacionalidade
       };
       if (await v$.value.$validate()) {
-        const { data: data2, error, status } = await useFetch(createOs, {
+        const { data: data2, error, status } = await fetchWithToken(createOs, {
           method: "POST",
           body: payloadFormated
         }, "$omLGvLxYlw");
@@ -143,7 +143,7 @@ const _sfc_main = {
           cpf: cpfFormated
         };
         try {
-          const { data: data2, error, status } = await useFetch(routeValidaCpf, {
+          const { data: data2, error, status } = await fetchWithToken(routeValidaCpf, {
             method: "POST",
             body: payloadFormated
           }, "$e6ybTA3ect");
@@ -162,7 +162,7 @@ const _sfc_main = {
         }
       }
     }
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(atosPayload, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(atosPayload, {
       method: "POST",
       body: {
         cartorio_token,

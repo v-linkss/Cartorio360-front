@@ -129,7 +129,7 @@ const login = async () => {
     data: responseData,
     status,
     error,
-  } = await useFetch(`${auth}/login`, {
+  } = await fetchWithToken(`${auth}/login`, {
     method: "POST",
     body: {
       senha: loginData.value.senha,

@@ -145,19 +145,19 @@ function pick(obj, keys) {
   }
   return newObj;
 }
-function useFetch(request, arg1, arg2) {
+function fetchWithToken(request, arg1, arg2) {
   const [opts = {}, autoKey] = typeof arg1 === "string" ? [{}, arg1] : [arg1, arg2];
   const _request = computed(() => toValue(request));
   const _key = opts.key || hash([autoKey, typeof _request.value === "string" ? _request.value : "", ...generateOptionSegments(opts)]);
   if (!_key || typeof _key !== "string") {
-    throw new TypeError("[nuxt] [useFetch] key must be a string: " + _key);
+    throw new TypeError("[nuxt] [fetchWithToken] key must be a string: " + _key);
   }
   if (!request) {
-    throw new Error("[nuxt] [useFetch] request is missing.");
+    throw new Error("[nuxt] [fetchWithToken] request is missing.");
   }
   const key = _key === autoKey ? "$f" + _key : _key;
   if (!opts.baseURL && typeof _request.value === "string" && (_request.value[0] === "/" && _request.value[1] === "/")) {
-    throw new Error('[nuxt] [useFetch] the request URL must not start with "//".');
+    throw new Error('[nuxt] [fetchWithToken] the request URL must not start with "//".');
   }
   const {
     server,
@@ -215,7 +215,7 @@ function useFetch(request, arg1, arg2) {
 }
 function useLazyFetch(request, arg1, arg2) {
   const [opts = {}, autoKey] = [{}, arg1];
-  return useFetch(
+  return fetchWithToken(
     request,
     {
       ...opts,
@@ -245,5 +245,5 @@ function generateOptionSegments(opts) {
   return segments;
 }
 
-export { useLazyAsyncData as a, useLazyFetch as b, useFetch as u };
+export { useLazyAsyncData as a, useLazyFetch as b, fetchWithToken as u };
 //# sourceMappingURL=fetch-Dsyde8UD.mjs.map

@@ -71,7 +71,7 @@ const state = reactive({
 });
 const escreventesItems = ref([]);
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await fetchWithToken(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
@@ -91,7 +91,7 @@ const atoAutentica = async () => {
       data: ato_token,
       status,
       error,
-    } = await useFetch(autenticaAtos, {
+    } = await fetchWithToken(autenticaAtos, {
       method: "POST",
       body: {
         usuario_token: usuario_token,
@@ -112,7 +112,7 @@ const atoAutentica = async () => {
 };
 
 const etiquetaAutentica = async (ato_token) => {
-  const { data, status } = await useFetch(autenticaEtiquetas, {
+  const { data, status } = await fetchWithToken(autenticaEtiquetas, {
     method: "POST",
     body: {
       escrevente_token: state.escrevente,

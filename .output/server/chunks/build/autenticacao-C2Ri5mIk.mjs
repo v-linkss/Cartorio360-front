@@ -2,7 +2,7 @@ import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _sfc_main$1 } from './ErrorModalCard-DUPV_dzc.mjs';
 import { _ as _export_sfc, u as useRouter$1, c as useRoute$1, d as useCookie, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, mergeProps, withCtx, unref, createTextVNode, createVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderStyle } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -56,7 +56,7 @@ const _sfc_main = {
       quantidade: 1
     });
     const escreventesItems = ref([]);
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(allEscreventes, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(allEscreventes, {
       method: "POST",
       body: { cartorio_token }
     }, "$nXL9eJBhI7")), __temp = await __temp, __restore(), __temp);
@@ -73,7 +73,7 @@ const _sfc_main = {
           data: ato_token,
           status,
           error
-        } = await useFetch(autenticaAtos, {
+        } = await fetchWithToken(autenticaAtos, {
           method: "POST",
           body: {
             usuario_token,
@@ -92,7 +92,7 @@ const _sfc_main = {
       }
     };
     const etiquetaAutentica = async (ato_token) => {
-      const { data: data2, status } = await useFetch(autenticaEtiquetas, {
+      const { data: data2, status } = await fetchWithToken(autenticaEtiquetas, {
         method: "POST",
         body: {
           escrevente_token: state.escrevente,

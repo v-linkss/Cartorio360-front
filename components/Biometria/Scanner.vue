@@ -33,7 +33,7 @@ async function handleScannerClick() {
 async function openScanner() {
 
   try {
-    const { data } = await useFetch(acionarScanner, { method: 'GET' });
+    const { data } = await fetchWithToken(acionarScanner, { method: 'GET' });
 
   } catch (error) {
     $toast.error('Erro ao acionar o scanner:', error);
@@ -43,7 +43,7 @@ async function openScanner() {
 // Função para enviar um arquivo específico
 async function enviarArquivo() {
   try {
-    const { status } = await useFetch(viewDoc, {
+    const { status } = await fetchWithToken(viewDoc, {
       method: 'POST',
       body: { tipo: 'ficha', pessoa_token: token }
     });

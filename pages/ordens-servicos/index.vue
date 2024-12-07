@@ -260,7 +260,7 @@ function getCurrentDate() {
 }
 
 async function usuariosDataPayload() {
-  const { data: usuarioData, error } = await useFetch(allUsuarios, {
+  const { data: usuarioData, error } = await fetchWithToken(allUsuarios, {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
@@ -273,7 +273,7 @@ async function searchOrdersService() {
   try {
     sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
 
-    const { data: servicosData, error } = await useFetch(allServicos, {
+    const { data: servicosData, error } = await fetchWithToken(allServicos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -303,7 +303,7 @@ async function searchOrdersService() {
 }
 
 async function tipoAtosDataPayload() {
-  const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
+  const { data: tipoAtosData, error } = await fetchWithToken(allTiposAtos, {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,
@@ -318,7 +318,7 @@ const servicosDataTable = async () => {
     const currentDate = getCurrentDate();
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
     const dadosRestaurados = JSON.parse(pesquisaSalva);
-    const { data: servicosData, error } = await useFetch(allServicos, {
+    const { data: servicosData, error } = await fetchWithToken(allServicos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,

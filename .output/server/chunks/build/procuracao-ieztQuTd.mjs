@@ -2,7 +2,7 @@ import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { _ as __nuxt_component_0$1 } from './nuxt-link-DyZc7qn_.mjs';
 import { u as useRouter$1, c as useRoute$1, f as useNuxtApp, d as useCookie, V as VTextField, e as VBtn, as as VDataTable, a2 as VImg, _ as _export_sfc, b as useRuntimeConfig } from './server.mjs';
 import { defineComponent, ref, provide, createElementBlock, withCtx, unref, isRef, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext, reactive, withAsyncContext, watch, mergeProps, toDisplayString } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle, ssrRenderAttrs, ssrInterpolate } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -73,12 +73,12 @@ const _sfc_main$8 = {
       }
     };
     const v$ = useVuelidate(rules, state);
-    const { data: tipoAtoId } = ([__temp, __restore] = withAsyncContext(() => useFetch(`${getAtoId}/${props.ato_token}`, {
+    const { data: tipoAtoId } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(`${getAtoId}/${props.ato_token}`, {
       method: "GET"
     }, "$9ZmTYsLk0K")), __temp = await __temp, __restore(), __temp);
     async function onSubmit() {
       if (await v$.value.$validate()) {
-        const { data, error, status } = await useFetch(createAtoProcuracao, {
+        const { data, error, status } = await fetchWithToken(createAtoProcuracao, {
           method: "POST",
           body: {
             ato_tipo_id: tipoAtoId.value.id,
@@ -106,7 +106,7 @@ const _sfc_main$8 = {
       const dd = String(today.getDate()).padStart(2, "0");
       return `${yyyy}-${MM}-${dd}`;
     }
-    const { data: situacaoData } = ([__temp, __restore] = withAsyncContext(() => useFetch(allSituacoes, {
+    const { data: situacaoData } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(allSituacoes, {
       method: "POST",
       body
     }, "$S3qwbpImEh")), __temp = await __temp, __restore(), __temp);
@@ -490,7 +490,7 @@ const _sfc_main$7 = {
       emit("close");
     };
     const updateAtoPessoa = async () => {
-      const { data, error, status } = await useFetch(
+      const { data, error, status } = await fetchWithToken(
         `${pessoasUpdate}/${props.ato_id}`,
         {
           method: "PUT",
@@ -792,14 +792,14 @@ const _sfc_main$6 = {
       emit("close");
     };
     const getPapeis = async () => {
-      const { data } = await useFetch(papeisApresentante, {
+      const { data } = await fetchWithToken(papeisApresentante, {
         method: "POST",
         body: { tipo_ato_token: props.ato_token }
       }, "$ZhqPztPn4g");
       papeisItems.value = data.value;
     };
     const updateAtoPessoa = async () => {
-      const { data, error, status } = await useFetch(`${pessoasUpdate}/${props.ato_id}`, {
+      const { data, error, status } = await fetchWithToken(`${pessoasUpdate}/${props.ato_id}`, {
         method: "PUT",
         body: {
           tipo_parte_id: state.tipo_parte_id.id
@@ -1129,14 +1129,14 @@ const _sfc_main$5 = {
       pessoa: null,
       documento: null
     });
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(papeisApresentante, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(papeisApresentante, {
       method: "POST",
       body: { tipo_ato_token: props.ato_token }
     }, "$fFKndZhA4W")), __temp = await __temp, __restore(), __temp);
     papeisItems.value = data.value;
     async function searchPessoasService() {
       try {
-        const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+        const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
           method: "POST",
           body: {
             cartorio_token: cartorio_token.value,
@@ -1176,7 +1176,7 @@ const _sfc_main$5 = {
         // Objeto completo do papel
         representante: { nome: null }
       };
-      const { data: data2, error, status } = await useFetch(criarAtoPessoa, {
+      const { data: data2, error, status } = await fetchWithToken(criarAtoPessoa, {
         method: "POST",
         body: {
           ato_id: props.ato_id,
@@ -1194,7 +1194,7 @@ const _sfc_main$5 = {
     const redirectToFicha = async (item) => {
       isModalFichaOpen.value = true;
       fichaRender.value = null;
-      const { data: imagemBiometria } = await useFetch(`${buscarPessoa}`, {
+      const { data: imagemBiometria } = await fetchWithToken(`${buscarPessoa}`, {
         method: "POST",
         body: { id: item.pessoa.id, tipo: "ficha" }
       }, "$So3qnQu7ek");
@@ -1221,7 +1221,7 @@ const _sfc_main$5 = {
     async function deletePessoa(item) {
       item.excluido = !item.excluido;
       try {
-        await useFetch(`${pessoasUpdate}/${ato_pessoa_id.value}`, {
+        await fetchWithToken(`${pessoasUpdate}/${ato_pessoa_id.value}`, {
           method: "PUT",
           body: JSON.stringify({ excluido: item.excluido })
         }, "$Q3kbIwtd9t");
@@ -2601,12 +2601,12 @@ const _sfc_main$2 = {
       }
     };
     const v$ = useVuelidate(rules, state);
-    [__temp, __restore] = withAsyncContext(() => useFetch(`${getAtoId}/${props.ato_token}`, {
+    [__temp, __restore] = withAsyncContext(() => fetchWithToken(`${getAtoId}/${props.ato_token}`, {
       method: "GET"
     }, "$aJM1TL1buW")), __temp = await __temp, __restore();
     async function onSubmit() {
       if (await v$.value.$validate()) {
-        const { data: data2, error, status } = await useFetch(createAtoObservacao, {
+        const { data: data2, error, status } = await fetchWithToken(createAtoObservacao, {
           method: "POST",
           body: {
             ato_id: props.ato_id,
@@ -2629,7 +2629,7 @@ const _sfc_main$2 = {
     async function deleteObservacao(item) {
       item.excluido = !item.excluido;
       try {
-        await useFetch(`${observacaoUpdate}/${item.id}`, {
+        await fetchWithToken(`${observacaoUpdate}/${item.id}`, {
           method: "PUT",
           body: JSON.stringify({ excluido: item.excluido })
         }, "$B6PdRx8Gp4");
@@ -2637,7 +2637,7 @@ const _sfc_main$2 = {
         console.error("Erro ao excluir observacao:", error);
       }
     }
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(allEscreventes, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(allEscreventes, {
       method: "POST",
       body: { cartorio_token }
     }, "$xFHPGua26S")), __temp = await __temp, __restore(), __temp);

@@ -1,6 +1,6 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _export_sfc, c as useRoute$1, b1 as VSheet, b2 as VResponsive, e as VBtn, b as useRuntimeConfig } from './server.mjs';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { _ as __unimport_formatDate } from './formatDate-B6RUKh9-.mjs';
 import { withAsyncContext, unref, withCtx, createTextVNode, toDisplayString, createVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
@@ -34,7 +34,7 @@ const _sfc_main = {
     const { id } = route.params;
     const config = useRuntimeConfig();
     const pessoasView = `${config.public.auth}/service/gerencia/getPessoaById`;
-    const { data: PessoaView, pending } = ([__temp, __restore] = withAsyncContext(() => useFetch(
+    const { data: PessoaView, pending } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(
       `${pessoasView}/${id}`,
       "$df2lemleOL"
     )), __temp = await __temp, __restore(), __temp);

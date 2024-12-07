@@ -1,7 +1,7 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { _ as _export_sfc, u as useRouter$1, V as VTextField, as as VDataTable, b as useRuntimeConfig } from './server.mjs';
 import { ref, withAsyncContext, computed, unref, mergeProps, withCtx, createVNode, isRef, openBlock, createBlock, useSSRContext } from 'vue';
-import { b as useLazyFetch, u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { b as useLazyFetch, u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { _ as _imports_0, a as _imports_4 } from './mudarStatus-D3vc2C0t.mjs';
 import { _ as _imports_1 } from './visualizar-CsXww5Hd.mjs';
@@ -55,7 +55,7 @@ const _sfc_main = {
     async function deletePessoa(item) {
       item.excluido = !item.excluido;
       try {
-        await useFetch(`${pessoasUpdate}/${item.id}`, {
+        await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
           method: "PUT",
           body: JSON.stringify({ excluido: item.excluido })
         }, "$R09XREGJQC");

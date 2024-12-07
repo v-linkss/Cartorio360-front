@@ -1,7 +1,7 @@
 import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { ref, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { _ as _export_sfc, u as useRouter$1, f as useNuxtApp, a2 as VImg, V as VTextField, e as VBtn, aK as VSpacer, b as useRuntimeConfig, d as useCookie } from './server.mjs';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderStyle } from 'vue/server-renderer';
 import { V as VDialog, a as VCard } from './VCard-uMKFEuGZ.mjs';
 import 'vue-bundle-renderer/runtime';
@@ -50,7 +50,7 @@ const _sfc_main = {
         data: responseData,
         status,
         error
-      } = await useFetch(`${auth}/login`, {
+      } = await fetchWithToken(`${auth}/login`, {
         method: "POST",
         body: {
           senha: loginData.value.senha,

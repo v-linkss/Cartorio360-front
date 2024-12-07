@@ -1,7 +1,7 @@
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { u as useRouter$1, f as useNuxtApp, d as useCookie, aJ as VProgressCircular, V as VTextField, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, mergeProps, withCtx, unref, isRef, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext, withAsyncContext, resolveDirective, withDirectives } from 'vue';
-import { a as useLazyAsyncData, u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { a as useLazyAsyncData, u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrGetDirectiveProps } from 'vue/server-renderer';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -119,7 +119,7 @@ const _sfc_main$1 = {
           cpf_pai: removeFormatting(state.cpf_pai),
           cpf_mae: removeFormatting(state.cpf_mae)
         };
-        const { data, error: error2, status: status2 } = await useFetch(createPessoa, {
+        const { data, error: error2, status: status2 } = await fetchWithToken(createPessoa, {
           method: "POST",
           body: payloadFormated
         }, "$fcbWHpl5XR");
@@ -150,7 +150,7 @@ const _sfc_main$1 = {
         doc_identificacao: removeFormatting(state.doc_identificacao),
         cpf_mae: removeFormatting(state.cpf_mae)
       };
-      await useFetch(`${updatePessoa}/${pessoaId.value}`, {
+      await fetchWithToken(`${updatePessoa}/${pessoaId.value}`, {
         method: "PUT",
         body: payloadFormated
       }, "$S30ZRYxneo");

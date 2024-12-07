@@ -214,9 +214,9 @@ async function loadPessoaData() {
       cidadeNascimentoItems,
       pessoa,
     ] = await Promise.all([
-      $fetch(estadoCivil),
-      $fetch(capacidadeCivil),
-      $fetch(cidades),
+      $fetchWithToken(estadoCivil),
+      $fetchWithToken(capacidadeCivil),
+      $fetchWithToken(cidades),
       $fetchWithToken(`${pessoas}/${id}`),
     ]);
 
@@ -263,7 +263,7 @@ function formatPayload(payload) {
 
 async function onUpdate() {
   const payloadFormated = formatPayload(state);
-  const { data, error } = await fetchWithToken(`${pessoa}/${id}`, {
+  const { data, error } = await fetchWithToken(`${pessoas}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });

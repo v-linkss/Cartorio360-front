@@ -175,7 +175,7 @@ const stateSemelhanca = reactive({
 });
 
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await fetchWithToken(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
@@ -183,7 +183,7 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 
 async function searchPessoasService() {
   try {
-    const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+    const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -229,7 +229,7 @@ async function reconhecerAtoSemelhanca() {
       return { pessoa_token: item.token };
     });
     try {
-      const { data, error, status } = await useFetch(reconhecerPessoa, {
+      const { data, error, status } = await fetchWithToken(reconhecerPessoa, {
         method: "POST",
         body: {
           pessoas: selectedTokens,
@@ -255,7 +255,7 @@ async function reconhecerAtoSemelhanca() {
 
 async function reconhecerEtiquetaSemelhanca(token) {
   try {
-    const { data, error, status } = await useFetch(etiquetaSemelhanca, {
+    const { data, error, status } = await fetchWithToken(etiquetaSemelhanca, {
       method: "POST",
       body: {
         ato_token: token,

@@ -61,7 +61,7 @@ const usuario_token = useCookie("auth_token").value;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 
 const loadServicos = async () => {
-  const { data } = await useFetch(getTiposAtos, {
+  const { data } = await fetchWithToken(getTiposAtos, {
     method: "POST",
     body: { usuario_token: usuario_token, cartorio_token: cartorio_token },
   });
@@ -72,7 +72,7 @@ const loadServicos = async () => {
 };
 
 const onServicoChange = async (token) => {
-  const { data } = await useFetch(getTiposAtos, {
+  const { data } = await fetchWithToken(getTiposAtos, {
     method: "POST",
     body: {
       usuario_token: usuario_token,

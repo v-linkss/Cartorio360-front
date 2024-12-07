@@ -296,7 +296,7 @@ async function validarCpf(cpf) {
   }
 }
 
-const { data } = await useFetch(atosPayload, {
+const { data } = await fetchWithToken(atosPayload, {
   method: "POST",
   body: {
     cartorio_token: cartorio_token,

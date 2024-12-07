@@ -4,7 +4,7 @@ import { _ as _sfc_main$3 } from './ErrorModalCard-DUPV_dzc.mjs';
 import { _ as __nuxt_component_0 } from './nuxt-link-DyZc7qn_.mjs';
 import { u as useRouter$1, c as useRoute$1, f as useNuxtApp, d as useCookie, V as VTextField, as as VDataTable, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, reactive, withAsyncContext, withCtx, unref, createVNode, createTextVNode, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import { _ as _imports_1 } from './visualizar-CsXww5Hd.mjs';
 import { _ as _imports_0, a as _imports_4 } from './mudarStatus-D3vc2C0t.mjs';
@@ -84,14 +84,14 @@ const _sfc_main = {
       nome: null,
       documento: null
     });
-    const { data } = ([__temp, __restore] = withAsyncContext(() => useFetch(allEscreventes, {
+    const { data } = ([__temp, __restore] = withAsyncContext(() => fetchWithToken(allEscreventes, {
       method: "POST",
       body: { cartorio_token }
     }, "$qpB20nOlUE")), __temp = await __temp, __restore(), __temp);
     escreventesItems.value = data.value[0].func_json_escreventes;
     async function searchPessoasService() {
       try {
-        const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+        const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
           method: "POST",
           body: {
             cartorio_token: cartorio_token.value,
@@ -132,7 +132,7 @@ const _sfc_main = {
         const selectedTokens = selectedObjects.value.map((item) => {
           return { pessoa_token: item.token };
         });
-        const { data: data2, error, status } = await useFetch(reconhecerPessoa, {
+        const { data: data2, error, status } = await fetchWithToken(reconhecerPessoa, {
           method: "POST",
           body: {
             pessoas: selectedTokens,
@@ -156,7 +156,7 @@ const _sfc_main = {
     }
     async function reconhecerEtiquetaAutencidade(token) {
       try {
-        const { data: data2, error, status } = await useFetch(etiquetaAutencidade, {
+        const { data: data2, error, status } = await fetchWithToken(etiquetaAutencidade, {
           method: "POST",
           body: {
             ato_token: token,

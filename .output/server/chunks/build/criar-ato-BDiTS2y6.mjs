@@ -1,6 +1,6 @@
 import { _ as _export_sfc, c as useRoute$1, d as useCookie, b as useRuntimeConfig } from './server.mjs';
 import { ref, computed, watch, withCtx, unref, createVNode, toDisplayString, isRef, resolveDynamicComponent, useSSRContext } from 'vue';
-import { u as useFetch } from './fetch-Dsyde8UD.mjs';
+import { u as fetchWithToken } from './fetch-Dsyde8UD.mjs';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrRenderVNode } from 'vue/server-renderer';
 import _sfc_main$1 from './semelhanca-DZKlN5T0.mjs';
 import _sfc_main$2 from './autencidade-BkNbBP-c.mjs';
@@ -65,7 +65,7 @@ const _sfc_main = {
     const usuario_token = useCookie("auth_token").value;
     const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
     const loadServicos = async () => {
-      const { data } = await useFetch(getTiposAtos, {
+      const { data } = await fetchWithToken(getTiposAtos, {
         method: "POST",
         body: { usuario_token, cartorio_token }
       }, "$eDvF6utwet");
@@ -75,7 +75,7 @@ const _sfc_main = {
       }
     };
     const onServicoChange = async (token) => {
-      const { data } = await useFetch(getTiposAtos, {
+      const { data } = await fetchWithToken(getTiposAtos, {
         method: "POST",
         body: {
           usuario_token,
