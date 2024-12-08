@@ -2,7 +2,7 @@
 <v-container>
     <v-row>
         <v-col cols="5">
-            <v-text-field label="Descrição"></v-text-field>
+            <v-text-field v-model="state.descricao" label="Descrição"></v-text-field>
         </v-col>
         <div
             @click="handleScannerClick"
@@ -16,7 +16,7 @@
             />
           </div>
           <div
-            @click="redirectToUpdate(item.id)"
+            @click="createAnexo"
             title="Criar"
           >
             <img
@@ -27,8 +27,52 @@
             />
           </div>
     </v-row>
-    <v-data-table :headers="headers" :items="anexos" style="height: 465px">
-
+    <v-data-table :headers="headers" :items="anexos" style="height: 465px;max-width: 600px;">
+      <template v-slot:item.actions="{ item }">
+            <v-row>
+              <div
+                style="
+                  display: flex;
+                  cursor: pointer;
+                  justify-content: flex-end;
+                "
+                class="mr-2"
+                @click="redirectToFicha(item)"
+                title="Visualizar Ficha"
+              >
+                <img
+                  style="width: 30px; height: 30px"
+                  src="../../assets/visualizar.png"
+                  alt="Visualizar"
+                />
+              </div>
+              <div
+                class="mr-2"
+                style="
+                  display: flex;
+                  cursor: pointer;
+                  justify-content: flex-end;
+                "
+                @click="deletePessoa(item)"
+                title="Deletar Pessoa"
+              >
+                <!-- <img
+                  v-if="item.excluido"
+                  style="width: 30px; height: 30px"
+                  src="../../assets/excluido.png"
+                  alt="Visualizar"
+                  title="Reativar"
+                /> -->
+                <img
+                  src="../../assets/mudarStatus.png"
+                  alt="Excluir"
+                  class="trash-icon"
+                  style="width: 30px; height: 30px"
+                  title="Excluir"
+                />
+              </div>
+            </v-row>
+          </template>
     </v-data-table>
     <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -48,16 +92,18 @@ const tokenCookie = useCookie('pessoa_token');
 const token = tokenCookie.value;
 const anexos = ref([])
 
+const state = reactive({
+  descricao: '',
+});
 
 const headers = [
   {
     title: "Documento",
-    align: "start",
-    key: "pessoa.documento",
+    key: "descricao",
   },
-  { value: "actions" },
+  { text: "Ações", value: "actions" }, 
 ];
-// Função principal ao clicar na imagem
+
 async function handleScannerClick() {
   try {
     await openScanner();
@@ -87,6 +133,13 @@ async function enviarArquivo() {
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }
+}
+
+const createAnexo = async()=>{
+  const anexo = {
+    descricao:state.descricao
+  }
+  anexos.value.push(anexo)
 }
 
 const goBack = () => {

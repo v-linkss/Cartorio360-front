@@ -1,7 +1,7 @@
 <template>
   <h1 class="mb-2">Procuração</h1>
   <v-card width="1300">
-    <v-tabs v-model="tab" bg-color="#C8FCCA">
+    <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab v-if="showTabs" value="partes">Partes</v-tab>
       <v-tab v-if="showTabs" value="texto">Texto</v-tab>
@@ -18,7 +18,7 @@
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="texto">
-        <ProcuracaoTexto style="height: 1000px;"/>
+        <ProcuracaoTexto :ato_token="selectedAto"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="imagem">
         <ProcuracaoImagem />
