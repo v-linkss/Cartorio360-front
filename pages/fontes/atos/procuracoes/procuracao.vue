@@ -4,8 +4,8 @@
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab v-if="showTabs" value="partes">Partes</v-tab>
-      <v-tab v-if="showTabs" value="texto">Texto</v-tab>
-      <v-tab v-if="showTabs" value="imagem">Imagem</v-tab>
+      <v-tab v-if="showTabs" value="minuta">Minuta</v-tab>
+      <v-tab v-if="showTabs" value="livro">Livro</v-tab>
       <v-tab v-if="showTabs" value="observacao">Observações</v-tab>
       <v-tab v-if="showTabs" value="anexo">Anexos</v-tab>
     </v-tabs>
@@ -17,11 +17,11 @@
       <v-tabs-window-item v-if="showTabs" value="partes">
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
-      <v-tabs-window-item v-if="showTabs" value="texto">
-        <ProcuracaoTexto :ato_token="selectedAto"/>
+      <v-tabs-window-item v-if="showTabs" value="minuta">
+        <ProcuracaoMinuta :ato_token="ato_token_prop"/>
       </v-tabs-window-item>
-      <v-tabs-window-item v-if="showTabs" value="imagem">
-        <ProcuracaoImagem />
+      <v-tabs-window-item v-if="showTabs" value="livro">
+        <ProcuracaoLivro />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="observacao">
         <ProcuracaoObservacao :ato_id="ato_id_prop" />
@@ -42,12 +42,14 @@ const props = defineProps({
 });
 
 const ato_id_prop = ref(null);
+const ato_token_prop = ref(null);
 const tab = ref(null);
 const showTabs = ref(false);
 const selectedAto = ref(props.ato_token);
 
-const handleSave = (atoId) => {
-  ato_id_prop.value = atoId;
+const handleSave = ({id,token}) => {
+  ato_id_prop.value = id;
+  ato_token_prop.value = token
   showTabs.value = true;
 };
 </script>

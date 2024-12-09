@@ -1,7 +1,7 @@
 import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, openBlock, createBlock, toDisplayString, createVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
 import { V as VDialog } from './VDialog-BwIFCBiT.mjs';
-import { V as VCard, b as VCardTitle, c as VCardText, a as VCardActions } from './VCard-DyET5wem.mjs';
+import { V as VCard, c as VCardTitle, b as VCardText, a as VCardActions } from './VCard-DyET5wem.mjs';
 import { e as VBtn } from './server.mjs';
 
 const _sfc_main = {

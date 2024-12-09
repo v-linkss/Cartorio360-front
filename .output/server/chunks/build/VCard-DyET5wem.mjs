@@ -326,5 +326,5 @@ const VCard = genericComponent()({
   }
 });
 
-export { VCard as V, VCardActions as a, VCardTitle as b, VCardText as c };
+export { VCard as V, VCardActions as a, VCardText as b, VCardTitle as c };
 //# sourceMappingURL=VCard-DyET5wem.mjs.map

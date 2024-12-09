@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    {{ props.ato_token }}
     <v-row class="mt-5">
       <v-col cols="3">
         <v-text-field label="Documento" v-model="state.documento">

@@ -3,7 +3,7 @@ import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, createV
 import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { V as VDialog } from './VDialog-BwIFCBiT.mjs';
-import { V as VCard, b as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';
+import { V as VCard, c as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';
 
 const _sfc_main = {
   __name: "FichaCard",

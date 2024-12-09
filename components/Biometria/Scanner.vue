@@ -43,10 +43,11 @@ async function openScanner() {
 // Função para enviar um arquivo específico
 async function enviarArquivo() {
   try {
-    const { status } = await useFetch(viewDoc, {
+    const { status,data} = await useFetch(viewDoc, {
       method: 'POST',
       body: { tipo: 'ficha', pessoa_token: token }
     });
+    console.log(data.value)
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }

@@ -95,7 +95,7 @@ const headers = [
   {
     title: "Escrevente",
     align: "start",
-    key: "nome",
+    key: "escrevente",
   },
   {
     title: "Observação",
@@ -132,11 +132,13 @@ async function onSubmit() {
         user_id: useCookie("user-data").value.usuario_id,
       },
     });
+
     if (status.value === "success") {
       observacoesItems.value.push({
-        data:data.value.created,
+        data:formatDate(data.value.created, "dd/mm/yyyy"),
         observacao:data.value.observacao,
-        id:data.value.id
+        id:data.value.id,
+        escrevente:useCookie("user-data").value.nome
       })
       $toast.success("Observação registrada com sucesso");
     }

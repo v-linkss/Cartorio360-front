@@ -10,7 +10,7 @@
           >
             <img
             class="mt-3 "
-              style="width: 40px; height: 40px"
+              style="width: 40px; height: 40px;cursor: pointer;"
               src="../../assets/escanear.png"
               alt="Escanear"
             />
@@ -20,8 +20,8 @@
             title="Criar"
           >
             <img
-            class="mt-3 ml-2"
-              style="width: 40px; height: 40px"
+              class="mt-3 ml-2"
+              style="width: 40px; height: 40px;cursor: pointer;"
               src="../../assets/novo.png"
               alt="Criar"
             />
@@ -113,9 +113,8 @@ async function handleScannerClick() {
   }
 }
 
-// Função para acionar o scanner
 async function openScanner() {
-
+console.log({ tipo: 'ato_minuta', token: token ,cartorio_token:useCookie("user-data").value.cartorio_token})
   try {
     const { data } = await useFetch(acionarScanner, { method: 'GET' });
 
@@ -126,10 +125,11 @@ async function openScanner() {
 
 async function enviarArquivo() {
   try {
-    const { status } = await useFetch(viewDoc, {
+    const { data,status } = await useFetch(viewDoc, {
       method: 'POST',
-      body: { tipo: 'ficha', pessoa_token: token }
+      body: { tipo: 'ato_minuta', token: token ,cartorio_token:useCookie("user-data").value.cartorio_token}
     });
+    console.log(data.value)
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }
