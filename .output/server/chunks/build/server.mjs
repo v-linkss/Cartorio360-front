@@ -665,7 +665,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-DSDJQCBn.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-DIqiBbhQ.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
@@ -707,7 +707,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-Boes7dxe.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-D9zQ3Hmc.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",

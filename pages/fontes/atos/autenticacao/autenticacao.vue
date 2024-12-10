@@ -120,14 +120,12 @@ const etiquetaAutentica = async (ato_token) => {
       ato_token: ato_token,
     },
   });
-
   if (status.value === "success") {
     goBack();
-    // const newWindow = window.open("", "_blank");
-    // newWindow.document.open();
-    console.log(data.value)
-    // newWindow.document.write(data.value.etiqueta);
-    // newWindow.document.close();
+    const newWindow = window.open("", "_blank");
+    newWindow.document.open();
+    newWindow.document.write(data.value.etiqueta);
+    newWindow.document.close();
   }
 };
 
