@@ -8,6 +8,9 @@
         width="600"
         cover
       ></v-img>
+      <v-card>
+      <div ref="livro" style="height: 600px; overflow-y: auto;"></div>
+    </v-card>
     </div>
     <img
           @click="isModalCondOpen = true"
@@ -35,12 +38,13 @@ const route = useRoute();
 const condMessage = ref('Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?')
 const baixarDocumento = `${config.public.managemant}/download`;
 const isModalCondOpen = ref(false)
+const livro = ref("https://www.cartorio360.com.br:24468/cartorio-1/ato-xkyaA/ato-xkyaA-2024-12-08T17%3A50%3A42.813Z.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=33a9bf3d4c%2F20241210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241210T124214Z&X-Amz-Expires=600000&X-Amz-SignedHeaders=host&X-Amz-Signature=1d5fbe3cb7817eff4067be8e473853791dad62904cbb8f7d4eefca960450731b")
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
-  body: { bucket: "cartorio-1", path: "ato-xkyaA/ato-xkyaA" },
+  body: { bucket: useCookie("user-data").value.cartorio_token.toLowerCase(), path: "ato/Yuz2x/ato_minuta-2024-12-10T12:07:12.265Z" },
 });
-
+console.log(data.value)
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;

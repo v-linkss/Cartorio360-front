@@ -81,15 +81,17 @@
 </template>
 
 <script setup>
-
+const props = defineProps({
+  ato_token: {
+    type: String,
+    required: true,
+  },
+});
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const viewDoc = `${config.public.envioDoc}`;
 const acionarScanner = `${config.public.biometria}/run-scanner`;
-const tokenCookie = useCookie('pessoa_token');
-const token = tokenCookie.value;
 const anexos = ref([])
 
 const state = reactive({
@@ -114,7 +116,6 @@ async function handleScannerClick() {
 }
 
 async function openScanner() {
-console.log({ tipo: 'ato_minuta', token: token ,cartorio_token:useCookie("user-data").value.cartorio_token})
   try {
     const { data } = await useFetch(acionarScanner, { method: 'GET' });
 
@@ -125,9 +126,9 @@ console.log({ tipo: 'ato_minuta', token: token ,cartorio_token:useCookie("user-d
 
 async function enviarArquivo() {
   try {
-    const { data,status } = await useFetch(viewDoc, {
+    const { data,status } = await useFetch("http://localhost:3500/uploadAnexo", {
       method: 'POST',
-      body: { tipo: 'ato_minuta', token: token ,cartorio_token:useCookie("user-data").value.cartorio_token}
+      body: { tipo: 'ato_translado', token: props.ato_token ,cartorio_token:useCookie("user-data").value.cartorio_token}
     });
     console.log(data.value)
   } catch (error) {

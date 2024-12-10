@@ -27,7 +27,7 @@
         <ProcuracaoObservacao :ato_id="ato_id_prop" />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="anexo">
-        <ProcuracaoAnexos />
+        <ProcuracaoAnexos :ato_token="ato_token_prop"/>
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>

@@ -1,5 +1,4 @@
 <template>
-  {{ props.ato_token }}
   <v-row class="ml-4 mt-4 mb-4">
     <v-btn size="large" color="green" @click="salvarDocumento">Salvar</v-btn>
     <NuxtLink class="ml-4">
@@ -53,9 +52,9 @@ const salvarDocumento = async() =>{
 
   const formData = new FormData();
   formData.append("file", blob, `anexo.docx`);
-  formData.append("bucket", "cartorio-1");
+  formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
   formData.append("token", props.ato_token);
-  formData.append("tipo", "ato");
+  formData.append("tipo", "ato_minuta");
 
   const { data,status } = await useFetch(enviarDocumento, {
       method: "POST",

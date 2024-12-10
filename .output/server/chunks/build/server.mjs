@@ -665,12 +665,12 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-DIqiBbhQ.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-DSDJQCBn.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DubwLcaf.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-ChnLw35Z.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -707,7 +707,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CAIKIXbk.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-Boes7dxe.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
