@@ -109,10 +109,9 @@ async function onSubmit() {
         user_alteracao_id:useCookie("user-data").value.usuario_id
       },
     });
-  
     if (status.value === "success") {
       $toast.success("Situação registrada com sucesso");
-      emit("saved",data.value.id);
+      emit("saved", { id: data.value.id, token: data.value.token });
     }
   } else {
     $toast.error("Preencha os campos obrigatorios.");

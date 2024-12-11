@@ -3,7 +3,7 @@ import { V as VTextField, e as VBtn, b as useRuntimeConfig, d as useCookie, a as
 import { ref, withAsyncContext, mergeProps, withCtx, createVNode, unref, createTextVNode, withModifiers, useSSRContext } from 'vue';
 import { a as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
-import { V as VCard, b as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';
+import { V as VCard, c as VCardTitle, a as VCardActions } from './VCard-DyET5wem.mjs';
 import { V as VForm } from './VForm-CswDZHD8.mjs';
 import { V as VContainer } from './VContainer-BgUKde2W.mjs';
 import { V as VAutocomplete } from './VAutocomplete-B1xN05m5.mjs';

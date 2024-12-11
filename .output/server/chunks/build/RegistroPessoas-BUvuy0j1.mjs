@@ -6,7 +6,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import { c as cpf } from './validaCpf-DuucUl6O.mjs';
 import { V as VDialog } from './VDialog-BwIFCBiT.mjs';
-import { V as VCard, b as VCardTitle } from './VCard-DyET5wem.mjs';
+import { V as VCard, c as VCardTitle } from './VCard-DyET5wem.mjs';
 import { V as VContainer } from './VContainer-BgUKde2W.mjs';
 import { V as VRow } from './VRow-TyzvXDuI.mjs';
 import { V as VCol } from './VCol-pkLQlHzw.mjs';

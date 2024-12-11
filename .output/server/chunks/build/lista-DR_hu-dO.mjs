@@ -9,7 +9,7 @@ import { _ as _imports_1, a as _imports_2 } from './excluido-BjtyjLDf.mjs';
 import { V as VContainer } from './VContainer-BgUKde2W.mjs';
 import { V as VRow } from './VRow-TyzvXDuI.mjs';
 import { V as VDialog } from './VDialog-BwIFCBiT.mjs';
-import { V as VCard, b as VCardTitle, c as VCardText, a as VCardActions } from './VCard-DyET5wem.mjs';
+import { V as VCard, c as VCardTitle, b as VCardText, a as VCardActions } from './VCard-DyET5wem.mjs';
 import { V as VForm } from './VForm-CswDZHD8.mjs';
 import { V as VAutocomplete } from './VAutocomplete-B1xN05m5.mjs';
 import '../runtime.mjs';

@@ -670,7 +670,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-SDfMeoLy.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-ChnLw35Z.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -707,7 +707,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CeoLjW50.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-D9zQ3Hmc.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -722,12 +722,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BjYLSA1z.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-8Xe7cyOh.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-SXo-5f1C.mjs').then((m) => m.default || m)
+    component: () => import('./index-Cbl1yUOq.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
@@ -737,7 +737,7 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-Bn4qWW0M.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CmUxu2j3.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-criar-selo",
