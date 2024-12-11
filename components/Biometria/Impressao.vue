@@ -25,7 +25,6 @@ const consultaFicha = async () => {
       pessoa_token: useCookie('pessoa_token').value
     }
   });
-  
   printHtml.value = response.data.value;
 };
 const printContent = async() => {
@@ -38,7 +37,6 @@ const printContent = async() => {
   iframe.style.border = "none";
   document.body.appendChild(iframe);
 
-  // Pega o documento do iframe e insere o HTML retornado
   const doc = iframe.contentWindow.document;
   doc.open();
   doc.write(printHtml.value);

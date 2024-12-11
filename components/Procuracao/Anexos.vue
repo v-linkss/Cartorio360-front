@@ -53,17 +53,18 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                @click="deletePessoa(item)"
+                @click="deleteAnexo(item)"
                 title="Deletar Pessoa"
               >
-                <!-- <img
+                <img
                   v-if="item.excluido"
                   style="width: 30px; height: 30px"
                   src="../../assets/excluido.png"
                   alt="Visualizar"
                   title="Reativar"
-                /> -->
+                />
                 <img
+                 v-else
                   src="../../assets/mudarStatus.png"
                   alt="Excluir"
                   class="trash-icon"
@@ -86,12 +87,19 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  ato_id: {
+    type: Number,
+    required: true,
+  },
 });
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
 const acionarScanner = `${config.public.biometria}/run-scanner`;
+const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+
 const anexos = ref([])
 
 const state = reactive({
@@ -130,17 +138,37 @@ async function enviarArquivo() {
       method: 'POST',
       body: { tipo: 'ato_translado', token: props.ato_token ,cartorio_token:useCookie("user-data").value.cartorio_token}
     });
-    console.log(data.value)
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }
 }
 
-const createAnexo = async()=>{
-  const anexo = {
-    descricao:state.descricao
+const createAnexo = async () => {
+  const { data, error, status } = await useFetch(criarAtoAnexo, {
+    method: "POST",
+    body: {
+      ato_id: props.ato_id,
+      descricao: state.descricao,
+      user_id: useCookie("user-data").value.usuario_id,
+      link:"sdfsdfsdf"
+    },
+  });
+  if(status.value==='success'){
+    $toast.success("Anexo registrado com sucesso!")
+    anexos.value.push(data.value)
   }
-  anexos.value.push(anexo)
+};
+
+async function deleteAnexo(item) {
+  item.excluido = !item.excluido;
+  try {
+    await useFetch(`${atualizarAtoAnexo}/${item.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ excluido: item.excluido }),
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
 }
 
 const goBack = () => {

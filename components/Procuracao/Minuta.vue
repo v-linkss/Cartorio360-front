@@ -37,6 +37,7 @@ const config = useRuntimeConfig();
 const {$toast} = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const emit = defineEmits(["page"]);
 registerLicense(
  `${config.public.docEditor}`
 );
@@ -63,16 +64,13 @@ const salvarDocumento = async() =>{
 
     if (status.value === "success") {
       $toast.success("Documento enviado!");
+      const document = documentEditorContainer.value.ej2Instances.documentEditor;
+      const pageCount = document.pageCount; 
+      emit("page",pageCount)
     } else {
       $toast.error("Erro ao enviar documento para o sistema.");
     }
 }
-
-const mostrarNumeroPaginas = () => {
-  const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  const pageCount = document.pageCount; // Obtem o número de páginas do documento
-  $toast.info(`O documento possui ${pageCount} página(s).`);
-};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

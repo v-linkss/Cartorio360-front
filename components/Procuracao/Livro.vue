@@ -8,20 +8,43 @@
         width="600"
         cover
       ></v-img>
-      <v-card>
-      <div ref="livro" style="height: 600px; overflow-y: auto;"></div>
-    </v-card>
     </div>
-    <img
-          @click="isModalCondOpen = true"
-          class="ml-15"
-          style="height: 40px; width: 40px; cursor: pointer"
-          src="../../assets/lavrar.png"
-        >
-        </img>
+    <div>
+      <img
+        @click="isModalCondOpen = true"
+        class="ml-15"
+        style="height: 40px; width: 40px; cursor: pointer"
+        src="../../assets/lavrar.png"
+      />
+      <v-card v-if="lavraData" class="ml-8 mt-5">
+        <v-row no-gutters>
+          <v-col>
+            <v-sheet style="font-weight: bold;" class="pa-2 ma-2">
+              Livro: {{ lavraData[0].livro_numero }}
+            </v-sheet>
+          </v-col>
+          <v-col>
+            <v-sheet style="font-weight: bold;" class="pa-2 ma-2">
+              Folhas : {{ lavraData[0].pagina_inicial }} Á
+              {{ lavraData[0].pagina_final }}
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <!-- <div>
+          <div v-html="selo">
+
+          </div>
+        </div> -->
+      </v-card>
+    </div>
   </div>
   <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
-  <ModalConfirmacao :show="isModalCondOpen" :condMessage="condMessage" @close="isModalCondOpen = false"/>
+  <ModalConfirmacao
+    :show="isModalCondOpen"
+    :condMessage="condMessage"
+    @close="isModalCondOpen = false"
+    @confirm="confirmLavrar"
+  />
 </template>
 
 <script setup>
@@ -30,21 +53,53 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  pages: {
+    type: Number,
+    required: true,
+  },
 });
+
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const condMessage = ref('Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?')
 const baixarDocumento = `${config.public.managemant}/download`;
-const isModalCondOpen = ref(false)
-const livro = ref("https://www.cartorio360.com.br:24468/cartorio-1/ato-xkyaA/ato-xkyaA-2024-12-08T17%3A50%3A42.813Z.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=33a9bf3d4c%2F20241210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241210T124214Z&X-Amz-Expires=600000&X-Amz-SignedHeaders=host&X-Amz-Signature=1d5fbe3cb7817eff4067be8e473853791dad62904cbb8f7d4eefca960450731b")
+const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const condMessage = ref(
+  "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
+);
+const isModalCondOpen = ref(false);
+const lavraData = ref(null);
+const selo = ref(null);
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
-  body: { bucket: useCookie("user-data").value.cartorio_token.toLowerCase(), path: "ato/Yuz2x/ato_minuta-2024-12-10T12:07:12.265Z" },
+  body: { bucket: "cartorio-1", path: "ato-xkyaA/ato-xkyaA" },
 });
-console.log(data.value)
+
+const lavraAto = async () => {
+  try {
+    const { data, status } = await useFetch(lavraAtoLivro, {
+      method: "POST",
+      body: { ato_token: props.ato_token, qtd_paginas: props.pages },
+    });
+
+    if (status.value === "success") {
+      lavraData.value = data.value;
+      $toast.success("Ato lavrado com sucesso!");
+    } else {
+      $toast.error("Falha ao lavrar o ato.");
+    }
+  } catch (error) {
+    $toast.error("Erro ao conectar com o servidor.");
+  }
+};
+
+const confirmLavrar = () => {
+  isModalCondOpen.value = false;
+  lavraAto();
+};
+
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
