@@ -2,6 +2,7 @@
 const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/tipo-selos`;
 const updateSelo = `${config.public.managemant}/tipo-selos`;
+const findSelo = `${config.public.managemant}/tipo-selos`;
 const deleteSelo = `${config.public.managemant}/tipo-selos-delete`;
 const getUfs = `${config.public.managemant}/uf`;
 
@@ -32,31 +33,6 @@ const headers = [
   { title: "Ações", value: "actions", sortable: false },
 ];
 
-function editSelo(item) {
-  editForm.value = { ...item };
-  isEditModalOpen.value = true;
-}
-
-async function HandleSubmitEdit() {
-  try {
-    const edicaoSelo = {
-      uf: editForm.value.uf,
-      cor: editForm.value.cor,
-      descricao: editForm.value.descricao,
-      vlr_compra: editForm.value.vlr_compra,
-    };
-
-    await useFetch(`${updateSelo}/${editForm.value.id}`, {
-      method: "PUT",
-      body: edicaoSelo,
-    });
-    location.reload();
-    isEditModalOpen = false;
-  } catch (error) {
-    console.error("Erro ao atualizar pessoa:", error);
-  }
-}
-
 async function HandleDeleteSelo(item) {
   item.excluido = !item.excluido;
 
@@ -75,10 +51,12 @@ async function HandleDeleteSelo(item) {
 
 <template>
   <v-container>
-    <NuxtLink to="/tiposSelos/criar-selo">
-      <img class="btn-pointer" src="../../assets/novo.png" alt="Cadastro" />
-    </NuxtLink>
-
+    <v-row class="mb-5 mt-5">
+      <NuxtLink to="/tiposSelos/cadastro">
+        <img class="btn-pointer" src="../../assets/novo.png" alt="Cadastro" />
+      </NuxtLink>
+      <h1 class="mt-3 ml-3">Tipos de Selos</h1>
+    </v-row>
     <v-data-table
       :items="selosList"
       :headers="headers"
@@ -88,12 +66,13 @@ async function HandleDeleteSelo(item) {
         <v-row style="margin-top: -6px;">
 
           <div>
+          <nuxt-link :to="`/tiposSelos/atualizar/${item.id}`">
             <img
-              @click="editSelo(item)"
               style="width: 30px; height: 30px;cursor: pointer;"
               src="../../assets/editar.png"
               alt="Atualizar"
             />
+          </nuxt-link>
           </div>
   
           <div @click="HandleDeleteSelo(item)" title="Deletar">
@@ -143,12 +122,12 @@ async function HandleDeleteSelo(item) {
             outlined
           />
           <MoneyInput required v-model="editForm.vlr_compra" />
-          <v-card-actions>
+          <v-row>
             <v-btn type="submit" color="green" size="large">Salvar</v-btn>
             <v-btn color="red" size="large" @click="isEditModalOpen = false"
               >Cancelar</v-btn
             >
-          </v-card-actions>
+          </v-row>
         </v-form>
       </v-card-text>
     </v-card>
