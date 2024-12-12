@@ -36,6 +36,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  pages: {
+    type: Number,
+    required: true,
+  },
 });
 
 const serviceUrl = "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";

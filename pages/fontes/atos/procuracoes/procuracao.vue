@@ -18,16 +18,16 @@
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="minuta">
-        <ProcuracaoMinuta :ato_token="ato_token_prop"/>
+        <ProcuracaoMinuta @page="getPages" :ato_token="ato_token_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="livro">
-        <ProcuracaoLivro />
+        <ProcuracaoLivro :pages="pages_prop" :ato_token="ato_token_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="observacao">
         <ProcuracaoObservacao :ato_id="ato_id_prop" />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="anexo">
-        <ProcuracaoAnexos :ato_token="ato_token_prop"/>
+        <ProcuracaoAnexos :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
@@ -43,6 +43,7 @@ const props = defineProps({
 
 const ato_id_prop = ref(null);
 const ato_token_prop = ref(null);
+const pages_prop = ref(null)
 const tab = ref(null);
 const showTabs = ref(false);
 const selectedAto = ref(props.ato_token);
@@ -52,6 +53,8 @@ const handleSave = ({id,token}) => {
   ato_token_prop.value = token
   showTabs.value = true;
 };
-</script>
 
-<style scoped></style>
+const getPages = (pages) =>{
+  pages_prop.value = pages
+}
+</script>
