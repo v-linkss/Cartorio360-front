@@ -2,9 +2,11 @@
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   build: {
     transpile: ["vuetify"],
   },
+
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
@@ -13,6 +15,7 @@ export default defineNuxtConfig({
       });
     },
   ],
+
   vite: {
     vue: {
       template: {
@@ -20,16 +23,19 @@ export default defineNuxtConfig({
       },
     },
   },
+
   runtimeConfig: {
     public: {
-      // auth: process.env.MS_AUTH_DESENV,
-      // managemant:  process.env.MS_MANAGEMENT_DESENV,
+      auth: process.env.MS_AUTH_DESENV,
+      managemant:  process.env.MS_MANAGEMENT_DESENV,
       biometria: process.env.BIOMETRIA,
-      auth: process.env.MS_AUTH,
-      managemant: process.env.MS_MANAGEMENT,
+      // auth: process.env.MS_AUTH,
+      // managemant: process.env.MS_MANAGEMENT,
       envioDoc: process.env.OBSERVER,
       docEditor: process.env.LICENSE_KEY
     },
   },
+
   css: ["~/assets/css/main.css"],
+  compatibilityDate: "2024-12-11",
 });

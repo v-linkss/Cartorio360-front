@@ -1,50 +1,74 @@
 <template>
   <div class="d-flex align-center justify-center">
     <div>
-      <v-img
-        class="mt-10 mb-5"
-        :aspect-ratio="1"
-        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-        width="600"
-        cover
-      ></v-img>
       <v-card>
-      <div ref="livro" style="height: 600px; overflow-y: auto;"></div>
-    </v-card>
+        <div ref="livro" style="height: 600px; overflow-y: auto;">
+          <ejs-documenteditorcontainer
+            :restrictEditing="true"
+            :enableToolbar="false"
+            v-bind:created="onCreated"
+            ref="documentEditorContainer"
+            height="590px"
+          >
+          </ejs-documenteditorcontainer>
+        </div>
+      </v-card>
     </div>
     <img
-          @click="isModalCondOpen = true"
-          class="ml-15"
-          style="height: 40px; width: 40px; cursor: pointer"
-          src="../../assets/lavrar.png"
-        >
-        </img>
+      @click="isModalCondOpen = true"
+      class="ml-15"
+      style="height: 40px; width: 40px; cursor: pointer"
+      src="../../assets/lavrar.png"
+    />
+    <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
+    <ModalConfirmacao :show="isModalCondOpen" :condMessage="condMessage" @close="isModalCondOpen = false" />
   </div>
-  <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
-  <ModalConfirmacao :show="isModalCondOpen" :condMessage="condMessage" @close="isModalCondOpen = false"/>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import Cookies from 'js-cookie';
+import { DocumentEditorContainerComponent as EjsDocumenteditorcontainer } from '@syncfusion/ej2-vue-documenteditor';
+import { registerLicense } from "@syncfusion/ej2-base";
+
 const props = defineProps({
   ato_token: {
     type: String,
     required: true,
   },
 });
+
+const serviceUrl = "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const condMessage = ref('Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?')
-const baixarDocumento = `${config.public.managemant}/download`;
-const isModalCondOpen = ref(false)
-const livro = ref("https://www.cartorio360.com.br:24468/cartorio-1/ato-xkyaA/ato-xkyaA-2024-12-08T17%3A50%3A42.813Z.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=33a9bf3d4c%2F20241210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241210T124214Z&X-Amz-Expires=600000&X-Amz-SignedHeaders=host&X-Amz-Signature=1d5fbe3cb7817eff4067be8e473853791dad62904cbb8f7d4eefca960450731b")
+const condMessage = ref('Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma?');
+const isModalCondOpen = ref(false);
+const documentEditorContainer = ref(null);
 
-const { data, status } = await useFetch(baixarDocumento, {
-  method: "POST",
-  body: { bucket: useCookie("user-data").value.cartorio_token.toLowerCase(), path: "ato/Yuz2x/ato_minuta-2024-12-10T12:07:12.265Z" },
-});
-console.log(data.value)
+registerLicense(`${config.public.docEditor}`);
+
+// Função para abrir o documento do cookie
+const openDocumentFromCookie = () => {
+  const documentString = useCookie('document-data').value; // Lê o cookie
+
+  if (documentString) {
+    // const decodedDocumentString = decodeURIComponent(documentString.value);
+    // console.log("Decodificado")
+    // console.log(decodedDocumentString)
+
+    // Abre o documento no editor
+    // documentEditorContainer.value.ej2Instances.documentEditor.open(documentString);
+    // console.log(documentString)
+    // documentString.value =''
+    return documentString
+  } else {
+    $toast.error("Nenhum documento encontrado nos cookies.");
+  }
+};
+
+
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
@@ -54,4 +78,27 @@ const goBack = () => {
     router.push("/os/criar-registro");
   }
 };
+
+const onCreated = function () {
+  // Chama a função para abrir o documento do cookie quando o editor é criado
+  const doc = openDocumentFromCookie();
+  const docString =JSON.stringify(doc)
+  console.log(docString);
+  //Open default document in Document Editor.
+  documentEditorContainer.value.ej2Instances.documentEditor.open(docString); // Abre o documento no editor (doc.);
+  // let obj = documentEditorContainer.value.ej2Instances.documentEditor;
+  // obj.editor.paste(doc);
+};
 </script>
+
+<style>
+@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import "../../node_modules/@syncfusion/ej2-vue-documenteditor/styles/material.css";
+</style>
