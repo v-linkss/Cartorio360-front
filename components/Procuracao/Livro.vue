@@ -1,43 +1,53 @@
 <template>
-  <div class="d-flex align-center justify-center">
-    <div>
-      <v-img
-        class="mt-10 mb-5"
-        :aspect-ratio="1"
-        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-        width="600"
-        cover
-      ></v-img>
-    </div>
-    <div>
-      <img
-        @click="isModalCondOpen = true"
-        class="ml-15"
-        style="height: 40px; width: 40px; cursor: pointer"
-        src="../../assets/lavrar.png"
-      />
-      <v-card v-if="lavraData" class="ml-8 mt-5">
-        <v-row no-gutters>
-          <v-col>
-            <v-sheet style="font-weight: bold;" class="pa-2 ma-2">
-              Livro: {{ lavraData[0].livro_numero }}
-            </v-sheet>
-          </v-col>
-          <v-col>
-            <v-sheet style="font-weight: bold;" class="pa-2 ma-2">
-              Folhas : {{ lavraData[0].pagina_inicial }} Á
-              {{ lavraData[0].pagina_final }}
-            </v-sheet>
-          </v-col>
-        </v-row>
-        <!-- <div>
-          <div v-html="selo">
+  <v-row>
+    <v-col>
+      <ejs-documenteditorcontainer
+        :restrictEditing="true"
+        :enableToolbar="false"
+        v-bind:created="onCreated"
+        ref="documentEditorContainer"
+        height="850px"
+        width="850px"
+      >
+      </ejs-documenteditorcontainer>
+    </v-col>
+    <v-col>
+      <div class="d-flex align-center justify-center">
+        <div>
+          <img
+            @click="isModalCondOpen = true"
+            class="ml-15"
+            style="
+              height: 40px;
+              width: 40px;
+              cursor: pointer;
+              margin-top: 350px;
+            "
+            src="../../assets/lavrar.png"
+          />
+          <v-card v-if="lavraData" class="ml-8 mt-5">
+            <v-row no-gutters>
+              <v-col>
+                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+                  Livro: {{ lavraData[0].livro_numero }}
+                </v-sheet>
+              </v-col>
+              <v-col>
+                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+                  Folhas : {{ lavraData[0].pagina_inicial }} Á
+                  {{ lavraData[0].pagina_final }}
+                </v-sheet>
+              </v-col>
+            </v-row>
+            <div v-html="selo">
 
-          </div>
-        </div> -->
-      </v-card>
-    </div>
-  </div>
+            </div>
+          </v-card>
+        </div>
+      </div>
+    </v-col>
+  </v-row>
+
   <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
   <ModalConfirmacao
     :show="isModalCondOpen"
@@ -48,6 +58,8 @@
 </template>
 
 <script setup>
+import { DocumentEditorContainerComponent as EjsDocumenteditorcontainer } from "@syncfusion/ej2-vue-documenteditor";
+import { registerLicense } from "@syncfusion/ej2-base";
 const props = defineProps({
   ato_token: {
     type: String,
@@ -57,9 +69,13 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  document: {
+    type: String,
+    required: true,
+  },
 });
-
 const config = useRuntimeConfig();
+registerLicense(`${config.public.docEditor}`);
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
@@ -71,6 +87,7 @@ const condMessage = ref(
 const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
+const documentEditorContainer = ref(null);
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
@@ -86,6 +103,7 @@ const lavraAto = async () => {
 
     if (status.value === "success") {
       lavraData.value = data.value;
+      selo.value = data.value[0].selo
       $toast.success("Ato lavrado com sucesso!");
     } else {
       $toast.error("Falha ao lavrar o ato.");
@@ -98,6 +116,12 @@ const lavraAto = async () => {
 const confirmLavrar = () => {
   isModalCondOpen.value = false;
   lavraAto();
+};
+
+const onCreated = function () {
+  documentEditorContainer.value.ej2Instances.documentEditor.open(
+    props.document
+  );
 };
 
 const goBack = () => {

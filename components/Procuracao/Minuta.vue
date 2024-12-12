@@ -37,7 +37,7 @@ const config = useRuntimeConfig();
 const {$toast} = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const emit = defineEmits(["page"]);
+const emit = defineEmits(["page","doc"]);
 registerLicense(
  `${config.public.docEditor}`
 );
@@ -46,6 +46,18 @@ const enviarDocumento = `${config.public.managemant}/upload`;
 const serviceUrl =
   "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
 const documentEditorContainer = ref(null);
+
+const onDocumentChange = async () => {
+  const document = documentEditorContainer.value.ej2Instances.documentEditor;
+  const sfdt = await document.saveAsBlob("Sfdt");
+  const reader = new FileReader();
+  reader.onload = () => {
+    const sfdtText = reader.result;
+    console.log(sfdtText)
+    emit("doc",sfdtText)
+  };
+  reader.readAsText(sfdt);
+};
 
 const salvarDocumento = async() =>{
   const document = documentEditorContainer.value.ej2Instances.documentEditor
@@ -66,6 +78,7 @@ const salvarDocumento = async() =>{
       $toast.success("Documento enviado!");
       const document = documentEditorContainer.value.ej2Instances.documentEditor;
       const pageCount = document.pageCount; 
+      onDocumentChange()
       emit("page",pageCount)
     } else {
       $toast.error("Erro ao enviar documento para o sistema.");

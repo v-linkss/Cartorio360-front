@@ -18,10 +18,10 @@
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="minuta">
-        <ProcuracaoMinuta @page="getPages" :ato_token="ato_token_prop"/>
+        <ProcuracaoMinuta @page="getPages" @doc="getDocument" :ato_token="ato_token_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="livro">
-        <ProcuracaoLivro :pages="pages_prop" :ato_token="ato_token_prop"/>
+        <ProcuracaoLivro :pages="pages_prop" :ato_token="ato_token_prop" :document="doc_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="observacao">
         <ProcuracaoObservacao :ato_id="ato_id_prop" />
@@ -44,6 +44,7 @@ const props = defineProps({
 const ato_id_prop = ref(null);
 const ato_token_prop = ref(null);
 const pages_prop = ref(null)
+const doc_prop = ref(null)
 const tab = ref(null);
 const showTabs = ref(false);
 const selectedAto = ref(props.ato_token);
@@ -56,5 +57,11 @@ const handleSave = ({id,token}) => {
 
 const getPages = (pages) =>{
   pages_prop.value = pages
+}
+
+const getDocument = (doc) =>{
+  console.log("sdfslik")
+  console.log(doc)
+  doc_prop.value = doc
 }
 </script>

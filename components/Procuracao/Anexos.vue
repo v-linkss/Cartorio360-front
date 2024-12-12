@@ -37,8 +37,8 @@
                   justify-content: flex-end;
                 "
                 class="mr-2"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
+                @click="redirectToAnexo(item)"
+                title="Visualizar Anexo"
               >
                 <img
                   style="width: 30px; height: 30px"
@@ -75,6 +75,17 @@
             </v-row>
           </template>
     </v-data-table>
+    <v-dialog v-model="isModalAnexoOpen" width="600">
+      <v-card max-width="600" title="Anexo">
+        <v-btn
+          class="ms-auto mt-3 mb-3"
+          text="Fechar"
+          size="large"
+          color="red"
+          @click="isModalAnexoOpen = false"
+        ></v-btn>
+      </v-card>
+    </v-dialog>
     <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
@@ -99,6 +110,7 @@ const route = useRoute();
 const acionarScanner = `${config.public.biometria}/run-scanner`;
 const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
 const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+const isModalAnexoOpen = ref(false)
 
 const anexos = ref([])
 
@@ -142,6 +154,10 @@ async function enviarArquivo() {
     console.error('Erro ao enviar o arquivo:', error);
   }
 }
+
+const redirectToAnexo = async () => {
+    isModalAnexoOpen.value = true
+};
 
 const createAnexo = async () => {
   const { data, error, status } = await useFetch(criarAtoAnexo, {
