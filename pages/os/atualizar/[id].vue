@@ -86,7 +86,7 @@
             </div>
             <div
               :class="{ disabled: !item.btn_editar }"
-              @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+              @click="item.btn_editar ? redirectToUpdateAto({id:item.id,tipo:item.tipo}) : null"
               :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
             >
               <img
@@ -99,7 +99,6 @@
                 alt="Editar"
               />
             </div>
-
             <div
               :disabled="!item.btn_cancelar"
               @click="item.btn_cancelar ? deleteEndereco(item) : null"
@@ -209,6 +208,11 @@ const redirectToModalReimprimir = (token) => {
   isModalReimprimirOpen.value = true;
 };
 
+const redirectToUpdateAto = (item) => {
+    if(item.tipo === "PROCURAÇÃO"){
+        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id}})
+    }
+};
 async function onUpdate() {
   const payloadFormated = {
     apresentante_cpf: removeFormatting(state.apresentante_cpf),

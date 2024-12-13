@@ -7,7 +7,7 @@
           v-model="state.status"
           :items="situacoesItems"
           item-title="descricao"
-          item-value="token"
+          item-value="descricao"
           required
           :error-messages="v$.status.$errors.map((e) => e.$message)"
           @blur="v$.status.$touch"
@@ -68,9 +68,6 @@ const allSituacoes = `${config.public.managemant}/listarSituacoes`;
 const createAtoProcuracao = `${config.public.managemant}/createAtos`;
 const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const body = route.query.id
-  ? { ato_token: props.ato_token }
-  : { cartorio_token: cartorio_token };
 const ordemserv_id =
   ref(useCookie("user-service").value.id).value ||
   ref(useCookie("user-service").value).value;
@@ -128,7 +125,7 @@ function getCurrentDate() {
 
 const { data: situacaoData } = await useFetch(allSituacoes, {
   method: "POST",
-  body: body,
+  body: {cartorio_token:cartorio_token.value},
 });
 situacoesItems.value = situacaoData.value;
 

@@ -245,5 +245,5 @@ function generateOptionSegments(opts) {
   return segments;
 }
 
-export { useFetch as a, useLazyAsyncData as b, useLazyFetch as u };
+export { useLazyFetch as a, useLazyAsyncData as b, useFetch as u };
 //# sourceMappingURL=fetch-bT3G74K0.mjs.map
