@@ -115,14 +115,6 @@ async function onSubmit() {
   }
 }
 
-function getCurrentDate() {
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const MM = String(today.getMonth() + 1).padStart(2, "0");
-  const dd = String(today.getDate()).padStart(2, "0");
-  return `${yyyy}-${MM}-${dd}`;
-}
-
 const { data: situacaoData } = await useFetch(allSituacoes, {
   method: "POST",
   body: {cartorio_token:cartorio_token.value},
