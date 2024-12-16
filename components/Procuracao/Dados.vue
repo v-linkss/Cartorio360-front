@@ -74,7 +74,7 @@ const ordemserv_id =
 const situacoesItems = ref([]);
 
 const state = reactive({
-  dt_abertura: getCurrentDate(),
+  dt_abertura: null,
   status: null,
   mne: null,
 });

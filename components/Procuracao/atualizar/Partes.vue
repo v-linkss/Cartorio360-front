@@ -11,7 +11,7 @@
       <div>
         <img
           class="mt-3"
-          src="../../assets/visualizar.png"
+          src="../../../assets/visualizar.png"
           style="width: 40px; cursor: pointer"
           title="Pesquisar Pessoa"
           @click="searchPessoasService"
@@ -20,7 +20,7 @@
       <div>
         <img
           class="mt-3 ml-2"
-          src="../../assets/novo.png"
+          src="../../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Pessoa"
           @click="createPessoa"
@@ -55,7 +55,7 @@
       <div>
         <img
           class="mt-3"
-          src="../../assets/novo.png"
+          src="../../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Representante"
           @click="createRepresentante"
@@ -84,7 +84,7 @@
               >
                 <img
                   style="width: 30px; height: 30px"
-                  src="../../assets/visualizar.png"
+                  src="../../../assets/visualizar.png"
                   alt="Visualizar"
                 />
               </div>
@@ -100,7 +100,7 @@
               >
                 <img
                   style="width: 30px; height: 30px"
-                  src="../../assets/editar.png"
+                  src="../../../assets/editar.png"
                   alt="Visualizar"
                 />
               </div>
@@ -117,13 +117,13 @@
                 <img
                   v-if="item.excluido"
                   style="width: 30px; height: 30px"
-                  src="../../assets/excluido.png"
+                  src="../../../assets/excluido.png"
                   alt="Visualizar"
                   title="Reativar"
                 />
                 <img
                   v-else
-                  src="../../assets/mudarStatus.png"
+                  src="../../../assets/mudarStatus.png"
                   alt="Excluir"
                   class="trash-icon"
                   style="width: 30px; height: 30px"
@@ -142,7 +142,7 @@
               >
                 <img
                   style="width: 30px; height: 30px"
-                  src="../../assets/btn-pessoa.png"
+                  src="../../../assets/btn-pessoa.png"
                   alt="Visualizar"
                 />
               </div>
@@ -166,8 +166,8 @@
     />
     <ModalPapel
       :representante_nome="representante_nome"
-      :ato_token="props.ato_token"
-      :ato_id="ato_pessoa_id"
+      :ato_token="ato_token"
+      :ato_id="ato_papel_id"
       :show="isModalPapelOpen"
       @close="isModalPapelOpen = false"
       @updatePapel="atualizarPapel"
@@ -198,10 +198,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  ato_id: {
-    type: Number,
-    required: true,
-  },
 });
 
 const router = useRouter();
@@ -213,6 +209,7 @@ const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const pessoasItems = ref([]);
@@ -226,7 +223,9 @@ const isModalPapelOpen = ref(false);
 const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
+const ato_papel_id = ref(null);
 const representante_pessoa_id = ref(null);
+const ato_token = ref("xkyaA");
 const fichaRender = ref(null);
 
 const headers = [
@@ -262,10 +261,35 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
-  body: { tipo_ato_token: props.ato_token },
+  body: { tipo_ato_token: "xkyaA" },
 });
 papeisItems.value = data.value;
 
+const getDadosPartes = async () => {
+  const { data: dadosParte } = await useFetch(
+    `${getPartesId}/${route.query.ato_id}`,
+    {
+      method: "GET",
+    }
+  );
+
+  const transformarObjetos = (listaDePartes) => {
+    return listaDePartes.map((parte) => ({
+      ...parte,
+      pessoa: {
+        ...parte.pessoa,
+        documento: parte.pessoa.doc_identificacao, 
+      },
+      papel: {
+        ...parte.partes_tipos, 
+      },
+    }));
+  };
+  const listaTransformada = transformarObjetos(dadosParte.value);
+  pessoasTable.value = listaTransformada;
+};
+
+ getDadosPartes();
 async function searchPessoasService() {
   try {
     const { data: pessoasData, error } = await useFetch(procurarPessoa, {
@@ -291,36 +315,40 @@ const createPessoa = () => {
   isModalRegistroOpen.value = true;
 };
 
-const atualizarPapel = (descricao) => {
-  const papelEncontrado = pessoasTable.value.find(
-    (item) => item.papel.id === state.papeis
-  );
-  papelEncontrado.papel.descricao = descricao;
+const atualizarPapel = async() => {
+  await getDadosPartes();
 };
-const atualizarRepresentante = (nome) => {
-  const pessoaAtualizada = pessoasTable.value.find(
-    (item) => item.pessoa.id === representante_pessoa_id.value
-  );
-    pessoaAtualizada.representante.nome = nome;
+const atualizarRepresentante = async() => {
+  await getDadosPartes();
 };
 
 const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
-    representante:{nome:null}
+    representante: { nome: null },
   };
+
+  for (const element of pessoasTable.value) {
+    if (
+      element.pessoa_id === state.pessoa.id &&
+      element.tipo_parte_id === state.papeis
+    ) {
+      $toast.error("Pessoa Já Registrada Com Esse Papel!");
+      return;
+    }
+  }
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
     body: {
-      ato_id: props.ato_id,
+      ato_id: route.query.ato_id,
       pessoa_id: state.pessoa.id,
       tipo_parte_id: state.papeis,
       user_id: useCookie("user-data").value.usuario_id,
     },
   });
   if (status.value === "success") {
-    ato_pessoa_id.value = data.value.id
+    ato_pessoa_id.value = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
   }
@@ -344,27 +372,29 @@ const redirectToFicha = async (item) => {
 
 const redirectToRepresentante = (item) => {
   const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id) 
+    .filter((p) => p.pessoa.id !== item.pessoa.id)
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
-    })); 
+    }));
 
-  pessoasRepresentantes.value = pessoasFiltradas
+  ato_pessoa_id.value = item.id;
+  pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
-  representante_pessoa_id.value = item.pessoa.id
+  representante_pessoa_id.value = item.pessoa.id;
 };
 
 const redirectToPapel = (item) => {
   isModalPapelOpen.value = true;
+  ato_papel_id.value = item.id;
   representante_nome.value = item.pessoa.nome;
 };
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${pessoasUpdate}/${ato_pessoa_id.value}`, {
+    await useFetch(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

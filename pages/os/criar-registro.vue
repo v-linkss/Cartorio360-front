@@ -87,7 +87,7 @@
             </div>
             <div
               :class="{ disabled: !item.btn_editar }"
-              @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+              @click="item.btn_editar ? redirectToUpdateAto({id:item.id,tipo:item.tipo,token:item.token}) : null"
               :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
             >
               <img
@@ -209,6 +209,12 @@ function removeFormatting(value) {
     value = null;
   }
 }
+
+const redirectToUpdateAto = (item) => {
+    if(item.tipo === "PROCURAÇÃO"){
+        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token}})
+    }
+};
 
 function limparDados() {
   const serviceCookie = useCookie("user-service");

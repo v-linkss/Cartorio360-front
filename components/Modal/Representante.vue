@@ -40,6 +40,7 @@ const props = defineProps({
   representante_nome: String,
 });
 const isVisible = ref(props.show);
+
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;

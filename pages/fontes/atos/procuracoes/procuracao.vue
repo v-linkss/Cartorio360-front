@@ -60,8 +60,6 @@ const getPages = (pages) =>{
 }
 
 const getDocument = (doc) =>{
-  console.log("sdfslik")
-  console.log(doc)
   doc_prop.value = doc
 }
 </script>

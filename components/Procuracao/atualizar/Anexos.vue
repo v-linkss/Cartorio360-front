@@ -11,7 +11,7 @@
             <img
             class="mt-3 "
               style="width: 40px; height: 40px;cursor: pointer;"
-              src="../../assets/escanear.png"
+              src="../../../assets/escanear.png"
               alt="Escanear"
             />
           </div>
@@ -22,7 +22,7 @@
             <img
               class="mt-3 ml-2"
               style="width: 40px; height: 40px;cursor: pointer;"
-              src="../../assets/novo.png"
+              src="../../../assets/novo.png"
               alt="Criar"
             />
           </div>
@@ -42,7 +42,7 @@
               >
                 <img
                   style="width: 30px; height: 30px"
-                  src="../../assets/visualizar.png"
+                  src="../../../assets/visualizar.png"
                   alt="Visualizar"
                 />
               </div>
@@ -59,13 +59,13 @@
                 <img
                   v-if="item.excluido"
                   style="width: 30px; height: 30px"
-                  src="../../assets/excluido.png"
+                  src="../../../assets/excluido.png"
                   alt="Visualizar"
                   title="Reativar"
                 />
                 <img
                  v-else
-                  src="../../assets/mudarStatus.png"
+                  src="../../../assets/mudarStatus.png"
                   alt="Excluir"
                   class="trash-icon"
                   style="width: 30px; height: 30px"
@@ -93,16 +93,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  ato_token: {
-    type: String,
-    required: true,
-  },
-  ato_id: {
-    type: Number,
-    required: true,
-  },
-});
+
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
@@ -110,6 +101,7 @@ const route = useRoute();
 const acionarScanner = `${config.public.biometria}/run-scanner`;
 const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
 const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+const getAnexos = `${config.public.managemant}/atos_anexos`;
 const isModalAnexoOpen = ref(false)
 
 const anexos = ref([])
@@ -125,6 +117,12 @@ const headers = [
   },
   { text: "Ações", value: "actions" }, 
 ];
+
+const { data } = await useFetch(`${getAnexos}/${route.query.ato_id}`, {
+  method: "GET",
+
+});
+anexos.value = data.value;
 
 async function handleScannerClick() {
   try {
@@ -148,7 +146,7 @@ async function enviarArquivo() {
   try {
     const { data,status } = await useFetch("http://localhost:3500/uploadAnexo", {
       method: 'POST',
-      body: { tipo: 'ato_translado', token: props.ato_token ,cartorio_token:useCookie("user-data").value.cartorio_token}
+      body: { tipo: 'ato_translado', token: route.query.ato_token_edit ,cartorio_token:useCookie("user-data").value.cartorio_token}
     });
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
@@ -163,7 +161,7 @@ const createAnexo = async () => {
   const { data, error, status } = await useFetch(criarAtoAnexo, {
     method: "POST",
     body: {
-      ato_id: props.ato_id,
+      ato_id: route.query.ato_id,
       descricao: state.descricao,
       user_id: useCookie("user-data").value.usuario_id,
       link:"sdfsdfsdf"

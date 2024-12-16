@@ -86,7 +86,7 @@
             </div>
             <div
               :class="{ disabled: !item.btn_editar }"
-              @click="item.btn_editar ? redirectToUpdateAto({id:item.id,tipo:item.tipo}) : null"
+              @click="item.btn_editar ? redirectToUpdateAto({id:item.id,tipo:item.tipo,token:item.token}) : null"
               :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
             >
               <img
@@ -209,8 +209,9 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
+  console.log(item)
     if(item.tipo === "PROCURAÇÃO"){
-        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id}})
+        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token}})
     }
 };
 async function onUpdate() {

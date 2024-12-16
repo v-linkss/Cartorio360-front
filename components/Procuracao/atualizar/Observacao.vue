@@ -14,7 +14,7 @@
       <div>
         <img
           class="btn-pointer ml-2"
-          src="../../assets/novo.png"
+          src="../../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Pessoa"
           @click="onSubmit"
@@ -38,13 +38,13 @@
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px"
-              src="../../assets/excluido.png"
+              src="../../../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
             />
             <img
               v-else
-              src="../../assets/mudarStatus.png"
+              src="../../../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
               style="width: 30px; height: 30px"
@@ -81,6 +81,7 @@ const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
 const createAtoObservacao = `${config.public.managemant}/createAtosObservacao`;
 const observacaoUpdate = `${config.public.managemant}/updateAtosObservacao`;
+const getAtosObservacao = `${config.public.managemant}/getAtosObservacaoById`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const observacoesItems = ref([]);
@@ -90,7 +91,7 @@ const headers = [
   {
     title: "Data",
     align: "start",
-    key: "data",
+    key: "created",
   },
   {
     title: "Escrevente",
@@ -118,16 +119,27 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
-  method: "GET",
-});
+// const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
+//   method: "GET",
+// });
+
+const { data: dadosObservacao } = await useFetch(
+    `${getAtosObservacao}/${route.query.ato_id}`,
+    {
+      method: "GET",
+    }
+  ); 
+  observacoesItems.value = dadosObservacao.value.map((item) => ({
+  ...item,
+  created: formatDate(item.created, "dd/mm/yyyy"), // Aplica a formatação na data
+}));
 
 async function onSubmit() {
   if (await v$.value.$validate()) {
     const { data, error, status } = await useFetch(createAtoObservacao, {
       method: "POST",
       body: {
-        ato_id: props.ato_id,
+        ato_id: route.query.ato_id,
         observacao: state.observacao,
         user_id: useCookie("user-data").value.usuario_id,
       },

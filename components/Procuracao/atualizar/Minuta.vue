@@ -66,7 +66,7 @@ const salvarDocumento = async() =>{
   const formData = new FormData();
   formData.append("file", blob, `anexo.docx`);
   formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
-  formData.append("token", props.ato_token);
+  formData.append("token", route.query.ato_token_edit);
   formData.append("tipo", "ato_minuta");
 
   const { data,status } = await useFetch(enviarDocumento, {

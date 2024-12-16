@@ -98,7 +98,7 @@ const lavraAto = async () => {
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
-      body: { ato_token: props.ato_token, qtd_paginas: props.pages },
+      body: { ato_token: route.query.ato_token_edit, qtd_paginas: props.pages },
     });
 
     if (status.value === "success") {
