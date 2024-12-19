@@ -1,0 +1,1 @@
+const r=(e,a="")=>{const t=new Date(e);switch(a){case"dd/mm/yyyy":return t.toLocaleDateString("pt-BR");case"hh:mm":return t.toLocaleTimeString("pt-BR");case"dd/mm/yyyy hh:mm":return`${t.toLocaleDateString("pt-BR")} ${t.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`;default:return t.toLocaleDateString("pt-BR")}};export{r as _};

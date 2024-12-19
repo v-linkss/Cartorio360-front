@@ -330,6 +330,13 @@ const createRepresentante = async () => {
   };
 
   for (const element of pessoasTable.value) {
+    console.log("element.pessoa_id\n",element.pessoa_id);
+    console.log("element.state.pessoa.id\n",state.pessoa.id);
+
+    console.log("element.tipo_parte_id\n",element.tipo_parte_id);
+    console.log("state.papeis\n",state.papeis);
+
+
     if (
       element.pessoa_id === state.pessoa.id &&
       element.tipo_parte_id === state.papeis

@@ -91,7 +91,7 @@ const documentEditorContainer = ref(null);
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
-  body: { bucket: "cartorio-1", path: "ato-xkyaA/ato-xkyaA" },
+  body: { bucket: "qvgjz", path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
 });
 
 const lavraAto = async () => {

@@ -266,7 +266,7 @@ const { data } = await useFetch(papeisApresentante, {
   body: { tipo_ato_token: props.ato_token },
 });
 papeisItems.value = data.value;
-
+console.log("###############\n",papeisItems.value)
 async function searchPessoasService() {
   try {
     const { data: pessoasData, error } = await useFetch(procurarPessoa, {

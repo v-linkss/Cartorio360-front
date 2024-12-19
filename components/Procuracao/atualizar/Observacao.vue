@@ -5,12 +5,10 @@
         label="Observação"
         v-model="state.observacao"
         required
-        :error-messages="v$.observacao.$errors.map((e) => e.$message)"
+        :error-messages="v$.observacao.$errors.length > 0 ? v$.observacao.$errors.map((e) => e.$message) : []"
         @blur="v$.observacao.$touch"
         @input="v$.observacao.$touch"
-      >
-      </v-text-field>
-
+      />
       <div>
         <img
           class="btn-pointer ml-2"
@@ -35,26 +33,27 @@
               @click="deleteObservacao(item)"
               title="Deletar Observação"
             >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
+              <img
+                v-if="item.excluido"
+                style="width: 30px; height: 30px"
+                src="../../../assets/excluido.png"
+                alt="Visualizar"
+                title="Reativar"
+              />
+              <img
+                v-else
+                src="../../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
             </div>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -66,6 +65,7 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
+import { ref, reactive } from "vue";
 const props = defineProps({
   ato_id: {
     type: Number,
@@ -88,53 +88,44 @@ const observacoesItems = ref([]);
 const escreventesItems = ref([]);
 
 const headers = [
-  {
-    title: "Data",
-    align: "start",
-    key: "created",
-  },
-  {
-    title: "Escrevente",
-    align: "start",
-    key: "escrevente",
-  },
-  {
-    title: "Observação",
-    align: "start",
-    key: "observacao",
-  },
-
+  { title: "Data", align: "start", key: "created" },
+  { title: "Escrevente", align: "start", key: "escrevente" },
+  { title: "Observação", align: "start", key: "observacao" },
   { value: "actions" },
 ];
 
 const state = reactive({
-  observacao: null,
+  observacao: "",
 });
 
 const rules = {
   observacao: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
+    required: helpers.withMessage("O campo é obrigatório", required),
   },
 };
 
 const v$ = useVuelidate(rules, state);
 
-// const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
-//   method: "GET",
-// });
-
+// Carrega as observações ao carregar o componente
 const { data: dadosObservacao } = await useFetch(
-    `${getAtosObservacao}/${route.query.ato_id}`,
-    {
-      method: "GET",
-    }
-  ); 
-  observacoesItems.value = dadosObservacao.value.map((item) => ({
+  `${getAtosObservacao}/${route.query.ato_id}`,
+  {
+    method: "GET",
+  }
+);
+
+observacoesItems.value = dadosObservacao.value.map((item) => ({
   ...item,
   created: formatDate(item.created, "dd/mm/yyyy"), // Aplica a formatação na data
 }));
 
 async function onSubmit() {
+  // Verifica se o campo está vazio e só valida se houver algo
+  if (state.observacao.trim() === "") {
+    $toast.error("O campo de observação está vazio.");
+    return;
+  }
+
   if (await v$.value.$validate()) {
     const { data, error, status } = await useFetch(createAtoObservacao, {
       method: "POST",
@@ -147,15 +138,19 @@ async function onSubmit() {
 
     if (status.value === "success") {
       observacoesItems.value.push({
-        data:formatDate(data.value.created, "dd/mm/yyyy"),
-        observacao:data.value.observacao,
-        id:data.value.id,
-        escrevente:useCookie("user-data").value.nome
-      })
+        created: formatDate(data.value.created, "dd/mm/yyyy"),
+        observacao: data.value.observacao,
+        id: data.value.id,
+        escrevente: useCookie("user-data").value.nome,
+      });
+
+      // Limpa o campo após sucesso
+      state.observacao = "";
+
       $toast.success("Observação registrada com sucesso");
     }
   } else {
-    $toast.error("Preencha os campos obrigatorios.");
+    $toast.error("Preencha os campos obrigatórios.");
   }
 }
 
@@ -167,7 +162,7 @@ async function deleteObservacao(item) {
       body: JSON.stringify({ excluido: item.excluido }),
     });
   } catch (error) {
-    console.error("Erro ao excluir observacao:", error);
+    console.error("Erro ao excluir observação:", error);
   }
 }
 

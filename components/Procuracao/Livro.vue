@@ -91,7 +91,7 @@ const documentEditorContainer = ref(null);
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
-  body: { bucket: "cartorio-1", path: "ato-xkyaA/ato-xkyaA" },
+  body: { bucket: "qvgjz", path: "fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
 });
 
 const lavraAto = async () => {
@@ -119,10 +119,11 @@ const confirmLavrar = () => {
 };
 
 const onCreated = function () {
-  documentEditorContainer.value.ej2Instances.documentEditor.open(
-    props.document
-  );
+  console.log(props.document);
+  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
+  documentEditor.open(props.document); 
 };
+
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
