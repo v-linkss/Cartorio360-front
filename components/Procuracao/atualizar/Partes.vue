@@ -329,22 +329,7 @@ const createRepresentante = async () => {
     representante: { nome: null },
   };
 
-  for (const element of pessoasTable.value) {
-    console.log("element.pessoa_id\n",element.pessoa_id);
-    console.log("element.state.pessoa.id\n",state.pessoa.id);
 
-    console.log("element.tipo_parte_id\n",element.tipo_parte_id);
-    console.log("state.papeis\n",state.papeis);
-
-
-    if (
-      element.pessoa_id === state.pessoa.id &&
-      element.tipo_parte_id === state.papeis
-    ) {
-      $toast.error("Pessoa Já Registrada Com Esse Papel!");
-      return;
-    }
-  }
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
     body: {
@@ -355,10 +340,13 @@ const createRepresentante = async () => {
     },
   });
   if (status.value === "success") {
+    console.log(data.value);
     ato_pessoa_id.value = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
-  }
+  }else {
+      $toast.error(data.details);
+    }
 };
 
 const redirectToFicha = async (item) => {

@@ -117,50 +117,10 @@ const loadDefaultDocument = async () => {
     loading.value = false; // Finaliza o loading
   }
 };
-
-// const loadDefaultDocument = async () => {
-//   try {
-//     const { data, status } = await useFetch(baixarDocumento, {
-//       method: "POST",
-//       body: { bucket: "qvgjz", path: "ato/fKumj/66398.sfdt" },
-//     });
-//     const fileUrl = data.value;
-//     const blob = await fetchBlobFromMinIO(fileUrl);
-
-//     if (blob) {
-
-//       const reader = new FileReader();
-
-//       reader.onload = () => {
-
-//         const content = reader.result; // O conteúdo do arquivo
-
-//         const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-
-//         documentEditor.open(content); // Carregue o conteúdo no editor
-
-//       };
-
-//       reader.readAsText(blob); // Leia o Blob como texto
-
-//     } else {
-
-//       $toast.error("Erro ao carregar o documento do MinIO.");
-
-//     }
-//     // if (status.value === "success" && data.value) {
-//     //   const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-//     //   documentEditor.open(data.value); // Supondo que data.value contenha o conteúdo do documento
-//     // } else {
-//     //   $toast.error("Erro ao carregar o documento: " + (data.value || "Resposta inválida."));
-//     // }
-//   } catch (error) {
-//     console.error("Erro ao carregar o documento:", error);
-//     $toast.error("Erro ao carregar o documento.");
-//   }
-// };
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
+  const blob = await document.saveAsBlob("Docx");
+
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {
@@ -222,7 +182,8 @@ onMounted(async () => {
     body: { bucket: "qvgjz", path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
   });
   await loadDefaultDocument(data.value); // Chama a função para carregar o documento inicial
-  await salvarDocumento();
+
+  onDocumentChange();
 });
 </script>
 

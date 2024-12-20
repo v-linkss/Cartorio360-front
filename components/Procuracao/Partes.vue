@@ -315,16 +315,7 @@ const createRepresentante = async () => {
     method: "GET",
   });
 
-  for (const element of atosPessoas.data.value) {
-    if (
-      element.pessoa_id === state.pessoa.id &&
-      element.ato_id === props.ato_id &&
-      element.tipo_parte_id === state.papeis
-    ) {
-      $toast.error("Pessoa Já Registrada Com Esse Papel!");
-      return;
-    }
-  }
+
 
   try {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
@@ -342,7 +333,7 @@ const createRepresentante = async () => {
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);
     } else {
-      $toast.error("Erro ao registrar a pessoa!");
+      $toast.error(data.details);
     }
   } catch (error) {
     console.error("Erro ao criar representante:", error);
