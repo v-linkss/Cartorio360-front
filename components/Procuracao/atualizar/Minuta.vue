@@ -1,22 +1,40 @@
+
 <template>
-  <v-row class="ml-4 mt-4 mb-4">
-    <v-btn size="large" color="green" @click="salvarDocumento">Salvar</v-btn>
-    <NuxtLink class="ml-4">
-      <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
-    </NuxtLink>
-  </v-row>
   <ejs-documenteditorcontainer
-    height="700px"
+    height="900px"
     ref="documentEditorContainer"
     :serviceUrl="serviceUrl"
     :enableToolbar="true"
     :enableWordExport="true"
   >
   </ejs-documenteditorcontainer>
+
+  <div v-if="loading" class="loading-overlay">
+    <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
+  </div>
+
+  <div 
+    class="mt-4 mb-4 justify-end fixed-buttons" 
+    style="bottom: 0; left: 0; width: 100%; background-color: #fff; padding: 16px; z-index: 1000;"
+  >
+    <v-btn 
+      size="large" 
+      color="green" 
+      @click="salvarDocumento" 
+      :disabled="loading"
+    >
+      Salvar
+    </v-btn>
+
+    <NuxtLink class="ml-4">
+      <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
+    </NuxtLink>
+  </div>
 </template>
 
 <script setup>
-import { provide, ref, onMounted } from "vue";
+import { provide } from "vue";
+
 import {
   DocumentEditorContainerComponent as EjsDocumenteditorcontainer,
   Toolbar,
@@ -32,24 +50,24 @@ const props = defineProps({
 });
 
 provide("DocumentEditorContainer", [Toolbar, WordExport]);
-
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
 const emit = defineEmits(["page", "doc"]);
-
 registerLicense(`${config.public.docEditor}`);
-
-const enviarDocumento = `${config.public.managemant}/upload`;
-const minioFileUrl = `${config.public.minioBaseUrl}/path/to/your-file.docx`; // URL do arquivo no MinIO
-
-const serviceUrl =
-  "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
-const documentEditorContainer = ref(null);
 const baixarDocumento = `${config.public.managemant}/download`;
 
-// Função para buscar o arquivo do MinIO como Blob
+const enviarDocumento = `${config.public.managemant}/upload`;
+const serviceUrl =
+  "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
+
+const documentEditorContainer = ref(null);
+
+// Variável de estado para controlar o loading
+const loading = ref(false);
+
+
 const fetchBlobFromMinIO = async (fileUrl) => {
   try {
     const response = await fetch(fileUrl);
@@ -66,54 +84,39 @@ const fetchBlobFromMinIO = async (fileUrl) => {
 
 // Função para carregar o documento inicial no editor
 const loadDefaultDocument = async () => {
-  const { data, status } = await useFetch(baixarDocumento, {
-    method: "POST",
-    body: { bucket: "qvgjz", path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
-  });
-  console.log(data.value)
-  // const blob = await fetchBlobFromMinIO(minioFileUrl);
+  loading.value = true; // Inicia o loading
+  try {
+    const { data, status } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: { bucket: "qvgjz", path: "ato/fKumj/66398.sfdt" },
+    });
+    const fileUrl = data.value;
+    const blob = await fetchBlobFromMinIO(fileUrl);
 
-  // if (blob) {
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     const sfdtContent = reader.result;
-  //     const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-  //     documentEditor.open(sfdtContent);
-  //   };
-  //   reader.readAsText(blob);
-  // }
+    if (blob) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const content = reader.result; // O conteúdo do arquivo
+        const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
+        documentEditor.open(content); // Carregue o conteúdo no editor
+      };
+
+      reader.readAsText(blob); // Leia o Blob como texto
+    } else {
+      $toast.error("Erro ao carregar o documento do MinIO.");
+    }
+  } catch (error) {
+    console.error("Erro ao carregar o documento:", error);
+    $toast.error("Erro ao carregar o documento.");
+  } finally {
+    loading.value = false; // Finaliza o loading
+  }
 };
-
-// Função para salvar o documento
-const salvarDocumento = async () => {
+const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
   const blob = await document.saveAsBlob("Docx");
 
-  const formData = new FormData();
-  formData.append("file", blob, `anexo.docx`);
-  formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
-  formData.append("token", route.query.ato_token_edit);
-  formData.append("tipo", "ato_minuta");
-
-  const { data, status } = await useFetch(enviarDocumento, {
-    method: "POST",
-    body: formData,
-  });
-
-  if (status.value === "success") {
-    $toast.success("Documento enviado!");
-    const document = documentEditorContainer.value.ej2Instances.documentEditor;
-    const pageCount = document.pageCount;
-    onDocumentChange();
-    emit("page", pageCount);
-  } else {
-    $toast.error("Erro ao enviar documento para o sistema.");
-  }
-};
-
-// Detectar alterações no documento
-const onDocumentChange = async () => {
-  const document = documentEditorContainer.value.ej2Instances.documentEditor;
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {
@@ -123,32 +126,90 @@ const onDocumentChange = async () => {
   reader.readAsText(sfdt);
 };
 
-// Voltar para a tela anterior
+const salvarDocumento = async () => {
+  loading.value = true; // Inicia o loading
+
+  try {
+    const document = documentEditorContainer.value.ej2Instances.documentEditor;
+    const blob = await document.saveAsBlob("Docx");
+
+    const formData = new FormData();
+    formData.append("file", blob, `anexo.docx`);
+    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append("token", props.ato_token);
+    formData.append("tipo", "ato_minuta");
+
+    const { data, status } = await useFetch(enviarDocumento, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (status.value === "success") {
+      $toast.success("Documento enviado!");
+      const document = documentEditorContainer.value.ej2Instances.documentEditor;
+      const pageCount = document.pageCount;
+      onDocumentChange();
+      emit("page", pageCount);
+    } else {
+      $toast.error("Erro ao enviar documento para o sistema.");
+    }
+  } catch (error) {
+    $toast.error("Erro ao salvar documento.");
+    console.error(error);
+  } finally {
+    loading.value = false; // Finaliza o loading
+  }
+};
+
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
   if (origem === "atualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
-    router.push("/ os/criar-registro");
+    router.push("/os/criar-registro");
   }
 };
 
-// Carregar o documento inicial ao montar o componente
 onMounted(async () => {
-  console.log("Componente montado e pronto para uso.");
-  await loadDefaultDocument(); // Chama a função para carregar o documento inicial
+  await loadDefaultDocument(); 
+
+  onDocumentChange();
 });
 </script>
 
 <style>
-@import "../../node_modules/@syncfusion/ej2-base/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-popups/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-lists/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
-@import "../../node_modules/@syncfusion/ej2-vue-documenteditor/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-documenteditor/styles/material.css";
+
+/* Estilo da tela de loading */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-spinner {
+  margin-right: 20px;
+}
+
+.loading-text {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
 </style>

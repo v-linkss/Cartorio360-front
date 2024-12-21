@@ -23,7 +23,7 @@
               cursor: pointer;
               margin-top: 350px;
             "
-            src="../../assets/lavrar.png"
+            src="../../../assets/lavrar.png"
           />
           <v-card v-if="lavraData" class="ml-8 mt-5">
             <v-row no-gutters>

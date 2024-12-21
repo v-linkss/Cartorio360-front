@@ -18,10 +18,10 @@
           <ProcuracaoAtualizarPartes />
         </v-tabs-window-item>
         <v-tabs-window-item value="minuta">
-          <ProcuracaoMinuta @page="getPages" @doc="getDocument" />
+          <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
         </v-tabs-window-item>
         <v-tabs-window-item value="livro">
-          <ProcuracaoLivro :pages="pages_prop" :document="doc_prop"/>
+          <ProcuracaoAtualizarLivro :pages="pages_prop" :document="doc_prop"/>
         </v-tabs-window-item>
         <v-tabs-window-item value="observacao">
           <ProcuracaoAtualizarObservacao  />
