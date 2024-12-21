@@ -278,10 +278,10 @@ const getDadosPartes = async () => {
       ...parte,
       pessoa: {
         ...parte.pessoa,
-        documento: parte.pessoa.doc_identificacao, 
+        documento: parte.pessoa.doc_identificacao,
       },
       papel: {
-        ...parte.partes_tipos, 
+        ...parte.partes_tipos,
       },
     }));
   };
@@ -289,7 +289,7 @@ const getDadosPartes = async () => {
   pessoasTable.value = listaTransformada;
 };
 
- getDadosPartes();
+getDadosPartes();
 async function searchPessoasService() {
   try {
     const { data: pessoasData, error } = await useFetch(procurarPessoa, {
@@ -315,10 +315,10 @@ const createPessoa = () => {
   isModalRegistroOpen.value = true;
 };
 
-const atualizarPapel = async() => {
+const atualizarPapel = async () => {
   await getDadosPartes();
 };
-const atualizarRepresentante = async() => {
+const atualizarRepresentante = async () => {
   await getDadosPartes();
 };
 
@@ -329,6 +329,20 @@ const createRepresentante = async () => {
     representante: { nome: null },
   };
 
+  const atosPessoas = await useFetch(`${getPartesId}/${route.query.ato_id}`, {
+    method: "GET",
+  });
+
+  for (const element of atosPessoas.data.value) {
+    if (
+      element.pessoa_id === state.pessoa.id &&
+      element.ato_id === Number(route.query.ato_id) &&
+      element.tipo_parte_id === state.papeis
+    ) {
+      $toast.error("Pessoa Já Registrada Com Esse Papel!");
+      return;
+    }
+  }
 
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
@@ -340,13 +354,10 @@ const createRepresentante = async () => {
     },
   });
   if (status.value === "success") {
-    console.log(data.value);
     ato_pessoa_id.value = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
-  }else {
-      $toast.error(data.details);
-    }
+  }
 };
 
 const redirectToFicha = async (item) => {
@@ -366,18 +377,19 @@ const redirectToFicha = async (item) => {
 };
 
 const redirectToRepresentante = (item) => {
-  const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id)
-    .map((p) => ({
-      id: p.pessoa.id,
-      nome: p.pessoa.nome,
-    }));
+  console.log(item.id)
+  // const pessoasFiltradas = pessoasTable.value
+  //   .filter((p) => p.pessoa.id !== item.pessoa.id)
+  //   .map((p) => ({
+  //     id: p.pessoa.id,
+  //     nome: p.pessoa.nome,
+  //   }));
 
-  ato_pessoa_id.value = item.id;
-  pessoasRepresentantes.value = pessoasFiltradas;
-  isModalRepresentanteOpen.value = true;
-  representante_nome.value = item.pessoa.nome;
-  representante_pessoa_id.value = item.pessoa.id;
+  // ato_pessoa_id.value = item.id;
+  // pessoasRepresentantes.value = pessoasFiltradas;
+  // isModalRepresentanteOpen.value = true;
+  // representante_nome.value = item.pessoa.nome;
+  // representante_pessoa_id.value = item.pessoa.id;
 };
 
 const redirectToPapel = (item) => {

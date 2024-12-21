@@ -6,7 +6,6 @@
         {{ numeroOs }}
       </h1>
     </v-row>
-
     <v-row>
       <v-col md="3">
         <v-autocomplete

@@ -665,17 +665,17 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-GFL1HYQz.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-BySXn916.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-dasUqyUT.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DFkbGIT-.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-BYUBFMYF.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-CY7mlnXI.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -696,7 +696,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-DC8Zroco.mjs').then((m) => m.default || m)
+    component: () => import('./index-DJAVxE86.mjs').then((m) => m.default || m)
   },
   {
     name: "login-tipo-perfil",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-D_3626Ts.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-Q7OdssX8.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -727,22 +727,22 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-5SQtzO7c.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BfhRis3-.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-CYBR66zk.mjs').then((m) => m.default || m)
+    component: () => import('./index-tpXZKczd.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-D-WiwO1p.mjs').then((m) => m.default || m)
+    component: () => import('./index-C9EA9ljf.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-DGWEgEsV.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CvNEyttG.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-atualizar-id",
@@ -16546,7 +16546,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-fEsgF2Vi.mjs').then((m) => m.default || m)
+  default: () => import('./default-BIVfYaAu.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",

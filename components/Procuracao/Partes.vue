@@ -228,6 +228,7 @@ const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const representante_pessoa_id = ref(null);
+const papel_id = ref(null);
 const fichaRender = ref(null);
 
 const headers = [
@@ -266,7 +267,7 @@ const { data } = await useFetch(papeisApresentante, {
   body: { tipo_ato_token: props.ato_token },
 });
 papeisItems.value = data.value;
-console.log("###############\n",papeisItems.value)
+
 async function searchPessoasService() {
   try {
     const { data: pessoasData, error } = await useFetch(procurarPessoa, {
@@ -293,10 +294,14 @@ const createPessoa = () => {
 };
 
 const atualizarPapel = (descricao) => {
-  const papelEncontrado = pessoasTable.value.find(
-    (item) => item.papel.id === state.papeis
+  pessoasTable.value = pessoasTable.value.map((item) =>
+    item.id === ato_pessoa_id.value
+      ? {
+          ...item,
+          papel: { ...item.papel, descricao },
+        }
+      : item
   );
-  papelEncontrado.papel.descricao = descricao;
 };
 const atualizarRepresentante = (nome) => {
   const pessoaAtualizada = pessoasTable.value.find(
@@ -315,7 +320,16 @@ const createRepresentante = async () => {
     method: "GET",
   });
 
-
+  for (const element of atosPessoas.data.value) {
+    if (
+      element.pessoa_id === state.pessoa.id &&
+      element.ato_id === props.ato_id &&
+      element.tipo_parte_id === state.papeis
+    ) {
+      $toast.error("Pessoa Já Registrada Com Esse Papel!");
+      return;
+    }
+  }
 
   try {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
@@ -329,14 +343,14 @@ const createRepresentante = async () => {
     });
 
     if (status.value === "success") {
-      ato_pessoa_id.value = data.value.id;
+      console.log(data.value)
+      representante.id = data.value.id
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);
     } else {
-      $toast.error(data.details);
+      $toast.error("Erro ao registrar a pessoa!");
     }
   } catch (error) {
-    console.error("Erro ao criar representante:", error);
     $toast.error("Erro no servidor. Tente novamente.");
   }
 };
@@ -364,7 +378,7 @@ const redirectToRepresentante = (item) => {
       id: p.pessoa.id,
       nome: p.pessoa.nome,
     }));
-
+  ato_pessoa_id.value = item.id
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
@@ -372,6 +386,7 @@ const redirectToRepresentante = (item) => {
 };
 
 const redirectToPapel = (item) => {
+  ato_pessoa_id.value = item.id
   isModalPapelOpen.value = true;
   representante_nome.value = item.pessoa.nome;
 };

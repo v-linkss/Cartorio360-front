@@ -107,6 +107,7 @@ async function onSubmit() {
       },
     });
     if (status.value === "success") {
+      console.log(data.value)
       $toast.success("Situação registrada com sucesso");
       emit("saved", { id: data.value.id, token: data.value.token });
     }

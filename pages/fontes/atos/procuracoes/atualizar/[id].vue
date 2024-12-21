@@ -51,7 +51,7 @@ const dadosData = ref([]);
 async function loadData() {
   try {
     const { data: tipoAtoId } = await useFetch(
-      `${getAtoId}/${route.query.id}`,
+      `${getAtoId}/${route.query.ato_id}`,
       {
         method: "GET",
       }
