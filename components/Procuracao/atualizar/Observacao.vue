@@ -89,7 +89,7 @@ const escreventesItems = ref([]);
 
 const headers = [
   { title: "Data", align: "start", key: "created" },
-  { title: "Escrevente", align: "start", key: "escrevente" },
+  { title: "Escrevente", align: "start", key: "users.nome" },
   { title: "Observação", align: "start", key: "observacao" },
   { value: "actions" },
 ];
@@ -113,7 +113,7 @@ const { data: dadosObservacao } = await useFetch(
     method: "GET",
   }
 );
-console.log(dadosObservacao.value)
+
 observacoesItems.value = dadosObservacao.value.map((item) => ({
   ...item,
   created: formatDate(item.created, "dd/mm/yyyy hh:mm"), 
