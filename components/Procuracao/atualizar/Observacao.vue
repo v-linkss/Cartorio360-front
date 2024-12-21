@@ -113,10 +113,10 @@ const { data: dadosObservacao } = await useFetch(
     method: "GET",
   }
 );
-
+console.log(dadosObservacao.value)
 observacoesItems.value = dadosObservacao.value.map((item) => ({
   ...item,
-  created: formatDate(item.created, "dd/mm/yyyy"), // Aplica a formatação na data
+  created: formatDate(item.created, "dd/mm/yyyy hh:mm"), 
 }));
 
 async function onSubmit() {
@@ -138,13 +138,12 @@ async function onSubmit() {
 
     if (status.value === "success") {
       observacoesItems.value.push({
-        created: formatDate(data.value.created, "dd/mm/yyyy"),
+        created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
         observacao: data.value.observacao,
         id: data.value.id,
         escrevente: useCookie("user-data").value.nome,
       });
 
-      // Limpa o campo após sucesso
       state.observacao = "";
 
       $toast.success("Observação registrada com sucesso");

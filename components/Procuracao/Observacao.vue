@@ -135,7 +135,7 @@ async function onSubmit() {
 
     if (status.value === "success") {
       observacoesItems.value.push({
-        data:formatDate(data.value.created, "dd/mm/yyyy"),
+        data:formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
         observacao:data.value.observacao,
         id:data.value.id,
         escrevente:useCookie("user-data").value.nome

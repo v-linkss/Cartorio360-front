@@ -61,10 +61,6 @@
 import { DocumentEditorContainerComponent as EjsDocumenteditorcontainer } from "@syncfusion/ej2-vue-documenteditor";
 import { registerLicense } from "@syncfusion/ej2-base";
 const props = defineProps({
-  ato_token: {
-    type: String,
-    required: true,
-  },
   pages: {
     type: Number,
     required: true,
@@ -74,6 +70,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const config = useRuntimeConfig();
 registerLicense(`${config.public.docEditor}`);
 const { $toast } = useNuxtApp();

@@ -121,7 +121,10 @@ const onDocumentChange = async () => {
   const reader = new FileReader();
   reader.onload = () => {
     const sfdtText = reader.result;
+    const document = documentEditorContainer.value.ej2Instances.documentEditor;
+    const pageCount = document.pageCount;
     emit("doc", sfdtText);
+    emit("page", pageCount);
   };
   reader.readAsText(sfdt);
 };
