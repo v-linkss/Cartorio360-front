@@ -1,7 +1,7 @@
 <template>
   <v-col style="margin-top: 20px" cols="auto" class="biometria-container">
     <div class="finger-container">
-      <!-- Mão esquerda -->
+   
       <div
         v-for="(finger, index) in leftFingers"
         :key="index"
@@ -9,7 +9,7 @@
         :style="getFingerStyle(finger, 'left')"
        @click="captureBiometria(finger)"
       ></div>
-      <!-- Mão direita -->
+ 
       <div
         v-for="(finger, index) in rightFingers"
         :key="index"

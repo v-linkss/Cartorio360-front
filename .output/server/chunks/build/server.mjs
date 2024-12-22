@@ -670,22 +670,22 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-C37eo1Rl.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-C2TnrqQ4.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DkJuJKy8.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-BdD2BNAU.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-EhBMG3zk.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BBEDYufN.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-w7yrd7ln.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-znJ6jEjF.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CjFvH_wL.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-CGhA6O1o.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -727,12 +727,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BxEe5rDg.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CfGsh7lg.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-Cdpnq5hU.mjs').then((m) => m.default || m)
+    component: () => import('./index-COROPc8e.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",

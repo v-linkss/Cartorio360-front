@@ -88,18 +88,18 @@ const loadDefaultDocument = async () => {
   try {
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: "ato/fKumj/66398.sfdt" },
+      body: { bucket: "qvgjz", path: "ato/UbEKW/ato_minuta-2024-12-22T14:09:40.943Z.sfdt" },
     });
+
     const fileUrl = data.value;
     const blob = await fetchBlobFromMinIO(fileUrl);
-
     if (blob) {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const content = reader.result; // O conteúdo do arquivo
+        const content = reader.result; 
         const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-        documentEditor.open(content); // Carregue o conteúdo no editor
+        documentEditor.open(content); 
       };
 
       reader.readAsText(blob); // Leia o Blob como texto
@@ -115,7 +115,6 @@ const loadDefaultDocument = async () => {
 };
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  const blob = await document.saveAsBlob("Docx");
 
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
@@ -134,12 +133,11 @@ const salvarDocumento = async () => {
 
   try {
     const document = documentEditorContainer.value.ej2Instances.documentEditor;
-    const blob = await document.saveAsBlob("Docx");
-
+    const blob = await document.saveAsBlob("Sfdt");
     const formData = new FormData();
-    formData.append("file", blob, `anexo.docx`);
+    formData.append("file", blob, `anexo.sfdt`);
     formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
-    formData.append("token", props.ato_token);
+    formData.append("token", route.query.ato_token_edit);
     formData.append("tipo", "ato_minuta");
 
     const { data, status } = await useFetch(enviarDocumento, {

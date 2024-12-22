@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="1000">
+  <v-dialog persistent v-model="isVisible" max-width="1000" max-height="1000">
     <v-card>
       <h1
         style="
@@ -45,7 +45,8 @@
           <Endereco @close-modal="closeModal" :isModal="true" />
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="biometria">
-          <v-container class="mt-5">
+          <v-container>
+
             <Biometria @close-modal="closeModal" :isModal="true" />
           </v-container>
         </v-tabs-window-item>

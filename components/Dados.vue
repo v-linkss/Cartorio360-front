@@ -6,7 +6,7 @@
     v-if="pending"
   ></v-progress-circular>
   <div v-else-if="error">{{ error.message }}</div>
-  <v-container v-if="!pending" class="mt-5">
+  <v-container v-if="!pending" >
     <v-row>
       <v-col cols="12" md="8">
         <v-text-field
