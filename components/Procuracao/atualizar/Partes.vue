@@ -193,12 +193,6 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  ato_token: {
-    type: String,
-    required: true,
-  },
-});
 
 const router = useRouter();
 const route = useRoute();
@@ -354,7 +348,7 @@ const createRepresentante = async () => {
     },
   });
   if (status.value === "success") {
-    ato_pessoa_id.value = data.value.id;
+    representante.id = data.value.id
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
   }
@@ -383,7 +377,6 @@ const redirectToRepresentante = (item) => {
       id: p.pessoa.id,
       nome: p.pessoa.nome,
     }));
-
   ato_pessoa_id.value = item.id;
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;

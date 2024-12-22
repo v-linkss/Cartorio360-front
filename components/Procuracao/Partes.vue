@@ -290,7 +290,7 @@ async function searchPessoasService() {
 }
 
 const createPessoa = () => {
- router.push({query:"criar-pessoa-procuracao",path:"/pessoas/cadastros"})
+  isModalRegistroOpen.value = true;
 };
 
 const atualizarPapel = (descricao) => {

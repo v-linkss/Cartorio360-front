@@ -96,9 +96,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/pessoas/lista">
-      <v-btn size="large" color="red">Voltar</v-btn>
-    </NuxtLink>
+      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -169,9 +167,18 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
+const emit = defineEmits(["close-modal"]);
+
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const { $toast } = useNuxtApp();
 const route = useRoute();
+const router = useRouter();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
@@ -324,4 +331,12 @@ async function deleteDocumento(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
+
+const voltar = () => {
+  if (props.isModal === true) {
+    emit("close-modal");
+    return;
+  }
+  router.push("/pessoas/lista");
+};
 </script>

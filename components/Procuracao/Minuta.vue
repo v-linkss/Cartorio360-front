@@ -53,7 +53,6 @@ const onDocumentChange = async () => {
   const reader = new FileReader();
   reader.onload = () => {
     const sfdtText = reader.result;
-    console.log(sfdtText)
     emit("doc",sfdtText)
   };
   reader.readAsText(sfdt);

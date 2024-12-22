@@ -115,9 +115,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/pessoas/lista">
-      <v-btn size="large" color="red">Voltar</v-btn>
-    </NuxtLink>
+      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -171,8 +169,6 @@
                 item-value="id"
               ></v-autocomplete>
             </v-col>
-
-            <!-- Outros campos que precisar -->
           </v-row>
         </v-card-text>
         <v-card-actions>
@@ -192,11 +188,19 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
+const emit = defineEmits(["close-modal"]);
+
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const { $toast } = useNuxtApp();
 const route = useRoute();
 const { id } = route.params;
-
+const router = useRouter();
 const config = useRuntimeConfig();
 const allPaises = `${config.public.managemant}/listarPais`;
 const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
@@ -363,4 +367,12 @@ async function deleteEndereco(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
+
+const voltar = () => {
+  if (props.isModal === true) {
+    emit("close-modal");
+    return;
+  }
+  router.push("/pessoas/lista");
+};
 </script>

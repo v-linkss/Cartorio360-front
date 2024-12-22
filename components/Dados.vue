@@ -117,9 +117,7 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <NuxtLink to="/pessoas/lista">
-        <v-btn size="large" color="red">Voltar</v-btn>
-      </NuxtLink>
+      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
       <v-btn
         @click="isEditMode ? onUpdate() : onSubmit()"
         class="ml-4"
@@ -136,7 +134,14 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { cpf } from "~/composables/validaCpf";
 
-const emit = defineEmits(["saved"]);
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(["saved", "close-modal"]);
 const router = useRouter();
 const { $toast } = useNuxtApp();
 
@@ -256,13 +261,29 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error } = await useFetch(`${updatePessoa}/${pessoaId.value}`, {
-    method: "PUT",
-    body: payloadFormated,
-  });
-  $toast.success("Pessoa atualizada com sucesso!");
-  router.push("/pessoas/lista");
+  const { data, error, status } = await useFetch(
+    `${updatePessoa}/${pessoaId.value}`,
+    {
+      method: "PUT",
+      body: payloadFormated,
+    }
+  );
+  if (status.value === "success") {
+    if (props.isModal === true) {
+      $toast.success("Pessoa atualizada com sucesso!");
+      emit("close-modal");
+      return;
+    }
+    $toast.success("Pessoa atualizada com sucesso!");
+    router.push("/pessoas/lista");
+  }
 }
+
+const voltar = () => {
+  if (props.isModal === true) {
+    emit("close-modal");
+    return;
+  }
+  router.push("/pessoas/lista");
+};
 </script>
-
-
