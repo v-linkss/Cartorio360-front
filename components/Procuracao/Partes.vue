@@ -290,7 +290,7 @@ async function searchPessoasService() {
 }
 
 const createPessoa = () => {
-  isModalRegistroOpen.value = true;
+ router.push({query:"criar-pessoa-procuracao",path:"/pessoas/cadastros"})
 };
 
 const atualizarPapel = (descricao) => {
@@ -343,7 +343,6 @@ const createRepresentante = async () => {
     });
 
     if (status.value === "success") {
-      console.log(data.value)
       representante.id = data.value.id
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);

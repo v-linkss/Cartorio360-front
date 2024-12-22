@@ -377,19 +377,18 @@ const redirectToFicha = async (item) => {
 };
 
 const redirectToRepresentante = (item) => {
-  console.log(item.id)
-  // const pessoasFiltradas = pessoasTable.value
-  //   .filter((p) => p.pessoa.id !== item.pessoa.id)
-  //   .map((p) => ({
-  //     id: p.pessoa.id,
-  //     nome: p.pessoa.nome,
-  //   }));
+  const pessoasFiltradas = pessoasTable.value
+    .filter((p) => p.pessoa.id !== item.pessoa.id)
+    .map((p) => ({
+      id: p.pessoa.id,
+      nome: p.pessoa.nome,
+    }));
 
-  // ato_pessoa_id.value = item.id;
-  // pessoasRepresentantes.value = pessoasFiltradas;
-  // isModalRepresentanteOpen.value = true;
-  // representante_nome.value = item.pessoa.nome;
-  // representante_pessoa_id.value = item.pessoa.id;
+  ato_pessoa_id.value = item.id;
+  pessoasRepresentantes.value = pessoasFiltradas;
+  isModalRepresentanteOpen.value = true;
+  representante_nome.value = item.pessoa.nome;
+  representante_pessoa_id.value = item.pessoa.id;
 };
 
 const redirectToPapel = (item) => {
