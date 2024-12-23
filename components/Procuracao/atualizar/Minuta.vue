@@ -100,6 +100,7 @@ const loadDefaultDocument = async () => {
         const content = reader.result; 
         const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
         documentEditor.open(content); 
+        emit("doc", content)
       };
 
       reader.readAsText(blob); // Leia o Blob como texto
@@ -122,7 +123,6 @@ const onDocumentChange = async () => {
     const sfdtText = reader.result;
     const document = documentEditorContainer.value.ej2Instances.documentEditor;
     const pageCount = document.pageCount;
-    emit("doc", sfdtText);
     emit("page", pageCount);
   };
   reader.readAsText(sfdt);

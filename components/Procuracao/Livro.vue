@@ -119,7 +119,6 @@ const confirmLavrar = () => {
 };
 
 const onCreated = function () {
-  console.log(props.document);
   const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
   documentEditor.open(props.document); 
 };
