@@ -80,7 +80,7 @@ async function onUpdate() {
     },
   });
   if (status.value === "success") {
-    $toast.success("Situação Atualizada com sucesso");
+    $toast.success("Ato Atualizado com sucesso");
   }
 }
 

@@ -1,5 +1,4 @@
 <template>
-  <h1 class="mb-2">Procuração</h1>
   <v-card width="1300">
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>

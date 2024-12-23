@@ -48,7 +48,7 @@
     </v-col>
   </v-row>
 
-  <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
+  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack">Voltar</v-btn>
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"

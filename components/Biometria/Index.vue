@@ -1,10 +1,8 @@
 <template>
   <v-container>
-    <v-row class="d-flex align-items-center justify-space-between">
+    <v-row class="d-flex align-items-center">
       <BiometriaDigital />
-      <div :style="{ maxWidth: props.isModal ? '200px' : 'none' }">
-        <BiometriaReconhecimentoFacial />
-      </div>
+      <BiometriaReconhecimentoFacial />
       <BiometriaImpressao />
     </v-row>
   </v-container>

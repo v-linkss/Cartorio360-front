@@ -13,23 +13,12 @@
     <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
   </div>
 
-  <div 
-    class="mt-4 mb-4 justify-end fixed-buttons" 
-    style="bottom: 0; left: 0; width: 100%; background-color: #fff; padding: 16px; z-index: 1000;"
-  >
-    <v-btn 
-      size="large" 
-      color="green" 
-      @click="salvarDocumento" 
-      :disabled="loading"
-    >
-      Salvar
-    </v-btn>
-
-    <NuxtLink class="ml-4">
+  <v-row class="ml-4 mt-4 mb-4">
+    <NuxtLink class="mr-4">
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
-  </div>
+    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
+  </v-row>
 </template>
 
 <script setup>
@@ -57,6 +46,7 @@ const route = useRoute();
 const emit = defineEmits(["page", "doc"]);
 registerLicense(`${config.public.docEditor}`);
 const baixarDocumento = `${config.public.managemant}/download`;
+const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 
 const enviarDocumento = `${config.public.managemant}/upload`;
 const serviceUrl =
@@ -82,13 +72,27 @@ const fetchBlobFromMinIO = async (fileUrl) => {
   }
 };
 
-// Função para carregar o documento inicial no editor
+const getPathFromDocument = async () => {
+  try {
+    const { data } = await useFetch(`${pegarCaminhoDocumento}/${route.query.ato_token_edit}`, {
+      method: "GET",
+    });
+
+    return data.value.link_ato
+  } catch (error) {
+    console.error("Erro ao carregar o documento:", error);
+    $toast.error(error);
+  } 
+}
+
 const loadDefaultDocument = async () => {
   loading.value = true; // Inicia o loading
+
   try {
+    const filePath = await getPathFromDocument()
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: "ato/UbEKW/ato_minuta-2024-12-22T14:09:40.943Z.sfdt" },
+      body: { bucket: "qvgjz", path: filePath },
     });
 
     const fileUrl = data.value;

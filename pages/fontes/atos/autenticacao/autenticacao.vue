@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-10" title="Autenticação">
+  <v-card class="mt-10" >
     <v-container>
       <div style="width: 600px; margin-top: 10px">
         <v-autocomplete

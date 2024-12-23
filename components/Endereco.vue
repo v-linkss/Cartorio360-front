@@ -1,6 +1,6 @@
 <template>
-  <v-container v-if="!pending">
-    <v-row>
+  <v-container v-if="!pending" style="height: 525px;">
+    <v-row class="mt-15">
       <v-col md="2">
         <v-autocomplete
           v-model="state.tabvalores_pais_id"

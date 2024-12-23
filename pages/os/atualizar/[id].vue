@@ -208,9 +208,8 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  console.log(item)
     if(item.tipo === "PROCURAÇÃO"){
-        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token}})
+        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token,numero_os:numeroOs.value}})
     }
 };
 async function onUpdate() {

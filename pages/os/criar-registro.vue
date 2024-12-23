@@ -146,7 +146,7 @@ import { helpers, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
 const { $toast } = useNuxtApp();
-
+const router = useRouter()
 const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;
 const routeValidaCpf = `${config.public.managemant}/validarCpf`;
@@ -212,7 +212,7 @@ function removeFormatting(value) {
 
 const redirectToUpdateAto = (item) => {
     if(item.tipo === "PROCURAÇÃO"){
-        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token}})
+        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:useCookie("user-service").value.id,ato_id:item.id,ato_token_edit:item.token,numero_os:numeroOs}})
     }
 };
 
@@ -253,7 +253,6 @@ async function onSubmit() {
       isTrueOrdemServ.value = showCreateOrdemServ.value;
 
       const serviceCookie = useCookie("user-service");
-;
       serviceCookie.value = serviceCookie.value = JSON.stringify({
         numero: data.value.numero,
         id:data.value.id,
@@ -263,7 +262,6 @@ async function onSubmit() {
         token: data.value.token,
         isDisabled: true
       });
-
       isDisabled.value = true;
     }
   }
