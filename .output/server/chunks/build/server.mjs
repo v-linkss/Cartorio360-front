@@ -670,7 +670,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-BDIq3V0u.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CHymqlxF.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",

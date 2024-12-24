@@ -25,8 +25,8 @@
             "
             src="../../../assets/lavrar.png"
           />
-          <v-card v-if="lavraData" class="mr-16">
-            <v-row no-gutters>
+          <v-card v-if="lavraData" width="360px" class="mr-16">
+            <v-row>
               <v-col>
                 <v-sheet style="font-weight: bold" class="pa-2 ma-2">
                   Livro: {{ lavraData[0].livro_numero }}
@@ -39,16 +39,25 @@
                 </v-sheet>
               </v-col>
             </v-row>
-            <div v-html="selo">
-
-            </div>
+            <div
+              style="
+                border: 1px solid black;
+                border-radius: 8px;
+                padding-bottom: 20px;
+                margin-top: -10px;
+              "
+              class="ml-2 mb-2 mr-2"
+              v-html="selo"
+            ></div>
           </v-card>
         </div>
       </div>
     </v-col>
   </v-row>
 
-  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack">Voltar</v-btn>
+  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
+    >Voltar</v-btn
+  >
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"
@@ -88,7 +97,10 @@ const documentEditorContainer = ref(null);
 
 const { data, status } = await useFetch(baixarDocumento, {
   method: "POST",
-  body: { bucket: "qvgjz", path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
+  body: {
+    bucket: "qvgjz",
+    path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z",
+  },
 });
 
 const lavraAto = async () => {
@@ -100,7 +112,7 @@ const lavraAto = async () => {
 
     if (status.value === "success") {
       lavraData.value = data.value;
-      selo.value = data.value[0].selo
+      selo.value = data.value[0].selo;
       $toast.success("Ato lavrado com sucesso!");
     } else {
       $toast.error("Falha ao lavrar o ato.");
@@ -116,8 +128,9 @@ const confirmLavrar = () => {
 };
 
 const onCreated = function () {
-  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-  documentEditor.open(props.document); 
+  const documentEditor =
+    documentEditorContainer.value.ej2Instances.documentEditor;
+  documentEditor.open(props.document);
 };
 
 const goBack = () => {
