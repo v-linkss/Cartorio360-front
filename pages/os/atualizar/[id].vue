@@ -85,7 +85,15 @@
             </div>
             <div
               :class="{ disabled: !item.btn_editar }"
-              @click="item.btn_editar ? redirectToUpdateAto({id:item.id,tipo:item.tipo,token:item.token}) : null"
+              @click="
+                item.btn_editar
+                  ? redirectToUpdateAto({
+                      id: item.id,
+                      tipo: item.tipo,
+                      token: item.token,
+                    })
+                  : null
+              "
               :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
             >
               <img
@@ -168,6 +176,7 @@ const state = reactive({
 });
 
 const headers = [
+{ title: "ID", value: "id" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Situação", value: "situacao" },
@@ -208,9 +217,18 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-    if(item.tipo === "PROCURAÇÃO"){
-        router.push({path:`/fontes/atos/procuracoes/atualizar/${item.id}`,query:{origem:"atualizar",id:id,ato_id:item.id,ato_token_edit:item.token,numero_os:numeroOs.value}})
-    }
+  if (item.tipo === "PROCURAÇÃO") {
+    router.push({
+      path: `/fontes/atos/procuracoes/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar",
+        id: id,
+        ato_id: item.id,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
+      },
+    });
+  }
 };
 async function onUpdate() {
   const payloadFormated = {
@@ -248,7 +266,7 @@ const { data } = await useFetch(atosPayload, {
   },
 });
 if (data.value.length > 0) {
-  atosItems.value = data.value
+  atosItems.value = data.value;
 } else {
   atosItems.value = [];
 }

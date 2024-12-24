@@ -72,12 +72,13 @@ const state = reactive({
 });
 
 async function onUpdate() {
-  const { data, error, status } = await useFetch(`${updateAtoProcuracao}/${route.query.id}`, {
+  const { data, error, status } = await useFetch(`${updateAtoProcuracao}/${route.query.ato_id}`, {
     method: "PUT",
     body: {
       status: state.status,
       mne: state.mne,
-    },
+      dt_abertura: state.dt_abertura
+  },
   });
   if (status.value === "success") {
     $toast.success("Ato Atualizado com sucesso");

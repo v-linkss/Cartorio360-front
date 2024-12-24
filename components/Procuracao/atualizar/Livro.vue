@@ -25,7 +25,7 @@
             "
             src="../../../assets/lavrar.png"
           />
-          <v-card v-if="lavraData" class="ml-8 mt-5">
+          <v-card v-if="lavraData" class="mr-16">
             <v-row no-gutters>
               <v-col>
                 <v-sheet style="font-weight: bold" class="pa-2 ma-2">

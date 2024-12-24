@@ -32,6 +32,7 @@
           v-model="state.dt_abertura"
           type="date"
           label="Data Lavratura"
+          disabled
           readonly
         ></v-text-field>
       </v-col>
@@ -75,7 +76,7 @@ const situacoesItems = ref([]);
 
 const state = reactive({
   dt_abertura: null,
-  status: null,
+  status: "EM EDIÇÃO",
   mne: null,
 });
 

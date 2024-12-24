@@ -670,12 +670,12 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-DC-WSwZn.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BDIq3V0u.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-BwUvFcdo.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-Dy_2IYJe.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -702,27 +702,27 @@ const _routes = [
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta || {},
-    component: () => import('./tipo-perfil-C-qujjrV.mjs').then((m) => m.default || m)
+    component: () => import('./tipo-perfil-FPPVWKJZ.mjs').then((m) => m.default || m)
   },
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-58wLpImR.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DqeH5u1c.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-EG12EHxb.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-D_xIIcjr.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-BDysiNUd.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-BzetyrGH.mjs').then((m) => m.default || m)
   },
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-BRPogQiu.mjs').then((m) => m.default || m)
+    component: () => import('./index-Dgms0tgh.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
