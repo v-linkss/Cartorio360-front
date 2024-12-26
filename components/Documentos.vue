@@ -1,6 +1,6 @@
 <template>
-  <v-container v-if="!pending" style="height: 525px;">
-    <v-row class="mt-15">
+  <v-container class="mt-3" v-if="!pending" style="height: 525px;">
+    <v-row >
       <v-col md="2">
         <v-autocomplete
           v-model="state.tabvalores_tipodoc_id"
@@ -53,7 +53,7 @@
           label="Validade"
         ></v-text-field>
       </v-col>
-      <div class="mt-3">
+      <div class="mt-1">
         <img
           style="width: 40px; height: 40px; cursor: pointer"
           src="../assets/novo.png"

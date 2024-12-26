@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="d-flex align-items-center">
       <BiometriaDigital />
-      <BiometriaReconhecimentoFacial />
+      <BiometriaReconhecimentoFacial class="ml-5 mr-5"/>
       <BiometriaImpressao />
     </v-row>
   </v-container>

@@ -4,7 +4,6 @@
       <ejs-documenteditorcontainer
         :restrictEditing="true"
         :enableToolbar="false"
-        v-bind:created="props.document ? onCreated : null"
         ref="documentEditorContainer"
         height="850px"
         width="850px"
@@ -54,7 +53,7 @@
       </div>
     </v-col>
   </v-row>
-
+  {{ props.pages }}
   <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
     >Voltar</v-btn
   >
@@ -69,6 +68,7 @@
 <script setup>
 import { DocumentEditorContainerComponent as EjsDocumenteditorcontainer } from "@syncfusion/ej2-vue-documenteditor";
 import { registerLicense } from "@syncfusion/ej2-base";
+
 const props = defineProps({
   pages: {
     type: Number,
@@ -86,6 +86,7 @@ const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
 const baixarDocumento = `${config.public.managemant}/download`;
+const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
@@ -95,14 +96,64 @@ const lavraData = ref(null);
 const selo = ref(null);
 const documentEditorContainer = ref(null);
 
-const { data, status } = await useFetch(baixarDocumento, {
-  method: "POST",
-  body: {
-    bucket: "qvgjz",
-    path: "ato/fKumj/ato_minuta-2024-12-13T14:57:36.974Z",
-  },
-});
+const fetchBlobFromMinIO = async (fileUrl) => {
+  try {
+    const response = await fetch(fileUrl);
+    if (!response.ok) {
+      throw new Error("Erro ao baixar o arquivo do MinIO.");
+    }
+    return await response.blob();
+  } catch (error) {
+    console.error(error);
+    $toast.error("Erro ao carregar o documento inicial.");
+    return null;
+  }
+};
 
+const getPathFromDocument = async () => {
+  try {
+    const { data } = await useFetch(
+      `${pegarCaminhoDocumento}/${route.query.ato_token_edit}`,
+      {
+        method: "GET",
+      }
+    );
+
+    return data.value.link_ato;
+  } catch (error) {
+    console.error("Erro ao carregar o documento:", error);
+    $toast.error(error);
+  }
+};
+
+const loadDefaultDocument = async () => {
+  try {
+    const filePath = await getPathFromDocument();
+    const { data, status } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: { bucket: "qvgjz", path: filePath },
+    });
+
+    const fileUrl = data.value;
+    const blob = await fetchBlobFromMinIO(fileUrl);
+    if (blob) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const content = reader.result;
+        const documentEditor =
+          documentEditorContainer.value.ej2Instances.documentEditor;
+        documentEditor.open(content);
+        console.log("asdfdsf")
+      };
+
+      reader.readAsText(blob); // Leia o Blob como texto
+    }
+  } catch (error) {
+    $toast.error("Erro ao carregar o documento.");
+  }
+};
+loadDefaultDocument()
 const lavraAto = async () => {
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
@@ -127,12 +178,6 @@ const confirmLavrar = () => {
   lavraAto();
 };
 
-const onCreated = function () {
-  const documentEditor =
-    documentEditorContainer.value.ej2Instances.documentEditor;
-  documentEditor.open(props.document);
-};
-
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
@@ -142,4 +187,11 @@ const goBack = () => {
     router.push("/os/criar-registro");
   }
 };
+
+watch(
+  () => props.document,
+  (newVal, oldVal) => {
+    loadDefaultDocument();
+  }
+);
 </script>

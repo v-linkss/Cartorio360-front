@@ -4,10 +4,11 @@
       <ejs-documenteditorcontainer
         :restrictEditing="true"
         :enableToolbar="false"
-        v-bind:created="props.document ? onCreated : null"
+        :created="props.document ? onCreated : null"
         ref="documentEditorContainer"
         height="850px"
         width="850px"
+        :key="props.document"
       >
       </ejs-documenteditorcontainer>
     </v-col>
@@ -47,7 +48,6 @@
       </div>
     </v-col>
   </v-row>
-
   <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
   <ModalConfirmacao
     :show="isModalCondOpen"
@@ -74,12 +74,12 @@ const props = defineProps({
     required: true,
   },
 });
+
 const config = useRuntimeConfig();
 registerLicense(`${config.public.docEditor}`);
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const baixarDocumento = `${config.public.managemant}/download`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
@@ -88,11 +88,6 @@ const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
 const documentEditorContainer = ref(null);
-
-const { data, status } = await useFetch(baixarDocumento, {
-  method: "POST",
-  body: { bucket: "qvgjz", path: "fKumj/ato_minuta-2024-12-13T14:57:36.974Z" },
-});
 
 const lavraAto = async () => {
   try {
@@ -122,7 +117,6 @@ const onCreated = function () {
   const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
   documentEditor.open(props.document); 
 };
-
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

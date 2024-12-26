@@ -40,7 +40,7 @@
       </NuxtLink>
 
       <v-btn class="ml-10" @click="onUpdate" size="large" color="green"
-        >Salvar</v-btn
+        >Atualizar</v-btn
       >
     </v-row>
   </v-container>

@@ -17,7 +17,7 @@
     <NuxtLink class="mr-4">
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
-    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
+    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Atualizar</v-btn>
   </v-row>
 </template>
 
@@ -30,13 +30,6 @@ import {
   WordExport,
 } from "@syncfusion/ej2-vue-documenteditor";
 import { registerLicense } from "@syncfusion/ej2-base";
-
-const props = defineProps({
-  ato_token: {
-    type: String,
-    required: true,
-  },
-});
 
 provide("DocumentEditorContainer", [Toolbar, WordExport]);
 const config = useRuntimeConfig();
@@ -108,16 +101,14 @@ const loadDefaultDocument = async () => {
       };
 
       reader.readAsText(blob); // Leia o Blob como texto
-    } else {
-      $toast.error("Erro ao carregar o documento do MinIO.");
     }
   } catch (error) {
-    console.error("Erro ao carregar o documento:", error);
     $toast.error("Erro ao carregar o documento.");
   } finally {
     loading.value = false; // Finaliza o loading
   }
 };
+
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
 
@@ -128,6 +119,7 @@ const onDocumentChange = async () => {
     const document = documentEditorContainer.value.ej2Instances.documentEditor;
     const pageCount = document.pageCount;
     emit("page", pageCount);
+    emit("doc",sfdtText)
   };
   reader.readAsText(sfdt);
 };

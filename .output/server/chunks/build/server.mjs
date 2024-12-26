@@ -670,22 +670,22 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-CHymqlxF.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-B1AnaXZm.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Dy_2IYJe.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-XE1G6nnU.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-COnYJhMc.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-DBWkhh5v.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-CSEfSW7Y.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-6dGX2OwI.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-D_xIIcjr.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-7gTfwo3N.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -727,12 +727,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BVsEldXT.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CJJwA5hg.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-D-TB_4n9.mjs').then((m) => m.default || m)
+    component: () => import('./index--KdIJ74Q.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
@@ -16406,6 +16406,11 @@ const vuetify_7h9QAQEssH = /* @__PURE__ */ defineNuxtPlugin((app) => {
       },
       VDataTable: {
         density: "compact"
+      },
+      VCol: {
+        style: {
+          padding: "5px"
+        }
       }
     }
   });
