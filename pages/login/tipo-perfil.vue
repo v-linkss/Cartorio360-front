@@ -14,7 +14,7 @@
           v-model="perfil_descricao"
           variant="outlined"
           :items="cartorios"
-          item-title="perfil_descricao"
+          item-title="cartorio_descricao"
           item-value="perfil_descricao"
           label="Selecione uma opção"
         />

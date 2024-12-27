@@ -45,57 +45,59 @@ const HandleCreateSelo = async () => {
 </script>
 
 <template>
-  <h1 class="mb-5">Tipos de Selos</h1>
-    <v-form @submit.prevent="HandleCreateSelo">
-    <v-row>
-      <v-col cols="3">
-        <v-autocomplete
-          v-model="form.uf"
-          :items="ufList"
-          item-title="descricao"
-          item-value="sigla"
-          label="UF"
+  <v-container>
+    <h1 class="mb-5">Tipos de Selos</h1>
+      <v-form @submit.prevent="HandleCreateSelo">
+      <v-row>
+        <v-col cols="3">
+          <v-autocomplete
+            v-model="form.uf"
+            :items="ufList"
+            item-title="descricao"
+            item-value="sigla"
+            label="UF"
+            required
+            outlined
+            class="mb-5"
+          />
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+            v-model="form.cor"
+            label="Cor"
+            required
+            outlined
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+          v-model="form.descricao"
+          label="Descrição"
           required
           outlined
-          class="mb-5"
         />
-      </v-col>
-      <v-col cols="3">
-        <v-text-field
-          v-model="form.cor"
-          label="Cor"
-          required
-          outlined
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="10">
-        <v-text-field
-        v-model="form.descricao"
-        label="Descrição"
-        required
-        outlined
-      />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="3">
-        <MoneyInput required v-model="form.vlr_compra" />
-      </v-col>
-    </v-row>      
-    <v-row>
-      <v-col>
-        <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
-        <v-btn
-          type="submit"
-          class="ml-4"
-          size="large"
-          color="green"
-        >
-          Salvar
-        </v-btn>
-      </v-col>
-    </v-row>     
-    </v-form>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="3">
+          <MoneyInput required v-model="form.vlr_compra" />
+        </v-col>
+      </v-row>      
+      <v-row>
+        <v-col>
+          <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
+          <v-btn
+            type="submit"
+            class="ml-4"
+            size="large"
+            color="green"
+          >
+            Salvar
+          </v-btn>
+        </v-col>
+      </v-row>     
+      </v-form>
+  </v-container>
 </template>

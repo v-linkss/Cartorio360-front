@@ -37,8 +37,8 @@
                   justify-content: flex-end;
                 "
                 class="mr-2"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
+                @click="redirectToAnexo(item)"
+                title="Visualizar Anexo"
               >
                 <img
                   style="width: 30px; height: 30px"
@@ -53,17 +53,18 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                @click="deletePessoa(item)"
+                @click="deleteAnexo(item)"
                 title="Deletar Pessoa"
               >
-                <!-- <img
+                <img
                   v-if="item.excluido"
                   style="width: 30px; height: 30px"
                   src="../../assets/excluido.png"
                   alt="Visualizar"
                   title="Reativar"
-                /> -->
+                />
                 <img
+                 v-else
                   src="../../assets/mudarStatus.png"
                   alt="Excluir"
                   class="trash-icon"
@@ -74,6 +75,17 @@
             </v-row>
           </template>
     </v-data-table>
+    <v-dialog v-model="isModalAnexoOpen" width="600">
+      <v-card max-width="600" title="Anexo">
+        <v-btn
+          class="ms-auto mt-3 mb-3"
+          text="Fechar"
+          size="large"
+          color="red"
+          @click="isModalAnexoOpen = false"
+        ></v-btn>
+      </v-card>
+    </v-dialog>
     <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
@@ -86,12 +98,20 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  ato_id: {
+    type: Number,
+    required: true,
+  },
 });
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
 const acionarScanner = `${config.public.biometria}/run-scanner`;
+const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
+const isModalAnexoOpen = ref(false)
+
 const anexos = ref([])
 
 const state = reactive({
@@ -130,17 +150,41 @@ async function enviarArquivo() {
       method: 'POST',
       body: { tipo: 'ato_translado', token: props.ato_token ,cartorio_token:useCookie("user-data").value.cartorio_token}
     });
-    console.log(data.value)
   } catch (error) {
     console.error('Erro ao enviar o arquivo:', error);
   }
 }
 
-const createAnexo = async()=>{
-  const anexo = {
-    descricao:state.descricao
+const redirectToAnexo = async () => {
+    isModalAnexoOpen.value = true
+};
+
+const createAnexo = async () => {
+  const { data, error, status } = await useFetch(criarAtoAnexo, {
+    method: "POST",
+    body: {
+      ato_id: props.ato_id,
+      descricao: state.descricao,
+      user_id: useCookie("user-data").value.usuario_id,
+      link:"sdfsdfsdf"
+    },
+  });
+  if(status.value==='success'){
+    $toast.success("Anexo registrado com sucesso!")
+    anexos.value.push(data.value)
   }
-  anexos.value.push(anexo)
+};
+
+async function deleteAnexo(item) {
+  item.excluido = !item.excluido;
+  try {
+    await useFetch(`${atualizarAtoAnexo}/${item.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ excluido: item.excluido }),
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
 }
 
 const goBack = () => {

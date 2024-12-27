@@ -1,5 +1,4 @@
 <template>
-  <h1>Reconhecimento por Autencidade</h1>
   <v-row class="mt-5">
     <v-col cols="5">
       <v-autocomplete

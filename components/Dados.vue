@@ -6,9 +6,9 @@
     v-if="pending"
   ></v-progress-circular>
   <div v-else-if="error">{{ error.message }}</div>
-  <v-container v-if="!pending" class="mt-5">
+  <v-container v-if="!pending" >
     <v-row>
-      <v-col cols="12" md="8">
+      <v-col md="8">
         <v-text-field
           v-model="state.nome"
           :error-messages="v$.nome.$errors.map((e) => e.$message)"
@@ -18,7 +18,7 @@
           @input="v$.nome.$touch"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model="state.doc_identificacao"
           :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
@@ -31,7 +31,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-autocomplete
           v-model="state.tabvalores_estadocivil_id"
           :items="dados.estadoCivilItems"
@@ -41,13 +41,13 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model="state.profissao"
           label="Profissão"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model="state.local_trabalho"
           label="Local de trabalho"
@@ -55,7 +55,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model="state.data_nascimento"
           type="date"
@@ -63,7 +63,7 @@
           label="Data de nascimento"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-autocomplete
           v-model="state.tabvalores_capacidadecivil_id"
           :items="dados.capacidadeCivilItems"
@@ -72,7 +72,7 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-autocomplete
           v-model="state.cidade_natural_id"
           :items="dados.cidadeNascimentoItems"
@@ -83,14 +83,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model.date="state.cpf_pai"
           label="CPF do Pai"
           v-mask="'###.###.###-##'"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model.date="state.nome_pai"
           label="Nome do Pai"
@@ -98,14 +98,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model.date="state.cpf_mae"
           label="CPF da Mãe"
           v-mask="'###.###.###-##'"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col md="4">
         <v-text-field
           v-model.date="state.nome_mae"
           :error-messages="v$.nome_mae.$errors.map((e) => e.$message)"
@@ -117,9 +117,7 @@
       </v-col>
     </v-row>
     <v-row class="mb-3">
-      <NuxtLink to="/pessoas/lista">
-        <v-btn size="large" color="red">Voltar</v-btn>
-      </NuxtLink>
+      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
       <v-btn
         @click="isEditMode ? onUpdate() : onSubmit()"
         class="ml-4"
@@ -136,7 +134,14 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { cpf } from "~/composables/validaCpf";
 
-const emit = defineEmits(["saved"]);
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(["saved", "close-modal"]);
 const router = useRouter();
 const { $toast } = useNuxtApp();
 
@@ -256,13 +261,29 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error } = await useFetch(`${updatePessoa}/${pessoaId.value}`, {
-    method: "PUT",
-    body: payloadFormated,
-  });
-  $toast.success("Pessoa atualizada com sucesso!");
-  router.push("/pessoas/lista");
+  const { data, error, status } = await useFetch(
+    `${updatePessoa}/${pessoaId.value}`,
+    {
+      method: "PUT",
+      body: payloadFormated,
+    }
+  );
+  if (status.value === "success") {
+    if (props.isModal === true) {
+      $toast.success("Pessoa atualizada com sucesso!");
+      emit("close-modal");
+      return;
+    }
+    $toast.success("Pessoa atualizada com sucesso!");
+    router.push("/pessoas/lista");
+  }
 }
+
+const voltar = () => {
+  if (props.isModal === true) {
+    emit("close-modal");
+    return;
+  }
+  router.push("/pessoas/lista");
+};
 </script>
-
-

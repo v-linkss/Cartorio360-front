@@ -71,12 +71,6 @@
         </v-card>
       </template>
     </v-dialog>
-    <img
-      @click="handleDelete"
-      style="width: 40px; margin-left: 10px; cursor: pointer"
-      src="../../assets/mudarStatus.png"
-      alt="Excluir"
-    />
   </v-col>
 </template>
 
@@ -177,10 +171,6 @@ const handleCapture = async () => {
       $toast.error("Erro ao enviar imagem para o sistema.");
     }
   }, "image/jpeg");
-};
-
-const handleDelete = () => {
-  capturedPhoto.value = null;
 };
 
 if (id) {

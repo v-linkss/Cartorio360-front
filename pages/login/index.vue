@@ -83,6 +83,18 @@
             </v-btn>
           </template>
         </v-card>
+        <v-card v-if="ShowNoPermissionError" text="Seu cadastro está desativado. Entre em contato com o administrador da conta.">
+          <template v-slot:actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              @click="closeAlert"
+              style="background-color: #429946; color: white"
+            >
+              OK
+            </v-btn>
+          </template>
+        </v-card>
       </v-dialog>
       <a
         class="text-decoration-none"
@@ -113,12 +125,14 @@ const dialog = ref(false);
 
 const showPasswordError = ref(false);
 const showEmailError = ref(false);
+const ShowNoPermissionError = ref(false);
 const showError = ref(false);
 
 const closeAlert = () => {
   showPasswordError.value = false;
   showEmailError.value = false;
   showError.value = false;
+  ShowNoPermissionError.value = false
   dialog.value = false;
 };
 const config = useRuntimeConfig();
@@ -166,6 +180,9 @@ const handleErrors = (error) => {
       break;
     case "Senha inválida.":
       showPasswordError.value = true;
+      break;
+    case "Seu cadastro está desativado. Entre em contato com o administrador da conta.":
+      ShowNoPermissionError.value = true
       break;
     default:
       showError.value = true;

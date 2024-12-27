@@ -28,6 +28,11 @@ export default defineNuxtPlugin((app) => {
       },
       VDataTable:{
          density:"compact"
+      },
+      VCol:{
+        style:{
+          padding:'5px'
+        }
       }
     },
   })

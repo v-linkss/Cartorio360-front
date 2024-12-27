@@ -29,7 +29,7 @@
     </v-tabs>
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <v-container class="mt-5">
+        <v-container>
           <v-row>
             <v-col cols="12" md="8">
               <v-text-field v-model="state.nome" label="Nome"></v-text-field>

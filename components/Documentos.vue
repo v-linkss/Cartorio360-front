@@ -1,6 +1,6 @@
 <template>
-  <v-container v-if="!pending" class="mt-5">
-    <v-row>
+  <v-container class="mt-3" v-if="!pending" style="height: 525px;">
+    <v-row >
       <v-col md="2">
         <v-autocomplete
           v-model="state.tabvalores_tipodoc_id"
@@ -53,7 +53,7 @@
           label="Validade"
         ></v-text-field>
       </v-col>
-      <div class="mt-3">
+      <div class="mt-1">
         <img
           style="width: 40px; height: 40px; cursor: pointer"
           src="../assets/novo.png"
@@ -96,9 +96,7 @@
         </v-row>
       </template>
     </v-data-table>
-    <NuxtLink to="/pessoas/lista">
-      <v-btn size="large" color="red">Voltar</v-btn>
-    </NuxtLink>
+      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -169,9 +167,18 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
+const emit = defineEmits(["close-modal"]);
+
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const { $toast } = useNuxtApp();
 const route = useRoute();
+const router = useRouter();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
@@ -324,4 +331,12 @@ async function deleteDocumento(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
+
+const voltar = () => {
+  if (props.isModal === true) {
+    emit("close-modal");
+    return;
+  }
+  router.push("/pessoas/lista");
+};
 </script>

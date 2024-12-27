@@ -7,7 +7,7 @@
           v-model="state.status"
           :items="situacoesItems"
           item-title="descricao"
-          item-value="token"
+          item-value="descricao"
           required
           :error-messages="v$.status.$errors.map((e) => e.$message)"
           @blur="v$.status.$touch"
@@ -32,6 +32,7 @@
           v-model="state.dt_abertura"
           type="date"
           label="Data Lavratura"
+          disabled
           readonly
         ></v-text-field>
       </v-col>
@@ -68,17 +69,14 @@ const allSituacoes = `${config.public.managemant}/listarSituacoes`;
 const createAtoProcuracao = `${config.public.managemant}/createAtos`;
 const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const body = route.query.id
-  ? { ato_token: props.ato_token }
-  : { cartorio_token: cartorio_token };
 const ordemserv_id =
   ref(useCookie("user-service").value.id).value ||
   ref(useCookie("user-service").value).value;
 const situacoesItems = ref([]);
 
 const state = reactive({
-  dt_abertura: getCurrentDate(),
-  status: null,
+  dt_abertura: null,
+  status: "EM EDIÇÃO",
   mne: null,
 });
 
@@ -110,7 +108,7 @@ async function onSubmit() {
       },
     });
     if (status.value === "success") {
-      $toast.success("Situação registrada com sucesso");
+      $toast.success("Ato registrado com sucesso!");
       emit("saved", { id: data.value.id, token: data.value.token });
     }
   } else {
@@ -118,17 +116,9 @@ async function onSubmit() {
   }
 }
 
-function getCurrentDate() {
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const MM = String(today.getMonth() + 1).padStart(2, "0");
-  const dd = String(today.getDate()).padStart(2, "0");
-  return `${yyyy}-${MM}-${dd}`;
-}
-
 const { data: situacaoData } = await useFetch(allSituacoes, {
   method: "POST",
-  body: body,
+  body: {cartorio_token:cartorio_token.value},
 });
 situacoesItems.value = situacaoData.value;
 

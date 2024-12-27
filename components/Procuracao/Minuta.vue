@@ -1,18 +1,22 @@
 <template>
-  <v-row class="ml-4 mt-4 mb-4">
-    <v-btn size="large" color="green" @click="salvarDocumento">Salvar</v-btn>
-    <NuxtLink class="ml-4">
-      <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
-    </NuxtLink>
-  </v-row>
   <ejs-documenteditorcontainer
-    height="700px"
+    height="900px"
     ref="documentEditorContainer"
     :serviceUrl="serviceUrl"
     :enableToolbar="true"
     :enableWordExport='true'
   >
   </ejs-documenteditorcontainer>
+  <div v-if="loading" class="loading-overlay">
+    <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
+  </div>
+
+  <v-row class="ml-4 mt-4 mb-4">
+    <NuxtLink class="mr-4">
+      <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
+    </NuxtLink>
+    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
+  </v-row>
 </template>
 
 <script setup>
@@ -37,6 +41,7 @@ const config = useRuntimeConfig();
 const {$toast} = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const emit = defineEmits(["page","doc"]);
 registerLicense(
  `${config.public.docEditor}`
 );
@@ -45,11 +50,24 @@ const enviarDocumento = `${config.public.managemant}/upload`;
 const serviceUrl =
   "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
 const documentEditorContainer = ref(null);
+const loading = ref(false);
+
+const onDocumentChange = async () => {
+  const document = documentEditorContainer.value.ej2Instances.documentEditor;
+  const sfdt = await document.saveAsBlob("Sfdt");
+  const reader = new FileReader();
+  reader.onload = () => {
+    const sfdtText = reader.result;
+    emit("doc",sfdtText)
+  };
+  reader.readAsText(sfdt);
+};
 
 const salvarDocumento = async() =>{
-  const document = documentEditorContainer.value.ej2Instances.documentEditor
-  const blob = await document.saveAsBlob("Docx");
-
+  loading.value = true;
+  try {
+    const document = documentEditorContainer.value.ej2Instances.documentEditor
+  const blob = await document.saveAsBlob("Sfdt");
   const formData = new FormData();
   formData.append("file", blob, `anexo.docx`);
   formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
@@ -63,16 +81,20 @@ const salvarDocumento = async() =>{
 
     if (status.value === "success") {
       $toast.success("Documento enviado!");
+      const document = documentEditorContainer.value.ej2Instances.documentEditor;
+      const pageCount = document.pageCount; 
+      onDocumentChange()
+      emit("page",pageCount)
     } else {
       $toast.error("Erro ao enviar documento para o sistema.");
     }
+  } catch (error) {
+    $toast.error("Erro ao salvar documento.");
+    console.error(error);
+  } finally {
+    loading.value = false; 
+  }
 }
-
-const mostrarNumeroPaginas = () => {
-  const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  const pageCount = document.pageCount; // Obtem o número de páginas do documento
-  $toast.info(`O documento possui ${pageCount} página(s).`);
-};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

@@ -212,6 +212,7 @@ const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
+const getAtoPessoa = `${config.public.managemant}/getAtosPessoaById`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
@@ -227,6 +228,7 @@ const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const representante_pessoa_id = ref(null);
+const papel_id = ref(null);
 const fichaRender = ref(null);
 
 const headers = [
@@ -292,37 +294,63 @@ const createPessoa = () => {
 };
 
 const atualizarPapel = (descricao) => {
-  const papelEncontrado = pessoasTable.value.find(
-    (item) => item.papel.id === state.papeis
+  pessoasTable.value = pessoasTable.value.map((item) =>
+    item.id === ato_pessoa_id.value
+      ? {
+          ...item,
+          papel: { ...item.papel, descricao },
+        }
+      : item
   );
-  papelEncontrado.papel.descricao = descricao;
 };
 const atualizarRepresentante = (nome) => {
   const pessoaAtualizada = pessoasTable.value.find(
     (item) => item.pessoa.id === representante_pessoa_id.value
   );
-    pessoaAtualizada.representante.nome = nome;
+  pessoaAtualizada.representante.nome = nome;
 };
-
 const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
-    representante:{nome:null}
+    representante: { nome: null },
   };
-  const { data, error, status } = await useFetch(criarAtoPessoa, {
-    method: "POST",
-    body: {
-      ato_id: props.ato_id,
-      pessoa_id: state.pessoa.id,
-      tipo_parte_id: state.papeis,
-      user_id: useCookie("user-data").value.usuario_id,
-    },
+
+  const atosPessoas = await useFetch(`${getAtoPessoa}/${props.ato_id}`, {
+    method: "GET",
   });
-  if (status.value === "success") {
-    ato_pessoa_id.value = data.value.id
-    $toast.success("Pessoa Registrada com Sucesso!");
-    pessoasTable.value.push(representante);
+
+  for (const element of atosPessoas.data.value) {
+    if (
+      element.pessoa_id === state.pessoa.id &&
+      element.ato_id === props.ato_id &&
+      element.tipo_parte_id === state.papeis
+    ) {
+      $toast.error("Pessoa Já Registrada Com Esse Papel!");
+      return;
+    }
+  }
+
+  try {
+    const { data, error, status } = await useFetch(criarAtoPessoa, {
+      method: "POST",
+      body: {
+        ato_id: props.ato_id,
+        pessoa_id: state.pessoa.id,
+        tipo_parte_id: state.papeis,
+        user_id: useCookie("user-data").value.usuario_id,
+      },
+    });
+
+    if (status.value === "success") {
+      representante.id = data.value.id
+      $toast.success("Pessoa Registrada com Sucesso!");
+      pessoasTable.value.push(representante);
+    } else {
+      $toast.error("Erro ao registrar a pessoa!");
+    }
+  } catch (error) {
+    $toast.error("Erro no servidor. Tente novamente.");
   }
 };
 
@@ -344,19 +372,20 @@ const redirectToFicha = async (item) => {
 
 const redirectToRepresentante = (item) => {
   const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id) 
+    .filter((p) => p.pessoa.id !== item.pessoa.id)
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
-    })); 
-
-  pessoasRepresentantes.value = pessoasFiltradas
+    }));
+  ato_pessoa_id.value = item.id
+  pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
-  representante_pessoa_id.value = item.pessoa.id
+  representante_pessoa_id.value = item.pessoa.id;
 };
 
 const redirectToPapel = (item) => {
+  ato_pessoa_id.value = item.id
   isModalPapelOpen.value = true;
   representante_nome.value = item.pessoa.nome;
 };
