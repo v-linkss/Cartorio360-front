@@ -31,7 +31,13 @@ const HandleCreateSelo = async () => {
       body: novoSelo,
     });
 
-    navigateTo('/tiposSelos/lista')
+    form.value = {
+      uf: null,
+      cor: null,
+      descricao: null,
+      vlr_compra: null,
+    };
+
   } catch (error) {
     console.error('Erro ao criar selo:', error);
   }
