@@ -2,7 +2,7 @@
 const config = useRuntimeConfig();
 const updateSelo = `${config.public.managemant}/tipo-selos`;
 const selo = `${config.public.managemant}/tipo-selos`;
-const getUfs = `${config.public.managemant}/uf`;
+const getUfs = `${config.public.managemant}/listarUF`;
 
 const route = useRoute();
 const { id } = route.params; // Obtém o ID da rota
@@ -77,7 +77,6 @@ async function HandleSubmitEdit() {
             label="UF"
             required
             outlined
-            class=""
           />
         </v-col>
         <v-col cols="3">

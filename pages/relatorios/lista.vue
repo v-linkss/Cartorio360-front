@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig();
-const getRelatorios = `${config.public.managemant}/getRelatorios`
-const createRelatorios = `${config.public.managemant}/createRelatorio`
+const getRelatorios = `${config.public.managemant}/relatorios/buscar`
+const createRelatorios = `${config.public.managemant}/relatorios`
 const getDadosDominio = `${config.public.managemant}/listaQuery`
 
 const relatorios = ref([]);
@@ -22,11 +22,15 @@ const { data } = await useFetch(getRelatorios, {
 relatorios.value = Array.isArray(data.value) ? data.value : [];
 
 const options = computed(() =>
-  relatorios.value.map((relatorio) => ({
-    label: relatorio.codigo,
-    value: relatorio.codigo,
-    parametros: relatorio.parametros,
-  }))
+  relatorios.value.every((relatorio) => 
+    !relatorio.codigo && !relatorio.value && !relatorio.parametros
+  )
+    ? []
+    : relatorios.value.map((relatorio) => ({
+        label: relatorio.codigo,
+        value: relatorio.codigo,
+        parametros: relatorio.parametros,
+      }))
 );
 
 const handleRelatorioChange = async (selected) => {
@@ -96,7 +100,7 @@ const handleCreateRelatorio = async () => {
   <div>
     <v-autocomplete
       v-model="selectedRelatorio"
-      :items="options"
+      :items="options || []"
       class="mb-5"
       item-title="label"
       item-value="value"

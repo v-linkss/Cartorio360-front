@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="900" >
+  <v-dialog persistent v-model="isVisible" max-width="900">
     <v-card>
       <v-container>
         <h1
@@ -11,11 +11,13 @@
         >
           Cadastramento de pessoas
         </h1>
-        <div style="background-color: #f5f2f2; padding: 20px 0px 20px 20px">
+        <div style="background-color: #f5f2f2; padding: 5px 0px 0px 20px">
           <v-autocomplete
             v-model="state.tipo_pessoa"
             style="width: 200px"
             :items="pessoa_tipo"
+            item-title="label"
+            item-value="value"
             label="Tipo de pessoa"
             bg-color="#F6F6F6"
             :disabled="autocompleteDisabled"
@@ -25,16 +27,30 @@
 
         <v-tabs v-model="tab" bg-color="#f5f2f2">
           <v-tab value="dados">Dados</v-tab>
-          <v-tab v-if="showTabs" value="documento">Documentos</v-tab>
-          <v-tab v-if="showTabs" value="endereco">Endereços</v-tab>
-          <v-tab v-if="showTabs" value="biometria">Biometria</v-tab>
-          <v-tab v-if="showTabs" value="restricao">Restrições</v-tab>
+          <v-tab v-if="showTabsFisica" value="documento">Documentos</v-tab>
+          <v-tab v-if="showTabsJuridica" value="representante"
+            >Representantes</v-tab
+          >
+          <v-tab v-if="showTabsJuridica || showTabsFisica" value="endereco"
+            >Endereços</v-tab
+          >
+          <v-tab v-if="showTabsFisica" value="biometria">Biometria</v-tab>
+          <v-tab v-if="showTabsJuridica || showTabsFisica" value="restricao"
+            >Restrições</v-tab
+          >
         </v-tabs>
 
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="dados">
             <Dados
+              v-if="state.tipo_pessoa === 'fisica'"
               @saved="handleSave"
+              @close-modal="closeModal"
+              :isModal="true"
+            />
+            <DadosJuridica
+              v-else-if="state.tipo_pessoa === 'juridica'"
+              @saved="handleSaveJuridica"
               @close-modal="closeModal"
               :isModal="true"
             />
@@ -42,7 +58,16 @@
           <v-tabs-window-item v-if="showTabs" value="documento">
             <Documentos @close-modal="closeModal" :isModal="true" />
           </v-tabs-window-item>
-          <v-tabs-window-item v-if="showTabs" value="endereco">
+          <v-tabs-window-item v-if="showTabsJuridica" value="representante">
+            <PessoasCadastrosRepresentantes
+              @close-modal="closeModal"
+              :isModal="true"
+            />
+          </v-tabs-window-item>
+          <v-tabs-window-item
+            v-if="showTabsJuridica || showTabsFisica"
+            value="endereco"
+          >
             <Endereco @close-modal="closeModal" :isModal="true" />
           </v-tabs-window-item>
           <v-tabs-window-item v-if="showTabs" value="biometria">
@@ -67,25 +92,30 @@ const props = defineProps({
 const isVisible = ref(props.show);
 const emit = defineEmits(["close"]);
 
-const tab = ref(null);
-const showTabs = ref(false);
+const tab = ref("dados");
+const showTabsFisica = ref(false);
+const showTabsJuridica = ref(false);
 const autocompleteDisabled = ref(false);
 
-const initialState = {
-  tipo_pessoa: "FISICA",
-};
-
 const state = reactive({
-  ...initialState,
+  tipo_pessoa: "fisica", // Valor inicial
 });
 
-const pessoa_tipo = ["FISICA", "JURIDICA", "ESTRANGEIRA"];
+const pessoa_tipo = [
+  { label: "FÍSICA", value: "fisica" },
+  { label: "JURÍDICA", value: "juridica" },
+  { label: "ESTRANGEIRA", value: "estrangeira" },
+];
 
 const handleSave = () => {
-  showTabs.value = true;
+  showTabsFisica.value = true;
   autocompleteDisabled.value = true;
 };
 
+const handleSaveJuridica = () => {
+  showTabsJuridica.value = true;
+  autocompleteDisabled.value = true;
+};
 watch(
   () => props.show,
   (newVal) => {

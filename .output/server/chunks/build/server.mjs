@@ -670,22 +670,22 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-B1AnaXZm.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CGajGxLt.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-XE1G6nnU.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-CfFWuCHC.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-DBWkhh5v.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-Cftb7KUg.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-6dGX2OwI.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-D1qfE6LF.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-7gTfwo3N.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-jxMYX6jV.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -722,22 +722,22 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-Dgms0tgh.mjs').then((m) => m.default || m)
+    component: () => import('./index-B64qzSYM.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-CJJwA5hg.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DVwKnS6I.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index--KdIJ74Q.mjs').then((m) => m.default || m)
+    component: () => import('./index-BbyoO74K.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-CdVb5a_W.mjs').then((m) => m.default || m)
+    component: () => import('./index-Bb3dh3dR.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
@@ -745,19 +745,24 @@ const _routes = [
     component: () => import('./_id_-CvNEyttG.mjs').then((m) => m.default || m)
   },
   {
+    name: "relatorios-lista",
+    path: "/relatorios/lista",
+    component: () => import('./lista-DuHvYFGU.mjs').then((m) => m.default || m)
+  },
+  {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
-    component: () => import('./_id_-B45Csrjx.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-_JIThyWa.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
-    component: () => import('./index-BDb53Olx.mjs').then((m) => m.default || m)
+    component: () => import('./index-C8-tDyM1.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
-    component: () => import('./lista-BQD9deDm.mjs').then((m) => m.default || m)
+    component: () => import('./lista-BGWUzGJO.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {

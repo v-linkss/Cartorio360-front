@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="!pending" class="mt-5">
     <NuxtLink to="/pessoas/cadastro">
-      <img class="btn-pointer" src="../../../assets/novo.png" alt="Cadastro" />
+      <img style="cursor: pointer;" src="../../../assets/novo.png" alt="Cadastro" />
     </NuxtLink>
     <v-row style="gap: 10rem">
       <div style="width: 200px">
@@ -36,7 +36,7 @@
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
-            class="btn-pointer"
+           style="cursor: pointer;"
             @click="redirectToView(item.id)"
             title="Visualizar"
           >
@@ -47,7 +47,7 @@
             />
           </div>
           <div
-            class="btn-pointer"
+           style="cursor: pointer;"
             @click="redirectToUpdate(item.id)"
             title="Atualizar"
           >
@@ -57,7 +57,7 @@
               alt="Atualizar"
             />
           </div>
-          <div class="btn-pointer" @click="deletePessoa(item)" title="Deletar">
+          <div style="cursor: pointer;" @click="deletePessoa(item)" title="Deletar">
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px"
@@ -132,9 +132,3 @@ function redirectToUpdate(id) {
   router.push({ path: `/pessoas/atualizar/${id}` });
 }
 </script>
-
-<style scoped>
-.btn-pointer {
-  cursor: pointer;
-}
-</style>

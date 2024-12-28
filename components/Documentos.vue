@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" v-if="!pending" style="height: 525px;">
+  <v-container class="mt-3" v-if="!pending" style="height: 425px;">
     <v-row >
       <v-col md="2">
         <v-autocomplete

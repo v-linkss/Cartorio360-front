@@ -1,22 +1,11 @@
 <script setup>
 const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/tipo-selos`;
-const updateSelo = `${config.public.managemant}/tipo-selos`;
-const findSelo = `${config.public.managemant}/tipo-selos`;
-const deleteSelo = `${config.public.managemant}/tipo-selos-delete`;
-const getUfs = `${config.public.managemant}/uf`;
+const deleteSelo = `${config.public.managemant}/tipo-selos`;
+const getUfs = `${config.public.managemant}/listarUF`;
 
 const selos = ref([]);
-const isEditModalOpen = ref(false);
 const ufList = ref([]);
-
-const editForm = ref({
-  id: null,
-  uf: "",
-  cor: "",
-  descricao: "",
-  vlr_compra: null,
-});
 
 const { data: ufs } = await useFetch(getUfs, { method: "GET" });
 ufList.value = ufs.value;
@@ -96,40 +85,4 @@ async function HandleDeleteSelo(item) {
       </template>
     </v-data-table>
   </v-container>
-
-  <v-dialog v-model="isEditModalOpen" max-width="500">
-    <v-card>
-      <v-card-title>
-        <span class="text-h6">Editar Selo</span>
-      </v-card-title>
-      <v-card-text>
-        <v-form @submit.prevent="HandleSubmitEdit">
-          <v-autocomplete
-            v-model="editForm.uf"
-            :items="ufList"
-            class="mb-5"
-            item-title="descricao"
-            item-value="sigla"
-            label="UF"
-            required
-            outlined
-          />
-          <v-text-field v-model="editForm.cor" label="Cor" required outlined />
-          <v-text-field
-            v-model="editForm.descricao"
-            label="Descrição"
-            required
-            outlined
-          />
-          <MoneyInput required v-model="editForm.vlr_compra" />
-          <v-row>
-            <v-btn type="submit" color="green" size="large">Salvar</v-btn>
-            <v-btn color="red" size="large" @click="isEditModalOpen = false"
-              >Cancelar</v-btn
-            >
-          </v-row>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
 </template>
