@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig();
 const createSelo = `${config.public.managemant}/tipo-selos`;
-const getUfs = `${config.public.managemant}/uf`;
+const getUfs = `${config.public.managemant}/listarUF`;
 
 const form = ref({
     uf: null,

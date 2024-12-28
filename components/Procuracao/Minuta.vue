@@ -92,7 +92,7 @@ const loadDefaultDocument = async () => {
   try {
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: "ato/fKumj/66398.sfdt" },
+      body: { bucket: "qvgjz", path: "ato/F11TZ/ato_minuta-2024-12-21T12:18:18.080Z" },
     });
     const fileUrl = data.value;
     const blob = await fetchBlobFromMinIO(fileUrl);

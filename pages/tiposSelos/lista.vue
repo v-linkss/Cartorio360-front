@@ -3,8 +3,8 @@ const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/tipo-selos`;
 const updateSelo = `${config.public.managemant}/tipo-selos`;
 const findSelo = `${config.public.managemant}/tipo-selos`;
-const deleteSelo = `${config.public.managemant}/tipo-selos-delete`;
-const getUfs = `${config.public.managemant}/uf`;
+const deleteSelo = `${config.public.managemant}/tipo-selos/delete/`;
+const getUfs = `${config.public.managemant}/listarUF`;
 
 const selos = ref([]);
 const isEditModalOpen = ref(false);
