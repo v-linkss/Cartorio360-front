@@ -100,7 +100,7 @@ const handleCreateRelatorio = async () => {
   <div>
     <v-autocomplete
       v-model="selectedRelatorio"
-      :items="options || []"
+      :items="options"
       class="mb-5"
       item-title="label"
       item-value="value"

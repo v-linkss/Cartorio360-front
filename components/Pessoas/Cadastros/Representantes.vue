@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: 660px;">
+  <v-container style="height: 660px">
     <v-row class="mt-1">
       <v-col cols="3">
         <v-text-field label="Documento" v-model="state.documento">
@@ -62,7 +62,6 @@
         />
       </div>
     </v-row>
-
     <v-row>
       <v-col>
         <v-data-table
@@ -110,18 +109,21 @@
       :show="isModalRegistroOpen"
       @close="isModalRegistroOpen = false"
     />
-
   </v-container>
 </template>
 
 <script setup>
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
+const route = useRoute();
+const router = useRouter();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const criarAtoPessoa = `${config.public.managemant}/representante`;
+const buscarRepresentante = `${config.public.managemant}/representante`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const { id } = route.params;
 
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
@@ -133,12 +135,13 @@ const headers = [
   {
     title: "Documento",
     align: "start",
-    key: "pessoa.documento",
+    key:"representante",
+    value: (item) => item.representante?.doc_identificacao || item.representante?.documento,
   },
   {
     title: "Pessoa",
     align: "start",
-    key: "pessoa.nome",
+    key: "representante.nome",
   },
   {
     title: "Papel",
@@ -188,18 +191,17 @@ const createPessoa = () => {
 
 const createRepresentante = async () => {
   const representante = {
-    pessoa: state.pessoa,
-    papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
-    representante: { nome: null },
+    representante: state.pessoa,
+    papel: papeisItems.value.find((papel) => papel.id === state.papeis),
   };
 
   try {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
       method: "POST",
       body: {
-        ato_id:null,
-        representante_id:state.pessoa.id,
-        pessoa_id: state.pessoa.id,
+        ato_id: null,
+        representante_id: state.pessoa.id,
+        pessoa_id: id,
         tipo_parte_id: state.papeis,
         user_id: useCookie("user-data").value.usuario_id,
       },
@@ -216,6 +218,13 @@ const createRepresentante = async () => {
     $toast.error("Erro no servidor. Tente novamente.");
   }
 };
+
+async function loadRepresentanteData() {
+  const { data, error } = await useFetch(`${buscarRepresentante}/${id}`, {
+    method: "GET",
+  });
+pessoasTable.value =data.value
+}
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
@@ -235,4 +244,10 @@ const voltar = () => {
   }
   router.push("/pessoas/lista");
 };
+
+onMounted(() => {
+  if (id) {
+    loadRepresentanteData();
+  }
+});
 </script>

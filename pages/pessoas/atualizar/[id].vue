@@ -14,22 +14,25 @@
         v-model="state.tipo_pessoa"
         style="width: 200px"
         :items="pessoa_tipo"
+        item-title="label"
+        item-value="value"
         label="Tipo de pessoa"
         bg-color="#F6F6F6"
-        disabled=""
+        disabled
       >
       </v-autocomplete>
     </div>
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
-      <v-tab value="documento">Documentos</v-tab>
-      <v-tab value="endereco">Endereços</v-tab>
-      <v-tab value="biometria">Biometria</v-tab>
-      <v-tab value="restricao">Restrições</v-tab>
+      <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento">Documentos</v-tab>
+      <v-tab  v-if="state.tipo_pessoa === 'JURIDICA'" value="representante">Representantes</v-tab>
+      <v-tab v-if="state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'" value="endereco">Endereços</v-tab>
+      <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria">Biometria</v-tab>
+      <v-tab v-if="state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'" value="restricao">Restrições</v-tab>
     </v-tabs>
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <v-container>
+        <v-container v-if="state.tipo_pessoa === 'FISICA'">
           <v-row>
             <v-col cols="12" md="8">
               <v-text-field v-model="state.nome" label="Nome"></v-text-field>
@@ -131,9 +134,13 @@
             <v-btn @click="onUpdate()" class="ml-4" size="large" color="green">Salvar</v-btn>
           </v-row>
         </v-container>
+        <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
       </v-tabs-window-item>
       <v-tabs-window-item value="documento">
         <Documentos />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="representante">
+        <PessoasCadastrosRepresentantes  />
       </v-tabs-window-item>
       <v-tabs-window-item value="endereco">
         <Endereco />
@@ -189,6 +196,12 @@ const initialState = {
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
+
+const pessoa_tipo = [
+  { label: "FÍSICA", value: "FISICA"},
+  { label: "JURÍDICA", value: "JURIDICA" },
+  { label: "ESTRANGEIRA", value: "ESTRANGEIRA" },
+];
 
 const state = reactive({
   ...initialState,

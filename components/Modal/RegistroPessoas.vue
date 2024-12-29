@@ -102,9 +102,9 @@ const state = reactive({
 });
 
 const pessoa_tipo = [
-  { label: "FÍSICA", value: "fisica" },
-  { label: "JURÍDICA", value: "juridica" },
-  { label: "ESTRANGEIRA", value: "estrangeira" },
+  { label: "FÍSICA", value: "FISICA"},
+  { label: "JURÍDICA", value: "JURIDICA" },
+  { label: "ESTRANGEIRA", value: "ESTRANGEIRA" },
 ];
 
 const handleSave = () => {

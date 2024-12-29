@@ -1,44 +1,40 @@
 // import this after install `@mdi/font` package
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import { VDateInput } from 'vuetify/labs/VDateInput'
-import { pt } from 'vuetify/locale';
-import VueTheMask from 'vue-the-mask'
-import { VDataTable } from 'vuetify/lib/components/index.mjs'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import { VDateInput } from "vuetify/labs/VDateInput";
+import { pt } from "vuetify/locale";
+import VueTheMask from "vue-the-mask";
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
     locale: {
-      locale: 'pt',
+      locale: "pt",
       messages: { pt },
     },
     components: {
       VDateInput,
     },
-    defaults:{
+    defaults: {
       VAutocomplete: {
-        noDataText: 'Não há dados correspondentes',
+        noDataText: "Não há dados correspondentes",
         hideDetails: true,
-        density:"compact",
-        clearable:true
+        density: "compact",
+        clearable: true,
       },
       VTextField: {
-        density:"compact",
+        density: "compact",
       },
-      VDataTable:{
-         density:"compact"
+      VDataTable: {
+        density: "compact",
       },
-      VCol:{
-        style:{
-          padding:'5px'
-        }
-      }
+      VCol: {
+        style: {
+          padding: "5px",
+        },
+      },
     },
-  })
-  app.vueApp.use(vuetify)
-  app.vueApp.use(VDataTable)
-  app.vueApp.use(VueTheMask)
-})
-
-
+  });
+  app.vueApp.use(vuetify);
+  app.vueApp.use(VueTheMask);
+});

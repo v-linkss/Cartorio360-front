@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 525px;">
+  <div style="height: 425px;">
     <h1>Restrições</h1>
   </div>
 </template>
