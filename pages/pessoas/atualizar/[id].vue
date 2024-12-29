@@ -22,143 +22,167 @@
       >
       </v-autocomplete>
     </div>
-    <v-tabs v-model="tab" bg-color="#f5f2f2">
-      <v-tab value="dados">Dados</v-tab>
-      <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento">Documentos</v-tab>
-      <v-tab  v-if="state.tipo_pessoa === 'JURIDICA'" value="representante">Representantes</v-tab>
-      <v-tab v-if="state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'" value="endereco">Endereços</v-tab>
-      <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria">Biometria</v-tab>
-      <v-tab v-if="state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'" value="restricao">Restrições</v-tab>
-    </v-tabs>
-    <v-tabs-window v-model="tab">
-      <v-tabs-window-item value="dados">
-        <v-container v-if="state.tipo_pessoa === 'FISICA'">
-          <v-row>
-            <v-col cols="12" md="8">
-              <v-text-field v-model="state.nome" label="Nome"></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.doc_identificacao"
-                label="CPF"
-                v-mask="'###.###.###-##'"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.tabvalores_estadocivil_id"
-                :items="estadoCivilItemsData"
-                item-title="descricao"
-                item-value="id"
-                label="Estado Civil"
+    <div v-if="loading" class="d-flex justify-center">
+      <v-progress-circular indeterminate class="loading-spinner" size="64"></v-progress-circular>
+    </div>
+    <div v-else>
+      <v-tabs v-model="tab" bg-color="#f5f2f2">
+        <v-tab value="dados">Dados</v-tab>
+        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento"
+          >Documentos</v-tab
+        >
+        <v-tab v-if="state.tipo_pessoa === 'JURIDICA'" value="representante"
+          >Representantes</v-tab
+        >
+        <v-tab
+          v-if="
+            state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
+          "
+          value="endereco"
+          >Endereços</v-tab
+        >
+        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria"
+          >Biometria</v-tab
+        >
+        <v-tab
+          v-if="
+            state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
+          "
+          value="restricao"
+          >Restrições</v-tab
+        >
+      </v-tabs>
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item value="dados">
+          <v-container v-if="state.tipo_pessoa === 'FISICA'">
+            <v-row>
+              <v-col cols="12" md="8">
+                <v-text-field v-model="state.nome" label="Nome"></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="state.doc_identificacao"
+                  label="CPF"
+                  v-mask="'###.###.###-##'"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-autocomplete
+                  v-model="state.tabvalores_estadocivil_id"
+                  :items="estadoCivilItemsData"
+                  item-title="descricao"
+                  item-value="id"
+                  label="Estado Civil"
+                >
+                </v-autocomplete>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="state.profissao"
+                  label="Profissão"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="state.local_trabalho"
+                  label="Local de trabalho"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model="state.data_nascimento"
+                  type="date"
+                  prepend-icon=""
+                  label="Data de nascimento"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-autocomplete
+                  v-model="state.tabvalores_capacidadecivil_id"
+                  :items="capacidadeCivilItemsData"
+                  label="Capacidade Civil"
+                  item-title="descricao"
+                  item-value="id"
+                ></v-autocomplete>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-autocomplete
+                  v-model="state.cidade_natural_id"
+                  :items="cidadeNascimentoItemsData"
+                  label="Cidade de nascimento"
+                  item-title="descricao"
+                  item-value="id"
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model.date="state.cpf_pai"
+                  label="CPF do Pai"
+                  v-mask="'###.###.###-##'"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model.date="state.nome_pai"
+                  label="Nome do Pai"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model.date="state.cpf_mae"
+                  label="CPF da Mãe"
+                  v-mask="'###.###.###-##'"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  v-model.date="state.nome_mae"
+                  label="Nome da Mãe"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row class="mb-3">
+              <NuxtLink to="/pessoas/lista">
+                <v-btn size="large" color="red">Voltar</v-btn>
+              </NuxtLink>
+              <v-btn @click="onUpdate()" class="ml-4" size="large" color="green"
+                >Salvar</v-btn
               >
-              </v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.profissao"
-                label="Profissão"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.local_trabalho"
-                label="Local de trabalho"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="state.data_nascimento"
-                type="date"
-                prepend-icon=""
-                label="Data de nascimento"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.tabvalores_capacidadecivil_id"
-                :items="capacidadeCivilItemsData"
-                label="Capacidade Civil"
-                item-title="descricao"
-                item-value="id"
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-autocomplete
-                v-model="state.cidade_natural_id"
-                :items="cidadeNascimentoItemsData"
-                label="Cidade de nascimento"
-                item-title="descricao"
-                item-value="id"
-              ></v-autocomplete>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.cpf_pai"
-                label="CPF do Pai"
-                v-mask="'###.###.###-##'"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.nome_pai"
-                label="Nome do Pai"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.cpf_mae"
-                label="CPF da Mãe"
-                v-mask="'###.###.###-##'"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model.date="state.nome_mae"
-                label="Nome da Mãe"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row class="mb-3">
-            <NuxtLink to="/pessoas/lista">
-              <v-btn size="large" color="red">Voltar</v-btn>
-            </NuxtLink>
-            <v-btn @click="onUpdate()" class="ml-4" size="large" color="green">Salvar</v-btn>
-          </v-row>
-        </v-container>
-        <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
-      </v-tabs-window-item>
-      <v-tabs-window-item value="documento">
-        <Documentos />
-      </v-tabs-window-item>
-      <v-tabs-window-item value="representante">
-        <PessoasCadastrosRepresentantes  />
-      </v-tabs-window-item>
-      <v-tabs-window-item value="endereco">
-        <Endereco />
-      </v-tabs-window-item>
-      <v-tabs-window-item value="biometria">
-        <v-container class="mt-5">
-          <Biometria />
-        </v-container>
-      </v-tabs-window-item>
-      <v-tabs-window-item value="restricao">
-        <Restricoes />
-      </v-tabs-window-item>
-    </v-tabs-window>
+            </v-row>
+          </v-container>
+          <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="documento">
+          <Documentos />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="representante">
+          <PessoasCadastrosRepresentantes />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="endereco">
+          <Endereco />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="biometria">
+          <v-container class="mt-5">
+            <Biometria />
+          </v-container>
+        </v-tabs-window-item>
+        <v-tabs-window-item value="restricao">
+          <Restricoes />
+        </v-tabs-window-item>
+      </v-tabs-window>
+    </div>
   </v-card>
 </template>
 
 <script setup>
-import { reactive, onMounted } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 
 const tab = ref(null);
@@ -179,6 +203,7 @@ const buscarPessoa = `${config.public.managemant}/getPessoaById`;
 const estadoCivilItemsData = ref([]);
 const capacidadeCivilItemsData = ref([]);
 const cidadeNascimentoItemsData = ref([]);
+const loading = ref(true);
 
 const initialState = {
   nome: "",
@@ -198,7 +223,7 @@ const initialState = {
 };
 
 const pessoa_tipo = [
-  { label: "FÍSICA", value: "FISICA"},
+  { label: "FÍSICA", value: "FISICA" },
   { label: "JURÍDICA", value: "JURIDICA" },
   { label: "ESTRANGEIRA", value: "ESTRANGEIRA" },
 ];
@@ -217,7 +242,6 @@ function removeFormatting(value) {
 
 const v$ = useVuelidate(state);
 
-// Função para carregar dados da pessoa e popular o formulário
 async function loadPessoaData() {
   try {
     const [
@@ -240,10 +264,10 @@ async function loadPessoaData() {
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
 
     Object.assign(state, pessoa);
-
-    return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
   } catch (error) {
     console.error("Erro ao carregar os dados da pessoa:", error);
+  } finally {
+    loading.value = false; // Finaliza o estado de carregamento
   }
 }
 
@@ -251,6 +275,8 @@ async function loadPessoaData() {
 onMounted(() => {
   if (id) {
     loadPessoaData();
+  } else {
+    loading.value = false; // Caso não tenha ID, finaliza o carregamento
   }
 });
 

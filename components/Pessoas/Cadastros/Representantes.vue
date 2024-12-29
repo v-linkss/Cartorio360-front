@@ -202,7 +202,7 @@ const createRepresentante = async () => {
         ato_id: null,
         representante_id: state.pessoa.id,
         pessoa_id: id,
-        tipo_parte_id: state.papeis,
+        papel_id: state.papeis,
         user_id: useCookie("user-data").value.usuario_id,
       },
     });
