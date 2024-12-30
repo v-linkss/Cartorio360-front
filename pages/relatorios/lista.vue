@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig();
-const getRelatorios = `${config.public.managemant}/relatorios/buscar`
-const createRelatorios = `${config.public.managemant}/relatorios`
+const getRelatorios = `${config.public.managemant}/getRelatorios`
+const createRelatorios = `${config.public.managemant}/createRelatorio`
 const getDadosDominio = `${config.public.managemant}/listaQuery`
 
 const relatorios = ref([]);
