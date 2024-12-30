@@ -67,6 +67,7 @@
             </div>
           </template>
         </v-data-table>
+        {{ selosItems }}
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
@@ -212,7 +213,7 @@ const addNewRow = async () => {
     return;
   }
 
-  if (Number(props.ordem.valor) <= 0) {
+  if (state.valor > Number(props.ordem.valor)||Number(props.ordem.valor) <= 0) {
     $toast.error(
       "O valor recebido não deve ultrapassar o valor total da ordem."
     );

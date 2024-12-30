@@ -722,7 +722,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-Cr8QJaKN.mjs').then((m) => m.default || m)
+    component: () => import('./index-DDyLhMf2.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
