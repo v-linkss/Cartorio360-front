@@ -67,7 +67,6 @@
             </div>
           </template>
         </v-data-table>
-        {{ selosItems }}
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
