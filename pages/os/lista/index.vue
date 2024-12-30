@@ -203,6 +203,7 @@
 
 <script setup>
 const config = useRuntimeConfig();
+const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
@@ -296,6 +297,7 @@ async function searchOrdersService() {
       servicosItems.value = servicosData.value;
     } else {
       servicosItems.value = [];
+      $toast.error("Não existe Ordem de Serviço Registrada!")
     }
   } catch (error) {
     console.error("Erro na requisição", error);

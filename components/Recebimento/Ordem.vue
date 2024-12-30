@@ -14,14 +14,15 @@
               class="mr-5"
               label="Recebido"
               v-model="props.ordem.valor_pago"
-              disabled
+              style="font-weight: bold; cursor: default; pointer-events: none"
+              readonly
             >
             </v-text-field>
 
             <v-text-field
               label="Falta Receber"
+              style="font-weight: bold; cursor: default; pointer-events: none"
               v-model="props.ordem.valor"
-              disabled
             >
             </v-text-field>
           </v-row>
@@ -69,7 +70,9 @@
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
-        <v-btn class="ml-8" size="large" @click="closeModal" color="red">Voltar</v-btn>
+        <v-btn class="ml-8" size="large" @click="closeModal" color="red"
+          >Voltar</v-btn
+        >
 
         <v-btn
           v-if="Number(props.ordem.valor) > 0"
@@ -144,6 +147,10 @@ watch(
 );
 const closeModal = () => {
   isVisible.value = false;
+  state.forma = null
+  state.descricao = null
+  state.valor = ""
+  selosItems.value = []
   emit("close");
 };
 
@@ -165,9 +172,12 @@ const realizarRecebimentoCompleto = async () => {
   });
 
   if (data.value[0].status === "OK") {
-    $toast.success("Valores Recebidos com Sucesso!");
+    $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
     selosItems.value = [];
     closeModal();
+  } else {
+    const error_message = data.value[0].status_mensagem;
+    $toast.error(error_message);
   }
 };
 
