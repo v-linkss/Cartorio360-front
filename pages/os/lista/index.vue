@@ -186,7 +186,6 @@
         </v-row>
       </template>
     </v-data-table>
-    {{ servicosItems[1]}}
     <RecebimentoOrdem
       :show="isModalRecebimentoOpen"
       :numero_os="numero_os"
