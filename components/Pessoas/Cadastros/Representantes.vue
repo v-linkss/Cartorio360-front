@@ -113,6 +113,13 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const route = useRoute();
@@ -121,8 +128,9 @@ const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const criarAtoPessoa = `${config.public.managemant}/representante`;
 const buscarRepresentante = `${config.public.managemant}/representante`;
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const pessoasUpdate = `${config.public.managemant}/representante`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const pessoa_id = Number(useCookie("pessoa-id").value || id);
 const { id } = route.params;
 
 const pessoasItems = ref([]);
@@ -194,14 +202,13 @@ const createRepresentante = async () => {
     representante: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis),
   };
-
   try {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
       method: "POST",
       body: {
         ato_id: null,
         representante_id: state.pessoa.id,
-        pessoa_id: id,
+        pessoa_id: pessoa_id || id,
         papel_id: state.papeis,
         user_id: useCookie("user-data").value.usuario_id,
       },
@@ -228,6 +235,7 @@ pessoasTable.value =data.value
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
+  console.log(item.excluido)
   try {
     await useFetch(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",
