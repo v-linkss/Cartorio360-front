@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" v-if="!pending" style="height: 425px;">
+  <v-container class="mt-3" v-if="!pending" style="height: 425px">
     <v-row>
       <v-col md="2">
         <v-autocomplete
@@ -12,12 +12,18 @@
       </v-col>
       <v-col md="2">
         <v-text-field
+          v-if="!isForeign"
           v-model="state.codcep"
           v-mask="'########'"
           :error-messages="v$.codcep.$errors.map((e) => e.$message)"
           required
           @blur="v$.codcep.$touch"
           @input="v$.codcep.$touch"
+          label="CEP"
+        ></v-text-field>
+        <v-text-field
+          v-else
+          v-model="state.codcep"
           label="CEP"
         ></v-text-field>
       </v-col>
@@ -34,8 +40,8 @@
       <v-col md="1">
         <v-text-field
           v-model="state.numero"
-          :error-messages="v$.numero.$errors.map((e) => e.$message)"
           required
+          :error-messages="v$.numero.$errors.map((e) => e.$message)"
           @blur="v$.numero.$touch"
           @input="v$.numero.$touch"
           label="N*"
@@ -46,7 +52,7 @@
           style="width: 40px; height: 40px; cursor: pointer"
           src="../assets/novo.png"
           alt="novo"
-          @click="onSubmit"
+          @click="onSubmitNacional()"
         />
       </div>
       <v-col md="5">
@@ -87,7 +93,7 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex;margin-top: -8px; gap: 10px">
+        <v-row style="display: flex; margin-top: -8px; gap: 10px">
           <div @click="redirectToUpdate(item.id)" title="Visualizar">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
@@ -115,7 +121,7 @@
         </v-row>
       </template>
     </v-data-table>
-      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
+    <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -225,7 +231,7 @@ const state = reactive({
 const headers = [
   { title: "País", value: "pais.descricao" },
   { title: "CEP", value: "codcep" },
-  { title: "Endereço", value: "logradouro",width:"200px"},
+  { title: "Endereço", value: "logradouro", width: "200px" },
   {
     title: "N*",
     value: "numero",
@@ -259,10 +265,14 @@ const isForeign = computed(() => {
 
 const rules = {
   numero: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
+    required: helpers.withMessage("O campo é obrigatorio", (value) =>
+      !isForeign.value ? required(value) : true
+    ),
   },
   bairro: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
+    required: helpers.withMessage("O campo é obrigatorio", (value) =>
+      !isForeign.value ? required(value) : true
+    ),
   },
   logradouro: {
     required: helpers.withMessage("O campo é obrigatorio", required),
@@ -270,7 +280,7 @@ const rules = {
   codcep: {
     required: helpers.withMessage(
       "O campo é obrigatorio e precisa de 8 digitos",
-      required
+      (value) => (!isForeign.value ? required(value) : true)
     ),
   },
 };
@@ -291,7 +301,7 @@ const {
   return { paisItems, enderecosItems, cidadesItems };
 });
 
-async function onSubmit() {
+async function onSubmitNacional() {
   if (await v$.value.$validate()) {
     const payload = { ...state };
     for (const key in payload) {
@@ -304,6 +314,7 @@ async function onSubmit() {
       user_id,
       pessoa_id,
     };
+    console.log(payloadFormated)
     const { data, error, status } = await useFetch(criarEnderecos, {
       method: "POST",
       body: payloadFormated,
