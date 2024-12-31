@@ -63,6 +63,7 @@
       </div>
     </v-row>
     <v-data-table
+     style="max-height: 330px;"
       :headers="headers"
       :items="documentos.pessoasDocsItems"
       item-key="id"

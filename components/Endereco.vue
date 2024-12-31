@@ -21,16 +21,27 @@
           @input="v$.codcep.$touch"
           label="CEP"
         ></v-text-field>
-        <v-text-field v-else v-model="state.codcep" label="CEP"></v-text-field>
+        <v-text-field
+          v-else
+          v-model="state.codcep"
+          v-mask="'########'"
+          label="CEP"
+        ></v-text-field>
       </v-col>
       <v-col md="6">
         <v-text-field
+          v-if="!isForeign"
           v-model="state.logradouro"
           label="Endereço"
           :error-messages="v$.logradouro.$errors.map((e) => e.$message)"
           required
           @blur="v$.logradouro.$touch"
           @input="v$.logradouro.$touch"
+        ></v-text-field>
+        <v-text-field
+          v-else
+          v-model="state.logradouro"
+          label="Endereço"
         ></v-text-field>
       </v-col>
       <v-col md="1">
@@ -50,7 +61,9 @@
           style="width: 40px; height: 40px; cursor: pointer"
           src="../assets/novo.png"
           alt="novo"
-          @click="onSubmitAdress()"
+          @click="
+            !isForeign ? onSubmitAdressNational() : onSubmitAdressForeign()
+          "
         />
       </div>
       <v-col md="5">
@@ -92,6 +105,7 @@
       </v-col>
     </v-row>
     <v-data-table
+      style="max-height: 330px;"
       :headers="headers"
       :items="enderecos.enderecosItems"
       item-key="id"
@@ -174,7 +188,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-autocomplete
-                v-if="!selectedEndereco.cidade_estrangeira"
+                v-if="selectedEndereco.cidade_estrangeira"
                 v-model="selectedEndereco.cidade_id"
                 :items="enderecos.cidadesItems"
                 label="Cidade"
@@ -232,16 +246,16 @@ const user_id = ref(useCookie("user-data").value.usuario_id).value;
 const pessoa_id = Number(useCookie("pessoa-id").value || id);
 
 const state = reactive({
-  tabvalores_pais_id: "",
-  cidade_id: "",
-  codcep: "",
-  logradouro: "",
-  numero: "",
-  bairro: "",
-  data_vencimento: "",
-  tabvalores_ufemissor_id: "",
-  complemento: "",
-  cidade_estrangeira: "",
+  tabvalores_pais_id: null,
+  cidade_id: null,
+  codcep: null,
+  logradouro: null,
+  numero: null,
+  bairro: null,
+  data_vencimento: null,
+  tabvalores_ufemissor_id: null,
+  complemento: null,
+  cidade_estrangeira: null,
 });
 const headers = [
   { title: "País", value: "pais.descricao" },
@@ -316,14 +330,10 @@ const {
   return { paisItems, enderecosItems, cidadesItems };
 });
 
-async function onSubmitAdress() {
+async function onSubmitAdressNational() {
   if (await v$.value.$validate()) {
     const payload = { ...state };
-    for (const key in payload) {
-      if (payload[key] === "") {
-        payload[key] = null;
-      }
-    }
+
     const payloadFormated = {
       ...payload,
       user_id,
@@ -339,7 +349,7 @@ async function onSubmitAdress() {
       $toast.success("Endereço cadastrado com sucesso!");
       refresh();
       for (const key in state) {
-        state[key] = "";
+        state[key] = null;
       }
       v$.value.$reset();
     }
@@ -347,6 +357,34 @@ async function onSubmitAdress() {
     $toast.error(
       "Erro ao cadastrar Endereço, preencha os campos obrigatorios."
     );
+  }
+}
+
+async function onSubmitAdressForeign() {
+  if (!state.cidade_estrangeira || !state.logradouro) {
+    $toast.error("Os Campos Cidade Estrangeira e Endereço são obrigatorios!");
+    return;
+  }
+  const payload = { ...state };
+
+  const payloadFormated = {
+    ...payload,
+    user_id,
+    pessoa_id,
+  };
+  const { data, error, status } = await useFetch(criarEnderecos, {
+    method: "POST",
+    body: payloadFormated,
+  });
+  if (status.value === "error" && error.value.statusCode === 500) {
+    $toast.error("Erro ao cadastrar endereço,erro no sistema.");
+  } else {
+    $toast.success("Endereço cadastrado com sucesso!");
+    refresh();
+    for (const key in state) {
+      state[key] = null;
+    }
+    v$.value.$reset();
   }
 }
 

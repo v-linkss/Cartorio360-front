@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: 660px">
+  <v-container style="height: 425px">
     <v-row class="mt-1">
       <v-col cols="3">
         <v-text-field label="Documento" v-model="state.documento">
@@ -65,7 +65,7 @@
     <v-row>
       <v-col>
         <v-data-table
-          style="height: 465px"
+          style="max-height: 330px;"
           :headers="headers"
           :items="pessoasTable"
         >
