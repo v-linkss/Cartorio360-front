@@ -21,11 +21,7 @@
           @input="v$.codcep.$touch"
           label="CEP"
         ></v-text-field>
-        <v-text-field
-          v-else
-          v-model="state.codcep"
-          label="CEP"
-        ></v-text-field>
+        <v-text-field v-else v-model="state.codcep" label="CEP"></v-text-field>
       </v-col>
       <v-col md="6">
         <v-text-field
@@ -39,6 +35,7 @@
       </v-col>
       <v-col md="1">
         <v-text-field
+          v-if="!isForeign"
           v-model="state.numero"
           required
           :error-messages="v$.numero.$errors.map((e) => e.$message)"
@@ -46,13 +43,14 @@
           @input="v$.numero.$touch"
           label="N*"
         ></v-text-field>
+        <v-text-field v-else v-model="state.numero" label="N*"></v-text-field>
       </v-col>
       <div class="mt-1">
         <img
           style="width: 40px; height: 40px; cursor: pointer"
           src="../assets/novo.png"
           alt="novo"
-          @click="onSubmitNacional()"
+          @click="onSubmitAdress()"
         />
       </div>
       <v-col md="5">
@@ -63,11 +61,17 @@
       </v-col>
       <v-col md="3">
         <v-text-field
+          v-if="!isForeign"
           v-model="state.bairro"
           :error-messages="v$.bairro.$errors.map((e) => e.$message)"
           required
           @blur="v$.bairro.$touch"
           @input="v$.bairro.$touch"
+          label="Bairro"
+        ></v-text-field>
+        <v-text-field
+          v-else
+          v-model="state.bairro"
           label="Bairro"
         ></v-text-field>
       </v-col>
@@ -92,6 +96,9 @@
       :items="enderecos.enderecosItems"
       item-key="id"
     >
+      <template v-slot:item.cidade="{ item }">
+        <span>{{ getCidadeNome(item) }}</span>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; margin-top: -8px; gap: 10px">
           <div @click="redirectToUpdate(item.id)" title="Visualizar">
@@ -121,7 +128,6 @@
         </v-row>
       </template>
     </v-data-table>
-    <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -168,12 +174,18 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-autocomplete
+                v-if="!selectedEndereco.cidade_estrangeira"
                 v-model="selectedEndereco.cidade_id"
                 :items="enderecos.cidadesItems"
                 label="Cidade"
                 item-title="descricao"
                 item-value="id"
               ></v-autocomplete>
+              <v-text-field
+                v-else
+                v-model="selectedEndereco.cidade_estrangeira"
+                label="Cidade Estrangeira"
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -189,6 +201,9 @@
       </v-card>
     </v-dialog>
   </v-container>
+  <v-btn @click="voltar" class="ml-10 mb-5" size="large" color="red"
+    >Voltar</v-btn
+  >
 </template>
 
 <script setup>
@@ -246,7 +261,7 @@ const headers = [
   },
   {
     title: "Cidade",
-    value: "cidades.nome",
+    value: "cidade",
   },
   {
     value: "actions",
@@ -263,16 +278,16 @@ const isForeign = computed(() => {
   return selectedPais ? selectedPais.estrangeiro : false;
 });
 
+const getCidadeNome = (item) => {
+  return item.cidades?.nome || item.cidade_estrangeira;
+};
+
 const rules = {
   numero: {
-    required: helpers.withMessage("O campo é obrigatorio", (value) =>
-      !isForeign.value ? required(value) : true
-    ),
+    required: helpers.withMessage("O campo é obrigatorio", required),
   },
   bairro: {
-    required: helpers.withMessage("O campo é obrigatorio", (value) =>
-      !isForeign.value ? required(value) : true
-    ),
+    required: helpers.withMessage("O campo é obrigatorio", required),
   },
   logradouro: {
     required: helpers.withMessage("O campo é obrigatorio", required),
@@ -280,7 +295,7 @@ const rules = {
   codcep: {
     required: helpers.withMessage(
       "O campo é obrigatorio e precisa de 8 digitos",
-      (value) => (!isForeign.value ? required(value) : true)
+      required
     ),
   },
 };
@@ -301,7 +316,7 @@ const {
   return { paisItems, enderecosItems, cidadesItems };
 });
 
-async function onSubmitNacional() {
+async function onSubmitAdress() {
   if (await v$.value.$validate()) {
     const payload = { ...state };
     for (const key in payload) {
@@ -314,7 +329,6 @@ async function onSubmitNacional() {
       user_id,
       pessoa_id,
     };
-    console.log(payloadFormated)
     const { data, error, status } = await useFetch(criarEnderecos, {
       method: "POST",
       body: payloadFormated,

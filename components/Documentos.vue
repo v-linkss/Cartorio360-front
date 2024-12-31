@@ -96,7 +96,6 @@
         </v-row>
       </template>
     </v-data-table>
-      <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
     <v-dialog v-model="isModalOpen" max-width="600px">
       <v-card>
         <v-card-title style="color: green">Atualizar Endereço</v-card-title>
@@ -146,8 +145,6 @@
                 label="Validade"
               ></v-text-field>
             </v-col>
-
-            <!-- Outros campos que precisar -->
           </v-row>
         </v-card-text>
         <v-card-actions>
@@ -162,6 +159,9 @@
       </v-card>
     </v-dialog>
   </v-container>
+  <NuxtLink @click="voltar">
+      <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
+    </NuxtLink>
 </template>
 
 <script setup>

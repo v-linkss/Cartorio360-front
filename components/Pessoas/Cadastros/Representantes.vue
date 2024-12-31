@@ -102,14 +102,15 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <NuxtLink @click="voltar">
-      <v-btn size="large" color="red">Voltar</v-btn>
-    </NuxtLink>
+
     <ModalRegistroPessoas
       :show="isModalRegistroOpen"
       @close="isModalRegistroOpen = false"
     />
   </v-container>
+  <NuxtLink @click="voltar">
+      <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
+    </NuxtLink>
 </template>
 
 <script setup>
