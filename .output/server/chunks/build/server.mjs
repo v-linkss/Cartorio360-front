@@ -670,22 +670,22 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-DqzmFIiW.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-BJgJPVU5.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Dt8mcgWa.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-DxnSuSxs.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-BIheXQR_.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-BhZcrvU7.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-CLUtmUXG.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-B4X5Cclp.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-6RUJncHS.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-Daqa6Kn9.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -722,17 +722,17 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-DDyLhMf2.mjs').then((m) => m.default || m)
+    component: () => import('./index-Ck6mF5AG.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-CKHYXbgj.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-ChnqvvMP.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-UbouA4H0.mjs').then((m) => m.default || m)
+    component: () => import('./index-s-alr065.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",

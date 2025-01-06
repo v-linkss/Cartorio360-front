@@ -22,7 +22,7 @@
             <v-text-field
               label="Falta Receber"
               style="font-weight: bold; cursor: default; pointer-events: none"
-              v-model="props.ordem.valor"
+              v-model="faltaReceberValorDeOrdem"
             >
             </v-text-field>
           </v-row>
@@ -159,6 +159,12 @@ const receberOsParcial = async () => {
   isMoreOrLess.value = true;
 };
 
+const faltaReceberValorDeOrdem = computed(() => {
+  const valor = parseFloat(props.ordem.valor);
+  const valorPago = parseFloat(props.ordem.valor_pago);
+  return (valor - valorPago).toFixed(2); // Garantindo que tenha duas casas decimais
+});
+
 const realizarRecebimentoCompleto = async () => {
   const body = {
     ordemserv_token: props.ordem.token,
@@ -170,7 +176,6 @@ const realizarRecebimentoCompleto = async () => {
     method: "POST",
     body: JSON.stringify(body),
   });
-
   if (data.value[0].status === "OK") {
     $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
     selosItems.value = [];
@@ -212,12 +217,6 @@ const addNewRow = async () => {
     return;
   }
 
-  if (state.valor > Number(props.ordem.valor)||Number(props.ordem.valor) <= 0) {
-    $toast.error(
-      "O valor recebido não deve ultrapassar o valor total da ordem."
-    );
-    return;
-  }
   selosItems.value.push({
     forma: state.forma,
     descricao: selectedForma.descricao,

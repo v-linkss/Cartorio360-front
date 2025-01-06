@@ -243,7 +243,7 @@ const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`;
 const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
 
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
-const pessoa_id = Number(useCookie("pessoa-id").value || id);
+const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 
 const state = reactive({
   tabvalores_pais_id: null,

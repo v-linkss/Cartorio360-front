@@ -65,7 +65,7 @@
     <v-row>
       <v-col>
         <v-data-table
-          style="max-height: 330px;"
+          style="max-height: 330px"
           :headers="headers"
           :items="pessoasTable"
         >
@@ -109,8 +109,8 @@
     />
   </v-container>
   <NuxtLink @click="voltar">
-      <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
-    </NuxtLink>
+    <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
+  </NuxtLink>
 </template>
 
 <script setup>
@@ -131,7 +131,7 @@ const criarAtoPessoa = `${config.public.managemant}/representante`;
 const buscarRepresentante = `${config.public.managemant}/representante`;
 const pessoasUpdate = `${config.public.managemant}/representante`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const pessoa_id = Number(useCookie("pessoa-id").value || id);
+const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 const { id } = route.params;
 
 const pessoasItems = ref([]);
@@ -144,8 +144,9 @@ const headers = [
   {
     title: "Documento",
     align: "start",
-    key:"representante",
-    value: (item) => item.representante?.doc_identificacao || item.representante?.documento,
+    key: "representante",
+    value: (item) =>
+      item.representante?.doc_identificacao || item.representante?.documento,
   },
   {
     title: "Pessoa",
@@ -231,12 +232,12 @@ async function loadRepresentanteData() {
   const { data, error } = await useFetch(`${buscarRepresentante}/${id}`, {
     method: "GET",
   });
-pessoasTable.value =data.value
+  pessoasTable.value = data.value;
 }
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
-  console.log(item.excluido)
+  console.log(item.excluido);
   try {
     await useFetch(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",

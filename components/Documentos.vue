@@ -1,6 +1,6 @@
 <template>
-  <v-container class="mt-3" v-if="!pending" style="height: 425px;">
-    <v-row >
+  <v-container class="mt-3" v-if="!pending" style="height: 425px">
+    <v-row>
       <v-col md="2">
         <v-autocomplete
           v-model="state.tabvalores_tipodoc_id"
@@ -63,13 +63,13 @@
       </div>
     </v-row>
     <v-data-table
-     style="max-height: 330px;"
+      style="max-height: 330px"
       :headers="headers"
       :items="documentos.pessoasDocsItems"
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex;margin-top: -8px;gap: 10px;">
+        <v-row style="display: flex; margin-top: -8px; gap: 10px">
           <div @click="redirectToUpdate(item.id)" title="editar">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
@@ -161,8 +161,8 @@
     </v-dialog>
   </v-container>
   <NuxtLink @click="voltar">
-      <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
-    </NuxtLink>
+    <v-btn size="large" class="ml-10 mb-5" color="red">Voltar</v-btn>
+  </NuxtLink>
 </template>
 
 <script setup>
@@ -183,25 +183,25 @@ const router = useRouter();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allTipos = `${config.public.managemant}/listarTipoDocumento`
-const allUf = `${config.public.managemant}/listarUF`
-const allDoc = `${config.public.managemant}/getPessoaDocById`
-const createDoc = `${config.public.managemant}/createPessoaDoc`
-const updateDoc = `${config.public.managemant}/updatePessoaDoc`
+const allTipos = `${config.public.managemant}/listarTipoDocumento`;
+const allUf = `${config.public.managemant}/listarUF`;
+const allDoc = `${config.public.managemant}/getPessoaDocById`;
+const createDoc = `${config.public.managemant}/createPessoaDoc`;
+const updateDoc = `${config.public.managemant}/updatePessoaDoc`;
 
-const isModalOpen = ref(false); 
+const isModalOpen = ref(false);
 const selectedDoc = ref(null);
-const user_id = ref(useCookie("user-data").value.usuario_id).value
-const pessoa_id = Number(useCookie("pessoa-id").value || id);
+const user_id = ref(useCookie("user-data").value.usuario_id).value;
+const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 
 const state = reactive({
-  tabvalores_tipodoc_id: "",
-  emissor: "",
-  validade: "",
-  numero: "",
-  data_emissao: "",
-  data_vencimento: "",
-  tabvalores_ufemissor_id: "",
+  tabvalores_tipodoc_id: null,
+  emissor: null,
+  validade: null,
+  numero: null,
+  data_emissao: null,
+  data_vencimento: null,
+  tabvalores_ufemissor_id: null,
 });
 
 const headers = [
@@ -239,7 +239,7 @@ const v$ = useVuelidate(rules, state);
 const {
   data: documentos,
   pending,
-  refresh
+  refresh,
 } = await useLazyAsyncData("cliente-documentos", async () => {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
     $fetch(allTipos),
@@ -254,7 +254,11 @@ const {
     };
   });
 
-  return { tipoDocumentoItems, ufItems, pessoasDocsItems: formattedPessoasDocsItems };
+  return {
+    tipoDocumentoItems,
+    ufItems,
+    pessoasDocsItems: formattedPessoasDocsItems,
+  };
 });
 
 async function onSubmit() {
@@ -268,18 +272,15 @@ async function onSubmit() {
     const payloadFormated = {
       ...payload,
       user_id,
-      pessoa_id
+      pessoa_id,
     };
-    const { data, error,status } = await useFetch(
-     createDoc,
-      {
-        method: "POST",
-        body: payloadFormated,
-      }
-    );
-    if (status.value === 'error' && error.value.statusCode === 500){
+    const { data, error, status } = await useFetch(createDoc, {
+      method: "POST",
+      body: payloadFormated,
+    });
+    if (status.value === "error" && error.value.statusCode === 500) {
       $toast.error("Erro ao cadastrar documento,erro no sistema.");
-    }else{
+    } else {
       $toast.success("Documento cadastrado com sucesso!");
       refresh();
       for (const key in state) {
@@ -288,7 +289,9 @@ async function onSubmit() {
       v$.value.$reset();
     }
   } else {
-    $toast.error("Erro ao cadastrar documento, preencha os campos obrigatorios.");
+    $toast.error(
+      "Erro ao cadastrar documento, preencha os campos obrigatorios."
+    );
   }
 }
 function redirectToUpdate(id) {
@@ -315,9 +318,9 @@ async function onUpdate(id) {
     body: payloadFormated,
   });
   if (status.value === "success") {
-    isModalOpen.value = false
+    isModalOpen.value = false;
     $toast.success("Pessoa atualizada com sucesso!");
-    refresh()
+    refresh();
   }
 }
 
