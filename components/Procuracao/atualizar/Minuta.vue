@@ -1,4 +1,3 @@
-
 <template>
   <ejs-documenteditorcontainer
     height="900px"
@@ -10,14 +9,26 @@
   </ejs-documenteditorcontainer>
 
   <div v-if="loading" class="loading-overlay">
-    <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
+    <v-progress-circular
+      indeterminate
+      color="white"
+      size="60"
+      class="loading-spinner"
+    ></v-progress-circular>
   </div>
 
   <v-row class="ml-4 mt-4 mb-4">
     <NuxtLink class="mr-4">
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
-    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Atualizar</v-btn>
+    <v-btn
+      size="large"
+      color="green"
+      @click="salvarDocumento"
+      :disabled="loading"
+      >Atualizar</v-btn
+    >
+    <!-- <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn> -->
   </v-row>
 </template>
 
@@ -26,12 +37,13 @@ import { provide } from "vue";
 
 import {
   DocumentEditorContainerComponent as EjsDocumenteditorcontainer,
+  Search,
   Toolbar,
   WordExport,
 } from "@syncfusion/ej2-vue-documenteditor";
 import { registerLicense } from "@syncfusion/ej2-base";
 
-provide("DocumentEditorContainer", [Toolbar, WordExport]);
+provide("DocumentEditorContainer", [Toolbar, WordExport,Search]);
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
@@ -50,7 +62,6 @@ const documentEditorContainer = ref(null);
 // Variável de estado para controlar o loading
 const loading = ref(false);
 
-
 const fetchBlobFromMinIO = async (fileUrl) => {
   try {
     const response = await fetch(fileUrl);
@@ -67,22 +78,25 @@ const fetchBlobFromMinIO = async (fileUrl) => {
 
 const getPathFromDocument = async () => {
   try {
-    const { data } = await useFetch(`${pegarCaminhoDocumento}/${route.query.ato_token_edit}`, {
-      method: "GET",
-    });
+    const { data } = await useFetch(
+      `${pegarCaminhoDocumento}/${route.query.ato_token_edit}`,
+      {
+        method: "GET",
+      }
+    );
 
-    return data.value.link_ato
+    return data.value.link_ato;
   } catch (error) {
     console.error("Erro ao carregar o documento:", error);
     $toast.error(error);
-  } 
-}
+  }
+};
 
 const loadDefaultDocument = async () => {
   loading.value = true; // Inicia o loading
 
   try {
-    const filePath = await getPathFromDocument()
+    const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
       body: { bucket: "qvgjz", path: filePath },
@@ -94,10 +108,11 @@ const loadDefaultDocument = async () => {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const content = reader.result; 
-        const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-        documentEditor.open(content); 
-        emit("doc", content)
+        const content = reader.result;
+        const documentEditor =
+          documentEditorContainer.value.ej2Instances.documentEditor;
+        documentEditor.open(content);
+        emit("doc", content);
       };
 
       reader.readAsText(blob); // Leia o Blob como texto
@@ -111,7 +126,7 @@ const loadDefaultDocument = async () => {
 
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
-
+  console.log(document)
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {
@@ -119,7 +134,7 @@ const onDocumentChange = async () => {
     const document = documentEditorContainer.value.ej2Instances.documentEditor;
     const pageCount = document.pageCount;
     emit("page", pageCount);
-    emit("doc",sfdtText)
+    emit("doc", sfdtText);
   };
   reader.readAsText(sfdt);
 };
@@ -132,7 +147,10 @@ const salvarDocumento = async () => {
     const blob = await document.saveAsBlob("Sfdt");
     const formData = new FormData();
     formData.append("file", blob, `anexo.sfdt`);
-    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
     formData.append("token", route.query.ato_token_edit);
     formData.append("tipo", "ato_minuta");
 
@@ -143,7 +161,8 @@ const salvarDocumento = async () => {
 
     if (status.value === "success") {
       $toast.success("Documento enviado!");
-      const document = documentEditorContainer.value.ej2Instances.documentEditor;
+      const document =
+        documentEditorContainer.value.ej2Instances.documentEditor;
       const pageCount = document.pageCount;
       onDocumentChange();
       emit("page", pageCount);
@@ -158,6 +177,35 @@ const salvarDocumento = async () => {
   }
 };
 
+const substituirMarcadores = async (marcadores) => {
+  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
+
+  // Substituir marcadores
+  for (const [chave, valor] of Object.entries(marcadores)) {
+    try {
+      documentEditor.search.findAll(chave)
+        if (documentEditor.search.searchResults.length > 0) {
+            // Replace all the occurences of given text
+            documentEditor.search.searchResults.replaceAll(valor)
+            
+        }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  $toast.success("Todos os marcadores foram substituídos com sucesso!");
+};
+
+const gerarMinuta = async () => {
+  const marcadores = {
+    "<<nome>>": "Cláudio",
+    "<<data>>": "07/01/2025",
+  };
+
+  await substituirMarcadores(marcadores);
+};
+
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
@@ -169,7 +217,7 @@ const goBack = () => {
 };
 
 onMounted(async () => {
-  await loadDefaultDocument(); 
+  await loadDefaultDocument();
 
   onDocumentChange();
 });

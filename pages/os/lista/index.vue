@@ -16,7 +16,6 @@
         <v-text-field
           v-model="state.numero"
           label="Número"
-          style="width: 110px"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -55,21 +54,18 @@
         <v-text-field
           v-model="state.protocolo"
           label="Protocolo"
-          style="width: 110px"
         ></v-text-field>
       </v-col>
       <v-col md="1">
         <v-text-field
           v-model="state.livro"
           label="Livro"
-          style="width: 80px"
         ></v-text-field>
       </v-col>
       <v-col md="1">
         <v-text-field
           v-model="state.folha"
           label="Folha"
-          style="width: 80px"
         ></v-text-field>
       </v-col>
     </v-row>

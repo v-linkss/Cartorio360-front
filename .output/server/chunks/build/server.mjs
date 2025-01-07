@@ -670,7 +670,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-BJgJPVU5.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CApTXWPu.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
@@ -722,7 +722,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-Ck6mF5AG.mjs').then((m) => m.default || m)
+    component: () => import('./index-D7_OOohw.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",

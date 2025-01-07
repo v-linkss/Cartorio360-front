@@ -16,6 +16,7 @@
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
+    <!-- <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn> -->
   </v-row>
 </template>
 
@@ -95,6 +96,36 @@ const salvarDocumento = async() =>{
     loading.value = false; 
   }
 }
+
+const substituirMarcadores = async (marcadores) => {
+  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
+
+  // Substituir marcadores
+  for (const [chave, valor] of Object.entries(marcadores)) {
+    try {
+      documentEditor.search.findAll(chave)
+        if (documentEditor.search.searchResults.length > 0) {
+            // Replace all the occurences of given text
+            documentEditor.search.searchResults.replaceAll(valor)
+            
+        }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  $toast.success("Todos os marcadores foram substituídos com sucesso!");
+};
+
+const gerarMinuta = async () => {
+  const marcadores = {
+    "<<nome>>": "Cláudio",
+    "<<data>>": "07/01/2025",
+  };
+
+  await substituirMarcadores(marcadores);
+};
+
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
