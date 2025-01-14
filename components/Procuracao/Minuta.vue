@@ -16,7 +16,7 @@
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
-    <!-- <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn> -->
+    <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn>
   </v-row>
 </template>
 
@@ -105,7 +105,6 @@ const substituirMarcadores = async (marcadores) => {
     try {
       documentEditor.search.findAll(chave)
         if (documentEditor.search.searchResults.length > 0) {
-            // Replace all the occurences of given text
             documentEditor.search.searchResults.replaceAll(valor)
             
         }

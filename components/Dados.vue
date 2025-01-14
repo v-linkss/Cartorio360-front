@@ -6,7 +6,7 @@
     v-if="pending"
   ></v-progress-circular>
   <div v-else-if="error">{{ error.message }}</div>
-  <v-container v-if="!pending" >
+  <v-container v-if="!pending">
     <v-row>
       <v-col md="8">
         <v-text-field
@@ -18,7 +18,7 @@
           @input="v$.nome.$touch"
         ></v-text-field>
       </v-col>
-      <v-col md="4">
+      <v-col md="2">
         <v-text-field
           v-model="state.doc_identificacao"
           :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
@@ -28,6 +28,13 @@
           @blur="v$.doc_identificacao.$touch"
           @input="v$.doc_identificacao.$touch"
         ></v-text-field>
+      </v-col>
+      <v-col md="2">
+        <v-autocomplete
+          label="Sexo"
+          v-model="initialState.sexo"
+          :items="itemSexos"
+        ></v-autocomplete>
       </v-col>
     </v-row>
     <v-row>
@@ -171,6 +178,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
+const itemSexos = ["masculino", "feminino"];
 const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({

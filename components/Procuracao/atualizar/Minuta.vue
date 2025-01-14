@@ -28,7 +28,9 @@
       :disabled="loading"
       >Atualizar</v-btn
     >
-    <!-- <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn> -->
+    <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta"
+      >Gerar Minuta</v-btn
+    >
   </v-row>
 </template>
 
@@ -43,7 +45,7 @@ import {
 } from "@syncfusion/ej2-vue-documenteditor";
 import { registerLicense } from "@syncfusion/ej2-base";
 
-provide("DocumentEditorContainer", [Toolbar, WordExport,Search]);
+provide("DocumentEditorContainer", [Toolbar, WordExport, Search]);
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
@@ -52,7 +54,7 @@ const emit = defineEmits(["page", "doc"]);
 registerLicense(`${config.public.docEditor}`);
 const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
-
+const substituirModelo = `${config.public.managemant}/subitituirModelo`;
 const enviarDocumento = `${config.public.managemant}/upload`;
 const serviceUrl =
   "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
@@ -126,7 +128,7 @@ const loadDefaultDocument = async () => {
 
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  console.log(document)
+  console.log(document);
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {
@@ -178,19 +180,19 @@ const salvarDocumento = async () => {
 };
 
 const substituirMarcadores = async (marcadores) => {
-  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
+  const documentEditor =
+    documentEditorContainer.value.ej2Instances.documentEditor;
 
   // Substituir marcadores
   for (const [chave, valor] of Object.entries(marcadores)) {
     try {
-      documentEditor.search.findAll(chave)
-        if (documentEditor.search.searchResults.length > 0) {
-            // Replace all the occurences of given text
-            documentEditor.search.searchResults.replaceAll(valor)
-            
-        }
+      documentEditor.search.findAll(chave);
+      if (documentEditor.search.searchResults.length > 0) {
+        // Replace all the occurences of given text
+        documentEditor.search.searchResults.replaceAll(valor);
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -198,12 +200,31 @@ const substituirMarcadores = async (marcadores) => {
 };
 
 const gerarMinuta = async () => {
-  const marcadores = {
-    "<<nome>>": "Cláudio",
-    "<<data>>": "07/01/2025",
-  };
+  const { data, status } = await useFetch(substituirModelo, {
+    method: "POST",
+    body: { ato_token: route.query.ato_token_edit },
+  });
+  const marcadores = data.value
+  console.log(marcadores);//qvgjz/provider/modeloAto.sfdt
+  // const marcadores = {
+  //       "<<dia_extenso_hoje>>": "treze",
+  //       "<<mes_extenso_hoje>>": "January",
+  //       "<<ano_extenso_hoje>>": "dois mil e vinte e cinco",
+  //       "<<data_hoje>>": "13/01/2025",
+  //       "<<cartorio_atribuicao>>": "1º CARTÓRIO",
+  //       "<<cartorio_endereco>>": "DSDSDSDFSDS, DSFSFD, DSFDSF, CEP 57000000",
+  //       "<<cartorio_representantes>>": "RAINEY MARINHO - OFICIAL E TABELIÃO\r\nVITOR - AUBSTITUTO\r\nALESSANDRO - SUBSTITUTO\r\nROBERTA - SUBSTITUTA",
+  //       "<<cartorio_cnpj>>": "11.111.111/1111-11",
+  //       "<<cartorio_fone>>": "(82)3241-9090",
+  //       "<<cartorio_cidade>>": "DSFDSF",
+  //       "<<escrevente_nome>>": "RODRIGO",
+  //       "<<escrevente_papel>>": "ESCREVENTE",
+  //       "<<oficial_nome>>": "RAINEY MARINHO",
+  //       "<<oficial_cargo>>": "OFICIAL E TABELIÃO",
+  //       "<<data_extenso_hoje>>": "treze dias do mês de january do ano de dois mil e vinte e cinco",
+  // };
 
-  await substituirMarcadores(marcadores);
+  // await substituirMarcadores(marcadores);
 };
 
 const goBack = () => {
