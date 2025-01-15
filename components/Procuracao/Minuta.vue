@@ -4,19 +4,32 @@
     ref="documentEditorContainer"
     :serviceUrl="serviceUrl"
     :enableToolbar="true"
-    :enableWordExport='true'
+    :enableWordExport="true"
   >
   </ejs-documenteditorcontainer>
   <div v-if="loading" class="loading-overlay">
-    <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
+    <v-progress-circular
+      indeterminate
+      color="white"
+      size="60"
+      class="loading-spinner"
+    ></v-progress-circular>
   </div>
 
   <v-row class="ml-4 mt-4 mb-4">
     <NuxtLink class="mr-4">
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
-    <v-btn size="large" color="green" @click="salvarDocumento" :disabled="loading">Salvar</v-btn>
-    <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta">Gerar Minuta</v-btn>
+    <v-btn
+      size="large"
+      color="green"
+      @click="salvarDocumento"
+      :disabled="loading"
+      >Salvar</v-btn
+    >
+    <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta"
+      >Gerar Minuta</v-btn
+    >
   </v-row>
 </template>
 
@@ -36,16 +49,13 @@ const props = defineProps({
   },
 });
 
-
-provide("DocumentEditorContainer", [Toolbar,WordExport]);
+provide("DocumentEditorContainer", [Toolbar, WordExport]);
 const config = useRuntimeConfig();
-const {$toast} = useNuxtApp();
+const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const emit = defineEmits(["page","doc"]);
-registerLicense(
- `${config.public.docEditor}`
-);
+const emit = defineEmits(["page", "doc"]);
+registerLicense(`${config.public.docEditor}`);
 const enviarDocumento = `${config.public.managemant}/upload`;
 
 const serviceUrl =
@@ -59,33 +69,37 @@ const onDocumentChange = async () => {
   const reader = new FileReader();
   reader.onload = () => {
     const sfdtText = reader.result;
-    emit("doc",sfdtText)
+    emit("doc", sfdtText);
   };
   reader.readAsText(sfdt);
 };
 
-const salvarDocumento = async() =>{
+const salvarDocumento = async () => {
   loading.value = true;
   try {
-    const document = documentEditorContainer.value.ej2Instances.documentEditor
-  const blob = await document.saveAsBlob("Sfdt");
-  const formData = new FormData();
-  formData.append("file", blob, `anexo.docx`);
-  formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
-  formData.append("token", props.ato_token);
-  formData.append("tipo", "ato_minuta");
+    const document = documentEditorContainer.value.ej2Instances.documentEditor;
+    const blob = await document.saveAsBlob("Sfdt");
+    const formData = new FormData();
+    formData.append("file", blob, `anexo.docx`);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
+    formData.append("token", props.ato_token);
+    formData.append("tipo", "ato_minuta");
 
-  const { data,status } = await useFetch(enviarDocumento, {
+    const { data, status } = await useFetch(enviarDocumento, {
       method: "POST",
       body: formData,
     });
 
     if (status.value === "success") {
       $toast.success("Documento enviado!");
-      const document = documentEditorContainer.value.ej2Instances.documentEditor;
-      const pageCount = document.pageCount; 
-      onDocumentChange()
-      emit("page",pageCount)
+      const document =
+        documentEditorContainer.value.ej2Instances.documentEditor;
+      const pageCount = document.pageCount;
+      onDocumentChange();
+      emit("page", pageCount);
     } else {
       $toast.error("Erro ao enviar documento para o sistema.");
     }
@@ -93,38 +107,98 @@ const salvarDocumento = async() =>{
     $toast.error("Erro ao salvar documento.");
     console.error(error);
   } finally {
-    loading.value = false; 
+    loading.value = false;
   }
-}
-
-const substituirMarcadores = async (marcadores) => {
-  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-
-  // Substituir marcadores
-  for (const [chave, valor] of Object.entries(marcadores)) {
-    try {
-      documentEditor.search.findAll(chave)
-        if (documentEditor.search.searchResults.length > 0) {
-            documentEditor.search.searchResults.replaceAll(valor)
-            
-        }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  $toast.success("Todos os marcadores foram substituídos com sucesso!");
 };
 
 const gerarMinuta = async () => {
-  const marcadores = {
-    "<<nome>>": "Cláudio",
-    "<<data>>": "07/01/2025",
-  };
+  setLoading(true);
 
-  await substituirMarcadores(marcadores);
+  try {
+    await carregarModeloDeMinuta();
+
+    setLoading(true);
+
+    const { data, status } = await useFetch(substituirModelo, {
+      method: "POST",
+      body: { ato_token: props.ato_token },
+    });
+
+    if (data.value) {
+      substituirMarcadoresNoDocumento(data.value);
+    }
+  } catch (error) {
+    console.error("Erro ao gerar a minuta:", error);
+    $toast.error("Ocorreu um erro ao gerar a minuta.");
+  } finally {
+    setLoading(false);
+  }
 };
 
+const carregarModeloDeMinuta = async () => {
+  try {
+    const { data: docModelo } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: { bucket: "qvgjz", path: "provider/modeloAto.sfdt" },
+    });
+
+    const blob = await fetchBlobFromMinIO(docModelo.value);
+    if (blob) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const content = reader.result;
+        const documentEditor =
+          documentEditorContainer.value.ej2Instances.documentEditor;
+        documentEditor.open(content);
+        emit("doc", content);
+      };
+
+      reader.readAsText(blob); // Leia o Blob como texto
+    }
+  } catch (error) {
+    console.error("Erro ao carregar o modelo de minuta:", error);
+    $toast.error("Falha ao carregar o modelo de minuta.");
+  }
+};
+
+const substituirMarcadoresNoDocumento = (data) => {
+  const documentEditor =
+    documentEditorContainer.value.ej2Instances.documentEditor;
+
+  const substituirMarcadores = (obj) => {
+    for (const [chave, valor] of Object.entries(obj)) {
+      // Substituir apenas chaves no formato <<chave>>
+      if (/^<<.+>>$/.test(chave)) {
+        try {
+          documentEditor.search.findAll(chave);
+          if (documentEditor.search.searchResults.length > 0) {
+            documentEditor.search.searchResults.replaceAll(valor);
+          }
+        } catch (error) {
+          console.error(`Erro ao substituir o marcador ${chave}:`, error);
+        }
+      } else if (
+        chave === "partes" &&
+        Array.isArray(valor) &&
+        valor.length > 0
+      ) {
+        // Processar a chave "partes" se for um array com elementos
+        for (const parte of valor) {
+          if (typeof parte === "object") {
+            substituirMarcadores(parte); // Substituir marcadores recursivamente
+          }
+        }
+      }
+    }
+  };
+
+  substituirMarcadores(data);
+};
+
+const setLoading = (status) => {
+  loading.value = status;
+};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

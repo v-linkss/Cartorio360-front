@@ -179,52 +179,93 @@ const salvarDocumento = async () => {
   }
 };
 
-const substituirMarcadores = async (marcadores) => {
+const gerarMinuta = async () => {
+  setLoading(true);
+
+  try {
+    await carregarModeloDeMinuta();
+
+    setLoading(true);
+
+    const { data, status } = await useFetch(substituirModelo, {
+      method: "POST",
+      body: { ato_token: route.query.ato_token_edit },
+    });
+
+    if (data.value) {
+      substituirMarcadoresNoDocumento(data.value);
+    } 
+  } catch (error) {
+    console.error("Erro ao gerar a minuta:", error);
+    $toast.error("Ocorreu um erro ao gerar a minuta.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const carregarModeloDeMinuta = async () => {
+  try {
+    const { data: docModelo } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: { bucket: "qvgjz", path: "provider/modeloAto.sfdt" },
+    });
+
+    const blob = await fetchBlobFromMinIO(docModelo.value);
+    if (blob) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const content = reader.result;
+        const documentEditor =
+          documentEditorContainer.value.ej2Instances.documentEditor;
+        documentEditor.open(content);
+        emit("doc", content);
+      };
+
+      reader.readAsText(blob); // Leia o Blob como texto
+    }
+  } catch (error) {
+    console.error("Erro ao carregar o modelo de minuta:", error);
+    $toast.error("Falha ao carregar o modelo de minuta.");
+  }
+};
+
+const substituirMarcadoresNoDocumento = (data) => {
   const documentEditor =
     documentEditorContainer.value.ej2Instances.documentEditor;
 
-  // Substituir marcadores
-  for (const [chave, valor] of Object.entries(marcadores)) {
-    try {
-      documentEditor.search.findAll(chave);
-      if (documentEditor.search.searchResults.length > 0) {
-        // Replace all the occurences of given text
-        documentEditor.search.searchResults.replaceAll(valor);
+  const substituirMarcadores = (obj) => {
+    for (const [chave, valor] of Object.entries(obj)) {
+      // Substituir apenas chaves no formato <<chave>>
+      if (/^<<.+>>$/.test(chave)) {
+        try {
+          documentEditor.search.findAll(chave);
+          if (documentEditor.search.searchResults.length > 0) {
+            documentEditor.search.searchResults.replaceAll(valor);
+          }
+        } catch (error) {
+          console.error(`Erro ao substituir o marcador ${chave}:`, error);
+        }
+      } else if (
+        chave === "partes" &&
+        Array.isArray(valor) &&
+        valor.length > 0
+      ) {
+        // Processar a chave "partes" se for um array com elementos
+        for (const parte of valor) {
+          if (typeof parte === "object") {
+            substituirMarcadores(parte); // Substituir marcadores recursivamente
+          }
+        }
       }
-    } catch (error) {
-      console.log(error);
     }
-  }
+  };
 
-  $toast.success("Todos os marcadores foram substituídos com sucesso!");
+  substituirMarcadores(data);
 };
 
-const gerarMinuta = async () => {
-  const { data, status } = await useFetch(substituirModelo, {
-    method: "POST",
-    body: { ato_token: route.query.ato_token_edit },
-  });
-  const marcadores = data.value
-  console.log(marcadores);//qvgjz/provider/modeloAto.sfdt
-  // const marcadores = {
-  //       "<<dia_extenso_hoje>>": "treze",
-  //       "<<mes_extenso_hoje>>": "January",
-  //       "<<ano_extenso_hoje>>": "dois mil e vinte e cinco",
-  //       "<<data_hoje>>": "13/01/2025",
-  //       "<<cartorio_atribuicao>>": "1º CARTÓRIO",
-  //       "<<cartorio_endereco>>": "DSDSDSDFSDS, DSFSFD, DSFDSF, CEP 57000000",
-  //       "<<cartorio_representantes>>": "RAINEY MARINHO - OFICIAL E TABELIÃO\r\nVITOR - AUBSTITUTO\r\nALESSANDRO - SUBSTITUTO\r\nROBERTA - SUBSTITUTA",
-  //       "<<cartorio_cnpj>>": "11.111.111/1111-11",
-  //       "<<cartorio_fone>>": "(82)3241-9090",
-  //       "<<cartorio_cidade>>": "DSFDSF",
-  //       "<<escrevente_nome>>": "RODRIGO",
-  //       "<<escrevente_papel>>": "ESCREVENTE",
-  //       "<<oficial_nome>>": "RAINEY MARINHO",
-  //       "<<oficial_cargo>>": "OFICIAL E TABELIÃO",
-  //       "<<data_extenso_hoje>>": "treze dias do mês de january do ano de dois mil e vinte e cinco",
-  // };
-
-  // await substituirMarcadores(marcadores);
+const setLoading = (status) => {
+  loading.value = status; 
 };
 
 const goBack = () => {
