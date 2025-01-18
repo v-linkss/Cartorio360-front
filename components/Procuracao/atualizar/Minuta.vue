@@ -28,10 +28,16 @@
       :disabled="loading"
       >Atualizar</v-btn
     >
-    <v-btn class="ml-4" size="large" color="blue" @click="gerarMinuta"
+    <v-btn class="ml-4" size="large" color="blue" @click="isModalMinutaOpen = true"
       >Gerar Minuta</v-btn
     >
   </v-row>
+  <ModalConfirmacao
+    @confirm="confirmaGerarMinuta"
+    :condMessage="condMessage"
+    :show="isModalMinutaOpen"
+    @close="isModalMinutaOpen = false"
+  />
 </template>
 
 <script setup>
@@ -60,6 +66,10 @@ const serviceUrl =
   "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
 
 const documentEditorContainer = ref(null);
+const isModalMinutaOpen = ref(false);
+const condMessage = ref(
+  "Ao executar a geração, a minuta atual será substituída e não poderá ser recuperada.Confirma ?"
+);
 
 // Variável de estado para controlar o loading
 const loading = ref(false);
@@ -178,7 +188,10 @@ const salvarDocumento = async () => {
     loading.value = false; // Finaliza o loading
   }
 };
-
+const confirmaGerarMinuta = () => {
+  isModalMinutaOpen.value = false
+  gerarMinuta()
+};
 const gerarMinuta = async () => {
   setLoading(true);
 
@@ -194,7 +207,7 @@ const gerarMinuta = async () => {
 
     if (data.value) {
       substituirMarcadoresNoDocumento(data.value);
-    } 
+    }
   } catch (error) {
     console.error("Erro ao gerar a minuta:", error);
     $toast.error("Ocorreu um erro ao gerar a minuta.");
@@ -265,7 +278,7 @@ const substituirMarcadoresNoDocumento = (data) => {
 };
 
 const setLoading = (status) => {
-  loading.value = status; 
+  loading.value = status;
 };
 
 const goBack = () => {

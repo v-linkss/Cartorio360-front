@@ -23,7 +23,11 @@
       </v-autocomplete>
     </div>
     <div v-if="loading" class="d-flex justify-center">
-      <v-progress-circular indeterminate class="loading-spinner" size="64"></v-progress-circular>
+      <v-progress-circular
+        indeterminate
+        class="loading-spinner"
+        size="64"
+      ></v-progress-circular>
     </div>
     <div v-else>
       <v-tabs v-model="tab" bg-color="#f5f2f2">
@@ -56,7 +60,7 @@
         <v-tabs-window-item value="dados">
           <v-container v-if="state.tipo_pessoa === 'FISICA'">
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="6">
                 <v-text-field v-model="state.nome" label="Nome"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -65,6 +69,15 @@
                   label="CPF"
                   v-mask="'###.###.###-##'"
                 ></v-text-field>
+              </v-col>
+              <v-col md="2">
+                <v-select
+                  label="Sexo"
+                  v-model="state.tabvalores_sexo_id"
+                  :items="sexoItemsData"
+                  item-title="descricao"
+                  item-value="id"
+                ></v-select>
               </v-col>
             </v-row>
             <v-row>
@@ -199,25 +212,28 @@ const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
 const cidades = `${config.public.managemant}/listarCidades`;
 const buscarPessoa = `${config.public.managemant}/getPessoaById`;
+const sexo = `${config.public.managemant}/listarSexo`;
 
 const estadoCivilItemsData = ref([]);
 const capacidadeCivilItemsData = ref([]);
 const cidadeNascimentoItemsData = ref([]);
+const sexoItemsData = ref([]);
 const loading = ref(true);
 
 const initialState = {
-  nome: "",
-  nome_pai: "",
-  nome_mae: "",
-  profissao: "",
-  data_nascimento: "",
-  doc_identificacao: "",
-  cpf_pai: "",
-  cpf_mae: "",
+  nome: null,
+  nome_pai: null,
+  nome_mae: null,
+  profissao: null,
+  data_nascimento: null,
+  doc_identificacao: null,
+  cpf_pai: null,
+  cpf_mae: null,
   tipo_pessoa: "FISICA",
-  tabvalores_estadocivil_id: "",
-  tabvalores_capacidadecivil_id: "",
-  cidade_natural_id: "",
+  tabvalores_estadocivil_id: null,
+  tabvalores_capacidadecivil_id: null,
+  cidade_natural_id: null,
+  tabvalores_sexo_id:null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
@@ -249,11 +265,13 @@ async function loadPessoaData() {
       capacidadeCivilItems,
       cidadeNascimentoItems,
       pessoa,
+      sexoItems,
     ] = await Promise.all([
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
       $fetch(cidades),
       $fetch(`${buscarPessoa}/${id}`),
+      $fetch(sexo),
     ]);
 
     const pessoa_token = useCookie("pessoa_token");
@@ -262,6 +280,7 @@ async function loadPessoaData() {
     estadoCivilItemsData.value = estadoCivilItems;
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
+    sexoItemsData.value = sexoItems;
 
     Object.assign(state, pessoa);
   } catch (error) {

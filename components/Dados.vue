@@ -8,7 +8,7 @@
   <div v-else-if="error">{{ error.message }}</div>
   <v-container v-if="!pending">
     <v-row>
-      <v-col md="8">
+      <v-col md="6">
         <v-text-field
           v-model="state.nome"
           :error-messages="v$.nome.$errors.map((e) => e.$message)"
@@ -18,7 +18,7 @@
           @input="v$.nome.$touch"
         ></v-text-field>
       </v-col>
-      <v-col md="2">
+      <v-col md="4">
         <v-text-field
           v-model="state.doc_identificacao"
           :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
@@ -30,11 +30,13 @@
         ></v-text-field>
       </v-col>
       <v-col md="2">
-        <v-autocomplete
+        <v-select
           label="Sexo"
-          v-model="initialState.sexo"
-          :items="itemSexos"
-        ></v-autocomplete>
+          v-model="state.tabvalores_sexo_id"
+          :items="dados.sexoItems"
+          item-title="descricao"
+          item-value="id"
+        ></v-select>
       </v-col>
     </v-row>
     <v-row>
@@ -158,27 +160,28 @@ const updatePessoa = `${config.public.managemant}/updatePessoa`;
 const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
 const cidade = `${config.public.managemant}/listarCidades`;
+const sexo = `${config.public.managemant}/listarSexo`;
 
 const initialState = {
-  nome: "",
-  nome_pai: "",
-  nome_mae: "",
-  profissao: "",
-  local_trabalho: "",
-  data_nascimento: "",
-  doc_identificacao: "",
-  cpf_pai: "",
-  cpf_mae: "",
+  nome: null,
+  nome_pai: null,
+  nome_mae: null,
+  profissao: null,
+  local_trabalho: null,
+  data_nascimento: null,
+  doc_identificacao: null,
+  cpf_pai: null,
+  cpf_mae: null,
   tipo_pessoa: "FISICA",
-  tabvalores_estadocivil_id: "",
-  tabvalores_capacidadecivil_id: "",
-  cidade_natural_id: "",
+  tabvalores_estadocivil_id: null,
+  tabvalores_capacidadecivil_id: null,
+  tabvalores_sexo_id:null,
+  cidade_natural_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
 
 const isEditMode = ref(false);
-const itemSexos = ["masculino", "feminino"];
 const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({
@@ -199,14 +202,15 @@ const {
   pending,
   error,
 } = await useLazyAsyncData("cliente-dados", async () => {
-  const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems] =
+  const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems] =
     await Promise.all([
       $fetch(estadoCivil),
       $fetch(capacidadeCivil),
       $fetch(cidade),
+      $fetch(sexo)
     ]);
 
-  return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems };
+  return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems };
 });
 
 const rules = {

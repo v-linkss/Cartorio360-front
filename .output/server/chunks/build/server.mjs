@@ -665,27 +665,27 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-BbgbAOSa.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-f5knEV7m.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-BibyAOIl.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-B1eaZFn3.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Dm5XnPKB.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-BYmfNEVP.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-D7od4Hzw.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-B1V521dq.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-DYO8rjyJ.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-DK--D_Iq.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -702,42 +702,42 @@ const _routes = [
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta || {},
-    component: () => import('./tipo-perfil-C-DWpUjI.mjs').then((m) => m.default || m)
+    component: () => import('./tipo-perfil-BUsFIJr_.mjs').then((m) => m.default || m)
   },
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-KxXoQXJ4.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-Cb3T-tMF.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DW68MvV-.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-DjhRoyCv.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-d9gTybez.mjs').then((m) => m.default || m)
+    component: () => import('./criar-registro-D-XFZ8Rj.mjs').then((m) => m.default || m)
   },
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-DFz5qP9J.mjs').then((m) => m.default || m)
+    component: () => import('./index-Gt7QVKWF.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-xtXyu5pZ.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CledBBr0.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-c9GS55R5.mjs').then((m) => m.default || m)
+    component: () => import('./index-CTMQMPUW.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-BVqulhST.mjs').then((m) => m.default || m)
+    component: () => import('./index-BX_4zGst.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-vizualizar-id",
@@ -747,22 +747,22 @@ const _routes = [
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
-    component: () => import('./lista-0yQtCvPr.mjs').then((m) => m.default || m)
+    component: () => import('./lista-stKZAVjT.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
-    component: () => import('./_id_-D2flhJc7.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-D9Ax6SoE.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
-    component: () => import('./index-CbHwYg27.mjs').then((m) => m.default || m)
+    component: () => import('./index-Cm_MUCMa.mjs').then((m) => m.default || m)
   },
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
-    component: () => import('./lista-s-3Auvrs.mjs').then((m) => m.default || m)
+    component: () => import('./lista-DwA_Mxkm.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -10309,6 +10309,12 @@ const vuetify_7h9QAQEssH = /* @__PURE__ */ defineNuxtPlugin((app) => {
     },
     defaults: {
       VAutocomplete: {
+        noDataText: "Não há dados correspondentes",
+        hideDetails: true,
+        density: "compact",
+        clearable: true
+      },
+      VSelect: {
         noDataText: "Não há dados correspondentes",
         hideDetails: true,
         density: "compact",
