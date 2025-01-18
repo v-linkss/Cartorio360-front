@@ -3,6 +3,7 @@
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab v-if="showTabs" value="partes">Partes</v-tab>
+      <v-tab v-if="showTabs" value="bens">Bens</v-tab>
       <v-tab v-if="showTabs" value="minuta">Minuta</v-tab>
       <v-tab v-if="showTabs" value="livro">Livro</v-tab>
       <v-tab v-if="showTabs" value="observacao">Observações</v-tab>
@@ -15,6 +16,9 @@
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="partes">
         <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
+      </v-tabs-window-item>
+      <v-tabs-window-item v-if="showTabs" value="bens">
+        <ProcuracaoBens :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="minuta">
         <ProcuracaoMinuta @page="getPages" @doc="getDocument" :ato_token="ato_token_prop"/>

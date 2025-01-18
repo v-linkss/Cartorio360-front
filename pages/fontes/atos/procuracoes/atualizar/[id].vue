@@ -26,6 +26,7 @@
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab value="partes">Partes</v-tab>
+      <v-tab value="bens">Bens</v-tab>
       <v-tab value="minuta">Minuta</v-tab>
       <v-tab value="livro">Livro</v-tab>
       <v-tab value="observacao">Observações</v-tab>
@@ -41,6 +42,9 @@
       </v-tabs-window-item>
       <v-tabs-window-item value="partes">
         <ProcuracaoAtualizarPartes />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="bens">
+        <ProcuracaoAtualizarBens />
       </v-tabs-window-item>
       <v-tabs-window-item value="minuta">
         <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
