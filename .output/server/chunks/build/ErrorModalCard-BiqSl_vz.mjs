@@ -1,6 +1,6 @@
 import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, openBlock, createBlock, toDisplayString, createVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
-import { a as VDialog, V as VCard, d as VCardTitle, c as VCardText, b as VCardActions } from './VDialog-BnIkuznU.mjs';
+import { a as VDialog, V as VCard, b as VCardTitle, c as VCardText, d as VCardActions } from './VDialog-BnIkuznU.mjs';
 import { e as VBtn } from './server.mjs';
 
 const _sfc_main = {

@@ -3,7 +3,7 @@ import { useSSRContext, ref, reactive, watch, mergeProps, unref, isRef, withCtx,
 import { f as useNuxtApp, e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { u as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
-import { a as VDialog, V as VCard, b as VCardActions, c as VCardText } from './VDialog-BnIkuznU.mjs';
+import { a as VDialog, V as VCard, d as VCardActions, c as VCardText } from './VDialog-BnIkuznU.mjs';
 import { V as VContainer } from './VContainer-BOtutO2k.mjs';
 import { V as VRow } from './VRow-B_iA44Vb.mjs';
 import { V as VAutocomplete } from './VAutocomplete-D-WLtvKq.mjs';

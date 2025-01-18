@@ -105,13 +105,20 @@
       </v-col>
     </v-row>
     <v-data-table
-      style="max-height: 330px;"
+      style="max-height: 330px"
       :headers="headers"
       :items="enderecos.enderecosItems"
       item-key="id"
     >
       <template v-slot:item.cidade="{ item }">
-        <span>{{ getCidadeNome(item) }}</span>
+        <h4 style="width: 150px; font-weight: 500">
+          {{ getCidadeNome(item) }}
+        </h4>
+      </template>
+      <template v-slot:item.logradouro="{ item }">
+        <h4 style="width: 200px; font-weight: 500">
+          {{ item.logradouro }}
+        </h4>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; margin-top: -8px; gap: 10px">
@@ -260,7 +267,7 @@ const state = reactive({
 const headers = [
   { title: "País", value: "pais.descricao" },
   { title: "CEP", value: "codcep" },
-  { title: "Endereço", value: "logradouro", width: "200px" },
+  { title: "Endereço", value: "logradouro" },
   {
     title: "N*",
     value: "numero",

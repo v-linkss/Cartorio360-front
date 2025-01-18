@@ -2,7 +2,7 @@ import { e as VBtn, b as useRuntimeConfig } from './server.mjs';
 import { ref, watch, mergeProps, unref, isRef, withCtx, createTextVNode, createVNode, useSSRContext } from 'vue';
 import { u as useFetch } from './fetch-bT3G74K0.mjs';
 import { ssrRenderComponent } from 'vue/server-renderer';
-import { a as VDialog, V as VCard, d as VCardTitle, b as VCardActions } from './VDialog-BnIkuznU.mjs';
+import { a as VDialog, V as VCard, b as VCardTitle, d as VCardActions } from './VDialog-BnIkuznU.mjs';
 import { V as VImg } from './VAvatar-CJ4Ett-u.mjs';
 
 const _sfc_main = {

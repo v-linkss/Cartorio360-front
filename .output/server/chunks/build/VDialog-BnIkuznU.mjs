@@ -425,5 +425,5 @@ const VDialog = genericComponent()({
   }
 });
 
-export { VCard as V, VDialog as a, VCardActions as b, VCardText as c, VCardTitle as d };
+export { VCard as V, VDialog as a, VCardTitle as b, VCardText as c, VCardActions as d };
 //# sourceMappingURL=VDialog-BnIkuznU.mjs.map
