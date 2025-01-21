@@ -3,17 +3,14 @@
       <v-row class="mb-5">
         <h1>Caixas</h1>
       </v-row>
-      <v-row style="margin-bottom: -35px">
-        <v-col>
+      <v-row>
+        <v-col cols="2">
           <v-text-field
             v-model="state.data"
             type="date"
             label="Data"
-            style="width: 150px"
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row>
         <v-col md="3">
           <v-autocomplete
             v-model="state.situacao"
