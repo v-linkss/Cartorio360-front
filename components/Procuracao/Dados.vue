@@ -13,7 +13,7 @@
           @blur="v$.status.$touch"
           @input="v$.status.$touch"
         >
-        </v-autocomplete>
+        </v-autocomplete> 
       </v-col>
     </v-row>
 
@@ -121,6 +121,7 @@ const { data: situacaoData } = await useFetch(allSituacoes, {
   body: {cartorio_token:cartorio_token.value},
 });
 situacoesItems.value = situacaoData.value;
+console.log(situacoesItems.value)
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

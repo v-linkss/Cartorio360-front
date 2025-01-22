@@ -19,6 +19,7 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.2",
     "nuxt": "^3.12.2",
+    "tiff.js": "^1.0.0",
     "v-money3": "^3.24.1",
     "vue": "latest",
     "vue-i18n": "^9.13.1",

@@ -4,6 +4,7 @@
       <BiometriaDigital />
       <BiometriaReconhecimentoFacial class="ml-5 mr-5"/>
       <BiometriaImpressao />
+  
     </v-row>
   </v-container>
   <v-btn @click="voltar" class="mt-10" size="large" color="red">Voltar</v-btn>
@@ -11,7 +12,6 @@
 
 <script setup>
 const router = useRouter();
-
 const emit = defineEmits(["close-modal"]);
 
 const props = defineProps({

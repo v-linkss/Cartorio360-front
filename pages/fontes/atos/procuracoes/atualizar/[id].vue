@@ -27,6 +27,7 @@
       <v-tab value="dados">Dados</v-tab>
       <v-tab value="partes">Partes</v-tab>
       <v-tab value="bens">Bens</v-tab>
+      <v-tab value="imoveis">Imoveis</v-tab>
       <v-tab value="minuta">Minuta</v-tab>
       <v-tab value="livro">Livro</v-tab>
       <v-tab value="observacao">Observações</v-tab>
@@ -45,6 +46,9 @@
       </v-tabs-window-item>
       <v-tabs-window-item value="bens">
         <ProcuracaoAtualizarBens />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="imoveis">
+        <ProcuracaoAtualizarImoveis />
       </v-tabs-window-item>
       <v-tabs-window-item value="minuta">
         <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />

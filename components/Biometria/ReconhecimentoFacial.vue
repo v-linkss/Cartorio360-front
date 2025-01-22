@@ -96,6 +96,7 @@ const nomePessoa = pessoaNome.nome;
 const config = useRuntimeConfig();
 const enviarFoto = `${config.public.managemant}/uploadPessoa`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const baixarDocumento = `${config.public.managemant}/download`;
 
 const { $toast } = useNuxtApp();
 
@@ -173,6 +174,11 @@ const handleCapture = async () => {
   }, "image/jpeg");
 };
 
+const { data, status } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: { bucket: "qvgjz", path: 'ficha/C_000001#.tr7' },
+    });
+    console.log(data.value)
 if (id) {
   const { data: imagemBiometria } = await useFetch(buscarPessoa, {
     method: "POST",
@@ -183,7 +189,7 @@ if (id) {
     fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
   }
 }
-
+//qvgjz/ficha/C_000001#.tr7
 onMounted(async () => {
   try {
     await navigator.mediaDevices.getUserMedia({ video: true });
