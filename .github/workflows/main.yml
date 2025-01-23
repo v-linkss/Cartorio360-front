@@ -59,10 +59,44 @@ jobs:
           port: 22
 
           script: |
+            #Parando serviços para evitar a falta de memoria no servidor 
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-auth
+            npm run pm2-stop
+
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-back
+            npm run pm2-stop
+
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-auth
+            npm run pm2-stop
+
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-back
+            npm run pm2-stop
+
+            # cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+            # npm run pm2-stop
+
+            #Subindo nova versão
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             npm install
             npm run pm2-stop
             npm run pm2
+
+            #Subindo os servilços que pararam 
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-auth
+            npm run pm2
+
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-back
+            npm run pm2
+
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-auth
+            npm run pm2
+
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-back
+            npm run pm2
+
+            # cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+            # npm run pm2-stop
+            
             # docker compose build --no-cache app
             # docker compose up -d app
       - name: Debug    
