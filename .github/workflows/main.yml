@@ -34,9 +34,8 @@ jobs:
           port: 22
 
           script: |
-            pm2 stop all
-            # pm2 stop cartorio306-auth-producao
-            # pm2 stop cartorio-back-producao
+            pm2 stop cartorio306-auth-producao
+            pm2 stop cartorio-back-producao
             
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             touch .env
