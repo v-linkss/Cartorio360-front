@@ -48,8 +48,8 @@ const styles = {
   "node_modules/vuetify/lib/components/VMessages/VMessages.mjs": () => import('./VMessages-styles.DznP6KE3.mjs').then(interopDefault),
   "layouts/default.vue?vue&type=style&index=0&scoped=08784f95&lang.css": () => import('./default-styles.Hd6my_7z.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VBtnGroup/VBtnGroup.mjs": () => import('./VBtnGroup-styles.t2DZ1n_R.mjs').then(interopDefault),
-  "components/Procuracao/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.CG8tp3Yt.mjs').then(interopDefault),
   "components/Procuracao/atualizar/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.CDR8IOr9.mjs').then(interopDefault),
+  "components/Procuracao/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.CG8tp3Yt.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VProgressLinear/VProgressLinear.mjs": () => import('./VProgressLinear-styles.DHE_K7QO.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VLabel/VLabel.mjs": () => import('./VLabel-styles.D8PemTC0.mjs').then(interopDefault)
 };
