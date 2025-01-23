@@ -8,7 +8,12 @@
           style="width: 300px; height: 300px"
           @click="openDialog"
         >
-          <TiffViewer v-if="hasTiff" :tiff-url="tiffRender" />
+          <TiffViewer
+            v-if="hasTiff && !tiffError"
+            :tiff-url="tiffRender"
+            @error="tiffError = true"
+            style=" height: 280px; object-fit: cover"
+          />
           <img
             v-else-if="hasFoto"
             :src="fotoRender"
@@ -110,6 +115,7 @@ const { $toast } = useNuxtApp();
 
 const hasTiff = computed(() => !!tiffRender.value);
 const hasFoto = computed(() => !!fotoRender.value);
+const tiffError = ref(false);
 
 const updateDevices = async () => {
   const mediaDevices = await navigator.mediaDevices.enumerateDevices();
@@ -170,7 +176,7 @@ const handleCapture = async () => {
     formData.append("pessoa_token", token);
     formData.append("tipo", "foto");
 
-    const { status } = await useFetch(enviarFoto, {
+    const { data,status } = await useFetch(enviarFoto, {
       method: "POST",
       body: formData,
     });
@@ -205,8 +211,10 @@ const processarImagem = async (id) => {
 
   if (/\.(tr7|tiff)$/i.test(linkMinio)) {
     tiffRender.value = linkPayload;
+    tiffError.value = false;
   } else {
-    fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
+    console.log()
+    fotoRender.value = `data:image/jpeg;base64,${linkMinio}`;
   }
 };
 

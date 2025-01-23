@@ -138,7 +138,6 @@ const loadDefaultDocument = async () => {
 
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  console.log(document);
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {

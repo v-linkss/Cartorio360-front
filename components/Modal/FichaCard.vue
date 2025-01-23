@@ -65,7 +65,6 @@ const linkPayload = link.value;
 
 if (/\.(tr7|tiff)$/i.test(linkMinio)) {
   fichaRender.value = linkPayload;
-  console.log('rasdf')
 } else {
   fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
 }

@@ -1,5 +1,15 @@
 <template>
-  <canvas ref="tiffCanvas"></canvas>
+  <div>
+    <v-progress-circular
+      style="margin-left: 300px;"
+      class="loading-spinner"
+      indeterminate
+      size="64"
+      v-if="loading"
+    ></v-progress-circular>
+
+    <canvas v-if="!tiffError" ref="tiffCanvas"></canvas>
+  </div>
 </template>
 
 <script setup>
@@ -7,10 +17,13 @@ import Tiff from "tiff.js";
 
 const props = defineProps(["tiffUrl"]);
 const tiffCanvas = ref(null);
+const tiffError = ref(false);
+const loading = ref(false);
+const emit = defineEmits(["error"]);
 
 const renderTiff = async () => {
   if (!props.tiffUrl) return;
-
+  loading.value = true;
   try {
     const response = await fetch(props.tiffUrl);
     const buffer = await response.arrayBuffer();
@@ -24,7 +37,11 @@ const renderTiff = async () => {
     if (tiffCanvas.value) {
       tiffCanvas.value.replaceWith(canvas);
     }
+    loading.value = false;
   } catch (error) {
+    loading.value = false;
+    tiffError.value = true;
+    emit("error");
     console.error("Erro ao carregar TIFF do MinIO:", error);
   }
 };

@@ -144,7 +144,6 @@ const loadDefaultDocument = async () => {
         const documentEditor =
           documentEditorContainer.value.ej2Instances.documentEditor;
         documentEditor.open(content);
-        console.log("asdfdsf")
       };
 
       reader.readAsText(blob); // Leia o Blob como texto

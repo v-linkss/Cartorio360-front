@@ -237,7 +237,7 @@ async function loadRepresentanteData() {
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
-  console.log(item.excluido);
+
   try {
     await useFetch(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",

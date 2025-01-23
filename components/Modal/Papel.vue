@@ -81,7 +81,6 @@ const updateAtoPessoa = async () => {
         tipo_parte_id: state.tipo_parte_id.id,
       },
     });
-    console.log(props.ato_id,props.ato_token,state.tipo_parte_id.id)
     if (status.value === "success") {
       $toast.success("Papel Atualizado com Sucesso!");
       emit('update-papel', state.tipo_parte_id.descricao);
