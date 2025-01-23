@@ -34,8 +34,7 @@ jobs:
           port: 22
 
           script: |
-            pm2 stop cartorio306-auth-producao
-            pm2 stop cartorio-back-producao
+
             
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             touch .env
@@ -45,8 +44,7 @@ jobs:
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
             pm2 start all
 
-            pm2 start cartorio306-auth-producao
-            pm2 start cartorio-back-producao
+
           
       
       
