@@ -5,7 +5,7 @@
 <script setup>
 import Tiff from "tiff.js";
 
-const props = defineProps(["tiffUrl"]); 
+const props = defineProps(["tiffUrl"]);
 const tiffCanvas = ref(null);
 
 const renderTiff = async () => {
@@ -16,6 +16,10 @@ const renderTiff = async () => {
     const buffer = await response.arrayBuffer();
     const tiff = new Tiff({ buffer });
     const canvas = tiff.toCanvas();
+
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.objectFit = "cover";
 
     if (tiffCanvas.value) {
       tiffCanvas.value.replaceWith(canvas);

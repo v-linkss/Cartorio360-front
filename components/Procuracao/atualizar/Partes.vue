@@ -174,7 +174,7 @@
     />
     <v-dialog v-model="isModalFichaOpen" width="600">
       <v-card max-width="600" title="Ficha">
-        <v-img :src="fichaRender" />
+        <TiffViewer :tiff-url="fichaRender" />
         <v-btn
           class="ms-auto mt-3 mb-3"
           text="Fechar"
@@ -193,7 +193,6 @@
 </template>
 
 <script setup>
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -204,6 +203,7 @@ const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
+const baixarDocumento = `${config.public.managemant}/download`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const pessoasItems = ref([]);
@@ -348,7 +348,7 @@ const createRepresentante = async () => {
     },
   });
   if (status.value === "success") {
-    representante.id = data.value.id
+    representante.id = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
   }
@@ -359,14 +359,27 @@ const redirectToFicha = async (item) => {
 
   fichaRender.value = null;
 
-  const { data: imagemBiometria } = await useFetch(`${buscarPessoa}`, {
+  if (!item.pessoa.id) return;
+
+  const { data: imagemBiometria } = await useFetch(buscarPessoa, {
     method: "POST",
-    body: { id: item.pessoa.id, tipo: "ficha" },
+    body: { tipo: "ficha", id: item.pessoa.id },
   });
-  if (imagemBiometria.value && imagemBiometria.value.link) {
-    fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
+
+  if (!imagemBiometria.value?.link) return;
+
+  const { data: link } = await useFetch(baixarDocumento, {
+    method: "POST",
+    body: { bucket: "qvgjz", path: imagemBiometria.value.link },
+  });
+
+  const linkMinio = imagemBiometria.value.link;
+  const linkPayload = link.value;
+
+  if (/\.(tr7|tiff)$/i.test(linkMinio)) {
+    fichaRender.value = linkPayload;
   } else {
-    fichaRender.value = null;
+    fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
   }
 };
 

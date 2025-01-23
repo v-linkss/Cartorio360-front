@@ -670,22 +670,22 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-Dc_qoj5H.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DGEqHLzc.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DBYWKon9.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-rIizI9Jm.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-DOE9NmzZ.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-CAkyDCc_.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-BmBmoId-.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-B3gd5bg1.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BmemVhM0.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-DGtXzY-Z.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -727,12 +727,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-ekCsTPHk.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-ClJv43yh.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-DpfVhU3O.mjs').then((m) => m.default || m)
+    component: () => import('./index-CV6SwOGb.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
@@ -10317,8 +10317,7 @@ const vuetify_7h9QAQEssH = /* @__PURE__ */ defineNuxtPlugin((app) => {
       VSelect: {
         noDataText: "Não há dados correspondentes",
         hideDetails: true,
-        density: "compact",
-        clearable: true
+        density: "compact"
       },
       VTextField: {
         density: "compact"

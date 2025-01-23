@@ -2,7 +2,7 @@
   <v-dialog persistent v-model="isVisible" max-width="700">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
-      <v-img :src="fichaRender"/>
+      <TiffViewer :tiff-url="fichaRender"/>
       <v-card-actions>
         <v-btn
           style="background-color: #429946; color: white"
@@ -25,6 +25,7 @@ const props = defineProps({
 
 const config = useRuntimeConfig();
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const baixarDocumento = `${config.public.managemant}/download`;
 
 const isVisible = ref(props.show);
 const fichaRender = ref()
@@ -45,22 +46,29 @@ const confirmarRecebimento = () => {
 };
 
 const beforeOpenFicha = async () => {
-  try {
-    const { data: imagemBiometria } = await useFetch(
-      `${buscarPessoa}`,
-      {
-        method: "POST",
-        body:{id:props.item.id,tipo:'ficha'}
-      }
-    );
-    if (imagemBiometria.value && imagemBiometria.value.link) {
-      fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
-    } else {
-      fichaRender.value = null; 
-    }
-  } catch (error) {
-    console.error("Erro ao buscar a imagem da ficha:", error);
-  }
+  if (!props.item.id) return;
+
+const { data: imagemBiometria } = await useFetch(buscarPessoa, {
+  method: "POST",
+  body: { tipo: "ficha", id:props.item.id },
+});
+
+if (!imagemBiometria.value?.link) return;
+
+const { data: link } = await useFetch(baixarDocumento, {
+  method: "POST",
+  body: { bucket: "qvgjz", path: imagemBiometria.value.link },
+});
+
+const linkMinio = imagemBiometria.value.link;
+const linkPayload = link.value;
+
+if (/\.(tr7|tiff)$/i.test(linkMinio)) {
+  fichaRender.value = linkPayload;
+  console.log('rasdf')
+} else {
+  fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
+}
 };
 
 

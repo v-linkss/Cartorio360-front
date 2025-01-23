@@ -26,7 +26,6 @@ export default defineNuxtPlugin((app) => {
         noDataText: "Não há dados correspondentes",
         hideDetails: true,
         density: "compact",
-        clearable: true,
       },
       VTextField: {
         density: "compact",

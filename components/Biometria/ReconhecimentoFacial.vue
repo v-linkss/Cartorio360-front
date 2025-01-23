@@ -8,12 +8,13 @@
           style="width: 300px; height: 300px"
           @click="openDialog"
         >
-          <img v-if="fotoRender === null" src="../../assets/camera.png" />
+          <TiffViewer v-if="hasTiff" :tiff-url="tiffRender" />
           <img
-            v-if="fotoRender !== null"
+            v-else-if="hasFoto"
             :src="fotoRender"
             style="width: 100%; height: 100%; object-fit: cover"
           />
+          <img v-else src="../../assets/camera.png" />
         </v-btn>
       </template>
 
@@ -22,7 +23,6 @@
           <v-row>
             <v-col>
               <v-container>
-
                 <v-select
                   :items="devices"
                   v-model="selectedDeviceId"
@@ -35,7 +35,9 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-btn size="large" class="ml-5" @click="startVideo">Exibir</v-btn>
+              <v-btn size="large" class="ml-5" @click="startVideo"
+                >Exibir</v-btn
+              >
             </v-col>
           </v-row>
           <v-row>
@@ -66,7 +68,13 @@
           </v-container>
           <v-row class="mt-10 mb-5 ml-5">
             <v-btn color="red" size="large" @click="closeDialog">Fechar</v-btn>
-            <v-btn color="green" size="large" class="ml-5" @click="handleCapture">Salvar</v-btn>
+            <v-btn
+              color="green"
+              size="large"
+              class="ml-5"
+              @click="handleCapture"
+              >Salvar</v-btn
+            >
           </v-row>
         </v-card>
       </template>
@@ -79,8 +87,8 @@ const video = ref(null);
 const devices = ref([]);
 const selectedDeviceId = ref("");
 const isDialogActiveBiometria = ref(false);
-const capturedPhoto = ref(null);
 const fotoRender = ref(null);
+const tiffRender = ref(null);
 
 const route = useRoute();
 const { id } = route.params;
@@ -99,6 +107,9 @@ const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const baixarDocumento = `${config.public.managemant}/download`;
 
 const { $toast } = useNuxtApp();
+
+const hasTiff = computed(() => !!tiffRender.value);
+const hasFoto = computed(() => !!fotoRender.value);
 
 const updateDevices = async () => {
   const mediaDevices = await navigator.mediaDevices.enumerateDevices();
@@ -174,22 +185,35 @@ const handleCapture = async () => {
   }, "image/jpeg");
 };
 
-const { data, status } = await useFetch(baixarDocumento, {
-      method: "POST",
-      body: { bucket: "qvgjz", path: 'ficha/C_000001#.tr7' },
-    });
-    console.log(data.value)
-if (id) {
+const processarImagem = async (id) => {
+  if (!id) return;
+
   const { data: imagemBiometria } = await useFetch(buscarPessoa, {
     method: "POST",
-    body: { tipo: "foto", id: id },
+    body: { tipo: "foto", id },
   });
 
-  if (imagemBiometria.value !== null && imagemBiometria.value.link !== null) {
-    fotoRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
+  if (!imagemBiometria.value?.link) return;
+
+  const { data: link } = await useFetch(baixarDocumento, {
+    method: "POST",
+    body: { bucket: "qvgjz", path: imagemBiometria.value.link },
+  });
+
+  const linkMinio = imagemBiometria.value.link;
+  const linkPayload = link.value;
+
+  if (/\.(tr7|tiff)$/i.test(linkMinio)) {
+    tiffRender.value = linkPayload;
+  } else {
+    fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
   }
+};
+
+if (id) {
+  processarImagem(id);
 }
-//qvgjz/ficha/C_000001#.tr7
+
 onMounted(async () => {
   try {
     await navigator.mediaDevices.getUserMedia({ video: true });
