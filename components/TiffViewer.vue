@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+console.log('tdzfsaljk')
 let Tiff = null;
 
 const props = defineProps(["tiffUrl"]);
