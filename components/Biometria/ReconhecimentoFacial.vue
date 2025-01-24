@@ -12,7 +12,6 @@
             v-if="hasTiff && !tiffError"
             :tiff-url="tiffRender"
             @error="tiffError = true"
-            style=" height: 280px; object-fit: cover"
           />
           <img
             v-else-if="hasFoto"
@@ -107,7 +106,7 @@ const pessoaNome = useCookie("user-data").value;
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/uploadPessoa`;
+const enviarFoto = `${config.public.managemant}/upload`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const baixarDocumento = `${config.public.managemant}/download`;
 

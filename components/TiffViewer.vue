@@ -1,20 +1,21 @@
 <template>
+  <v-progress-circular
+    style="margin-left: 200px"
+    class="loading-spinner"
+    indeterminate
+    size="64"
+    v-if="loading"
+  ></v-progress-circular>
 
-    <v-progress-circular
-      style="margin-left: 300px;"
-      class="loading-spinner"
-      indeterminate
-      size="64"
-      v-if="loading"
-    ></v-progress-circular>
-
-    <canvas v-if="!tiffError" ref="tiffCanvas"></canvas>
-
+  <canvas
+    v-if="!tiffError"
+    ref="tiffCanvas"
+    style="width: 250px; height: 250px"
+  ></canvas>
 </template>
 
 <script setup>
-import * as UTIF from 'utif'
-let Tiff = null;
+import * as UTIF from "utif";
 
 const props = defineProps(["tiffUrl"]);
 const tiffCanvas = ref(null);
@@ -39,14 +40,18 @@ const renderTiff = async () => {
     // Renderizar no canvas
     if (tiffCanvas.value) {
       const canvas = tiffCanvas.value;
-      const ctx = canvas.getContext('2d');
-      
+      const ctx = canvas.getContext("2d");
+
       // Definir tamanho do canvas com base na imagem
       canvas.width = ifds[0].width;
       canvas.height = ifds[0].height;
 
       // Criar ImageData com a imagem RGBA
-      const imageData = new ImageData(new Uint8ClampedArray(rgba), ifds[0].width, ifds[0].height);
+      const imageData = new ImageData(
+        new Uint8ClampedArray(rgba),
+        ifds[0].width,
+        ifds[0].height
+      );
 
       // Limpar o canvas e desenhar a imagem
       ctx.clearRect(0, 0, canvas.width, canvas.height);

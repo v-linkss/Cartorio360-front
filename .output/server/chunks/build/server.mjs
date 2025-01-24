@@ -665,27 +665,27 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-BHr-iiCZ.mjs').then((m) => m.default || m)
+    component: () => import('./autenticacao-f5knEV7m.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-atualizar-id",
     path: "/fontes/atos/procuracoes/atualizar/:id()",
-    component: () => import('./_id_-CShCPugT.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-HDnRDBFp.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-CtlC8Oc2.mjs').then((m) => m.default || m)
+    component: () => import('./procuracao-Tdn8GYzJ.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-Bpy4cM12.mjs').then((m) => m.default || m)
+    component: () => import('./autencidade-CntybUtS.mjs').then((m) => m.default || m)
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-TwkknGqL.mjs').then((m) => m.default || m)
+    component: () => import('./semelhanca-Ce1mro1f.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -696,7 +696,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-DU18AsAx.mjs').then((m) => m.default || m)
+    component: () => import('./index-BN5FaLqH.mjs').then((m) => m.default || m)
   },
   {
     name: "login-tipo-perfil",
@@ -712,7 +712,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-jfJXYtXW.mjs').then((m) => m.default || m)
+    component: () => import('./criar-ato-ChLRa9Y-.mjs').then((m) => m.default || m)
   },
   {
     name: "os-criar-registro",
@@ -727,12 +727,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-hH4Qe9n5.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-jAKjhMA3.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-BsjD6anM.mjs').then((m) => m.default || m)
+    component: () => import('./index-8Xi23MGH.mjs').then((m) => m.default || m)
   },
   {
     name: "pessoas-lista",
@@ -742,7 +742,7 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-BHlMOMrK.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CeA_z6z0.mjs').then((m) => m.default || m)
   },
   {
     name: "relatorios-lista",
@@ -10468,7 +10468,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: () => import('./default-mOLmxyHV.mjs').then((m) => m.default || m)
+  default: () => import('./default-Ct7gbEeR.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
