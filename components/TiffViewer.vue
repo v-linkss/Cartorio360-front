@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import Tiff from "tiff.js";
+let Tiff = null;
 
 const props = defineProps(["tiffUrl"]);
 const tiffCanvas = ref(null);
@@ -45,6 +45,15 @@ const renderTiff = async () => {
     console.error("Erro ao carregar TIFF do MinIO:", error);
   }
 };
+
+onMounted(async () => {
+  try {
+    Tiff = (await import("tiff.js")).default; // Importa apenas no cliente
+  } catch (error) {
+    console.error("Erro ao carregar tiff.js:", error);
+    tiffError.value = true;
+  }
+});
 
 watch(() => props.tiffUrl, renderTiff, { immediate: true });
 </script>
