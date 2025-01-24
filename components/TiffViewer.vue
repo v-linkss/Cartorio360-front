@@ -1,14 +1,15 @@
 <template>
   <div>
     <v-progress-circular
-      style="margin-left: 300px;"
+      style="margin-left: 300px"
       class="loading-spinner"
       indeterminate
       size="64"
       v-if="loading"
     ></v-progress-circular>
-
-    <canvas v-if="!tiffError" ref="tiffCanvas"></canvas>
+    <ClientOnly>
+      <canvas v-if="!tiffError" ref="tiffCanvas"></canvas>
+    </ClientOnly>
   </div>
 </template>
 
