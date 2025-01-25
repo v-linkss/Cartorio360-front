@@ -28,6 +28,7 @@
           ></v-autocomplete>
         </v-col>
         <v-col>
+
           <div>
             <img
               @click="searchCaixas"
@@ -46,7 +47,7 @@
               :class="{ disabled: !item.btn_receber }"
               :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
               @click="
-                item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+                item.btn_receber ? redirectToCiaxasRecebimento(item) : null
               "
               title="Receber"
             >
@@ -96,18 +97,6 @@
           </v-row>
         </template>
       </v-data-table>
-      <RecebimentoOrdem
-        :show="isModalRecebimentoOpen"
-        :numero_os="numero_os"
-        :ordem="selectedOrder"
-        @close="isModalRecebimentoOpen = false"
-      />
-      <CancelamentoOrdem
-        :show="isModalCancelamentoOpen"
-        :numero_os="numero_os"
-        :ordemserv_token="ordemserv_token"
-        @close="isModalCancelamentoOpen = false"
-      />
     </v-container>
   </template>
   
@@ -124,12 +113,11 @@
   const usuariosItems = ref([]);
   const caixaItems  = ref([]);
   const situacaoItems = ref(["PENDENTE", "ENCERRADO", "CANCELADO"]);
-  const isModalRecebimentoOpen = ref(false);
   const isModalCancelamentoOpen = ref(false);
   const showCreateOrdemServ = ref(null);
   const numero_os = ref(null);
-  const selectedOrder = ref({});
-  
+  const servicosItems = ref([])
+
   const state = reactive({
     data: null || getCurrentDate(),
     situacao: null,
@@ -137,13 +125,9 @@
   });
   
   const headers = [
-    { title: "Data Recebimento", value: "data" },
-    { title: "Número", value: "numero" },
+    { title: "Data", value: "data" },
     { title: "Situação", value: "situacao" },
-    { title: "CPF", value: "apresentante_cpf" },
-    { title: "Apresentante", value: "apresentante_nome" },
     { title: "Usuario", value: "usuario_nome" },
-    { title: "Valor", value: "valor" },
     {
       value: "actions",
     },
@@ -192,34 +176,6 @@
     }
   }
   
-  const caixaDataTable = async () => {
-    try {
-      const currentDate = getCurrentDate();
-      const pesquisaSalva = sessionStorage.getItem("pesquisaCaixas");
-      const dadosRestaurados = JSON.parse(pesquisaSalva);
-      const { data: caixaData, error } = await useFetch(getCaixas, {
-        method: "POST",
-        body: {
-          cartorio_token: cartorio_token.value,
-          usuario_token: usuario_token.value,
-          data: dadosRestaurados?.data || currentDate,
-        },
-      });
-      if (caixaData.value.length > 0) {
-        caixaItems.value = caixaData.value.map((item) => {
-          return {
-            ...item,
-            data: formatDate(item.data, "dd/mm/yyyy"),
-          };
-        });
-      } else {
-        caixaItems.value = [];
-      }
-    } catch (error) {
-      console.error("Erro ao buscar serviços", error);
-    }
-  };
-  
   usuariosDataPayload();
   
   function redirectToCancelamento(numero, token, item) {
@@ -238,25 +194,20 @@
   
     router.push({ path: `/os/atualizar/${id}` });
   }
+
+  function redirectToCiaxasRecebimento(item) {
+    const serviceCookie = useCookie("caixa-service");
+    serviceCookie.value = JSON.stringify({
+      caixa_token: item.token,
+      usuario_nome: item.usuario_nome,
+      data: item.data
+    });
+    navigateTo('/caixas/caixasRecebimentoOs');
+}
   
   function redirectToRecebimento(numero, item) {
     numero_os.value = numero;
-    selectedOrder.value = {
-      token: item.token,
-      numero: item.numero,
-      valor: item.valor,
-      valor_pago: item.valor_pago,
-    };
-    isModalRecebimentoOpen.value = true;
   }
-  
-  const showCreateOrdem = () => {
-    const serviceCookie = useCookie("user-service");
-    const isTrueOrdemServ = useCookie("ordem-button");
-    serviceCookie.value = null;
-    showCreateOrdemServ.value = true;
-    isTrueOrdemServ.value = showCreateOrdemServ.value;
-  };
   
   onMounted(() => {
     nextTick(async () => {
