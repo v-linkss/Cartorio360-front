@@ -212,7 +212,6 @@ const processarImagem = async (id) => {
     tiffRender.value = linkPayload;
     tiffError.value = false;
   } else {
-    console.log()
     fotoRender.value = `data:image/jpeg;base64,${linkMinio}`;
   }
 };

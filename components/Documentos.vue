@@ -70,7 +70,7 @@
     >
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; margin-top: -8px; gap: 10px">
-          <div @click="redirectToUpdate(item.id)" title="editar">
+          <div @click="redirectToUpdate(item)" title="editar">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../assets/editar.png"
@@ -183,11 +183,11 @@ const router = useRouter();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const allTipos = `${config.public.managemant}/listarTipoDocumento`;
-const allUf = `${config.public.managemant}/listarUF`;
-const allDoc = `${config.public.managemant}/getPessoaDocById`;
-const createDoc = `${config.public.managemant}/createPessoaDoc`;
-const updateDoc = `${config.public.managemant}/updatePessoaDoc`;
+const allTipos = `${config.public.auth}/service/gerencia/listarTipoDocumento`;
+const allUf = `${config.public.auth}/service/gerencia/listarUF`;
+const allDoc = `${config.public.auth}/service/gerencia/getPessoaDocById`;
+const createDoc = `${config.public.auth}/service/gerencia/createPessoaDoc`;
+const updateDoc = `${config.public.auth}/service/gerencia/updatePessoaDoc`;
 
 const isModalOpen = ref(false);
 const selectedDoc = ref(null);
@@ -197,7 +197,6 @@ const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 const state = reactive({
   tabvalores_tipodoc_id: null,
   emissor: null,
-  validade: null,
   numero: null,
   data_emissao: null,
   data_vencimento: null,
@@ -242,9 +241,9 @@ const {
   refresh,
 } = await useLazyAsyncData("cliente-documentos", async () => {
   const [tipoDocumentoItems, ufItems, pessoasDocsItems] = await Promise.all([
-    $fetch(allTipos),
-    $fetch(allUf),
-    $fetch(`${allDoc}/${pessoa_id}`),
+    $fetchWithToken(allTipos),
+    $fetchWithToken(allUf),
+    $fetchWithToken(`${allDoc}/${pessoa_id}`),
   ]);
   const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
     return {
@@ -253,7 +252,6 @@ const {
       data_vencimento: formatDate(doc.data_vencimento),
     };
   });
-
   return {
     tipoDocumentoItems,
     ufItems,
@@ -274,7 +272,7 @@ async function onSubmit() {
       user_id,
       pessoa_id,
     };
-    const { data, error, status } = await useFetch(createDoc, {
+    const { data, error, status } = await fetchWithToken(createDoc, {
       method: "POST",
       body: payloadFormated,
     });
@@ -294,12 +292,13 @@ async function onSubmit() {
     );
   }
 }
-function redirectToUpdate(id) {
-  const documento = documentos.value.pessoasDocsItems.find(
-    (item) => item.id === id
-  );
-  if (documento) {
-    selectedDoc.value = documento;
+function redirectToUpdate(item) {
+  if (item) {
+    selectedDoc.value = {
+    ...item,
+    data_emissao: formatToISO(item.data_emissao),
+    data_vencimento: formatToISO(item.data_vencimento),
+  }
     isModalOpen.value = true;
   }
 }
@@ -313,7 +312,8 @@ async function onUpdate(id) {
     data_vencimento: selectedDoc.value.data_vencimento,
     data_emissao: selectedDoc.value.data_emissao,
   };
-  const { status } = await useFetch(`${updateDoc}/${id}`, {
+
+  const { status } = await fetchWithToken(`${updateDoc}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
@@ -327,7 +327,7 @@ async function onUpdate(id) {
 async function deleteDocumento(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${updateDoc}/${item.id}`, {
+    await fetchWithToken(`${updateDoc}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

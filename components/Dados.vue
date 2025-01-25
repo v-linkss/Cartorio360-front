@@ -155,12 +155,12 @@ const router = useRouter();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const createPessoa = `${config.public.managemant}/createPessoa`;
-const updatePessoa = `${config.public.managemant}/updatePessoa`;
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-const cidade = `${config.public.managemant}/listarCidades`;
-const sexo = `${config.public.managemant}/listarSexo`;
+const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
+const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
+const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
 
 const initialState = {
   nome: null,
@@ -204,10 +204,10 @@ const {
 } = await useLazyAsyncData("cliente-dados", async () => {
   const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems] =
     await Promise.all([
-      $fetch(estadoCivil),
-      $fetch(capacidadeCivil),
-      $fetch(cidade),
-      $fetch(sexo)
+      $fetchWithToken(estadoCivil),
+      $fetchWithToken(capacidadeCivil),
+      $fetchWithToken(cidade),
+      $fetchWithToken(sexo)
     ]);
 
   return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems };
@@ -242,7 +242,7 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
     };
-    const { data, error, status } = await useFetch(createPessoa, {
+    const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",
       body: payloadFormated,
     });
@@ -273,7 +273,7 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
   };
-  const { data, error, status } = await useFetch(
+  const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,
     {
       method: "PUT",

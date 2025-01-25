@@ -33,19 +33,19 @@
 </template>
 
 <script setup>
+const cartorioStore = useCartoriosStore()
 const router = useRouter();
-const route = useRoute();
 const config = useRuntimeConfig();
-const listarMenu = `${config.public.managemant}/listarMenu`;
+const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 definePageMeta({
   layout: "false",
 });
 
-const cartorios = JSON.parse(route.query.cartorios || "[]");
+const cartorios = cartorioStore.cartorioInfos
 const perfil_descricao = ref(null);
 
 const acessarSistema = async () => {
-  const { data: menuItems, status } = await useLazyFetch(listarMenu, {
+  const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
     body: { perfil_descricao: perfil_descricao.value },
   });

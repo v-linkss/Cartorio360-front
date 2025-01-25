@@ -72,8 +72,8 @@ const doc_prop = ref(null);
 const tab = ref(null);
 const config = useRuntimeConfig();
 const route = useRoute();
-const allSituacoes = `${config.public.managemant}/listarSituacoes`;
-const getAtoId = `${config.public.managemant}/getAtos`;
+const allSituacoes = `${config.public.auth}/service/gerencia/listarSituacoes`;
+const getAtoId = `${config.public.auth}/service/gerencia/getAtos`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const body = route.query.id
   ? { ato_token: "xkyaA" }
@@ -85,7 +85,7 @@ const label2 = ref("PROCURAÇÃO")
 
 async function loadData() {
   try {
-    const { data: tipoAtoId } = await useFetch(
+    const { data: tipoAtoId } = await fetchWithToken(
       `${getAtoId}/${route.query.ato_id}`,
       {
         method: "GET",
@@ -98,7 +98,7 @@ async function loadData() {
 }
 await loadData();
 
-const { data: situacaoData, status } = await useFetch(allSituacoes, {
+const { data: situacaoData, status } = await fetchWithToken(allSituacoes, {
   method: "POST",
   body: body,
 });

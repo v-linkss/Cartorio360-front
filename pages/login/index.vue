@@ -136,11 +136,11 @@ const closeAlert = () => {
   dialog.value = false;
 };
 const config = useRuntimeConfig();
-const listarMenu = `${config.public.managemant}/listarMenu`;
+const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 const auth = config.public.auth;
 
 const authenticateUser = async () => {
-  const { data, status, error } = await useFetch(`${auth}/login`, {
+  const { data, status, error } = await fetchWithToken(`${auth}/login`, {
     method: "POST",
     body: {
       senha: loginData.value.senha,
@@ -195,18 +195,17 @@ const login = async () => {
 
   if (status === "success") {
     const userInfo = data?.[0]?.func_autentica_acesso_v1?.[0]?.registro?.[0];
-
+    useCartoriosStore().cartorioInfos = userInfo.cartorios
     setCookies(userInfo);
 
     if (userInfo.cartorios.length > 1) {
       router.push({
         path: "/login/tipo-perfil",
-        query: { cartorios: JSON.stringify(userInfo.cartorios) },
       });
       return;
     }
     $toast.success("Login realizado com sucesso!");
-    const { data: menuItems, status: statusMenu } = await useLazyFetch(
+    const { data: menuItems, status: statusMenu } = await fetchWithToken(
       listarMenu,
       {
         method: "POST",

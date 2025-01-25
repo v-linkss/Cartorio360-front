@@ -10,18 +10,28 @@
   <canvas
     v-if="!tiffError"
     ref="tiffCanvas"
-    style="width: 250px; height: 250px"
+    :style="canvasStyle"
   ></canvas>
 </template>
 
 <script setup>
 import * as UTIF from "utif";
-
-const props = defineProps(["tiffUrl"]);
+const props = defineProps({
+  tiffUrl: String,
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
 const tiffCanvas = ref(null);
 const tiffError = ref(false);
 const loading = ref(false);
 const emit = defineEmits(["error"]);
+
+const canvasStyle = computed(() => ({
+  width: props.isModal ? "100%" : "250px",
+  height: props.isModal ? "100%" : "250px",
+}));
 
 const renderTiff = async () => {
   if (!props.tiffUrl) return;

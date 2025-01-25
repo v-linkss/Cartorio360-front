@@ -125,14 +125,14 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const route = useRoute();
 const router = useRouter();
-const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
-const papeisApresentante = `${config.public.managemant}/listarPapeis`;
-const criarAtoPessoa = `${config.public.managemant}/representante`;
-const buscarRepresentante = `${config.public.managemant}/representante`;
-const pessoasUpdate = `${config.public.managemant}/representante`;
+const procurarPessoa = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
+const papeisApresentante = `${config.public.auth}/service/gerencia/listarPapeis`;
+const criarAtoPessoa = `${config.public.auth}/service/gerencia/representante`;
+const buscarRepresentante = `${config.public.auth}/service/gerencia/representante`;
+const pessoasUpdate = `${config.public.auth}/service/gerencia/representante`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 const { id } = route.params;
+const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
 
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
@@ -168,15 +168,16 @@ const state = reactive({
   documento: null,
 });
 
-const { data } = await useFetch(papeisApresentante, {
+const { data } = await fetchWithToken(papeisApresentante, {
   method: "POST",
   body: { rotina: "CADASTRO_PJ" },
 });
+
 papeisItems.value = data.value;
 
 async function searchPessoasService() {
   try {
-    const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+    const { data: pessoasData, error } = await fetchWithToken(procurarPessoa, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -205,7 +206,7 @@ const createRepresentante = async () => {
     papel: papeisItems.value.find((papel) => papel.id === state.papeis),
   };
   try {
-    const { data, error, status } = await useFetch(criarAtoPessoa, {
+    const { data, error, status } = await fetchWithToken(criarAtoPessoa, {
       method: "POST",
       body: {
         ato_id: null,
@@ -229,7 +230,7 @@ const createRepresentante = async () => {
 };
 
 async function loadRepresentanteData() {
-  const { data, error } = await useFetch(`${buscarRepresentante}/${id}`, {
+  const { data, error } = await fetchWithToken(`${buscarRepresentante}/${id}`, {
     method: "GET",
   });
   pessoasTable.value = data.value;
@@ -239,7 +240,7 @@ async function deletePessoa(item) {
   item.excluido = !item.excluido;
 
   try {
-    await useFetch(`${pessoasUpdate}/${item.id}`, {
+    await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });
