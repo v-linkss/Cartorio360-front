@@ -11,9 +11,6 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "engines": {
-    "node": ">=20"
-  },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.9.0",
