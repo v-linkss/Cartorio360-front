@@ -172,7 +172,11 @@ const handleCapture = async () => {
   canvas.toBlob(async (blob) => {
     const formData = new FormData();
     formData.append("file", blob, `${nomePessoa}.jpg`);
-    formData.append("pessoa_token", token);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
+    formData.append("token", token);
     formData.append("tipo", "foto");
 
     const { data,status } = await useFetch(enviarFoto, {
@@ -212,7 +216,7 @@ const processarImagem = async (id) => {
     tiffRender.value = linkPayload;
     tiffError.value = false;
   } else {
-    fotoRender.value = `data:image/jpeg;base64,${linkMinio}`;
+    fotoRender.value = linkPayload;
   }
 };
 

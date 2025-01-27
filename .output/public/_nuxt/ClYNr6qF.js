@@ -1,1 +1,0 @@
-import{c1 as n,cn as o,cC as r,c4 as l,cl as c,c8 as i,b as u}from"./C-hm3pip.js";const m=n({fluid:{type:Boolean,default:!1},...o(),...r()},"VContainer"),p=l()({name:"VContainer",props:m(),setup(e,a){let{slots:s}=a;const{rtlClasses:t}=c();return i(()=>u(e.tag,{class:["v-container",{"v-container--fluid":e.fluid},t.value,e.class],style:e.style},s)),{}}});export{p as V};
