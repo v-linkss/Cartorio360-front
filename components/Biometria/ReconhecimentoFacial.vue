@@ -179,7 +179,7 @@ const handleCapture = async () => {
     formData.append("token", token);
     formData.append("tipo", "foto");
 
-    const { data,status } = await useFetch(enviarFoto, {
+    const { status } = await useFetch(enviarFoto, {
       method: "POST",
       body: formData,
     });
@@ -201,7 +201,7 @@ const processarImagem = async (id) => {
     method: "POST",
     body: { tipo: "foto", id },
   });
-
+  console.log(imagemBiometria)
   if (!imagemBiometria.value?.link) return;
 
   const { data: link } = await useFetch(baixarDocumento, {

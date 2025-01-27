@@ -42,10 +42,10 @@ const route = useRoute();
 const numeroOs = route.query.numeroOs;
 
 const components = {
- "yXA3K": semelhanca,
- "WrhCH": autencidade,
- "bFsdV": autenticacao,
- "xkyaA": procuracao
+ "mn2BB": semelhanca,
+ "Mw2xG": autencidade,
+ "7Cu6Z": autenticacao,
+ "dE9bN": procuracao
 };
 
 const servicos = ref([]);
