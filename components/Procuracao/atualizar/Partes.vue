@@ -193,6 +193,7 @@
 </template>
 
 <script setup>
+
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -255,7 +256,7 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
-  body: { tipo_ato_token: "xkyaA" },
+  body: { tipo_ato_token: route.query.ato_token_edit },
 });
 papeisItems.value = data.value;
 
