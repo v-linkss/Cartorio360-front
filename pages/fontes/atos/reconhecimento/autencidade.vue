@@ -128,7 +128,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+console.log(props.ato_token)
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -248,6 +248,8 @@ function removeFormValueFromTable(item) {
           ato_token.value.status_mensagem || error.value.data.details;
       }
     } catch (error) {
+      errorModalVisible.value = true;
+      errorMessage.value = error
       console.error("Erro na requisição", error);
     }
   }

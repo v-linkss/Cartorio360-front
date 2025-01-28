@@ -24,35 +24,37 @@
           item-title="descricao"
           item-value="token"
           :items="atos"
+          return-object
         ></v-autocomplete>
-
       </v-col>
     </v-row>
   </v-container>
-  <component :is="selectedComponent" :ato_token="selectedAto" />
+  <component :is="selectedComponent" :ato_token="selectedAto.token" />
 </template>
 
 <script setup>
 import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
 import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
-import procuracao from "../fontes/atos/procuracoes/procuracao.vue";
+import procuracao from "../fontes/atos/atos-sem-bem/geral.vue";
+import procuracaoComBens from "../fontes/atos/atos-sem-bem/geral.vue";
 
 const route = useRoute();
 const numeroOs = route.query.numeroOs;
 
 const components = {
- "mn2BB": semelhanca,
- "Mw2xG": autencidade,
- "7Cu6Z": autenticacao,
- "dE9bN": procuracao
+ "/fontes/atos/reconhecimento/semelhanca": semelhanca,
+ "/fontes/atos/reconhecimento/autenticidade": autencidade,
+ "/fontes/atos/autenticacao/autenticacao": autenticacao,
+ "/fontes/atos/ato-sem-bem/geral": procuracao,
+ "/fontes/atos/ato-com-bem/geral": procuracaoComBens
 };
 
 const servicos = ref([]);
 const atos = ref([]);
 const selectedServico = ref("");
 const selectedAto = ref(" ");
-const selectedComponent = computed(() => components[selectedAto.value]);
+const selectedComponent = computed(() => components[selectedAto.value.rota]);
 
 const config = useRuntimeConfig();
 const getTiposAtos = `${config.public.managemant}/tipoAtos`;
@@ -88,7 +90,7 @@ loadServicos();
 watch(selectedServico, async (newValue) => {
   if (newValue) {
     await onServicoChange(newValue);
-    selectedAto.value = atos.value.length > 0 ? atos.value[0].token : [];
+    selectedAto.value = atos.value.length > 0 ? atos.value[0] : null;
   }
 });
 </script>

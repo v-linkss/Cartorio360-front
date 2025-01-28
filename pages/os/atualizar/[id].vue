@@ -217,9 +217,20 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.tipo === "PROCURAÇÃO") {
+  if (item.tipo === "PROCURAÇÃO GERAL") {
     router.push({
-      path: `/fontes/atos/procuracoes/atualizar/${item.id}`,
+      path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar",
+        id: id,
+        ato_id: item.id,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
+      },
+    });
+  }else{
+    router.push({
+      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
         id: id,
