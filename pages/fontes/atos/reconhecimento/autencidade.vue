@@ -128,7 +128,6 @@ const props = defineProps({
     required: true,
   },
 });
-console.log(props.ato_token)
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();

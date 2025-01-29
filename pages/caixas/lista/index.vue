@@ -162,7 +162,6 @@ async function searchCaixas() {
 
 function redirectToCancelamento(numero, token) {
   numero_os.value = numero;
-  console.log("Redirecionando para cancelamento", { numero, token });
 }
 
 function redirectToUpdate(id) {

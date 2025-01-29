@@ -201,7 +201,6 @@ const processarImagem = async (id) => {
     method: "POST",
     body: { tipo: "foto", id },
   });
-  console.log(imagemBiometria)
   if (!imagemBiometria.value?.link) return;
 
   const { data: link } = await useFetch(baixarDocumento, {

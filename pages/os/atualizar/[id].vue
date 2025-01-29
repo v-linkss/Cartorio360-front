@@ -91,6 +91,7 @@
                       id: item.id,
                       tipo: item.tipo,
                       token: item.token,
+                      tipo_token: item.tipo_token
                     })
                   : null
               "
@@ -176,7 +177,7 @@ const state = reactive({
 });
 
 const headers = [
-{ title: "ID", value: "id" },
+  { title: "ID", value: "id" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Situação", value: "situacao" },
@@ -224,6 +225,7 @@ const redirectToUpdateAto = (item) => {
         origem: "atualizar",
         id: id,
         ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
       },
@@ -235,6 +237,7 @@ const redirectToUpdateAto = (item) => {
         origem: "atualizar",
         id: id,
         ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
       },
