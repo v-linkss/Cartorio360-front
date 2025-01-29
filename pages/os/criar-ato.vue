@@ -37,7 +37,7 @@ import semelhanca from "../fontes/atos/reconhecimento/semelhanca.vue";
 import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
 import procuracao from "../fontes/atos/atos-sem-bem/geral.vue";
-import procuracaoComBens from "../fontes/atos/atos-sem-bem/geral.vue";
+import procuracaoComBens from "../fontes/atos/atos-com-bem/geral.vue";
 
 const route = useRoute();
 const numeroOs = route.query.numeroOs;

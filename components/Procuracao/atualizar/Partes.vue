@@ -256,7 +256,7 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
-  body: { tipo_ato_token: route.query.ato_token_edit },
+  body: { tipo_ato_token: "dE9bN" },
 });
 papeisItems.value = data.value;
 

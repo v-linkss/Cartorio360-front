@@ -228,7 +228,7 @@ const redirectToUpdateAto = (item) => {
         numero_os: numeroOs.value,
       },
     });
-  }else{
+  }else if(item.tipo === "INVENTÁRIO E PARTILHA"){
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
