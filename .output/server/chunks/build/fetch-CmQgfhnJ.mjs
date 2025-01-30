@@ -1,5 +1,5 @@
 import { computed, toValue, reactive, ref, shallowRef, toRef, getCurrentInstance, onServerPrefetch, unref } from 'vue';
-import { B as hash } from '../nitro/nitro.mjs';
+import { E as hash } from '../_/nitro.mjs';
 import { aI as fetchDefaults, b as useNuxtApp, aG as asyncDataDefaults, aJ as useRequestFetch, aH as createError } from './server.mjs';
 
 const isDefer = (dedupe) => dedupe === "defer" || dedupe === false;
