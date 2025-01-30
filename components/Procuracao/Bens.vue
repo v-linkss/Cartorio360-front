@@ -197,7 +197,7 @@
       body: {
         descricao: state.descricao,
         tipo_id: state.tipo_id,
-        valor_mercado: state.vlr_alienacao,
+        vlr_alienacao: state.vlr_alienacao,
         user_id: user_id,
         ato_id: Number.parseInt(props.ato_id),
         token:props.ato_token,
