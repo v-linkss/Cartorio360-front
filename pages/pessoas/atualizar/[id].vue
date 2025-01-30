@@ -207,12 +207,12 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const updatePessoa = `${config.public.managemant}/updatePessoa`;
-const estadoCivil = `${config.public.managemant}/listarEstadoCivil`;
-const capacidadeCivil = `${config.public.managemant}/listarCapacidadeCivil`;
-const cidades = `${config.public.managemant}/listarCidades`;
-const buscarPessoa = `${config.public.managemant}/getPessoaById`;
-const sexo = `${config.public.managemant}/listarSexo`;
+const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
+const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
+const cidades = `${config.public.auth}/service/gerencia/listarCidades`;
+const buscarPessoa = `${config.public.auth}/service/gerencia/getPessoaById`;
+const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
 
 const estadoCivilItemsData = ref([]);
 const capacidadeCivilItemsData = ref([]);
@@ -267,11 +267,11 @@ async function loadPessoaData() {
       pessoa,
       sexoItems,
     ] = await Promise.all([
-      $fetch(estadoCivil),
-      $fetch(capacidadeCivil),
-      $fetch(cidades),
-      $fetch(`${buscarPessoa}/${id}`),
-      $fetch(sexo),
+      $fetchWithToken(estadoCivil),
+      $fetchWithToken(capacidadeCivil),
+      $fetchWithToken(cidades),
+      $fetchWithToken(`${buscarPessoa}/${id}`),
+      $fetchWithToken(sexo),
     ]);
 
     const pessoa_token = useCookie("pessoa_token");
@@ -281,7 +281,6 @@ async function loadPessoaData() {
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
     sexoItemsData.value = sexoItems;
-
     Object.assign(state, pessoa);
   } catch (error) {
     console.error("Erro ao carregar os dados da pessoa:", error);
@@ -319,7 +318,7 @@ function formatPayload(payload) {
 
 async function onUpdate() {
   const payloadFormated = formatPayload(state);
-  const { data, error } = await useFetch(`${updatePessoa}/${id}`, {
+  const { data, error } = await fetchWithToken(`${updatePessoa}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });

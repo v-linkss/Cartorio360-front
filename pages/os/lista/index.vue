@@ -158,7 +158,7 @@
             :disabled="!item.btn_cancelar"
             @click="
               item.btn_cancelar
-                ? redirectToCancelamento(item.numero, item.token)
+                ? redirectToCancelamento(item)
                 : null
             "
             title="Cancelamento"
@@ -343,9 +343,9 @@ const servicosDataTable = async () => {
 usuariosDataPayload();
 tipoAtosDataPayload();
 
-function redirectToCancelamento(numero, token, item) {
-  numero_os.value = numero;
-  ordemserv_token.value = token;
+function redirectToCancelamento(item) {
+  numero_os.value = item.numero;
+  ordemserv_token.value = item.token;
   isModalCancelamentoOpen.value = true;
 }
 

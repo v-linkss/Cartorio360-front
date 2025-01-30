@@ -1,25 +1,37 @@
 <template>
-  <div>
-    <v-progress-circular
-      style="margin-left: 300px;"
-      class="loading-spinner"
-      indeterminate
-      size="64"
-      v-if="loading"
-    ></v-progress-circular>
+  <v-progress-circular
+    style="margin-left: 200px"
+    class="loading-spinner"
+    indeterminate
+    size="64"
+    v-if="loading"
+  ></v-progress-circular>
 
-    <canvas v-if="!tiffError" ref="tiffCanvas"></canvas>
-  </div>
+  <canvas
+    v-if="!tiffError"
+    ref="tiffCanvas"
+    :style="canvasStyle"
+  ></canvas>
 </template>
 
 <script setup>
-let Tiff = null;
-
-const props = defineProps(["tiffUrl"]);
+import * as UTIF from "utif";
+const props = defineProps({
+  tiffUrl: String,
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
+});
 const tiffCanvas = ref(null);
 const tiffError = ref(false);
 const loading = ref(false);
 const emit = defineEmits(["error"]);
+
+const canvasStyle = computed(() => ({
+  width: props.isModal ? "100%" : "250px",
+  height: props.isModal ? "100%" : "250px",
+}));
 
 const renderTiff = async () => {
   if (!props.tiffUrl) return;
@@ -27,33 +39,42 @@ const renderTiff = async () => {
   try {
     const response = await fetch(props.tiffUrl);
     const buffer = await response.arrayBuffer();
-    const tiff = new Tiff({ buffer });
-    const canvas = tiff.toCanvas();
 
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.objectFit = "cover";
+    // Decodificar TIFF e extrair IFDs
+    const ifds = UTIF.decode(buffer);
+    UTIF.decodeImage(buffer, ifds[0]);
 
+    // Converter para RGBA
+    const rgba = UTIF.toRGBA8(ifds[0]);
+
+    // Renderizar no canvas
     if (tiffCanvas.value) {
-      tiffCanvas.value.replaceWith(canvas);
+      const canvas = tiffCanvas.value;
+      const ctx = canvas.getContext("2d");
+
+      // Definir tamanho do canvas com base na imagem
+      canvas.width = ifds[0].width;
+      canvas.height = ifds[0].height;
+
+      // Criar ImageData com a imagem RGBA
+      const imageData = new ImageData(
+        new Uint8ClampedArray(rgba),
+        ifds[0].width,
+        ifds[0].height
+      );
+
+      // Limpar o canvas e desenhar a imagem
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.putImageData(imageData, 0, 0);
     }
+
     loading.value = false;
   } catch (error) {
     loading.value = false;
     tiffError.value = true;
     emit("error");
-    console.error("Erro ao carregar TIFF do MinIO:", error);
+    console.error("Erro ao carregar TIFF:", error);
   }
 };
-
-onMounted(async () => {
-  try {
-    Tiff = (await import("tiff.js")).default; // Importa apenas no cliente
-  } catch (error) {
-    console.error("Erro ao carregar tiff.js:", error);
-    tiffError.value = true;
-  }
-});
-
 watch(() => props.tiffUrl, renderTiff, { immediate: true });
 </script>

@@ -27,7 +27,7 @@
 
     <div>
       <img
-        class="btn-pointer mt-3"
+        class="btn-pointer mt-1"
         src="../../../../assets/visualizar.png"
         style="width: 40px; cursor: pointer"
         title="Pesquisar Pessoa"
@@ -36,7 +36,7 @@
     </div>
     <div>
       <img
-        class="btn-pointer mt-3 ml-2"
+        class="btn-pointer mt-1 ml-2"
         src="../../../../assets/novo.png"
         style="width: 40px; cursor: pointer"
         title="Criar Pessoa"
@@ -128,7 +128,6 @@ const props = defineProps({
     required: true,
   },
 });
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -248,6 +247,8 @@ function removeFormValueFromTable(item) {
           ato_token.value.status_mensagem || error.value.data.details;
       }
     } catch (error) {
+      errorModalVisible.value = true;
+      errorMessage.value = error
       console.error("Erro na requisição", error);
     }
   }

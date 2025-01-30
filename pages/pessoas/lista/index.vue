@@ -1,9 +1,13 @@
 <template>
-  <v-container v-if="!pending" class="mt-5">
+  <v-container v-if="status === 'success'" class="mt-5">
     <NuxtLink to="/pessoas/cadastro">
-      <img style="cursor: pointer;" src="../../../assets/novo.png" alt="Cadastro" />
+      <img
+        style="cursor: pointer"
+        src="../../../assets/novo.png"
+        alt="Cadastro"
+      />
     </NuxtLink>
-    <v-row style="gap: 10rem">
+    <v-row style="gap: 3rem">
       <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
@@ -12,7 +16,6 @@
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
-          single-line
         ></v-text-field>
       </div>
       <div style="width: 300px">
@@ -23,7 +26,6 @@
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
-          single-line
         ></v-text-field>
       </div>
     </v-row>
@@ -36,7 +38,7 @@
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
-           style="cursor: pointer;"
+            style="cursor: pointer"
             @click="redirectToView(item.id)"
             title="Visualizar"
           >
@@ -47,7 +49,7 @@
             />
           </div>
           <div
-           style="cursor: pointer;"
+            style="cursor: pointer"
             @click="redirectToUpdate(item.id)"
             title="Atualizar"
           >
@@ -57,7 +59,11 @@
               alt="Atualizar"
             />
           </div>
-          <div style="cursor: pointer;" @click="deletePessoa(item)" title="Deletar">
+          <div
+            style="cursor: pointer"
+            @click="deletePessoa(item)"
+            title="Deletar"
+          >
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px"
@@ -82,8 +88,8 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.managemant}/getAllPessoa`;
-const pessoasUpdate = `${config.public.managemant}/updatePessoa`;
+const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
+const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
 
 const router = useRouter();
 
@@ -95,7 +101,8 @@ const headers = [
   { title: "Nome/Razão Social", value: "nome" },
   { value: "actions" },
 ];
-const { data: pessoasItems, pending } = await useLazyFetch(pessoasLista);
+
+const { data: pessoasItems, status } = await fetchWithToken(pessoasLista);
 
 const filteredPessoas = computed(() => {
   return pessoasItems.value.filter((item) => {
@@ -114,11 +121,10 @@ const filteredPessoas = computed(() => {
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${pessoasUpdate}/${item.id}`, {
+    await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
       method: "PUT",
       body: { excluido: item.excluido },
     });
-
   } catch (error) {
     console.error("Erro ao excluir pessoa:", error);
   }

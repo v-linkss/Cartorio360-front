@@ -58,6 +58,7 @@ const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 
 const selosItems = ref([]);
 const selectedSelos = ref([]);
+const escreventesItems = ref([]);
 
 const state = reactive({
   escrevente: null,
@@ -92,10 +93,10 @@ watch(
 );
 const closeModal = () => {
   isVisible.value = false;
+  state.escrevente = null
+  selectedSelos.value = null
   emit("close");
 };
-
-const escreventesItems = ref([]);
 
 const { data } = await useFetch(allEscreventes, {
   method: "POST",

@@ -244,10 +244,10 @@ const route = useRoute();
 const { id } = route.params;
 const router = useRouter();
 const config = useRuntimeConfig();
-const allPaises = `${config.public.managemant}/listarPais`;
-const allEnderecos = `${config.public.managemant}/getPessoaEnderecoById`;
-const criarEnderecos = `${config.public.managemant}/createPessoaEndereco`;
-const updateEndereco = `${config.public.managemant}/updatePessoaEndereco`;
+const allPaises = `${config.public.auth}/service/gerencia/listarPais`;
+const allEnderecos = `${config.public.auth}/service/gerencia/getPessoaEnderecoById`;
+const criarEnderecos = `${config.public.auth}/service/gerencia/createPessoaEndereco`;
+const updateEndereco = `${config.public.auth}/service/gerencia/updatePessoaEndereco`;
 
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
 const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
@@ -259,8 +259,6 @@ const state = reactive({
   logradouro: null,
   numero: null,
   bairro: null,
-  data_vencimento: null,
-  tabvalores_ufemissor_id: null,
   complemento: null,
   cidade_estrangeira: null,
 });
@@ -330,9 +328,9 @@ const {
   refresh,
 } = await useLazyAsyncData("cliente-enderecos", async () => {
   const [paisItems, enderecosItems, cidadesItems] = await Promise.all([
-    $fetch(allPaises),
-    $fetch(`${allEnderecos}/${pessoa_id}`),
-    $fetch(`${config.public.managemant}/listarCidades`),
+    $fetchWithToken(allPaises),
+    $fetchWithToken(`${allEnderecos}/${pessoa_id}`),
+    $fetchWithToken(`${config.public.auth}/service/gerencia/listarCidades`),
   ]);
   return { paisItems, enderecosItems, cidadesItems };
 });
@@ -346,7 +344,7 @@ async function onSubmitAdressNational() {
       user_id,
       pessoa_id,
     };
-    const { data, error, status } = await useFetch(criarEnderecos, {
+    const { data, error, status } = await fetchWithToken(criarEnderecos, {
       method: "POST",
       body: payloadFormated,
     });
@@ -372,6 +370,7 @@ async function onSubmitAdressForeign() {
     $toast.error("Os Campos Cidade Estrangeira e Endereço são obrigatorios!");
     return;
   }
+
   const payload = { ...state };
 
   const payloadFormated = {
@@ -379,13 +378,14 @@ async function onSubmitAdressForeign() {
     user_id,
     pessoa_id,
   };
-  const { data, error, status } = await useFetch(criarEnderecos, {
+  const { data, error, status } = await fetchWithToken(criarEnderecos, {
     method: "POST",
     body: payloadFormated,
   });
   if (status.value === "error" && error.value.statusCode === 500) {
     $toast.error("Erro ao cadastrar endereço,erro no sistema.");
   } else {
+
     $toast.success("Endereço cadastrado com sucesso!");
     refresh();
     for (const key in state) {
@@ -415,7 +415,7 @@ async function onUpdate(id) {
     bairro: selectedEndereco.value.bairro,
     complemento: selectedEndereco.value.complemento,
   };
-  const { status } = await useFetch(`${updateEndereco}/${id}`, {
+  const { status } = await fetchWithToken(`${updateEndereco}/${id}`, {
     method: "PUT",
     body: payloadFormated,
   });
@@ -429,7 +429,7 @@ async function onUpdate(id) {
 async function deleteEndereco(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${updateEndereco}/${item.id}`, {
+    await fetchWithToken(`${updateEndereco}/${item.id}`, {
       method: "PUT",
       body: { excluido: item.excluido },
     });

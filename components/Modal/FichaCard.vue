@@ -1,8 +1,10 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="700">
+  <v-dialog persistent v-model="isVisible" max-width="550">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
-      <TiffViewer :tiff-url="fichaRender"/>
+      <div class="d-flex justify-center align-center" >
+        <TiffViewer :tiff-url="fichaRender" :is-modal="true"/>
+      </div>
       <v-card-actions>
         <v-btn
           style="background-color: #429946; color: white"
@@ -36,6 +38,7 @@ watch(
   () => props.show,
   async(newVal) => {
     isVisible.value = newVal;
+    fichaRender.value = null;
     await beforeOpenFicha();
   }
 );

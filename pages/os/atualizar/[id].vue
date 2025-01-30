@@ -91,6 +91,7 @@
                       id: item.id,
                       tipo: item.tipo,
                       token: item.token,
+                      tipo_token: item.tipo_token
                     })
                   : null
               "
@@ -176,7 +177,7 @@ const state = reactive({
 });
 
 const headers = [
-{ title: "ID", value: "id" },
+  { title: "ID", value: "id" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Situação", value: "situacao" },
@@ -217,13 +218,26 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.tipo === "PROCURAÇÃO") {
+  if (item.tipo === "PROCURAÇÃO GERAL") {
     router.push({
-      path: `/fontes/atos/procuracoes/atualizar/${item.id}`,
+      path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
         id: id,
         ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
+      },
+    });
+  }else if(item.tipo === "INVENTÁRIO E PARTILHA"){
+    router.push({
+      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar",
+        id: id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
       },

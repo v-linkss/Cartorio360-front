@@ -239,6 +239,7 @@ async function reconhecerAtoSemelhanca() {
           ato_tipo_token: props.ato_token,
         },
       });
+
       if (status.value === "success" && data.value[0].status === "OK") {
         reconhecerEtiquetaSemelhanca(data.value[0].token);
       } else {

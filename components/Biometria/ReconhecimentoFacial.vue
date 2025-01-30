@@ -12,7 +12,6 @@
             v-if="hasTiff && !tiffError"
             :tiff-url="tiffRender"
             @error="tiffError = true"
-            style=" height: 280px; object-fit: cover"
           />
           <img
             v-else-if="hasFoto"
@@ -107,7 +106,7 @@ const pessoaNome = useCookie("user-data").value;
 const nomePessoa = pessoaNome.nome;
 
 const config = useRuntimeConfig();
-const enviarFoto = `${config.public.managemant}/uploadPessoa`;
+const enviarFoto = `${config.public.managemant}/upload`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const baixarDocumento = `${config.public.managemant}/download`;
 
@@ -173,10 +172,14 @@ const handleCapture = async () => {
   canvas.toBlob(async (blob) => {
     const formData = new FormData();
     formData.append("file", blob, `${nomePessoa}.jpg`);
-    formData.append("pessoa_token", token);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
+    formData.append("token", token);
     formData.append("tipo", "foto");
 
-    const { data,status } = await useFetch(enviarFoto, {
+    const { status } = await useFetch(enviarFoto, {
       method: "POST",
       body: formData,
     });
@@ -198,7 +201,6 @@ const processarImagem = async (id) => {
     method: "POST",
     body: { tipo: "foto", id },
   });
-
   if (!imagemBiometria.value?.link) return;
 
   const { data: link } = await useFetch(baixarDocumento, {
@@ -213,8 +215,7 @@ const processarImagem = async (id) => {
     tiffRender.value = linkPayload;
     tiffError.value = false;
   } else {
-    console.log()
-    fotoRender.value = `data:image/jpeg;base64,${linkMinio}`;
+    fotoRender.value = linkPayload;
   }
 };
 

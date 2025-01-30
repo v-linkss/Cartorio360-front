@@ -61,9 +61,9 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const pessoasView = `${config.public.managemant}/getPessoaById`
+const pessoasView = `${config.public.auth}/service/gerencia/getPessoaById`
 
-const { data: PessoaView, pending } = await useFetch(
+const { data: PessoaView, pending } = await fetchWithToken(
   `${pessoasView}/${id}`
 );
 </script>

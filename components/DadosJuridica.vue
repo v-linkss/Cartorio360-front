@@ -76,9 +76,9 @@ const route = useRoute();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
-const buscarPessoaJuridica = `${config.public.managemant}/getPessoaById`;
-const createPessoa = `${config.public.managemant}/createPessoa`;
-const updatePessoa = `${config.public.managemant}/updatePessoa`;
+const buscarPessoaJuridica = `${config.public.auth}/service/gerencia/getPessoaById`;
+const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
+const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
 const { id } = route.params;
 
 const initialState = {
@@ -131,7 +131,7 @@ async function onSubmit() {
       ...payload,
       doc_identificacao: removeFormatting(state.doc_identificacao),
     };
-    const { data, error, status } = await useFetch(createPessoa, {
+    const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",
       body: payloadFormated,
     });
@@ -165,7 +165,7 @@ async function onUpdate() {
     ...payload,
     doc_identificacao: removeFormatting(state.doc_identificacao),
   };
-  const { data, error, status } = await useFetch(
+  const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${id || pessoaId.value}`,
     {
       method: "PUT",
@@ -184,7 +184,7 @@ async function onUpdate() {
 }
 
 async function loadPessoaJuridicaData() {
-  const { data, error } = await useFetch(`${buscarPessoaJuridica}/${id}`, {
+  const { data, error } = await fetchWithToken(`${buscarPessoaJuridica}/${id}`, {
     method: "GET",
   });
   Object.assign(state,data.value)

@@ -15,7 +15,7 @@
 const printHtml = ref("");
 
 const config = useRuntimeConfig();
-const impressao = `${config.public.managemant}/gerarRelatorio`;
+const impressao = `${config.public.managemant}/gerarRelatorioPessoa`;
 
 const consultaFicha = async () => {
   const response = await useFetch(impressao, {
@@ -51,6 +51,3 @@ const printContent = async() => {
 
 };
 </script>
-
-<style scoped>
-</style>

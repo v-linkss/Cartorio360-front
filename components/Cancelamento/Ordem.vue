@@ -94,6 +94,7 @@ const analisaCancelamentoOs = async () => {
       method: "POST",
       body: { ordemserv_token:props.ordemserv_token },
     });
+
     analiseCancela.value = data.value.mensagem
 };
 
