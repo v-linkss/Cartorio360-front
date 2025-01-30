@@ -52,7 +52,7 @@
                 width: '30px',
                 height: '30px',
               }"
-              src="../../../assets/Salvar.png"
+              src="../../../assets/salvar.png"
               alt="Salvar"
             />
           </div>
