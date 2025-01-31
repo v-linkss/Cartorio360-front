@@ -220,7 +220,7 @@ const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const ato_papel_id = ref(null);
 const representante_pessoa_id = ref(null);
-const ato_token = ref("xkyaA");
+const ato_token = ref(route.query.tipo_ato_token);
 const fichaRender = ref(null);
 
 const headers = [

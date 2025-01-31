@@ -69,7 +69,7 @@ const allSituacoes = `${config.public.auth}/service/gerencia/listarSituacoes`;
 const getAtoId = `${config.public.auth}/service/gerencia/getAtos`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const body = route.query.id
-  ? { ato_token: "xkyaA" }
+  ? { ato_token: route.query.tipo_ato_token}
   : { cartorio_token: cartorio_token };
 const situacoesItems = ref([]);
 const dadosData = ref([]);
