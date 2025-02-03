@@ -59,6 +59,7 @@ const handleSave = () => {
 
 const closeModal = () => {
   isVisible.value = false;
+  showPartes.value = false
   emit("close");
 };
 </script>

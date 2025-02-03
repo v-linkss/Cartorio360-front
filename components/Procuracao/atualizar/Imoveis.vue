@@ -1,16 +1,16 @@
 <template>
   <v-container v-if="status === 'success'" class="mt-5">
-      <img
+    <img
       @click="isModalCadastroImoveisOpen = true"
-        style="cursor: pointer"
-        src="../../../assets/novo.png"
-        alt="Cadastro"
-      />
+      style="cursor: pointer"
+      src="../../../assets/novo.png"
+      alt="Cadastro"
+    />
     <v-row style="gap: 3rem">
       <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="searchDoc"
+          v-model="searchMatricula"
           label="Matrícula"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
@@ -31,7 +31,7 @@
     <v-data-table
       density="compact"
       :headers="headers"
-      :items="filteredPessoas"
+      :items="filteredImoveis"
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
@@ -82,61 +82,69 @@
         </v-row>
       </template>
     </v-data-table>
-    <ModalImoveisCadastro :show="isModalCadastroImoveisOpen" @close="isModalCadastroImoveisOpen = false"/>
+    <ModalImoveisCadastro
+      :show="isModalCadastroImoveisOpen"
+      @close="isModalCadastroImoveisOpen = false"
+    />
+    <ModalImoveisAtualizar
+    :show="isModalAtualizarImoveisOpen"
+    @close="isModalAtualizarImoveisOpen = false"/>
   </v-container>
 </template>
 
 <script setup>
-
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
-const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
+const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;
+const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
 
 const router = useRouter();
+const route = useRoute();
 
 const search = ref("");
-const searchDoc = ref("");
-const isModalCadastroImoveisOpen = ref(false)
+const searchMatricula = ref("");
+const isModalCadastroImoveisOpen = ref(false);
+const isModalAtualizarImoveisOpen = ref(false);
 
 const headers = [
-  { title: "Matrícula", value: "doc_identificacao" },
-  { title: "Descrição", value: "nome" },
+  { title: "Matrícula", value: "martricula" },
+  { title: "Descrição", value: "descricao" },
   { value: "actions" },
 ];
 
-const { data: pessoasItems, status } = await fetchWithToken(pessoasLista);
+const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
+  method:"POST",
+  body: { ato_token: route.query.ato_token_edit },
+});
 
-const filteredPessoas = computed(() => {
-  return pessoasItems.value.filter((item) => {
-    const docIdentificacao = item.doc_identificacao
-      ? item.doc_identificacao.toLowerCase()
+const filteredImoveis = computed(() => {
+  return imoveisItems.value.filter((item) => {
+    const matriculaSearch = item.matricula
+      ? item.matricula.toLowerCase()
       : "";
-    const nome = item.nome ? item.nome.toLowerCase() : "";
+    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
 
-    const matchesDoc = docIdentificacao.includes(searchDoc.value.toLowerCase());
-    const matchesNome = nome.includes(search.value.toLowerCase());
+    const matchesMatricula = matriculaSearch.includes(searchMatricula.value.toLowerCase());
+    const matchesDescricao = descricao.includes(search.value.toLowerCase());
 
-    return matchesDoc && matchesNome;
+    return matchesMatricula && matchesDescricao;
   });
 });
 
 async function deletePessoa(item) {
-  // item.excluido = !item.excluido;
-  // try {
-  //   await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
-  //     method: "PUT",
-  //     body: { excluido: item.excluido },
-  //   });
-  // } catch (error) {
-  //   console.error("Erro ao excluir pessoa:", error);
-  // }
+  item.excluido = !item.excluido;
+  try {
+    await fetchWithToken(`${imoveisUpdate}/${item.id}`, {
+      method: "PUT",
+      body: { excluido: item.excluido },
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
 }
 
-function redirectToView(id) {
-  
-}
+function redirectToView(id) {}
 
 function redirectToUpdate(id) {
-
+  isModalAtualizarImoveisOpen.value = true
 }
 </script>

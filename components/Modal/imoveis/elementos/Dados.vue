@@ -21,7 +21,7 @@
     <v-row>
       <v-col cols="3">
         <v-autocomplete
-          label="Selecione o Tipo de Registro"
+          label="Tipo de Registro"
           v-model="state.tabvalores_tipo_regimovel_id"
           :items="registroItems"
           item-title="descricao"
@@ -63,7 +63,7 @@
     <v-row>
       <v-col cols="3">
         <v-autocomplete
-          label="Selecione a Cidade"
+          label="Cidade"
           v-model="state.end_cidade_id"
           :items="cidadeItems"
           item-title="descricao"
@@ -110,9 +110,11 @@
       <v-col cols="3">
         <v-autocomplete
           v-model="state.tipo_id"
-          label="Selecione o tipo de imovel"
+          :items="tipoBensItems"
+          label="Tipo de imovel"
           item-title="descricao"
           item-value="id"
+          :error-messages="v$.tipo_id.$errors.map((e) => e.$message)"
         >
         </v-autocomplete>
       </v-col>
@@ -123,7 +125,7 @@
     <v-row>
       <v-col class="mt-6" cols="4">
         <v-autocomplete
-          label="Selecione a Situação"
+          label="Situação"
           :items="situacaoItems"
           item-title="descricao"
           item-value="id"
@@ -173,7 +175,7 @@
 
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
-import { helpers, minLength, required } from "@vuelidate/validators";
+import { helpers, required } from "@vuelidate/validators";
 
 const props = defineProps({
   ato_token: {
@@ -190,6 +192,7 @@ const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const { id } = route.params;
+const createAtosBens = `${config.public.managemant}/atos_bens`;
 const listarRegistroImoveis = `${config.public.managemant}/registro_imoveis`;
 const listarNaturezaImoveis = `${config.public.managemant}/natureza_imoveis`;
 const listarTipoLogradouro = `${config.public.managemant}/tipo_logradouros`;
@@ -206,6 +209,7 @@ const naturezaItems = ref([]);
 const tipoLogradouroItems = ref([]);
 const cidadeItems = ref([]);
 const situacaoItems = ref([]);
+const tipoBensItems = ref([]);
 const isModalOpen = ref(false);
 const loading = ref(true);
 
@@ -233,26 +237,39 @@ const state = reactive({
   tipo_id: null,
   vlr_alienacao: null,
   vlr_mercado: null,
+  valor_mercado: "0.00",
   aliq_itbi: null,
   vlr_itbi: null,
+  user_id: user_id,
+  ato_id: Number(route.query.ato_id) || Number(props.ato_id),
 });
 
 const rules = {
-  descricao: { required:helpers.withMessage("O campo é obrigatório",required,minLength(3))},
+  descricao: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
+  tipo_id: { required: helpers.withMessage("O campo é obrigatório", required) },
 };
 
 // Criando instância do Vuelidate
 const v$ = useVuelidate(rules, state);
 
 const createImovel = async () => {
+  console.log(state)
   const isValid = await v$.value.$validate();
 
   if (!isValid) {
     $toast.error("Preencha todos os campos obrigatórios!");
     return;
   }
-
-  emit("saved");
+  const { status } = await useFetch(`${createAtosBens}`, {
+    method: "POST",
+    body: state,
+  });
+  if (status.value === "success") {
+    $toast.success("Imovel criado com sucesso!");
+    emit("saved");
+  }
 };
 
 const createTiposDeBens = async () => {
@@ -294,15 +311,7 @@ const { data } = await useFetch(`${listarBens}`, {
   method: "POST",
   body: { cartorio_token: cartorio_token.value, imoveis: true },
 });
-state.tiposBens = data.value;
-
-// const { data: bensPayload } = await useFetch(
-//   `${getAtosBens}/${route.query.ato_id}`,
-//   {
-//     method: "GET",
-//   }
-// );
-// pessoasTable.value = bensPayload.value;
+tipoBensItems.value = data.value;
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;

@@ -239,6 +239,7 @@ const { data: bensPayload } = await useFetch(
   }
 );
 pessoasTable.value = bensPayload.value;
+console.log(pessoasTable.value)
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
