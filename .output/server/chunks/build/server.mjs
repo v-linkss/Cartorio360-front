@@ -694,7 +694,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-CM2Nm-2A.mjs')
+    component: () => import('./index-CKScpUvw.mjs')
   },
   {
     name: "pessoas-vizualizar-id",

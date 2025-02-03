@@ -105,7 +105,7 @@ const headers = [
 const { data: pessoasItems, status } = await fetchWithToken(pessoasLista);
 
 const filteredPessoas = computed(() => {
-  return pessoasItems.value.filter((item) => {
+  return pessoasItems.value.data.filter((item) => {
     const docIdentificacao = item.doc_identificacao
       ? item.doc_identificacao.toLowerCase()
       : "";
