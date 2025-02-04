@@ -115,7 +115,7 @@
             </v-col>
             <v-col class="ml-5" cols="3">
               <label>Valor</label>
-              <MoneyInput v-model="selectedBem.valor_mercado" />
+              <MoneyInput v-model="selectedBem.vlr_alienacao" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -146,7 +146,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const createAtosBens = `${config.public.managemant}/atos_bens`;
 const updateAtosBens = `${config.public.managemant}/atos_bens`;
-const getAtosBens = `${config.public.managemant}/atos_bens`;
+const getAtosBens = `${config.public.managemant}/listarBens`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
@@ -164,7 +164,7 @@ const headers = [
   {
     title: "Valor",
     align: "end",
-    key: "valor_mercado",
+    key: "vlr_alienacao",
   },
   { align: "end", value: "actions" },
 ];
@@ -186,7 +186,8 @@ const createTiposDeBens = async () => {
     body: {
       descricao: state.descricao,
       tipo_id: state.tipo_id,
-      valor_mercado: state.vlr_alienacao,
+      valor_mercado: '0.00',
+      vlr_alienacao: state.vlr_alienacao,
       user_id: user_id,
       ato_id: Number.parseInt(route.query.ato_id),
       token: route.query.ato_token_edit,
@@ -209,7 +210,7 @@ const updateAtosBensModal = async (id) => {
     body: {
       descricao: selectedBem.value.descricao,
       tipo_id: selectedBem.value.tipo_id,
-      valor_mercado: selectedBem.value.valor_mercado,
+      vlr_alienacao: selectedBem.value.vlr_alienacao,
     },
   });
   if(status.value === 'success'){
@@ -231,17 +232,16 @@ const { data } = await useFetch(`${listarBens}`, {
   body: { cartorio_token: cartorio_token.value, imoveis: false },
 });
 state.tiposBens = data.value;
-console.log(state.tiposBens)
 
 const { data: bensPayload } = await useFetch(
-  `${getAtosBens}/${route.query.ato_id}`,
+  `${getAtosBens}`,
   {
-    method: "GET",
+    method: "POST",
+    body:{ato_token:route.query.ato_token_edit}
   }
   
 );
 pessoasTable.value = bensPayload.value;
-console.log(pessoasTable.value)
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;

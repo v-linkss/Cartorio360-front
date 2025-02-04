@@ -166,10 +166,15 @@
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green"
+      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green" @click="updateImovelModal(props.imovel_id)"
         >Atualizar</v-btn
       >
-      <v-btn v-else class="ml-5" size="large" color="green" @click="createImovel"
+      <v-btn
+        v-else
+        class="ml-5"
+        size="large"
+        color="green"
+        @click="createImovel"
         >Salvar</v-btn
       >
     </v-row>
@@ -189,12 +194,12 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  isUpdate:{
-    type: Boolean
+  isUpdate: {
+    type: Boolean,
   },
-  imovel_id:{
-    type: Number
-  }
+  imovel_id: {
+    type: Number,
+  },
 });
 
 const emit = defineEmits(["saved", "close-modal"]);
@@ -203,7 +208,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const { id } = route.params;
 const createAtosBens = `${config.public.managemant}/atos_bens`;
-const getImoveisById = `${config.public.managemant}/atos_bens`
+const getImoveisById = `${config.public.managemant}/atos_bens`;
 const updateImovel = `${config.public.managemant}/atos_bens`;
 const listarRegistroImoveis = `${config.public.managemant}/registro_imoveis`;
 const listarNaturezaImoveis = `${config.public.managemant}/natureza_imoveis`;
@@ -214,8 +219,6 @@ const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
 
-const pessoasTable = ref([]);
-const selectedBem = ref([]);
 const registroItems = ref([]);
 const naturezaItems = ref([]);
 const tipoLogradouroItems = ref([]);
@@ -255,7 +258,7 @@ const state = reactive({
   user_id: user_id,
   ato_id: Number(route.query.ato_id) || Number(props.ato_id),
 });
-
+const statePayload = reactive({ ...state })
 const rules = {
   descricao: {
     required: helpers.withMessage("O campo é obrigatório", required),
@@ -289,14 +292,22 @@ const { data } = await useFetch(`${listarBens}`, {
 });
 tipoBensItems.value = data.value;
 
-if(props.isUpdate === true){
+
+if (props.isUpdate === true) {
   const { data: dadosParte } = await useFetch(
-      `${getImoveisById}/${props.imovel_id}`,
-      {
-        method: "GET",
+    `${getImoveisById}/${props.imovel_id}`,
+    {
+      method: "GET",
+    }
+  );
+  if (dadosParte.value) {
+    Object.keys(state).forEach((key) => {
+      if (dadosParte.value[key] !== undefined) {
+        state[key] = dadosParte.value[key];
       }
-    );
-  console.log(dadosParte.value)
+    });
+  }
+  Object.assign(statePayload, state);
 }
 
 async function deletePessoa(item) {
@@ -333,6 +344,28 @@ async function loadImoveisData() {
     loading.value = false; // Finaliza o estado de carregamento
   }
 }
+
+const updateImovelModal = async (id) => {
+  const updatedValues = {};
+  
+  Object.keys(state).forEach((key) => {
+    if (state[key] !== statePayload[key]) {
+      updatedValues[key] = state[key];
+    }
+  });
+
+  if (Object.keys(updatedValues).length === 0) {
+    return;
+  }
+ const {status} = await useFetch(`${updateImovel}/${id}`, {
+    method: "PUT",
+    body:updatedValues,
+  });
+  if(status.value === 'success'){
+    $toast.success('Imovel Atualizado com sucesso!')
+    emit('close-modal')
+  }
+};
 
 const goBack = () => {
   emit("close-modal");
