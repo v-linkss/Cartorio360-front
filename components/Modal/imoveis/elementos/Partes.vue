@@ -29,7 +29,7 @@
       </v-row>
   
       <v-row>
-        <v-col cols="4">
+        <v-col class="mt-6" cols="4">
           <v-autocomplete
             label="Selecione a Pessoa"
             v-model="state.pessoa"
@@ -41,7 +41,7 @@
           >
           </v-autocomplete>
         </v-col>
-        <v-col cols="3">
+        <v-col class="mt-6" cols="3">
           <v-autocomplete
             label="Papel"
             v-model="state.papeis"
@@ -52,12 +52,13 @@
           >
           </v-autocomplete>
         </v-col>
-        <v-col cols="1">
-            <v-text-field label="%"></v-text-field>
+        <v-col cols="1" >
+          <label>%</label>
+            <MoneyInput  v-model="state.percentual"></MoneyInput>
         </v-col>
         <div>
           <img
-            class="mt-1"
+            class="mt-7"
             src="../../../../assets/novo.png"
             style="width: 40px; cursor: pointer"
             title="Criar Imovel"
@@ -181,8 +182,8 @@
   const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
   const papeisApresentante = `${config.public.managemant}/listarPapeis`;
   const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
-  const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
-  const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+  const criarParteImovelPessoa = `${config.public.managemant}/bens_pessoa`;
+  const pessoasImovelUpdate = `${config.public.managemant}/bens_pessoa`;
   const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
   const baixarDocumento = `${config.public.managemant}/download`;
   const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
@@ -196,7 +197,7 @@
   const isModalPapelOpen = ref(false);
   const representante_nome = ref(null);
   const ato_papel_id = ref(null);
-  const ato_token = ref("xkyaA");
+  const ato_token = ref(route.query.tipo_ato_token);
   const fichaRender = ref(null);
   
   const headers = [
@@ -213,13 +214,14 @@
     {
       title: "%",
       align: "start",
+      key:"percentual.percentual"
     },
     { value: "actions" },
   ];
   
   const state = reactive({
     papeis: null,
-    nome: null,
+   percentual: null,
     pessoa: null,
     documento: null,
   });
@@ -257,7 +259,7 @@
   getDadosPartes();
   async function searchPessoasService() {
     try {
-      const { data: pessoasData, error } = await useFetch(procurarPessoa, {
+      const { data: pessoasData} = await useFetch(procurarPessoa, {
         method: "POST",
         body: {
           cartorio_token: cartorio_token.value,
@@ -285,42 +287,28 @@
   };
   
   const createImovel = async () => {
-    // const representante = {
-    //   pessoa: state.pessoa,
-    //   papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
-    //   representante: { nome: null },
-    // };
-  
-    // const atosPessoas = await useFetch(`${getPartesId}/${route.query.ato_id}`, {
-    //   method: "GET",
-    // });
-  
-    // for (const element of atosPessoas.data.value) {
-    //   if (
-    //     element.pessoa_id === state.pessoa.id &&
-    //     element.ato_id === Number(route.query.ato_id) &&
-    //     element.tipo_parte_id === state.papeis
-    //   ) {
-    //     $toast.error("Pessoa Já Registrada Com Esse Papel!");
-    //     return;
-    //   }
-    // }
-  
-    // const { data, error, status } = await useFetch(criarAtoPessoa, {
-    //   method: "POST",
-    //   body: {
-    //     ato_id: route.query.ato_id,
-    //     pessoa_id: state.pessoa.id,
-    //     tipo_parte_id: state.papeis,
-    //     user_id: useCookie("user-data").value.usuario_id,
-    //   },
-    // });
-    // if (status.value === "success") {
-    //   representante.id = data.value.id;
-    //   $toast.success("Pessoa Registrada com Sucesso!");
-    //   pessoasTable.value.push(representante);
-    // }
-    emit('saved')
+    const representante = {
+      pessoa: state.pessoa,
+      papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
+      percentual: state.percentual,
+    };
+
+    const { data, status } = await useFetch(criarParteImovelPessoa, {
+      method: "POST",
+      body: {
+        ato_id: Number(route.query.ato_id),
+        pessoa_id: state.pessoa.id,
+        tipo_parte_id: state.papeis,
+        user_id: useCookie("user-data").value.usuario_id,
+        percentual: state.percentual
+      },
+    });
+    if (status.value === "success") {
+      representante.id = data.value.id;
+      $toast.success("Pessoa Registrada com Sucesso!");
+      pessoasTable.value.push(representante);
+    }
+
   };
   
   const redirectToFicha = async (item) => {

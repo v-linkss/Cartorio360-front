@@ -20,7 +20,8 @@
           <v-tabs-window v-model="tab">
             <v-tabs-window-item value="dados">
               <ModalImoveisElementosDados
-                @saved="handleSave"
+                :isUpdate="true"
+                :imovel_id="props.imovel_id"
                 @close-modal="closeModal"
               />
             </v-tabs-window-item>
@@ -38,6 +39,7 @@
   <script setup>
   const props = defineProps({
     show: Boolean,
+    imovel_id: Number,
   });
   
   const tab = ref("dados");

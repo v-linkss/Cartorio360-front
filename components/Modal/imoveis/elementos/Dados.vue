@@ -166,7 +166,10 @@
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn class="ml-5" size="large" color="green" @click="createImovel"
+      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green"
+        >Atualizar</v-btn
+      >
+      <v-btn v-else class="ml-5" size="large" color="green" @click="createImovel"
         >Salvar</v-btn
       >
     </v-row>
@@ -186,13 +189,22 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isUpdate:{
+    type: Boolean
+  },
+  imovel_id:{
+    type: Number
+  }
 });
+
 const emit = defineEmits(["saved", "close-modal"]);
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const { id } = route.params;
 const createAtosBens = `${config.public.managemant}/atos_bens`;
+const getImoveisById = `${config.public.managemant}/atos_bens`
+const updateImovel = `${config.public.managemant}/atos_bens`;
 const listarRegistroImoveis = `${config.public.managemant}/registro_imoveis`;
 const listarNaturezaImoveis = `${config.public.managemant}/natureza_imoveis`;
 const listarTipoLogradouro = `${config.public.managemant}/tipo_logradouros`;
@@ -255,7 +267,6 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const createImovel = async () => {
-  console.log(state)
   const isValid = await v$.value.$validate();
 
   if (!isValid) {
@@ -272,46 +283,21 @@ const createImovel = async () => {
   }
 };
 
-const createTiposDeBens = async () => {
-  if (!state.vlr_alienacao && !state.descricao) {
-    $toast.error("Os campos Descrição e Valor são Obrigatorios!");
-    return;
-  }
-  const { data, status } = await useFetch(`${createAtosBens}`, {
-    method: "POST",
-    body: {
-      descricao: state.descricao,
-      tipo_id: state.tipo_id,
-      valor_mercado: state.vlr_alienacao,
-      user_id: user_id,
-      ato_id: Number.parseInt(props.ato_id),
-      token: props.ato_token,
-    },
-  });
-  if (status.value === "success") {
-    $toast.success("Bem registrado com sucesso!");
-    pessoasTable.value.push(data.value);
-    Object.assign(state, {
-      vlr_alienacao: null,
-      descricao: null,
-      tipo_id: null,
-    });
-  }
-};
-
-const redirectToUpdateBens = (id) => {
-  const bem = pessoasTable.value.find((item) => item.id === id);
-  if (bem) {
-    selectedBem.value = bem;
-    isModalOpen.value = true;
-  }
-};
-
 const { data } = await useFetch(`${listarBens}`, {
   method: "POST",
   body: { cartorio_token: cartorio_token.value, imoveis: true },
 });
 tipoBensItems.value = data.value;
+
+if(props.isUpdate === true){
+  const { data: dadosParte } = await useFetch(
+      `${getImoveisById}/${props.imovel_id}`,
+      {
+        method: "GET",
+      }
+    );
+  console.log(dadosParte.value)
+}
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;

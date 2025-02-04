@@ -231,12 +231,14 @@ const { data } = await useFetch(`${listarBens}`, {
   body: { cartorio_token: cartorio_token.value, imoveis: false },
 });
 state.tiposBens = data.value;
+console.log(state.tiposBens)
 
 const { data: bensPayload } = await useFetch(
   `${getAtosBens}/${route.query.ato_id}`,
   {
     method: "GET",
   }
+  
 );
 pessoasTable.value = bensPayload.value;
 console.log(pessoasTable.value)

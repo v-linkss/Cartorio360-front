@@ -109,6 +109,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);
@@ -127,30 +128,39 @@ const state = reactive({
   forma: null,
   valor: "",
 });
+
 const emit = defineEmits(["close"]);
 
 const headers = [
   { title: "Forma", value: "forma" },
-
   { title: "Valor", value: "valor" },
-
-  {
-    value: "actions",
-  },
+  { value: "actions" },
 ];
+
+const faltaReceberValorDeOrdem = ref(0);
+
+const calcularFaltaReceber = () => {
+  const valor = parseFloat(props.ordem.valor);
+  const valorPago = parseFloat(props.ordem.valor_pago);
+  faltaReceberValorDeOrdem.value = parseFloat(valor - valorPago).toFixed(2);
+};
 
 watch(
   () => props.show,
   (newVal) => {
     isVisible.value = newVal;
+    if (newVal) {
+      calcularFaltaReceber();
+    }
   }
 );
+
 const closeModal = () => {
   isVisible.value = false;
-  state.forma = null
-  state.descricao = null
-  state.valor = ""
-  selosItems.value = []
+  state.forma = null;
+  state.descricao = null;
+  state.valor = "";
+  selosItems.value = [];
   emit("close");
 };
 
@@ -159,30 +169,28 @@ const receberOsParcial = async () => {
   isMoreOrLess.value = true;
 };
 
-const faltaReceberValorDeOrdem = computed(() => {
-  const valor = parseFloat(props.ordem.valor);
-  const valorPago = parseFloat(props.ordem.valor_pago);
-  return (valor - valorPago).toFixed(2); // Garantindo que tenha duas casas decimais
-});
-
 const realizarRecebimentoCompleto = async () => {
-  const body = {
-    ordemserv_token: props.ordem.token,
-    usuario_token: usuario_token,
-    recebimentos: [recebimentos.value],
-  };
+  try {
+    const body = {
+      ordemserv_token: props.ordem.token,
+      usuario_token: usuario_token,
+      recebimentos: [recebimentos.value],
+    };
 
-  const { data, error } = await useFetch(routereceberOs, {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-  if (data.value[0].status === "OK") {
-    $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
-    selosItems.value = [];
-    closeModal();
-  } else {
-    const error_message = data.value[0].status_mensagem;
-    $toast.error(error_message);
+    const { data } = await useFetch(routereceberOs, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    if (data.value[0].status === "OK") {
+      $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
+      selosItems.value = [];
+      closeModal();
+    } else {
+      const error_message = data.value[0].status_mensagem;
+      $toast.error(error_message);
+    }
+  } catch (error) {
+    $toast.error(error);
   }
 };
 
@@ -229,6 +237,8 @@ const addNewRow = async () => {
   props.ordem.valor_pago =
     parseFloat(props.ordem.valor_pago) + parseFloat(state.valor);
   props.ordem.valor = parseFloat(props.ordem.valor) - parseFloat(state.valor);
+  faltaReceberValorDeOrdem.value =
+    parseFloat(faltaReceberValorDeOrdem.value) - parseFloat(state.valor);
 
   state.forma = null;
   state.valor = "0.00";

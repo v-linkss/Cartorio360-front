@@ -87,6 +87,7 @@
       @close="isModalCadastroImoveisOpen = false"
     />
     <ModalImoveisAtualizar
+    :imovel_id="idImovel"
     :show="isModalAtualizarImoveisOpen"
     @close="isModalAtualizarImoveisOpen = false"/>
   </v-container>
@@ -104,9 +105,10 @@ const search = ref("");
 const searchMatricula = ref("");
 const isModalCadastroImoveisOpen = ref(false);
 const isModalAtualizarImoveisOpen = ref(false);
+const idImovel = ref(null)
 
 const headers = [
-  { title: "Matrícula", value: "martricula" },
+  { title: "Matrícula", value: "registro_matricula" },
   { title: "Descrição", value: "descricao" },
   { value: "actions" },
 ];
@@ -145,6 +147,7 @@ async function deletePessoa(item) {
 function redirectToView(id) {}
 
 function redirectToUpdate(id) {
+  idImovel.value = id
   isModalAtualizarImoveisOpen.value = true
 }
 </script>
