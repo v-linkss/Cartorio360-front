@@ -225,7 +225,6 @@ const tipoLogradouroItems = ref([]);
 const cidadeItems = ref([]);
 const situacaoItems = ref([]);
 const tipoBensItems = ref([]);
-const isModalOpen = ref(false);
 const loading = ref(true);
 
 const state = reactive({
@@ -310,17 +309,6 @@ if (props.isUpdate === true) {
   Object.assign(statePayload, state);
 }
 
-async function deletePessoa(item) {
-  item.excluido = !item.excluido;
-  try {
-    await useFetch(`${updateAtosBens}/${item.id}`, {
-      method: "PUT",
-      body: JSON.stringify({ excluido: item.excluido }),
-    });
-  } catch (error) {
-    console.error("Erro ao excluir pessoa:", error);
-  }
-}
 
 async function loadImoveisData() {
   try {

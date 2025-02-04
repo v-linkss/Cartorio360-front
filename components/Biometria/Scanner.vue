@@ -45,9 +45,10 @@ async function enviarArquivo() {
   try {
     const { status,data} = await useFetch(viewDoc, {
       method: 'POST',
-      body: { tipo: 'ficha', pessoa_token: token }
+      body: { tipo: 'ficha', token: token, cartorio_token: useCookie("user-data").value.cartorio_token }
     });
   } catch (error) {
+    $toast.error(error)
     console.error('Erro ao enviar o arquivo:', error);
   }
 }
