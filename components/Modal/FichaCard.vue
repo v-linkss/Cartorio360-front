@@ -1,15 +1,49 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="550">
+  <v-dialog persistent v-model="isVisible" max-width="650">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
+
+      <v-container>
+        <v-row>
+          <v-col cols="10">
+            <v-slider
+              v-model="zoomLevel"
+              min="1"
+              max="2"
+              step="0.1"
+              label="Zoom"
+              class="mt-3"
+            ></v-slider>
+          </v-col>
+          <v-col cols="2">
+            <v-icon class="ml-6" :size="'50px'" @click="rotateImage"
+              >mdi-rotate-right</v-icon
+            >
+          </v-col>
+        </v-row>
+      </v-container>
       <div class="d-flex justify-center align-center">
-        <TiffViewer v-if="hasTiff" :tiff-url="fichaRender" :is-modal="true" />
+        <TiffViewer
+          v-if="hasTiff"
+          :tiff-url="fichaRender"
+          :is-modal="true"
+          :zoom-level="zoomLevel"
+          :style="{
+            transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
+          }"
+        />
         <img
-            v-else-if="hasFoto"
-            :src="fotoRender"
-            style="width: 100%; height: 100%; object-fit: cover"
-          />
+          v-else-if="hasFoto"
+          :src="fotoRender"
+          :style="{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
+          }"
+        />
       </div>
+
       <v-card-actions>
         <v-btn
           style="background-color: #429946; color: white"
@@ -40,6 +74,9 @@ const hasFoto = computed(() => !!fotoRender.value);
 const isVisible = ref(props.show);
 const fichaRender = ref(null);
 const fotoRender = ref(null);
+
+const zoomLevel = ref(1); // Nível de zoom (inicialmente 1x)
+const rotationDegree = ref(0); // Grau de rotação (inicialmente 0)
 
 const emit = defineEmits(["close", "confirmar"]);
 
@@ -85,7 +122,22 @@ const beforeOpenFicha = async () => {
 const closeModal = () => {
   isVisible.value = false;
   fichaRender.value = null;
-  fotoRender.value = null
+  fotoRender.value = null;
+  zoomLevel.value = 
   emit("close");
 };
+
+const rotateImage = () => {
+  rotationDegree.value += 90; // Rotaciona a imagem 90 graus
+  if (rotationDegree.value >= 360) {
+    rotationDegree.value = 0; // Reseta a rotação após 360 graus
+  }
+};
 </script>
+
+<style scoped>
+/* Estilo para o slider */
+.v-slider {
+  width: 100%;
+}
+</style>

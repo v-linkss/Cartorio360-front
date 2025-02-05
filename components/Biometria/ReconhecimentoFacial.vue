@@ -44,23 +44,6 @@
               >
             </v-col>
           </v-row>
-          <v-row>
-            <v-container style="overflow: hidden">
-              <v-col>
-                <video
-                  class="ml-3"
-                  ref="video"
-                  width="640"
-                  height="480"
-                  autoplay
-                  :style="{
-                    transform: `scale(${zoomLevel})`,
-                    transformOrigin: 'center center',
-                  }"
-                ></video>
-              </v-col>
-            </v-container>
-          </v-row>
           <v-container>
             <v-slider
               v-model="zoomLevel"
@@ -70,6 +53,22 @@
               label="Zoom"
             ></v-slider>
           </v-container>
+          <v-row>
+            <v-container style="overflow: hidden">
+              <v-col class="d-flex justify-center align-center">
+                <video
+                  ref="video"
+                  width="360"
+                  height="300"
+                  autoplay
+                  :style="{
+                    transform: `scale(${zoomLevel})`,
+                    transformOrigin: 'center center',
+                  }"
+                ></video>
+              </v-col>
+            </v-container>
+          </v-row>
           <v-row class="mt-10 mb-5 ml-5">
             <v-btn color="red" size="large" @click="closeDialog">Fechar</v-btn>
             <v-btn

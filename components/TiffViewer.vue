@@ -22,6 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  zoomLevel: {
+    type: Number,
+    default: 1,
+  },
 });
 const tiffCanvas = ref(null);
 const tiffError = ref(false);
@@ -29,8 +33,9 @@ const loading = ref(false);
 const emit = defineEmits(["error"]);
 
 const canvasStyle = computed(() => ({
-  width: props.isModal ? "100%" : "250px",
-  height: props.isModal ? "100%" : "250px",
+  width: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
+  height: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
+  transform: `scale(${props.zoomLevel})`,
 }));
 
 const renderTiff = async () => {
@@ -53,8 +58,8 @@ const renderTiff = async () => {
       const ctx = canvas.getContext("2d");
 
       // Definir tamanho do canvas com base na imagem
-      canvas.width = ifds[0].width;
-      canvas.height = ifds[0].height;
+      canvas.width = ifds[0].width * props.zoomLevel;
+      canvas.height = ifds[0].height * props.zoomLevel;
 
       // Criar ImageData com a imagem RGBA
       const imageData = new ImageData(
@@ -77,4 +82,4 @@ const renderTiff = async () => {
   }
 };
 watch(() => props.tiffUrl, renderTiff, { immediate: true });
-</script>
+</script> 

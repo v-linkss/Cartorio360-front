@@ -31,7 +31,6 @@ async function handleScannerClick() {
 
 // Função para acionar o scanner
 async function openScanner() {
-
   try {
     const { data } = await useFetch(acionarScanner, { method: 'GET' });
 
