@@ -8,8 +8,8 @@
           <v-col cols="10">
             <v-slider
               v-model="zoomLevel"
-              min="1"
-              max="2"
+              min="0.5"
+              max="1.1"
               step="0.1"
               label="Zoom"
               class="mt-3"
@@ -22,8 +22,8 @@
           </v-col>
         </v-row>
       </v-container>
-      <div style="overflow: hidden" class="d-flex justify-center align-center">
-        <div v-if="hasTiff" class="ml-5">
+      <div  class="d-flex justify-center align-center">
+        <div v-if="hasTiff" class="ml-5 mt-15">
           <TiffViewer
             :tiff-url="fichaRender"
             :is-modal="true"
@@ -74,7 +74,7 @@ const isVisible = ref(props.show);
 const fichaRender = ref(null);
 const fotoRender = ref(null);
 
-const zoomLevel = ref(1); // Nível de zoom (inicialmente 1x)
+const zoomLevel = ref(0.8); // Nível de zoom (inicialmente 1x)
 const rotationDegree = ref(0); // Grau de rotação (inicialmente 0)
 
 const emit = defineEmits(["close", "confirmar"]);
@@ -127,7 +127,7 @@ const closeModal = () => {
   isVisible.value = false;
   fichaRender.value = null;
   fotoRender.value = null;
-  zoomLevel.value = 1;
+  zoomLevel.value = 0.8;
   rotationDegree.value = 0;
   emit("close");
 };

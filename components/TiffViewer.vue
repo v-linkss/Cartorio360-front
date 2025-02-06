@@ -7,11 +7,7 @@
     v-if="loading"
   ></v-progress-circular>
 
-  <canvas
-    v-if="!tiffError"
-    ref="tiffCanvas"
-    :style="canvasStyle"
-  ></canvas>
+  <canvas v-if="!tiffError" ref="tiffCanvas" :style="canvasStyle"></canvas>
 </template>
 
 <script setup>
@@ -31,7 +27,7 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  translateX: { type: Number, default: 0 }
+  translateX: { type: Number, default: 0 },
 });
 
 const tiffCanvas = ref(null);
@@ -42,8 +38,9 @@ const emit = defineEmits(["error"]);
 const canvasStyle = computed(() => ({
   width: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
   height: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
-  transform: `scale(${props.zoomLevel}) rotate(${props.rotationDegree}deg)  translateX(${props.translateX}px)`, 
-  transformOrigin: "left center"
+  transform: `scale(${props.zoomLevel}) rotate(${props.rotationDegree}deg)  translateX(${props.translateX}px)`,
+  objectFit: "contain",
+  transformOrigin: "left",
 }));
 
 const renderTiff = async () => {
@@ -99,5 +96,7 @@ const renderTiff = async () => {
 };
 
 // Re-renderiza o TIFF sempre que mudar URL ou rotação
-watch(() => [props.tiffUrl, props.rotationDegree], renderTiff, { immediate: true });
+watch(() => [props.tiffUrl, props.rotationDegree], renderTiff, {
+  immediate: true,
+});
 </script>
