@@ -21,6 +21,7 @@
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
+      {{ console.log(item) }}
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
@@ -40,23 +41,6 @@
               alt="Receber"
             />
           </div>
-
-          <div
-            :class="{ disabled: !item.btn_editar }"
-            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Bloqueado'"
-          >
-            <img
-              :style="{
-                cursor: item.btn_editar ? 'pointer' : 'default',
-                width: '30px',
-                height: '30px',
-              }"
-              src="../../../assets/salvar.png"
-              alt="Salvar"
-            />
-          </div>
-
           <div
             :class="{ disabled: !item.btn_cancelar }"
             @click="
@@ -68,7 +52,7 @@
           >
             <img
               style="width: 30px; height: 30px"
-              src="../../../assets/visualizar.png"
+              src="../../../assets/salvar.png"
               alt="Visualizar"
               title="Visualizar"
             />
@@ -76,7 +60,20 @@
         </v-row>
       </template>
     </v-data-table>
+    <RecebimentoOrdem
+      :show="isModalRecebimentoOpen"
+      :numero_os="numero_os"
+      :ordem="selectedOrder"
+      @close="isModalRecebimentoOpen = false"
+    />
   </v-container>
+  <v-rows>
+    <v-cols>
+      <v-btn class="ml-8" size="large" @click="goBack" color="red"
+      >Voltar
+      </v-btn>
+    </v-cols>
+  </v-rows>
 </template>
 
 <script setup>
@@ -92,6 +89,13 @@ const data = useCookie("caixa-service").value.data;
 const caixaRecebeOsItems = ref([]);
 const searchNumero = ref("");
 const searchApresentante = ref("");
+const selectedOrder = ref({});
+const numero_os = ref(null);
+const isModalRecebimentoOpen = ref(false);
+
+const goBack = () => {
+navigateTo('/caixas/lista')
+}
 
 const headers = [
   { title: "Data Recebimento", value: "data" },
@@ -146,15 +150,21 @@ const filteredItems = computed(() => {
     return matchesNumero && matchesApresentante;
   });
 });
-
+console.log('items:',filteredItems)
 function redirectToCancelamento(numero, token) {
   // Lógica para redirecionar ao cancelamento
   console.log("Cancelando OS:", { numero, token });
 }
 
 function redirectToRecebimento(numero, item) {
-  // Lógica para redirecionar ao recebimento
-  console.log("Recebendo OS:", { numero, item });
+  numero_os.value = numero;
+  selectedOrder.value = {
+    token: item.token,
+    numero: item.numero,
+    valor: item.valor,
+    valor_pago: item.valor_pago,
+  };
+  isModalRecebimentoOpen.value = true;
 }
 
 function redirectToUpdate(id) {
