@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-TLOjcJe6.mjs')
+    component: () => import('./index-CHX0pdqC.mjs')
   },
   {
     name: "caixas-lista",
@@ -607,22 +607,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-CWDpIJJl.mjs')
+    component: () => import('./_id_-s-49ebaE.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-C-Rsf_eK.mjs')
+    component: () => import('./geral-BqjlkwHf.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-DzMhcFgm.mjs')
+    component: () => import('./_id_-DCuWLpYh.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-BtY_KFjl.mjs')
+    component: () => import('./geral-C3U2yH1w.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Bm1135Ci.mjs')
+    component: () => import('./procuracao-BZa2seDC.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -659,7 +659,7 @@ const _routes = [
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-Dt3eNjEd.mjs')
+    component: () => import('./tipo-perfil-Bpix-NGn.mjs')
   },
   {
     name: "os-atualizar-id",
@@ -669,7 +669,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-z8gPOnMc.mjs')
+    component: () => import('./criar-ato-rH5pUmFa.mjs')
   },
   {
     name: "os-criar-registro",
@@ -684,7 +684,7 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-D9S_K111.mjs')
+    component: () => import('./_id_-CnDndEpB.mjs')
   },
   {
     name: "pessoas-cadastro",

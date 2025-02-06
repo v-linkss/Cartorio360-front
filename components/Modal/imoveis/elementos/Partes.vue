@@ -227,7 +227,6 @@ const getDadosPartes = async () => {
       method: "GET",
     }
   );
-  console.log(dadosParte.value);
   const transformarObjetos = (listaDePartes) => {
     return listaDePartes.map((parte) => ({
       ...parte,

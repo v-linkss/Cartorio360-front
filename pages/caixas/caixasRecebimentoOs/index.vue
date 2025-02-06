@@ -21,7 +21,6 @@
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-      {{ console.log(item) }}
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
@@ -150,7 +149,7 @@ const filteredItems = computed(() => {
     return matchesNumero && matchesApresentante;
   });
 });
-console.log('items:',filteredItems)
+
 function redirectToCancelamento(numero, token) {
   // Lógica para redirecionar ao cancelamento
   console.log("Cancelando OS:", { numero, token });

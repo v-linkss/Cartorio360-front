@@ -72,7 +72,6 @@ const getPapeis = async () => {
     method: "POST",
     body: { tipo_ato_token: route.query.tipo_ato_token||props.ato_token },
   });
-  console.log(props.ato_token)
   papeisItems.value = data.value;
 };
 

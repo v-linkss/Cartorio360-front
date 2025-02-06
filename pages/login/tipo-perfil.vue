@@ -43,9 +43,7 @@ definePageMeta({
 
 const cartorios = cartorioStore.cartorioInfos
 const perfil_descricao = ref(null);
-console.log(perfil_descricao.value)
 const acessarSistema = async () => {
-  console.log(perfil_descricao.value)
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
     body: { perfil_descricao: perfil_descricao.value },

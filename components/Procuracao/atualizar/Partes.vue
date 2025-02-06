@@ -338,12 +338,7 @@ const createRepresentante = async () => {
       return;
     }
   }
-console.log( {
-      ato_id: route.query.ato_id,
-      pessoa_id: state.pessoa.id,
-      tipo_parte_id: state.papeis,
-      user_id: useCookie("user-data").value.usuario_id,
-    })
+
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
     body: {
