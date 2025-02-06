@@ -27,6 +27,7 @@
             </v-tabs-window-item>
             <v-tabs-window-item value="partes">
               <ModalImoveisElementosPartes
+               :imovel_id="props.imovel_id"
                 @close-modal="closeModal"
               />
             </v-tabs-window-item>
