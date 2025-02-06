@@ -16,6 +16,7 @@
 
 <script setup>
 import * as UTIF from "utif";
+
 const props = defineProps({
   tiffUrl: String,
   isModal: {
@@ -26,7 +27,13 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  rotationDegree: {
+    type: Number,
+    default: 0,
+  },
+  translateX: { type: Number, default: 0 }
 });
+
 const tiffCanvas = ref(null);
 const tiffError = ref(false);
 const loading = ref(false);
@@ -35,7 +42,8 @@ const emit = defineEmits(["error"]);
 const canvasStyle = computed(() => ({
   width: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
   height: props.isModal ? "100%" : `${250 * props.zoomLevel}px`,
-  transform: `scale(${props.zoomLevel})`,
+  transform: `scale(${props.zoomLevel}) rotate(${props.rotationDegree}deg)  translateX(${props.translateX}px)`, 
+  transformOrigin: "left center"
 }));
 
 const renderTiff = async () => {
@@ -52,14 +60,13 @@ const renderTiff = async () => {
     // Converter para RGBA
     const rgba = UTIF.toRGBA8(ifds[0]);
 
-    // Renderizar no canvas
     if (tiffCanvas.value) {
       const canvas = tiffCanvas.value;
       const ctx = canvas.getContext("2d");
 
-      // Definir tamanho do canvas com base na imagem
-      canvas.width = ifds[0].width * props.zoomLevel;
-      canvas.height = ifds[0].height * props.zoomLevel;
+      // Definir tamanho do canvas baseado na imagem
+      canvas.width = ifds[0].width;
+      canvas.height = ifds[0].height;
 
       // Criar ImageData com a imagem RGBA
       const imageData = new ImageData(
@@ -68,8 +75,17 @@ const renderTiff = async () => {
         ifds[0].height
       );
 
-      // Limpar o canvas e desenhar a imagem
+      // Limpar o canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Aplicar rotação
+      ctx.save(); // Salva o estado do contexto
+      ctx.translate(canvas.width / 2, canvas.height / 2); // Move o contexto para o centro
+      ctx.rotate((props.rotationDegree * Math.PI) / 180); // Rotaciona
+      ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2); // Desenha a imagem
+      ctx.restore(); // Restaura o contexto
+
+      // Colocar a imagem no canvas
       ctx.putImageData(imageData, 0, 0);
     }
 
@@ -81,5 +97,7 @@ const renderTiff = async () => {
     console.error("Erro ao carregar TIFF:", error);
   }
 };
-watch(() => props.tiffUrl, renderTiff, { immediate: true });
-</script> 
+
+// Re-renderiza o TIFF sempre que mudar URL ou rotação
+watch(() => [props.tiffUrl, props.rotationDegree], renderTiff, { immediate: true });
+</script>

@@ -179,7 +179,7 @@
   const route = useRoute();
   const config = useRuntimeConfig();
   const { $toast } = useNuxtApp();
-  const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
+  const procurarPessoa = `${config.public.managemant}/partes_atos`;
   const papeisApresentante = `${config.public.managemant}/listarPapeis`;
   const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
   const criarParteImovelPessoa = `${config.public.managemant}/bens_pessoa`;
