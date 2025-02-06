@@ -109,6 +109,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);
@@ -171,7 +172,7 @@ const realizarRecebimentoCompleto = async () => {
     usuario_token: usuario_token,
     recebimentos: [recebimentos.value],
   };
-
+console.log('body',body)
   const { data, error } = await useFetch(routereceberOs, {
     method: "POST",
     body: JSON.stringify(body),
