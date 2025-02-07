@@ -27,6 +27,8 @@
           <v-tabs-window-item value="partes">
             <ModalImoveisElementosPartes
               v-if="showPartes"
+              :imovel_id="imovel_id_prop"
+              :ato_token="props.ato_token"
               @close-modal="closeModal"
             />
           </v-tabs-window-item>
@@ -39,10 +41,13 @@
 <script setup>
 const props = defineProps({
   show: Boolean,
+  imovel_id: Number,
+  ato_token: String,
 });
 
 const tab = ref("dados");
 const isVisible = ref(props.show);
+const imovel_id_prop = ref(null);
 const showPartes = ref(false);
 const emit = defineEmits(["close"]);
 
@@ -53,13 +58,14 @@ watch(
   }
 );
 
-const handleSave = () => {
+const handleSave = (imovel) => {
   showPartes.value = true;
+  imovel_id_prop.value = imovel.id;
 };
 
 const closeModal = () => {
   isVisible.value = false;
-  showPartes.value = false
+  showPartes.value = false;
   emit("close");
 };
 </script>

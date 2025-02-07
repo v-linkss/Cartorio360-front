@@ -201,7 +201,7 @@ const props = defineProps({
     type: Number,
   },
 });
-
+console.log(props.ato_token)
 const emit = defineEmits(["saved", "close-modal"]);
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -265,7 +265,6 @@ const rules = {
   tipo_id: { required: helpers.withMessage("O campo é obrigatório", required) },
 };
 
-// Criando instância do Vuelidate
 const v$ = useVuelidate(rules, state);
 
 const createImovel = async () => {
@@ -275,13 +274,15 @@ const createImovel = async () => {
     $toast.error("Preencha todos os campos obrigatórios!");
     return;
   }
-  const { status } = await useFetch(`${createAtosBens}`, {
+  const { data,status } = await useFetch(`${createAtosBens}`, {
     method: "POST",
     body: state,
   });
+
   if (status.value === "success") {
+    console.log(data.value)
     $toast.success("Imovel criado com sucesso!");
-    emit("saved");
+    emit("saved", { id: data.value.id,token:data.value.token });
   }
 };
 
@@ -290,7 +291,6 @@ const { data } = await useFetch(`${listarBens}`, {
   body: { cartorio_token: cartorio_token.value, imoveis: true },
 });
 tipoBensItems.value = data.value;
-
 
 if (props.isUpdate === true) {
   const { data: dadosParte } = await useFetch(

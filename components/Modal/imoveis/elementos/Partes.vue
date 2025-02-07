@@ -246,8 +246,11 @@ const { data: parteAtos, status } = await useFetch(listarPartesAtos, {
     ato_token: route.query.ato_token_edit,
   },
 });
+pessoasItems.value =
+  parteAtos.value && Object.keys(parteAtos.value).length === 0
+    ? []
+    : parteAtos.value;
 
-pessoasItems.value = parteAtos.value;
 const createImovel = async () => {
   const representante = {
     pessoa: {nome:state.pessoa.pessoa_nome},

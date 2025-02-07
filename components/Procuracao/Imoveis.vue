@@ -86,6 +86,7 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     <ModalImoveisCadastro
+      :ato_token="props.ato_token"
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
     />
@@ -107,7 +108,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+console.log(props.ato_token)
 const config = useRuntimeConfig();
 const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
 const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;
