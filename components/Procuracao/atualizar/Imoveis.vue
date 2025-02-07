@@ -82,6 +82,9 @@
         </v-row>
       </template>
     </v-data-table>
+    <NuxtLink @click="goBack">
+        <v-btn size="large" color="red">Voltar</v-btn>
+      </NuxtLink>
     <ModalImoveisCadastro
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
@@ -119,6 +122,12 @@ const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
 });
 
 const filteredImoveis = computed(() => {
+  if(Object.keys(imoveisItems.value).length === 0){
+    console.log("sim")
+    return
+  }
+ 
+
   return imoveisItems.value.filter((item) => {
     const matriculaSearch = item.matricula
       ? item.matricula.toLowerCase()
@@ -144,10 +153,18 @@ async function deletePessoa(item) {
   }
 }
 
-function redirectToView(id) {}
-
 function redirectToUpdate(id) {
   idImovel.value = id
   isModalAtualizarImoveisOpen.value = true
 }
+
+const goBack = () => {
+  const origem = route.query.origem || "criar";
+  const id = route.query.id;
+  if (origem === "atualizar") {
+    router.push(`/os/atualizar/${id}`);
+  } else {
+    router.push("/os/criar-registro");
+  }
+};
 </script>

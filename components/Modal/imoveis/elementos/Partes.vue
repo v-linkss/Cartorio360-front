@@ -112,17 +112,13 @@
       </v-col>
     </v-row>
 
-    <ModalRegistroPessoas
-      :show="isModalRegistroOpen"
-      @close="isModalRegistroOpen = false"
-    />
-    <ModalPapel
-      :representante_nome="representante_nome"
+    <ModalImoveisElementosAtualizarPartes
+      :partes_imovel="imovelItem"
       :ato_token="ato_token"
       :ato_id="ato_papel_id"
       :show="isModalPapelOpen"
       @close="isModalPapelOpen = false"
-      @updatePapel="atualizarPapel"
+      @updateImovel="atualizarPapel"
     />
     <v-dialog v-model="isModalFichaOpen" width="600">
       <v-card max-width="600" title="Ficha">
@@ -171,19 +167,16 @@ const listarPartesAtos = `${config.public.managemant}/partes_atos`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarParteImovelPessoa = `${config.public.managemant}/bens_pessoa`;
-const pessoasImovelUpdate = `${config.public.managemant}/bens_pessoa`;
 const getPartesId = `${config.public.managemant}/bens_pessoa`;
 const baixarDocumento = `${config.public.managemant}/download`;
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
+const imovelItem = ref(null)
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
 
-const isModalRegistroOpen = ref(false);
 const isModalFichaOpen = ref(false);
 const isModalPapelOpen = ref(false);
-const representante_nome = ref(null);
 const ato_papel_id = ref(null);
 const ato_token = ref(route.query.tipo_ato_token);
 const fichaRender = ref(null);
@@ -210,8 +203,6 @@ const headers = [
 const state = reactive({
   papeis: null,
   percentual: null,
-  pessoa: null,
-  documento: null,
 });
 
 const { data } = await useFetch(papeisApresentante, {
@@ -259,7 +250,7 @@ const { data: parteAtos, status } = await useFetch(listarPartesAtos, {
 pessoasItems.value = parteAtos.value;
 const createImovel = async () => {
   const representante = {
-    pessoa: state.pessoa,
+    pessoa: {nome:state.pessoa.pessoa_nome},
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
     percentual: state.percentual,
   };
@@ -313,8 +304,8 @@ const redirectToFicha = async (item) => {
 
 const redirectToPapel = (item) => {
   isModalPapelOpen.value = true;
+  imovelItem.value = item
   ato_papel_id.value = item.id;
-  representante_nome.value = item.pessoa.nome;
 };
 
 async function deletePessoa(item) {

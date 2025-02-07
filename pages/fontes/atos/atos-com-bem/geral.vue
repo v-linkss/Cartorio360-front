@@ -59,6 +59,7 @@
   const handleSave = ({id,token}) => {
     ato_id_prop.value = id;
     ato_token_prop.value = token
+    console.log(ato_token_prop.value)
     showTabs.value = true;
   };
   

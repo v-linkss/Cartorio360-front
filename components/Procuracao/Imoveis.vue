@@ -1,16 +1,16 @@
 <template>
-  <v-container v-if="status === 'success'" class="mt-5">
-      <img
+  <v-container class="mt-5">
+    <img
       @click="isModalCadastroImoveisOpen = true"
-        style="cursor: pointer"
-        src="../../../assets/novo.png"
-        alt="Cadastro"
-      />
+      style="cursor: pointer"
+      src="../../assets/novo.png"
+      alt="Cadastro"
+    />
     <v-row style="gap: 3rem">
       <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="searchDoc"
+          v-model="searchMatricula"
           label="Matrícula"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
@@ -31,7 +31,7 @@
     <v-data-table
       density="compact"
       :headers="headers"
-      :items="filteredPessoas"
+      :items="filteredImoveis"
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
@@ -82,61 +82,95 @@
         </v-row>
       </template>
     </v-data-table>
-    <ModalImoveisCadastro :show="isModalCadastroImoveisOpen" @close="isModalCadastroImoveisOpen = false"/>
+    <NuxtLink @click="goBack">
+        <v-btn size="large" color="red">Voltar</v-btn>
+      </NuxtLink>
+    <ModalImoveisCadastro
+      :show="isModalCadastroImoveisOpen"
+      @close="isModalCadastroImoveisOpen = false"
+    />
+    <ModalImoveisAtualizar
+    :imovel_id="idImovel"
+    :show="isModalAtualizarImoveisOpen"
+    @close="isModalAtualizarImoveisOpen = false"/>
   </v-container>
 </template>
 
 <script setup>
-
-const config = useRuntimeConfig();
-const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
-const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
-
-const router = useRouter();
-
-const search = ref("");
-const searchDoc = ref("");
-const isModalCadastroImoveisOpen = ref(false)
-
-const headers = [
-  { title: "Matrícula", value: "doc_identificacao" },
-  { title: "Descrição", value: "nome" },
-  { value: "actions" },
-];
-
-const { data: pessoasItems, status } = await fetchWithToken(pessoasLista);
-
-const filteredPessoas = computed(() => {
-  return pessoasItems.value.filter((item) => {
-    const docIdentificacao = item.doc_identificacao
-      ? item.doc_identificacao.toLowerCase()
-      : "";
-    const nome = item.nome ? item.nome.toLowerCase() : "";
-
-    const matchesDoc = docIdentificacao.includes(searchDoc.value.toLowerCase());
-    const matchesNome = nome.includes(search.value.toLowerCase());
-
-    return matchesDoc && matchesNome;
-  });
+const props = defineProps({
+  ato_token: {
+    type: String,
+    required: true,
+  },
+  ato_id: {
+    type: Number,
+    required: true,
+  },
 });
 
-async function deletePessoa(item) {
-  // item.excluido = !item.excluido;
-  // try {
-  //   await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
-  //     method: "PUT",
-  //     body: { excluido: item.excluido },
-  //   });
-  // } catch (error) {
-  //   console.error("Erro ao excluir pessoa:", error);
-  // }
-}
+const config = useRuntimeConfig();
+const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
+const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;
+const router = useRouter();
+const route = useRoute();
 
-function redirectToView(id) {
-  
+const search = ref("");
+const searchMatricula = ref("");
+const isModalCadastroImoveisOpen = ref(false);
+const isModalAtualizarImoveisOpen = ref(false);
+const idImovel = ref(null)
+
+const headers = [
+  { title: "Matrícula", value: "registro_matricula" },
+  { title: "Descrição", value: "descricao" },
+  { value: "actions" },
+];
+const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
+  method:"POST",
+  body: { ato_token: props.ato_token },
+});
+
+const filteredImoveis = computed(() => {
+  if(Object.keys(imoveisItems.value).length === 0){
+    return
+  }
+ 
+  return imoveisItems.value.filter((item) => {
+    const matriculaSearch = item.matricula
+      ? item.matricula.toLowerCase()
+      : "";
+    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
+
+    const matchesMatricula = matriculaSearch.includes(searchMatricula.value.toLowerCase());
+    const matchesDescricao = descricao.includes(search.value.toLowerCase());
+
+    return matchesMatricula && matchesDescricao;
+  });
+});
+async function deletePessoa(item) {
+  item.excluido = !item.excluido;
+  try {
+    await fetchWithToken(`${imoveisUpdate}/${item.id}`, {
+      method: "PUT",
+      body: { excluido: item.excluido },
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
 }
 
 function redirectToUpdate(id) {
-
+  idImovel.value = id
+  isModalAtualizarImoveisOpen.value = true
 }
+
+const goBack = () => {
+  const origem = route.query.origem || "criar";
+  const id = route.query.id;
+  if (origem === "atualizar") {
+    router.push(`/os/atualizar/${id}`);
+  } else {
+    router.push("/os/criar-registro");
+  }
+};
 </script>
