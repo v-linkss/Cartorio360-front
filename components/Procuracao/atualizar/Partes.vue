@@ -352,6 +352,8 @@ const createRepresentante = async () => {
     representante.id = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
+  } else{
+    $toast.error(error.value.message)
   }
 };
 

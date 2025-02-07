@@ -18,9 +18,9 @@ const styles = {
   "node_modules/vuetify/lib/components/VMenu/VMenu.mjs": () => import('./VMenu-styles.DWU_ZlPW.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VTextField/VTextField.mjs": () => import('./VTextField-styles.aaJU4X3r.mjs').then(interopDefault),
   "pages/fontes/atos/autenticacao/autenticacao.vue?vue&type=style&index=0&scoped=af5726e1&lang.css": () => import('./autenticacao-styles.CtfK-v_Y.mjs').then(interopDefault),
-  "components/Procuracao/Minuta.vue": () => import('./Minuta-styles.BeTgw17z.mjs').then(interopDefault),
-  "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=c2699b4e&lang.css": () => import('./_id_-styles.CM6BW7NJ.mjs').then(interopDefault),
   "components/Procuracao/atualizar/Minuta.vue": () => import('./Minuta-styles.Bp8uPicN.mjs').then(interopDefault),
+  "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=c2699b4e&lang.css": () => import('./_id_-styles.CM6BW7NJ.mjs').then(interopDefault),
+  "components/Procuracao/Minuta.vue": () => import('./Minuta-styles.BeTgw17z.mjs').then(interopDefault),
   "node_modules/nuxt/dist/app/components/error-404.vue?vue&type=style&index=0&scoped=c2c324f7&lang.css": () => import('./error-404-styles.PedwCpCK.mjs').then(interopDefault),
   "components/Modal/FichaCard.vue": () => import('./FichaCard-styles.DdTEKwEh.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VApp/VApp.mjs": () => import('./VApp-styles.DfPsTpRD.mjs').then(interopDefault),
@@ -46,13 +46,13 @@ const styles = {
   "node_modules/vuetify/lib/components/VBtnToggle/VBtnToggle.mjs": () => import('./VBtnToggle-styles.jT80VDJB.mjs').then(interopDefault),
   "node_modules/vuetify/lib/directives/ripple/index.mjs": () => import('./index-styles.BP3QriMu.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VIcon/VIcon.mjs": () => import('./VIcon-styles.VmzmbvFi.mjs').then(interopDefault),
-  "node_modules/vuetify/lib/components/VMessages/VMessages.mjs": () => import('./VMessages-styles.DznP6KE3.mjs').then(interopDefault),
   "layouts/default.vue?vue&type=style&index=0&scoped=14738a9d&lang.css": () => import('./default-styles.cJkguiN7.mjs').then(interopDefault),
+  "node_modules/vuetify/lib/components/VMessages/VMessages.mjs": () => import('./VMessages-styles.DznP6KE3.mjs').then(interopDefault),
   "components/Biometria/Digital.vue?vue&type=style&index=0&scoped=02650459&lang.css": () => import('./Digital-styles.BeoN-mRm.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VBtnGroup/VBtnGroup.mjs": () => import('./VBtnGroup-styles.t2DZ1n_R.mjs').then(interopDefault),
-  "components/Procuracao/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.CLRr-B-5.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VProgressLinear/VProgressLinear.mjs": () => import('./VProgressLinear-styles.Cgf8lQSN.mjs').then(interopDefault),
   "components/Procuracao/atualizar/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.Cm_gK9OF.mjs').then(interopDefault),
+  "components/Procuracao/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.CLRr-B-5.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VLabel/VLabel.mjs": () => import('./VLabel-styles.D8PemTC0.mjs').then(interopDefault)
 };
 

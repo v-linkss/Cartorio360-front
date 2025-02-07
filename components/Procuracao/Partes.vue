@@ -346,9 +346,9 @@ const createRepresentante = async () => {
       representante.id = data.value.id
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);
-    } else {
-      $toast.error("Erro ao registrar a pessoa!");
-    }
+    } else{
+    $toast.error(error.value.message)
+  }
   } catch (error) {
     $toast.error("Erro no servidor. Tente novamente.");
   }

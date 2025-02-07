@@ -241,7 +241,10 @@ const { data: bensPayload } = await useFetch(
   }
   
 );
-pessoasTable.value = bensPayload.value;
+pessoasTable.value =
+  bensPayload.value && Object.keys(bensPayload.value).length === 0
+    ? []
+    : bensPayload.value;
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;

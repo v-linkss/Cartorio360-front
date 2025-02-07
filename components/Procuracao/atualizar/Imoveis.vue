@@ -123,11 +123,8 @@ const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
 
 const filteredImoveis = computed(() => {
   if(Object.keys(imoveisItems.value).length === 0){
-    console.log("sim")
     return
   }
- 
-
   return imoveisItems.value.filter((item) => {
     const matriculaSearch = item.matricula
       ? item.matricula.toLowerCase()
