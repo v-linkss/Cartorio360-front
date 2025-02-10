@@ -335,10 +335,10 @@ const createRepresentante = async () => {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
       method: "POST",
       body: {
-        ato_id: props.ato_id,
+        ato_id: Number(props.ato_id),
         pessoa_id: state.pessoa.id,
         tipo_parte_id: state.papeis,
-        user_id: useCookie("user-data").value.usuario_id,
+        user_id: Number(useCookie("user-data").value.usuario_id),
       },
     });
 

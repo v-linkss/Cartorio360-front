@@ -43,7 +43,7 @@
           >
             <img
               style="width: 30px; height: 30px"
-              src="../../../assets/visualizar.png"
+              src="../../assets/visualizar.png"
               alt="Visualizar"
             />
           </div>
@@ -54,7 +54,7 @@
           >
             <img
               style="width: 30px; height: 30px"
-              src="../../../assets/editar.png"
+              src="../../assets/editar.png"
               alt="Atualizar"
             />
           </div>
@@ -66,13 +66,13 @@
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px"
-              src="../../../assets/excluido.png"
+              src="../../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
             />
             <img
               v-else
-              src="../../../assets/mudarStatus.png"
+              src="../../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
               style="width: 30px; height: 30px"
@@ -86,7 +86,9 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     <ModalImoveisCadastro
+      :ato_id="props.ato_id"
       :ato_token="props.ato_token"
+      :ato_token_selected="props.ato_token_selected"
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
     />
@@ -107,8 +109,11 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  ato_token_selected: {
+    type: String,
+    required: true,
+  },
 });
-console.log(props.ato_token)
 const config = useRuntimeConfig();
 const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
 const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;

@@ -22,7 +22,7 @@
           <ProcuracaoBens :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="imoveis">
-          <ProcuracaoImoveis :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
+          <ProcuracaoImoveis :ato_token="ato_token_prop" :ato_token_selected="selectedAto" :ato_id="ato_id_prop"/>
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="minuta">
           <ProcuracaoMinuta @page="getPages" @doc="getDocument" :ato_token="ato_token_prop"/>

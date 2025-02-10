@@ -86,7 +86,6 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     <ModalImoveisCadastro
-      :ato_token="tokenImovel"
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
     />
@@ -110,7 +109,6 @@ const searchMatricula = ref("");
 const isModalCadastroImoveisOpen = ref(false);
 const isModalAtualizarImoveisOpen = ref(false);
 const idImovel = ref(null)
-const tokenImovel = ref(null)
 const headers = [
   { title: "Matrícula", value: "registro_matricula" },
   { title: "Descrição", value: "descricao" },

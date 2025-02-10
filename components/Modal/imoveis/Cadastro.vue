@@ -20,15 +20,18 @@
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="dados">
             <ModalImoveisElementosDados
+              :ato_id="props.ato_id"
               @saved="handleSave"
               @close-modal="closeModal"
             />
           </v-tabs-window-item>
           <v-tabs-window-item value="partes">
             <ModalImoveisElementosPartes
-              v-if="showPartes"
+               v-if="showPartes"
               :imovel_id="imovel_id_prop"
               :ato_token="props.ato_token"
+              :ato_id="props.ato_id"
+              :ato_token_selected="props.ato_token_selected"
               @close-modal="closeModal"
             />
           </v-tabs-window-item>
@@ -43,8 +46,9 @@ const props = defineProps({
   show: Boolean,
   imovel_id: Number,
   ato_token: String,
+  ato_id: Number,
+  ato_token_selected: String,
 });
-
 const tab = ref("dados");
 const isVisible = ref(props.show);
 const imovel_id_prop = ref(null);

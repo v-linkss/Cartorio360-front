@@ -201,7 +201,7 @@ const props = defineProps({
     type: Number,
   },
 });
-console.log(props.ato_token)
+
 const emit = defineEmits(["saved", "close-modal"]);
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -278,9 +278,7 @@ const createImovel = async () => {
     method: "POST",
     body: state,
   });
-
   if (status.value === "success") {
-    console.log(data.value)
     $toast.success("Imovel criado com sucesso!");
     emit("saved", { id: data.value.id,token:data.value.token });
   }

@@ -145,11 +145,12 @@
 const props = defineProps({
   ato_token: {
     type: String,
-    required: true,
+  },
+  ato_token_selected: {
+    type: String,
   },
   ato_id: {
     type: Number,
-    required: true,
   },
   isUpdate: {
     type: Boolean,
@@ -207,7 +208,7 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
-  body: { tipo_ato_token: route.query.tipo_ato_token },
+  body: { tipo_ato_token: props.ato_token_selected || route.query.tipo_ato_token },
 });
 papeisItems.value = data.value;
 
@@ -243,7 +244,7 @@ const atualizarPapel = async () => {
 const { data: parteAtos, status } = await useFetch(listarPartesAtos, {
   method: "POST",
   body: {
-    ato_token: route.query.ato_token_edit,
+    ato_token: props.ato_token || route.query.ato_token_edit,
   },
 });
 pessoasItems.value =
@@ -254,7 +255,7 @@ pessoasItems.value =
 const createImovel = async () => {
   const representante = {
     pessoa: {nome:state.pessoa.pessoa_nome},
-    papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
+    papel: papeisItems.value.find((papel) => papel.id === state.papeis),
     percentual: state.percentual,
   };
 
