@@ -228,7 +228,6 @@ const tipoBensItems = ref([]);
 const loading = ref(true);
 
 const state = reactive({
-  vlr_alienacao: null,
   tabvalores_tipo_regimovel_id: null,
   registro_cartorio: null,
   registro_matricula: null,
@@ -248,7 +247,6 @@ const state = reactive({
   descricao: null,
   inscricao_estadual: null,
   tabvalores_situacao_imoveis_id: null,
-  tipo_id: null,
   vlr_alienacao: null,
   vlr_mercado: null,
   valor_mercado: "0.00",

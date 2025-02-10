@@ -44,7 +44,7 @@ function createNuxtApp(options) {
     globalName: "nuxt",
     versions: {
       get nuxt() {
-        return "3.15.3";
+        return "3.15.4";
       },
       get vue() {
         return nuxtApp.vueApp.version;
@@ -607,12 +607,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-CMw_-KV7.mjs')
+    component: () => import('./_id_-C4GuqVAb.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-_4kC0j5X.mjs')
+    component: () => import('./geral-BlvtU1Sh.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DP5iEjY4.mjs')
+    component: () => import('./procuracao-CbE6Deuu.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -669,7 +669,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CEroFnbO.mjs')
+    component: () => import('./criar-ato-C3FXGhrn.mjs')
   },
   {
     name: "os-criar-registro",
