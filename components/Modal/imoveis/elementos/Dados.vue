@@ -202,7 +202,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["saved", "close-modal"]);
+const emit = defineEmits(["saved", "close-modal","refresh-list"]);
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
@@ -281,6 +281,7 @@ const createImovel = async () => {
   if (status.value === "success") {
     $toast.success("Imovel criado com sucesso!");
     emit("saved", { id: data.value.id,token:data.value.token });
+    emit('refresh-list')
   }
 };
 

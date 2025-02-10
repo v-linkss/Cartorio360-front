@@ -224,7 +224,7 @@ const redirectToUpdateAto = (item) => {
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
-        numero_os: numeroOs,
+        numero_os: ordemNumero,
       },
     });
   }else{
@@ -232,11 +232,11 @@ const redirectToUpdateAto = (item) => {
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
-        id: id,
+        id: useCookie("user-service").value.id,
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
-        numero_os: numeroOs.value,
+        numero_os: ordemNumero,
       },
     });
   }

@@ -86,6 +86,7 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     <ModalImoveisCadastro
+      @refreshList=""
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
     />
