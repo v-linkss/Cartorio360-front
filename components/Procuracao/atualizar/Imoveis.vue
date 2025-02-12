@@ -83,17 +83,19 @@
       </template>
     </v-data-table>
     <NuxtLink @click="goBack">
-        <v-btn size="large" color="red">Voltar</v-btn>
-      </NuxtLink>
+      <v-btn size="large" color="red">Voltar</v-btn>
+    </NuxtLink>
     <ModalImoveisCadastro
-      @refreshList=""
+      @refresh="atualizarListaImoveis"
       :show="isModalCadastroImoveisOpen"
       @close="isModalCadastroImoveisOpen = false"
     />
     <ModalImoveisAtualizar
-    :imovel_id="idImovel"
-    :show="isModalAtualizarImoveisOpen"
-    @close="isModalAtualizarImoveisOpen = false"/>
+      @refresh="atualizarListaImoveis"
+      :imovel_id="idImovel"
+      :show="isModalAtualizarImoveisOpen"
+      @close="isModalAtualizarImoveisOpen = false"
+    />
   </v-container>
 </template>
 
@@ -109,7 +111,7 @@ const search = ref("");
 const searchMatricula = ref("");
 const isModalCadastroImoveisOpen = ref(false);
 const isModalAtualizarImoveisOpen = ref(false);
-const idImovel = ref(null)
+const idImovel = ref(null);
 const headers = [
   { title: "Matrícula", value: "registro_matricula" },
   { title: "Descrição", value: "descricao" },
@@ -117,21 +119,21 @@ const headers = [
 ];
 
 const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
-  method:"POST",
+  method: "POST",
   body: { ato_token: route.query.ato_token_edit },
 });
 
 const filteredImoveis = computed(() => {
-  if(Object.keys(imoveisItems.value).length === 0){
-    return
+  if (Object.keys(imoveisItems.value).length === 0) {
+    return;
   }
   return imoveisItems.value.filter((item) => {
-    const matriculaSearch = item.matricula
-      ? item.matricula.toLowerCase()
-      : "";
+    const matriculaSearch = item.matricula ? item.matricula.toLowerCase() : "";
     const descricao = item.descricao ? item.descricao.toLowerCase() : "";
 
-    const matchesMatricula = matriculaSearch.includes(searchMatricula.value.toLowerCase());
+    const matchesMatricula = matriculaSearch.includes(
+      searchMatricula.value.toLowerCase()
+    );
     const matchesDescricao = descricao.includes(search.value.toLowerCase());
 
     return matchesMatricula && matchesDescricao;
@@ -151,10 +153,15 @@ async function deletePessoa(item) {
 }
 
 function redirectToUpdate(id) {
-  idImovel.value = id
-  isModalAtualizarImoveisOpen.value = true
+  idImovel.value = id;
+  isModalAtualizarImoveisOpen.value = true;
 }
-
+const atualizarListaImoveis = async () => {
+  await fetchWithToken(imoveisLista, {
+    method: "POST",
+    body: { ato_token: route.query.ato_token_edit },
+  });
+};
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;

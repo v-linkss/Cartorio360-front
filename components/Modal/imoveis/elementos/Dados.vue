@@ -47,7 +47,7 @@
           v-model="state.registro_matricula_letra"
         ></v-text-field>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="4">
         <v-autocomplete
           label="Natureza"
           v-model="state.tabvalores_nat_imovel_id"
@@ -56,56 +56,11 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-      <v-col cols="1">
+    
+    </v-row>
+    <v-row>
+      <v-col cols="2">
         <v-text-field label="CIB" v-model="state.cib"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="3">
-        <v-autocomplete
-          label="Cidade"
-          v-model="state.end_cidade_id"
-          :items="cidadeItems"
-          item-title="descricao"
-          item-value="id"
-        >
-        </v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Quadra" v-model="state.end_quadra"></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Lote" v-model="state.end_lote"></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-autocomplete
-          label="Logradouro"
-          v-model="state.tabvalores_tipologradouro_id"
-          :items="tipoLogradouroItems"
-          item-title="descricao"
-          item-value="id"
-        >
-        </v-autocomplete>
-      </v-col>
-      <v-col cols="1">
-        <v-text-field
-          label="N*"
-          v-model="state.end_logradouro_numero"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-text-field label="Bairro" v-model="state.end_bairro"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="CEP" v-model="state.end_cep"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          label="Complemento"
-          v-model="state.end_complemento"
-        ></v-text-field>
       </v-col>
       <v-col cols="3">
         <v-autocomplete
@@ -121,9 +76,7 @@
       <v-col cols="3">
         <v-text-field label="Inscrição Municipal"></v-text-field>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col class="mt-6" cols="4">
+      <v-col cols="4">
         <v-autocomplete
           label="Situação"
           :items="situacaoItems"
@@ -132,6 +85,8 @@
         >
         </v-autocomplete>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="2">
         <label>Valor Alienação</label>
         <MoneyInput
@@ -157,7 +112,7 @@
         <label>%ITB</label>
         <MoneyInput label="%ITB" v-model="state.aliq_itbi"></MoneyInput>
       </v-col>
-      <v-col cols="1">
+      <v-col cols="2">
         <label>Valor ITB</label>
         <MoneyInput label="Valor ITB" v-model="state.vlr_itbi"></MoneyInput>
       </v-col>
@@ -226,7 +181,7 @@ const cidadeItems = ref([]);
 const situacaoItems = ref([]);
 const tipoBensItems = ref([]);
 const loading = ref(true);
-
+console.log(props.ato_id)
 const state = reactive({
   tabvalores_tipo_regimovel_id: null,
   registro_cartorio: null,
@@ -248,6 +203,7 @@ const state = reactive({
   inscricao_estadual: null,
   tabvalores_situacao_imoveis_id: null,
   vlr_alienacao: null,
+  vlr_avaliacao: null,
   vlr_mercado: null,
   valor_mercado: "0.00",
   aliq_itbi: null,
@@ -278,7 +234,7 @@ const createImovel = async () => {
   });
   if (status.value === "success") {
     $toast.success("Imovel criado com sucesso!");
-    emit("saved", { id: data.value.id,token:data.value.token });
+    emit("saved", { id: data.value.id,token:data.value.token,ato_id:data.value.ato_id });
     emit('refresh-list')
   }
 };
@@ -348,6 +304,7 @@ const updateImovelModal = async (id) => {
   });
   if(status.value === 'success'){
     $toast.success('Imovel Atualizado com sucesso!')
+    emit('refresh-list')
     emit('close-modal')
   }
 };

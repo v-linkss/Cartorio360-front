@@ -136,7 +136,6 @@
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn class="ml-5" size="large" color="green">Salvar</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -169,6 +168,7 @@ const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarParteImovelPessoa = `${config.public.managemant}/bens_pessoa`;
 const getPartesId = `${config.public.managemant}/bens_pessoa`;
+const pessoasImovelDelete= `${config.public.managemant}/bens_pessoa`;
 const baixarDocumento = `${config.public.managemant}/download`;
 
 const imovelItem = ref(null)
@@ -315,7 +315,7 @@ const redirectToPapel = (item) => {
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${pessoasUpdate}/${item.id}`, {
+    await useFetch(`${pessoasImovelDelete}/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ excluido: item.excluido }),
     });

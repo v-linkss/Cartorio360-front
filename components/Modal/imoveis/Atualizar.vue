@@ -14,12 +14,22 @@
   
           <v-tabs v-model="tab" bg-color="#f5f2f2">
             <v-tab value="dados">Dados</v-tab>
+            <v-tab value="enderecos">Endereços</v-tab>
             <v-tab value="partes">Partes</v-tab>
           </v-tabs>
   
           <v-tabs-window v-model="tab">
             <v-tabs-window-item value="dados">
               <ModalImoveisElementosDados
+                @refresh-list="refreshList" 
+                :isUpdate="true"
+                :imovel_id="props.imovel_id"
+                @close-modal="closeModal"
+              />
+            </v-tabs-window-item>
+            <v-tabs-window-item value="enderecos">
+              <ModalImoveisElementosEnderecos
+              @refresh-list="refreshList" 
                 :isUpdate="true"
                 :imovel_id="props.imovel_id"
                 @close-modal="closeModal"
@@ -45,7 +55,7 @@
   
   const tab = ref("dados");
   const isVisible = ref(props.show);
-  const emit = defineEmits(["close"]);
+  const emit = defineEmits(["close",'refresh']);
   
   watch(
     () => props.show,
@@ -58,5 +68,9 @@
     isVisible.value = false;
     emit("close");
   };
+
+const refreshList = () => {
+  emit("refresh");
+};
   </script>
   

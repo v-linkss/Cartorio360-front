@@ -14,17 +14,29 @@
 
         <v-tabs v-model="tab" bg-color="#f5f2f2">
           <v-tab value="dados">Dados</v-tab>
+          <v-tab v-if="showPartes" value="enderecos">Endereco</v-tab>
           <v-tab v-if="showPartes" value="partes">Partes</v-tab>
         </v-tabs>
 
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="dados">
             <ModalImoveisElementosDados
+              @refresh-list="refreshList"
               :ato_id="props.ato_id"
               @saved="handleSave"
               @close-modal="closeModal"
             />
           </v-tabs-window-item>
+          <v-tabs-window-item value="enderecos">
+              <ModalImoveisElementosEnderecos
+                 v-if="showPartes"
+                :isUpdate="true"
+                :ato_id="ato_id_imovel"
+                :ato_token="props.ato_token"
+                :imovel_id="imovel_id_prop"
+                @close-modal="closeModal"
+              />
+            </v-tabs-window-item>
           <v-tabs-window-item value="partes">
             <ModalImoveisElementosPartes
                v-if="showPartes"
@@ -52,8 +64,9 @@ const props = defineProps({
 const tab = ref("dados");
 const isVisible = ref(props.show);
 const imovel_id_prop = ref(null);
+const ato_id_imovel = ref(null)
 const showPartes = ref(false);
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close","refresh"]);
 
 watch(
   () => props.show,
@@ -64,6 +77,7 @@ watch(
 
 const handleSave = (imovel) => {
   showPartes.value = true;
+  ato_id_imovel.value = imovel.ato_id
   imovel_id_prop.value = imovel.id;
 };
 
@@ -71,5 +85,9 @@ const closeModal = () => {
   isVisible.value = false;
   showPartes.value = false;
   emit("close");
+};
+
+const refreshList = () => {
+  emit("refresh");
 };
 </script>

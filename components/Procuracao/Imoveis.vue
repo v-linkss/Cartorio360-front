@@ -86,6 +86,7 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
     <ModalImoveisCadastro
+     @refresh="atualizarListaImoveis"
       :ato_id="props.ato_id"
       :ato_token="props.ato_token"
       :ato_token_selected="props.ato_token_selected"
@@ -93,6 +94,7 @@
       @close="isModalCadastroImoveisOpen = false"
     />
     <ModalImoveisAtualizar
+    @refresh="atualizarListaImoveis"
     :imovel_id="idImovel"
     :show="isModalAtualizarImoveisOpen"
     @close="isModalAtualizarImoveisOpen = false"/>
@@ -169,6 +171,13 @@ function redirectToUpdate(id) {
   idImovel.value = id
   isModalAtualizarImoveisOpen.value = true
 }
+
+const atualizarListaImoveis = async () => {
+ await fetchWithToken(imoveisLista, {
+  method:"POST",
+  body: { ato_token: props.ato_token },
+});
+};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
