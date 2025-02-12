@@ -14,7 +14,7 @@
   
           <v-tabs v-model="tab" bg-color="#f5f2f2">
             <v-tab value="dados">Dados</v-tab>
-            <v-tab value="enderecos">Endereços</v-tab>
+            <v-tab value="enderecos">Endereço</v-tab>
             <v-tab value="partes">Partes</v-tab>
           </v-tabs>
   
