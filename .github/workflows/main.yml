@@ -43,6 +43,26 @@ jobs:
             echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
             # pm2 start all
+      - name: 📂 Instalando dependencias
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+
+          script: |
+
+            
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            npm install
+            npm install nuxt@latest
+            npm install @nuxt/bridge
+
+
+
+
+        
 
 
           
@@ -59,7 +79,6 @@ jobs:
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             npm run pm2-stop
-            npm install
             npm run pm2
             # docker compose build --no-cache app
             # docker compose up -d app
