@@ -6,7 +6,7 @@
       size="64"
     ></v-progress-circular>
   </div>
-  <v-container v-else>
+  <v-container style="height: 500px;" class="mt-2" v-else>
     <v-row>
       <v-col cols="5">
         <v-autocomplete
@@ -63,7 +63,7 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row class="mt-10">
+    <v-row class="mt-10 justify-start align-e">
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>

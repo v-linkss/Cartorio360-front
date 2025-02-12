@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="height: 500px;">
     <v-row>
       <v-col class="mt-6" cols="4">
         <v-autocomplete
@@ -42,7 +42,7 @@
     <v-row>
       <v-col>
         <v-data-table
-          style="height: 385px"
+          style="height: 350px"
           :headers="headers"
           :items="pessoasTable"
         >
