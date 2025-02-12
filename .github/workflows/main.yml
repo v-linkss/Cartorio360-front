@@ -42,7 +42,7 @@ jobs:
             echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
             echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
-            pm2 start all
+            # pm2 start all
 
 
           
@@ -58,8 +58,8 @@ jobs:
 
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
-            npm install
             npm run pm2-stop
+            npm install
             npm run pm2
             # docker compose build --no-cache app
             # docker compose up -d app
