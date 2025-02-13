@@ -6,9 +6,9 @@
       size="64"
     ></v-progress-circular>
   </div>
-  <v-container v-else>
+  <v-container style="height: 500px;" v-else>
     <v-row>
-      <v-col class="mt-5" cols="12">
+      <v-col class="mt-2" cols="12">
         <v-textarea
           label="Descrição"
           v-model="state.descricao"
@@ -74,7 +74,7 @@
         </v-autocomplete>
       </v-col>
       <v-col cols="3">
-        <v-text-field label="Inscrição Municipal"></v-text-field>
+        <v-text-field label="Inscrição Municipal" v-model="state.inscricao_estadual"></v-text-field>
       </v-col>
       <v-col cols="4">
         <v-autocomplete
@@ -82,6 +82,7 @@
           :items="situacaoItems"
           item-title="descricao"
           item-value="id"
+          v-model="state.tabvalores_situacao_imoveis_id"
         >
         </v-autocomplete>
       </v-col>
@@ -181,7 +182,7 @@ const cidadeItems = ref([]);
 const situacaoItems = ref([]);
 const tipoBensItems = ref([]);
 const loading = ref(true);
-console.log(props.ato_id)
+
 const state = reactive({
   tabvalores_tipo_regimovel_id: null,
   registro_cartorio: null,
@@ -298,6 +299,7 @@ const updateImovelModal = async (id) => {
   if (Object.keys(updatedValues).length === 0) {
     return;
   }
+  console.log(`${updateImovel}/${id}`,updatedValues)
  const {status} = await useFetch(`${updateImovel}/${id}`, {
     method: "PUT",
     body:updatedValues,

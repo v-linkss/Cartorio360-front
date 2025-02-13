@@ -63,7 +63,7 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row class="mt-10 justify-start align-e">
+    <v-row class="mt-10 justify-start ">
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
