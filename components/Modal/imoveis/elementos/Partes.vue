@@ -159,7 +159,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["saved", "close-modal"]);
+const emit = defineEmits(["saved", "close-modal","refresh-list"]);
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
@@ -326,5 +326,6 @@ async function deletePessoa(item) {
 
 const goBack = () => {
   emit("close-modal");
+  emit('refresh-list')
 };
 </script>

@@ -210,12 +210,12 @@ const updateImovelModal = async (id) => {
   });
   if (status.value === "success") {
     $toast.success("Imovel Atualizado com sucesso!");
-    emit('refresh-list')
   }
 };
 
 const goBack = () => {
   emit("close-modal");
+  emit('refresh-list')
 };
 
 onMounted(() => {

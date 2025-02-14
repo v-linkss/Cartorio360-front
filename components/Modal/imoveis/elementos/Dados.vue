@@ -6,7 +6,7 @@
       size="64"
     ></v-progress-circular>
   </div>
-  <v-container style="height: 500px;" v-else>
+  <v-container v-else>
     <v-row>
       <v-col class="mt-2" cols="12">
         <v-textarea
@@ -236,7 +236,6 @@ const createImovel = async () => {
   if (status.value === "success") {
     $toast.success("Imovel criado com sucesso!");
     emit("saved", { id: data.value.id,token:data.value.token,ato_id:data.value.ato_id });
-    emit('refresh-list')
   }
 };
 
@@ -306,13 +305,13 @@ const updateImovelModal = async (id) => {
   });
   if(status.value === 'success'){
     $toast.success('Imovel Atualizado com sucesso!')
-    emit('refresh-list')
     emit('close-modal')
   }
 };
 
 const goBack = () => {
   emit("close-modal");
+  emit('refresh-list')
 };
 
 onMounted(() => {
