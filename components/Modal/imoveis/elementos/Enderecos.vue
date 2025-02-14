@@ -159,7 +159,7 @@ if (props.isUpdate === true) {
     }
   );
   if (dadosParte.value) {
-    console.log(dadosParte.value)
+
     Object.keys(state).forEach((key) => {
       if (dadosParte.value[key] !== undefined) {
         state[key] = dadosParte.value[key];

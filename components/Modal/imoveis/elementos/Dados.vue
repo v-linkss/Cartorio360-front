@@ -44,7 +44,7 @@
       <v-col>
         <v-text-field
           label="Letra"
-          v-model="state.registro_matricula_letra"
+          v-model="state.matricula_letra"
         ></v-text-field>
       </v-col>
       <v-col cols="4">
@@ -187,7 +187,7 @@ const state = reactive({
   tabvalores_tipo_regimovel_id: null,
   registro_cartorio: null,
   registro_matricula: null,
-  registro_matricula_letra: null,
+  matricula_letra: null,
   tabvalores_nat_imovel_id: null,
   cib: null,
   end_cidade_id: null,
@@ -299,7 +299,7 @@ const updateImovelModal = async (id) => {
   if (Object.keys(updatedValues).length === 0) {
     return;
   }
-  console.log(`${updateImovel}/${id}`,updatedValues)
+
  const {status} = await useFetch(`${updateImovel}/${id}`, {
     method: "PUT",
     body:updatedValues,

@@ -147,7 +147,7 @@ const authenticateUser = async () => {
       email: loginData.value.email,
     },
   });
-  console.log(`${auth}/login`,data)
+
   return { data: data?.value, status: status?.value, error: error?.value };
 };
 
@@ -192,7 +192,7 @@ const handleErrors = (error) => {
 
 const login = async () => {
   const { data, status, error } = await authenticateUser();
-  console.log(data)
+
   if (status === "success") {
     const userInfo = data?.[0]?.func_autentica_acesso_v1?.[0]?.registro?.[0];
     useCartoriosStore().cartorioInfos = userInfo.cartorios

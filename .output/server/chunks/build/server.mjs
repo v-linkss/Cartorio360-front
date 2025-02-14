@@ -607,12 +607,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-P3pyOtGH.mjs')
+    component: () => import('./_id_-_xAqjpsO.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-nLYLYE-o.mjs')
+    component: () => import('./geral-wwvN9kfH.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DlfoUXZu.mjs')
+    component: () => import('./procuracao-DndsDm_Z.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -653,7 +653,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-D0dTsRxB.mjs')
+    component: () => import('./index-DyYqxo9v.mjs')
   },
   {
     name: "login-tipo-perfil",
@@ -664,17 +664,17 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-COuxCPlD.mjs')
+    component: () => import('./_id_-D9RRDssS.mjs')
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BzBc8ar_.mjs')
+    component: () => import('./criar-ato-DlAWbx9r.mjs')
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-DdqYnwYV.mjs')
+    component: () => import('./criar-registro-BIq-DgB4.mjs')
   },
   {
     name: "os-lista",

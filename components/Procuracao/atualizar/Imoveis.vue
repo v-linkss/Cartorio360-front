@@ -34,6 +34,11 @@
       :items="filteredImoveis"
       item-key="id"
     >
+    <template v-slot:item.descricao="{ item }">
+            <h3 style="width: 800px; font-weight: 500">
+              {{ item.descricao }}
+            </h3>
+          </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
