@@ -1,112 +1,127 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="container-main">
-    <div class="container-form">
-      <v-img
-        class="image"
-        :width="300"
-        height="230"
-        src="../../assets/cartorio_logo.jpeg"
-      ></v-img>
-      <div class="text">Log in</div>
-      <v-text-field
-        autofocus
-        autocomplete="email"
-        type="email"
-        v-model="loginData.email"
-        persistent-hint
-        class="input"
-        density="compact"
-        placeholder="Email"
-        prepend-inner-icon="mdi-email-outline"
-        variant="outlined"
-      ></v-text-field>
+  <v-row style="background-color:#0a063b;">
+    <v-col cols="4" class="ml-5 d-flex align-center justify-center">
+      <v-container >
+        <center>
+          <v-img
+            style="margin-bottom: 30px"
+            :width="400"
+            :height="330"
+            src="../../assets/logo_login.png"
+          ></v-img>
+        </center>
+        <div class="text">Login</div>
 
-      <v-text-field
-        v-model="loginData.senha"
-        class="input"
-        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="visible ? 'text' : 'password'"
-        density="compact"
-        placeholder="Senha"
-        prepend-inner-icon="mdi-lock-outline"
-        variant="outlined"
-        @click:append-inner="visible = !visible"
-      ></v-text-field>
-      <v-dialog v-model="dialog" max-width="400" persistent>
-        <template v-slot:activator="{ props: activatorProps }">
-          <v-btn
-            block
-            rounded
-            class="button mb-10 mt-4"
-            v-bind="activatorProps"
-            v-on:click="login"
-            v-model="dialog"
+        <v-text-field
+          autofocus
+          autocomplete="email"
+          type="email"
+          v-model="loginData.email"
+          persistent-hint
+          class="input mb-5"
+          style="background-color: aliceblue;"
+          hide-details
+          density="compact"
+          placeholder="Email"
+          prepend-inner-icon="mdi-email-outline"
+          variant="outlined"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="loginData.senha"
+          class="input"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="compact"
+          style="background-color: aliceblue;"
+          hide-details
+          placeholder="Senha"
+          prepend-inner-icon="mdi-lock-outline"
+          variant="outlined"
+          @click:append-inner="visible = !visible"
+        ></v-text-field>
+
+        <v-dialog v-model="dialog" max-width="400" persistent>
+          <template v-slot:activator="{ props: activatorProps }">
+            <v-btn
+              rounded
+              class="mb-10 mt-4"
+              style="width: 570px"
+              v-bind="activatorProps"
+              color="primary"
+              v-on:click="login"
+              v-model="dialog"
+            >
+              Acessar
+            </v-btn>
+          </template>
+
+          <v-card v-if="showPasswordError" text="Senha inválida.">
+            <template v-slot:actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                @click="closeAlert"
+                style="background-color: #429946; color: white"
+              >
+                OK
+              </v-btn>
+            </template>
+          </v-card>
+          <v-card v-if="showEmailError" text="Esse email não está cadastrado.">
+            <template v-slot:actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                @click="closeAlert"
+                style="background-color: #429946; color: white"
+              >
+                OK
+              </v-btn>
+            </template>
+          </v-card>
+          <v-card v-if="showError" text="Erro no sistema, fora do ar.">
+            <template v-slot:actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                @click="closeAlert"
+                style="background-color: #429946; color: white"
+              >
+                OK
+              </v-btn>
+            </template>
+          </v-card>
+          <v-card
+            v-if="ShowNoPermissionError"
+            text="Seu cadastro está desativado. Entre em contato com o administrador da conta."
           >
-            Acessar
-          </v-btn>
-        </template>
+            <template v-slot:actions>
+              <v-spacer></v-spacer>
 
-        <v-card v-if="showPasswordError" text="Senha inválida.">
-          <template v-slot:actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              @click="closeAlert"
-              style="background-color: #429946; color: white"
-            >
-              OK
-            </v-btn>
-          </template>
-        </v-card>
-        <v-card v-if="showEmailError" text="Esse email não está cadastrado.">
-          <template v-slot:actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              @click="closeAlert"
-              style="background-color: #429946; color: white"
-            >
-              OK
-            </v-btn>
-          </template>
-        </v-card>
-        <v-card v-if="showError" text="Erro no sistema, fora do ar.">
-          <template v-slot:actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              @click="closeAlert"
-              style="background-color: #429946; color: white"
-            >
-              OK
-            </v-btn>
-          </template>
-        </v-card>
-        <v-card v-if="ShowNoPermissionError" text="Seu cadastro está desativado. Entre em contato com o administrador da conta.">
-          <template v-slot:actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              @click="closeAlert"
-              style="background-color: #429946; color: white"
-            >
-              OK
-            </v-btn>
-          </template>
-        </v-card>
-      </v-dialog>
-      <a
-        class="text-decoration-none"
-        rel="noopener noreferrer"
-        style="color: #429946"
-      >
-        Esqueceu a senha?</a
-      >
-    </div>
-
-    <div class="background-image"></div>
-  </div>
+              <v-btn
+                @click="closeAlert"
+                style="background-color: #429946; color: white"
+              >
+                OK
+              </v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
+        <div>
+          <a
+            class="text-decoration-none"
+            rel="noopener noreferrer"
+            style="color: white"
+          >
+            Esqueceu a senha?</a
+          >
+        </div>
+      </v-container>
+    </v-col>
+    <v-img src="../../assets/Login.jpg" cover></v-img>
+  </v-row>
 </template>
 
 <script setup>
@@ -132,7 +147,7 @@ const closeAlert = () => {
   showPasswordError.value = false;
   showEmailError.value = false;
   showError.value = false;
-  ShowNoPermissionError.value = false
+  ShowNoPermissionError.value = false;
   dialog.value = false;
 };
 const config = useRuntimeConfig();
@@ -182,7 +197,7 @@ const handleErrors = (error) => {
       showPasswordError.value = true;
       break;
     case "Seu cadastro está desativado. Entre em contato com o administrador da conta.":
-      ShowNoPermissionError.value = true
+      ShowNoPermissionError.value = true;
       break;
     default:
       showError.value = true;
@@ -195,7 +210,7 @@ const login = async () => {
 
   if (status === "success") {
     const userInfo = data?.[0]?.func_autentica_acesso_v1?.[0]?.registro?.[0];
-    useCartoriosStore().cartorioInfos = userInfo.cartorios
+    useCartoriosStore().cartorioInfos = userInfo.cartorios;
     setCookies(userInfo);
 
     if (userInfo.cartorios.length > 1) {
@@ -230,45 +245,18 @@ const login = async () => {
 </script>
 <style scoped>
 .input {
-  width: 500px;
+  width: 570px;
 }
-
 .text {
   font-size: 25px;
   font-family: "calibri";
-  color: #429946;
+  color: white;
   margin-bottom: 30px;
 }
 .button {
   background-color: #429946;
   color: white;
 }
-.container-form {
-  width: 500px;
-  height: 650px;
-}
 
-.container-main {
-  overflow: hidden;
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-  height: 846px;
-}
 
-.background-image {
-  margin-left: 20px;
-  width: 80%;
-  height: 100%;
-  background-image: url("../../assets/Login.jpg");
-  background-size: cover;
-  background-position: center;
-  flex: 1;
-}
-
-.image {
-  display: flex;
-  margin-left: 120px;
-  justify-content: center;
-}
 </style>

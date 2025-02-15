@@ -1,26 +1,27 @@
 <template>
-  <v-row>
+  <v-row style="background-color:#0a063b;">
     <v-col cols="4" class="d-flex align-center justify-center">
       <v-container>
         <center>
           <v-img
             style="margin-bottom: 30px"
-            :width="300"
-            :height="230"
-            src="../../assets/cartorio_logo.jpeg"
+            :width="400"
+            :height="330"
+            src="../../assets/logo_login.png"
           ></v-img>
         </center>
         <v-autocomplete
           v-model="perfil_descricao"
           variant="outlined"
           :items="cartorios"
+           style="background-color: aliceblue;"
           item-title="cartorio_descricao"
           item-value="perfil_descricao"
           label="Selecione uma opção"
         />
         <v-btn
           @click="acessarSistema()"
-          color="green"
+          color="primary"
           style="margin-bottom: 220px; margin-top: 30px"
           block
           >Acessar</v-btn
