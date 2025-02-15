@@ -54,17 +54,8 @@ jobs:
           script: |
             pm2 stop all
             
-            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
-            npm install
-            npm install nuxt@latest
-            npm install @nuxt/bridge
-
-
-
-
-        
-
-
+            cd /var/www/html/cartorio360/public_html/producao/cahe_clear
+            sh limpar_cache.sh
           
       
       
@@ -78,7 +69,7 @@ jobs:
 
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
-            npm run pm2-stop
+            # npm run pm2-stop
             npm run pm2
             pm2 start all
             # docker compose build --no-cache app
