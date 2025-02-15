@@ -70,6 +70,7 @@ jobs:
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             # npm run pm2-stop
+            npm install
             npm run pm2
             pm2 start all
             # docker compose build --no-cache app
