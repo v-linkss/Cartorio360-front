@@ -38,6 +38,7 @@
         <div v-if="tab === 'partes'">
           <ModalImoveisElementosPartes
             :imovel_id="props.imovel_id"
+            :ato_token_selected="props.ato_token_selected"
             @close-modal="closeModal"
           />
         </div>
@@ -50,6 +51,7 @@
 const props = defineProps({
   show: Boolean,
   imovel_id: Number,
+  ato_token_selected: String,
 });
 
 const tab = ref("dados");

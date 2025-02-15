@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: 500px;">
+  <v-container style="height: 500px">
     <v-row>
       <v-col class="mt-6" cols="4">
         <v-autocomplete
@@ -159,7 +159,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["saved", "close-modal","refresh-list"]);
+const emit = defineEmits(["saved", "close-modal", "refresh-list"]);
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
@@ -168,10 +168,10 @@ const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarParteImovelPessoa = `${config.public.managemant}/bens_pessoa`;
 const getPartesId = `${config.public.managemant}/bens_pessoa`;
-const pessoasImovelDelete= `${config.public.managemant}/bens_pessoa`;
+const pessoasImovelDelete = `${config.public.managemant}/bens_pessoa`;
 const baixarDocumento = `${config.public.managemant}/download`;
 
-const imovelItem = ref(null)
+const imovelItem = ref(null);
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
@@ -208,8 +208,11 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
-  body: { tipo_ato_token: props.ato_token_selected || route.query.tipo_ato_token },
+  body: {
+    tipo_ato_token: props.ato_token_selected || route.query.tipo_ato_token,
+  },
 });
+
 papeisItems.value = data.value;
 
 const getDadosPartes = async () => {
@@ -254,7 +257,7 @@ pessoasItems.value =
 
 const createImovel = async () => {
   const representante = {
-    pessoa: {nome:state.pessoa.pessoa_nome},
+    pessoa: { nome: state.pessoa.pessoa_nome },
     papel: papeisItems.value.find((papel) => papel.id === state.papeis),
     percentual: state.percentual,
   };
@@ -308,7 +311,7 @@ const redirectToFicha = async (item) => {
 
 const redirectToPapel = (item) => {
   isModalPapelOpen.value = true;
-  imovelItem.value = item
+  imovelItem.value = item;
   ato_papel_id.value = item.id;
 };
 
@@ -326,6 +329,6 @@ async function deletePessoa(item) {
 
 const goBack = () => {
   emit("close-modal");
-  emit('refresh-list')
+  emit("refresh-list");
 };
 </script>

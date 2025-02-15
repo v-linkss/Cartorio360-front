@@ -13,16 +13,16 @@
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <div class="d-flex align-center justify-center">
+      <div>
         <div>
           <img
             @click="isModalCondOpen = true"
-            class="ml-15"
+            class="ml-2"
             style="
-              height: 40px;
-              width: 40px;
+              height: 80px;
+              width: 80px;
               cursor: pointer;
-              margin-top: 350px;
+              margin-top: 40px;
             "
             src="../../assets/lavrar.png"
           />

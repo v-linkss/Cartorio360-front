@@ -102,6 +102,7 @@
     @refresh="atualizarListaImoveis"
     :imovel_id="idImovel"
     :show="isModalAtualizarImoveisOpen"
+    :ato_token_selected="props.ato_token_selected"
     @close="isModalAtualizarImoveisOpen = false"/>
   </v-container>
 </template>
@@ -121,6 +122,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const config = useRuntimeConfig();
 const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
 const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;

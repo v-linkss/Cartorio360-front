@@ -11,49 +11,39 @@
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <div class="d-flex align-center justify-center">
-        <div>
-          <img
-            @click="isModalCondOpen = true"
-            class="ml-15"
-            style="
-              height: 40px;
-              width: 40px;
-              cursor: pointer;
-              margin-top: 350px;
-            "
-            src="../../../assets/lavrar.png"
-          />
-          <v-card v-if="lavraData" width="360px" class="mr-16">
-            <v-row>
-              <v-col>
-                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Livro: {{ lavraData[0].livro_numero }}
-                </v-sheet>
-              </v-col>
-              <v-col>
-                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Folhas : {{ lavraData[0].pagina_inicial }} Á
-                  {{ lavraData[0].pagina_final }}
-                </v-sheet>
-              </v-col>
-            </v-row>
-            <div
-              style="
-                border: 1px solid black;
-                border-radius: 8px;
-                padding-bottom: 20px;
-                margin-top: -10px;
-              "
-              class="ml-2 mb-2 mr-2"
-              v-html="selo"
-            ></div>
-          </v-card>
-        </div>
-      </div>
+      <img
+        @click="isModalCondOpen = true"
+        style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px;"
+        src="../../../assets/lavrar.png"
+      />
+      <v-card v-if="lavraData" width="360px" class="mr-16">
+        <v-row>
+          <v-col>
+            <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+              Livro: {{ lavraData[0].livro_numero }}
+            </v-sheet>
+          </v-col>
+          <v-col>
+            <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+              Folhas : {{ lavraData[0].pagina_inicial }} Á
+              {{ lavraData[0].pagina_final }}
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <div
+          style="
+            border: 1px solid black;
+            border-radius: 8px;
+            padding-bottom: 20px;
+            margin-top: -10px;
+          "
+          class="ml-2 mb-2 mr-2"
+          v-html="selo"
+        ></div>
+      </v-card>
     </v-col>
   </v-row>
-  {{ props.pages }}
+
   <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
     >Voltar</v-btn
   >
@@ -152,7 +142,7 @@ const loadDefaultDocument = async () => {
     $toast.error("Erro ao carregar o documento.");
   }
 };
-loadDefaultDocument()
+loadDefaultDocument();
 const lavraAto = async () => {
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {

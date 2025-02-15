@@ -1,6 +1,6 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="1000">
-    <v-card>
+    <v-card style="height: 650px;">
       <v-container>
         <h1
           style="
@@ -18,7 +18,7 @@
           <v-tab v-if="showPartes" value="partes">Partes</v-tab>
         </v-tabs>
 
-        <div v-show="tab === 'dados'">
+        <div v-if="tab === 'dados'">
           <ModalImoveisElementosDados
             @refresh-list="refreshList"
             :ato_id="props.ato_id"
@@ -26,7 +26,7 @@
             @close-modal="closeModal"
           />
         </div>
-        <div v-show="tab === 'enderecos' && showPartes">
+        <div v-if="tab === 'enderecos' && showPartes">
           <ModalImoveisElementosEnderecos
             @refresh-list="refreshList"
             :isUpdate="true"
@@ -36,7 +36,7 @@
             @close-modal="closeModal"
           />
         </div>
-        <div v-show="tab === 'partes' && showPartes">
+        <div v-if="tab === 'partes' && showPartes">
           <ModalImoveisElementosPartes
             @refresh-list="refreshList"
             :imovel_id="imovel_id_prop"
