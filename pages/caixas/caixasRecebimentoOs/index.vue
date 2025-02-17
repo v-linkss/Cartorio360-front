@@ -1,7 +1,9 @@
 <template>
   <v-container class="mt-5">
     <v-row class="mb-5">
-      <h1>Recebimento de Ordens de Serviço - Caixa {{ data }} - {{ nome_usuario }}</h1>
+      <h1>
+        Recebimento de Ordens de Serviço - Caixa {{ data }} - {{ nome_usuario }}
+      </h1>
     </v-row>
     <v-row>
       <v-col cols="2">
@@ -42,18 +44,14 @@
           </div>
           <div
             :class="{ disabled: !item.btn_encerrar }"
-            @click="
-              item.btn_encerrar
-                ? encerrarOS(item.id)
-                : null
-            "
+            @click="item.btn_encerrar ? false : openCancelamentoModal(item.id)"
             title="Cancelamento"
           >
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/visualizar.png"
-              alt="Visualizar"
-              title="Visualizar"
+              alt="Encerrar"
+              title="Encerrar"
             />
           </div>
         </v-row>
@@ -65,20 +63,23 @@
       :ordem="selectedOrder"
       @close="isModalRecebimentoOpen = false"
     />
-    <ModalConfirmacao cond-message="O encerramento de OS não poderá ser revertido. Confirma o encerramento ?" :show="isModalCancelamentoOpen" close="isModalCancelamentoOpen = false"/>
+    <ModalConfirmacao
+      @confirm="encerrarOS(selectedOrder)"
+      :condMessage="condMessage"
+      :show="isModalCancelamentoOpen"
+      @close="isModalCancelamentoOpen = false"
+    />
   </v-container>
   <v-rows>
     <v-cols>
       <v-btn class="ml-8" size="large" @click="goBack" color="red"
-      >Voltar
+        >Voltar
       </v-btn>
     </v-cols>
   </v-rows>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
@@ -92,12 +93,13 @@ const searchNumero = ref("");
 const searchApresentante = ref("");
 const selectedOrder = ref({});
 const numero_os = ref(null);
+const condMessage = ref("O encerramento de OS não poderá ser revertido. Confirma o encerramento?") 
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 
 const goBack = () => {
-navigateTo('/caixas/lista')
-}
+  navigateTo("/caixas/lista");
+};
 
 const headers = [
   { title: "Data Recebimento", value: "data" },
@@ -123,13 +125,11 @@ async function caixaOsDataPayload() {
       caixaRecebeOsItems.value = response;
     } else {
       $toast.error("Nenhum dado retornado da API.");
-      console.error("Nenhum dado retornado da API.");
     }
   } catch (error) {
     const errorMessage =
       error.message || "Erro ao buscar dados da API. Tente novamente.";
     $toast.error(errorMessage);
-    console.error(errorMessage);
   }
 }
 
@@ -141,28 +141,32 @@ function getCurrentDate() {
   return `${yyyy}-${MM}-${dd}`;
 }
 
-async function encerrarOS(id){
+const openCancelamentoModal = (item) => {
+  selectedOrder.value = item; 
+  isModalCancelamentoOpen.value = true;
+}
+
+async function encerrarOS(id) {
   try {
     const response = await $fetch(`${encerrarOs}/${id}`, {
       method: "PUT",
       body: {
-        dt_pagto: getCurrentDate()
+        dt_pagto: getCurrentDate(),
       },
     });
-    console.log('res', response)
-    if (response && Array.isArray(response)) {
-      caixaRecebeOsItems.value = response;
+    if (response) {
+      $toast.success("Ordem de Serviço encerrada com sucesso!");
+      isModalCancelamentoOpen.value = false;
+      caixaOsDataPayload(); // Atualiza a lista de OS após encerramento
     } else {
-      $toast.error("Nenhum dado retornado da API.");
-      console.error("Nenhum dado retornado da API.");
+      $toast.error("Erro ao encerrar OS. Tente novamente.");
     }
   } catch (error) {
     const errorMessage =
       error.message || "Erro ao buscar dados da API. Tente novamente.";
     $toast.error(errorMessage);
-    console.error(errorMessage);
   }
-} 
+}
 
 onMounted(() => {
   caixaOsDataPayload();
@@ -186,7 +190,7 @@ const filteredItems = computed(() => {
 
 function redirectToCancelamento(numero, token) {
   isModalCancelamentoOpen.value = true;
-  
+
   console.log("Cancelando OS:", { numero, token });
 }
 
