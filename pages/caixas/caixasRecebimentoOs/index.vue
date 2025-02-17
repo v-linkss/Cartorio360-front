@@ -42,17 +42,17 @@
             />
           </div>
           <div
-            :class="{ disabled: !item.btn_cancelar }"
+            :class="{ disabled: !item.btn_encerrar }"
             @click="
-              item.btn_cancelar
-                ? redirectToCancelamento(item.numero, item.token)
+              item.btn_encerrar
+                ? encerrarOS(item.id)
                 : null
             "
             title="Cancelamento"
           >
             <img
-              style="width: 30px; height: 30px"
-              src="../../../assets/salvar.png"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/visualizar.png"
               alt="Visualizar"
               title="Visualizar"
             />
@@ -66,6 +66,7 @@
       :ordem="selectedOrder"
       @close="isModalRecebimentoOpen = false"
     />
+    <ModalConfirmacao cond-message="O encerramento de OS não poderá ser revertido. Confirma o encerramento ?" :show="isModalCancelamentoOpen" close="isModalCancelamentoOpen = false"/>
   </v-container>
   <v-rows>
     <v-cols>
@@ -82,6 +83,7 @@ import { ref, computed, onMounted } from "vue";
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
+const encerrarOs = `${config.public.managemant}/updateOrdensServico`;
 
 const nome_usuario = useCookie("caixa-service").value.usuario_nome;
 const data = useCookie("caixa-service").value.data;
@@ -92,6 +94,7 @@ const searchApresentante = ref("");
 const selectedOrder = ref({});
 const numero_os = ref(null);
 const isModalRecebimentoOpen = ref(false);
+const isModalCancelamentoOpen = ref(false);
 
 const goBack = () => {
 navigateTo('/caixas/lista')
@@ -131,6 +134,37 @@ async function caixaOsDataPayload() {
   }
 }
 
+function getCurrentDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const MM = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  return `${yyyy}-${MM}-${dd}`;
+}
+
+async function encerrarOS(id){
+  try {
+    const response = await $fetch(`${encerrarOs}/${id}`, {
+      method: "PUT",
+      body: {
+        dt_pagto: getCurrentDate()
+      },
+    });
+    console.log('res', response)
+    if (response && Array.isArray(response)) {
+      caixaRecebeOsItems.value = response;
+    } else {
+      $toast.error("Nenhum dado retornado da API.");
+      console.error("Nenhum dado retornado da API.");
+    }
+  } catch (error) {
+    const errorMessage =
+      error.message || "Erro ao buscar dados da API. Tente novamente.";
+    $toast.error(errorMessage);
+    console.error(errorMessage);
+  }
+} 
+
 onMounted(() => {
   caixaOsDataPayload();
 });
@@ -152,7 +186,8 @@ const filteredItems = computed(() => {
 });
 console.log('items:',filteredItems)
 function redirectToCancelamento(numero, token) {
-  // Lógica para redirecionar ao cancelamento
+  isModalCancelamentoOpen.value = true;
+  
   console.log("Cancelando OS:", { numero, token });
 }
 
