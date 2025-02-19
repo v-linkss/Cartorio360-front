@@ -110,7 +110,6 @@ const props = defineProps({
   },
 });
 
-
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);

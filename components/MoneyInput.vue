@@ -3,9 +3,8 @@
       <input
         id="valor"
         style="
-          border: 1px solid black;
-          background-color:#E4E0E1;
-          border-radius: 4px;
+          border-bottom: 1px solid black;
+          background-color:#f5f3f2;
           padding: 7px 0px 7px 7px;
         "
         v-model.lazy="amount"
@@ -29,7 +28,7 @@
       return {
         amount:this.modelValue,
         config: {
-          thousands: "",
+          thousands: ",",
           decimal: ".",
           precision: 2,
         },

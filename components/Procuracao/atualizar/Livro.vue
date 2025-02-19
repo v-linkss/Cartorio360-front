@@ -11,9 +11,19 @@
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
+      <v-autocomplete
+        class="mt-15"
+        label="Tabelião/escrevente"
+        v-model="state.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
+      </v-autocomplete>
       <img
         @click="isModalCondOpen = true"
-        style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px;"
+        style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
         src="../../../assets/lavrar.png"
       />
       <v-card v-if="lavraData" width="360px" class="mr-16">
@@ -78,6 +88,9 @@ const route = useRoute();
 const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const usuario_token = useCookie("auth_token").value;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -85,6 +98,11 @@ const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
 const documentEditorContainer = ref(null);
+const escreventesItems = ref([]);
+
+const state = reactive({
+  escrevente: null,
+});
 
 const fetchBlobFromMinIO = async (fileUrl) => {
   try {
@@ -95,7 +113,6 @@ const fetchBlobFromMinIO = async (fileUrl) => {
     return await response.blob();
   } catch (error) {
     console.error(error);
-    $toast.error("Erro ao carregar o documento inicial.");
     return null;
   }
 };
@@ -144,10 +161,20 @@ const loadDefaultDocument = async () => {
 };
 loadDefaultDocument();
 const lavraAto = async () => {
+  if(!state.escrevente){
+    $toast.error("Selecione um escrevente para realizar a ação")
+    return
+  }
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
-      body: { ato_token: route.query.ato_token_edit, qtd_paginas: props.pages },
+      body: {
+        ato_token: route.query.ato_token_edit,
+        qtd_paginas: props.pages,
+        escrevente_token: state.escrevente,
+        usuario_token: usuario_token,
+        cartorio_token: cartorio_token
+      },
     });
 
     if (status.value === "success") {
@@ -166,6 +193,13 @@ const confirmLavrar = () => {
   isModalCondOpen.value = false;
   lavraAto();
 };
+
+const { data } = await useFetch(allEscreventes, {
+  method: "POST",
+  body: { cartorio_token: cartorio_token },
+});
+console.log(data.value);
+escreventesItems.value = data.value[0].func_json_escreventes;
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

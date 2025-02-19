@@ -83,7 +83,6 @@ const fetchBlobFromMinIO = async (fileUrl) => {
     return await response.blob();
   } catch (error) {
     console.error(error);
-    $toast.error("Erro ao carregar o documento inicial.");
     return null;
   }
 };
@@ -130,7 +129,7 @@ const loadDefaultDocument = async () => {
       reader.readAsText(blob); // Leia o Blob como texto
     }
   } catch (error) {
-    $toast.error("Erro ao carregar o documento.");
+    console.error("Erro ao carregar o documento.");
   } finally {
     loading.value = false; // Finaliza o loading
   }
@@ -238,7 +237,6 @@ const carregarModeloDeMinuta = async () => {
     }
   } catch (error) {
     console.error("Erro ao carregar o modelo de minuta:", error);
-    $toast.error("Falha ao carregar o modelo de minuta.");
   }
 };
 

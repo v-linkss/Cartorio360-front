@@ -26,15 +26,15 @@
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
-            :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
+            :title="item.btn_receber ?  'Bloqueado': 'Receber'"
             @click="
-              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+              item.btn_receber ? null : redirectToRecebimento(item.numero, item)
             "
             title="Receber"
           >
             <img
               :style="{
-                cursor: item.btn_receber ? 'pointer' : 'default',
+                cursor: item.btn_receber ? 'default' : 'pointer',
                 width: '30px',
                 height: '30px',
               }"
