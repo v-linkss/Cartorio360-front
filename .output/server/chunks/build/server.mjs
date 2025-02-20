@@ -612,7 +612,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-D83IC2Wm.mjs')
+    component: () => import('./geral-BmXnO2dy.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -622,7 +622,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-0OqYlZVq.mjs')
+    component: () => import('./geral-DcHnECVn.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -632,17 +632,17 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-B386tFRB.mjs')
+    component: () => import('./procuracao-gYzuezCo.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-BHBP53od.mjs')
+    component: () => import('./autencidade-ZrBDEDxz.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-BCMSmyKN.mjs')
+    component: () => import('./semelhanca-s07W88wP.mjs')
   },
   {
     name: "index",
@@ -653,13 +653,13 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-DCNZn4r4.mjs')
+    component: () => import('./index-tc2RK9LS.mjs')
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-DG5ITaL1.mjs')
+    component: () => import('./tipo-perfil-BrF70d5d.mjs')
   },
   {
     name: "os-atualizar-id",
@@ -669,7 +669,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-C5qMpHTP.mjs')
+    component: () => import('./criar-ato-GMztKAl-.mjs')
   },
   {
     name: "os-criar-registro",

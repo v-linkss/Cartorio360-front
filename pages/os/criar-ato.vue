@@ -15,6 +15,7 @@
           item-title="descricao"
           item-value="token"
           v-model="selectedServico"
+          :disabled="combolistsBlockeds"
         ></v-autocomplete>
       </v-col>
       <v-col md="6">
@@ -24,12 +25,13 @@
           item-title="descricao"
           item-value="token"
           :items="atos"
+          :disabled="combolistsBlockeds"
           return-object
         ></v-autocomplete>
       </v-col>
     </v-row>
   </v-container>
-  <component :is="selectedComponent" :ato_token="selectedAto.token" />
+  <component :is="selectedComponent" :ato_token="selectedAto.token"  @ato-created="blockCombolists" />
 </template>
 
 <script setup>
@@ -53,7 +55,8 @@ const components = {
 const servicos = ref([]);
 const atos = ref([]);
 const selectedServico = ref("");
-const selectedAto = ref(" ");
+const selectedAto = ref("");
+const combolistsBlockeds = ref(false)
 const selectedComponent = computed(() => components[selectedAto.value.rota]);
 
 const config = useRuntimeConfig();
@@ -72,6 +75,10 @@ const loadServicos = async () => {
     selectedServico.value = servicos.value[0].token;
   }
 };
+
+const blockCombolists = () =>{
+  combolistsBlockeds.value = true
+}
 
 const onServicoChange = async (token) => {
   const { data } = await useFetch(getTiposAtos, {

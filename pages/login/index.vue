@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-row style="background-color:#0a063b;">
-    <v-col cols="4" class="ml-5 d-flex align-center justify-center">
+    <v-col cols="5" class="ml-5 d-flex align-center justify-center">
       <v-container >
         <center>
           <v-img
@@ -47,7 +47,7 @@
             <v-btn
               rounded
               class="mb-10 mt-4"
-              style="width: 570px"
+              style="width: 570px; margin-left: 90px;"
               v-bind="activatorProps"
               color="primary"
               v-on:click="login"
@@ -113,7 +113,7 @@
           <a
             class="text-decoration-none"
             rel="noopener noreferrer"
-            style="color: white"
+            style="color: white;margin-left: 90px;"
           >
             Esqueceu a senha?</a
           >
@@ -245,6 +245,7 @@ const login = async () => {
 </script>
 <style scoped>
 .input {
+  margin-left: 90px;
   width: 570px;
 }
 .text {
@@ -252,11 +253,7 @@ const login = async () => {
   font-family: "calibri";
   color: white;
   margin-bottom: 30px;
+  margin-left: 90px;
 }
-.button {
-  background-color: #429946;
-  color: white;
-}
-
 
 </style>

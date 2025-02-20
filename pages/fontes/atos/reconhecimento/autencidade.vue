@@ -128,6 +128,7 @@ const props = defineProps({
     required: true,
   },
 });
+const emit = defineEmits(["ato-created"]);
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -189,6 +190,7 @@ async function searchPessoasService() {
       },
     });
     if (pessoasData.value.length > 0) {
+      emit('ato-created')
       pessoasItems.value = pessoasData.value;
     } else {
       pessoasItems.value = [];

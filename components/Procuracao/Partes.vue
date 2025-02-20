@@ -41,7 +41,7 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col cols="3">
+      <!-- <v-col cols="3">
         <v-autocomplete
           label="Papel"
           v-model="state.papeis"
@@ -51,7 +51,7 @@
           required
         >
         </v-autocomplete>
-      </v-col>
+      </v-col> -->
       <div>
         <img
           class="mt-3"
@@ -266,7 +266,9 @@ const { data } = await useFetch(papeisApresentante, {
   method: "POST",
   body: { tipo_ato_token: props.ato_token },
 });
+
 papeisItems.value = data.value;
+
 
 async function searchPessoasService() {
   try {
