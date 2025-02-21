@@ -111,6 +111,9 @@ const updateAtoPessoa = async () => {
       updatedValues[key] = newValue;
     }
   });
+  if (updatedValues.percentual) {
+    updatedValues.percentual = updatedValues.percentual.toString().replace(/,/g, "");
+  }
 
   const { status } = await useFetch(
     `${pessoasImovelUpdate}/${props.partes_imovel.id}`,

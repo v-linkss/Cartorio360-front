@@ -89,13 +89,6 @@
     </v-row>
     <v-row>
       <v-col cols="2">
-        <label>Valor Alienação</label>
-        <MoneyInput
-          label="Valor Alienação"
-          v-model="state.vlr_alienacao"
-        ></MoneyInput>
-      </v-col>
-      <v-col cols="2">
         <label>Valor Avaliação</label>
         <MoneyInput
           label="Valor Avaliação"
@@ -194,16 +187,10 @@ const state = reactive({
   end_quadra: null,
   end_lote: null,
   tabvalores_tipologradouro_id: null,
-  end_logradouro: null,
-  end_logradouro_numero: null,
-  end_bairro: null,
-  end_cep: null,
-  end_complemento: null,
   tipo_id: null,
   descricao: null,
   inscricao_estadual: null,
   tabvalores_situacao_imoveis_id: null,
-  vlr_alienacao: null,
   vlr_avaliacao: null,
   vlr_mercado: null,
   valor_mercado: "0.00",
@@ -229,9 +216,17 @@ const createImovel = async () => {
     $toast.error("Preencha todos os campos obrigatórios!");
     return;
   }
+  const payload = {
+    ...state,
+    vlr_avaliacao: state.vlr_avaliacao?.replace(/,/g, ""),
+    vlr_mercado: state.vlr_mercado?.replace(/,/g, ""),
+    aliq_itbi: state.aliq_itbi?.replace(/,/g, ""),
+    vlr_itbi: state.vlr_itbi?.replace(/,/g, ""),
+  };
+
   const { data,status } = await useFetch(`${createAtosBens}`, {
     method: "POST",
-    body: state,
+    body: payload,
   });
   if (status.value === "success") {
     $toast.success("Imovel criado com sucesso!");
@@ -288,10 +283,16 @@ async function loadImoveisData() {
 
 const updateImovelModal = async (id) => {
   const updatedValues = {};
-  
+
   Object.keys(state).forEach((key) => {
     if (state[key] !== statePayload[key]) {
       updatedValues[key] = state[key];
+    }
+  });
+
+  ["vlr_avaliacao", "vlr_mercado", "aliq_itbi", "vlr_itbi"].forEach((campo) => {
+    if (updatedValues[campo]) {
+      updatedValues[campo] = updatedValues[campo]?.toString().replace(/,/g, "");
     }
   });
 
@@ -299,15 +300,18 @@ const updateImovelModal = async (id) => {
     return;
   }
 
- const {status} = await useFetch(`${updateImovel}/${id}`, {
+  const { status } = await useFetch(`${updateImovel}/${id}`, {
     method: "PUT",
-    body:updatedValues,
+    body: updatedValues,
   });
-  if(status.value === 'success'){
-    $toast.success('Imovel Atualizado com sucesso!')
-    emit('close-modal')
+
+  if (status.value === "success") {
+    $toast.success("Imovel Atualizado com sucesso!");
+    emit("close-modal");
   }
 };
+
+
 
 const goBack = () => {
   emit("close-modal");

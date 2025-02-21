@@ -267,7 +267,7 @@ const createImovel = async () => {
       pessoa_id: state.pessoa.pessoa_id,
       tipo_parte_id: state.papeis,
       user_id: useCookie("user-data").value.usuario_id,
-      percentual: state.percentual,
+      percentual: state.percentual.replace(/,/g, ""),
     },
   });
   if (status.value === "success") {

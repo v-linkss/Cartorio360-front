@@ -78,9 +78,6 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick } from "vue";
-import { useRuntimeConfig, useCookie, useFetch, navigateTo, useRouter } from "#imports";
-
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 
@@ -146,7 +143,7 @@ async function searchCaixas() {
         situacao: state.situacao,
       },
     });
-    console.log(caixasData)
+
     if (caixasData.value.length > 0) {
       caixaItems.value = caixasData.value;
     } else {
