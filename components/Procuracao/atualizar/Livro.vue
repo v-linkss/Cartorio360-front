@@ -35,7 +35,7 @@
           </v-col>
           <v-col>
             <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-              Folhas : {{ lavraData[0].pagina_inicial }} Á
+              Folhas : {{ lavraData[0].pagina_inicial }} A
               {{ lavraData[0].pagina_final }}
             </v-sheet>
           </v-col>
@@ -198,7 +198,6 @@ const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
-console.log(data.value);
 escreventesItems.value = data.value[0].func_json_escreventes;
 
 const goBack = () => {
