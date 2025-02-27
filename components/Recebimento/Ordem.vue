@@ -4,7 +4,9 @@
       <v-container>
         <v-row class="mb-5 mt-1 ml-2">
           <h1>Ordem de Serviço nº</h1>
-          <h1 style="color: red; margin-left: 18px">{{ props.ordem.numero }}</h1>
+          <h1 style="color: red; margin-left: 18px">
+            {{ props.ordem.numero }}
+          </h1>
         </v-row>
         <v-container>
           <v-row>
@@ -47,35 +49,43 @@
         <hr class="mb-5" />
 
         <v-data-table :headers="headers" :items="selosItems" item-value="token">
-          
           <template v-slot:item.forma="{ item }">
             {{ item.descricao }}
           </template>
-      
+
           <template v-slot:item.actions="{ item }">
             <div
               style="display: flex; justify-content: flex-end"
-              @click="removeFormValueFromTable(item)"
-              title="Remover"
+              @click="item.btn_cancelar ? removeFormValueFromTable(item) : null"
+              :title="item.btn_cancelar ? 'Remover' : ''"
             >
               <img
                 src="../../assets/trash.png"
-                style="width: 30px; height: 30px; cursor: pointer"
+                style="width: 30px; height: 30px"
+                :style="{
+                  cursor: item.btn_cancelar ? 'pointer' : 'default',
+                  opacity: item.btn_cancelar ? 1 : 0.5,
+                }"
                 alt="Remover"
               />
             </div>
           </template>
         </v-data-table>
-
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
-        <v-btn class="ml-8" size="large" @click="closeModal" color="red">Voltar</v-btn>
+        <v-btn class="ml-8" size="large" @click="closeModal" color="red"
+          >Voltar</v-btn
+        >
         <v-btn
           size="large"
           class="ml-6 mb-6"
           color="green"
-          @click="props.ordem.valor > 0 ? receberOsParcial() : realizarRecebimentoCompleto()"
+          @click="
+            props.ordem.valor > 0
+              ? receberOsParcial()
+              : realizarRecebimentoCompleto()
+          "
         >
           Salvar
         </v-btn>
@@ -103,7 +113,7 @@ const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);
 const config = useRuntimeConfig();
 const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
-const listarRecebimentos = `${config.public.managemant}/listar_recebimentos_os`
+const listarRecebimentos = `${config.public.managemant}/listar_recebimentos_os`;
 const routereceberOs = `${config.public.managemant}/receberOs`;
 const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
@@ -126,24 +136,31 @@ const headers = [
 const faltaReceberValorDeOrdem = ref(0);
 
 const calcularFaltaReceber = () => {
-  faltaReceberValorDeOrdem.value = formatNumber(props.ordem.valor - props.ordem.valor_pago);
+  faltaReceberValorDeOrdem.value = formatNumber(
+    props.ordem.valor - props.ordem.valor_pago
+  );
 };
 
-watch(() => props.show, async (newVal) => {
-  isVisible.value = newVal;
-  const { data } = await useFetch(listarRecebimentos, {
+watch(
+  () => props.show,
+  async (newVal) => {
+    isVisible.value = newVal;
+    const { data } = await useFetch(listarRecebimentos, {
       method: "POST",
-      body: {os_token:props.ordem.token},
-});
-const responseData = Array.isArray(data.value) ? data.value : [];
-if(responseData){
-  selosItems.value = responseData.map(({ forma_recebimento, ...valores }) => ({
-    descricao: forma_recebimento, 
-    ...valores
-  }));
-}
-  if (newVal) calcularFaltaReceber();
-});
+      body: { os_token: props.ordem.token },
+    });
+    const responseData = Array.isArray(data.value) ? data.value : [];
+    if (responseData) {
+      selosItems.value = responseData.map(
+        ({ forma_recebimento, ...valores }) => ({
+          descricao: forma_recebimento,
+          ...valores,
+        })
+      );
+    }
+    if (newVal) calcularFaltaReceber();
+  }
+);
 
 const closeModal = () => {
   isVisible.value = false;
@@ -167,7 +184,7 @@ const realizarRecebimentoCompleto = async () => {
 
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
-      body:body,
+      body: body,
     });
 
     if (data.value[0].status === "OK") {
@@ -209,12 +226,18 @@ const addNewRow = () => {
   if (!selectedForma) return $toast.error("Por favor, selecione uma forma.");
 
   const valor = parseCurrency(state.valor);
-  selosItems.value.push({ forma: state.forma, descricao: selectedForma.descricao, valor });
+  selosItems.value.push({
+    forma: state.forma,
+    descricao: selectedForma.descricao,
+    valor,
+  });
   recebimentos.value.push({ forma_receb_token: state.forma, valor });
 
   props.ordem.valor_pago = formatNumber(props.ordem.valor_pago + valor);
   props.ordem.valor = formatNumber(props.ordem.valor - valor);
-  faltaReceberValorDeOrdem.value = formatNumber(faltaReceberValorDeOrdem.value - valor);
+  faltaReceberValorDeOrdem.value = formatNumber(
+    faltaReceberValorDeOrdem.value - valor
+  );
 
   Object.assign(state, { forma: null, valor: "0.00" });
   formatDecimal();
@@ -228,7 +251,9 @@ const removeFormValueFromTable = (itemRemove) => {
     const valor = parseCurrency(itemRemove.valor);
 
     props.ordem.valor_pago = formatNumber(props.ordem.valor_pago - valor);
-    faltaReceberValorDeOrdem.value = formatNumber(faltaReceberValorDeOrdem.value + valor);
+    faltaReceberValorDeOrdem.value = formatNumber(
+      faltaReceberValorDeOrdem.value + valor
+    );
   }
   formatDecimal();
 };
