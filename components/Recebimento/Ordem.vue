@@ -4,9 +4,7 @@
       <v-container>
         <v-row class="mb-5 mt-1 ml-2">
           <h1>Ordem de Serviço nº</h1>
-          <h1 style="color: red; margin-left: 18px">
-            {{ props.ordem.numero }}
-          </h1>
+          <h1 style="color: red; margin-left: 18px">{{ props.ordem.numero }}</h1>
         </v-row>
         <v-container>
           <v-row>
@@ -14,17 +12,15 @@
               class="mr-5"
               label="Recebido"
               v-model="props.ordem.valor_pago"
-              style="font-weight: bold; cursor: default; pointer-events: none"
               readonly
-            >
-            </v-text-field>
-
+              style="font-weight: bold; cursor: default; pointer-events: none"
+            />
             <v-text-field
               label="Falta Receber"
-              style="font-weight: bold; cursor: default; pointer-events: none"
               v-model="faltaReceberValorDeOrdem"
-            >
-            </v-text-field>
+              readonly
+              style="font-weight: bold; cursor: default; pointer-events: none"
+            />
           </v-row>
           <v-row>
             <v-autocomplete
@@ -34,7 +30,7 @@
               :items="formaItens"
               item-title="descricao"
               item-value="token"
-            ></v-autocomplete>
+            />
             <div style="max-width: 180px">
               <MoneyInput v-model="state.valor" />
             </div>
@@ -60,8 +56,8 @@
               title="Remover"
             >
               <img
-                style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/trash.png"
+                style="width: 30px; height: 30px; cursor: pointer"
                 alt="Remover"
               />
             </div>
@@ -70,26 +66,15 @@
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
-        <v-btn class="ml-8" size="large" @click="closeModal" color="red"
-          >Voltar</v-btn
-        >
-
+        <v-btn class="ml-8" size="large" @click="closeModal" color="red">Voltar</v-btn>
         <v-btn
-          v-if="Number(props.ordem.valor) > 0"
-          class="ml-6 mb-6"
-          size="large"
-          color="green"
-          @click="receberOsParcial"
-          >Salvar</v-btn
-        >
-        <v-btn
-          v-else
           size="large"
           class="ml-6 mb-6"
           color="green"
-          @click="realizarRecebimentoCompleto"
-          >Salvar</v-btn
+          @click="props.ordem.valor > 0 ? receberOsParcial() : realizarRecebimentoCompleto()"
         >
+          Salvar
+        </v-btn>
       </div>
     </v-card>
     <ModalRecebimentoCond
@@ -104,11 +89,10 @@
 <script setup>
 const props = defineProps({
   show: Boolean,
-  ordem: {
-    type: Object,
-    required: true,
-  },
+  ordem: { type: Object, required: true },
 });
+
+const emit = defineEmits(["close"]);
 
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
@@ -119,7 +103,6 @@ const routereceberOs = `${config.public.managemant}/receberOs`;
 const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
 const faltaReceber = ref(null);
-
 const selosItems = ref([]);
 const recebimentos = ref([]);
 
@@ -128,8 +111,6 @@ const state = reactive({
   forma: null,
   valor: "",
 });
-
-const emit = defineEmits(["close"]);
 
 const headers = [
   { title: "Forma", value: "forma" },
@@ -140,31 +121,22 @@ const headers = [
 const faltaReceberValorDeOrdem = ref(0);
 
 const calcularFaltaReceber = () => {
-  const valor = parseFloat(props.ordem.valor);
-  const valorPago = parseFloat(props.ordem.valor_pago);
-  faltaReceberValorDeOrdem.value = parseFloat(valor - valorPago).toFixed(2);
+  faltaReceberValorDeOrdem.value = formatNumber(props.ordem.valor - props.ordem.valor_pago);
 };
 
-watch(
-  () => props.show,
-  (newVal) => {
-    isVisible.value = newVal;
-    if (newVal) {
-      calcularFaltaReceber();
-    }
-  }
-);
+watch(() => props.show, (newVal) => {
+  isVisible.value = newVal;
+  if (newVal) calcularFaltaReceber();
+});
 
 const closeModal = () => {
   isVisible.value = false;
-  state.forma = null;
-  state.descricao = null;
-  state.valor = "";
+  Object.assign(state, { forma: null, descricao: null, valor: "" });
   selosItems.value = [];
   emit("close");
 };
 
-const receberOsParcial = async () => {
+const receberOsParcial = () => {
   faltaReceber.value = Number(props.ordem.valor);
   isMoreOrLess.value = true;
 };
@@ -173,21 +145,22 @@ const realizarRecebimentoCompleto = async () => {
   try {
     const body = {
       ordemserv_token: props.ordem.token,
-      usuario_token: usuario_token,
+      usuario_token,
       recebimentos: [recebimentos.value],
     };
+    console.log(body);
 
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
       body: JSON.stringify(body),
     });
+
     if (data.value[0].status === "OK") {
       $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
       selosItems.value = [];
       closeModal();
     } else {
-      const error_message = data.value[0].status_mensagem;
-      $toast.error(error_message);
+      $toast.error(data.value[0].status_mensagem);
     }
   } catch (error) {
     $toast.error(error);
@@ -195,69 +168,57 @@ const realizarRecebimentoCompleto = async () => {
 };
 
 const formatDecimal = () => {
-  props.ordem.valor = parseFloat(props.ordem.valor).toFixed(2);
-  props.ordem.valor_pago = parseFloat(props.ordem.valor_pago).toFixed(2);
+  props.ordem.valor = formatNumber(props.ordem.valor);
+  props.ordem.valor_pago = formatNumber(props.ordem.valor_pago);
+  faltaReceberValorDeOrdem.value = formatNumber(faltaReceberValorDeOrdem.value);
 };
+
+const formatNumber = (value) => Number(parseFloat(value).toFixed(2));
 
 const loadEscreventes = async () => {
   try {
-    const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-    const body = {
-      cartorio_token: cartorio_token.value,
-    };
-    const { data: forma, error } = await useFetch(listarFormasReceb, {
+    const cartorio_token = useCookie("user-data").value.cartorio_token;
+    const body = { cartorio_token };
+    const { data: forma } = await useFetch(listarFormasReceb, {
       method: "POST",
       body: JSON.stringify(body),
     });
     formaItens.value = toRaw(forma.value);
   } catch (error) {
-    console.error("Erro ao realizar a requisição:", error);
+    console.error("Erro ao carregar formas de pagamento:", error);
   }
 };
 
-const addNewRow = async () => {
-  const selectedForma = formaItens.value.find(
-    (forma) => forma.token === state.forma
-  );
+const addNewRow = () => {
+  const selectedForma = formaItens.value.find((f) => f.token === state.forma);
+  if (!selectedForma) return $toast.error("Por favor, selecione uma forma.");
 
-  if (!selectedForma) {
-    $toast.error("Por favor, selecione uma forma.");
-    return;
-  }
+  const valor = parseCurrency(state.valor);
+  selosItems.value.push({ forma: state.forma, descricao: selectedForma.descricao, valor });
+  recebimentos.value.push({ forma_receb_token: state.forma, valor });
 
-  selosItems.value.push({
-    forma: state.forma,
-    descricao: selectedForma.descricao,
-    valor: state.valor,
-  });
-  recebimentos.value.push({
-    forma_receb_token: state.forma,
-    valor: Number(state.valor),
-  });
-  props.ordem.valor_pago =
-    parseFloat(props.ordem.valor_pago) + parseFloat(state.valor);
-  props.ordem.valor = parseFloat(props.ordem.valor) - parseFloat(state.valor);
-  faltaReceberValorDeOrdem.value =
-    parseFloat(faltaReceberValorDeOrdem.value) - parseFloat(state.valor);
+  props.ordem.valor_pago = formatNumber(props.ordem.valor_pago + valor);
+  props.ordem.valor = formatNumber(props.ordem.valor - valor);
+  faltaReceberValorDeOrdem.value = formatNumber(faltaReceberValorDeOrdem.value - valor);
 
-  state.forma = null;
-  state.valor = "0.00";
+  Object.assign(state, { forma: null, valor: "0.00" });
   formatDecimal();
 };
 
 const removeFormValueFromTable = (itemRemove) => {
   const index = selosItems.value.indexOf(itemRemove);
-
   if (index !== -1) {
     selosItems.value.splice(index, 1);
     recebimentos.value.splice(index, 1);
+    const valor = parseCurrency(itemRemove.valor);
 
-    props.ordem.valor_pago =
-      parseFloat(props.ordem.valor_pago) - parseFloat(itemRemove.valor);
-    props.ordem.valor =
-      parseFloat(props.ordem.valor) + parseFloat(itemRemove.valor);
+    props.ordem.valor_pago = formatNumber(props.ordem.valor_pago - valor);
+    faltaReceberValorDeOrdem.value = formatNumber(faltaReceberValorDeOrdem.value + valor);
   }
+  formatDecimal();
 };
+
+const parseCurrency = (value) => Number(value.toString().replace(/,/g, ""));
 
 loadEscreventes();
 </script>
