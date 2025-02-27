@@ -45,10 +45,13 @@
           </v-row>
         </v-container>
         <hr class="mb-5" />
+
         <v-data-table :headers="headers" :items="selosItems" item-value="token">
+          
           <template v-slot:item.forma="{ item }">
             {{ item.descricao }}
           </template>
+      
           <template v-slot:item.actions="{ item }">
             <div
               style="display: flex; justify-content: flex-end"
@@ -63,6 +66,7 @@
             </div>
           </template>
         </v-data-table>
+
       </v-container>
 
       <div style="display: flex; justify-content: flex-start">
@@ -99,6 +103,7 @@ const isVisible = ref(props.show);
 const isMoreOrLess = ref(false);
 const config = useRuntimeConfig();
 const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
+const listarRecebimentos = `${config.public.managemant}/listar_recebimentos_os`
 const routereceberOs = `${config.public.managemant}/receberOs`;
 const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
@@ -113,7 +118,7 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "Forma", value: "forma" },
+  { title: "Forma", value: "descricao" },
   { title: "Valor", value: "valor" },
   { value: "actions" },
 ];
@@ -124,8 +129,19 @@ const calcularFaltaReceber = () => {
   faltaReceberValorDeOrdem.value = formatNumber(props.ordem.valor - props.ordem.valor_pago);
 };
 
-watch(() => props.show, (newVal) => {
+watch(() => props.show, async (newVal) => {
   isVisible.value = newVal;
+  const { data } = await useFetch(listarRecebimentos, {
+      method: "POST",
+      body: {os_token:props.ordem.token},
+});
+const responseData = Array.isArray(data.value) ? data.value : [];
+if(responseData){
+  selosItems.value = responseData.map(({ forma_recebimento, ...valores }) => ({
+    descricao: forma_recebimento, 
+    ...valores
+  }));
+}
   if (newVal) calcularFaltaReceber();
 });
 
@@ -148,11 +164,10 @@ const realizarRecebimentoCompleto = async () => {
       usuario_token,
       recebimentos: [recebimentos.value],
     };
-    console.log(body);
 
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
-      body: JSON.stringify(body),
+      body:body,
     });
 
     if (data.value[0].status === "OK") {
