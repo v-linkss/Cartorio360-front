@@ -54,18 +54,20 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <div
-              style="display: flex; justify-content: flex-end"
-              @click="item.btn_cancelar ? removeFormValueFromTable(item) : null"
-              :title="item.btn_cancelar ? 'Remover' : ''"
-            >
+            <div style="display: flex; justify-content: flex-end">
               <img
-                src="../../assets/trash.png"
-                style="width: 30px; height: 30px"
-                :style="{
-                  cursor: item.btn_cancelar ? 'pointer' : 'default',
-                  opacity: item.btn_cancelar ? 1 : 0.5,
-                }"
+               v-if="item.btn_cancelar === true"
+                src="../../assets/mudarStatus.png"
+                style="width: 30px; height: 30px; cursor: pointer"
+                @click="removeFormValueFromTable(item)"
+                alt="Mudar Status"
+              />
+
+              <img
+                v-if="item.btn_cancelar === false"
+                src="../../assets/excluido.png"
+                style="width: 30px; height: 30px; cursor: pointer"
+                @click="removeFormValueFromTable(item)"
                 alt="Remover"
               />
             </div>
@@ -115,6 +117,7 @@ const config = useRuntimeConfig();
 const listarFormasReceb = `${config.public.managemant}/listarFormasReceb`;
 const listarRecebimentos = `${config.public.managemant}/listar_recebimentos_os`;
 const routereceberOs = `${config.public.managemant}/receberOs`;
+const atualizarStatusCaixa = `${config.public.managemant}/caixasLanctos`;
 const usuario_token = useCookie("auth_token").value;
 const formaItens = ref([]);
 const faltaReceber = ref(null);
@@ -230,6 +233,7 @@ const addNewRow = () => {
     forma: state.forma,
     descricao: selectedForma.descricao,
     valor,
+    btn_cancelar: true,
   });
   recebimentos.value.push({ forma_receb_token: state.forma, valor });
 
@@ -243,9 +247,25 @@ const addNewRow = () => {
   formatDecimal();
 };
 
-const removeFormValueFromTable = (itemRemove) => {
+const removeFormValueFromTable = async (itemRemove) => {
   const index = selosItems.value.indexOf(itemRemove);
-  if (index !== -1) {
+  if (itemRemove.id && itemRemove.id !== null) {
+    itemRemove.excluido = !itemRemove.excluido;
+    const { status } = await useFetch(
+      `${atualizarStatusCaixa}/${itemRemove.id}`,
+      {
+        method: "PUT",
+        body: { excluido: itemRemove.excluido },
+      }
+    );
+
+    if (status.value === "success") {
+      // Atualiza o botão para indicar que pode ser removido
+      $toast.success("Item marcado para remoção.");
+    } else {
+      $toast.error("Erro ao marcar o item para remoção.");
+    }
+  } else {
     selosItems.value.splice(index, 1);
     recebimentos.value.splice(index, 1);
     const valor = parseCurrency(itemRemove.valor);
@@ -254,7 +274,7 @@ const removeFormValueFromTable = (itemRemove) => {
     faltaReceberValorDeOrdem.value = formatNumber(
       faltaReceberValorDeOrdem.value + valor
     );
-  }
+  } 
   formatDecimal();
 };
 
