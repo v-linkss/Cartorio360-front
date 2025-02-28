@@ -52,16 +52,18 @@
           <div
             :class="{ disabled: !item.btn_editar }"
             @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Bloqueado'"
+            title="encerramento"
           >
             <img
+               :class="{ disabled: !item.btn_encerrar }"
+               @click="item.btn_encerrar ? false : openEncerramentoModal(item.id)"
               :style="{
                 cursor: item.btn_editar ? 'pointer' : 'default',
                 width: '30px',
                 height: '30px',
               }"
               src="../../../assets/salvar.png"
-              alt="Salvar"
+              alt="encerrar"
             />
           </div>
           <div
@@ -74,6 +76,12 @@
         </v-row>
       </template>
     </v-data-table>
+    <ModalConfirmacao
+      @confirm="encerrarCaixaOs(selectedCaixa)"
+      :condMessage="condMessage"
+      :show="isModalEncerramentoOpen"
+      @close="isModalEncerramentoOpen = false"
+    />
   </v-container>
 </template>
 
@@ -93,6 +101,9 @@ const caixaItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "ENCERRADO", "CANCELADO"]);
 const numero_os = ref(null);
 const servicosItems = ref([]);
+const selectedCaixa = ref({});
+const isModalEncerramentoOpen = ref(false);
+const condMessage = ref("O encerramento de caixa não poderá ser revertido. Confirma o encerramento?")
 
 const state = reactive({
   data: null || getCurrentDate(),
@@ -179,6 +190,11 @@ function redirectToCiaxasRecebimento(item) {
     data: item.data,
   });
   navigateTo("/caixas/caixasRecebimentoOs");
+}
+
+const openEncerramentoModal = (item) => {
+  selectedCaixa.value = item; 
+  isModalEncerramentoOpen.value = true;
 }
 
 onMounted(() => {

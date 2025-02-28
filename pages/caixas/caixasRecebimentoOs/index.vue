@@ -44,12 +44,12 @@
           </div>
           <div
             :class="{ disabled: !item.btn_encerrar }"
-            @click="item.btn_encerrar ? false : openCancelamentoModal(item.id)"
+            @click="item.btn_encerrar ? false : openEncerramentoModal(item.id)"
             title="Cancelamento"
           >
             <img
               style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/visualizar.png"
+              src="../../../assets/salvar.png"
               alt="Encerrar"
               title="Encerrar"
             />
@@ -64,10 +64,10 @@
       @close="isModalRecebimentoOpen = false"
     />
     <ModalConfirmacao
-      @confirm="encerrarOS(selectedOrder)"
+      @confirm="encerrarCaixaOs(selectedOrder)"
       :condMessage="condMessage"
-      :show="isModalCancelamentoOpen"
-      @close="isModalCancelamentoOpen = false"
+      :show="isModalEncerramentoOpen"
+      @close="isModalEncerramentoOpen = false"
     />
   </v-container>
   <v-rows>
@@ -83,7 +83,7 @@
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
-const encerrarOs = `${config.public.managemant}/updateOrdensServico`;
+const encerrarCaixa = `${config.public.managemant}/caixas`;
 
 const nome_usuario = useCookie("caixa-service").value.usuario_nome;
 const data = useCookie("caixa-service").value.data;
@@ -93,9 +93,9 @@ const searchNumero = ref("");
 const searchApresentante = ref("");
 const selectedOrder = ref({});
 const numero_os = ref(null);
-const condMessage = ref("O encerramento de OS não poderá ser revertido. Confirma o encerramento?") 
+const condMessage = ref("O encerramento de caixa não poderá ser revertido. Confirma o encerramento?") 
 const isModalRecebimentoOpen = ref(false);
-const isModalCancelamentoOpen = ref(false);
+const isModalEncerramentoOpen = ref(false);
 
 const goBack = () => {
   navigateTo("/caixas/lista");
@@ -141,23 +141,23 @@ function getCurrentDate() {
   return `${yyyy}-${MM}-${dd}`;
 }
 
-const openCancelamentoModal = (item) => {
+const openEncerramentoModal = (item) => {
   selectedOrder.value = item; 
-  isModalCancelamentoOpen.value = true;
+  isModalEncerramentoOpen.value = true;
 }
 
-async function encerrarOS(id) {
+async function encerrarCaixaOs(id) {
   try {
-    const response = await $fetch(`${encerrarOs}/${id}`, {
+    const response = await $fetch(`${encerrarCaixa}/${id}`, {
       method: "PUT",
       body: {
-        dt_pagto: getCurrentDate(),
+        dt_fechamento: getCurrentDate(),
       },
     });
     if (response) {
       $toast.success("Ordem de Serviço encerrada com sucesso!");
-      isModalCancelamentoOpen.value = false;
-      caixaOsDataPayload(); // Atualiza a lista de OS após encerramento
+      isModalEncerramentoOpen.value = false;
+      caixaOsDataPayload();
     } else {
       $toast.error("Erro ao encerrar OS. Tente novamente.");
     }
@@ -189,7 +189,7 @@ const filteredItems = computed(() => {
 });
 
 function redirectToCancelamento(numero, token) {
-  isModalCancelamentoOpen.value = true;
+  isModalEncerramentoOpen.value = true;
 
   console.log("Cancelando OS:", { numero, token });
 }

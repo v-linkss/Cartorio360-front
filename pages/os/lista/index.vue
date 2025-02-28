@@ -179,6 +179,18 @@
               title="Cancelamento"
             />
           </div>
+          <div
+            :class="{ disabled: !item.btn_encerrar }"
+            @click="item.btn_encerrar ? false : openEncerramentoModal(item.id)"
+            title="encerramento"
+          >
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/salvar.png"
+              alt="Encerrar"
+              title="Encerrar"
+            />
+          </div>
         </v-row>
       </template>
     </v-data-table>
@@ -194,6 +206,12 @@
       :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false"
     />
+    <ModalConfirmacao
+      @confirm="encerrarOS(selectedOrder)"
+      :condMessage="condMessage"
+      :show="isModalEncerramentoOpen"
+      @close="isModalEncerramentoOpen = false"
+    />
   </v-container>
 </template>
 
@@ -203,6 +221,7 @@ const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const encerrarOs = `${config.public.managemant}/updateOrdensServico`;
 
 const router = useRouter();
 
@@ -214,10 +233,12 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
+const isModalEncerramentoOpen = ref(false);
 const showCreateOrdemServ = ref(null);
 const ordemserv_token = ref(null);
 const numero_os = ref(null);
 const selectedOrder = ref({});
+const condMessage = ref("O encerramento de OS não poderá ser revertido. Confirma o encerramento?") 
 
 const state = reactive({
   numero: null,
@@ -378,6 +399,32 @@ const showCreateOrdem = () => {
   showCreateOrdemServ.value = true;
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
+
+const openEncerramentoModal = (item) => {
+  selectedOrder.value = item; 
+  isModalEncerramentoOpen.value = true;
+}
+
+async function encerrarOS(id) {
+  try {
+    const response = await $fetch(`${encerrarOs}/${id}`, {
+      method: "PUT",
+      body: {
+        dt_pagto: getCurrentDate(),
+      },
+    });
+    if (response) {
+      $toast.success("Ordem de Serviço encerrada com sucesso!");
+      isModalEncerramentoOpen.value = false; 
+    } else {
+      $toast.error("Erro ao encerrar OS. Tente novamente.");
+    }
+  } catch (error) {
+      const errorMessage =
+      error.message || "Erro ao buscar dados da API. Tente novamente.";
+      $toast.error(errorMessage);
+  }
+}
 
 onMounted(() => {
   nextTick(async () => {
