@@ -44,7 +44,6 @@
           </div>
           <div
             :class="{ disabled: !item.btn_encerrar }"
-            @click="item.btn_encerrar ? false : openEncerramentoModal(item.id)"
             title="Cancelamento"
           >
             <img
