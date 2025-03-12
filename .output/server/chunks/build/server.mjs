@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
-    component: () => import('./lista-egg_4MTj.mjs')
+    component: () => import('./lista-yJsJbnHP.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",

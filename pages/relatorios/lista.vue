@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig();
 const getRelatorios = `${config.public.managemant}/getRelatorios`
-const createRelatorios = `${config.public.managemant}/createRelatorio`
+const createRelatorios = `${config.public.managemant}/gerarRelatorioPessoa`
 const getDadosDominio = `${config.public.managemant}/listaQuery`
 
 const relatorios = ref([]);
@@ -77,13 +77,25 @@ const handleCreateRelatorio = async () => {
   try {
     const novoRelatorio = {
       ...parametros,
-      user_id: useCookie("user-data").value.usuario_id,
+      // user_id: useCookie("user-data").value.usuario_id,
+      atos: null,
+      cartorio_token: useCookie("user-data").value.cartorio_token,
+      consulta: selectedRelatorio
+
     }    
+
+    // {"atos":null,"user_id":2,"consulta":"TIPOS ATOS - PARTES"}
     const {data} = await useFetch(createRelatorios, {
       method: "POST",
       body: novoRelatorio,
     });
-    window.open(data.value, "_blank")
+        // Criar um Blob com o HTML retornado
+    const blob = new Blob([data.value], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+
+    // Abrir o relatório em uma nova aba
+    window.open(url, "_blank");
+    // window.open(data.value, "_blank")
     // Limpa o formulário após o envio
     formInputs.value = [];
     selectedRelatorio.value = null;
