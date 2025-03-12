@@ -110,7 +110,7 @@
 
             <div
               :disabled="!item.btn_cancelar"
-              @click="item.btn_cancelar ? deleteEndereco(item) : null"
+              @click="item.btn_cancelar ? deleteAto(item) : null"
               title="Excluir"
             >
               <img
@@ -154,6 +154,7 @@ const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;
 const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 const atosPayload = `${config.public.managemant}/listarAtos`;
+const updateAto = `${config.public.managemant}/updateAtos`
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -224,7 +225,7 @@ const redirectToUpdateAto = (item) => {
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
-        numero_os: numeroOs,
+        numero_os: ordemNumero,
       },
     });
   }else{
@@ -232,11 +233,11 @@ const redirectToUpdateAto = (item) => {
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
-        id: id,
+        id: useCookie("user-service").value.id,
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
-        numero_os: numeroOs.value,
+        numero_os: ordemNumero,
       },
     });
   }
@@ -322,6 +323,18 @@ async function validarCpf(cpf) {
     } finally {
       isValidatingCpf = false;
     }
+  }
+}
+
+async function deleteAto(item) {
+  item.excluido = !item.excluido;
+  try {
+    await fetchWithToken(`${updateAto}/${item.id}`, {
+      method: "PUT",
+      body: { excluido: item.excluido },
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
   }
 }
 

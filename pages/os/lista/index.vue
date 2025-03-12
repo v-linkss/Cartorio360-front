@@ -340,9 +340,6 @@ const servicosDataTable = async () => {
   }
 };
 
-usuariosDataPayload();
-tipoAtosDataPayload();
-
 function redirectToCancelamento(item) {
   numero_os.value = item.numero;
   ordemserv_token.value = item.token;
@@ -379,6 +376,8 @@ const showCreateOrdem = () => {
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
 
+usuariosDataPayload();
+tipoAtosDataPayload();
 onMounted(() => {
   nextTick(async () => {
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");

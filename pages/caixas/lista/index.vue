@@ -67,7 +67,7 @@
           <div
             :class="{ disabled: !item.btn_cancelar }"
             @click="item.btn_cancelar ? redirectToCancelamento(item.numero, item.token) : null"
-            title="Cancelamento"
+            title="Bloquear"
           >
             <img style="width: 30px; height: 30px" src="../../../assets/visualizar.png" alt="Visualizar" />
           </div>
@@ -78,9 +78,6 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick } from "vue";
-import { useRuntimeConfig, useCookie, useFetch, navigateTo, useRouter } from "#imports";
-
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 
@@ -89,7 +86,6 @@ const getCaixas = `${config.public.managemant}/listarCaixas`;
 
 const router = useRouter();
 
-const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 
 const usuariosItems = ref([]);
@@ -142,7 +138,7 @@ async function searchCaixas() {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        user_token: state.usuario_token,
+        ussuario_token: state.usuario_token,
         data: state.data || null,
         situacao: state.situacao,
       },
@@ -195,6 +191,7 @@ onMounted(() => {
     }
 
     await usuariosDataPayload();
+    await searchCaixas()
   });
 });
 </script>

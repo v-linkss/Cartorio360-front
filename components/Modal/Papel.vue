@@ -40,6 +40,7 @@ const props = defineProps({
   representante_nome: String,
 });
 const isVisible = ref(props.show);
+const route = useRoute()
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
@@ -69,7 +70,7 @@ const closeModal = () => {
 const getPapeis = async () => {
   const { data } = await useFetch(papeisApresentante, {
     method: "POST",
-    body: { tipo_ato_token: props.ato_token },
+    body: { tipo_ato_token: route.query.tipo_ato_token||props.ato_token },
   });
   papeisItems.value = data.value;
 };

@@ -276,7 +276,7 @@ async function loadPessoaData() {
 
     const pessoa_token = useCookie("pessoa_token");
     pessoa_token.value = pessoa.token;
-
+    
     estadoCivilItemsData.value = estadoCivilItems;
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;

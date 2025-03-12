@@ -1,317 +1,172 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col class="mt-5" cols="12">
-        <v-textarea label="Descrição" v-model="state.descricao"> </v-textarea>
-      </v-col>
+  <v-container v-if="status === 'success'" class="mt-5">
+    <img
+      @click="isModalCadastroImoveisOpen = true"
+      style="cursor: pointer"
+      src="../../../assets/novo.png"
+      alt="Cadastro"
+    />
+    <v-row style="gap: 3rem">
+      <div style="width: 200px">
+        <v-text-field
+          class="mt-7 mb-4"
+          v-model="searchMatricula"
+          label="Matrícula"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </div>
+      <div style="width: 300px">
+        <v-text-field
+          class="mt-7 mb-4"
+          v-model="search"
+          label="Descrição"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </div>
     </v-row>
-
-    <v-row>
-      <v-col cols="3">
-        <v-autocomplete label="Selecione o Tipo de Registro"> </v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Cartório"></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Matricula"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Letra"></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-autocomplete label="Natureza"></v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="CIB"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="3">
-        <v-autocomplete label="Selecione a Cidade"> </v-autocomplete>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Quadra"></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="Lote"></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-autocomplete label="Logradouro"> </v-autocomplete>
-      </v-col>
-      <v-col cols="1">
-        <v-text-field label="N*"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-text-field label="Bairro"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="CEP"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Complemento"></v-text-field>
-      </v-col>
-      <v-col cols="3">
-        <v-autocomplete label="Selecione o tipo de imovel"> </v-autocomplete>
-      </v-col>
-      <v-col cols="3">
-        <v-text-field label="Inscrição Municipal"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="3">
-        <v-autocomplete label="Selecione a Situação"> </v-autocomplete>
-      </v-col>
-      <v-col>
-        <v-text-field label="Valor Alienação"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Valor Avaliação"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Valor Mercado"></v-text-field>
-      </v-col>
-      <v-col cols="1">
-        <v-text-field label="%ITB"></v-text-field>
-      </v-col>
-      <v-col >
-        <v-text-field label="Valor ITB"></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-data-table
-          style="height: 465px"
-          :headers="headers"
-          :items="pessoasTable"
-        >
-          <template v-slot:item.descricao="{ item }">
+    <v-data-table
+      density="compact"
+      :headers="headers"
+      :items="filteredImoveis"
+      item-key="id"
+    >
+    <template v-slot:item.descricao="{ item }">
             <h3 style="width: 800px; font-weight: 500">
               {{ item.descricao }}
             </h3>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-row style="margin-top: -8px" justify="end">
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../assets/visualizar.png"
-                  alt="Visualizar"
-                />
-              </div>
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="redirectToUpdateBens(item.id)"
-                title="Alterar Papel"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../assets/editar.png"
-                  alt="Editar"
-                />
-              </div>
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="deletePessoa(item)"
-                title="Deletar Pessoa"
-              >
-                <img
-                  v-if="item.excluido"
-                  style="width: 30px; height: 30px"
-                  src="../../assets/excluido.png"
-                  alt="Reativar"
-                  title="Reativar"
-                />
-                <img
-                  v-else
-                  src="../../assets/mudarStatus.png"
-                  alt="Excluir"
-                  style="width: 30px; height: 30px"
-                  title="Excluir"
-                />
-              </div>
-            </v-row>
-          </template>
-        </v-data-table>
-      </v-col>
-    </v-row>
-    <v-dialog v-model="isModalOpen" max-width="600px">
-      <v-card>
-        <v-card-title style="color: green">Atualizar Bem</v-card-title>
-        <v-card-text>
-          <v-col class="mt-1" cols="12">
-            <v-textarea label="Descrição" v-model="selectedBem.descricao">
-            </v-textarea>
-          </v-col>
-          <v-row>
-            <v-col class="mt-6 ml-3" cols="8">
-              <v-autocomplete
-                label="Selecione o Tipo"
-                :items="state.tiposBens"
-                v-model="selectedBem.tipo_id"
-                item-title="descricao"
-                item-value="id"
-              >
-              </v-autocomplete>
-            </v-col>
-            <v-col class="ml-5" cols="3">
-              <label>Valor</label>
-              <MoneyInput v-model="selectedBem.valor_mercado" />
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green" text @click="isModalOpen = false"
-            >Cancelar</v-btn
+      <template v-slot:item.actions="{ item }">
+        <v-row style="display: flex; gap: 10px; justify-content: flex-end">
+          <div
+            style="cursor: pointer"
+            @click="redirectToView(item.id)"
+            title="Visualizar"
           >
-          <v-btn color="green" text @click="updateAtosBensModal(selectedBem.id)"
-            >Salvar</v-btn
+            <img
+              style="width: 30px; height: 30px"
+              src="../../../assets/visualizar.png"
+              alt="Visualizar"
+            />
+          </div>
+          <div
+            style="cursor: pointer"
+            @click="redirectToUpdate(item.id)"
+            title="Atualizar"
           >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-row>
-      <NuxtLink @click="goBack">
-        <v-btn size="large" color="red">Voltar</v-btn>
-      </NuxtLink>
-    </v-row>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../../assets/editar.png"
+              alt="Atualizar"
+            />
+          </div>
+          <div
+            style="cursor: pointer"
+            @click="deletePessoa(item)"
+            title="Deletar"
+          >
+            <img
+              v-if="item.excluido"
+              style="width: 30px; height: 30px"
+              src="../../../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../../../assets/mudarStatus.png"
+              alt="Excluir"
+              class="trash-icon"
+              style="width: 30px; height: 30px"
+              title="Excluir"
+            />
+          </div>
+        </v-row>
+      </template>
+    </v-data-table>
+    <NuxtLink @click="goBack">
+      <v-btn size="large" color="red">Voltar</v-btn>
+    </NuxtLink>
+    <ModalImoveisCadastro
+      @refresh="atualizarListaImoveis"
+      :show="isModalCadastroImoveisOpen"
+      @close="isModalCadastroImoveisOpen = false"
+    />
+    <ModalImoveisAtualizar
+      @refresh="atualizarListaImoveis"
+      :imovel_id="idImovel"
+      :show="isModalAtualizarImoveisOpen"
+      @close="isModalAtualizarImoveisOpen = false"
+    />
   </v-container>
 </template>
 
 <script setup>
-const props = defineProps({
-  ato_token: {
-    type: String,
-    required: true,
-  },
-  ato_id: {
-    type: Number,
-    required: true,
-  },
-});
+const config = useRuntimeConfig();
+const imoveisLista = `${config.public.auth}/service/gerencia/atos_imoveis`;
+const imoveisUpdate = `${config.public.auth}/service/gerencia/atos_bens`;
 
 const router = useRouter();
 const route = useRoute();
-const config = useRuntimeConfig();
-const { $toast } = useNuxtApp();
-const createAtosBens = `${config.public.managemant}/atos_bens`;
-const updateAtosBens = `${config.public.managemant}/atos_bens`;
-const getAtosBens = `${config.public.managemant}/atos_bens`;
-const listarBens = `${config.public.managemant}/listarTipoBens`;
-const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const user_id = ref(useCookie("user-data").value.usuario_id).value;
 
-const pessoasTable = ref([]);
-const selectedBem = ref([]);
-const isModalOpen = ref(false);
-
+const search = ref("");
+const searchMatricula = ref("");
+const isModalCadastroImoveisOpen = ref(false);
+const isModalAtualizarImoveisOpen = ref(false);
+const idImovel = ref(null);
 const headers = [
-  {
-    title: "Descrição",
-    align: "start",
-    key: "descricao",
-  },
-  {
-    title: "Valor",
-    align: "end",
-    key: "valor_mercado",
-  },
-  { align: "end", value: "actions" },
+  { title: "Matrícula", value: "registro_matricula" },
+  { title: "Descrição", value: "descricao" },
+  { value: "actions" },
 ];
 
-const state = reactive({
-  vlr_alienacao: null,
-  descricao: null,
-  tipo_id: null,
-  tiposBens: [],
+const { data: imoveisItems, status } = await fetchWithToken(imoveisLista, {
+  method: "POST",
+  body: { ato_token: route.query.ato_token_edit },
 });
 
-const createTiposDeBens = async () => {
-  if (!state.vlr_alienacao && !state.descricao) {
-    $toast.error("Os campos Descrição e Valor são Obrigatorios!");
+const filteredImoveis = computed(() => {
+  if (Object.keys(imoveisItems.value).length === 0) {
     return;
   }
-  const { data, status } = await useFetch(`${createAtosBens}`, {
-    method: "POST",
-    body: {
-      descricao: state.descricao,
-      tipo_id: state.tipo_id,
-      valor_mercado: state.vlr_alienacao,
-      user_id: user_id,
-      ato_id: Number.parseInt(props.ato_id),
-      token: props.ato_token,
-    },
+  return imoveisItems.value.filter((item) => {
+    const matriculaSearch = item.matricula ? item.matricula.toLowerCase() : "";
+    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
+
+    const matchesMatricula = matriculaSearch.includes(
+      searchMatricula.value.toLowerCase()
+    );
+    const matchesDescricao = descricao.includes(search.value.toLowerCase());
+
+    return matchesMatricula && matchesDescricao;
   });
-  if (status.value === "success") {
-    $toast.success("Bem registrado com sucesso!");
-    pessoasTable.value.push(data.value);
-    Object.assign(state, {
-      vlr_alienacao: null,
-      descricao: null,
-      tipo_id: null,
-    });
-  }
-};
-
-const updateAtosBensModal = async (id) => {
-  const { status } = await useFetch(`${updateAtosBens}/${id}`, {
-    method: "PUT",
-    body: {
-      descricao: selectedBem.value.descricao,
-      tipo_id: selectedBem.value.tipo_id,
-      valor_mercado: selectedBem.value.valor_mercado,
-    },
-  });
-  if (status.value === "success") {
-    $toast.success("Bem Atualizado com sucesso!");
-    isModalOpen.value = false;
-  }
-};
-
-const redirectToUpdateBens = (id) => {
-  const bem = pessoasTable.value.find((item) => item.id === id);
-  if (bem) {
-    selectedBem.value = bem;
-    isModalOpen.value = true;
-  }
-};
-
-const { data } = await useFetch(`${listarBens}`, {
-  method: "POST",
-  body: { cartorio_token: cartorio_token.value, imoveis: false },
 });
-state.tiposBens = data.value;
-
-const { data: bensPayload } = await useFetch(
-  `${getAtosBens}/${route.query.ato_id}`,
-  {
-    method: "GET",
-  }
-);
-pessoasTable.value = bensPayload.value;
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
-    await useFetch(`${updateAtosBens}/${item.id}`, {
+    await fetchWithToken(`${imoveisUpdate}/${item.id}`, {
       method: "PUT",
-      body: JSON.stringify({ excluido: item.excluido }),
+      body: { excluido: item.excluido },
     });
   } catch (error) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
 
+function redirectToUpdate(id) {
+  idImovel.value = id;
+  isModalAtualizarImoveisOpen.value = true;
+}
+const atualizarListaImoveis = async () => {
+  await fetchWithToken(imoveisLista, {
+    method: "POST",
+    body: { ato_token: route.query.ato_token_edit },
+  });
+};
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;

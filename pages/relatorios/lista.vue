@@ -20,7 +20,7 @@ const { data } = await useFetch(getRelatorios, {
 });
 
 relatorios.value = Array.isArray(data.value) ? data.value : [];
-
+console.log(relatorios.value)
 const options = computed(() =>
   relatorios.value.every((relatorio) => 
     !relatorio.codigo && !relatorio.value && !relatorio.parametros
@@ -68,7 +68,7 @@ const handleRelatorioChange = async (selected) => {
   }
 };
 
-const handleCreateRelatorio = async () => {
+const handleCreateRelatorio = async (input) => {
   // Prepara os dados para envio com base no formulário preenchido
   const parametros = formInputs.value.reduce((acc, input) => {
     acc[input.parametro] = input.value;
@@ -163,7 +163,7 @@ const handleCreateRelatorio = async () => {
         </v-col>
       </v-row>
 
-      <v-btn color="green" class="mt-4" @click="handleCreateRelatorio">Enviar</v-btn>
+      <v-btn color="green" class="mt-4" @click="handleCreateRelatorio(selectedRelatorio)">Enviar</v-btn>
     </v-form>
   </div>
 </template>

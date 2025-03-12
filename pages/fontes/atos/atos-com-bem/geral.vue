@@ -22,7 +22,7 @@
           <ProcuracaoBens :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="imoveis">
-          <ProcuracaoImoveis :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
+          <ProcuracaoImoveis :ato_token="ato_token_prop" :ato_token_selected="selectedAto" :ato_id="ato_id_prop"/>
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="minuta">
           <ProcuracaoMinuta @page="getPages" @doc="getDocument" :ato_token="ato_token_prop"/>
@@ -47,7 +47,7 @@
       required: true,
     },
   });
-  
+  const emit = defineEmits(["ato-created"]);
   const ato_id_prop = ref(null);
   const ato_token_prop = ref(null);
   const pages_prop = ref(null)
@@ -60,6 +60,7 @@
     ato_id_prop.value = id;
     ato_token_prop.value = token
     showTabs.value = true;
+    emit('ato-created')
   };
   
   const getPages = (pages) =>{

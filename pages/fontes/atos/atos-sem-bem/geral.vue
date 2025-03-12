@@ -39,7 +39,7 @@
       required: true,
     },
   });
-  
+  const emit = defineEmits(["ato-created"]);
   const ato_id_prop = ref(null);
   const ato_token_prop = ref(null);
   const pages_prop = ref(null)
@@ -52,6 +52,7 @@
     ato_id_prop.value = id;
     ato_token_prop.value = token
     showTabs.value = true;
+    emit('ato-created')
   };
   
   const getPages = (pages) =>{

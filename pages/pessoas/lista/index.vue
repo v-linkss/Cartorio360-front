@@ -102,10 +102,10 @@ const headers = [
   { value: "actions" },
 ];
 
-const { data: pessoasItems, status } = await fetchWithToken(pessoasLista);
+const { data: pessoasItems, status } = await fetchWithToken(`${pessoasLista}?pageNumber=${1}&pageSize=${1000000}`);
 
 const filteredPessoas = computed(() => {
-  return pessoasItems.value.filter((item) => {
+  return pessoasItems.value.data.filter((item) => {
     const docIdentificacao = item.doc_identificacao
       ? item.doc_identificacao.toLowerCase()
       : "";

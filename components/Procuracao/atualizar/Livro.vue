@@ -11,49 +11,49 @@
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <div class="d-flex align-center justify-center">
-        <div>
-          <img
-            @click="isModalCondOpen = true"
-            class="ml-15"
-            style="
-              height: 40px;
-              width: 40px;
-              cursor: pointer;
-              margin-top: 350px;
-            "
-            src="../../../assets/lavrar.png"
-          />
-          <v-card v-if="lavraData" width="360px" class="mr-16">
-            <v-row>
-              <v-col>
-                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Livro: {{ lavraData[0].livro_numero }}
-                </v-sheet>
-              </v-col>
-              <v-col>
-                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Folhas : {{ lavraData[0].pagina_inicial }} Á
-                  {{ lavraData[0].pagina_final }}
-                </v-sheet>
-              </v-col>
-            </v-row>
-            <div
-              style="
-                border: 1px solid black;
-                border-radius: 8px;
-                padding-bottom: 20px;
-                margin-top: -10px;
-              "
-              class="ml-2 mb-2 mr-2"
-              v-html="selo"
-            ></div>
-          </v-card>
-        </div>
-      </div>
+      <v-autocomplete
+        class="mt-15"
+        label="Tabelião/escrevente"
+        v-model="state.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
+      </v-autocomplete>
+      <img
+        @click="isModalCondOpen = true"
+        style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
+        src="../../../assets/lavrar.png"
+      />
+      <v-card v-if="lavraData" width="360px" class="mr-16">
+        <v-row>
+          <v-col>
+            <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+              Livro: {{ lavraData[0].livro_numero }}
+            </v-sheet>
+          </v-col>
+          <v-col>
+            <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+              Folhas : {{ lavraData[0].pagina_inicial }} A
+              {{ lavraData[0].pagina_final }}
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <div
+          style="
+            border: 1px solid black;
+            border-radius: 8px;
+            padding-bottom: 20px;
+            margin-top: -10px;
+          "
+          class="ml-2 mb-2 mr-2"
+          v-html="selo"
+        ></div>
+      </v-card>
     </v-col>
   </v-row>
-  {{ props.pages }}
+
   <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
     >Voltar</v-btn
   >
@@ -88,6 +88,9 @@ const route = useRoute();
 const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const usuario_token = useCookie("auth_token").value;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -95,6 +98,11 @@ const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
 const documentEditorContainer = ref(null);
+const escreventesItems = ref([]);
+
+const state = reactive({
+  escrevente: null,
+});
 
 const fetchBlobFromMinIO = async (fileUrl) => {
   try {
@@ -105,7 +113,6 @@ const fetchBlobFromMinIO = async (fileUrl) => {
     return await response.blob();
   } catch (error) {
     console.error(error);
-    $toast.error("Erro ao carregar o documento inicial.");
     return null;
   }
 };
@@ -152,12 +159,22 @@ const loadDefaultDocument = async () => {
     $toast.error("Erro ao carregar o documento.");
   }
 };
-loadDefaultDocument()
+loadDefaultDocument();
 const lavraAto = async () => {
+  if(!state.escrevente){
+    $toast.error("Selecione um escrevente para realizar a ação")
+    return
+  }
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
-      body: { ato_token: route.query.ato_token_edit, qtd_paginas: props.pages },
+      body: {
+        ato_token: route.query.ato_token_edit,
+        qtd_paginas: props.pages,
+        escrevente_token: state.escrevente,
+        usuario_token: usuario_token,
+        cartorio_token: cartorio_token
+      },
     });
 
     if (status.value === "success") {
@@ -176,6 +193,12 @@ const confirmLavrar = () => {
   isModalCondOpen.value = false;
   lavraAto();
 };
+
+const { data } = await useFetch(allEscreventes, {
+  method: "POST",
+  body: { cartorio_token: cartorio_token },
+});
+escreventesItems.value = data.value[0].func_json_escreventes;
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

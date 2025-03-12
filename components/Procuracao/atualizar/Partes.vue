@@ -220,7 +220,7 @@ const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const ato_papel_id = ref(null);
 const representante_pessoa_id = ref(null);
-const ato_token = ref("xkyaA");
+const ato_token = ref(route.query.tipo_ato_token);
 const fichaRender = ref(null);
 
 const headers = [
@@ -342,7 +342,7 @@ const createRepresentante = async () => {
   const { data, error, status } = await useFetch(criarAtoPessoa, {
     method: "POST",
     body: {
-      ato_id: route.query.ato_id,
+      ato_id: Number(route.query.ato_id),
       pessoa_id: state.pessoa.id,
       tipo_parte_id: state.papeis,
       user_id: useCookie("user-data").value.usuario_id,
@@ -352,6 +352,8 @@ const createRepresentante = async () => {
     representante.id = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
+  } else{
+    $toast.error(error.value.message)
   }
 };
 

@@ -1,7 +1,9 @@
 <template>
   <v-container class="mt-5">
     <v-row class="mb-5">
-      <h1>Recebimento de Ordens de Serviço - Caixa {{ data }} - {{ nome_usuario }}</h1>
+      <h1>
+        Recebimento de Ordens de Serviço - Caixa {{ data }} - {{ nome_usuario }}
+      </h1>
     </v-row>
     <v-row>
       <v-col cols="2">
@@ -24,15 +26,15 @@
         <v-row style="display: flex; gap: 10px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
-            :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
+            :title="item.btn_receber ?  'Bloqueado': 'Receber'"
             @click="
-              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+              item.btn_receber ? null : redirectToRecebimento(item.numero, item)
             "
             title="Receber"
           >
             <img
               :style="{
-                cursor: item.btn_receber ? 'pointer' : 'default',
+                cursor: item.btn_receber ? 'default' : 'pointer',
                 width: '30px',
                 height: '30px',
               }"
@@ -40,51 +42,48 @@
               alt="Receber"
             />
           </div>
-
           <div
-            :class="{ disabled: !item.btn_editar }"
-            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Bloqueado'"
-          >
-            <img
-              :style="{
-                cursor: item.btn_editar ? 'pointer' : 'default',
-                width: '30px',
-                height: '30px',
-              }"
-              src="../../../assets/salvar.png"
-              alt="Salvar"
-            />
-          </div>
-
-          <div
-            :class="{ disabled: !item.btn_cancelar }"
-            @click="
-              item.btn_cancelar
-                ? redirectToCancelamento(item.numero, item.token)
-                : null
-            "
+            :class="{ disabled: !item.btn_encerrar }"
+            @click="item.btn_encerrar ? false : openCancelamentoModal(item.id)"
             title="Cancelamento"
           >
             <img
-              style="width: 30px; height: 30px"
+              style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/visualizar.png"
-              alt="Visualizar"
-              title="Visualizar"
+              alt="Encerrar"
+              title="Encerrar"
             />
           </div>
         </v-row>
       </template>
     </v-data-table>
+    <RecebimentoOrdem
+      :show="isModalRecebimentoOpen"
+      :numero_os="numero_os"
+      :ordem="selectedOrder"
+      @close="isModalRecebimentoOpen = false"
+    />
+    <ModalConfirmacao
+      @confirm="encerrarOS(selectedOrder)"
+      :condMessage="condMessage"
+      :show="isModalCancelamentoOpen"
+      @close="isModalCancelamentoOpen = false"
+    />
   </v-container>
+  <v-rows>
+    <v-cols>
+      <v-btn class="ml-8" size="large" @click="goBack" color="red"
+        >Voltar
+      </v-btn>
+    </v-cols>
+  </v-rows>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
+const encerrarOs = `${config.public.managemant}/updateOrdensServico`;
 
 const nome_usuario = useCookie("caixa-service").value.usuario_nome;
 const data = useCookie("caixa-service").value.data;
@@ -92,6 +91,15 @@ const data = useCookie("caixa-service").value.data;
 const caixaRecebeOsItems = ref([]);
 const searchNumero = ref("");
 const searchApresentante = ref("");
+const selectedOrder = ref({});
+const numero_os = ref(null);
+const condMessage = ref("O encerramento de OS não poderá ser revertido. Confirma o encerramento?") 
+const isModalRecebimentoOpen = ref(false);
+const isModalCancelamentoOpen = ref(false);
+
+const goBack = () => {
+  navigateTo("/caixas/lista");
+};
 
 const headers = [
   { title: "Data Recebimento", value: "data" },
@@ -117,13 +125,46 @@ async function caixaOsDataPayload() {
       caixaRecebeOsItems.value = response;
     } else {
       $toast.error("Nenhum dado retornado da API.");
-      console.error("Nenhum dado retornado da API.");
     }
   } catch (error) {
     const errorMessage =
       error.message || "Erro ao buscar dados da API. Tente novamente.";
     $toast.error(errorMessage);
-    console.error(errorMessage);
+  }
+}
+
+function getCurrentDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const MM = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  return `${yyyy}-${MM}-${dd}`;
+}
+
+const openCancelamentoModal = (item) => {
+  selectedOrder.value = item; 
+  isModalCancelamentoOpen.value = true;
+}
+
+async function encerrarOS(id) {
+  try {
+    const response = await $fetch(`${encerrarOs}/${id}`, {
+      method: "PUT",
+      body: {
+        dt_pagto: getCurrentDate(),
+      },
+    });
+    if (response) {
+      $toast.success("Ordem de Serviço encerrada com sucesso!");
+      isModalCancelamentoOpen.value = false;
+      caixaOsDataPayload(); // Atualiza a lista de OS após encerramento
+    } else {
+      $toast.error("Erro ao encerrar OS. Tente novamente.");
+    }
+  } catch (error) {
+    const errorMessage =
+      error.message || "Erro ao buscar dados da API. Tente novamente.";
+    $toast.error(errorMessage);
   }
 }
 
@@ -148,13 +189,20 @@ const filteredItems = computed(() => {
 });
 
 function redirectToCancelamento(numero, token) {
-  // Lógica para redirecionar ao cancelamento
+  isModalCancelamentoOpen.value = true;
+
   console.log("Cancelando OS:", { numero, token });
 }
 
 function redirectToRecebimento(numero, item) {
-  // Lógica para redirecionar ao recebimento
-  console.log("Recebendo OS:", { numero, item });
+  numero_os.value = numero;
+  selectedOrder.value = {
+    token: item.token,
+    numero: item.numero,
+    valor: item.valor,
+    valor_pago: item.valor_pago,
+  };
+  isModalRecebimentoOpen.value = true;
 }
 
 function redirectToUpdate(id) {

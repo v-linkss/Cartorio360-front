@@ -13,17 +13,22 @@
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <div class="d-flex align-center justify-center">
+      <v-autocomplete
+        class="mt-15"
+        label="Tabelião/escrevente"
+        v-model="state.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
+      </v-autocomplete>
+      <div>
         <div>
           <img
             @click="isModalCondOpen = true"
-            class="ml-15"
-            style="
-              height: 40px;
-              width: 40px;
-              cursor: pointer;
-              margin-top: 350px;
-            "
+            class="ml-2"
+            style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
             src="../../assets/lavrar.png"
           />
           <v-card v-if="lavraData" class="mr-16">
@@ -35,20 +40,20 @@
               </v-col>
               <v-col>
                 <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Folhas : {{ lavraData[0].pagina_inicial }} Á
+                  Folhas : {{ lavraData[0].pagina_inicial }} A
                   {{ lavraData[0].pagina_final }}
                 </v-sheet>
               </v-col>
             </v-row>
-            <div v-html="selo">
-
-            </div>
+            <div v-html="selo"></div>
           </v-card>
         </div>
       </div>
     </v-col>
   </v-row>
-  <v-btn color="red" size="large" @click="goBack">Voltar</v-btn>
+  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
+    >Voltar</v-btn
+  >
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"
@@ -80,6 +85,7 @@ registerLicense(`${config.public.docEditor}`);
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
@@ -88,17 +94,30 @@ const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
 const documentEditorContainer = ref(null);
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const usuario_token = useCookie("auth_token").value;
+const escreventesItems = ref([]);
+
+const state = reactive({
+  escrevente: null,
+});
 
 const lavraAto = async () => {
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
-      body: { ato_token: props.ato_token, qtd_paginas: props.pages },
+      body: {
+        ato_token: props.ato_token,
+        qtd_paginas: props.pages,
+        escrevente_token: state.escrevente,
+        usuario_token: usuario_token,
+        cartorio_token: cartorio_token,
+      },
     });
 
     if (status.value === "success") {
       lavraData.value = data.value;
-      selo.value = data.value[0].selo
+      selo.value = data.value[0].selo;
       $toast.success("Ato lavrado com sucesso!");
     } else {
       $toast.error("Falha ao lavrar o ato.");
@@ -113,9 +132,16 @@ const confirmLavrar = () => {
   lavraAto();
 };
 
+const { data } = await useFetch(allEscreventes, {
+  method: "POST",
+  body: { cartorio_token: cartorio_token },
+});
+escreventesItems.value = data.value[0].func_json_escreventes;
+
 const onCreated = function () {
-  const documentEditor = documentEditorContainer.value.ej2Instances.documentEditor;
-  documentEditor.open(props.document); 
+  const documentEditor =
+    documentEditorContainer.value.ej2Instances.documentEditor;
+  documentEditor.open(props.document);
 };
 
 const goBack = () => {

@@ -91,7 +91,8 @@
                       id: item.id,
                       tipo: item.tipo,
                       token: item.token,
-                      tipo_token: item.tipo_token
+                      tipo_token: item.tipo_token,
+                      rota: item.rota
                     })
                   : null
               "
@@ -109,7 +110,7 @@
             </div>
             <div
               :disabled="!item.btn_cancelar"
-              @click="item.btn_cancelar ? deleteEndereco(item) : null"
+              @click="item.btn_cancelar ? deleteAto(item) : null"
               title="Excluir"
             >
               <img
@@ -157,6 +158,7 @@ const config = useRuntimeConfig();
 const updateOs = `${config.public.managemant}/updateOrdensServico`;
 const getOsPayload = `${config.public.managemant}/getOrdensServicoById`;
 const atosPayload = `${config.public.managemant}/listarAtos`;
+const updateAto = `${config.public.managemant}/updateAtos`
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -218,7 +220,7 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.tipo === "PROCURAÇÃO GERAL") {
+  if (item.rota === "/fontes/atos/ato-sem-bem/geral") {
     router.push({
       path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
       query: {
@@ -230,7 +232,7 @@ const redirectToUpdateAto = (item) => {
         numero_os: numeroOs.value,
       },
     });
-  }else if(item.tipo === "INVENTÁRIO E PARTILHA"){
+  }else if(item.rota === "/fontes/atos/ato-com-bem/geral"){
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -279,6 +281,17 @@ const { data } = await useFetch(atosPayload, {
     ordemserv_token: ordemserv_token,
   },
 });
+async function deleteAto(item) {
+  item.excluido = !item.excluido;
+  try {
+    await fetchWithToken(`${updateAto}/${item.id}`, {
+      method: "PUT",
+      body: { excluido: item.excluido },
+    });
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
+  }
+}
 if (data.value.length > 0) {
   atosItems.value = data.value;
 } else {

@@ -1,15 +1,23 @@
 <template>
-  <v-app>
-    <v-app-bar color="#f5f2f2" height="85">
-      <h5 style="color: #525050; margin-left: 30px">
-        {{ useCookie("user-data").value.cartorio_nome }}
-      </h5>
+  <v-app >
+    <v-app-bar color="#0a063b" height="100">
+      <div>
+        <img
+        class="ml-5 mt-2"
+          :width="300"
+          :height="50"
+          src="../assets/logo_navbar.png"
+        ></img>
+    <h3 style="color: white; margin-left: 30px">
+      {{ useCookie("user-data").value.cartorio_nome }}
+    </h3> 
+      </div>
       <v-spacer></v-spacer>
 
       <!-- Loop de menus -->
       <v-menu v-for="(menu, index) in menuName" :key="index">
         <template v-slot:activator="{ props }">
-          <v-btn style="color: #525050" v-bind="props">
+          <v-btn style="color: white" v-bind="props">
             {{ menu.name }}
           </v-btn>
         </template>

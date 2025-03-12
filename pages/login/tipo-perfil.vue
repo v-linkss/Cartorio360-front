@@ -1,28 +1,30 @@
 <template>
-  <v-row>
-    <v-col cols="4" class="d-flex align-center justify-center">
+  <v-row style="background-color:#0a063b;">
+    <v-col cols="5" class="d-flex align-center justify-center">
       <v-container>
         <center>
           <v-img
             style="margin-bottom: 30px"
-            :width="300"
-            :height="230"
-            src="../../assets/cartorio_logo.jpeg"
+            :width="400"
+            :height="330"
+            src="../../assets/logo_login.png"
           ></v-img>
         </center>
         <v-autocomplete
           v-model="perfil_descricao"
           variant="outlined"
           :items="cartorios"
+           style="background-color: aliceblue; margin-left: 90px;"
           item-title="cartorio_descricao"
           item-value="perfil_descricao"
           label="Selecione uma opção"
+          width="570"
         />
         <v-btn
+          rounded
           @click="acessarSistema()"
-          color="green"
-          style="margin-bottom: 220px; margin-top: 30px"
-          block
+          color="primary"
+          style="margin-bottom: 220px; margin-top: 30px;width: 570px; margin-left: 90px"
           >Acessar</v-btn
         >
       </v-container>
@@ -43,7 +45,6 @@ definePageMeta({
 
 const cartorios = cartorioStore.cartorioInfos
 const perfil_descricao = ref(null);
-
 const acessarSistema = async () => {
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",

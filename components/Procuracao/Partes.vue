@@ -41,7 +41,7 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col cols="3">
+      <!-- <v-col cols="3">
         <v-autocomplete
           label="Papel"
           v-model="state.papeis"
@@ -51,7 +51,7 @@
           required
         >
         </v-autocomplete>
-      </v-col>
+      </v-col> -->
       <div>
         <img
           class="mt-3"
@@ -266,7 +266,9 @@ const { data } = await useFetch(papeisApresentante, {
   method: "POST",
   body: { tipo_ato_token: props.ato_token },
 });
+
 papeisItems.value = data.value;
+
 
 async function searchPessoasService() {
   try {
@@ -335,10 +337,10 @@ const createRepresentante = async () => {
     const { data, error, status } = await useFetch(criarAtoPessoa, {
       method: "POST",
       body: {
-        ato_id: props.ato_id,
+        ato_id: Number(props.ato_id),
         pessoa_id: state.pessoa.id,
         tipo_parte_id: state.papeis,
-        user_id: useCookie("user-data").value.usuario_id,
+        user_id: Number(useCookie("user-data").value.usuario_id),
       },
     });
 
@@ -346,9 +348,9 @@ const createRepresentante = async () => {
       representante.id = data.value.id
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);
-    } else {
-      $toast.error("Erro ao registrar a pessoa!");
-    }
+    } else{
+    $toast.error(error.value.message)
+  }
   } catch (error) {
     $toast.error("Erro no servidor. Tente novamente.");
   }
