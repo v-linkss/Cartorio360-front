@@ -1,5 +1,5 @@
 import { hasInjectionContext, inject as inject$1, version as version$1, unref, ref, watch, onScopeDispose, isVNode, Comment, Fragment, warn, getCurrentInstance as getCurrentInstance$1, computed, provide, defineComponent as defineComponent$1, capitalize, camelize, h, toRaw, createVNode, mergeProps, readonly, nextTick, shallowRef, isRef, toRef, reactive, toRefs, Text, watchEffect, Transition, resolveDynamicComponent, withDirectives, createTextVNode, Teleport, vShow, resolveDirective, markRaw, cloneVNode, defineAsyncComponent, shallowReactive, Suspense, effectScope, TransitionGroup, useSSRContext, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, isReadonly, withCtx, isShallow, isReactive } from 'vue';
-import { $ as $fetch, k as hasProtocol, l as isScriptProtocol, m as joinURL, w as withQuery, e as createError$1, n as klona, p as parse, o as getRequestHeader, q as sanitizeStatusCode, d as destr, r as isEqual$1, v as setCookie, x as getCookie, y as deleteCookie, z as getContext, A as createHooks, B as toRouteMatcher, C as createRouter$1, D as defu } from '../_/nitro.mjs';
+import { $ as $fetch, h as hasProtocol, i as isScriptProtocol, k as joinURL, w as withQuery, c as createError$1, l as klona, p as parse, m as getRequestHeader, s as sanitizeStatusCode, n as destr, o as isEqual$1, q as setCookie, r as getCookie, t as deleteCookie, v as getContext, x as createHooks, y as toRouteMatcher, z as createRouter$1, A as defu } from '../nitro/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { createPinia, setActivePinia, shouldHydrate } from 'pinia';
 import { getActiveHead, CapoPlugin } from 'unhead';
@@ -11,8 +11,8 @@ import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/serve
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:url';
 import 'node:path';
+import 'node:url';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';
 import '@unhead/ssr';
@@ -607,42 +607,42 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-DpRBzzcw.mjs')
+    component: () => import('./_id_-D_oq8zQN.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-AzQVcmGb.mjs')
+    component: () => import('./geral-BdklkZMz.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-8ZEkrm04.mjs')
+    component: () => import('./_id_-_rD2cXcC.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-CPjjr2Ff.mjs')
+    component: () => import('./geral-DMrqUZHQ.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-Bg5cy9zp.mjs')
+    component: () => import('./autenticacao-CXNrxIrD.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Cs3IDVrx.mjs')
+    component: () => import('./procuracao-Bh4PlkfC.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-DnPVaAJ8.mjs')
+    component: () => import('./autencidade-BVf1i1Al.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-UrRgKJc-.mjs')
+    component: () => import('./semelhanca-D1DfgtFz.mjs')
   },
   {
     name: "index",
@@ -653,7 +653,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-tc2RK9LS.mjs')
+    component: () => import('./index-DsKQ4gz-.mjs')
   },
   {
     name: "login-tipo-perfil",
@@ -669,7 +669,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DKCf9tFT.mjs')
+    component: () => import('./criar-ato-DRjxa_Hs.mjs')
   },
   {
     name: "os-criar-registro",
@@ -684,12 +684,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BLLKVa3b.mjs')
+    component: () => import('./_id_-CGhox2J-.mjs')
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-COZ_SWkN.mjs')
+    component: () => import('./index-DmN09FCT.mjs')
   },
   {
     name: "pessoas-lista",
@@ -699,16 +699,12 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-Ce_wgqiT.mjs')
+    component: () => import('./_id_-Bmm8soTs.mjs')
   },
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
-<<<<<<< HEAD
-    component: () => import('./lista-yJsJbnHP.mjs')
-=======
-    component: () => import('./lista-CXcyzXC5.mjs')
->>>>>>> 0c74bdc6b1c7ccd52424351785d24d3509924098
+    component: () => import('./lista-DNmuZMFY.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",
@@ -10347,7 +10343,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-yUgP4tAG.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-BUKNe-0f.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
