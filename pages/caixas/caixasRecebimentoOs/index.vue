@@ -23,18 +23,18 @@
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px; margin-top: -5px">
+        <v-row style="display: flex; gap: 4px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
-            :title="item.btn_receber ?  'Bloqueado': 'Receber'"
+            :title="item.btn_receber ?  'Receber':'Bloqueado' "
             @click="
-              item.btn_receber ? null : redirectToRecebimento(item.numero, item)
+              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
             "
             title="Receber"
           >
             <img
               :style="{
-                cursor: item.btn_receber ? 'default' : 'pointer',
+                cursor: item.btn_receber ?  'pointer' : 'default',
                 width: '30px',
                 height: '30px',
               }"
@@ -44,7 +44,7 @@
           </div>
           <div
             :class="{ disabled: !item.btn_encerrar }"
-            @click="item.btn_encerrar ? false : openCancelamentoModal(item.id)"
+            @click="item.btn_encerrar ?  openCancelamentoModal(item.id) : false"
             title="Cancelamento"
           >
             <img
@@ -109,6 +109,7 @@ const headers = [
   { title: "Apresentante", value: "apresentante_nome" },
   { title: "Usuário", value: "usuario_nome" },
   { title: "Valor", value: "valor" },
+  { title: "A Receber", value: "valor_pago" },
   { title: "Ações", value: "actions" },
 ];
 

@@ -118,7 +118,7 @@
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 10px; margin-top: -5px">
+        <v-row style="display: flex; gap: 4px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
             :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
@@ -243,6 +243,7 @@ const headers = [
   { title: "Apresentante", value: "apresentante_nome" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Valor", value: "valor" },
+  {title: "A Receber", value: "valor_pago"},
   {
     value: "actions",
   },
@@ -290,7 +291,12 @@ async function searchOrdersService() {
       },
     });
     if (servicosData.value.length > 0) {
-      servicosItems.value = servicosData.value;
+      servicosItems.value = servicosData.value.map((item) => {
+        return {
+          ...item,
+          data: formatDate(item.data, "dd/mm/yyyy"),
+        };
+      });
     } else {
       servicosItems.value = [];
       $toast.error("Não existe Ordem de Serviço Registrada!")
@@ -326,6 +332,7 @@ const servicosDataTable = async () => {
       },
     });
     if (servicosData.value.length > 0) {
+      console.log(servicosData.value);
       servicosItems.value = servicosData.value.map((item) => {
         return {
           ...item,
