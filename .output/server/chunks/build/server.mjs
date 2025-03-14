@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-CrfRMk_-.mjs')
+    component: () => import('./index-BukZxbVx.mjs')
   },
   {
     name: "caixas-lista",
@@ -679,7 +679,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-B2avXMmt.mjs')
+    component: () => import('./index-B528qTsf.mjs')
   },
   {
     name: "pessoas-atualizar-id",
@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
-    component: () => import('./lista-DNmuZMFY.mjs')
+    component: () => import('./lista-Dx8U-mW0.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",

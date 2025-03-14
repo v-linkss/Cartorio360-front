@@ -66,8 +66,7 @@
               <img
                 v-if="item.btn_cancelar === false"
                 src="../../assets/excluido.png"
-                style="width: 30px; height: 30px; cursor: pointer"
-                @click="removeFormValueFromTable(item)"
+                style="width: 30px; height: 30px; cursor: not-allowed;"
                 alt="Remover"
               />
             </div>
@@ -250,15 +249,14 @@ const addNewRow = () => {
 const removeFormValueFromTable = async (itemRemove) => {
   const index = selosItems.value.indexOf(itemRemove);
   if (itemRemove.id && itemRemove.id !== null) {
-    itemRemove.excluido = !itemRemove.excluido;
+    itemRemove.btn_cancelar = !itemRemove.btn_cancelar;
     const { status } = await useFetch(
       `${atualizarStatusCaixa}/${itemRemove.id}`,
       {
         method: "PUT",
-        body: { excluido: itemRemove.excluido },
+        body: { excluido: true },
       }
     );
-
     if (status.value === "success") {
       // Atualiza o botão para indicar que pode ser removido
       $toast.success("Item marcado para remoção.");

@@ -20,7 +20,6 @@ const { data } = await useFetch(getRelatorios, {
 });
 
 relatorios.value = Array.isArray(data.value) ? data.value : [];
-console.log(relatorios.value)
 const options = computed(() =>
   relatorios.value.every((relatorio) => 
     !relatorio.codigo && !relatorio.value && !relatorio.parametros
@@ -69,6 +68,7 @@ const handleRelatorioChange = async (selected) => {
 };
 
 const handleCreateRelatorio = async (input) => {
+
   // Prepara os dados para envio com base no formulário preenchido
   const parametros = formInputs.value.reduce((acc, input) => {
     acc[input.parametro] = input.value;
@@ -78,12 +78,11 @@ const handleCreateRelatorio = async (input) => {
     const novoRelatorio = {
       ...parametros,
       // user_id: useCookie("user-data").value.usuario_id,
-      atos: null,
       cartorio_token: useCookie("user-data").value.cartorio_token,
-      consulta: selectedRelatorio
+      consulta: selectedRelatorio.value
 
     }    
-
+    console.log(novoRelatorio)
     // {"atos":null,"user_id":2,"consulta":"TIPOS ATOS - PARTES"}
     const {data} = await useFetch(createRelatorios, {
       method: "POST",
@@ -93,10 +92,7 @@ const handleCreateRelatorio = async (input) => {
     const blob = new Blob([data.value], { type: "text/html" });
     const url = URL.createObjectURL(blob);
 
-    // Abrir o relatório em uma nova aba
     window.open(url, "_blank");
-    // window.open(data.value, "_blank")
-    // Limpa o formulário após o envio
     formInputs.value = [];
     selectedRelatorio.value = null;
 
