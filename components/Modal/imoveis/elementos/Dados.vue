@@ -325,4 +325,11 @@ onMounted(() => {
     loading.value = false; // Caso não tenha ID, finaliza o carregamento
   }
 });
+watch(
+  [() => state.vlr_avaliacao, () => state.aliq_itbi ],
+  ([novo_vlr_avaliacao, novo_aliq_itbi]) => {
+    state.vlr_itbi = (novo_vlr_avaliacao * novo_aliq_itbi) / 100;
+  }
+)
+
 </script>
