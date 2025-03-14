@@ -109,7 +109,7 @@ const headers = [
   { title: "Apresentante", value: "apresentante_nome" },
   { title: "Usuário", value: "usuario_nome" },
   { title: "Valor", value: "valor" },
-  { title: "A Receber", value: "valor_pago" },
+  { title: "A Receber", value: "valor_a_receber" },
   { title: "Ações", value: "actions" },
 ];
 
