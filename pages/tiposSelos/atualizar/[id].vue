@@ -48,7 +48,7 @@ async function HandleSubmitEdit() {
       uf: form.value.uf,
       cor: form.value.cor,
       descricao: form.value.descricao,
-      vlr_compra: form.value.vlr_compra,
+      vlr_compra: form.value.vlr_compra.replace(/,/g, ""),
     };
 
     await useFetch(`${updateSelo}/${id}`, {

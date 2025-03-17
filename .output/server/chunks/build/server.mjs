@@ -607,12 +607,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-DpRBzzcw.mjs')
+    component: () => import('./_id_-1QMqOcC6.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-AzQVcmGb.mjs')
+    component: () => import('./geral-CEAE8n38.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Cs3IDVrx.mjs')
+    component: () => import('./procuracao-Bc0zbpsx.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -669,7 +669,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DKCf9tFT.mjs')
+    component: () => import('./criar-ato-j2uGHNWx.mjs')
   },
   {
     name: "os-criar-registro",
@@ -709,12 +709,12 @@ const _routes = [
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
-    component: () => import('./_id_-B3DbG99S.mjs')
+    component: () => import('./_id_-CE2OQJrn.mjs')
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
-    component: () => import('./index-BaRoRTEo.mjs')
+    component: () => import('./index-BBgvU8YV.mjs')
   },
   {
     name: "tiposSelos-lista",

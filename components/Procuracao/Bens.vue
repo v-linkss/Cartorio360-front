@@ -198,7 +198,7 @@ const createTiposDeBens = async () => {
       descricao: state.descricao,
       tipo_id: state.tipo_id,
       valor_mercado: '0.00',
-      vlr_alienacao: state.vlr_alienacao,
+      vlr_alienacao: state.vlr_alienacao.replace(/,/g, ""),
       user_id: user_id,
       ato_id: Number.parseInt(props.ato_id),
       token: route.query.ato_token_edit,
@@ -222,7 +222,7 @@ const updateAtosBensModal = async (id) => {
     body: {
       descricao: selectedBem.value.descricao,
       tipo_id: selectedBem.value.tipo_id,
-      vlr_alienacao: selectedBem.value.vlr_alienacao,
+      vlr_alienacao: selectedBem.value.vlr_alienacao.replace(/,/g, ""),
     },
   });
   if (status.value === "success") {

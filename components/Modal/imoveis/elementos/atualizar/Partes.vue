@@ -73,11 +73,11 @@ watch(
     if (newVal) {
       await getPartesAtos();
       state.tipo_parte_id = props.partes_imovel.partes_tipos.descricao || null;
-      state.percentual = props.partes_imovel.percentual || null;
+      state.percentual = props.partes_imovel.percentual.replace(/,/g, "") || null;
 
       initialState.value = {
         tipo_parte_id: state.tipo_parte_id,
-        percentual: state.percentual,
+        percentual: state.percentual.replace(/,/g, ""),
       };
     }
   }

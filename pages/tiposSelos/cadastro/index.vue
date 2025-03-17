@@ -21,7 +21,7 @@ const HandleCreateSelo = async () => {
       uf: form.value.uf,
       cor: form.value.cor,
       descricao: form.value.descricao,
-      vlr_compra: form.value.vlr_compra,
+      vlr_compra: form.value.vlr_compra.replace(/,/g, ""),
       user_id: useCookie("user-data").value.usuario_id,
       user_alteracao_id: useCookie("user-data").value.usuario_id
     }
