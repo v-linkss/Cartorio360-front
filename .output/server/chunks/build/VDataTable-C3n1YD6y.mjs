@@ -1,7 +1,7 @@
 import { shallowRef, computed, toRef, createVNode, mergeProps, Fragment, createTextVNode, withModifiers, toDisplayString, ref, nextTick, watchEffect, provide, inject, watch, capitalize } from 'vue';
 import { p as propsFactory, I as IconValue, w as makeBorderProps, m as makeComponentProps, x as makeDensityProps, y as makeElevationProps, z as makeRoundedProps, A as makeSizeProps, g as makeTagProps, B as makeThemeProps, C as makeVariantProps, h as genericComponent, D as useProxiedModel, E as useLocale, j as useRtl, F as provideTheme, G as useDisplay, H as provideDefaults, J as useResizeObserver, K as createRange, k as useRender, f as VBtn, O as defineFunctionalComponent, P as convertToUnit, U as makeDisplayProps, W as makeLoaderProps, X as useLoader, Y as useBackgroundColor, Z as LoaderSlot, a1 as EventProp, a0 as getObjectValueByPath, a2 as useDensity, v as isOn, L as keyValues, M as getCurrentInstance, R as deepEqual, S as wrapInArray, T as isEmpty, $ as VIcon, N as clamp, a3 as getPropertyFromItem, Q as consoleError } from './server.mjs';
-import { V as VSelect, f as VCheckboxBtn, b as makeFilterProps, u as useFilter, g as VChip } from './filter-D8lmgvWc.mjs';
-import { c as VDivider } from './VList-BYK7AaxH.mjs';
+import { V as VSelect, b as VCheckboxBtn, c as makeFilterProps, u as useFilter, d as VChip } from './filter-D8lmgvWc.mjs';
+import { V as VDivider } from './VList-BYK7AaxH.mjs';
 
 function getPrefixedEventHandlers(attrs, suffix, getData) {
   return Object.keys(attrs).filter((key) => isOn(key) && key.endsWith(suffix)).reduce((acc, key) => {

@@ -1548,5 +1548,5 @@ const VList = genericComponent()({
   }
 });
 
-export { VList as V, useItems as a, VListItem as b, VDivider as c, VListItemTitle as d, makeItemsProps as m, useSsrBoot as u };
+export { VDivider as V, useItems as a, VList as b, VListItem as c, VListItemTitle as d, makeItemsProps as m, useSsrBoot as u };
 //# sourceMappingURL=VList-BYK7AaxH.mjs.map

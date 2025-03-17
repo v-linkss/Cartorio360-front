@@ -1,6 +1,6 @@
 import { computed, provide, onScopeDispose, toRef, createVNode, shallowRef, ref, mergeProps, withDirectives, Fragment, resolveDirective, vShow, watch, createTextVNode, unref, watchEffect, inject, nextTick } from 'vue';
 import { p as propsFactory, I as IconValue, R as deepEqual, m as makeComponentProps, x as makeDensityProps, B as makeThemeProps, h as genericComponent, D as useProxiedModel, ay as getUid, H as provideDefaults, k as useRender, aa as Ripple, az as filterInputAttrs, $ as VIcon, aA as VLabel, ap as omit, U as makeDisplayProps, g as makeTagProps, aB as makeGroupProps, j as useRtl, G as useDisplay, aC as useGroup, J as useResizeObserver, aD as useGoTo, aE as VFadeTransition, C as makeVariantProps, F as provideTheme, a1 as EventProp, w as makeBorderProps, y as makeElevationProps, aG as makeGroupItemProps, z as makeRoundedProps, a9 as makeRouterProps, A as makeSizeProps, E as useLocale, ab as useBorder, ac as useVariant, a2 as useDensity, ae as useElevation, ah as useRounded, aH as useSize, aI as useGroupItem, ai as useLink, aj as genOverlays, aJ as VExpandXTransition, a5 as VDefaultsProvider, a6 as makeDimensionProps, M as getCurrentInstance, ad as useDimension, aL as useToggleScope, P as convertToUnit, aq as makeVTextFieldProps, ar as makeTransitionProps$1, al as VDialogTransition, S as wrapInArray, at as useForm, V as VTextField, au as VMenu, av as ensureValidVNode, an as forwardRefs, as as useTextColor, Y as useBackgroundColor, ax as matchesSelector, aF as focusableChildren, aK as debounce, N as clamp, a3 as getPropertyFromItem } from './server.mjs';
-import { m as makeItemsProps, a as useItems, V as VList, b as VListItem } from './VList-BYK7AaxH.mjs';
+import { m as makeItemsProps, a as useItems, b as VList, c as VListItem } from './VList-BYK7AaxH.mjs';
 import { a as VAvatar } from './VAvatar-CmbR2XIC.mjs';
 
 const VSelectionControlGroupSymbol = Symbol.for("vuetify:selection-control-group");
@@ -1926,5 +1926,5 @@ function useFilter(props, items, query, options) {
   };
 }
 
-export { VSelect as V, VSlideGroup as a, makeFilterProps as b, makeSelectProps as c, useScrolling as d, VVirtualScroll as e, VCheckboxBtn as f, VChip as g, makeVSlideGroupProps as m, useFilter as u };
+export { VSelect as V, VSlideGroup as a, VCheckboxBtn as b, makeFilterProps as c, VChip as d, makeSelectProps as e, useScrolling as f, VVirtualScroll as g, makeVSlideGroupProps as m, useFilter as u };
 //# sourceMappingURL=filter-D8lmgvWc.mjs.map

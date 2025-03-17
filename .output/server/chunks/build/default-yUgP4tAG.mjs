@@ -4,7 +4,7 @@ import { p as propsFactory, m as makeComponentProps, g as makeTagProps, h as gen
 import { createVNode, toRef, shallowRef, computed, ref, mergeProps, watch, watchEffect, withCtx, unref, createTextVNode, toDisplayString, openBlock, createBlock, Fragment, renderList, renderSlot, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle, ssrInterpolate, ssrRenderList, ssrRenderSlot } from 'vue/server-renderer';
 import { V as VImg } from './VAvatar-CmbR2XIC.mjs';
-import { u as useSsrBoot, V as VList, b as VListItem, d as VListItemTitle } from './VList-BYK7AaxH.mjs';
+import { u as useSsrBoot, b as VList, c as VListItem, d as VListItemTitle } from './VList-BYK7AaxH.mjs';
 import { V as VContainer } from './VContainer-CTpFP9Uv.mjs';
 import 'vue-bundle-renderer/runtime';
 import '../_/nitro.mjs';
