@@ -311,12 +311,17 @@ const updateImovelModal = async (id) => {
   }
 };
 
-
-
 const goBack = () => {
   emit("close-modal");
   emit('refresh-list')
 };
+
+watch(
+  [() => state.vlr_avaliacao.replace(/,/g, ""), () => state.aliq_itbi.replace(/,/g, "") ],
+  ([novo_vlr_avaliacao, novo_aliq_itbi]) => {
+    state.vlr_itbi = ((Number(novo_vlr_avaliacao) * Number(novo_aliq_itbi)) / 100).toFixed(2);
+  }
+)
 
 onMounted(() => {
   if (id || props.ato_id) {
