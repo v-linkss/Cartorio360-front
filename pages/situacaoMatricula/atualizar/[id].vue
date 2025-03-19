@@ -74,7 +74,7 @@ async function HandleSubmitEdit() {
       </v-row>
       <v-row>
         <v-col>
-          <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
+          <v-btn size="large" color="red" to="/situacaoMatricula/lista">Voltar</v-btn>
           <v-btn
             type="submit"
             class="ml-4"
