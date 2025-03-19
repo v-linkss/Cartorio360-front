@@ -679,7 +679,7 @@ const _routes = [
   {
     name: "matriculas-vizualizar-id",
     path: "/matriculas/vizualizar/:id()",
-    component: () => import('./_id_-D6akBUri.mjs')
+    component: () => import('./_id_-AK4hXC41.mjs')
   },
   {
     name: "os-atualizar-id",
@@ -699,7 +699,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-CeM5Loua.mjs')
+    component: () => import('./index-Bj2tbuvM.mjs')
   },
   {
     name: "pessoas-atualizar-id",
@@ -719,7 +719,7 @@ const _routes = [
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-Ce_wgqiT.mjs')
+    component: () => import('./_id_-BkA8rQsS.mjs')
   },
   {
     name: "relatorios-lista",

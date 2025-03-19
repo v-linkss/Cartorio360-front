@@ -15,7 +15,7 @@
         <v-col>
           <v-sheet class="pa-2 ma-2">
             Data de Nascimento:
-            {{ formatDate(PessoaView.data_nascimento )}}
+            {{ PessoaView.data_nascimento ? formatDate(PessoaView.data_nascimento ): null}}
           </v-sheet>
         </v-col>
 

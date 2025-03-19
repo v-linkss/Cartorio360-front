@@ -295,7 +295,7 @@ async function searchOrdersService() {
       servicosItems.value = servicosData.value.map((item) => {
         return {
           ...item,
-          data: formatDate(item.data, "dd/mm/yyyy"),
+          data: item.data ? formatDate(item.data, "dd/mm/yyyy") : null,
         };
       });
     } else {
