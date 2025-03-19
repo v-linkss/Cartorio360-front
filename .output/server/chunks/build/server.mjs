@@ -727,6 +727,26 @@ const _routes = [
     component: () => import('./lista-Dx8U-mW0.mjs')
   },
   {
+    name: "situacaoMatricula-atualizar-id",
+    path: "/situacaoMatricula/atualizar/:id()",
+    component: () => import('./_id_-BkDMLCuZ.mjs')
+  },
+  {
+    name: "situacaoMatricula-cadastro",
+    path: "/situacaoMatricula/cadastro",
+    component: () => import('./index-DBJEzQF6.mjs')
+  },
+  {
+    name: "situacaoMatricula-lista",
+    path: "/situacaoMatricula/lista",
+    component: () => import('./index-Dn3zMraz.mjs')
+  },
+  {
+    name: "situacaoMatricula-vizualizar-id",
+    path: "/situacaoMatricula/vizualizar/:id()",
+    component: () => import('./_id_-BFf6gDyf.mjs')
+  },
+  {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
     component: () => import('./_id_-CE2OQJrn.mjs')
