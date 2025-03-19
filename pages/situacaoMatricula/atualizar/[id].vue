@@ -6,9 +6,12 @@ const getSituacaoMatricula = `${config.public.managemant}/situacao-matriculas`;
 const route = useRoute();
 const { id } = route.params;
 
+const userData = ref(useCookie("user-data").value || {});
+
 const form = ref({
   situacao: null,
   descricao: null,
+  observacao: null,
 });
 
 
@@ -19,13 +22,13 @@ async function fetchSituacaoMatricula() {
       form.value = {
         situacao: situacaomatriculaData.value.situacao,
         descricao: situacaomatriculaData.value.descricao,
+        observacao: situacaomatriculaData.value.observacao,
       };
     }
   } catch (error) {
     console.error("Erro ao carregar os dados da situação da matricula:", error);
   }
 }
-
 
 await fetchSituacaoMatricula();
 
@@ -34,14 +37,20 @@ async function HandleSubmitEdit() {
     const edicaoSituacaoMatricula = {
       situacao: form.value.situacao,
       descricao: form.value.descricao,
+      observacao: form.value.observacao,
+      user_alteracao_id: userData.value.usuario_id,
     };
+
+    console.log(edicaoSituacaoMatricula)
 
     await useFetch(`${updateSituacaoMatricula}/${id}`, {
       method: "PUT",
       body: edicaoSituacaoMatricula,
     });
+    console.log("Atualizando situação matrícula ID:", id);
 
-    navigateTo("/tiposSelos/lista")
+
+    navigateTo("/situacaoMatricula/lista")
   } catch (error) {
     console.error("Erro ao atualizar a situação da matricula:", error);
   }
@@ -67,6 +76,16 @@ async function HandleSubmitEdit() {
           <v-text-field
           v-model="form.descricao"
           label="Descrição"
+          required
+          outlined
+        />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+          v-model="form.observacao"
+          label="Obervação"
           required
           outlined
         />

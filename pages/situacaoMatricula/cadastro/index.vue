@@ -19,8 +19,8 @@ const handleCreateSituacaoMatricula = async () => {
       situacao: form.value.situacao,
       descricao: form.value.descricao,
       observacao: form.value.observacao,
-      user_id: userData.value,
-      user_alteracao_id: userData.value,
+      user_id: userData.value.usuario_id,
+      user_alteracao_id: userData.value.usuario_id,
       cartorio_id
     }
 

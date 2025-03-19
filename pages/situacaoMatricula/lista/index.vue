@@ -89,7 +89,7 @@
 <script setup>
 const config = useRuntimeConfig();
 const situacaoLista = `${config.public.managemant}/listar_situacao_matriculas`;
-const situacaoUpdate = `${config.public.managemant}/situacao-matriculas`;
+const situacaoDelete = `${config.public.managemant}/situacao-matriculas/delete`;
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
@@ -116,8 +116,6 @@ const { data: situacaoMatricula, status } = await useFetch(`${situacaoLista}`,{
     body: cartorioTokenPayload
 });
 
-console.log('sitaucao matricula', situacaoMatricula.value)
-
 const filteredSituacaoMatricula = computed(() => {
   if (!situacaoMatricula.value) return [];
 
@@ -130,13 +128,10 @@ const filteredSituacaoMatricula = computed(() => {
   });
 });
 
-
-console.log('filtro', filteredSituacaoMatricula.value)
-
 async function deleteSituacaoMatricula(item) {
   item.excluido = !item.excluido;
   try {
-    await fetchWithToken(`${situacaoUpdate}/${item.id}`, {
+    await useFetch(`${situacaoDelete}/${item.id}`, {
       method: "PUT",
       body: { excluido: item.excluido },
     });
