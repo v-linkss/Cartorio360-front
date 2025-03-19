@@ -1,33 +1,26 @@
 <script setup>
 const config = useRuntimeConfig();
-const updateSelo = `${config.public.managemant}/tipo-selos`;
+const updateSituacaoMatricula = `${config.public.managemant}/tipo-selos`;
 const selo = `${config.public.managemant}/tipo-selos`;
 const getUfs = `${config.public.managemant}/listarUF`;
 
 const route = useRoute();
-const { id } = route.params; // Obtém o ID da rota
+const { id } = route.params;
 
-// Estado para o formulário
 const form = ref({
-  uf: null,
-  cor: null,
+  situacao: null,
   descricao: null,
-  vlr_compra: null,
 });
 
-// Lista de UFs
 const ufList = ref([]);
 
-// Função para carregar os dados do selo
 async function loadSeloData() {
   try {
     const { data: seloData } = await useFetch(`${selo}/${id}`, { method: "GET" });
     if (seloData.value) {
       form.value = {
-        uf: seloData.value.uf,
-        cor: seloData.value.cor,
+        situacao: seloData.value.situacao,
         descricao: seloData.value.descricao,
-        vlr_compra: seloData.value.vlr_compra,
       };
     }
   } catch (error) {
@@ -35,9 +28,6 @@ async function loadSeloData() {
   }
 }
 
-// Carrega a lista de UFs e os dados do selo ao montar o componente
-const { data: ufs } = await useFetch(getUfs, { method: "GET" });
-ufList.value = ufs.value;
 
 await loadSeloData();
 
@@ -46,12 +36,12 @@ async function HandleSubmitEdit() {
   try {
     const edicaoSelo = {
       uf: form.value.uf,
-      cor: form.value.cor,
+      situacao: form.value.situacao,
       descricao: form.value.descricao,
       vlr_compra: form.value.vlr_compra.replace(/,/g, ""),
     };
 
-    await useFetch(`${updateSelo}/${id}`, {
+    await useFetch(`${updateSituacaoMatricula}/${id}`, {
       method: "PUT",
       body: edicaoSelo,
     });
@@ -69,20 +59,9 @@ async function HandleSubmitEdit() {
     <v-form @submit.prevent="HandleSubmitEdit">
       <v-row>
         <v-col cols="3">
-          <v-autocomplete
-            v-model="form.uf"
-            :items="ufList"
-            item-title="descricao"
-            item-value="sigla"
-            label="UF"
-            required
-            outlined
-          />
-        </v-col>
-        <v-col cols="3">
           <v-text-field
-            v-model="form.cor"
-            label="Cor"
+            v-model="form.situacao"
+            label="situacao"
             required
             outlined
           />

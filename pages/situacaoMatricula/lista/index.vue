@@ -88,8 +88,8 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const situacaoLista = `${config.public.auth}/listar_situacao_matriculas`;
-const situacaoUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
+const situacaoLista = `${config.public.managemant}/listar_situacao_matriculas`;
+const situacaoUpdate = `${config.public.managemant}/situacao-matriculas`;
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
@@ -100,7 +100,7 @@ const search = ref("");
 const searchDoc = ref("");
 
 const headers = [
-  { title: "Descrição", value: "situacao_descricao" },
+  { title: "Descrição", value: "descricao" },
   { title: "Situação", value: "situacao" },
   { value: "actions" },
 ];
@@ -110,29 +110,27 @@ const cartorioTokenPayload = {
     // user_token: usuario_token.value
 }
 
-console.log('cartorio token', cartorio_token.value)
-console.log('user token', usuario_token.value)
-
-const { data: situacaoMatricula, status } = await fetchWithToken(`${situacaoLista}`,{
+const { data: situacaoMatricula, status } = await useFetch(`${situacaoLista}`,{
     method:'POST',
     body: cartorioTokenPayload
 });
 
+console.log('sitaucao matricula', situacaoMatricula.value)
+
 const filteredSituacaoMatricula = computed(() => {
-  return situacaoMatricula.value.data.filter((item) => {
-    const situacaomatriculaDescricao = item.situacao_descricao
-      ? item.situacao_descricao.toLowerCase()
-      : "";
-    const situacao = item.situacao ? item.situacao.toLowerCase() : "";
+  if (!situacaoMatricula.value) return [];
 
-    const matchSituacaomatriculaDescricao = situacaomatriculaDescricao.includes(searchDoc.value.toLowerCase());
-    const matchSituacao = situacao.includes(search.value.toLowerCase());
+  return situacaoMatricula.value.filter((item) => {
+    const situacaomatriculaDescricao = item.situacao_descricao?.toLowerCase() ?? "";
+    const situacao = item.situacao?.toLowerCase() ?? "";
 
-    return matchSituacaomatriculaDescricao && matchSituacao;
+    return situacaomatriculaDescricao.includes(searchDoc.value.toLowerCase()) &&
+           situacao.includes(search.value.toLowerCase());
   });
 });
 
-console.log('matriculas', filteredSituacaoMatricula)
+
+console.log('filtro', filteredSituacaoMatricula.value)
 
 async function deleteSituacaoMatricula(item) {
   item.excluido = !item.excluido;
