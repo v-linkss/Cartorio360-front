@@ -94,6 +94,7 @@ const situacaoUpdate = `${config.public.managemant}/situacao-matriculas`;
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 
+
 const router = useRouter();
 
 const search = ref("");

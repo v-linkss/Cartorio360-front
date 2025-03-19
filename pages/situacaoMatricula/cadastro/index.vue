@@ -1,35 +1,71 @@
+<script setup>
+const config = useRuntimeConfig();
+const createSituacaoMatricula = `${config.public.managemant}/situacao-matriculas`;
+
+const userData = ref(useCookie("user-data").value || {});
+const cartorio_id = ref(useCookie("user-data").value.cartorio_id || null);
+
+console.log('cartorio_id:', cartorio_id)
+
+const form = ref({
+    situacao: null,
+    descricao: null,
+    observacao: null,
+})
+
+const handleCreateSituacaoMatricula = async () => {
+  try {
+    const situacaoMatricula = {
+      situacao: form.value.situacao,
+      descricao: form.value.descricao,
+      observacao: form.value.observacao,
+      user_id: userData.value,
+      user_alteracao_id: userData.value,
+      cartorio_id
+    }
+
+    await useFetch(`${createSituacaoMatricula}`, {
+      method: "POST",
+      body: situacaoMatricula,
+    });
+
+    form.value = {
+      situacao: null,
+      descricao: null,
+      observacao: null,
+    };
+
+  } catch (error) {
+    console.error('Erro ao criar situacao matricula:', error);
+  }
+};
+</script>
+
 <template>
-    <v-card width="1300">
-      <h1 style="background-color: #f5f2f2; color: #525050; padding: 5px 0px 0px 20px">
-        Cadastramento de Matriculas
-      </h1>
-  
-      <v-tabs v-model="tab" bg-color="#f5f2f2">
-        <v-tab value="dados">Dados</v-tab>
-        <v-tab v-if="showTabs" value="endereco">Endereços</v-tab>
-      </v-tabs>
-  
-      <v-tabs-window v-model="tab">
-        <v-tabs-window-item value="dados">
-          <Dados @saved="handleSave" />
-        </v-tabs-window-item>
-        <v-tabs-window-item v-if="showTabs" value="endereco">
-          <Endereco />
-        </v-tabs-window-item>
-      </v-tabs-window>
-    </v-card>
-  </template>
-  
-  <script setup>
-  
-  const tab = ref("dados");
-  const showTabs = ref(false);
-  const autocompleteDisabled = ref(false);
-  
-  const handleSave = () => {
-    showTabs.value = true;
-    autocompleteDisabled.value = true;
-  };
-  
-  </script>
-  
+  <v-container>
+    <h1 class="mb-5">Situação Matricula</h1>
+    <v-form @submit.prevent="handleCreateSituacaoMatricula">
+      <v-row>
+        <v-col cols="3">
+          <v-text-field v-model="form.situacao" label="Situação" required outlined />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field v-model="form.descricao" label="Descrição" required outlined />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field v-model="form.observacao" label="Observação" outlined />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn size="large" color="red" to="/situacaoMatricula/lista">Voltar</v-btn>
+          <v-btn type="submit" class="ml-4" size="large" color="green">Salvar</v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-container>
+</template>
