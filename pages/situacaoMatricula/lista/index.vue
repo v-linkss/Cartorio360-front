@@ -107,7 +107,7 @@ const headers = [
 
 const cartorioTokenPayload = {
     cartorio_token: cartorio_token.value,
-    // user_token: usuario_token.value
+    user_token: usuario_token.value
 }
 
 const { data: situacaoMatricula, status } = await useFetch(`${situacaoLista}`,{

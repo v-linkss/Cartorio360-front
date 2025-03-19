@@ -1,26 +1,90 @@
+<script setup>
+const config = useRuntimeConfig();
+const updateSituacaoMatricula = `${config.public.managemant}/situacao-matriculas`;
+const getSituacaoMatricula = `${config.public.managemant}/situacao-matriculas`;
+
+const route = useRoute();
+const { id } = route.params;
+
+const form = ref({
+  situacao: null,
+  descricao: null,
+});
+
+
+async function fetchSituacaoMatricula() {
+  try {
+    const { data: situacaomatriculaData } = await useFetch(`${getSituacaoMatricula}/${id}`, { method: "GET" });
+    if (situacaomatriculaData.value) {
+      form.value = {
+        situacao: situacaomatriculaData.value.situacao,
+        descricao: situacaomatriculaData.value.descricao,
+      };
+    }
+  } catch (error) {
+    console.error("Erro ao carregar os dados da situação da matricula:", error);
+  }
+}
+
+
+await fetchSituacaoMatricula();
+
+async function HandleSubmitEdit() {
+  try {
+    const edicaoSituacaoMatricula = {
+      situacao: form.value.situacao,
+      descricao: form.value.descricao,
+    };
+
+    await useFetch(`${updateSituacaoMatricula}/${id}`, {
+      method: "PUT",
+      body: edicaoSituacaoMatricula,
+    });
+
+    navigateTo("/tiposSelos/lista")
+  } catch (error) {
+    console.error("Erro ao atualizar a situação da matricula:", error);
+  }
+}
+</script>
+
 <template>
-    <v-card width="1300">
-      <h1 style="background-color: #f5f2f2; color: #525050; padding: 5px 0px 0px 20px">
-        Atualização de Matriculas
-      </h1>
-  
-      <v-tabs v-model="tab" bg-color="#f5f2f2">
-        <v-tab value="dados">Dados</v-tab>
-        <v-tab value="endereco">Endereços</v-tab>
-      </v-tabs>
-  
-      <v-tabs-window v-model="tab">
-        <v-tabs-window-item value="dados">
-          <Dados />
-        </v-tabs-window-item>
-        <v-tabs-window-item value="endereco">
-          <Endereco />
-        </v-tabs-window-item>
-      </v-tabs-window>
-    </v-card>
-  </template>
-  
-  <script setup>
-  const tab = ref("dados");
-  </script>
-  
+  <v-container>
+    <h1 class="mb-5">Edição de Situação matricula</h1>
+    <v-form @submit.prevent="HandleSubmitEdit">
+      <v-row>
+        <v-col cols="3">
+          <v-text-field
+            v-model="form.situacao"
+            label="situacao"
+            required
+            outlined
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+          v-model="form.descricao"
+          label="Descrição"
+          required
+          outlined
+        />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
+          <v-btn
+            type="submit"
+            class="ml-4"
+            size="large"
+            color="green"
+          >
+            Salvar
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-container>
+</template>
