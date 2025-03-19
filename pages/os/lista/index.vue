@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5">
+  <div class="mt-5" style="width: 100%;">
     <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
       <NuxtLink to="/os/criar-registro">
@@ -116,7 +116,7 @@
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
-    <v-data-table :headers="headers" :items="servicosItems" item-key="id">
+    <v-data-table :headers="headers" :items="servicosItems" item-key="id" >
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 4px; margin-top: -5px">
           <div
@@ -187,6 +187,7 @@
       :numero_os="numero_os"
       :ordem="selectedOrder"
       @close="isModalRecebimentoOpen = false"
+      @refresh-value="servicosDataTable()"
     />
     <CancelamentoOrdem
       :show="isModalCancelamentoOpen"
@@ -194,7 +195,7 @@
       :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false"
     />
-  </v-container>
+  </div>
 </template>
 
 <script setup>
@@ -236,14 +237,14 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "Data Recebimento", value: "data" },
-  { title: "Número", value: "numero" },
-  { title: "Situação", value: "situacao" },
-  { title: "CPF", value: "apresentante_cpf" },
-  { title: "Apresentante", value: "apresentante_nome" },
-  { title: "Usuario", value: "usuario_nome" },
-  { title: "Valor", value: "valor" },
-  {title: "A Receber", value: "valor_a_receber"},
+  { title: "Data Recebimento", value: "data" , width: "140px"},
+  { title: "Número", value: "numero" , width: "120px"},
+  { title: "Situação", value: "situacao" , width: "120px"},
+  { title: "CPF", value: "apresentante_cpf", width: "120px" },
+  { title: "Apresentante", value: "apresentante_nome", width: "120px" },
+  { title: "Usuario", value: "usuario_nome", width: "120px" },
+  { title: "Valor", value: "valor", width: "100px" },
+  {title: "A Receber", value: "valor_a_receber", width: "100px"},
   {
     value: "actions",
   },
@@ -332,7 +333,6 @@ const servicosDataTable = async () => {
       },
     });
     if (servicosData.value.length > 0) {
-      console.log(servicosData.value);
       servicosItems.value = servicosData.value.map((item) => {
         return {
           ...item,

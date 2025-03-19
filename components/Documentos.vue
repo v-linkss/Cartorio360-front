@@ -248,8 +248,8 @@ const {
   const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
     return {
       ...doc,
-      data_emissao: formatDate(doc.data_emissao),
-      data_vencimento: formatDate(doc.data_vencimento),
+      data_emissao: doc.data_emissao ? formatDate(doc.data_emissao) : null,
+      data_vencimento: doc.data_vencimento ? formatDate(doc.data_vencimento) : null,
     };
   });
   return {

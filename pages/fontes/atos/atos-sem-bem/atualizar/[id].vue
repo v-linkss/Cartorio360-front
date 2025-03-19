@@ -21,6 +21,17 @@
       ></v-autocomplete>
     </v-col>
   </v-row>
+  <div>
+    <img
+      :style="{
+        cursor: item.btn_editar ? 'pointer' : 'default',
+        width: '30px',
+        height: '30px',
+      }"
+      src="../../../assets/editar.png"
+      alt="Editar"
+    />
+  </div>
 </div> 
   <v-card width="1300">
     <v-tabs v-model="tab" bg-color="#f5f2f2">

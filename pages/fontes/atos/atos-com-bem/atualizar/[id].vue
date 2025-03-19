@@ -10,9 +10,22 @@
       <v-col md="6">
         <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
-      <v-col md="6">
+      <v-col md="5">
         <v-autocomplete v-model="label2" disabled></v-autocomplete>
       </v-col>
+      <div>
+        <img
+          class="mt-2"
+          :style="{
+            cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
+            width: '35px',
+            height: '35px',
+          }"
+          src="../../../../../assets/editar.png"
+          alt="Editar"
+          @click="openModal"
+        />
+      </div>
     </v-row>
   </div>
   <v-card width="1300">
@@ -57,9 +70,17 @@
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
+  <ModalTiposAtos
+    v-if="modalVisible"
+    :show="modalVisible"
+    :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []"
+    @close="modalVisible = false"
+  />
 </template>
 
 <script setup>
+
 const pages_prop = ref(null);
 const doc_prop = ref(null);
 const tab = ref(null);
@@ -69,12 +90,13 @@ const allSituacoes = `${config.public.auth}/service/gerencia/listarSituacoes`;
 const getAtoId = `${config.public.auth}/service/gerencia/getAtos`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const body = route.query.id
-  ? { ato_token: route.query.tipo_ato_token}
+  ? { ato_token: route.query.tipo_ato_token }
   : { cartorio_token: cartorio_token };
 const situacoesItems = ref([]);
 const dadosData = ref([]);
 const label = ref("PROCURAÇÕES");
 const label2 = ref("PROCURAÇÃO COM BENS");
+const modalVisible = ref(false);
 
 async function loadData() {
   try {
@@ -104,4 +126,10 @@ const getPages = (pages) => {
 const getDocument = (doc) => {
   doc_prop.value = doc;
 };
+
+function openModal() {
+  if (!dadosData.dt_lavratura) {
+    modalVisible.value = true;
+  }
+}
 </script>

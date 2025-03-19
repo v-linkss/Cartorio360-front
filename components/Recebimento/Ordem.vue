@@ -107,7 +107,7 @@ const props = defineProps({
   ordem: { type: Object, required: true },
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close","refresh-value"]);
 
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
@@ -167,6 +167,7 @@ watch(
 const closeModal = () => {
   isVisible.value = false;
   Object.assign(state, { forma: null, descricao: null, valor: "" });
+  recebimentos.value = [];
   selosItems.value = [];
   emit("close");
 };
@@ -183,7 +184,6 @@ const realizarRecebimentoCompleto = async () => {
       usuario_token,
       recebimentos: [recebimentos.value],
     };
-
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
       body: body,
@@ -192,6 +192,7 @@ const realizarRecebimentoCompleto = async () => {
     if (data.value[0].status === "OK") {
       $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
       selosItems.value = [];
+      emit('refresh-value')
       closeModal();
     } else {
       $toast.error(data.value[0].status_mensagem);
@@ -258,7 +259,6 @@ const removeFormValueFromTable = async (itemRemove) => {
       }
     );
     if (status.value === "success") {
-      // Atualiza o botão para indicar que pode ser removido
       $toast.success("Item marcado para remoção.");
     } else {
       $toast.error("Erro ao marcar o item para remoção.");
