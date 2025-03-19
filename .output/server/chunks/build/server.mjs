@@ -727,24 +727,24 @@ const _routes = [
     component: () => import('./lista-Dx8U-mW0.mjs')
   },
   {
-    name: "situacaoMatricula-atualizar-id",
-    path: "/situacaoMatricula/atualizar/:id()",
-    component: () => import('./_id_-BkDMLCuZ.mjs')
+    name: "tipos-matriculas-atualizar-id",
+    path: "/tipos-matriculas/atualizar/:id()",
+    component: () => import('./_id_-rwUSTpV_.mjs')
   },
   {
-    name: "situacaoMatricula-cadastro",
-    path: "/situacaoMatricula/cadastro",
-    component: () => import('./index-DBJEzQF6.mjs')
+    name: "tipos-matriculas-cadastro",
+    path: "/tipos-matriculas/cadastro",
+    component: () => import('./index-By2xSOV-.mjs')
   },
   {
-    name: "situacaoMatricula-lista",
-    path: "/situacaoMatricula/lista",
-    component: () => import('./index-Dn3zMraz.mjs')
+    name: "tipos-matriculas-lista",
+    path: "/tipos-matriculas/lista",
+    component: () => import('./index-uXKIQ179.mjs')
   },
   {
-    name: "situacaoMatricula-vizualizar-id",
-    path: "/situacaoMatricula/vizualizar/:id()",
-    component: () => import('./_id_-BFf6gDyf.mjs')
+    name: "tipos-matriculas-vizualizar-id",
+    path: "/tipos-matriculas/vizualizar/:id()",
+    component: () => import('./_id_-CKazaMGS.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",
