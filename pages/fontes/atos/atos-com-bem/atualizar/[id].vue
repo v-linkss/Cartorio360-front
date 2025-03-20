@@ -11,7 +11,7 @@
         <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
       <v-col md="5">
-        <v-autocomplete v-model="label2" disabled></v-autocomplete>
+        <v-autocomplete v-model="route.query.tipo_ato" disabled></v-autocomplete>
       </v-col>
       <div>
         <img

@@ -6,32 +6,27 @@
         {{ route.query.numero_os }}
       </h1>
     </v-row>
-  <v-row>
-    <v-col md="6">
-      <v-autocomplete
-        class="mr-5"
-        v-model="label"
-        disabled
-      ></v-autocomplete>
-    </v-col>
-    <v-col md="6">
-      <v-autocomplete
-        v-model="label2"
-        disabled
-      ></v-autocomplete>
-    </v-col>
-  </v-row>
-  <div>
-    <img
-      :style="{
-        cursor: item.btn_editar ? 'pointer' : 'default',
-        width: '30px',
-        height: '30px',
-      }"
-      src="../../../assets/editar.png"
-      alt="Editar"
-    />
-  </div>
+    <v-row>
+      <v-col md="6">
+        <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
+      </v-col>
+      <v-col md="5">
+        <v-autocomplete v-model="route.query.tipo_ato" disabled></v-autocomplete>
+      </v-col>
+      <div>
+        <img
+          class="mt-2"
+          :style="{
+            cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
+            width: '35px',
+            height: '35px',
+          }"
+          src="../../../../../assets/editar.png"
+          alt="Editar"
+          @click="openModal"
+        />
+      </div>
+    </v-row>
 </div> 
   <v-card width="1300">
     <v-tabs v-model="tab" bg-color="#f5f2f2">
@@ -67,11 +62,19 @@
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>
+  <ModalTiposAtos
+    v-if="modalVisible"
+    :show="modalVisible"
+    :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []"
+    @close="modalVisible = false"
+  />
 </template>
 
 <script setup>
 const pages_prop = ref(null);
 const doc_prop = ref(null);
+const modalVisible = ref(false);
 const tab = ref(null);
 const config = useRuntimeConfig();
 const route = useRoute();
@@ -114,4 +117,10 @@ const getPages = (pages) => {
 const getDocument = (doc) => {
   doc_prop.value = doc;
 };
+
+function openModal() {
+  if (!dadosData.dt_lavratura) {
+    modalVisible.value = true;
+  }
+}
 </script>

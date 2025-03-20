@@ -9,14 +9,18 @@
         <v-autocomplete
           class="mb-5"
           label="Selecione o Serviço"
-          v-model="state.selectedServico"
+          v-model="selectedServico"
           :items="servicos"
+          item-title="descricao"
+          item-value="token"
         ></v-autocomplete>
         <v-autocomplete
+          item-title="descricao"
+          item-value="token"
           class="mb-5"
           label="Selecione o Tipo de Ato"
-          v-model="state.selectedTipoAto"
-          :items="tiposAtos"
+          v-model="selectedAto"
+          :items="atos"
         ></v-autocomplete>
       </v-container>
       <v-card-actions>
@@ -41,32 +45,52 @@ const props = defineProps({
 });
 const isVisible = ref(props.show);
 
-const state = reactive({
-  selectedServico: null,
-  selectedTipoAto: null,
-});
+const selectedServico = ref("");
+const selectedAto = ref("");
+const config = useRuntimeConfig();
+const usuario_token = useCookie("auth_token").value;
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
+const servicos = ref([]);
+const atos = ref([]);
 
 const emit = defineEmits(["close", "save"]);
+const getTiposAtos = `${config.public.managemant}/tipoAtos`;
 
-watch(
-  () => props.show,
-  (newVal) => {
-    isVisible.value = newVal;
+const loadServicos = async () => {
+  const { data } = await useFetch(getTiposAtos, {
+    method: "POST",
+    body: { usuario_token: usuario_token, cartorio_token: cartorio_token },
+  });
+  servicos.value = data.value;
+  if (servicos.value.length > 0) {
+    selectedServico.value = servicos.value[0].token;
   }
-);
+};
+
+const onServicoChange = async (token) => {
+  const { data } = await useFetch(getTiposAtos, {
+    method: "POST",
+    body: {
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+      servico_token: token,
+    },
+  });
+  atos.value = data.value;
+};
+
+watch(selectedServico, async (newValue) => {
+  if (newValue) {
+    await onServicoChange(newValue);
+    selectedAto.value = atos.value.length > 0 ? atos.value[0] : null;
+  }
+});
 
 const closeModal = () => {
-  state.selectedServico = null;
-  state.selectedTipoAto = null;
   isVisible.value = false;
   emit("close");
 };
 
-const save = () => {
-  emit("save", {
-    servico: state.selectedServico,
-    tipoAto: state.selectedTipoAto,
-  });
-  closeModal();
-};
+loadServicos()
+
 </script>

@@ -216,13 +216,14 @@ function removeFormatting(value) {
 }
 
 const redirectToUpdateAto = (item) => {
-  if (item.tipo === "PROCURAÇÃO GERAL") {
+  if (item.rota === "/fontes/atos/ato-sem-bem/geral") {
     router.push({
       path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
         id: useCookie("user-service").value.id,
         ato_id: item.id,
+        tipo_ato: item.tipo,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
         numero_os: ordemNumero,
@@ -235,6 +236,7 @@ const redirectToUpdateAto = (item) => {
         origem: "atualizar",
         id: useCookie("user-service").value.id,
         ato_id: item.id,
+        tipo_ato: item.tipo,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
         numero_os: ordemNumero,
