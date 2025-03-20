@@ -5,7 +5,7 @@ const createSituacaoMatricula = `${config.public.managemant}/situacao-matriculas
 const userData = ref(useCookie("user-data").value || {});
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id || null);
 
-console.log('cartorio_id:', cartorio_id)
+const { $toast } = useNuxtApp();
 
 const form = ref({
     situacao: null,
@@ -13,14 +13,22 @@ const form = ref({
     observacao: null,
 })
 
+const situacao_tipo = [
+  { label: "ATIVA", value: "ATIVA"},
+  { label: "UNIFICADA", value: "UNIFICADA" },
+  { label: "DESMEMBRADA", value: "DESMEMBRADA" },
+  { label: "COM RESTRIÇÃO", value: "COM RESTRIÇÃO" },
+  { label: "CANCELADA", value: "CANCELADA" },
+];
+
 const handleCreateSituacaoMatricula = async () => {
   try {
     const situacaoMatricula = {
       situacao: form.value.situacao,
       descricao: form.value.descricao,
       observacao: form.value.observacao,
-      user_id: userData.value,
-      user_alteracao_id: userData.value,
+      user_id: userData.value.usuario_id,
+      user_alteracao_id: userData.value.usuario_id,
       cartorio_id
     }
 
@@ -29,14 +37,13 @@ const handleCreateSituacaoMatricula = async () => {
       body: situacaoMatricula,
     });
 
-    form.value = {
-      situacao: null,
-      descricao: null,
-      observacao: null,
-    };
+    $toast.success("situação da matricula cadastrada com sucesso");
+    
+    navigateTo('/tipos-matriculas/lista')
 
   } catch (error) {
     console.error('Erro ao criar situacao matricula:', error);
+    $toast.error("Erro ao cadastrar situacao da matricula,a situacao matricula já está cadastrado.");
   }
 };
 </script>
@@ -46,8 +53,8 @@ const handleCreateSituacaoMatricula = async () => {
     <h1 class="mb-5">Situação Matricula</h1>
     <v-form @submit.prevent="handleCreateSituacaoMatricula">
       <v-row>
-        <v-col cols="3">
-          <v-text-field v-model="form.situacao" label="Situação" required outlined />
+        <v-col cols="6">
+          <v-text-field label="CÓDIGO" disabled outlined />
         </v-col>
       </v-row>
       <v-row>
@@ -57,8 +64,24 @@ const handleCreateSituacaoMatricula = async () => {
       </v-row>
       <v-row>
         <v-col cols="6">
+          <v-autocomplete
+            v-model="form.situacao"
+            style="width: 200px"
+            :items="situacao_tipo"
+            item-title="label"
+            item-value="value"
+            label="Tipo de situação"
+            bg-color="#F6F6F6"
+        >
+        </v-autocomplete>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
           <v-text-field v-model="form.observacao" label="Observação" outlined />
         </v-col>
+      </v-row>
+      <v-row>
       </v-row>
       <v-row>
         <v-col>
