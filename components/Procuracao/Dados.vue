@@ -16,7 +16,6 @@
         </v-autocomplete> 
       </v-col>
     </v-row>
-
     <v-row>
       <v-col cols="5">
         <v-text-field
@@ -58,8 +57,13 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  ato_tipo_id: {
+    type: Number,
+  }
 });
-
+watch(() => props.ato_tipo_id, (value) => {
+  tipoAtoId.value = { id: value };
+});
 const emit = defineEmits(["saved"]);
 const router = useRouter();
 const route = useRoute();
@@ -73,6 +77,7 @@ const ordemserv_id =
   ref(useCookie("user-service").value.id).value ||
   ref(useCookie("user-service").value).value;
 const situacoesItems = ref([]);
+const tipoAtoId = ref(props.ato_tipo_id ? { id: props.ato_tipo_id } : null);
 
 const state = reactive({
   dt_abertura: null,
@@ -87,10 +92,6 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-
-const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
-  method: "GET",
-});
 
 async function onSubmit() {
   if (await v$.value.$validate()) {

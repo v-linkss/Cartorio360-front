@@ -73,6 +73,7 @@
           alt="novo"
         />
       </NuxtLink>
+
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 10px; margin-top: -5px">
@@ -91,7 +92,8 @@
                       id: item.id,
                       tipo: item.tipo,
                       token: item.token,
-                      tipo_token: item.tipo_token
+                      tipo_token: item.tipo_token,
+                      usa_imoveis: item.usa_imoveis,
                     })
                   : null
               "
@@ -154,7 +156,7 @@ const config = useRuntimeConfig();
 const createOs = `${config.public.managemant}/createOrdensServico`;
 const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 const atosPayload = `${config.public.managemant}/listarAtos`;
-const updateAto = `${config.public.managemant}/updateAtos`
+const updateAto = `${config.public.managemant}/updateAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -180,7 +182,7 @@ const state = reactive({
 const isDisabled = ref(false);
 
 const headers = [
-{ title: "ID", value: "id" },
+  { title: "ID", value: "id" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Usuario", value: "usuario_nome" },
   { title: "Situação", value: "situacao" },
@@ -216,20 +218,7 @@ function removeFormatting(value) {
 }
 
 const redirectToUpdateAto = (item) => {
-  if (item.rota === "/fontes/atos/ato-sem-bem/geral") {
-    router.push({
-      path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar",
-        id: useCookie("user-service").value.id,
-        ato_id: item.id,
-        tipo_ato: item.tipo,
-        tipo_ato_token: item.tipo_token,
-        ato_token_edit: item.token,
-        numero_os: ordemNumero,
-      },
-    });
-  }else{
+  if (item.usa_imoveis || !item.usa_imoveis) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {

@@ -92,7 +92,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      rota: item.rota
+                      usa_imoveis: item.usa_imoveis,
                     })
                   : null
               "
@@ -158,7 +158,7 @@ const config = useRuntimeConfig();
 const updateOs = `${config.public.managemant}/updateOrdensServico`;
 const getOsPayload = `${config.public.managemant}/getOrdensServicoById`;
 const atosPayload = `${config.public.managemant}/listarAtos`;
-const updateAto = `${config.public.managemant}/updateAtos`
+const updateAto = `${config.public.managemant}/updateAtos`;
 
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
@@ -220,20 +220,7 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.rota === "/fontes/atos/ato-sem-bem/geral") {
-    router.push({
-      path: `/fontes/atos/atos-sem-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar",
-        id: id,
-        ato_id: item.id,
-        tipo_ato: item.tipo,
-        tipo_ato_token: item.tipo_token,
-        ato_token_edit: item.token,
-        numero_os: numeroOs.value,
-      },
-    });
-  }else if(item.rota === "/fontes/atos/ato-com-bem/geral"){
+  if (item.usa_imoveis || !item.usa_imoveis) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -244,6 +231,7 @@ const redirectToUpdateAto = (item) => {
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
+        usa_imoveis:item.usa_imoveis
       },
     });
   }

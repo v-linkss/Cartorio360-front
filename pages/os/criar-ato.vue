@@ -31,7 +31,13 @@
       </v-col>
     </v-row>
   </v-container>
-  <component :is="selectedComponent" :ato_token="selectedAto.token"  @ato-created="blockCombolists" />
+  <component 
+    :is="selectedComponent" 
+    :ato_token="selectedAto?.token" 
+    :ato_tipo_id="selectedAto?.id"  
+    :usa_imoveis="selectedAto?.usa_imoveis"
+    @ato-created="blockCombolists" 
+  />
 </template>
 
 <script setup>
@@ -55,9 +61,11 @@ const components = {
 const servicos = ref([]);
 const atos = ref([]);
 const selectedServico = ref("");
-const selectedAto = ref("");
+const selectedAto = ref(null);
 const combolistsBlockeds = ref(false)
-const selectedComponent = computed(() => components[selectedAto.value.rota]);
+const selectedComponent = computed(() => {
+  return selectedAto.value?.rota ? components[selectedAto.value.rota] : null;
+});
 
 const config = useRuntimeConfig();
 const getTiposAtos = `${config.public.managemant}/tipoAtos`;
@@ -97,7 +105,7 @@ loadServicos();
 watch(selectedServico, async (newValue) => {
   if (newValue) {
     await onServicoChange(newValue);
-    selectedAto.value = atos.value.length > 0 ? atos.value[0] : null;
+    selectedAto.value = atos.value.length > 0 ? atos.value[0] : null; // Ensure reactive assignment
   }
 });
 </script>

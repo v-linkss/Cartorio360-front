@@ -13,7 +13,7 @@
   
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="dados">
-          <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto" />
+          <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto" :ato_tipo_id="selectedTipoAtoId"/>
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabs" value="partes">
           <ProcuracaoPartes :ato_token="selectedAto" :ato_id="ato_id_prop"/>
@@ -46,6 +46,13 @@
       type: String,
       required: true,
     },
+    ato_tipo_id: {
+      type: Number,
+    },
+    usa_imoveis: {
+      type: Boolean,
+      default: false
+    }
   });
   const emit = defineEmits(["ato-created"]);
   const ato_id_prop = ref(null);
@@ -55,7 +62,9 @@
   const tab = ref(null);
   const showTabs = ref(false);
   const selectedAto = ref(props.ato_token);
-  
+  const selectedTipoAtoId = ref(props.ato_tipo_id);
+  const usaImoveis = ref(props.usa_imoveis);
+
   const handleSave = ({id,token}) => {
     ato_id_prop.value = id;
     ato_token_prop.value = token
@@ -70,5 +79,25 @@
   const getDocument = (doc) =>{
     doc_prop.value = doc
   }
-  </script>
+
+  watch(
+    () => props.ato_token,
+    (newValue) => {
+      selectedAto.value = newValue; 
+    }
+  );
   
+  watch(
+    () => props.ato_tipo_id,
+    (newValue) => {
+      selectedTipoAtoId.value = newValue; 
+    }
+  );
+
+  watch(
+    () => props.usa_imoveis,
+    (newValue) => {
+      usaImoveis.value = newValue; 
+    }
+  );
+  </script>

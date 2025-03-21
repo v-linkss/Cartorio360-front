@@ -32,8 +32,8 @@
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
       <v-tab value="partes">Partes</v-tab>
-      <v-tab value="bens">Bens</v-tab>
-      <v-tab value="imoveis">Imoveis</v-tab>
+      <v-tab v-if="usaImoveis" value="bens">Bens</v-tab>
+      <v-tab v-if="usaImoveis" value="imoveis">Imoveis</v-tab>
       <v-tab value="minuta">Minuta</v-tab>
       <v-tab value="livro">Livro</v-tab>
       <v-tab value="observacao">Observações</v-tab>
@@ -50,10 +50,10 @@
       <v-tabs-window-item value="partes">
         <ProcuracaoAtualizarPartes />
       </v-tabs-window-item>
-      <v-tabs-window-item value="bens">
+      <v-tabs-window-item value="bens" v-if="usaImoveis">
         <ProcuracaoAtualizarBens />
       </v-tabs-window-item>
-      <v-tabs-window-item value="imoveis">
+      <v-tabs-window-item value="imoveis" v-if="usaImoveis">
         <ProcuracaoAtualizarImoveis />
       </v-tabs-window-item>
       <v-tabs-window-item value="minuta">
@@ -97,7 +97,7 @@ const dadosData = ref([]);
 const label = ref("PROCURAÇÕES");
 const label2 = ref("PROCURAÇÃO COM BENS");
 const modalVisible = ref(false);
-
+const usaImoveis = ref(route.query.usa_imoveis === 'true' ? true : false);
 async function loadData() {
   try {
     const { data: tipoAtoId } = await fetchWithToken(
