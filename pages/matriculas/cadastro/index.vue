@@ -11,7 +11,7 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="dados">
-        <Dados @saved="handleSave" />
+        <DadosMatricula @saved="handleSave" />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="endereco">
         <Endereco />
