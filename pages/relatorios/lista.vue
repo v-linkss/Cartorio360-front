@@ -82,7 +82,6 @@ const handleCreateRelatorio = async (input) => {
       consulta: selectedRelatorio.value
 
     }    
-    console.log(novoRelatorio)
     // {"atos":null,"user_id":2,"consulta":"TIPOS ATOS - PARTES"}
     const {data} = await useFetch(createRelatorios, {
       method: "POST",

@@ -597,52 +597,52 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-CKWvBmuO.mjs')
+    component: () => import('./index-DcyUgPb3.mjs')
   },
   {
     name: "caixas-lista",
     path: "/caixas/lista",
-    component: () => import('./index-Dyr4vpcl.mjs')
+    component: () => import('./index-CrcwfwTR.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-C3ZrVqRK.mjs')
+    component: () => import('./_id_-DvCzWskJ.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-BkM2TdME.mjs')
+    component: () => import('./geral-ByDDPW64.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-Cij33ryv.mjs')
+    component: () => import('./_id_-Yw1z24aN.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-Bndw0XQY.mjs')
+    component: () => import('./geral-Bs6x3BoW.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-Bg5cy9zp.mjs')
+    component: () => import('./autenticacao-BK0r1P7U.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DR89I2XT.mjs')
+    component: () => import('./procuracao-BwN51qsk.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-D0i50jv0.mjs')
+    component: () => import('./autencidade-C9cVnKs8.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-UHEWXTvB.mjs')
+    component: () => import('./semelhanca-CpKMSgaC.mjs')
   },
   {
     name: "index",
@@ -653,113 +653,113 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-tc2RK9LS.mjs')
+    component: () => import('./index-Dd5V0x8N.mjs')
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-BrF70d5d.mjs')
+    component: () => import('./tipo-perfil-BaV7C6Qj.mjs')
   },
   {
     name: "matriculas-atualizar-id",
     path: "/matriculas/atualizar/:id()",
-    component: () => import('./_id_-Cu2jiC73.mjs')
+    component: () => import('./_id_-CHSzyQyp.mjs')
   },
   {
     name: "matriculas-cadastro",
     path: "/matriculas/cadastro",
-    component: () => import('./index-D-5TreEc.mjs')
+    component: () => import('./index-CZxONvt9.mjs')
   },
   {
     name: "matriculas-lista",
     path: "/matriculas/lista",
-    component: () => import('./index-86jIVdln.mjs')
+    component: () => import('./index-WlzFXv2k.mjs')
   },
   {
     name: "matriculas-vizualizar-id",
     path: "/matriculas/vizualizar/:id()",
-    component: () => import('./_id_-AK4hXC41.mjs')
+    component: () => import('./_id_-CxO3muow.mjs')
   },
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-CTH0EFv0.mjs')
+    component: () => import('./_id_-KaUt9fFU.mjs')
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-C7OUBG4r.mjs')
+    component: () => import('./criar-ato-eqJK3hVY.mjs')
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-CELeOSiE.mjs')
+    component: () => import('./criar-registro-CphGmR-R.mjs')
   },
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-Bj2tbuvM.mjs')
+    component: () => import('./index-DRcxNuV4.mjs')
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-DP2SxPTB.mjs')
+    component: () => import('./_id_-DStAcNhh.mjs')
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-nU3vRhkK.mjs')
+    component: () => import('./index-Bxfu6E1a.mjs')
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-Cj87HeGq.mjs')
+    component: () => import('./index-C8bOfrkO.mjs')
   },
   {
     name: "pessoas-vizualizar-id",
     path: "/pessoas/vizualizar/:id()",
-    component: () => import('./_id_-BkA8rQsS.mjs')
+    component: () => import('./_id_-Cru6fy6M.mjs')
   },
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
-    component: () => import('./lista-Dx8U-mW0.mjs')
+    component: () => import('./lista-17rdyUIy.mjs')
   },
   {
     name: "tipos-matriculas-atualizar-id",
     path: "/tipos-matriculas/atualizar/:id()",
-    component: () => import('./_id_-BSCmjKqi.mjs')
+    component: () => import('./_id_-BZ0OwyeQ.mjs')
   },
   {
     name: "tipos-matriculas-cadastro",
     path: "/tipos-matriculas/cadastro",
-    component: () => import('./index-1UIG90lZ.mjs')
+    component: () => import('./index-Buzp7Z5W.mjs')
   },
   {
     name: "tipos-matriculas-lista",
     path: "/tipos-matriculas/lista",
-    component: () => import('./index-DbbHeq-_.mjs')
+    component: () => import('./index-BwCqLOsv.mjs')
   },
   {
     name: "tipos-matriculas-vizualizar-id",
     path: "/tipos-matriculas/vizualizar/:id()",
-    component: () => import('./_id_-CKazaMGS.mjs')
+    component: () => import('./_id_-CYnC6jt7.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
-    component: () => import('./_id_-CE2OQJrn.mjs')
+    component: () => import('./_id_-DIT_br7r.mjs')
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
-    component: () => import('./index-BBgvU8YV.mjs')
+    component: () => import('./index-Ctff2dkJ.mjs')
   },
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
-    component: () => import('./lista-DvpVkH0U.mjs')
+    component: () => import('./lista-BAAU8EXR.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -10383,7 +10383,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-yUgP4tAG.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-D2STlV4L.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -10795,5 +10795,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { VIcon as $, makeSizeProps as A, makeThemeProps as B, makeVariantProps as C, useProxiedModel as D, useLocale as E, provideTheme as F, useDisplay as G, provideDefaults as H, IconValue as I, useResizeObserver as J, createRange as K, keyValues as L, getCurrentInstance as M, clamp as N, defineFunctionalComponent as O, convertToUnit as P, consoleError as Q, deepEqual as R, wrapInArray as S, isEmpty as T, makeDisplayProps as U, VTextField as V, makeLoaderProps as W, useLoader as X, useBackgroundColor as Y, LoaderSlot as Z, _export_sfc as _, navigateTo as a, useLazy as a$, getObjectValueByPath as a0, EventProp as a1, useDensity as a2, getPropertyFromItem as a3, createSimpleFunctional as a4, VDefaultsProvider as a5, makeDimensionProps as a6, makeLocationProps as a7, makePositionProps as a8, makeRouterProps as a9, VLabel as aA, makeGroupProps as aB, useGroup as aC, useGoTo as aD, VFadeTransition as aE, focusableChildren as aF, makeGroupItemProps as aG, useSize as aH, useGroupItem as aI, VExpandXTransition as aJ, debounce as aK, useToggleScope as aL, defineComponent as aM, MaybeTransition as aN, VExpandTransition as aO, deprecate as aP, focusChild as aQ, Intersect as aR, useRoute$1 as aS, VSpacer as aT, VProgressCircular as aU, VSheet as aV, makeVBtnProps as aW, animate as aX, standardEasing as aY, keys as aZ, makeLazyProps as a_, Ripple as aa, useBorder as ab, useVariant as ac, useDimension as ad, useElevation as ae, useLocation as af, usePosition as ag, useRounded as ah, useLink as ai, genOverlays as aj, makeVOverlayProps as ak, VDialogTransition as al, useScopeId as am, forwardRefs as an, VOverlay as ao, omit as ap, makeVTextFieldProps as aq, makeTransitionProps$1 as ar, useTextColor as as, useForm as at, VMenu as au, ensureValidVNode as av, noop as aw, matchesSelector as ax, getUid as ay, filterInputAttrs as az, useNuxtApp as b, isObject as b0, getDecimals as b1, VScaleTransition as b2, makeFocusProps as b3, makeVInputProps as b4, useFocus as b5, VInput as b6, makeVFieldProps as b7, filterFieldProps as b8, VField as b9, VCounter as ba, callEvent as bb, makeFormProps as bc, createForm as bd, makeLayoutItemProps as be, useLayoutItem as bf, useLayout as bg, VApp as bh, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VBtn as f, makeTagProps as g, genericComponent as h, injectHead as i, useRtl as j, useRender as k, asyncDataDefaults as l, makeComponentProps as m, nuxtLinkDefaults as n, createError as o, propsFactory as p, fetchDefaults as q, resolveRouteObject as r, useRequestFetch as s, breakpoints as t, useRouter$1 as u, isOn as v, makeBorderProps as w, makeDensityProps as x, makeElevationProps as y, makeRoundedProps as z };
+export { EventProp as $, makeVariantProps as A, useProxiedModel as B, useLocale as C, provideTheme as D, useDisplay as E, provideDefaults as F, useResizeObserver as G, createRange as H, IconValue as I, keyValues as J, getCurrentInstance as K, clamp as L, defineFunctionalComponent as M, convertToUnit as N, consoleError as O, deepEqual as P, wrapInArray as Q, isEmpty as R, makeDisplayProps as S, makeLoaderProps as T, useLoader as U, VTextField as V, useBackgroundColor as W, LoaderSlot as X, VIcon as Y, getObjectValueByPath as Z, _export_sfc as _, navigateTo as a, useLazy as a$, useDensity as a0, getPropertyFromItem as a1, fetchDefaults as a2, useRequestFetch as a3, makeVOverlayProps as a4, VDialogTransition as a5, useScopeId as a6, forwardRefs as a7, VOverlay as a8, VDefaultsProvider as a9, VLabel as aA, makeGroupProps as aB, useGroup as aC, useGoTo as aD, VFadeTransition as aE, focusableChildren as aF, makeGroupItemProps as aG, useSize as aH, useGroupItem as aI, VExpandXTransition as aJ, debounce as aK, useToggleScope as aL, defineComponent as aM, MaybeTransition as aN, VExpandTransition as aO, deprecate as aP, focusChild as aQ, Intersect as aR, useRoute$1 as aS, VSpacer as aT, VProgressCircular as aU, VSheet as aV, makeVBtnProps as aW, animate as aX, standardEasing as aY, keys as aZ, makeLazyProps as a_, createSimpleFunctional as aa, makeDimensionProps as ab, makeLocationProps as ac, makePositionProps as ad, makeRouterProps as ae, Ripple as af, useBorder as ag, useVariant as ah, useDimension as ai, useElevation as aj, useLocation as ak, usePosition as al, useRounded as am, useLink as an, genOverlays as ao, omit as ap, makeVTextFieldProps as aq, makeTransitionProps$1 as ar, useTextColor as as, useForm as at, VMenu as au, ensureValidVNode as av, noop as aw, matchesSelector as ax, getUid as ay, filterInputAttrs as az, useNuxtApp as b, isObject as b0, getDecimals as b1, VScaleTransition as b2, makeFocusProps as b3, makeVInputProps as b4, useFocus as b5, VInput as b6, makeVFieldProps as b7, filterFieldProps as b8, VField as b9, VCounter as ba, callEvent as bb, makeFormProps as bc, createForm as bd, makeLayoutItemProps as be, useLayoutItem as bf, useLayout as bg, VApp as bh, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VBtn as f, makeTagProps as g, genericComponent as h, injectHead as i, useRtl as j, useRender as k, asyncDataDefaults as l, makeComponentProps as m, nuxtLinkDefaults as n, createError as o, propsFactory as p, breakpoints as q, resolveRouteObject as r, isOn as s, makeBorderProps as t, useRouter$1 as u, makeDensityProps as v, makeElevationProps as w, makeRoundedProps as x, makeSizeProps as y, makeThemeProps as z };
 //# sourceMappingURL=server.mjs.map

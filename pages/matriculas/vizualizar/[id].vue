@@ -4,54 +4,42 @@
       <v-row no-gutters>
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Documento: {{ PessoaView.doc_identificacao }}
+            Número: {{ PessoaView.numero }}
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Nome/Razão Social : {{ PessoaView.nome }}
+            CNM : {{ PessoaView.cnm }}
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Data de Nascimento:
-            {{ PessoaView.data_nascimento ? formatDate(PessoaView.data_nascimento ): null}}
+            Data:{{ PessoaView.data ? formatDate(PessoaView.data ): null}}
           </v-sheet>
         </v-col>
-
         <v-responsive width="100%"></v-responsive>
-
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Tipo Pessoa:
-            {{ PessoaView.tipo_pessoa }}
-          </v-sheet>
-        </v-col>
-
-        <v-col>
-          <v-sheet class="pa-2 ma-2"
-            >Profissão: {{ PessoaView.profissao }}</v-sheet
-          >
-        </v-col>
-
-        <v-responsive width="100%"></v-responsive>
-
-        <v-col>
-          <v-sheet class="pa-2 ma-2">
-            Local de Trabalho:
-            {{ PessoaView.local_trabalho }}
+            Situação:
+            {{ PessoaView.situacao.situacao}}
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-2 ma-2">
-            Nome da mãe:
-            {{ PessoaView.nome_mae }}
+            Protocolo:
+            {{ PessoaView.protocolo}}
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet class="pa-2 ma-2">
+            Descrição:
+            {{ PessoaView.descricao }}
           </v-sheet>
         </v-col>
       </v-row>
     </v-container>
 </div>
-<NuxtLink class="mt-10" to="/pessoas/lista">
+<NuxtLink class="mt-10" to="/matriculas/lista">
    <v-btn size="large" color="red">Voltar</v-btn>
 </NuxtLink>
 </template>
@@ -61,10 +49,10 @@ const route = useRoute();
 const { id } = route.params;
 
 const config = useRuntimeConfig();
-const pessoasView = `${config.public.auth}/service/gerencia/getPessoaById`
+const matriculasView = `${config.public.auth}/service/gerencia/matriculas`
 
 const { data: PessoaView, pending } = await fetchWithToken(
-  `${pessoasView}/${id}`
+  `${matriculasView}/${id}`
 );
 </script>
 

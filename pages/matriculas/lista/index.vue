@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="status === 'success'" class="mt-5">
+  <v-container  class="mt-5">
     <NuxtLink to="/matriculas/cadastro">
       <img
         style="cursor: pointer"
@@ -11,8 +11,8 @@
       <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="searchDoc"
-          label="Documento"
+          v-model="searchNumero"
+          label="Numero"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -21,8 +21,8 @@
       <div style="width: 300px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="search"
-          label="Pessoa"
+          v-model="searchCnm"
+          label="CNM"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -32,7 +32,7 @@
     <v-data-table
       density="compact"
       :headers="headers"
-      :items="filteredPessoas"
+      :items="filteredMatriculas"
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
@@ -61,7 +61,7 @@
           </div>
           <div
             style="cursor: pointer"
-            @click="deletePessoa(item)"
+            @click="deleteMatricula(item)"
             title="Deletar"
           >
             <img
@@ -87,41 +87,72 @@
 </template>
 
 <script setup>
+
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
-const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
+const matriculasLista = `${config.public.auth}/service/gerencia/listar_matriculas`;
+
+// const matriculasLista = `${config.public.auth}/service/gerencia/matriculas`;
+const matriculasUpdate = `${config.public.auth}/service/gerencia/matriculas`;
+const tokenCookie = useCookie('auth_token');
 
 const router = useRouter();
 
-const search = ref("");
-const searchDoc = ref("");
+const searchCnm = ref("");
+const searchNumero = ref("");
 
 const headers = [
-  { title: "Documento", value: "doc_identificacao" },
-  { title: "Nome/Razão Social", value: "nome" },
+  { title: "Número", value: "numero" },
+  { title: "CNM", value: "cnm" },
+  { title: "Data", value: "data" },
+  { title: "Situação", value: "situacao" },
+  { title: "Protocolo", value: "protocolo" },
+  { title: "Descrição", value: "descricao" },
+
   { value: "actions" },
 ];
 
-const { data: pessoasItems, status } = await fetchWithToken(`${pessoasLista}?pageNumber=${1}&pageSize=${1000000}`);
+// const { data: matriculasItems, status } = await fetchWithToken(`${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`);
+const  matriculasItems  = await $fetch(`${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`,
+{
+  method: "POST",
+  body: {cartorio_token: useCookie("user-data").value.cartorio_token},
+  headers: {
+    Authorization: `Bearer ${tokenCookie.value}`,
+  },
+}
+);
 
-const filteredPessoas = computed(() => {
-  return pessoasItems.value.data.filter((item) => {
-    const docIdentificacao = item.doc_identificacao
-      ? item.doc_identificacao.toLowerCase()
+const filteredMatriculas = computed(() => {
+  // console.log('matriculasItems', formatDate(matriculasItems[0].data)); // Verifica o valor de matriculasItems
+  // Verifica se matriculasItems é válido antes de tentar acessar o método filter
+  if (!matriculasItems || matriculasItems.length === 0) {
+    return []; // Retorna um array vazio se não houver itens
+  }
+
+  return matriculasItems.filter((item) => {
+    const numeroIdentificacao = item.numero
+      ? item.numero.toLowerCase()
       : "";
-    const nome = item.nome ? item.nome.toLowerCase() : "";
+    const cnm = item.cnm ? item.cnm.toLowerCase() : "";
 
-    const matchesDoc = docIdentificacao.includes(searchDoc.value.toLowerCase());
-    const matchesNome = nome.includes(search.value.toLowerCase());
+    const matchesNumero = numeroIdentificacao.includes(searchNumero.value.toLowerCase());
+    const matchesCnm = cnm.includes(searchCnm.value.toLowerCase());
 
-    return matchesDoc && matchesNome;
+    return matchesNumero && matchesCnm;
+  }).map((item) => {
+    return {
+      ...item,
+      data: formatDate(item.data, 'dd/mm/yyyy'),
+    };
   });
 });
 
-async function deletePessoa(item) {
+
+
+async function deleteMatricula(item) {
   item.excluido = !item.excluido;
   try {
-    await fetchWithToken(`${pessoasUpdate}/${item.id}`, {
+    await fetchWithToken(`${matriculasUpdate}/${item.id}`, {
       method: "PUT",
       body: { excluido: item.excluido },
     });
@@ -131,6 +162,7 @@ async function deletePessoa(item) {
 }
 
 function redirectToView(id) {
+  console.log('id:', id), 
   router.push({ path: `/matriculas/vizualizar/${id}` });
 }
 
