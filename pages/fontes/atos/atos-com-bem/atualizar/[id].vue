@@ -76,6 +76,7 @@
     :servicos="dadosData.servicos || []"
     :tiposAtos="dadosData.tiposAtos || []"
     @close="modalVisible = false"
+    @updateAto="handleUpdateAto"
   />
 </template>
 
@@ -95,7 +96,6 @@ const body = route.query.id
 const situacoesItems = ref([]);
 const dadosData = ref([]);
 const label = ref("PROCURAÇÕES");
-const label2 = ref("PROCURAÇÃO COM BENS");
 const modalVisible = ref(false);
 const usaImoveis = ref(route.query.usa_imoveis === 'true' ? true : false);
 async function loadData() {
@@ -131,5 +131,9 @@ function openModal() {
   if (!dadosData.dt_lavratura) {
     modalVisible.value = true;
   }
+}
+
+function handleUpdateAto(newUsaImoveis) {
+  usaImoveis.value = newUsaImoveis;
 }
 </script>

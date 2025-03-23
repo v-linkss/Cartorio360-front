@@ -16,12 +16,14 @@
         ></v-autocomplete>
         <v-autocomplete
           item-title="descricao"
-          item-value="token"
+          item-value="id"
           class="mb-5"
           label="Selecione o Tipo de Ato"
           v-model="selectedAto"
           :items="atos"
+          return-object
         ></v-autocomplete>
+        {{ selectedAto.usa_imoveis }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -29,7 +31,7 @@
         >
         <v-btn
           style="background-color: green; color: white"
-          @click="save"
+          @click="updateTipoAto()"
           >Salvar</v-btn
         >
       </v-card-actions>
@@ -44,7 +46,8 @@ const props = defineProps({
   tiposAtos: Array,
 });
 const isVisible = ref(props.show);
-
+const { $toast } = useNuxtApp();
+const route = useRoute();
 const selectedServico = ref("");
 const selectedAto = ref("");
 const config = useRuntimeConfig();
@@ -53,7 +56,8 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const servicos = ref([]);
 const atos = ref([]);
 
-const emit = defineEmits(["close", "save"]);
+const emit = defineEmits(["close", "update-ato"]);
+const updateAto = `${config.public.managemant}/updateAtos`;
 const getTiposAtos = `${config.public.managemant}/tipoAtos`;
 
 const loadServicos = async () => {
@@ -79,17 +83,34 @@ const onServicoChange = async (token) => {
   atos.value = data.value;
 };
 
+const updateTipoAto = async () => {
+  const { data, status } = await useFetch(
+    `${updateAto}/${route.query.ato_id}`,
+    {
+      method: "PUT",
+      body: {
+      ato_tipo_id: selectedAto.value.id,
+      },
+    }
+  );
+  if (status.value === "success") {
+    $toast.success("Tipo de ato atualizado com Sucesso!");
+    emit("update-ato", selectedAto.value.usa_imoveis);
+    closeModal();
+  }
+};
+
+const closeModal = () => {
+  isVisible.value = false;
+  emit("close");
+};
+
 watch(selectedServico, async (newValue) => {
   if (newValue) {
     await onServicoChange(newValue);
     selectedAto.value = atos.value.length > 0 ? atos.value[0] : null;
   }
 });
-
-const closeModal = () => {
-  isVisible.value = false;
-  emit("close");
-};
 
 loadServicos()
 

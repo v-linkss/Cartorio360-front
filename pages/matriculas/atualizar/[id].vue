@@ -235,6 +235,33 @@ const cidades = `${config.public.auth}/service/gerencia/listarCidades`;
 const livro = `${config.public.auth}/service/gerencia/livro`;
 const matriculas = `${config.public.auth}/service/gerencia/matriculas`;
 
+const state = reactive({
+  numero: null,
+  protocolo: null,
+  livro: null,
+  folhas: null,
+  data: null,
+  descricao: null,
+  cnm: null,
+  livro_id: null,
+  observacao: null,
+  inscricao_municipal: null,
+  situacao_id: null,
+  tabvalores_natureza_id: null,
+  tabvalores_tipologradouro_id: null,
+  end_logradouro: null,
+  end_logradouro_numero: null,
+  end_bairro: null,
+  end_cidade_id: null,
+  end_cep: null,
+  end_complemento: null,
+  end_quadra: null,
+  end_lote: null,
+  pagina_inicial: null,
+  pagina_final: null,
+  user_alteracao_id: useCookie("user-data").value.usuario_id,
+});
+
 const {
   data: dados,
   status,
@@ -319,33 +346,6 @@ async function fetchData() {
 // onMounted(() => {
 //   refreshData();
 // });
-
-const state = reactive({
-  numero: null,
-  protocolo: null,
-  livro: null,
-  folhas: null,
-  data: null,
-  descricao: null,
-  cnm: null,
-  livro_id: null,
-  observacao: null,
-  inscricao_municipal: null,
-  situacao_id: null,
-  tabvalores_natureza_id: null,
-  tabvalores_tipologradouro_id: null,
-  end_logradouro: null,
-  end_logradouro_numero: null,
-  end_bairro: null,
-  end_cidade_id: null,
-  end_cep: null,
-  end_complemento: null,
-  end_quadra: null,
-  end_lote: null,
-  pagina_inicial: null,
-  pagina_final: null,
-  user_alteracao_id: useCookie("user-data").value.usuario_id,
-});
 
 async function onUpdate() {
   try {
