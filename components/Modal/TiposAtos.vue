@@ -24,7 +24,7 @@
           :items="atos"
           return-object
         ></v-autocomplete>
-        {{ selectedServico.descricao }}  -  {{ selectedAto.descricao }} 
+        {{ selectedAto.usa_imoveis }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -96,7 +96,10 @@ const updateTipoAto = async () => {
   );
   if (status.value === "success") {
     $toast.success("Tipo de ato atualizado com Sucesso!");
-    emit("update-ato", `${selectedServico.value.descricao} - ${selectedAto.value.descricao}`);
+    emit("update-ato", {
+      descricao: `${selectedServico.value.descricao} - ${selectedAto.value.descricao}`,
+      usaImoveisParams: selectedAto.value.usa_imoveis,
+    });
     closeModal();
   }
 };

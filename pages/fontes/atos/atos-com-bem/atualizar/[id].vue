@@ -139,7 +139,9 @@ function openModal() {
   }
 }
 
-function handleUpdateAto(details) {
-  updatedAtoDetails.value = details; // Set the emitted details from the modal
+function handleUpdateAto({ descricao, usaImoveisParams }) {
+  console.log(usaImoveisParams)
+  updatedAtoDetails.value = descricao;
+  usaImoveis.value = usaImoveisParams;
 }
 </script>

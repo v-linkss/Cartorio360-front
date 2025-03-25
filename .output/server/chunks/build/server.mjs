@@ -607,7 +607,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-j6KcvJIY.mjs')
+    component: () => import('./_id_-D6qYyn9-.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
@@ -617,7 +617,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-FReSZApM.mjs')
+    component: () => import('./_id_-GEzGN39R.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
