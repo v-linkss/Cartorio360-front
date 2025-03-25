@@ -11,7 +11,11 @@
         <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
       <v-col md="5">
-        <v-autocomplete v-model="route.query.tipo_ato" disabled></v-autocomplete>
+        <v-autocomplete
+          v-model="updatedAtoDetails"
+          label="Serviço e Tipo de Ato Selecionado"
+          disabled
+        ></v-autocomplete>
       </v-col>
       <div>
         <img
@@ -98,6 +102,8 @@ const dadosData = ref([]);
 const label = ref("PROCURAÇÕES");
 const modalVisible = ref(false);
 const usaImoveis = ref(route.query.usa_imoveis === 'true' ? true : false);
+const updatedAtoDetails = ref(route.query.tipo_ato || "");
+
 async function loadData() {
   try {
     const { data: tipoAtoId } = await fetchWithToken(
@@ -133,7 +139,7 @@ function openModal() {
   }
 }
 
-function handleUpdateAto(newUsaImoveis) {
-  usaImoveis.value = newUsaImoveis;
+function handleUpdateAto(details) {
+  updatedAtoDetails.value = details; // Set the emitted details from the modal
 }
 </script>

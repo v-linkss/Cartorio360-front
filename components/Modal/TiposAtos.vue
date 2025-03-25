@@ -7,12 +7,13 @@
         </v-row>
         <hr class="mb-5" />
         <v-autocomplete
+          item-title="descricao"
+          item-value="token"
           class="mb-5"
           label="Selecione o Serviço"
           v-model="selectedServico"
           :items="servicos"
-          item-title="descricao"
-          item-value="token"
+          return-object
         ></v-autocomplete>
         <v-autocomplete
           item-title="descricao"
@@ -23,7 +24,7 @@
           :items="atos"
           return-object
         ></v-autocomplete>
-        {{ selectedAto.usa_imoveis }}
+        {{ selectedServico.descricao }}  -  {{ selectedAto.descricao }} 
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -67,7 +68,7 @@ const loadServicos = async () => {
   });
   servicos.value = data.value;
   if (servicos.value.length > 0) {
-    selectedServico.value = servicos.value[0].token;
+    selectedServico.value = servicos.value[0];
   }
 };
 
@@ -95,7 +96,7 @@ const updateTipoAto = async () => {
   );
   if (status.value === "success") {
     $toast.success("Tipo de ato atualizado com Sucesso!");
-    emit("update-ato", selectedAto.value.usa_imoveis);
+    emit("update-ato", `${selectedServico.value.descricao} - ${selectedAto.value.descricao}`);
     closeModal();
   }
 };
@@ -107,7 +108,7 @@ const closeModal = () => {
 
 watch(selectedServico, async (newValue) => {
   if (newValue) {
-    await onServicoChange(newValue);
+    await onServicoChange(newValue.token);
     selectedAto.value = atos.value.length > 0 ? atos.value[0] : null;
   }
 });
