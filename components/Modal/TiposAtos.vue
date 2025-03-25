@@ -24,7 +24,6 @@
           :items="atos"
           return-object
         ></v-autocomplete>
-        {{ selectedAto.usa_imoveis }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"

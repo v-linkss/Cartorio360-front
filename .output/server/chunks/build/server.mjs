@@ -607,7 +607,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-D6qYyn9-.mjs')
+    component: () => import('./_id_-CeYE-V8u.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
@@ -617,7 +617,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-GEzGN39R.mjs')
+    component: () => import('./_id_-fDWp2HVQ.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
@@ -664,17 +664,17 @@ const _routes = [
   {
     name: "matriculas-atualizar-id",
     path: "/matriculas/atualizar/:id()",
-    component: () => import('./_id_-CSQrUoMD.mjs')
+    component: () => import('./_id_-Bgm0whIt.mjs')
   },
   {
     name: "matriculas-cadastro",
     path: "/matriculas/cadastro",
-    component: () => import('./index-CZxONvt9.mjs')
+    component: () => import('./index-ftPfIW0T.mjs')
   },
   {
     name: "matriculas-lista",
     path: "/matriculas/lista",
-    component: () => import('./index-WlzFXv2k.mjs')
+    component: () => import('./index-C7TyRboC.mjs')
   },
   {
     name: "matriculas-vizualizar-id",

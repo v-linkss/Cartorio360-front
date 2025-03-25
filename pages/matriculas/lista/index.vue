@@ -21,8 +21,8 @@
       <div style="width: 300px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="searchCnm"
-          label="CNM"
+          v-model="searchDescricao"
+          label="Descrição"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -97,21 +97,18 @@ const tokenCookie = useCookie('auth_token');
 
 const router = useRouter();
 
-const searchCnm = ref("");
+const searchDescricao = ref("");
 const searchNumero = ref("");
 
 const headers = [
   { title: "Número", value: "numero" },
-  { title: "CNM", value: "cnm" },
   { title: "Data", value: "data" },
-  { title: "Situação", value: "situacao" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Descrição", value: "descricao" },
 
   { value: "actions" },
 ];
 
-// const { data: matriculasItems, status } = await fetchWithToken(`${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`);
 const  matriculasItems  = await $fetch(`${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`,
 {
   method: "POST",
@@ -123,8 +120,6 @@ const  matriculasItems  = await $fetch(`${matriculasLista}?pageNumber=${1}&pageS
 );
 
 const filteredMatriculas = computed(() => {
-  // console.log('matriculasItems', formatDate(matriculasItems[0].data)); // Verifica o valor de matriculasItems
-  // Verifica se matriculasItems é válido antes de tentar acessar o método filter
   if (!matriculasItems || matriculasItems.length === 0) {
     return []; // Retorna um array vazio se não houver itens
   }
@@ -133,12 +128,12 @@ const filteredMatriculas = computed(() => {
     const numeroIdentificacao = item.numero
       ? item.numero.toLowerCase()
       : "";
-    const cnm = item.cnm ? item.cnm.toLowerCase() : "";
+    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
 
     const matchesNumero = numeroIdentificacao.includes(searchNumero.value.toLowerCase());
-    const matchesCnm = cnm.includes(searchCnm.value.toLowerCase());
+    const matchesDescricao = descricao.includes(searchDescricao.value.toLowerCase());
 
-    return matchesNumero && matchesCnm;
+    return matchesNumero && matchesDescricao;
   }).map((item) => {
     return {
       ...item,
@@ -146,8 +141,6 @@ const filteredMatriculas = computed(() => {
     };
   });
 });
-
-
 
 async function deleteMatricula(item) {
   item.excluido = !item.excluido;
@@ -162,7 +155,6 @@ async function deleteMatricula(item) {
 }
 
 function redirectToView(id) {
-  console.log('id:', id), 
   router.push({ path: `/matriculas/vizualizar/${id}` });
 }
 

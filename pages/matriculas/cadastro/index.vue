@@ -6,7 +6,7 @@
 
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
-      <v-tab v-if="showTabs" value="endereco">Endereços</v-tab>
+      <v-tab v-if="showTabs" value="endereco">Endereço</v-tab>
     </v-tabs>
 
     <v-tabs-window v-model="tab">

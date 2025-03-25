@@ -114,10 +114,12 @@ const { data: dadosObservacao } = await useFetch(
   }
 );
 
-observacoesItems.value = dadosObservacao.value.map((item) => ({
-  ...item,
-  created: formatDate(item.created, "dd/mm/yyyy hh:mm"), 
-}));
+if (dadosObservacao.value) {
+    observacoesItems.value = dadosObservacao.value.map((item) => ({
+        ...item,
+        created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
+    }));
+}
 
 async function onSubmit() {
   // Verifica se o campo está vazio e só valida se houver algo

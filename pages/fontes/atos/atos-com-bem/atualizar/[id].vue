@@ -42,6 +42,7 @@
       <v-tab value="livro">Livro</v-tab>
       <v-tab value="observacao">Observações</v-tab>
       <v-tab value="anexo">Anexos</v-tab>
+      <v-tab value="outros">Outros</v-tab>
     </v-tabs>
 
     <v-tabs-window v-model="tab">
@@ -71,6 +72,9 @@
       </v-tabs-window-item>
       <v-tabs-window-item value="anexo">
         <ProcuracaoAtualizarAnexos />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="outros">
+        <ProcuracaoAtualizarOutros />
       </v-tabs-window-item>
     </v-tabs-window>
   </v-card>

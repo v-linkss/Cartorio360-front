@@ -26,7 +26,7 @@
         style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
         src="../../../assets/lavrar.png"
       />
-      <v-card v-if="lavraData" width="360px" class="mr-16">
+      <v-card v-if="lavraData" width="360">
         <v-row>
           <v-col>
             <v-sheet style="font-weight: bold" class="pa-2 ma-2">
@@ -42,15 +42,14 @@
         </v-row>
         <div
           style="
-            border: 1px solid black;
-            border-radius: 8px;
+          margin-left: 10px;
             padding-bottom: 20px;
             margin-top: -10px;
           "
-          class="ml-2 mb-2 mr-2"
           v-html="selo"
         ></div>
       </v-card>
+
     </v-col>
   </v-row>
 
