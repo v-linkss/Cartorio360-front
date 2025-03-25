@@ -8,21 +8,21 @@
       />
     </NuxtLink>
     <v-row style="gap: 3rem">
-      <!-- <div style="width: 200px">
+      <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
           v-model="searchDoc"
-          label="Descrição"
+          label="descrição"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
         ></v-text-field>
-      </div> -->
+      </div>
       <div style="width: 300px">
         <v-text-field
           class="mt-7 mb-4"
           v-model="search"
-          label="Sitação"
+          label="sitação"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -117,22 +117,17 @@ const { data: situacaoMatricula, status } = await useFetch(`${situacaoLista}`,{
     body: cartorioTokenPayload
 });
 
-console.log('sitaucao matricula', situacaoMatricula.value)
-
 const filteredSituacaoMatricula = computed(() => {
   if (!situacaoMatricula.value) return [];
 
   return situacaoMatricula.value.filter((item) => {
-    const situacaomatriculaDescricao = item.situacao_descricao?.toLowerCase() ?? "";
+    const descricao = item.descricao?.toLowerCase() ?? "";
     const situacao = item.situacao?.toLowerCase() ?? "";
 
-    return situacaomatriculaDescricao.includes(searchDoc.value.toLowerCase()) &&
+    return descricao.includes(searchDoc.value.toLowerCase()) &&
            situacao.includes(search.value.toLowerCase());
   });
 });
-
-
-console.log('filtro', filteredSituacaoMatricula.value)
 
 async function deleteSituacaoMatricula(item) {
   item.excluido = !item.excluido;

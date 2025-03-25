@@ -4,12 +4,12 @@
         <v-row no-gutters>
           <v-col>
             <v-sheet class="pa-2 ma-2">
-              Documento: {{ situacaoMatricula.descricao }}
+              Descrição: {{ situacaoMatricula.descricao }}
             </v-sheet>
           </v-col>
           <v-col>
             <v-sheet class="pa-2 ma-2">
-              Nome/Razão Social : {{ situacaoMatricula.situacao }}
+              Situação: : {{ situacaoMatricula.situacao }}
             </v-sheet>
           </v-col>
   
@@ -19,7 +19,7 @@
         </v-row>
       </v-container>
   </div>
-  <NuxtLink class="mt-10" to="/pessoas/lista">
+  <NuxtLink class="mt-10" to="/tipos-matriculas/lista">
      <v-btn size="large" color="red">Voltar</v-btn>
   </NuxtLink>
   </template>
@@ -29,10 +29,14 @@
   const { id } = route.params;
   
   const config = useRuntimeConfig();
-  const getSituacaoMatricula = `${config.public.auth}/situacao-matricula`
-  
-  const { data: situacaoMatricula, pending } = await fetchWithToken(
-    `${getSituacaoMatricula}/${id}`
+  const getSituacaoMatricula = `${config.public.managemant}/situacao-matriculas`
+
+  const { data: situacaoMatricula, pending } = await useFetch(
+`${getSituacaoMatricula}/${id}`,
+  {
+    method: 'GET',
+    
+  }
   );
   </script>
   
