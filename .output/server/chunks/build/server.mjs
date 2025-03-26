@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-DcyUgPb3.mjs')
+    component: () => import('./index-BjrDqJ82.mjs')
   },
   {
     name: "caixas-lista",
@@ -727,24 +727,24 @@ const _routes = [
     component: () => import('./lista-17rdyUIy.mjs')
   },
   {
-    name: "tipos-matriculas-atualizar-id",
-    path: "/tipos-matriculas/atualizar/:id()",
-    component: () => import('./_id_-BZ0OwyeQ.mjs')
+    name: "situacoes-matriculas-atualizar-id",
+    path: "/situacoes-matriculas/atualizar/:id()",
+    component: () => import('./_id_-Bm-PO-6J.mjs')
   },
   {
-    name: "tipos-matriculas-cadastro",
-    path: "/tipos-matriculas/cadastro",
-    component: () => import('./index-Buzp7Z5W.mjs')
+    name: "situacoes-matriculas-cadastro",
+    path: "/situacoes-matriculas/cadastro",
+    component: () => import('./index-CqZUhLUK.mjs')
   },
   {
-    name: "tipos-matriculas-lista",
-    path: "/tipos-matriculas/lista",
-    component: () => import('./index-BwCqLOsv.mjs')
+    name: "situacoes-matriculas-lista",
+    path: "/situacoes-matriculas/lista",
+    component: () => import('./index-ISUwiTUc.mjs')
   },
   {
-    name: "tipos-matriculas-vizualizar-id",
-    path: "/tipos-matriculas/vizualizar/:id()",
-    component: () => import('./_id_-CYnC6jt7.mjs')
+    name: "situacoes-matriculas-vizualizar-id",
+    path: "/situacoes-matriculas/vizualizar/:id()",
+    component: () => import('./_id_-BqdxAB1I.mjs')
   },
   {
     name: "tiposSelos-atualizar-id",

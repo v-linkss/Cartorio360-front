@@ -2,7 +2,7 @@
   <v-container class="mt-5">
     <v-row class="mb-5">
       <h1>
-        Recebimento de Ordens de Serviço - Caixa {{ data }} - {{ nome_usuario }}
+        Recebimento de Ordens de Serviço - <span style="color: red">Caixa  {{ formatDate(data) }}</span> - {{ nome_usuario }}
       </h1>
     </v-row>
     <v-row>
