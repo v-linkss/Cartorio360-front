@@ -109,6 +109,7 @@
   
   const cartorioTokenPayload = {
       cartorio_token: cartorio_token.value,
+      tipo: 'ATO',
       user_token: usuario_token.value
   }
 
@@ -117,8 +118,6 @@
         method:'POST',
         body: cartorioTokenPayload
     });
-
-  console.log('tipo atos', tipoAtos.value)
   
   const filteredAtoTipo = computed(() => {
     if (!tipoAtos.value) return [];

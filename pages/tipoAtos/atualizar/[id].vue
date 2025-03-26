@@ -2,23 +2,32 @@
 const config = useRuntimeConfig();
 const updateTipoAtos = `${config.public.managemant}/tipo-atos`;
 const tipoAto = `${config.public.managemant}/tipo-atos`;
-const getUfs = `${config.public.managemant}/listarUF`;
+const getTipoTj = `${config.public.managemant}/listar_tipo_atos_tj`;
+const getTiposAtos = `${config.public.managemant}/listar_tipo_atos"`;
+const getlivros = `${config.public.managemant}/listar_livros"`;
+
 
 const route = useRoute();
-const { id } = route.params; // Obtém o ID da rota
+const { id } = route.params; 
 
-// Estado para o formulário
 const form = ref({
-  uf: null,
-  cor: null,
+  servico: null,
+  atoTj: null,
   descricao: null,
-  vlr_compra: null,
+  livro: null,
+  usaImoveis: false,
+  qtdLimiteFolhas: 0,
+  vlrAdicionalFolhas: 0,
+  textoPadraoEtiqueta: null,
 });
 
 const tipoAtosServico = ref([]);
 const tipoAtosTj = ref([]);
+const livros = ref([]);
 
-async function loadSeloData() {
+const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
+
+async function loadData() {
   try {
     const { data: seloData } = await useFetch(`${tipoAto}/${id}`, { method: "GET" });
     if (seloData.value) {
@@ -34,37 +43,72 @@ async function loadSeloData() {
   }
 }
 
-// Carrega a lista de UFs e os dados do selo ao montar o componente
-const { data: ufs } = await useFetch(getUfs, { method: "GET" });
-ufList.value = ufs.value;
 
-await loadSeloData();
+const atoTipoServicoPayload = {
+    cartorio_token: cartorio_token.value,
+    tipo: 'SERVIÇO'
+}
 
-// Função para salvar as alterações
+const { data: atosTipoServico } = await useFetch(getTiposAtos,
+ { 
+    method: "POST",
+    body: atoTipoServicoPayload
+});
+
+const cartorioTokenPayload = {
+    cartorio_token: cartorio_token.value,
+}
+
+
+tipoAtosServico.value = atosTipoServico.value
+
+const { data: atosTj } = await useFetch(getTipoTj,
+ { 
+    method: "POST",
+    body: cartorioTokenPayload
+});
+
+tipoAtosTj.value = atosTj.value;
+
+const { data: livrosData } = await useFetch(getLirvos,
+ { 
+    method: "POST",
+    body: cartorioTokenPayload
+});
+
+livros.value = livrosData.value;
+
+await loadData();
+
 async function HandleSubmitEdit() {
   try {
-    const edicaoSelo = {
-      uf: form.value.uf,
-      cor: form.value.cor,
+    const edicaoTipoAto = {
+      servico: form.value.servico,
+      atoTj: form.value.atoTj,
       descricao: form.value.descricao,
-      vlr_compra: form.value.vlr_compra.replace(/,/g, ""),
+      livro: form.value.livro,
+      usaImoveis: form.value.usaImoveis,
+      qtdLimiteFolhas: form.value.qtdLimiteFolhas,
+      vlrAdicionalFolhas: form.value.vlrAdicionalFolhas,
+      textoPadraoEtiqueta: form.value.textoPadraoEtiqueta,
     };
 
-    await useFetch(`${updateSelo}/${id}`, {
+    await useFetch(`${updateTipoAtos}/${id}`, {
       method: "PUT",
-      body: edicaoSelo,
+      body: edicaoTipoAto,
     });
 
-    navigateTo("/tiposSelos/lista")
+    navigateTo("/tipoAtos/lista");
   } catch (error) {
-    console.error("Erro ao atualizar o selo:", error);
+    console.error("Erro ao atualizar o tipo ato:", error);
   }
 }
+
 </script>
 
 <template>
   <v-container>
-    <h1 class="mb-5">Edição de Tipo de Selo</h1>
+    <h1 class="mb-5">Edição de Tipo ato</h1>
     <v-form @submit.prevent="HandleSubmitEdit">
       <v-row>
         <v-col cols="3">
