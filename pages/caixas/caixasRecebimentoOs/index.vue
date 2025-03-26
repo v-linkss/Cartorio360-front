@@ -49,7 +49,7 @@
           >
             <img
               style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/visualizar.png"
+              src="../../../assets/salvar.png"
               alt="Encerrar"
               title="Encerrar"
             />
@@ -125,7 +125,7 @@ async function caixaOsDataPayload() {
     if (response && Array.isArray(response)) {
       caixaRecebeOsItems.value = response;
     } else {
-      $toast.error("Nenhum dado retornado da API.");
+      $toast.error("Erro ao buscar dados da API.");
     }
   } catch (error) {
     const errorMessage =
@@ -158,7 +158,7 @@ async function encerrarOS(id) {
     if (response) {
       $toast.success("Ordem de Serviço encerrada com sucesso!");
       isModalCancelamentoOpen.value = false;
-      caixaOsDataPayload(); // Atualiza a lista de OS após encerramento
+      caixaOsDataPayload();
     } else {
       $toast.error("Erro ao encerrar OS. Tente novamente.");
     }
