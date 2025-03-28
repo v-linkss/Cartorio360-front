@@ -58,10 +58,6 @@ const {data: livrosData} = await useFetch(`${getlivros}`, {
 
 livros.value = livrosData.value
 
-// console.log('livros',livrosData.value)
-// console.log('atos tj',atosTipoTj.value)
-console.log('servico',tiposAtos.value)
-
 const handleCreateTipoAtos = async () => {
   try {
     const tipoAtosPayload = {
