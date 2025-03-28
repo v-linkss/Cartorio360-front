@@ -2,21 +2,21 @@
   <div v-if="!pending">
     <v-container class="data-container mt-16">
       <v-row no-gutters>
-        <v-col cols="12" md="6">
+        <!-- <v-col cols="12" md="6">
           <v-sheet class="pa-2 ma-2">Pai ID: {{ atoTipo.pai_id }}</v-sheet>
-        </v-col>
+        </v-col> -->
 
-        <v-col cols="12" md="6">
+        <!-- <v-col cols="12" md="6">
           <v-sheet class="pa-2 ma-2">Ato Tipo TJ: {{ atoTipo.ato_tipo_tj_id }}</v-sheet>
-        </v-col>
+        </v-col> -->
 
         <v-col cols="12" md="6">
           <v-sheet class="pa-2 ma-2">Descrição: {{ atoTipo.descricao }}</v-sheet>
         </v-col>
         
-        <v-col cols="12" md="6">
+        <!-- <v-col cols="12" md="6">
           <v-sheet class="pa-2 ma-2">Livro: {{ atoTipo.livro_id ?? 'Não informado' }}</v-sheet>
-        </v-col>
+        </v-col> -->
         
         <v-col cols="12" md="6">
           <v-sheet class="pa-2 ma-2">Usa Imóveis: {{ atoTipo.usa_imoveis ? 'Sim' : 'Não' }}</v-sheet>
