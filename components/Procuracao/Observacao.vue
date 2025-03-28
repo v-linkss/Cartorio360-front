@@ -79,8 +79,8 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/createAtosObservacao`;
-const observacaoUpdate = `${config.public.managemant}/updateAtosObservacao`;
+const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
+const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const observacoesItems = ref([]);

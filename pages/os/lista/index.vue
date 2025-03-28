@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5" style="width: 100%;">
+  <v-container class="mt-5" style="width: 100%;">
     <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
       <NuxtLink to="/os/criar-registro">
@@ -195,7 +195,7 @@
       :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false"
     />
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -244,7 +244,7 @@ const headers = [
   { title: "Apresentante", value: "apresentante_nome", width: "120px" },
   { title: "Usuario", value: "usuario_nome", width: "120px" },
   { title: "Valor", value: "valor", width: "100px" },
-  {title: "A Receber", value: "valor_a_receber", width: "100px"},
+  { title: "A Receber", value: "valor_a_receber", width: "100px" },
   {
     value: "actions",
   },
@@ -259,7 +259,7 @@ function getCurrentDate() {
 }
 
 async function usuariosDataPayload() {
-  const { data: usuarioData, error } = await useFetch(allUsuarios, {
+  const { data: usuarioData } = await useFetch(allUsuarios, {
     method: "POST",
     body: {
       cartorio_token: cartorio_token.value,

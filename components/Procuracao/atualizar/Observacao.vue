@@ -1,53 +1,25 @@
 <template>
   <v-container>
     <v-row class="mt-5">
-      <v-text-field
-        label="Observação"
-        v-model="state.observacao"
-        required
+      <v-text-field label="Observação" v-model="state.observacao" required
         :error-messages="v$.observacao.$errors.length > 0 ? v$.observacao.$errors.map((e) => e.$message) : []"
-        @blur="v$.observacao.$touch"
-        @input="v$.observacao.$touch"
-      />
+        @blur="v$.observacao.$touch" @input="v$.observacao.$touch" />
       <div>
-        <img
-          class="btn-pointer ml-2"
-          src="../../../assets/novo.png"
-          style="width: 40px; cursor: pointer"
-          title="Criar Pessoa"
-          @click="onSubmit"
-        />
+        <img class="btn-pointer ml-2" src="../../../assets/novo.png" style="width: 40px; cursor: pointer"
+          title="Criar Pessoa" @click="onSubmit" />
       </div>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-data-table
-          style="height: 465px"
-          :headers="headers"
-          :items="observacoesItems"
-        >
+        <v-data-table style="height: 465px" :headers="headers" :items="observacoesItems">
           <template v-slot:item.actions="{ item }">
-            <div
-              style="display: flex; cursor: pointer; justify-content: flex-end"
-              @click="deleteObservacao(item)"
-              title="Deletar Observação"
-            >
-              <img
-                v-if="item.excluido"
-                style="width: 30px; height: 30px"
-                src="../../../assets/excluido.png"
-                alt="Visualizar"
-                title="Reativar"
-              />
-              <img
-                v-else
-                src="../../../assets/mudarStatus.png"
-                alt="Excluir"
-                class="trash-icon"
-                style="width: 30px; height: 30px"
-                title="Excluir"
-              />
+            <div style="display: flex; cursor: pointer; justify-content: flex-end" @click="deleteObservacao(item)"
+              title="Deletar Observação">
+              <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
+                alt="Visualizar" title="Reativar" />
+              <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
+                style="width: 30px; height: 30px" title="Excluir" />
             </div>
           </template>
         </v-data-table>
@@ -79,9 +51,9 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/createAtosObservacao`;
-const observacaoUpdate = `${config.public.managemant}/updateAtosObservacao`;
-const getAtosObservacao = `${config.public.managemant}/getAtosObservacaoById`;
+const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
+const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
+const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const observacoesItems = ref([]);
@@ -113,14 +85,19 @@ const { data: dadosObservacao } = await useFetch(
     method: "GET",
   }
 );
-
-if (dadosObservacao.value) {
-    observacoesItems.value = dadosObservacao.value.map((item) => ({
-        ...item,
-        created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
-    }));
+if (Array.isArray(dadosObservacao.value)) {
+  observacoesItems.value = dadosObservacao.value.map((item) => ({
+    ...item,
+    created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
+  }));
+} else if (dadosObservacao.value && typeof dadosObservacao.value === "object") {
+  observacoesItems.value = [
+    {
+      ...dadosObservacao.value,
+      created: formatDate(dadosObservacao.value.created, "dd/mm/yyyy hh:mm"),
+    },
+  ];
 }
-
 async function onSubmit() {
   // Verifica se o campo está vazio e só valida se houver algo
   if (state.observacao.trim() === "") {
@@ -132,12 +109,11 @@ async function onSubmit() {
     const { data, error, status } = await useFetch(createAtoObservacao, {
       method: "POST",
       body: {
-        ato_id: route.query.ato_id,
+        ato_id: Number(route.query.ato_id),
         observacao: state.observacao,
         user_id: useCookie("user-data").value.usuario_id,
       },
     });
-
     if (status.value === "success") {
       observacoesItems.value.push({
         created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),

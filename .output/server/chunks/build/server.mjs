@@ -607,22 +607,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-CeYE-V8u.mjs')
+    component: () => import('./_id_-CrGkTy7s.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-ByDDPW64.mjs')
+    component: () => import('./geral-C4mm2HCY.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-fDWp2HVQ.mjs')
+    component: () => import('./_id_-aLEfA24x.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-Bs6x3BoW.mjs')
+    component: () => import('./geral-D7NyUVzZ.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-BwN51qsk.mjs')
+    component: () => import('./procuracao-Cz5kcV1j.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -689,7 +689,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-eqJK3hVY.mjs')
+    component: () => import('./criar-ato-CpQB2jvn.mjs')
   },
   {
     name: "os-criar-registro",
@@ -699,7 +699,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-DRcxNuV4.mjs')
+    component: () => import('./index-ApOkJXSo.mjs')
   },
   {
     name: "pessoas-atualizar-id",
@@ -725,6 +725,16 @@ const _routes = [
     name: "relatorios-lista",
     path: "/relatorios/lista",
     component: () => import('./lista-17rdyUIy.mjs')
+  },
+  {
+    name: "selos-enviar",
+    path: "/selos/enviar",
+    component: () => import('./index-aW4luPtK.mjs')
+  },
+  {
+    name: "selos-importar",
+    path: "/selos/importar",
+    component: () => import('./index-Caq17L_g.mjs')
   },
   {
     name: "situacoes-matriculas-atualizar-id",

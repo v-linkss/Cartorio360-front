@@ -1,15 +1,19 @@
 <template>
   <v-container>
     <v-row >
-      <v-col cols="3">
-        <v-text-field label="Observação" v-model="state.observacao" required />
+      <v-col cols="5"  class="mt-6">
+        <v-autocomplete label="Outros Atos" :items="outrosItems" item-title="descricao" item-value="id"></v-autocomplete>
       </v-col>
-      <v-col cols="5">
-        <v-autocomplete label="Outros Atos"></v-autocomplete>
+      <v-col cols="2" class="mt-6">
+        <v-text-field label="QTD" type="number" v-mask="'###'" v-model="state.quantidade"> </v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <label for="">Valor unitario</label>
+        <MoneyInput v-model="state.valor_unitario"/>
       </v-col>
       <div>
         <img
-          class="btn-pointer ml-2"
+          class="btn-pointer ml-2 mt-7"
           src="../../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Pessoa"
@@ -18,12 +22,8 @@
       </div>
     </v-row>
     <v-row>
-      <v-col cols="4" class="mt-6">
-        <v-text-field label="Quantidade" type="number"> </v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <label for="">Valor unitario</label>
-        <MoneyInput />
+      <v-col cols="9">
+        <v-text-field label="Observação" v-model="state.observacao"/>
       </v-col>
     </v-row>
 
@@ -32,7 +32,7 @@
         <v-data-table
           style="height: 465px"
           :headers="headers"
-          :items="observacoesItems"
+          :items="outrosItemsTable"
         >
           <template v-slot:item.actions="{ item }">
             <div
@@ -84,15 +84,15 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/createAtosObservacao`;
-const observacaoUpdate = `${config.public.managemant}/updateAtosObservacao`;
-const getAtosObservacao = `${config.public.managemant}/getAtosObservacaoById`;
+const allOutrosTj = `${config.public.managemant}/outros_tj`;
+const getOutros = `${config.public.managemant}/outros`;
+const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
+const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
+const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
-const observacoesItems = ref([]);
-const escreventesItems = ref([]);
+const outrosItemsTable = ref([]);
+const outrosItems = ref([]);
 
 const headers = [
   { title: "Data", align: "start", key: "created" },
@@ -103,7 +103,10 @@ const headers = [
 ];
 
 const state = reactive({
-  observacao: "",
+  observacao: null,
+  outros_tj_id: null,
+  quantidade: 1,
+  valor_unitario: null,
 });
 
 const rules = {
@@ -114,20 +117,6 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-// Carrega as observações ao carregar o componente
-const { data: dadosObservacao } = await useFetch(
-  `${getAtosObservacao}/${route.query.ato_id}`,
-  {
-    method: "GET",
-  }
-);
-
-if (dadosObservacao.value) {
-  observacoesItems.value = dadosObservacao.value.map((item) => ({
-    ...item,
-    created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
-  }));
-}
 
 async function onSubmit() {
   // Verifica se o campo está vazio e só valida se houver algo
@@ -175,11 +164,17 @@ async function deleteObservacao(item) {
   }
 }
 
-const { data } = await useFetch(allEscreventes, {
+const { data } = await useFetch(allOutrosTj, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
-escreventesItems.value = data.value[0].func_json_escreventes;
+outrosItems.value = data.value
+
+const { data:payloadOutros } = await useFetch(getOutros, {
+  method: "POST",
+  body: { cartorio_token: cartorio_token },
+});
+outrosItemsTable.value = payloadOutros.value || [];
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
