@@ -8,21 +8,21 @@
         />
       </NuxtLink>
       <v-row style="gap: 3rem">
-        <!-- <div style="width: 200px">
-          <v-text-field
-            class="mt-7 mb-4"
-            v-model="searchDoc"
-            label="Descrição"
-            prepend-inner-icon="mdi-magnify"
-            variant="outlined"
-            hide-details
-          ></v-text-field>
-        </div> -->
         <div style="width: 300px">
           <v-text-field
             class="mt-7 mb-4"
             v-model="search"
             label="tipo do ato"
+            prepend-inner-icon="mdi-magnify"
+            variant="outlined"
+            hide-details
+          ></v-text-field>
+        </div>
+        <div style="width: 200px">
+          <v-text-field
+            class="mt-7 mb-4"
+            v-model="searchDoc"
+            label="Descrição"
             prepend-inner-icon="mdi-magnify"
             variant="outlined"
             hide-details
@@ -144,7 +144,7 @@
   }
   
   function redirectToView(id) {
-    router.push({ path: `/tipoAtos/vizualizar/${id}` });
+    router.push({ path: `/tipoAtos/visualizar/${id}` });
   }
   
   function redirectToUpdate(id) {

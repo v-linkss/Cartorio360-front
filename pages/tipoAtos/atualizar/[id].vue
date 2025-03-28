@@ -3,64 +3,72 @@ const config = useRuntimeConfig();
 const updateTipoAtos = `${config.public.managemant}/tipo-atos`;
 const tipoAto = `${config.public.managemant}/tipo-atos`;
 const getTipoTj = `${config.public.managemant}/listar_tipo_atos_tj`;
-const getTiposAtos = `${config.public.managemant}/listar_tipo_atos"`;
-const getlivros = `${config.public.managemant}/listar_livros"`;
-
+const getTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
+const getlivros = `${config.public.managemant}/listar_livros`;
 
 const route = useRoute();
 const { id } = route.params; 
 
 const form = ref({
-  servico: null,
-  atoTj: null,
+  pai_id: null,
+  ato_tipo_tj_id: null,
   descricao: null,
-  livro: null,
-  usaImoveis: false,
-  qtdLimiteFolhas: 0,
-  vlrAdicionalFolhas: 0,
-  textoPadraoEtiqueta: null,
+  livro_id: null,
+  usa_imoveis: false,
+  qtd_limite_folhas: 0,
+  vlr_adicional_folhas: 0,
+  texto_padrao_etiqueta: null,
 });
 
-const tipoAtosServico = ref([]);
+const tiposAtos = ref([]);
 const tipoAtosTj = ref([]);
 const livros = ref([]);
 
+const userData = ref(useCookie("user-data").value || {});
+const cartorio_id = ref(useCookie("user-data").value.cartorio_id || null);
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
+
+const { $toast } = useNuxtApp();
+
 
 async function loadData() {
   try {
-    const { data: seloData } = await useFetch(`${tipoAto}/${id}`, { method: "GET" });
-    if (seloData.value) {
+    const { data: atoTipoData } = await useFetch(`${tipoAto}/${id}`, { method: "GET" });
+
+    if (atoTipoData.value) {
       form.value = {
-        uf: seloData.value.uf,
-        cor: seloData.value.cor,
-        descricao: seloData.value.descricao,
-        vlr_compra: seloData.value.vlr_compra,
+        pai_id: atoTipoData.value.pai_id,
+        ato_tipo_tj_id: atoTipoData.value.ato_tipo_tj_id,
+        descricao: atoTipoData.value.descricao,
+        livro_id: atoTipoData.value.livro_id,
+        usa_imoveis: atoTipoData.value.usa_imoveis,
+        qtd_limite_folhas: atoTipoData.value.qtd_limite_folhas,
+        vlr_adicional_folhas: atoTipoData.value.vlr_adicional_folhas,
+        texto_padrao_etiqueta: atoTipoData.value.texto_padrao_etiqueta,
       };
     }
   } catch (error) {
-    console.error("Erro ao carregar os dados do selo:", error);
+    console.error("Erro ao carregar os dados do tipo de ato:", error);
   }
 }
 
+await loadData();
 
-const atoTipoServicoPayload = {
-    cartorio_token: cartorio_token.value,
-    tipo: 'SERVIÇO'
-}
+const tipoAtoServicoPayload = {
+      cartorio_token: cartorio_token.value,
+      tipo: 'SERVIÇO'
+  }
 
-const { data: atosTipoServico } = await useFetch(getTiposAtos,
- { 
-    method: "POST",
-    body: atoTipoServicoPayload
+const {data: atosTipos} = await useFetch(`${getTiposAtos}`, {
+  method: "POST",
+  body: tipoAtoServicoPayload,
 });
+
+tiposAtos.value = atosTipos.value;
 
 const cartorioTokenPayload = {
     cartorio_token: cartorio_token.value,
 }
-
-
-tipoAtosServico.value = atosTipoServico.value
 
 const { data: atosTj } = await useFetch(getTipoTj,
  { 
@@ -70,7 +78,7 @@ const { data: atosTj } = await useFetch(getTipoTj,
 
 tipoAtosTj.value = atosTj.value;
 
-const { data: livrosData } = await useFetch(getLirvos,
+const { data: livrosData } = await useFetch(getlivros,
  { 
     method: "POST",
     body: cartorioTokenPayload
@@ -83,14 +91,18 @@ await loadData();
 async function HandleSubmitEdit() {
   try {
     const edicaoTipoAto = {
-      servico: form.value.servico,
-      atoTj: form.value.atoTj,
-      descricao: form.value.descricao,
-      livro: form.value.livro,
-      usaImoveis: form.value.usaImoveis,
-      qtdLimiteFolhas: form.value.qtdLimiteFolhas,
-      vlrAdicionalFolhas: form.value.vlrAdicionalFolhas,
-      textoPadraoEtiqueta: form.value.textoPadraoEtiqueta,
+        pai_id: form.value.pai_id,
+        ato_tipo_tj_id: form.value.ato_tipo_tj_id,
+        descricao: form.value.descricao,
+        livro_id: form.value.livro_id, 
+        usa_imoveis: form.value.usa_imoveis,
+        qtd_limite_folhas: form.value.qtd_limite_folhas,
+        vlr_adicional_folhas: form.value.vlr_adicional_folhas,
+        texto_padrao_etiqueta: form.value.texto_padrao_etiqueta,
+        user_id: userData.value.usuario_id,
+        user_alteracao_id: userData.value.usuario_id,
+        cartorio_id: cartorio_id.value,
+        tabvalores_tipotelaato_id: 1
     };
 
     await useFetch(`${updateTipoAtos}/${id}`, {
@@ -98,67 +110,100 @@ async function HandleSubmitEdit() {
       body: edicaoTipoAto,
     });
 
+    $toast.success("Tipo de ato atualizado com sucesso");
+
     navigateTo("/tipoAtos/lista");
   } catch (error) {
     console.error("Erro ao atualizar o tipo ato:", error);
+    $toast.error(error.message || "Erro ao cadastrar tipo de ato");
   }
 }
 
 </script>
 
 <template>
-  <v-container>
-    <h1 class="mb-5">Edição de Tipo ato</h1>
-    <v-form @submit.prevent="HandleSubmitEdit">
-      <v-row>
-        <v-col cols="3">
-          <v-autocomplete
-            v-model="form.uf"
-            :items="ufList"
-            item-title="descricao"
-            item-value="sigla"
-            label="UF"
-            required
-            outlined
-          />
-        </v-col>
-        <v-col cols="3">
-          <v-text-field
-            v-model="form.cor"
-            label="Cor"
-            required
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row>
+    <v-container>
+      <h1 class="mb-5">Edição de Tipo Ato</h1>
+      <v-form @submit.prevent="HandleSubmitEdit">
+        <v-row>
+            <v-col cols="6">
+                <v-autocomplete
+                    v-model="form.pai_id"
+                    :items="tiposAtos"
+                    item-title="descricao"
+                    item-value="id"
+                    label="Serviço"
+                    required
+                    outlined
+                />
+            </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <v-autocomplete
+                class="mr-5"
+                v-model="form.ato_tipo_tj_id"
+                :items="tipoAtosTj"
+                item-title="descricao"
+                item-value="id"
+                label="Ato tj"
+                required
+                outlined
+          ></v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <v-text-field v-model="form.descricao" label="Descrição" required outlined />
+          </v-col>
+        </v-row>
+        <v-row>
         <v-col cols="6">
-          <v-text-field
-          v-model="form.descricao"
-          label="Descrição"
-          required
-          outlined
-        />
+          <v-autocomplete
+            v-model="form.livro_id"
+            :items="livros"
+            item-title="descricao"
+            item-value="id"
+            label="Livro"
+            required
+            outlined
+          />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="3">
-          <MoneyInput required v-model="form.vlr_compra" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
-          <v-btn
-            type="submit"
-            class="ml-4"
-            size="large"
-            color="green"
-          >
-            Salvar
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
-  </v-container>
-</template>
+        <v-row>
+          <v-col cols="6">
+            <v-checkbox v-model="form.usa_imoveis" label="Usa Imóveis">
+            </v-checkbox> 
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <v-text-field
+              v-model.number="form.qtd_limite_folhas"
+              type="number"
+              label="Quantidade Limite de Folhas"
+              required
+              outlined
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <MoneyInput required v-model="form.vlr_adicional_folhas" label="Valor Adicional por Folha" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <v-text-fild v-model="form.texto_padrao_etiqueta" label="Texto Padrão da Etiqueta" outlined />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
+            <v-btn type="submit" class="ml-4" size="large" color="green">Salvar</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-container>
+  </template>
+  
