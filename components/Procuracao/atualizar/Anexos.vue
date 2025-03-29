@@ -3,11 +3,12 @@
     <v-row>
       <v-col cols="5" class="mt-2">
         <v-text-field
+        v-if="!isVisualizar"
           v-model="state.descricao"
           label="Descrição"
         ></v-text-field>
       </v-col>
-      <div @click="handleScannerClick" title="Escanear">
+      <div v-if="!isVisualizar" @click="handleScannerClick" title="Escanear">
         <img
           class="mt-3"
           style="width: 40px; height: 40px; cursor: pointer"
@@ -15,7 +16,7 @@
           alt="Escanear"
         />
       </div>
-      <div @click="openFolderFromPc" title="Criar">
+      <div v-if="!isVisualizar" @click="openFolderFromPc" title="Criar">
         <img
           class="mt-3 ml-2"
           style="width: 40px; height: 40px; cursor: pointer"
@@ -23,7 +24,7 @@
           alt="Criar"
         />
       </div>
-      <div @click="createAnexo" title="Criar">
+      <div v-if="!isVisualizar" @click="createAnexo" title="Criar">
         <img
           class="mt-3 ml-2"
           style="width: 40px; height: 40px; cursor: pointer"
@@ -98,6 +99,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const acionarScanner = `${config.public.biometria}/run-scanner`;
 const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
 const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
@@ -210,7 +212,7 @@ async function deleteAnexo(item) {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

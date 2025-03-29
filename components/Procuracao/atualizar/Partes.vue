@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="mt-5">
+    <v-row v-if="!isVisualizar" class="mt-5">
       <v-col cols="3">
         <v-text-field label="Documento" v-model="state.documento">
         </v-text-field>
@@ -8,7 +8,7 @@
       <v-col cols="4">
         <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
       </v-col>
-      <div>
+      <div >
         <img
           class="mt-1"
           src="../../../assets/visualizar.png"
@@ -28,7 +28,7 @@
       </div>
     </v-row>
 
-    <v-row>
+    <v-row v-if="!isVisualizar">
       <v-col cols="4">
         <v-autocomplete
           label="Selecione a Pessoa"
@@ -52,7 +52,7 @@
         >
         </v-autocomplete>
       </v-col>
-      <div>
+      <div v-if="!isVisualizar">
         <img
           class="mt-1"
           src="../../../assets/novo.png"
@@ -71,7 +71,7 @@
           :items="pessoasTable"
         >
           <template v-slot:item.actions="{ item }">
-            <v-row>
+            <v-row v-if="!isVisualizar">
               <div
                 style="
                   display: flex;
@@ -206,6 +206,7 @@ const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
 const baixarDocumento = `${config.public.managemant}/download`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
@@ -421,7 +422,7 @@ async function deletePessoa(item) {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

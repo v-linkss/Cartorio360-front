@@ -72,7 +72,17 @@
       </NuxtLink>
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
-          <v-row style="display: flex; gap: 10px; margin-top: -5px">
+          <v-row style="display: flex; gap: 2px; margin-top: -5px">
+            <div
+              @click="redirectoToView(item)"
+              title="Visualizar"
+            >
+              <img
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../../assets/visualizar.png"
+                alt="Visualizar"
+              />
+            </div>
             <div
               @click="redirectToModalReimprimir(item.token)"
               title="Reimprimir"
@@ -218,6 +228,24 @@ const redirectToModalReimprimir = (token) => {
   ato_token.value = token;
   isModalReimprimirOpen.value = true;
 };
+
+const redirectoToView = (item) =>{
+  if (item.rota === '/fontes/atos/ato-com-bem/geral' || item.rota === '/fontes/atos/ato-sem-bem/geral') {
+    router.push({
+      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+      query: {
+        origem: "vizualizar",
+        id: id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
+        usa_imoveis:item.usa_imoveis
+      },
+    });
+  }
+}
 
 const redirectToUpdateAto = (item) => {
   if (item.usa_imoveis || !item.usa_imoveis) {

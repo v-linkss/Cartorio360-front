@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="mt-5">
+    <v-row v-if="!isVisualizar" class="mt-5">
       <v-text-field label="Observação" v-model="state.observacao" required
         :error-messages="v$.observacao.$errors.length > 0 ? v$.observacao.$errors.map((e) => e.$message) : []"
         @blur="v$.observacao.$touch" @input="v$.observacao.$touch" />
@@ -55,7 +55,7 @@ const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const observacoesItems = ref([]);
 const escreventesItems = ref([]);
 
@@ -152,7 +152,7 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar"){
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

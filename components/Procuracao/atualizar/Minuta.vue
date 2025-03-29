@@ -22,13 +22,14 @@
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-btn
+    v-if="!isVisualizar"
       size="large"
       color="green"
       @click="salvarDocumento"
       :disabled="loading"
       >Atualizar</v-btn
     >
-    <v-btn class="ml-4" size="large" color="blue" @click="isModalMinutaOpen = true"
+    <v-btn v-if="!isVisualizar" class="ml-4" size="large" color="blue" @click="isModalMinutaOpen = true"
       >Gerar Minuta</v-btn
     >
   </v-row>
@@ -70,7 +71,7 @@ const isModalMinutaOpen = ref(false);
 const condMessage = ref(
   "Ao executar a geração, a minuta atual será substituída e não poderá ser recuperada.Confirma ?"
 );
-
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 // Variável de estado para controlar o loading
 const loading = ref(false);
 
@@ -281,7 +282,7 @@ const setLoading = (status) => {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

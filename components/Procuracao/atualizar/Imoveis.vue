@@ -1,6 +1,7 @@
 <template>
   <v-container v-if="status === 'success'" class="mt-5">
     <img
+    v-if="!isVisualizar"
       @click="isModalCadastroImoveisOpen = true"
       style="cursor: pointer"
       src="../../../assets/novo.png"
@@ -34,14 +35,15 @@
       :items="filteredImoveis"
       item-key="id"
     >
-    <template v-slot:item.descricao="{ item }">
-            <h3 style="width: 800px; font-weight: 500">
-              {{ item.descricao }}
-            </h3>
-          </template>
+      <template v-slot:item.descricao="{ item }">
+        <h3 style="width: 800px; font-weight: 500">
+          {{ item.descricao }}
+        </h3>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
+          v-if="!isVisualizar"
             style="cursor: pointer"
             @click="redirectToView(item.id)"
             title="Visualizar"
@@ -53,6 +55,7 @@
             />
           </div>
           <div
+          v-if="!isVisualizar"
             style="cursor: pointer"
             @click="redirectToUpdate(item.id)"
             title="Atualizar"
@@ -64,6 +67,7 @@
             />
           </div>
           <div
+          v-if="!isVisualizar"
             style="cursor: pointer"
             @click="deletePessoa(item)"
             title="Deletar"
@@ -117,6 +121,7 @@ const searchMatricula = ref("");
 const isModalCadastroImoveisOpen = ref(false);
 const isModalAtualizarImoveisOpen = ref(false);
 const idImovel = ref(null);
+const isVisualizar = ref(route.query.origem === "vizualizar");
 const headers = [
   { title: "Matrícula", value: "registro_matricula" },
   { title: "Descrição", value: "descricao" },
@@ -170,7 +175,7 @@ const atualizarListaImoveis = async () => {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");
