@@ -67,9 +67,9 @@
       <v-col md="4">
         <v-text-field
           v-model="state.data_nascimento"
-          type="date"
-          prepend-icon=""
           label="Data de nascimento"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -94,14 +94,14 @@
     <v-row>
       <v-col md="4">
         <v-text-field
-          v-model.date="state.cpf_pai"
+          v-model="state.cpf_pai"
           label="CPF do Pai"
           v-mask="'###.###.###-##'"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-text-field
-          v-model.date="state.nome_pai"
+          v-model="state.nome_pai"
           label="Nome do Pai"
         ></v-text-field>
       </v-col>
@@ -109,7 +109,7 @@
     <v-row>
       <v-col md="4">
         <v-text-field
-          v-model.date="state.cpf_mae"
+          v-model="state.cpf_mae"
           label="CPF da Mãe"
           v-mask="'###.###.###-##'"
         ></v-text-field>
@@ -175,7 +175,7 @@ const initialState = {
   tipo_pessoa: "FISICA",
   tabvalores_estadocivil_id: null,
   tabvalores_capacidadecivil_id: null,
-  tabvalores_sexo_id:null,
+  tabvalores_sexo_id: null,
   cidade_natural_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
@@ -202,15 +202,24 @@ const {
   pending,
   error,
 } = await useLazyAsyncData("cliente-dados", async () => {
-  const [estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems] =
-    await Promise.all([
-      $fetchWithToken(estadoCivil),
-      $fetchWithToken(capacidadeCivil),
-      $fetchWithToken(cidade),
-      $fetchWithToken(sexo)
-    ]);
+  const [
+    estadoCivilItems,
+    capacidadeCivilItems,
+    cidadeNascimentoItems,
+    sexoItems,
+  ] = await Promise.all([
+    $fetchWithToken(estadoCivil),
+    $fetchWithToken(capacidadeCivil),
+    $fetchWithToken(cidade),
+    $fetchWithToken(sexo),
+  ]);
 
-  return { estadoCivilItems, capacidadeCivilItems, cidadeNascimentoItems, sexoItems };
+  return {
+    estadoCivilItems,
+    capacidadeCivilItems,
+    cidadeNascimentoItems,
+    sexoItems,
+  };
 });
 
 const rules = {
@@ -241,6 +250,7 @@ async function onSubmit() {
       doc_identificacao: removeFormatting(state.doc_identificacao),
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
+      data_nascimento: formatToISO(state.data_nascimento),
     };
     const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",

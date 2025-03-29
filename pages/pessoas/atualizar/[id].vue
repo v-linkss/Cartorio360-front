@@ -108,9 +108,9 @@
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model="state.data_nascimento"
-                  type="date"
-                  prepend-icon=""
                   label="Data de nascimento"
+                  placeholder="dd/mm/yyyy"
+                  v-mask="'##/##/####'"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -196,8 +196,6 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-
 const tab = ref(null);
 const emit = defineEmits(["saved"]);
 const router = useRouter();
@@ -233,7 +231,7 @@ const initialState = {
   tabvalores_estadocivil_id: null,
   tabvalores_capacidadecivil_id: null,
   cidade_natural_id: null,
-  tabvalores_sexo_id:null,
+  tabvalores_sexo_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
@@ -256,8 +254,6 @@ function removeFormatting(value) {
   }
 }
 
-const v$ = useVuelidate(state);
-
 async function loadPessoaData() {
   try {
     const [
@@ -276,11 +272,14 @@ async function loadPessoaData() {
 
     const pessoa_token = useCookie("pessoa_token");
     pessoa_token.value = pessoa.token;
-    
+
     estadoCivilItemsData.value = estadoCivilItems;
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
     sexoItemsData.value = sexoItems;
+    if (pessoa.data_nascimento) {
+      pessoa.data_nascimento = formatDate(pessoa.data_nascimento, "dd/mm/yyyy");
+    }
     Object.assign(state, pessoa);
   } catch (error) {
     console.error("Erro ao carregar os dados da pessoa:", error);
@@ -301,16 +300,18 @@ onMounted(() => {
 function formatPayload(payload) {
   const formattedPayload = {};
   for (const key in payload) {
-    if (payload[key] === "") {
-      formattedPayload[key] = null;
-    } else if (
-      key === "doc_identificacao" ||
-      key === "cpf_pai" ||
-      key === "cpf_mae"
-    ) {
-      formattedPayload[key] = removeFormatting(payload[key]);
-    } else {
-      formattedPayload[key] = payload[key];
+    switch (key) {
+      case "doc_identificacao":
+      case "cpf_pai":
+      case "cpf_mae":
+        formattedPayload[key] = removeFormatting(payload[key]);
+        break;
+      case "data_nascimento":
+        formattedPayload[key] = formatToISO(payload[key]); 
+        break;
+      default:
+        formattedPayload[key] = payload[key] === "" ? null : payload[key];
+        break;
     }
   }
   return formattedPayload;

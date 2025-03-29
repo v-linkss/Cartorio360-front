@@ -42,15 +42,17 @@
       <v-col md="2">
         <v-text-field
           v-model="state.data_emissao"
-          type="date"
           label="Emissão"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
         ></v-text-field>
       </v-col>
       <v-col md="2">
         <v-text-field
           v-model="state.data_vencimento"
-          type="date"
           label="Validade"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
         ></v-text-field>
       </v-col>
       <div class="mt-1">
@@ -135,15 +137,17 @@
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="selectedDoc.data_emissao"
-                type="date"
                 label="Emissão"
+                placeholder="dd/mm/yyyy"
+                v-mask="'##/##/####'"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="selectedDoc.data_vencimento"
-                type="date"
                 label="Validade"
+                placeholder="dd/mm/yyyy"
+                v-mask="'##/##/####'"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -245,11 +249,15 @@ const {
     $fetchWithToken(allUf),
     $fetchWithToken(`${allDoc}/${pessoa_id}`),
   ]);
+
   const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
+    console.log(doc.data_emissao, doc.data_vencimento);
     return {
       ...doc,
-      data_emissao: doc.data_emissao ? formatDate(doc.data_emissao) : null,
-      data_vencimento: doc.data_vencimento ? formatDate(doc.data_vencimento) : null,
+      data_emissao: doc.data_emissao ? formatDate(doc.data_emissao,'dd/mm/yyyy') : null,
+      data_vencimento: doc.data_vencimento
+        ? formatDate(doc.data_vencimento,'dd/mm/yyyy')
+        : null,
     };
   });
   return {
@@ -295,10 +303,14 @@ async function onSubmit() {
 function redirectToUpdate(item) {
   if (item) {
     selectedDoc.value = {
-    ...item,
-    data_emissao: formatToISO(item.data_emissao),
-    data_vencimento: formatToISO(item.data_vencimento),
-  }
+      ...item,
+      data_emissao: item.data_emissao
+        ? formatDate(item.data_emissao, "dd/mm/yyyy")
+        : null,
+        data_vencimento: item.data_vencimento
+        ? formatDate(item.data_vencimento, "dd/mm/yyyy")
+        : null,
+    };
     isModalOpen.value = true;
   }
 }
@@ -310,7 +322,7 @@ async function onUpdate(id) {
     emissor: selectedDoc.value.emissor,
     tabvalores_ufemissor_id: selectedDoc.value.tabvalores_ufemissor_id,
     data_vencimento: selectedDoc.value.data_vencimento,
-    data_emissao: selectedDoc.value.data_emissao,
+    data_emissao: formatToISO(selectedDoc.value.data_emissao),
   };
 
   const { status } = await fetchWithToken(`${updateDoc}/${id}`, {
