@@ -160,10 +160,6 @@ const loadDefaultDocument = async () => {
 };
 loadDefaultDocument();
 const lavraAto = async () => {
-  if(!state.escrevente){
-    $toast.error("Selecione um escrevente para realizar a ação")
-    return
-  }
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
