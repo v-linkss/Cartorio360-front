@@ -143,9 +143,13 @@ async function searchCaixas() {
         situacao: state.situacao,
       },
     });
-
     if (caixasData.value.length > 0) {
-      caixaItems.value = caixasData.value;
+    caixaItems.value = caixasData.value.map((item) => {
+        return {
+          ...item,
+          data: formatDate(item.data, "dd/mm/yyyy"),
+        };
+      });
     } else {
       caixaItems.value = [];
       $toast.error("Não existe caixa registrada!");

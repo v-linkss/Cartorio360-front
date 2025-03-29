@@ -1,6 +1,11 @@
 <template>
-  <v-progress-circular class="loading-spinner" indeterminate size="64" v-if="pending"></v-progress-circular>
-  
+  <v-progress-circular
+    class="loading-spinner"
+    indeterminate
+    size="64"
+    v-if="pending"
+  ></v-progress-circular>
+
   <div v-else-if="error">{{ error.message }}</div>
 
   <v-container v-if="!pending">
@@ -20,7 +25,6 @@
           v-model="state.protocolo"
           label="Protocolo"
           required
-
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -58,7 +62,8 @@
           :error-messages="v$.situacao_id.$errors.map((e) => e.$message)"
           @blur="v$.numero.$touch"
           @input="v$.numero.$touch"
-          type="date"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
           label="Data"
         ></v-text-field>
       </v-col>
@@ -81,23 +86,16 @@
           :error-messages="v$.situacao_id.$errors.map((e) => e.$message)"
           label="Descrição"
           required
-
         ></v-text-field>
       </v-col>
       <v-col md="4">
-        <v-text-field
-          v-model="state.cnm"
-          label="CNM"
-          required
-
-        ></v-text-field>
+        <v-text-field v-model="state.cnm" label="CNM" required></v-text-field>
       </v-col>
       <v-col md="4">
         <v-text-field
           v-model="state.observacao"
           label="Observação"
           required
-
         ></v-text-field>
       </v-col>
     </v-row>
@@ -111,7 +109,7 @@
         >Salvar</v-btn
       >
     </v-row>
-  </v-container> 
+  </v-container>
 </template>
 
 <script setup>
@@ -138,48 +136,64 @@ const {
   pending,
   error,
 } = await useLazyAsyncData("cliente-dados", async () => {
-  const tokenCookie = useCookie('auth_token');
+  const tokenCookie = useCookie("auth_token");
 
   try {
-    const [situacaoItens, naturezaImoveisItens, tipoLogradouroItens, cidadesItens, livroItens] =
-      await Promise.all([
-        $fetch(`${situacao}`, {
-          method: "POST", 
-          body: {
-            cartorio_token: useCookie("user-data").value.cartorio_token,  
-          },
-          headers: {
-            Authorization: `Bearer ${tokenCookie.value}`,
-          },
-        }),
-        $fetch(`${naturezaImoveis}`, {
-          headers: {
-            Authorization: `Bearer ${tokenCookie.value}`,
-          },
-        }),
-        $fetch(`${tipoLogradouros}`, {
-          headers: {
-            Authorization: `Bearer ${tokenCookie.value}`,
-          },
-        }),
-        $fetch(`${cidades}`, {
-          headers: {
-            Authorization: `Bearer ${tokenCookie.value}`,
-          },
-        }),
-        $fetch(`${livro}`, {
-          headers: {
-            Authorization: `Bearer ${tokenCookie.value}`,
-          },
-        }),
-      ]);
-    return { situacaoItens, naturezaImoveisItens, tipoLogradouroItens, cidadesItens, livroItens };
+    const [
+      situacaoItens,
+      naturezaImoveisItens,
+      tipoLogradouroItens,
+      cidadesItens,
+      livroItens,
+    ] = await Promise.all([
+      $fetch(`${situacao}`, {
+        method: "POST",
+        body: {
+          cartorio_token: useCookie("user-data").value.cartorio_token,
+        },
+        headers: {
+          Authorization: `Bearer ${tokenCookie.value}`,
+        },
+      }),
+      $fetch(`${naturezaImoveis}`, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie.value}`,
+        },
+      }),
+      $fetch(`${tipoLogradouros}`, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie.value}`,
+        },
+      }),
+      $fetch(`${cidades}`, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie.value}`,
+        },
+      }),
+      $fetch(`${livro}`, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie.value}`,
+        },
+      }),
+    ]);
+    return {
+      situacaoItens,
+      naturezaImoveisItens,
+      tipoLogradouroItens,
+      cidadesItens,
+      livroItens,
+    };
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
-    return { situacaoItens: [], naturezaImoveisItens: [], tipoLogradouroItens: [], cidadesItens: [], livroItens: [] };
+    return {
+      situacaoItens: [],
+      naturezaImoveisItens: [],
+      tipoLogradouroItens: [],
+      cidadesItens: [],
+      livroItens: [],
+    };
   }
 });
-
 
 const state = reactive({
   numero: null,
@@ -203,11 +217,10 @@ const state = reactive({
   end_complemento: null,
   end_quadra: null,
   end_lote: null,
-  folha_inicial:null,
-  folha_final:null,
+  folha_inicial: null,
+  folha_final: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
-
 });
 
 const rules = {
@@ -230,46 +243,39 @@ const rules = {
   livro_id: {
     required: helpers.withMessage("O campo é obrigatório", required),
   },
-
 };
 
 const v$ = useVuelidate(rules, state);
-function removeFormatting(value) {
-    if (value) {
-      return value.replace(/[.\-]/g, "");
-    } else {
-      value = null;
-    }
-  }
-  async function onSubmit() {
+
+async function onSubmit() {
   if (await v$.value.$validate()) {
     const payload = { ...state };
-    // Substituindo valores vazios por null
     for (const key in payload) {
       if (payload[key] === "") {
         payload[key] = null;
       }
     }
-    
+
     const payloadFormated = {
       ...payload,
-      doc_identificacao: removeFormatting(state.doc_identificacao),
-      cpf_pai: removeFormatting(state.cpf_pai),
-      cpf_mae: removeFormatting(state.cpf_mae),
+      data: formatToISO(state.data),
     };
-    
+
     try {
-      const tokenCookie = useCookie('auth_token');
+      const tokenCookie = useCookie("auth_token");
 
       // Usando o payload formatado
-      const response = await $fetch(`${config.public.auth}/service/gerencia/matriculas`, {
-        method: "POST",
-        body: payloadFormated,  // Aqui usa o payload formatado
-        headers: {
-          Authorization: `Bearer ${tokenCookie.value}`,
-        },
-      });
-      
+      const response = await $fetch(
+        `${config.public.auth}/service/gerencia/matriculas`,
+        {
+          method: "POST",
+          body: payloadFormated, // Aqui usa o payload formatado
+          headers: {
+            Authorization: `Bearer ${tokenCookie.value}`,
+          },
+        }
+      );
+
       // Verificação de sucesso
       if (response.statusCode === 500) {
         $toast.error("Erro ao cadastrar Matricula, o CPF já está cadastrado.");
@@ -283,7 +289,7 @@ function removeFormatting(value) {
         emit("saved");
       }
     } catch (error) {
-      console.log('Erro ao cadastrar:', error);
+      console.log("Erro ao cadastrar:", error);
       $toast.error("Erro ao cadastrar. Tente novamente.");
     }
   }
@@ -297,8 +303,7 @@ async function onUpdate() {
   }
   const payloadFormated = {
     ...payload,
-    doc_identificacao: removeFormatting(state.doc_identificacao),
-    cpf_mae: removeFormatting(state.cpf_mae),
+    data: formatToISO(state.data),
   };
   const { data, error, status } = await fetchWithToken(
     `${updateMatricula}/${MatriculaId.value}`,
@@ -308,14 +313,13 @@ async function onUpdate() {
     }
   );
   if (status.value === "success") {
-      $toast.success("Matricula atualizada com sucesso!");
-      router.push("/Matriculas/lista");
-      return;
-
+    $toast.success("Matricula atualizada com sucesso!");
+    router.push("/Matriculas/lista");
+    return;
   }
 }
 
 function voltar() {
-
-  router.push("/matriculas/lista");}
+  router.push("/matriculas/lista");
+}
 </script>
