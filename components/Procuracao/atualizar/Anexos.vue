@@ -21,7 +21,6 @@
           alt="Escanear"
         />
       </div>
-<<<<<<< HEAD
       <!-- <div v-if="status_arquivo">
         <div @click="openFolderFromPc" title="Criar">
           <img
@@ -33,9 +32,6 @@
         </div>
       </div> -->
       <div @click="openFolderFromPc" title="Criar">
-=======
-      <div v-if="!isVisualizar" @click="openFolderFromPc" title="Criar">
->>>>>>> 93044de7edab2f68811cdd691653be8689585ea5
         <img
           v-if="status_arquivo === false"
           class="mt-3 ml-2"
