@@ -1,5 +1,5 @@
 <template>
-  <v-container  class="mt-5">
+  <v-container class="mt-5">
     <NuxtLink to="/matriculas/cadastro">
       <img
         style="cursor: pointer"
@@ -7,27 +7,49 @@
         alt="Cadastro"
       />
     </NuxtLink>
-    <v-row style="gap: 3rem">
-      <div style="width: 200px">
-        <v-text-field
-          class="mt-7 mb-4"
-          v-model="searchNumero"
-          label="Numero"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
-      </div>
-      <div style="width: 300px">
-        <v-text-field
-          class="mt-7 mb-4"
-          v-model="searchDescricao"
-          label="Descrição"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
-      </div>
+    <v-row style="gap: 0.5rem">
+      <v-col cols="2">
+      <v-text-field
+        class="mt-7 mb-4"
+        v-model="searchNumero"
+        label="Número"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        hide-details
+      ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+      <v-text-field
+        class="mt-7 mb-4"
+        v-model="searchData"
+        label="Data"
+        prepend-inner-icon="mdi-magnify"
+        placeholder="dd/mm/yyyy"
+        v-mask="'##/##/####'"
+        variant="outlined"
+        hide-details
+      ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+      <v-text-field
+        class="mt-7 mb-4"
+        v-model="searchProtocolo"
+        label="Protocolo"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        hide-details
+      ></v-text-field>
+      </v-col>
+      <v-col cols="3">
+      <v-text-field
+        class="mt-7 mb-4"
+        v-model="searchDescricao"
+        label="Descrição"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        hide-details
+      ></v-text-field>
+      </v-col>
     </v-row>
     <v-data-table
       density="compact"
@@ -85,61 +107,71 @@
     </v-data-table>
   </v-container>
 </template>
-
 <script setup>
-
 const config = useRuntimeConfig();
 const matriculasLista = `${config.public.auth}/service/gerencia/listar_matriculas`;
-
-// const matriculasLista = `${config.public.auth}/service/gerencia/matriculas`;
 const matriculasUpdate = `${config.public.auth}/service/gerencia/matriculas`;
-const tokenCookie = useCookie('auth_token');
+const tokenCookie = useCookie("auth_token");
 
 const router = useRouter();
 
 const searchDescricao = ref("");
 const searchNumero = ref("");
+const searchProtocolo = ref("");
+const searchData = ref("");
 
 const headers = [
   { title: "Número", value: "numero" },
   { title: "Data", value: "data" },
   { title: "Protocolo", value: "protocolo" },
   { title: "Descrição", value: "descricao" },
-
   { value: "actions" },
 ];
 
-const  matriculasItems  = await $fetch(`${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`,
-{
-  method: "POST",
-  body: {cartorio_token: useCookie("user-data").value.cartorio_token},
-  headers: {
-    Authorization: `Bearer ${tokenCookie.value}`,
-  },
-}
+const matriculasItems = await $fetch(
+  `${matriculasLista}?pageNumber=${1}&pageSize=${1000000}`,
+  {
+    method: "POST",
+    body: { cartorio_token: useCookie("user-data").value.cartorio_token },
+    headers: {
+      Authorization: `Bearer ${tokenCookie.value}`,
+    },
+  }
 );
 
 const filteredMatriculas = computed(() => {
   if (!matriculasItems || matriculasItems.length === 0) {
-    return []; // Retorna um array vazio se não houver itens
+    return [];
   }
 
-  return matriculasItems.filter((item) => {
-    const numeroIdentificacao = item.numero
-      ? item.numero.toLowerCase()
-      : "";
-    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
+  return matriculasItems
+    .filter((item) => {
+      const numeroIdentificacao = item.numero ? item.numero.toLowerCase() : "";
+      const descricao = item.descricao ? item.descricao.toLowerCase() : "";
+      const protocolo = item.protocolo ? item.protocolo.toLowerCase() : "";
+      const data = item.data ? formatDate(item.data, "dd/mm/yyyy") : "";
 
-    const matchesNumero = numeroIdentificacao.includes(searchNumero.value.toLowerCase());
-    const matchesDescricao = descricao.includes(searchDescricao.value.toLowerCase());
+      const matchesNumero = numeroIdentificacao.includes(
+        searchNumero.value.toLowerCase()
+      );
+      const matchesDescricao = descricao.includes(
+        searchDescricao.value.toLowerCase()
+      );
+      const matchesProtocolo = protocolo.includes(
+        searchProtocolo.value.toLowerCase()
+      );
+      const matchesData = data.includes(searchData.value);
 
-    return matchesNumero && matchesDescricao;
-  }).map((item) => {
-    return {
-      ...item,
-      data: formatDate(item.data, 'dd/mm/yyyy'),
-    };
-  });
+      return (
+        matchesNumero && matchesDescricao && matchesProtocolo && matchesData
+      );
+    })
+    .map((item) => {
+      return {
+        ...item,
+        data: formatDate(item.data, "dd/mm/yyyy"),
+      };
+    });
 });
 
 async function deleteMatricula(item) {

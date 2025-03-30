@@ -39,7 +39,7 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
 
-      <v-btn class="ml-10" @click="onUpdate" size="large" color="green"
+      <v-btn v-if="!isVisualizar" class="ml-10" @click="onUpdate" size="large" color="green"
         >Atualizar</v-btn
       >
     </v-row>
@@ -64,7 +64,7 @@ const router = useRouter();
 const route = useRoute();
 const updateAtoProcuracao = `${config.public.managemant}/updateAtos`;
 const situacoesItems = ref(props.item_situacoes);
-
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const state = reactive({
   dt_abertura: props.item_dados[0].dt_abertura || null,
   status: props.item_dados[0].status || null,
@@ -88,7 +88,7 @@ async function onUpdate() {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

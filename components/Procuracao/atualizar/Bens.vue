@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-col class="mt-5" cols="12">
+    <v-col class="mt-5" cols="12" v-if="!isVisualizar">
       <v-textarea label="Descrição" v-model="state.descricao"> </v-textarea>
     </v-col>
 
-    <v-row class="ml-1 mb-3">
+    <v-row class="ml-1 mb-3" v-if="!isVisualizar">
       <v-col class="mt-6" cols="8">
         <v-autocomplete
           label="Selecione o Tipo"
@@ -19,7 +19,7 @@
         <label>Valor</label>
         <MoneyInput v-model="state.vlr_alienacao" />
       </v-col>
-      <div>
+      <div >
         <img
           class="mt-7 ml-4"
           src="../../../assets/novo.png"
@@ -150,6 +150,7 @@ const getAtosBens = `${config.public.managemant}/listarBens`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 
 const pessoasTable = ref([]);
 const selectedBem = ref([]);
@@ -261,7 +262,7 @@ async function deletePessoa(item) {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar"){
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

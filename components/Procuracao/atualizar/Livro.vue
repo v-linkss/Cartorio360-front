@@ -10,7 +10,7 @@
       >
       </ejs-documenteditorcontainer>
     </v-col>
-    <v-col>
+    <v-col v-if="!isVisualizar">
       <v-autocomplete
         class="mt-15"
         label="Tabelião/escrevente"
@@ -96,6 +96,7 @@ const condMessage = ref(
 const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const documentEditorContainer = ref(null);
 const escreventesItems = ref([]);
 
@@ -160,10 +161,6 @@ const loadDefaultDocument = async () => {
 };
 loadDefaultDocument();
 const lavraAto = async () => {
-  if(!state.escrevente){
-    $toast.error("Selecione um escrevente para realizar a ação")
-    return
-  }
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
@@ -202,7 +199,7 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar") if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

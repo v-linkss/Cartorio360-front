@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row >
+    <v-row v-if="!isVisualizar">
       <v-col cols="5"  class="mt-6">
         <v-autocomplete label="Outros Atos" :items="outrosItems" item-title="descricao" item-value="id"></v-autocomplete>
       </v-col>
@@ -21,7 +21,7 @@
         />
       </div>
     </v-row>
-    <v-row>
+    <v-row v-if="!isVisualizar">
       <v-col cols="9">
         <v-text-field label="Observação" v-model="state.observacao"/>
       </v-col>
@@ -36,6 +36,7 @@
         >
           <template v-slot:item.actions="{ item }">
             <div
+            v-if="!isVisualizar"
               style="display: flex; cursor: pointer; justify-content: flex-end"
               @click="deleteObservacao(item)"
               title="Deletar Observação"
@@ -90,7 +91,7 @@ const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const outrosItemsTable = ref([]);
 const outrosItems = ref([]);
 
@@ -179,7 +180,7 @@ outrosItemsTable.value = payloadOutros.value || [];
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar"){
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

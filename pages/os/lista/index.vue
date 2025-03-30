@@ -19,37 +19,41 @@
         ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field
-          v-model="state.data_inicio"
-          type="date"
-          label="Abertura de"
-          style="width: 150px"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          v-model="state.data_fim"
-          type="date"
-          label="Abertura até"
-          style="width: 150px"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          v-model="state.data_lavratura_inicio"
-          type="date"
-          label="Lavratura de"
-          style="width: 150px"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          v-model="state.data_lavratura_fim"
-          type="date"
-          label="Lavratura até"
-          style="width: 150px"
-        ></v-text-field>
-      </v-col>
+  <v-text-field
+    v-model="state.data_inicio"
+    label="Abertura de"
+    placeholder="dd/mm/yyyy"
+    v-mask="'##/##/####'"
+    style="width: 150px"
+  ></v-text-field>
+</v-col>
+<v-col>
+  <v-text-field
+    v-model="state.data_fim"
+    label="Abertura até"
+    placeholder="dd/mm/yyyy"
+    v-mask="'##/##/####'"
+    style="width: 150px"
+  ></v-text-field>
+</v-col>
+<v-col>
+  <v-text-field
+    v-model="state.data_lavratura_inicio"
+    label="Lavratura de"
+    placeholder="dd/mm/yyyy"
+    v-mask="'##/##/####'"
+    style="width: 150px"
+  ></v-text-field>
+</v-col>
+<v-col>
+  <v-text-field
+    v-model="state.data_lavratura_fim"
+    label="Lavratura até"
+    placeholder="dd/mm/yyyy"
+    v-mask="'##/##/####'"
+    style="width: 150px"
+  ></v-text-field>
+</v-col>
       <v-col>
         <v-text-field
           v-model="state.protocolo"
@@ -253,9 +257,15 @@ const headers = [
 function getCurrentDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
-  const MM = String(today.getMonth() + 1).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
   const dd = String(today.getDate()).padStart(2, "0");
-  return `${yyyy}-${MM}-${dd}`;
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function convertToISODate(date) {
+  if (!date) return null; 
+  const [dd, mm, yyyy] = date.split('/');
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 async function usuariosDataPayload() {
@@ -277,10 +287,10 @@ async function searchOrdersService() {
       body: {
         cartorio_token: cartorio_token.value,
         numero: state.numero || null,
-        data_inicio: state.data_inicio || null,
-        data_fim: state.data_fim || null,
-        data_lavratura_inicio: state.data_lavratura_inicio || null,
-        data_lavratura_fim: state.data_lavratura_fim || null,
+        data_inicio: convertToISODate(state.data_inicio) || null,
+        data_fim: convertToISODate(state.data_fim) || null,
+        data_lavratura_inicio: convertToISODate(state.data_lavratura_inicio) || null,
+        data_lavratura_fim: convertToISODate(state.data_lavratura_fim) || null,
         protocolo: state.protocolo || null,
         livro: state.livro || null,
         folha: state.folha || null,
@@ -320,16 +330,18 @@ async function tipoAtosDataPayload() {
 
 const servicosDataTable = async () => {
   try {
+
     const currentDate = getCurrentDate();
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
     const dadosRestaurados = JSON.parse(pesquisaSalva);
+
     const { data: servicosData, error } = await useFetch(allServicos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
         usuario_token: usuario_token.value,
-        data_fim: dadosRestaurados?.data_fim || currentDate,
-        data_inicio: dadosRestaurados?.data_inicio || currentDate,
+        data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
+        data_inicio: convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
       },
     });
     if (servicosData.value.length > 0) {

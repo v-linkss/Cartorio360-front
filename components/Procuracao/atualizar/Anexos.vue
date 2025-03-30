@@ -4,6 +4,7 @@
 
       <v-col cols="5" class="mt-2">
         <v-text-field
+        v-if="!isVisualizar"
           v-model="state.descricao"
           :error-messages="v$.descricao.$errors.map((e) => e.$message)"
           @blur="v$.descricao.$touch"
@@ -12,7 +13,7 @@
           label="Descrição"
         ></v-text-field>
       </v-col>
-      <div @click="handleScannerClick" title="Escanear">
+      <div v-if="!isVisualizar" @click="handleScannerClick" title="Escanear">
         <img
           class="mt-3"
           style="width: 40px; height: 40px; cursor: pointer"
@@ -20,6 +21,7 @@
           alt="Escanear"
         />
       </div>
+<<<<<<< HEAD
       <!-- <div v-if="status_arquivo">
         <div @click="openFolderFromPc" title="Criar">
           <img
@@ -31,6 +33,9 @@
         </div>
       </div> -->
       <div @click="openFolderFromPc" title="Criar">
+=======
+      <div v-if="!isVisualizar" @click="openFolderFromPc" title="Criar">
+>>>>>>> 93044de7edab2f68811cdd691653be8689585ea5
         <img
           v-if="status_arquivo === false"
           class="mt-3 ml-2"
@@ -53,7 +58,7 @@
           alt="Criar"
         />
       </div>
-      <div @click="createAnexo" title="Criar">
+      <div v-if="!isVisualizar" @click="createAnexo" title="Criar">
         <img
           class="mt-3 ml-2"
           style="width: 40px; height: 40px; cursor: pointer"
@@ -133,6 +138,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const acionarScanner = `${config.public.biometria}/run-scanner`;
 const criarAtoAnexo = `${config.public.managemant}/atos_anexos`;
 const atualizarAtoAnexo = `${config.public.managemant}/atos_anexos`;
@@ -342,7 +348,7 @@ async function visualisarAnexo(item) {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
+  if (origem === "atualizar" || origem === "vizualizar") {
     router.push(`/os/atualizar/${id}`);
   } else {
     router.push("/os/criar-registro");

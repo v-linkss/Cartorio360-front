@@ -67,7 +67,8 @@
             <v-col md="4">
               <v-text-field
                 v-model="state.data"
-                type="date"
+                placeholder="dd/mm/yyyy"
+                v-mask="'##/##/####'"
                 label="Data"
               ></v-text-field>
             </v-col>
@@ -316,6 +317,9 @@ async function fetchData() {
         },
       }),
     ]);
+    if (matriculasItens.data) {
+      matriculasItens.data = formatDate(matriculasItens.data,'dd/mm/yyyy');
+    }
     Object.assign(state, matriculasItens);
     return {
       situacaoItens,
@@ -351,12 +355,16 @@ async function onUpdate() {
   try {
     const tokenCookie = useCookie("auth_token");
 
+    if (state.data) {
+      state.data = formatToISO(state.data);
+    }
+
     // Usando o payload formatado
     const response = await $fetch(
       `${config.public.auth}/service/gerencia/matriculas/${id}`,
       {
         method: "PUT",
-        body: state, // Aqui usa o payload formatado
+        body: state,
         headers: {
           Authorization: `Bearer ${tokenCookie.value}`,
         },

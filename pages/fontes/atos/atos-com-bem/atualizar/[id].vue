@@ -17,7 +17,7 @@
           disabled
         ></v-autocomplete>
       </v-col>
-      <div>
+      <div v-if="!isVisualizar">
         <img
           class="mt-2"
           :style="{
@@ -89,12 +89,12 @@
 </template>
 
 <script setup>
-
 const pages_prop = ref(null);
 const doc_prop = ref(null);
 const tab = ref(null);
 const config = useRuntimeConfig();
 const route = useRoute();
+const isVisualizar = ref(route.query.origem === 'vizualizar');
 const allSituacoes = `${config.public.auth}/service/gerencia/listarSituacoes`;
 const getAtoId = `${config.public.auth}/service/gerencia/getAtos`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
