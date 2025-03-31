@@ -8,12 +8,12 @@ import { V as VTabs, a as VTab, b as VTabsWindow, c as VTabsWindowItem } from '.
 import { V as VContainer } from './VContainer-CTpFP9Uv.mjs';
 import { V as VCol } from './VCol-BfQDPyTL.mjs';
 import { V as VAutocomplete } from './VAutocomplete-ChQPKqBs.mjs';
-import '../_/nitro.mjs';
+import '../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:url';
 import 'node:path';
+import 'node:url';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';

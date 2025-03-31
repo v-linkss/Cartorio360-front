@@ -254,6 +254,7 @@ async function reconhecerAtoSemelhanca() {
   }
 
 
+
 async function reconhecerEtiquetaSemelhanca(token) {
   try {
     const { data, error, status } = await useFetch(etiquetaSemelhanca, {

@@ -343,24 +343,26 @@
 
 
   async function visualisarAnexo(item) {
-    try {
+  try {
 
-      const data = await useFetch(`${downloadAnexo}`, {
-        method: "POST",
-        body:  { bucket: useCookie("user-data").value.cartorio_token, path: item.link },
-      });
-      window.open(data.data.value, "_blank");
+    const data = await useFetch(`${downloadAnexo}`, {
+      method: "POST",
+      body:  { bucket: useCookie("user-data").value.cartorio_token, path: item.link },
+    });
+    // console.log(data.data.value);
+    // window.open(data.data.value, "_blank");
 
-      // visualizarDocumento(data.data.value);
-      // const response = await fetch(data.data.value); // Baixa o arquivo
-      // const blob = await response.blob(); // Converte a resposta para Blob
-      // const blobUrl = URL.createObjectURL(blob); // Cria URL temporária
+    // visualizarDocumento(data.data.value);
+    const response = await fetch(data.data.value); // Baixa o arquivo
+    const blob = await response.blob(); // Converte a resposta para Blob
+    const blobUrl = URL.createObjectURL(blob); // Cria URL temporária
 
-      // window.open(blobUrl, "_blank");
-    } catch (error) {
-      console.error("Erro ao excluir pessoa:", error);
-    }
+    window.open(blobUrl, "_blank");
+
+  } catch (error) {
+    console.error("Erro ao excluir pessoa:", error);
   }
+}
 
   const goBack = () => {
     const origem = route.query.origem || "criar";
