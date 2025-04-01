@@ -20,6 +20,16 @@
         ></v-text-field>
       </v-col>
     </v-row>
+    <v-row>
+        <v-col md="3">
+          <v-autocomplete
+            v-model="searchSituacao"
+            :items="situacaoOptions"
+            label="Situação"
+            clearable
+          ></v-autocomplete>
+        </v-col>
+    </v-row>
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
@@ -102,7 +112,6 @@ const goBack = () => {
 };
 
 const headers = [
-  { title: "Data Recebimento", value: "data" },
   { title: "Número", value: "numero" },
   { title: "Situação", value: "situacao" },
   { title: "CPF", value: "apresentante_cpf" },
@@ -112,6 +121,11 @@ const headers = [
   { title: "A Receber", value: "valor_a_receber" },
   { title: "Ações", value: "actions" },
 ];
+
+const searchSituacao = ref("");
+
+const situacaoOptions = ["PENDENTE", "ENCERRADA", "PAGA"];
+
 
 async function caixaOsDataPayload() {
   try {
@@ -179,13 +193,13 @@ const filteredItems = computed(() => {
     const apresentante = item.apresentante_nome
       ? item.apresentante_nome.toLowerCase()
       : "";
+    const situacao = item.situacao ? item.situacao.toUpperCase() : "";
 
     const matchesNumero = numero.includes(searchNumero.value.toLowerCase());
-    const matchesApresentante = apresentante.includes(
-      searchApresentante.value.toLowerCase()
-    );
+    const matchesApresentante = apresentante.includes(searchApresentante.value.toLowerCase());
+    const matchesSituacao = searchSituacao.value ? situacao === searchSituacao.value : true;
 
-    return matchesNumero && matchesApresentante;
+    return matchesNumero && matchesApresentante && matchesSituacao;
   });
 });
 
