@@ -3,23 +3,13 @@
     <v-row>
 
       <v-col cols="5" class="mt-2">
-        <v-text-field
-        v-if="!isVisualizar"
-          v-model="state.descricao"
-          :error-messages="v$.descricao.$errors.map((e) => e.$message)"
-          @blur="v$.descricao.$touch"
-          @update:modelValue="v$.descricao.$touch"
-          required
-          label="Descrição"
-        ></v-text-field>
+        <v-text-field v-if="!isVisualizar" v-model="state.descricao"
+          :error-messages="v$.descricao.$errors.map((e) => e.$message)" @blur="v$.descricao.$touch"
+          @update:modelValue="v$.descricao.$touch" required label="Descrição"></v-text-field>
       </v-col>
       <div v-if="!isVisualizar" @click="handleScannerClick" title="Escanear">
-        <img
-          class="mt-3"
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../../../assets/escanear.png"
-          alt="Escanear"
-        />
+        <img class="mt-3" style="width: 40px; height: 40px; cursor: pointer" src="../../../assets/escanear.png"
+          alt="Escanear" />
       </div>
       <!-- <div v-if="status_arquivo">
         <div @click="openFolderFromPc" title="Criar">
@@ -32,78 +22,32 @@
         </div>
       </div> -->
       <div @click="openFolderFromPc" title="Criar">
-        <img
-          v-if="status_arquivo === false"
-          class="mt-3 ml-2"
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../../../assets/abre-arquivo-vermelho.jpeg"
-          alt="Criar"
-        />
-        <img
-          v-else-if="status_arquivo === true"
-          class="mt-3 ml-2"
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../../../assets/abre-arquivo-verde.png"
-          alt="Criar"
-        />
-        <img
-          v-else
-          class="mt-3 ml-2"
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../../../assets/abre-arquivo.png"
-          alt="Criar"
-        />
+        <img v-if="status_arquivo === false" class="mt-3 ml-2" style="width: 40px; height: 40px; cursor: pointer"
+          src="../../../assets/abre-arquivo-vermelho.jpeg" alt="Criar" />
+        <img v-else-if="status_arquivo === true" class="mt-3 ml-2" style="width: 40px; height: 40px; cursor: pointer"
+          src="../../../assets/abre-arquivo-verde.png" alt="Criar" />
+        <img v-else class="mt-3 ml-2" style="width: 40px; height: 40px; cursor: pointer"
+          src="../../../assets/abre-arquivo.png" alt="Criar" />
       </div>
       <div v-if="!isVisualizar" @click="createAnexo" title="Criar">
-        <img
-          class="mt-3 ml-2"
-          style="width: 40px; height: 40px; cursor: pointer"
-          src="../../../assets/novo.png"
-          alt="Criar"
-        />
+        <img class="mt-3 ml-2" style="width: 40px; height: 40px; cursor: pointer" src="../../../assets/novo.png"
+          alt="Criar" />
       </div>
     </v-row>
-    <v-data-table
-      :headers="headers"
-      :items="anexos"
-      style="height: 465px; max-width: 600px"
-    >
+    <v-data-table :headers="headers" :items="anexos" style="height: 465px; max-width: 600px">
       <template v-slot:item.actions="{ item }">
         <v-row>
-          <div
-            style="display: flex; cursor: pointer; justify-content: flex-end"
-            class="mr-2"
-            @click="redirectToAnexo(item)"
-            title="Visualizar Anexo"
-          >
-            <img
-              style="width: 30px; height: 30px"
-              @click="visualisarAnexo(item)"
-              src="../../../assets/visualizar.png"
-              alt="Visualizar"
-            />
+          <div style="display: flex; cursor: pointer; justify-content: flex-end" class="mr-2"
+            @click="redirectToAnexo(item)" title="Visualizar Anexo">
+            <img style="width: 30px; height: 30px" @click="visualisarAnexo(item)" src="../../../assets/visualizar.png"
+              alt="Visualizar" />
           </div>
-          <div
-            class="mr-2"
-            style="display: flex; cursor: pointer; justify-content: flex-end"
-            @click="deleteAnexo(item)"
-            title="Deletar Pessoa"
-          >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
+          <div class="mr-2" style="display: flex; cursor: pointer; justify-content: flex-end" @click="deleteAnexo(item)"
+            title="Deletar Pessoa">
+            <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
+              alt="Visualizar" title="Reativar" />
+            <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
+              style="width: 30px; height: 30px" title="Excluir" />
           </div>
         </v-row>
       </template>
@@ -193,10 +137,10 @@ async function openScanner() {
   }
 }
 
-  /**
-   * Envia o arquivo escolhido pelo usuário para o servidor local.
-   * @returns {Promise<void>}
-   */
+/**
+ * Envia o arquivo escolhido pelo usuário para o servidor local.
+ * @returns {Promise<void>}
+ */
 async function enviarArquivo() {
   try {
     const { data, status } = await useFetch(
@@ -223,7 +167,7 @@ async function openFolderFromPc() {
     input.onchange = async (event) => {
       state.fileEvent = event;
       const file = event.target.files[0];
-      if(file){
+      if (file) {
         status_arquivo.value = true;
       }
     };
@@ -290,7 +234,7 @@ const createAnexo = async () => {
   if (v$.value.$invalid) {
     return;
   }
-  if(validarArquivoSelecionado(state.fileEvent)){
+  if (validarArquivoSelecionado(state.fileEvent)) {
     const { data, error, status } = await useFetch(criarAtoAnexo, {
       method: "POST",
       body: {
@@ -303,10 +247,10 @@ const createAnexo = async () => {
     if (status.value === "success") {
       $toast.success("Anexo registrado com sucesso!");
       anexos.value.push(data.value);
-      console.log('createAnexo\n',data.value.token);
+      console.log('createAnexo\n', data.value.token);
       UploadAnexo(data.value.token);
 
-    }    
+    }
   }
 
 
@@ -332,7 +276,7 @@ async function visualisarAnexo(item) {
 
     const data = await useFetch(`${downloadAnexo}`, {
       method: "POST",
-      body:  { bucket: useCookie("user-data").value.cartorio_token, path: item.link },
+      body: { bucket: useCookie("user-data").value.cartorio_token, path: item.link },
     });
     // console.log(data.data.value);
     // window.open(data.data.value, "_blank");
