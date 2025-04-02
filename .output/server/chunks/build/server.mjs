@@ -653,13 +653,13 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-Dd5V0x8N.mjs')
+    component: () => import('./index-X0dpIehQ.mjs')
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-YoBgXMjN.mjs')
+    component: () => import('./tipo-perfil-DgxB0VjY.mjs')
   },
   {
     name: "matriculas-atualizar-id",

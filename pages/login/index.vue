@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-row style="background-color:#0a063b;">
-    <v-col cols="5" class="ml-5 d-flex align-center justify-center">
-      <v-container >
+    <v-col cols="5" class="d-flex align-center justify-center">
+      <v-container style="max-width: 650px;">
         <center>
           <v-img
             style="margin-bottom: 30px"
@@ -46,12 +46,12 @@
           <template v-slot:activator="{ props: activatorProps }">
             <v-btn
               rounded
-              class="mb-10 mt-4"
-              style="width: 570px; margin-left: 90px;"
+              class="mb-10 mt-4 ml-1"
               v-bind="activatorProps"
               color="primary"
               v-on:click="login"
               v-model="dialog"
+              block
             >
               Acessar
             </v-btn>
@@ -113,7 +113,7 @@
           <a
             class="text-decoration-none"
             rel="noopener noreferrer"
-            style="color: white;margin-left: 90px;"
+            style="color: white;margin-left: 10px;"
           >
             Esqueceu a senha?</a
           >
@@ -246,15 +246,15 @@ const login = async () => {
 </script>
 <style scoped>
 .input {
-  margin-left: 90px;
-  width: 570px;
+  margin-left: 10px;
+
 }
 .text {
   font-size: 25px;
   font-family: "calibri";
   color: white;
   margin-bottom: 30px;
-  margin-left: 90px;
+  margin-left: 10px;
 }
 
 </style>
