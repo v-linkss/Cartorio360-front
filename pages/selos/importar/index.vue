@@ -1,97 +1,159 @@
 <template>
-  <v-container class="mt-5">
+  <v-progress-circular
+    class="d-flex justify-center align-center"
+    indeterminate
+    size="64"
+    v-if="loading"
+    style="position: absolute; top: 40%; left: 50%;"
+  ></v-progress-circular>
+  <v-container v-else class="mt-5">
     <div class="d-flex flex-column">
-      <v-btn class="mb-10 mt-auto align-self-end" color="green" size="large" @click="isModalOpen = true">
+      <v-btn
+        class="mb-10 mt-auto align-self-end"
+        color="green"
+        size="large"
+        @click="isModalOpen = true"
+      >
         Importar Selos TJ
       </v-btn>
     </div>
-    <v-text-field
-      v-model="search"
-      label="Buscar selo, cor, situação ou protocolo"
-      prepend-inner-icon="mdi-magnify"
-      variant="outlined"
-      hide-details
-      class="mb-4"
-    ></v-text-field>
+    <v-row class="mb-4" style="gap: 4.5rem;">
+      <v-col cols="12" md="2">
+        <v-text-field
+          v-model="filters.dt_compra"
+          label="Data de Compra"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="2">
+        <v-text-field
+          v-model="filters.numero"
+          label="Selo"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="2">
+        <v-text-field
+          v-model="filters.lote_compra"
+          label="Valor de Compra"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="1">
+        <v-text-field
+          v-model="filters.sequencia"
+          label="Sequência"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="1">
+        <v-text-field
+          v-model="filters.sigla"
+          label="Sigla"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <!-- Tabela -->
     <v-data-table
       density="compact"
       :headers="headers"
       :items="filteredSelos"
       item-key="selo"
     >
-      <template v-slot:item.certificado_nt="{ item }">
-        <span>{{ item.certificado_nt ? "Sim" : "Não" }}</span>
+      <template v-slot:item.actions="{ item }">
+        <div
+          style="display: flex; cursor: pointer; justify-content: flex-end"
+          @click="deleteObservacao(item)"
+          title="Deletar Observação"
+        >
+          <img
+            v-if="item.excluido"
+            style="width: 30px; height: 30px"
+            src="../../../assets/excluido.png"
+            alt="Visualizar"
+            title="Reativar"
+          />
+          <img
+            v-else
+            src="../../../assets/mudarStatus.png"
+            alt="Excluir"
+            class="trash-icon"
+            style="width: 30px; height: 30px"
+            title="Excluir"
+          />
+        </div>
       </template>
     </v-data-table>
-    <ModalImportaSelos :show="isModalOpen" @close="isModalOpen = false"/>
+    <ModalImportaSelos :show="isModalOpen" @close="isModalOpen = false" />
   </v-container>
 </template>
 
 <script setup>
-const search = ref("");
-const isModalOpen= ref(false)
+const config = useRuntimeConfig();
+const selos = ref([]);
+const isModalOpen = ref(false);
+const loading = ref(false);
+const getSelo = `${config.public.managemant}/selos`;
+
+// Filtros individuais
+const filters = reactive({
+  dt_compra: "",
+  numero: "",
+  lote_compra: "",
+  sequencia: "",
+  sigla: "",
+});
 
 const headers = [
-  { title: "Selo", value: "selo" },
-  { title: "Cor", value: "cor" },
-  { title: "Situação", value: "situacao" },
-  { title: "Protocolo", value: "protocolo" },
-  { title: "Certificado NT", value: "certificado_nt" },
-  { title: "Data cadastro", value: "data_cadastro" },
+  { title: "Data de compra", value: "dt_compra" },
+  { title: "Selo", value: "numero" },
+  { title: "Valor de compra", value: "lote_compra" },
+  { title: "Sequência", value: "sequencia" },
+  { title: "Sigla", value: "sigla" },
+  { value: "actions" },
 ];
 
-const selos = ref([
-  {
-    selo: "AFR39581-762Q",
-    cor: "VERMELHO",
-    situacao: "Disponível",
-    protocolo: "",
-    certificado_nt: false,
-    data_cadastro: "17/03/2025 16:54",
-  },
-  {
-    selo: "BFR12345-678X",
-    cor: "AZUL",
-    situacao: "Utilizado",
-    protocolo: "123456",
-    certificado_nt: true,
-    data_cadastro: "15/02/2025 10:30",
-  },
-  {
-    selo: "CFR98765-432Y",
-    cor: "VERDE",
-    situacao: "Cancelado",
-    protocolo: "789012",
-    certificado_nt: false,
-    data_cadastro: "20/01/2025 14:20",
-  },
-  {
-    selo: "DFR54321-098Z",
-    cor: "AMARELO",
-    situacao: "Disponível",
-    protocolo: "",
-    certificado_nt: true,
-    data_cadastro: "10/03/2025 09:15",
-  },
-  {
-    selo: "EFR11223-445W",
-    cor: "ROXO",
-    situacao: "Utilizado",
-    protocolo: "456789",
-    certificado_nt: false,
-    data_cadastro: "05/04/2025 11:45",
-  },
-]);
+const fetchSelos = async () => {
+  loading.value = true;
+  try {
+    const { data, error, status } = await useFetch(getSelo, {
+      method: "GET",
+    });
+    if (status.value === "success") {
+      selos.value = Array.isArray(data.value) ? data.value : [];
+    } else {
+      console.error(error);
+    }
+  } catch (err) {
+    console.error("Erro ao buscar selos:", err);
+  } finally {
+    loading.value = false;
+  }
+};
 
+// Filtragem com base nos filtros individuais
 const filteredSelos = computed(() => {
   return selos.value.filter((item) => {
-    const searchTerm = search.value.toLowerCase();
     return (
-      item.selo.toLowerCase().includes(searchTerm) ||
-      item.cor.toLowerCase().includes(searchTerm) ||
-      item.situacao.toLowerCase().includes(searchTerm) ||
-      item.protocolo.toLowerCase().includes(searchTerm)
+      (!filters.dt_compra || item.dt_compra.toLowerCase().includes(filters.dt_compra.toLowerCase())) &&
+      (!filters.numero || item.numero.toLowerCase().includes(filters.numero.toLowerCase())) &&
+      (!filters.lote_compra || item.lote_compra.toLowerCase().includes(filters.lote_compra.toLowerCase())) &&
+      (!filters.sequencia || item.sequencia.toLowerCase().includes(filters.sequencia.toLowerCase())) &&
+      (!filters.sigla || item.sigla.toLowerCase().includes(filters.sigla.toLowerCase()))
     );
   });
 });
+
+fetchSelos();
 </script>

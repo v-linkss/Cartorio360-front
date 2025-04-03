@@ -41,7 +41,8 @@ export default defineNuxtConfig({
       auth: process.env.MS_AUTH,
       managemant: process.env.MS_MANAGEMENT,
       envioDoc: process.env.OBSERVER,
-      docEditor: process.env.LICENSE_KEY
+      docEditor: process.env.LICENSE_KEY,
+      ws: process.env.WEB_SERVICE
     },
   },
 
