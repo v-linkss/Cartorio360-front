@@ -339,7 +339,7 @@ const servicosDataTable = async () => {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        usuario_token: usuario_token.value,
+        usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
         data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
         data_inicio: convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
       },
