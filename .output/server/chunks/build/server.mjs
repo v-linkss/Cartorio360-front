@@ -734,7 +734,7 @@ const _routes = [
   {
     name: "selos-importar",
     path: "/selos/importar",
-    component: () => import('./index-Q693jeKL.mjs')
+    component: () => import('./index-DH7M5oVq.mjs')
   },
   {
     name: "situacoes-matriculas-atualizar-id",

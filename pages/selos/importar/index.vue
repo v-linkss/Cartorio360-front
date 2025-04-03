@@ -1,5 +1,10 @@
 <template>
   <v-container class="mt-5">
+    <div class="d-flex flex-column">
+      <v-btn class="mb-10 mt-auto align-self-end" color="green" size="large" @click="isModalOpen = true">
+        Importar Selos TJ
+      </v-btn>
+    </div>
     <v-text-field
       v-model="search"
       label="Buscar selo, cor, situação ou protocolo"
@@ -18,11 +23,13 @@
         <span>{{ item.certificado_nt ? "Sim" : "Não" }}</span>
       </template>
     </v-data-table>
+    <ModalImportaSelos :show="isModalOpen" @close="isModalOpen = false"/>
   </v-container>
 </template>
 
 <script setup>
 const search = ref("");
+const isModalOpen= ref(false)
 
 const headers = [
   { title: "Selo", value: "selo" },
