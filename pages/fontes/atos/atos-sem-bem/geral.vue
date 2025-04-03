@@ -7,6 +7,7 @@
         <v-tab v-if="showTabs" value="livro">Livro</v-tab>
         <v-tab v-if="showTabs" value="observacao">Observações</v-tab>
         <v-tab v-if="showTabs" value="anexo">Anexos</v-tab>
+        <v-tab v-if="showTabs" value="outros">Outros</v-tab>
       </v-tabs>
   
       <v-tabs-window v-model="tab">
@@ -28,6 +29,9 @@
         <v-tabs-window-item v-if="showTabs" value="anexo">
           <ProcuracaoAnexos :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
         </v-tabs-window-item>
+        <v-tabs-window-item v-if="showTabs" value="outros">
+        <ProcuracaoOutros :ato_token="ato_token_prop" :ato_id="ato_id_prop"/>
+      </v-tabs-window-item>
       </v-tabs-window>
     </v-card>
   </template>

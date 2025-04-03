@@ -607,12 +607,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-C-7RX1tv.mjs')
+    component: () => import('./_id_-CBnl3grb.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-BgHvDJvW.mjs')
+    component: () => import('./geral-aYRY-aIh.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -622,7 +622,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-wt1LNCw6.mjs')
+    component: () => import('./geral-CniUkn3E.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -689,7 +689,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DhZuu7Xa.mjs')
+    component: () => import('./criar-ato-B8FD9RFz.mjs')
   },
   {
     name: "os-criar-registro",
