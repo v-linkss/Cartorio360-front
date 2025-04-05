@@ -34,8 +34,6 @@ const isVisible = ref(props.show);
 const route = useRoute()
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
-const papeisApresentante = `${config.public.managemant}/listarPapeis`;
 const forneceSeloPorLote = `${config.public.ws}/fornecer_selos_por_lote`;
 const forneceSelo = `${config.public.managemant}/fornecer_selos`;
 const papeisItems = ref([]);
@@ -60,14 +58,6 @@ const closeModal = () => {
   emit("close");
 };
 
-const getPapeis = async () => {
-  const { data } = await useFetch(papeisApresentante, {
-    method: "POST",
-    body: { tipo_ato_token: route.query.tipo_ato_token || props.ato_token },
-  });
-  papeisItems.value = data.value;
-};
-
 const updateAtoPessoa = async () => {
   const { data, error, status } = await useFetch(forneceSeloPorLote, {
     method: "POST",
@@ -90,7 +80,7 @@ const updateAtoPessoa = async () => {
     },
   });
   if(sucessoSelo.value === 'success'){
-    console.log(seloData.value)
+    $toast.success("Selos importados com sucesso")
     closeModal()
   }
   }

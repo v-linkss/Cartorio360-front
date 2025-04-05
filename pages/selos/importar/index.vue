@@ -17,7 +17,7 @@
         Importar Selos TJ
       </v-btn>
     </div>
-    <v-row class="mb-4" style="gap: 4.5rem;">
+    <v-row class="mb-4" style="gap: 10rem;">
       <v-col cols="12" md="2">
         <v-text-field
           v-model="filters.dt_compra"
@@ -40,24 +40,6 @@
         <v-text-field
           v-model="filters.lote_compra"
           label="Valor de Compra"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" md="1">
-        <v-text-field
-          v-model="filters.sequencia"
-          label="Sequência"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" md="1">
-        <v-text-field
-          v-model="filters.sigla"
-          label="Sigla"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -119,9 +101,7 @@ const headers = [
   { title: "Data de compra", value: "dt_compra" },
   { title: "Selo", value: "numero" },
   { title: "Valor de compra", value: "lote_compra" },
-  { title: "Sequência", value: "sequencia" },
-  { title: "Sigla", value: "sigla" },
-  { value: "actions" },
+  // { value: "actions" },
 ];
 
 const fetchSelos = async () => {
@@ -131,7 +111,12 @@ const fetchSelos = async () => {
       method: "GET",
     });
     if (status.value === "success") {
-      selos.value = Array.isArray(data.value) ? data.value : [];
+      selos.value = Array.isArray(data.value)
+        ? data.value.map((item) => ({
+            ...item,
+            dt_compra: item.dt_compra ? formatDate(item.dt_compra, 'dd/mm/yyyy') :null, // Aplica a formatação da data
+          }))
+        : [];
     } else {
       console.error(error);
     }
