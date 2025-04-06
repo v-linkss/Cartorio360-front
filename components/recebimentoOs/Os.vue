@@ -126,8 +126,6 @@
   
   const searchSituacao = ref("");
   
-  const situacaoOptions = ["PENDENTE", "ENCERRADA", "PAGA"];
-  
   async function caixaOsDataPayload() {
     try {
       const response = await $fetch(listarOSCaixas, {

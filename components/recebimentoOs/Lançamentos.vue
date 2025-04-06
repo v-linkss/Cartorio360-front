@@ -105,7 +105,7 @@
       const response = await $fetch(listarLancamentoCaixa, {
         method: "POST",
         body: {
-          caixa_token: 'db8xN',
+          caixa_token: useCookie("caixa-service").value.caixa_token,
         },
       });
   
