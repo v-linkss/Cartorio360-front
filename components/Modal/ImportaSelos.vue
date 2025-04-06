@@ -17,7 +17,7 @@
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
-        <v-btn style="background-color: green; color: white" @click="updateAtoPessoa">Importar</v-btn>
+        <v-btn style="background-color: green; color: white" @click="importaSelo">Importar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -58,7 +58,7 @@ const closeModal = () => {
   emit("close");
 };
 
-const updateAtoPessoa = async () => {
+const importaSelo = async () => {
   const { data, error, status } = await useFetch(forneceSeloPorLote, {
     method: "POST",
     body: {

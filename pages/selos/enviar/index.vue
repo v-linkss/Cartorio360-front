@@ -36,16 +36,17 @@
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="5" class="d-flex justify-end mb-2">
-        <v-btn color="green" size="large">Enviar Selos</v-btn>
+        <v-btn color="green" size="large" @click="enviaSelo">Enviar Selos</v-btn>
       </v-col>
     </v-row>
-
     <v-data-table
       show-select
       density="compact"
       :headers="headers"
       :items="filteredSelos"
       item-key="token"
+      item-value="token"
+      v-model="selectedSelos"
     >
       <template v-slot:item.situacao="{ item }">
         <v-chip color="green" text-color="white" outlined>
@@ -53,17 +54,16 @@
         </v-chip>
       </template>
     </v-data-table>
+    {{ selectedSelos }}
   </v-container>
 </template>
 
 <script setup>
-import { fi } from 'vuetify/locale';
-
 const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/lista_selos_transmitir`;
-const searchDate = ref("");
-const searchDescription = ref("");
-const searchNumber = ref("");
+const integraSelos = `${config.public.managemant}/integra_selos`;
+const enviaSelos = `${config.public.ws}/enviar_ato`
+const selectedSelos = ref([]);
 const selos = ref([]);
 const loading = ref(false);
 
@@ -86,12 +86,11 @@ const fetchSelos = async () => {
       method: "POST",
       body: { cartorio_token: useCookie("user-data").value.cartorio_token },
     });
-    console.log("Data:", data.value);
     if (status.value === "success") {
       selos.value = Array.isArray(data.value)
         ? data.value.map((item) => ({
             ...item,
-            data_utilizacao: item.data_utilizacao ? formatDate(item.data_utilizacao, 'dd/mm/yyyy hh:mm') :null, // Aplica a formatação da data
+            data_utilizacao: item.data_utilizacao ? formatDate(item.data_utilizacao, 'dd/mm/yyyy hh:mm') :null, 
           }))
         : [];
     } else {
@@ -101,6 +100,31 @@ const fetchSelos = async () => {
     console.error("Erro ao buscar selos:", err);
   } finally {
     loading.value = false;
+  }
+};
+
+const enviaSelo = async () => {
+  const selosJson = selectedSelos.value.map((selo) => ({ selo_token: selo }));
+  const { data, error, status } = await useFetch(integraSelos, {
+    method: "POST",
+    body: 
+      selosJson
+
+  });
+  if (status.value === "success") {
+    const selos = data.value
+    const { data:seloData,error, status:sucessoSelo } = await useFetch(enviaSelos, {
+    method: "POST",
+    body: {
+      user: "41140940406",
+      pass: "RP6DEN",
+      xmlData:selos,
+    },
+  });
+  if(sucessoSelo.value === 'success'){
+    $toast.success("Selos enviados com sucesso")
+    closeModal()
+  }
   }
 };
 
