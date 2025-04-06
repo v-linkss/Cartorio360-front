@@ -24,7 +24,7 @@
           <v-col md="3">
             <v-autocomplete
               v-model="searchSituacao"
-              :items="situacaoOptions"
+              :items="situacoes"
               label="Situação"
               clearable
             ></v-autocomplete>
@@ -93,12 +93,14 @@
   const config = useRuntimeConfig();
   const { $toast } = useNuxtApp();
   const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
+  const situacaoOS = `${config.public.managemant}/lista_sit_ordemserv`;
   const encerrarOs = `${config.public.managemant}/updateOrdensServico`;
   
   const nome_usuario = useCookie("caixa-service").value.usuario_nome;
   const data = useCookie("caixa-service").value.data;
   
   const caixaRecebeOsItems = ref([]);
+  const situacoes = ref([]);
   const searchNumero = ref("");
   const searchApresentante = ref("");
   const selectedOrder = ref({});
@@ -126,7 +128,6 @@
   
   const situacaoOptions = ["PENDENTE", "ENCERRADA", "PAGA"];
   
-  
   async function caixaOsDataPayload() {
     try {
       const response = await $fetch(listarOSCaixas, {
@@ -135,9 +136,9 @@
           caixa_token: useCookie("caixa-service").value.caixa_token,
         },
       });
-  
+      
       if (response && Array.isArray(response)) {
-        caixaRecebeOsItems.value = response;
+        caixaRecebeOsItems.value = response
       } else {
         $toast.error("Erro ao buscar dados da API.");
       }
@@ -160,6 +161,33 @@
     selectedOrder.value = item; 
     isModalCancelamentoOpen.value = true;
   }
+
+  async function getSituacaoOs() {
+  try {
+    const { data, error } = await useFetch(situacaoOS, {
+      method: "GET"
+    });
+
+    if (data.value && Array.isArray(data.value)) {
+      situacoes.value = data.value.map(item => ({
+        title: item.descricao, 
+        value: item.descricao
+      }));
+    } else {
+      $toast.error("Erro ao buscar dados da API de situação.");
+      if (error.value) {
+        console.error("Erro detalhado:", error.value);
+      }
+    }
+  } catch (error) {
+    const errorMessage =
+      error.message || "Erro ao buscar dados da API. Tente novamente.";
+    $toast.error(errorMessage);
+    console.error("Erro na requisição:", error);
+  }
+}
+
+  getSituacaoOs()
   
   async function encerrarOS(id) {
     try {
@@ -202,12 +230,7 @@
       return matchesNumero && matchesApresentante && matchesSituacao;
     });
   });
-  
-  function redirectToCancelamento(numero, token) {
-    isModalCancelamentoOpen.value = true;
-  
-    console.log("Cancelando OS:", { numero, token });
-  }
+
   
   function redirectToRecebimento(numero, item) {
     numero_os.value = numero;
@@ -219,10 +242,6 @@
     };
     isModalRecebimentoOpen.value = true;
   }
-  
-  function redirectToUpdate(id) {
-    // Lógica para redirecionar à edição
-    console.log("Editando OS:", id);
-  }
+ 
   </script>
   

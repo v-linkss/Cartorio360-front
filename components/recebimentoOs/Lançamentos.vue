@@ -24,15 +24,24 @@
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 4px; margin-top: -5px">
             <div
-              :class="{ disabled: !item.btn_encerrar }"
-              @click="item.btn_encerrar ?  openCancelamentoModal(item.id) : false"
+              style="cursor: pointer"
+              @click="HandleDelete(item)"
               title="Cancelamento"
             >
-              <img
-                style="width: 30px; height: 30px; cursor: pointer"
+            <img
+                v-if="item.excluido"
+                style="width: 30px; height: 30px"
                 src="../../assets/excluido.png"
-                alt="Encerrar"
-                title="Encerrar"
+                alt="Visualizar"
+                title="Reativar"
+              />
+              <img
+                v-else
+                src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
               />
             </div>
           </v-row>
@@ -66,6 +75,9 @@
   const lancamentoCaixa = ref([]);
   const searchDescricao = ref("");
   const searchFormaReceb = ref("");
+  const searchNumero = ref("");
+  const searchApresentante = ref("");
+
   const selectedOrder = ref({});
   const numero_os = ref(null);
   const condMessage = ref("O encerramento de OS não poderá ser revertido. Confirma o encerramento?") 
@@ -79,7 +91,7 @@
   const headers = [
     { title: "Forma recebimento", value: "forma_receb" },
     { title: "Valor", value: "valor" },
-    { title: "Descrição", value: "Descricao" },
+    { title: "Descrição", value: "descricao" },
     { title: "O.S", value: "ordemserv_numero" },
     { title: "Apresentatante", value: "apresentante_nome" },
     { title: "Usuário", value: "usuario_nome" },
@@ -93,12 +105,13 @@
       const response = await $fetch(listarLancamentoCaixa, {
         method: "POST",
         body: {
-          caixa_token: useCookie("caixa-service").value.caixa_token,
+          caixa_token: 'db8xN',
         },
       });
   
       if (response && Array.isArray(response)) {
         lancamentoCaixa.value = response;
+        console.log('lancamentoCaixa:', lancamentoCaixa.value);
       } else {
         $toast.error("Erro ao buscar dados da API.");
       }
@@ -109,18 +122,29 @@
     }
   }
   
-  function getCurrentDate() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const MM = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-    return `${yyyy}-${MM}-${dd}`;
+  async function HandleDelete(item) {
+  try {
+    item.excluido = !item.excluido;
+    
+    const { data, error } = await useFetch(`${encerrarCaixa}/${item.id}`, {
+      method: "PUT",
+      body: { excluido: item.excluido },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (error.value) {
+      throw error.value;
+    }
+
+    $toast.success("Lançamento excluído com sucesso!");
+    await lancamentoCaixaPayload(); // Atualiza a lista após exclusão
+  } catch (err) {
+    console.error("Erro ao excluir lançamento:", err);
+    $toast.error("Erro ao excluir lançamento");
   }
-  
-  const openCancelamentoModal = (item) => {
-    selectedOrder.value = item; 
-    isModalCancelamentoOpen.value = true;
-  }
+}
   
   async function encerrarCaixaLancamento(id) {
     try {
@@ -153,7 +177,7 @@
     const numero = item.numero ? item.numero.toString().toLowerCase() : "";
     const apresentante = item.apresentante_nome ? item.apresentante_nome.toLowerCase() : "";
     const situacao = item.situacao ? item.situacao.toUpperCase() : "";
-    const descricao = item.Descricao ? item.Descricao.toLowerCase() : "";
+    const descricao = item.descricao ? item.descricao.toLowerCase() : "";
     const formaReceb = item.forma_receb ? item.forma_receb.toLowerCase() : "";
 
     const matchesNumero = numero.includes(searchNumero.value.toLowerCase());
@@ -171,28 +195,5 @@
     );
   });
 });
-
-  
-  function redirectToCancelamento(numero, token) {
-    isModalCancelamentoOpen.value = true;
-  
-    console.log("Cancelando OS:", { numero, token });
-  }
-  
-  function redirectToRecebimento(numero, item) {
-    numero_os.value = numero;
-    selectedOrder.value = {
-      token: item.token,
-      numero: item.numero,
-      valor: item.valor,
-      valor_pago: item.valor_pago,
-    };
-    isModalRecebimentoOpen.value = true;
-  }
-  
-  function redirectToUpdate(id) {
-    // Lógica para redirecionar à edição
-    console.log("Editando OS:", id);
-  }
   </script>
   
