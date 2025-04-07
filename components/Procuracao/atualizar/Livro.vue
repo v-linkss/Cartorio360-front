@@ -30,11 +30,14 @@
         <v-row>
           <v-col>
             <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-              Livro: {{ lavraData[0].livro_numero }}
+              <v-col>
+                Livro: {{ lavraData[0].livro_numero }}
+                Protocolo: {{ lavraData[0].protocolo ? lavraData[0].protocolo: null}}
+              </v-col>
             </v-sheet>
           </v-col>
           <v-col>
-            <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+            <v-sheet style="font-weight: bold" class="pa-2 ma-2 mt-3">
               Folhas : {{ lavraData[0].pagina_inicial }} A
               {{ lavraData[0].pagina_final }}
             </v-sheet>

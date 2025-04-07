@@ -1,45 +1,31 @@
 <template>
   <v-row>
     <v-col>
-      <ejs-documenteditorcontainer
-        :restrictEditing="true"
-        :enableToolbar="false"
-        :created="props.document ? onCreated : null"
-        ref="documentEditorContainer"
-        height="850px"
-        width="850px"
-        :key="props.document"
-      >
+      <ejs-documenteditorcontainer :restrictEditing="true" :enableToolbar="false"
+        :created="props.document ? onCreated : null" ref="documentEditorContainer" height="850px" width="850px"
+        :key="props.document">
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <v-autocomplete
-        class="mt-15"
-        label="Tabelião/escrevente"
-        v-model="state.escrevente"
-        :items="escreventesItems"
-        item-title="nome"
-        item-value="token"
-        required
-      >
+      <v-autocomplete class="mt-15" label="Tabelião/escrevente" v-model="state.escrevente" :items="escreventesItems"
+        item-title="nome" item-value="token" required>
       </v-autocomplete>
       <div>
         <div>
-          <img
-            @click="isModalCondOpen = true"
-            class="ml-2"
-            style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
-            src="../../assets/lavrar.png"
-          />
+          <img @click="isModalCondOpen = true" class="ml-2"
+            style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px" src="../../assets/lavrar.png" />
           <v-card v-if="lavraData" class="mr-16">
             <v-row no-gutters>
               <v-col>
                 <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  Livro: {{ lavraData[0].livro_numero }}
+                  <v-col>
+                    Livro: {{ lavraData[0].livro_numero }}
+                    Protocolo: {{ lavraData[0].protocolo ? lavraData[0].protocolo : null }}
+                  </v-col>
                 </v-sheet>
               </v-col>
               <v-col>
-                <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+                <v-sheet style="font-weight: bold" class="pa-2 ma-2 mt-3">
                   Folhas : {{ lavraData[0].pagina_inicial }} A
                   {{ lavraData[0].pagina_final }}
                 </v-sheet>
@@ -51,15 +37,9 @@
       </div>
     </v-col>
   </v-row>
-  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
-    >Voltar</v-btn
-  >
-  <ModalConfirmacao
-    :show="isModalCondOpen"
-    :condMessage="condMessage"
-    @close="isModalCondOpen = false"
-    @confirm="confirmLavrar"
-  />
+  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack">Voltar</v-btn>
+  <ModalConfirmacao :show="isModalCondOpen" :condMessage="condMessage" @close="isModalCondOpen = false"
+    @confirm="confirmLavrar" />
 </template>
 
 <script setup>
