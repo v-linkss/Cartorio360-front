@@ -111,7 +111,7 @@ const loadDefaultDocument = async () => {
     const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: filePath },
+      body: { bucket:useCookie("user-data").value.cartorio_token, path: filePath },
     });
 
     const fileUrl = data.value;
@@ -219,7 +219,7 @@ const carregarModeloDeMinuta = async () => {
   try {
     const { data: docModelo } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: "provider/modeloAto.sfdt" },
+      body: { bucket:useCookie("user-data").value.cartorio_token, path: "provider/modeloAto.sfdt" },
     });
 
     const blob = await fetchBlobFromMinIO(docModelo.value);

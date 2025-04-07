@@ -138,7 +138,7 @@ const loadDefaultDocument = async () => {
     const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: "qvgjz", path: filePath },
+      body: { bucket: useCookie("user-data").value.cartorio_token, path: filePath },
     });
 
     const fileUrl = data.value;

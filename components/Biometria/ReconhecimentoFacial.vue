@@ -204,7 +204,7 @@ const processarImagem = async (id) => {
 
   const { data: link } = await useFetch(baixarDocumento, {
     method: "POST",
-    body: { bucket: "qvgjz", path: imagemBiometria.value.link },
+    body: { bucket: useCookie("user-data").value.cartorio_token, path: imagemBiometria.value.link },
   });
 
   const linkMinio = imagemBiometria.value.link;
