@@ -62,8 +62,8 @@ const importaSelo = async () => {
   const { data, error, status } = await useFetch(forneceSeloPorLote, {
     method: "POST",
     body: {
-      user: "41140940406",
-      pass: "RP6DEN",
+      user: "56415451472",
+      pass: "Ra961206",
       statusSelo:"D",
       nuLote:state.nuLote
     },

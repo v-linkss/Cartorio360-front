@@ -63,6 +63,7 @@ const config = useRuntimeConfig();
 const getSelo = `${config.public.managemant}/lista_selos_transmitir`;
 const integraSelos = `${config.public.managemant}/integra_selos`;
 const enviaSelos = `${config.public.ws}/enviar_ato`
+const tabSelos = `${config.public.managemant}/selos`
 const selectedSelos = ref([]);
 const selos = ref([]);
 const loading = ref(false);
@@ -116,12 +117,21 @@ const enviaSelo = async () => {
     const { data:seloData,error, status:sucessoSelo } = await useFetch(enviaSelos, {
     method: "POST",
     body: {
-      user: "41140940406",
-      pass: "RP6DEN",
+      user: "56415451472",
+      pass: "Ra961206",
       xmlData:selos,
     },
   });
   if(sucessoSelo.value === 'success'){
+
+    const selos = data.value
+    const { data:seloData,error, status:sucessoSelo } = await useFetch(`${tabSelos}/id do selo`, {
+      method: "PUT",
+      body: {
+        dt_envio_tj: new Date().toISOString(), 
+      },
+    });
+
     $toast.success("Selos enviados com sucesso")
     closeModal()
   }
