@@ -2,7 +2,6 @@
 export const fetchWithToken = async (url, options = {}) => {
     const tokenCookie = useCookie('auth_token');
     const token = tokenCookie.value;
-    console.log("WWWWWWWWWWWWWWWWWWW\n",token);
     const headers = {
       ...options.headers,
       Authorization: `Bearer ${token}`,
@@ -13,6 +12,7 @@ export const fetchWithToken = async (url, options = {}) => {
       headers,
     });
   };
+  
   
   export const $fetchWithToken = async (url, options = {}) => {
     const tokenCookie = useCookie('auth_token');
