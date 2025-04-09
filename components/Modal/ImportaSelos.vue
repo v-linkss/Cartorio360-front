@@ -21,6 +21,11 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <ErrorModalCard
+      :show="errorModalVisible"
+      :errorMessage="errorMessage"
+      @close="errorModalVisible = false"
+    />
 </template>
 
 <script setup>
@@ -34,6 +39,8 @@ const isVisible = ref(props.show);
 const route = useRoute()
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
+const errorModalVisible = ref(false); 
+const errorMessage = ref("");
 const forneceSeloPorLote = `${config.public.ws}/fornecer_selos_por_lote`;
 const forneceSelo = `${config.public.managemant}/fornecer_selos`;
 const papeisItems = ref([]);
@@ -67,6 +74,12 @@ const importaSelo = async () => {
       statusSelo:"D",
       nuLote:state.nuLote
     },
+    onResponseError({ response }) {
+        const mensagemErro = response._data?.details || "Erro ao buscar lote de selos.";
+        errorMessage.value = mensagemErro;
+        errorModalVisible.value = true;
+        console.error("Erro forneceSeloPorLote:", mensagemErro);
+      }
   });
   if (status.value === "success") {
     const selos = data.value.selos

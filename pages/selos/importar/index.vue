@@ -127,7 +127,6 @@ const fetchSelos = async () => {
   }
 };
 
-// Filtragem com base nos filtros individuais
 const filteredSelos = computed(() => {
   return selos.value.filter((item) => {
     return (

@@ -54,7 +54,6 @@
         </v-chip>
       </template>
     </v-data-table>
-    {{ selectedSelos }}
   </v-container>
 </template>
 
