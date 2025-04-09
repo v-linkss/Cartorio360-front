@@ -729,7 +729,7 @@ const _routes = [
   {
     name: "selos-enviar",
     path: "/selos/enviar",
-    component: () => import('./index-Bg1CZRof.mjs')
+    component: () => import('./index-DfI_SZLa.mjs')
   },
   {
     name: "selos-importar",

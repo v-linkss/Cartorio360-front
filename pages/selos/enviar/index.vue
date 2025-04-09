@@ -59,10 +59,11 @@
 
 <script setup>
 const config = useRuntimeConfig();
+const { $toast } = useNuxtApp();
 const getSelo = `${config.public.managemant}/lista_selos_transmitir`;
 const integraSelos = `${config.public.managemant}/integra_selos`;
 const enviaSelos = `${config.public.ws}/enviar_ato`
-const tabSelos = `${config.public.managemant}/selos`
+const marcarSelos = `${config.public.managemant}/marcar_selos_enviado`
 const selectedSelos = ref([]);
 const selos = ref([]);
 const loading = ref(false);
@@ -84,7 +85,7 @@ const fetchSelos = async () => {
   try {
     const { data, error, status } = await useFetch(getSelo, {
       method: "POST",
-      body: { cartorio_token: useCookie("user-data").value.cartorio_token },
+      body: { cartorio_token:useCookie("user-data").value.cartorio_token },
     });
     if (status.value === "success") {
       selos.value = Array.isArray(data.value)
@@ -107,9 +108,11 @@ const enviaSelo = async () => {
   const selosJson = selectedSelos.value.map((selo) => ({ selo_token: selo }));
   const { data, error, status } = await useFetch(integraSelos, {
     method: "POST",
-    body: 
-      selosJson
-
+    body:selosJson,
+    onResponseError({ response }) {
+        const mensagemErro = response._data?.details || "Erro ao buscar lote de selos.";
+        $toast.error(mensagemErro);
+      }
   });
   if (status.value === "success") {
     const selos = data.value
@@ -119,19 +122,22 @@ const enviaSelo = async () => {
       user: "56415451472",
       pass: "Ra961206",
       xmlData:selos,
+      onResponseError({ response }) {
+        const mensagemErro = response._data?.details || "Erro ao buscar lote de selos.";
+        $toast.error(mensagemErro);
+      }
     },
   });
-  if(sucessoSelo.value === 'success'){
-    // const selos = data.value
-    // const { data:seloData,error, status:sucessoSelo } = await useFetch(`${tabSelos}/id do selo`, {
-    //   method: "PUT",
-    //   body: {
-    //     dt_envio_tj: new Date().toISOString(), 
-    //   },
-    // });
-
-    $toast.success("Selos enviados com sucesso")
-    closeModal()
+  if(sucessoSelo.value === 'success' || sucessoSelo.value === 'error') {
+    const { error, status:sucessoMarcar } = await useFetch(marcarSelos, {
+      method: "PUT",
+      body:seloData, 
+    });
+    if(sucessoMarcar.value === 'success') {
+      $toast.success("Selos marcados como enviados com sucesso")
+    } else {
+      $toast.error("Erro ao marcar os selos como enviados")
+    }
   }
   }
 };
