@@ -729,12 +729,12 @@ const _routes = [
   {
     name: "selos-enviar",
     path: "/selos/enviar",
-    component: () => import('./index-t-14rKFP.mjs')
+    component: () => import('./index-Bg1CZRof.mjs')
   },
   {
     name: "selos-importar",
     path: "/selos/importar",
-    component: () => import('./index-C0U_R55m.mjs')
+    component: () => import('./index-2Jsvrqsn.mjs')
   },
   {
     name: "situacoes-matriculas-atualizar-id",
