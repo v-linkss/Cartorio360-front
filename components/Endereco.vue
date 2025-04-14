@@ -430,7 +430,6 @@ async function onUpdate(id) {
 
 import axios from 'axios';
 
-
 watch(
   () => state.codcep,
   async (newCep) => {
@@ -438,47 +437,101 @@ watch(
       try {
         const response = await axios.get(`${cep}/${newCep}`, {
           headers: {
-            Authorization: token, 
+            Authorization: token,
           },
         });
 
-        // Preencher os campos com os dados retornados
-        state.logradouro = response.data.logradouro;
-        state.bairro = response.data.bairro;
-        state.complemento = response.data.complemento;
+        const data = response.data;
 
-        // Verificar se o país é estrangeiro
+        // Verifica se todos os campos essenciais existem
+        if (data.logradouro && data.bairro && data.localidade && data.uf) {
+          // Preencher os campos com os dados retornados
+          state.logradouro = data.logradouro;
+          state.bairro = data.bairro;
+          state.complemento = data.complemento;
 
-        // Criar a string da cidade no formato "MACEIO/AL"
-        let cidade = `${response.data.localidade}/${response.data.uf}`; 
-        cidade = cidade.toUpperCase(); // Converter para maiúsculas 
+          let cidade = `${data.localidade}/${data.uf}`.toUpperCase();
 
+          // Encontrar a cidade na lista
+          const cidadeItem = enderecos.value.cidadesItems.find(
+            (item) => item.descricao === cidade
+          );
 
-        // Encontrar a cidade na lista de cidades
-        let cidadeItem = null;
-        enderecos.value.cidadesItems.forEach((item) => {
-          if (item.descricao === cidade) {
-            cidadeItem = item; // Armazenar o item correspondente
+          if (cidadeItem) {
+            console.log("cidadeItem.id:", cidadeItem.id);
+            state.cidade_id = cidadeItem.id;
+            state.tabvalores_pais_id = 76;
+          } else {
+            // Cidade não encontrada na lista
+            $toast.error("Cidade não encontrada na lista!"); // BANG!
           }
-        });
 
-        // Agora você pode usar cidadeItem
-        if (cidadeItem) {
-          console.log("cidadeItem.id:", cidadeItem.id);
-          state.cidade_id = cidadeItem.id; // Definindo o ID da cidade
-          state.tabvalores_pais_id = 76
+        } else {
+          // Dados insuficientes
+          $toast.error("CEP não retornou dados válidos!"); // DORARARA!
         }
 
       } catch (err) {
         if (err.response) {
           console.error("Erro do servidor:", err.response.status, err.response.data);
+          $toast.error("Erro ao buscar CEP no servidor.");
         } else {
           console.error("Erro inesperado do servidor:", err.message);
+          $toast.error("Erro inesperado. Verifique sua conexão.");
         }
       }
     }
   }
 );
+
+// watch(
+//   () => state.codcep,
+//   async (newCep) => {
+//     if (newCep.length === 8) {
+//       try {
+//         const response = await axios.get(`${cep}/${newCep}`, {
+//           headers: {
+//             Authorization: token, 
+//           },
+//         });
+
+//         // Preencher os campos com os dados retornados
+//         state.logradouro = response.data.logradouro;
+//         state.bairro = response.data.bairro;
+//         state.complemento = response.data.complemento;
+
+//         // Verificar se o país é estrangeiro
+
+//         // Criar a string da cidade no formato "MACEIO/AL"
+//         let cidade = `${response.data.localidade}/${response.data.uf}`; 
+//         cidade = cidade.toUpperCase(); // Converter para maiúsculas 
+
+
+//         // Encontrar a cidade na lista de cidades
+//         let cidadeItem = null;
+//         enderecos.value.cidadesItems.forEach((item) => {
+//           if (item.descricao === cidade) {
+//             cidadeItem = item; // Armazenar o item correspondente
+//           }
+//         });
+
+//         // Agora você pode usar cidadeItem
+//         if (cidadeItem) {
+//           console.log("cidadeItem.id:", cidadeItem.id);
+//           state.cidade_id = cidadeItem.id; // Definindo o ID da cidade
+//           state.tabvalores_pais_id = 76
+//         }
+
+//       } catch (err) {
+//         if (err.response) {
+//           console.error("Erro do servidor:", err.response.status, err.response.data);
+//         } else {
+//           console.error("Erro inesperado do servidor:", err.message);
+//         }
+//       }
+//     }
+//   }
+// );
 
 
 
