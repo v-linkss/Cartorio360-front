@@ -248,6 +248,7 @@ const allPaises = `${config.public.auth}/service/gerencia/listarPais`;
 const allEnderecos = `${config.public.auth}/service/gerencia/getPessoaEnderecoById`;
 const criarEnderecos = `${config.public.auth}/service/gerencia/createPessoaEndereco`;
 const updateEndereco = `${config.public.auth}/service/gerencia/updatePessoaEndereco`;
+const cep = `${config.public.auth}/service/gerencia/cep`;
 
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
 const pessoa_id = id ? Number(id) : Number(useCookie("pessoa-id").value);
@@ -320,7 +321,8 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-
+const tokenCookie = useCookie('auth_token');
+const token = tokenCookie.value;
 const {
   data: enderecos,
   status,
@@ -390,7 +392,7 @@ async function onSubmitAdressForeign() {
     refresh();
     for (const key in state) {
       state[key] = null;
-    }
+    } 
     v$.value.$reset();
   }
 }
@@ -425,6 +427,60 @@ async function onUpdate(id) {
     refresh();
   }
 }
+
+import axios from 'axios';
+
+
+watch(
+  () => state.codcep,
+  async (newCep) => {
+    if (newCep.length === 8) {
+      try {
+        const response = await axios.get(`${cep}/${newCep}`, {
+          headers: {
+            Authorization: token, 
+          },
+        });
+
+        // Preencher os campos com os dados retornados
+        state.logradouro = response.data.logradouro;
+        state.bairro = response.data.bairro;
+        state.complemento = response.data.complemento;
+
+        // Verificar se o país é estrangeiro
+
+        // Criar a string da cidade no formato "MACEIO/AL"
+        let cidade = `${response.data.localidade}/${response.data.uf}`; 
+        cidade = cidade.toUpperCase(); // Converter para maiúsculas 
+
+
+        // Encontrar a cidade na lista de cidades
+        let cidadeItem = null;
+        enderecos.value.cidadesItems.forEach((item) => {
+          if (item.descricao === cidade) {
+            cidadeItem = item; // Armazenar o item correspondente
+          }
+        });
+
+        // Agora você pode usar cidadeItem
+        if (cidadeItem) {
+          console.log("cidadeItem.id:", cidadeItem.id);
+          state.cidade_id = cidadeItem.id; // Definindo o ID da cidade
+          state.tabvalores_pais_id = 76
+        }
+
+      } catch (err) {
+        if (err.response) {
+          console.error("Erro do servidor:", err.response.status, err.response.data);
+        } else {
+          console.error("Erro inesperado do servidor:", err.message);
+        }
+      }
+    }
+  }
+);
+
+
 
 async function deleteEndereco(item) {
   item.excluido = !item.excluido;
