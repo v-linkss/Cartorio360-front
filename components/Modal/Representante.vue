@@ -3,9 +3,9 @@
     <v-card>
       <v-container>
         <v-row class="mt-1 mb-3" style="justify-content: space-between">
-          <h1 class="ml-4">
+          <h2 class="ml-4">
             Representante para: {{ props.representante_nome }}
-          </h1>
+          </h2>
         </v-row>
         <hr class="mb-5" />
         <v-autocomplete

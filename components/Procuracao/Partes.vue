@@ -41,7 +41,7 @@
         >
         </v-autocomplete>
       </v-col>
-      <!-- <v-col cols="3">
+      <v-col cols="3">
         <v-autocomplete
           label="Papel"
           v-model="state.papeis"
@@ -51,7 +51,7 @@
           required
         >
         </v-autocomplete>
-      </v-col> -->
+      </v-col>
       <div>
         <img
           class="mt-3"
@@ -172,18 +172,12 @@
       @close="isModalPapelOpen = false"
       @updatePapel="atualizarPapel"
     />
-    <v-dialog v-model="isModalFichaOpen" width="600">
-      <v-card max-width="600" title="Ficha">
-        <v-img :src="fichaRender" />
-        <v-btn
-          class="ms-auto mt-3 mb-3"
-          text="Fechar"
-          size="large"
-          color="red"
-          @click="isModalFichaOpen = false"
-        ></v-btn>
-      </v-card>
-    </v-dialog>
+    <ModalFichaCard
+      :show="isModalFichaOpen"
+      :link-view="fichaRender"
+      :is-view="true"
+      @close="isModalFichaOpen = false"
+    />
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>

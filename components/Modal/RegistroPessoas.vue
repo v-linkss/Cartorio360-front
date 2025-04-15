@@ -43,13 +43,13 @@
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="dados">
             <Dados
-              v-if="state.tipo_pessoa === 'fisica'"
+              v-if="state.tipo_pessoa === 'FISICA'"
               @saved="handleSave"
               @close-modal="closeModal"
               :isModal="true"
             />
             <DadosJuridica
-              v-else-if="state.tipo_pessoa === 'juridica'"
+              v-else-if="state.tipo_pessoa === 'JURIDICA'"
               @saved="handleSaveJuridica"
               @close-modal="closeModal"
               :isModal="true"
@@ -98,7 +98,7 @@ const showTabsJuridica = ref(false);
 const autocompleteDisabled = ref(false);
 
 const state = reactive({
-  tipo_pessoa: "fisica", // Valor inicial
+  tipo_pessoa: "FISICA", // Valor inicial
 });
 
 const pessoa_tipo = [

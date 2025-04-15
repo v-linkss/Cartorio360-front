@@ -184,7 +184,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="biometria">
           <v-container class="mt-5">
-            <Biometria />
+            <Biometria :link-ficha="link_ficha"/>
           </v-container>
         </v-tabs-window-item>
         <v-tabs-window-item value="restricao">
@@ -217,6 +217,7 @@ const capacidadeCivilItemsData = ref([]);
 const cidadeNascimentoItemsData = ref([]);
 const sexoItemsData = ref([]);
 const loading = ref(true);
+const link_ficha=ref(null)
 
 const initialState = {
   nome: null,
@@ -280,6 +281,7 @@ async function loadPessoaData() {
     if (pessoa.data_nascimento) {
       pessoa.data_nascimento = formatDate(pessoa.data_nascimento, "dd/mm/yyyy");
     }
+    link_ficha.value = pessoa.link_ficha
     Object.assign(state, pessoa);
   } catch (error) {
     console.error("Erro ao carregar os dados da pessoa:", error);

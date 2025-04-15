@@ -288,7 +288,7 @@ const headers = [
   },
 ];
 
-const isModalOpen = ref(false); // Controla a visibilidade do modal
+const isModalOpen = ref(false); 
 const selectedEndereco = ref(null);
 
 const isForeign = computed(() => {
@@ -428,112 +428,55 @@ async function onUpdate(id) {
   }
 }
 
-import axios from 'axios';
-
 watch(
   () => state.codcep,
   async (newCep) => {
     if (newCep.length === 8) {
       try {
-        const response = await axios.get(`${cep}/${newCep}`, {
+        const { data, error } = await useFetch(`${cep}/${newCep}`, {
           headers: {
             Authorization: token,
           },
         });
 
-        const data = response.data;
+        if (error.value) {
+          console.error("Erro ao buscar CEP:", error.value);
+          $toast.error("Erro ao buscar CEP no servidor.");
+          return;
+        }
 
-        // Verifica se todos os campos essenciais existem
-        if (data.logradouro && data.bairro && data.localidade && data.uf) {
-          // Preencher os campos com os dados retornados
-          state.logradouro = data.logradouro;
-          state.bairro = data.bairro;
-          state.complemento = data.complemento;
+        if (
+          data.value.logradouro &&
+          data.value.bairro &&
+          data.value.localidade &&
+          data.value.uf
+        ) {
+          state.logradouro = data.value.logradouro;
+          state.bairro = data.value.bairro;
+          state.complemento = data.value.complemento;
 
-          let cidade = `${data.localidade}/${data.uf}`.toUpperCase();
+          let cidade = `${data.value.localidade}/${data.value.uf}`.toUpperCase();
 
-          // Encontrar a cidade na lista
           const cidadeItem = enderecos.value.cidadesItems.find(
             (item) => item.descricao === cidade
           );
 
           if (cidadeItem) {
-            console.log("cidadeItem.id:", cidadeItem.id);
             state.cidade_id = cidadeItem.id;
             state.tabvalores_pais_id = 76;
           } else {
-            // Cidade não encontrada na lista
-            $toast.error("Cidade não encontrada na lista!"); // BANG!
+            $toast.error("Cidade não encontrada na lista!");
           }
-
         } else {
-          // Dados insuficientes
-          $toast.error("CEP não retornou dados válidos!"); // DORARARA!
+          $toast.error("CEP não retornou dados válidos!");
         }
-
       } catch (err) {
-        if (err.response) {
-          console.error("Erro do servidor:", err.response.status, err.response.data);
-          $toast.error("Erro ao buscar CEP no servidor.");
-        } else {
-          console.error("Erro inesperado do servidor:", err.message);
-          $toast.error("Erro inesperado. Verifique sua conexão.");
-        }
+        console.error("Erro inesperado:", err);
+        $toast.error("Erro inesperado. Verifique sua conexão.");
       }
     }
   }
 );
-
-// watch(
-//   () => state.codcep,
-//   async (newCep) => {
-//     if (newCep.length === 8) {
-//       try {
-//         const response = await axios.get(`${cep}/${newCep}`, {
-//           headers: {
-//             Authorization: token, 
-//           },
-//         });
-
-//         // Preencher os campos com os dados retornados
-//         state.logradouro = response.data.logradouro;
-//         state.bairro = response.data.bairro;
-//         state.complemento = response.data.complemento;
-
-//         // Verificar se o país é estrangeiro
-
-//         // Criar a string da cidade no formato "MACEIO/AL"
-//         let cidade = `${response.data.localidade}/${response.data.uf}`; 
-//         cidade = cidade.toUpperCase(); // Converter para maiúsculas 
-
-
-//         // Encontrar a cidade na lista de cidades
-//         let cidadeItem = null;
-//         enderecos.value.cidadesItems.forEach((item) => {
-//           if (item.descricao === cidade) {
-//             cidadeItem = item; // Armazenar o item correspondente
-//           }
-//         });
-
-//         // Agora você pode usar cidadeItem
-//         if (cidadeItem) {
-//           console.log("cidadeItem.id:", cidadeItem.id);
-//           state.cidade_id = cidadeItem.id; // Definindo o ID da cidade
-//           state.tabvalores_pais_id = 76
-//         }
-
-//       } catch (err) {
-//         if (err.response) {
-//           console.error("Erro do servidor:", err.response.status, err.response.data);
-//         } else {
-//           console.error("Erro inesperado do servidor:", err.message);
-//         }
-//       }
-//     }
-//   }
-// );
-
-
 
 async function deleteEndereco(item) {
   item.excluido = !item.excluido;

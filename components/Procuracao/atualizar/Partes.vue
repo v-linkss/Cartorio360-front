@@ -8,7 +8,7 @@
       <v-col cols="4">
         <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
       </v-col>
-      <div >
+      <div>
         <img
           class="mt-1"
           src="../../../assets/visualizar.png"
@@ -172,18 +172,12 @@
       @close="isModalPapelOpen = false"
       @updatePapel="atualizarPapel"
     />
-    <v-dialog v-model="isModalFichaOpen" width="600">
-      <v-card max-width="600" title="Ficha">
-        <TiffViewer :tiff-url="fichaRender" />
-        <v-btn
-          class="ms-auto mt-3 mb-3"
-          text="Fechar"
-          size="large"
-          color="red"
-          @click="isModalFichaOpen = false"
-        ></v-btn>
-      </v-card>
-    </v-dialog>
+    <ModalFichaCard
+      :show="isModalFichaOpen"
+      :link-view="fichaRender"
+      :is-view="true"
+      @close="isModalFichaOpen = false"
+    />
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -193,7 +187,6 @@
 </template>
 
 <script setup>
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -206,7 +199,7 @@ const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
 const baixarDocumento = `${config.public.managemant}/download`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 
 const pessoasItems = ref([]);
 const pessoasTable = ref([]);
@@ -353,8 +346,8 @@ const createRepresentante = async () => {
     representante.id = data.value.id;
     $toast.success("Pessoa Registrada com Sucesso!");
     pessoasTable.value.push(representante);
-  } else{
-    $toast.error(error.value.message)
+  } else {
+    $toast.error(error.value.message);
   }
 };
 
@@ -374,7 +367,10 @@ const redirectToFicha = async (item) => {
 
   const { data: link } = await useFetch(baixarDocumento, {
     method: "POST",
-    body: { bucket: useCookie("user-data").value.cartorio_token, path: imagemBiometria.value.link },
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: imagemBiometria.value.link,
+    },
   });
 
   const linkMinio = imagemBiometria.value.link;

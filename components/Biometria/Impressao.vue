@@ -8,10 +8,20 @@
       />
       <BiometriaScanner/>
     </div>
+    <div v-if="props.linkFicha">
+        <img
+          style="width: 80px; height: 80px; cursor: pointer"
+          src="../../assets/visualizar.png"
+          alt="Ver ficha"
+        />
+      </div>
   </v-col>
 </template>
 
 <script setup>
+const props = defineProps({
+  linkFicha: String
+});
 const printHtml = ref("");
 
 const config = useRuntimeConfig();

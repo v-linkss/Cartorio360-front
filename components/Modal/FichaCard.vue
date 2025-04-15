@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <div  class="d-flex justify-center align-center">
+      <div class="d-flex justify-center align-center">
         <div v-if="hasTiff" class="ml-5 mt-15">
           <TiffViewer
             :tiff-url="fichaRender"
@@ -42,9 +42,9 @@
           }"
         />
       </div>
-
       <v-card-actions>
         <v-btn
+          v-if="!props.isView"
           style="background-color: #429946; color: white"
           @click="confirmarRecebimento"
           >Reconhecer</v-btn
@@ -61,6 +61,11 @@
 const props = defineProps({
   show: Boolean,
   item: Object,
+  isView: {
+    type: Boolean,
+    default: false,
+  },
+  linkView: String,
 });
 
 const config = useRuntimeConfig();
@@ -93,12 +98,31 @@ watch(
   }
 );
 
+watch(
+  () => props.linkView,
+  (newLinkView) => {
+    if(props.isView){
+      if (newLinkView && newLinkView.includes('.tr7')) {
+        fichaRender.value = newLinkView;
+        fotoRender.value = null;
+      } else {
+        fichaRender.value = null;
+        fotoRender.value = newLinkView;
+      }
+    }
+  }
+);
+
 const confirmarRecebimento = () => {
   emit("confirmar");
   closeModal();
 };
 
 const beforeOpenFicha = async () => {
+  if (props.isView) {
+
+    return
+  }
   if (!props.item.id) return;
 
   const { data: imagemBiometria } = await useFetch(buscarPessoa, {
@@ -110,7 +134,10 @@ const beforeOpenFicha = async () => {
 
   const { data: link } = await useFetch(baixarDocumento, {
     method: "POST",
-    body: { bucket: useCookie("user-data").value.cartorio_token, path: imagemBiometria.value.link },
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: imagemBiometria.value.link,
+    },
   });
 
   const linkMinio = imagemBiometria.value.link;

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5" style="width: 100%;">
+  <v-container class="mt-5" style="width: 100%">
     <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
       <NuxtLink to="/os/criar-registro">
@@ -13,47 +13,44 @@
     </v-row>
     <v-row style="margin-bottom: -35px">
       <v-col>
+        <v-text-field v-model="state.numero" label="Número"></v-text-field>
+      </v-col>
+      <v-col>
         <v-text-field
-          v-model="state.numero"
-          label="Número"
+          v-model="state.data_inicio"
+          label="Abertura de"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
         ></v-text-field>
       </v-col>
       <v-col>
-  <v-text-field
-    v-model="state.data_inicio"
-    label="Abertura de"
-    placeholder="dd/mm/yyyy"
-    v-mask="'##/##/####'"
-    style="width: 150px"
-  ></v-text-field>
-</v-col>
-<v-col>
-  <v-text-field
-    v-model="state.data_fim"
-    label="Abertura até"
-    placeholder="dd/mm/yyyy"
-    v-mask="'##/##/####'"
-    style="width: 150px"
-  ></v-text-field>
-</v-col>
-<v-col>
-  <v-text-field
-    v-model="state.data_lavratura_inicio"
-    label="Lavratura de"
-    placeholder="dd/mm/yyyy"
-    v-mask="'##/##/####'"
-    style="width: 150px"
-  ></v-text-field>
-</v-col>
-<v-col>
-  <v-text-field
-    v-model="state.data_lavratura_fim"
-    label="Lavratura até"
-    placeholder="dd/mm/yyyy"
-    v-mask="'##/##/####'"
-    style="width: 150px"
-  ></v-text-field>
-</v-col>
+        <v-text-field
+          v-model="state.data_fim"
+          label="Abertura até"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_lavratura_inicio"
+          label="Lavratura de"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          v-model="state.data_lavratura_fim"
+          label="Lavratura até"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
+      </v-col>
       <v-col>
         <v-text-field
           v-model="state.protocolo"
@@ -61,16 +58,10 @@
         ></v-text-field>
       </v-col>
       <v-col md="1">
-        <v-text-field
-          v-model="state.livro"
-          label="Livro"
-        ></v-text-field>
+        <v-text-field v-model="state.livro" label="Livro"></v-text-field>
       </v-col>
       <v-col md="1">
-        <v-text-field
-          v-model="state.folha"
-          label="Folha"
-        ></v-text-field>
+        <v-text-field v-model="state.folha" label="Folha"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -120,7 +111,7 @@
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
-    <v-data-table :headers="headers" :items="servicosItems" item-key="id" >
+    <v-data-table :headers="headers" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 4px; margin-top: -5px">
           <div
@@ -160,11 +151,7 @@
 
           <div
             :disabled="!item.btn_cancelar"
-            @click="
-              item.btn_cancelar
-                ? redirectToCancelamento(item)
-                : null
-            "
+            @click="item.btn_cancelar ? redirectToCancelamento(item) : null"
             title="Cancelamento"
           >
             <img
@@ -241,9 +228,9 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "Data Recebimento", value: "data" , width: "140px"},
-  { title: "Número", value: "numero" , width: "120px"},
-  { title: "Situação", value: "situacao" , width: "120px"},
+  { title: "Data Recebimento", value: "data", width: "140px" },
+  { title: "Número", value: "numero", width: "120px" },
+  { title: "Situação", value: "situacao", width: "120px" },
   { title: "CPF", value: "apresentante_cpf", width: "120px" },
   { title: "Apresentante", value: "apresentante_nome", width: "120px" },
   { title: "Usuario", value: "usuario_nome", width: "120px" },
@@ -263,8 +250,8 @@ function getCurrentDate() {
 }
 
 function convertToISODate(date) {
-  if (!date) return null; 
-  const [dd, mm, yyyy] = date.split('/');
+  if (!date) return null;
+  const [dd, mm, yyyy] = date.split("/");
   return `${yyyy}-${mm}-${dd}`;
 }
 
@@ -289,7 +276,8 @@ async function searchOrdersService() {
         numero: state.numero || null,
         data_inicio: convertToISODate(state.data_inicio) || null,
         data_fim: convertToISODate(state.data_fim) || null,
-        data_lavratura_inicio: convertToISODate(state.data_lavratura_inicio) || null,
+        data_lavratura_inicio:
+          convertToISODate(state.data_lavratura_inicio) || null,
         data_lavratura_fim: convertToISODate(state.data_lavratura_fim) || null,
         protocolo: state.protocolo || null,
         livro: state.livro || null,
@@ -310,7 +298,7 @@ async function searchOrdersService() {
       });
     } else {
       servicosItems.value = [];
-      $toast.error("Não existe Ordem de Serviço Registrada!")
+      $toast.error("Não existe Ordem de Serviço Registrada!");
     }
   } catch (error) {
     console.error("Erro na requisição", error);
@@ -330,7 +318,6 @@ async function tipoAtosDataPayload() {
 
 const servicosDataTable = async () => {
   try {
-
     const currentDate = getCurrentDate();
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
     const dadosRestaurados = JSON.parse(pesquisaSalva);
@@ -341,7 +328,8 @@ const servicosDataTable = async () => {
         cartorio_token: cartorio_token.value,
         usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
         data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
-        data_inicio: convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
+        data_inicio:
+          convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
       },
     });
     if (servicosData.value.length > 0) {
