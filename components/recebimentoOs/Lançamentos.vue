@@ -4,6 +4,14 @@
         <h1>
           Lançamentos do caixa
         </h1>
+        <NuxtLink to="/caixas/cadastro">
+          <img
+            style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px"
+            src="../../assets/novo.png"
+            alt="novo"
+            @click="redirectCreateCaixa"
+          />
+      </NuxtLink>
       </v-row>
       <v-row>
         <v-col cols="3">
@@ -111,7 +119,7 @@
   
       if (response && Array.isArray(response)) {
         lancamentoCaixa.value = response;
-        console.log('lancamentoCaixa:', lancamentoCaixa.value);
+        
       } else {
         $toast.error("Erro ao buscar dados da API.");
       }
@@ -195,5 +203,9 @@
     );
   });
 });
+
+const redirectCreateCaixa = () => {
+  navigateTo("/caixas/cadastro");
+}
   </script>
   
