@@ -122,6 +122,7 @@ const formaItens = ref([]);
 const faltaReceber = ref(null);
 const selosItems = ref([]);
 const recebimentos = ref([]);
+const caixaToken = ref(useCookie("caixa-service").value.caixa_token)
 
 const state = reactive({
   descricao: null,
@@ -183,6 +184,8 @@ const realizarRecebimentoCompleto = async () => {
       ordemserv_token: props.ordem.token,
       usuario_token,
       recebimentos: [recebimentos.value],
+      caixa_token: caixaToken.value,
+
     };
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
