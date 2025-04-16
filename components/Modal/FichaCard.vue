@@ -2,7 +2,6 @@
   <v-dialog persistent v-model="isVisible" max-width="850">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
-
       <v-container>
         <v-row>
           <v-col cols="10">
@@ -41,6 +40,11 @@
             transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
           }"
         />
+        <div v-if="!fotoRender && !fichaRender">
+          <h3 class="mb-5">
+            Este usuario não possui ficha de firma cadastrada.
+          </h3>
+        </div>
       </div>
       <v-card-actions>
         <v-btn
@@ -67,7 +71,6 @@ const props = defineProps({
   },
   linkView: String,
 });
-
 const config = useRuntimeConfig();
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const baixarDocumento = `${config.public.managemant}/download`;
@@ -95,7 +98,8 @@ watch(
     isVisible.value = newVal;
     fichaRender.value = null;
     await beforeOpenFicha();
-  }
+  },
+  {immediate: true}
 );
 
 watch(
@@ -110,7 +114,8 @@ watch(
         fotoRender.value = newLinkView;
       }
     }
-  }
+  },
+  {immediate: true}
 );
 
 const confirmarRecebimento = () => {
@@ -120,7 +125,6 @@ const confirmarRecebimento = () => {
 
 const beforeOpenFicha = async () => {
   if (props.isView) {
-
     return
   }
   if (!props.item.id) return;

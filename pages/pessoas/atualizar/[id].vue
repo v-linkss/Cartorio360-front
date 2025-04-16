@@ -1,14 +1,27 @@
 <template>
   <v-card width="1300">
-    <h1
-      style="
-        background-color: #f5f2f2;
-        color: #525050;
-        padding: 10px 0px 0px 20px;
-      "
-    >
-      {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
-    </h1>
+    <v-row style="background-color: #f5f2f2">
+      <v-col>
+        <h1
+          style="
+            color: #525050;
+            padding: 10px 0px 0px 30px;
+          "
+        >
+          {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
+        </h1>
+      </v-col>
+      <v-col class="d-flex justify-end">
+        <h3
+          style="
+            color: #525050;
+            padding: 20px 10px 10px 10px;
+          "
+        >
+          Cadastrado em {{ criacaoData }}
+        </h3>
+      </v-col>
+    </v-row>
     <div style="background-color: #f5f2f2; padding: 20px 0px 20px 20px">
       <v-autocomplete
         v-model="state.tipo_pessoa"
@@ -105,12 +118,20 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" md="4">
+              <v-col cols="12" md="2">
                 <v-text-field
                   v-model="state.data_nascimento"
                   label="Data de nascimento"
                   placeholder="dd/mm/yyyy"
                   v-mask="'##/##/####'"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="2">
+                <v-text-field
+                v-model="state.fone_celular"
+                  label="Celular"
+                  placeholder="'(99) 99999-9999'"
+                  v-mask="'(##) #####-####'"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -184,7 +205,7 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="biometria">
           <v-container class="mt-5">
-            <Biometria :link-ficha="link_ficha"/>
+            <Biometria :link-ficha="link_ficha" />
           </v-container>
         </v-tabs-window-item>
         <v-tabs-window-item value="restricao">
@@ -217,13 +238,15 @@ const capacidadeCivilItemsData = ref([]);
 const cidadeNascimentoItemsData = ref([]);
 const sexoItemsData = ref([]);
 const loading = ref(true);
-const link_ficha=ref(null)
+const link_ficha = ref(null);
+const criacaoData = ref(null);
 
 const initialState = {
   nome: null,
   nome_pai: null,
   nome_mae: null,
   profissao: null,
+  fone_celular: null,
   data_nascimento: null,
   doc_identificacao: null,
   cpf_pai: null,
@@ -278,10 +301,12 @@ async function loadPessoaData() {
     capacidadeCivilItemsData.value = capacidadeCivilItems;
     cidadeNascimentoItemsData.value = cidadeNascimentoItems;
     sexoItemsData.value = sexoItems;
-    if (pessoa.data_nascimento) {
+    if (pessoa.data_nascimento || pessoa.created) {
       pessoa.data_nascimento = formatDate(pessoa.data_nascimento, "dd/mm/yyyy");
+      pessoa.created = formatDate(pessoa.created, "dd/mm/yyyy");
     }
-    link_ficha.value = pessoa.link_ficha
+    criacaoData.value = pessoa.created;
+    link_ficha.value = pessoa.link_ficha;
     Object.assign(state, pessoa);
   } catch (error) {
     console.error("Erro ao carregar os dados da pessoa:", error);
@@ -309,8 +334,11 @@ function formatPayload(payload) {
         formattedPayload[key] = removeFormatting(payload[key]);
         break;
       case "data_nascimento":
-        formattedPayload[key] = formatToISO(payload[key]); 
+        formattedPayload[key] = formatToISO(payload[key]);
         break;
+      case "fone_celular":
+        formattedPayload[key] = payload[key].replace(/[^0-9]/g, "");
+        break;  
       default:
         formattedPayload[key] = payload[key] === "" ? null : payload[key];
         break;

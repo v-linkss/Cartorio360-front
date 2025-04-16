@@ -117,10 +117,13 @@ const listarRegistroImoveis = `${config.public.managemant}/registro_imoveis`;
 const listarNaturezaImoveis = `${config.public.managemant}/natureza_imoveis`;
 const listarTipoLogradouro = `${config.public.managemant}/tipo_logradouros`;
 const listarSituacaoImoveis = `${config.public.managemant}/situacao_imoveis`;
+const cep = `${config.public.auth}/service/gerencia/cep`;
 const listarCidades = `${config.public.managemant}/listarCidades`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
+const tokenCookie = useCookie('auth_token');
+const token = tokenCookie.value;
 
 const registroItems = ref([]);
 const naturezaItems = ref([]);
@@ -217,6 +220,55 @@ const goBack = () => {
   emit("close-modal");
   emit('refresh-list')
 };
+
+watch(
+  () => state.end_cep,
+  async (newCep) => {
+    if (newCep && newCep.length === 8) {
+      try {
+        const { data, error } = await useFetch(`${cep}/${newCep}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (error.value) {
+          console.error("Erro ao buscar CEP:", error.value);
+          $toast.error("Erro ao buscar CEP no servidor.");
+          return;
+        }
+
+        if (
+          data.value.logradouro &&
+          data.value.bairro &&
+          data.value.localidade &&
+          data.value.uf
+        ) {
+          state.end_logradouro = data.value.logradouro;
+          state.end_bairro = data.value.bairro;
+          state.end_complemento = data.value.complemento;
+
+          let cidade = `${data.value.localidade}/${data.value.uf}`.toUpperCase();
+
+          const cidadeItem = cidadeItems.value.find(
+            (item) => item.descricao === cidade
+          );
+
+          if (cidadeItem) {
+            state.end_cidade_id = cidadeItem.id;
+          } else {
+            $toast.error("Cidade não encontrada na lista!");
+          }
+        } else {
+          $toast.error("CEP não retornou dados válidos!");
+        }
+      } catch (err) {
+        console.error("Erro inesperado:", err);
+        $toast.error("Erro inesperado. Verifique sua conexão.");
+      }
+    }
+  }
+);
 
 onMounted(() => {
   if (id || props.ato_id) {

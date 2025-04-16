@@ -64,12 +64,20 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col md="4">
+      <v-col md="2">
         <v-text-field
           v-model="state.data_nascimento"
           label="Data de nascimento"
           placeholder="dd/mm/yyyy"
           v-mask="'##/##/####'"
+        ></v-text-field>
+      </v-col>
+      <v-col md="2">
+        <v-text-field
+          v-modal="state.fone_celular"
+          label="Celular"
+          placeholder="'(99) 99999-9999'"
+          v-mask="'(##) #####-####'"
         ></v-text-field>
       </v-col>
       <v-col md="4">
@@ -170,6 +178,7 @@ const initialState = {
   local_trabalho: null,
   data_nascimento: null,
   doc_identificacao: null,
+  fone_celular: null,
   cpf_pai: null,
   cpf_mae: null,
   tipo_pessoa: "FISICA",
@@ -251,6 +260,7 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
       data_nascimento: formatToISO(state.data_nascimento),
+      fone_celular: state.fone_celular.replace(/[^0-9]/g, "")
     };
     const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",
@@ -282,6 +292,7 @@ async function onUpdate() {
     ...payload,
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
+    fone_celular: state.fone_celular.replace(/[^0-9]/g, "")
   };
   const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,

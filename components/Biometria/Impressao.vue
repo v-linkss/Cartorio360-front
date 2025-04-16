@@ -10,12 +10,20 @@
     </div>
     <div v-if="props.linkFicha">
         <img
+        @click="redirectToFicha()"
           style="width: 80px; height: 80px; cursor: pointer"
           src="../../assets/visualizar.png"
           alt="Ver ficha"
         />
       </div>
-  </v-col>
+    </v-col>
+    <ModalFichaCard
+    v-if="isModalFichaOpen"
+    :show="isModalFichaOpen"
+    :link-view="linkFichaPessoa"
+    :is-view="true"
+    @close="isModalFichaOpen = false"
+  />
 </template>
 
 <script setup>
@@ -26,6 +34,10 @@ const printHtml = ref("");
 
 const config = useRuntimeConfig();
 const impressao = `${config.public.managemant}/gerarRelatorioPessoa`;
+const baixarDocumento = `${config.public.managemant}/download`;
+const linkFichaPessoa = ref(null)
+const isView = ref(false)
+const isModalFichaOpen = ref(false)
 
 const consultaFicha = async () => {
   const response = await useFetch(impressao, {
@@ -37,6 +49,24 @@ const consultaFicha = async () => {
   });
   printHtml.value = response.data.value;
 };
+
+if(props.linkFicha){
+  const { data: link } = await useFetch(baixarDocumento, {
+      method: "POST",
+      body: {
+        bucket: useCookie("user-data").value.cartorio_token,
+        path: props.linkFicha,
+      },
+    });
+  linkFichaPessoa.value = link.value;
+}
+
+const redirectToFicha = () =>{
+  isModalFichaOpen.value = true
+  isView.value = true
+}
+
+
 const printContent = async() => {
   await consultaFicha()
   const iframe = document.createElement("iframe");

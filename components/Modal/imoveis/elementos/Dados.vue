@@ -317,11 +317,14 @@ const goBack = () => {
 };
 
 watch(
-  [() => state.vlr_avaliacao.replace(/,/g, ""), () => state.aliq_itbi.replace(/,/g, "") ],
+  [
+    () => state.vlr_avaliacao ? state.vlr_avaliacao.replace(/,/g, "") : "0",
+    () => state.aliq_itbi ? state.aliq_itbi.replace(/,/g, "") : "0"
+  ],
   ([novo_vlr_avaliacao, novo_aliq_itbi]) => {
     state.vlr_itbi = ((Number(novo_vlr_avaliacao) * Number(novo_aliq_itbi)) / 100).toFixed(2);
   }
-)
+);
 
 onMounted(() => {
   if (id || props.ato_id) {

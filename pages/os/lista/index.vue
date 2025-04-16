@@ -111,9 +111,9 @@
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
-    <v-data-table :headers="headers" :items="servicosItems" item-key="id">
+    <v-data-table :headers="headers" style="min-width: 1230px;font-size:12px;" :items="servicosItems" item-key="id">
       <template v-slot:item.actions="{ item }">
-        <v-row style="display: flex; gap: 4px; margin-top: -5px">
+        <v-row style="display: flex; gap: 2px; margin-top: -5px">
           <div
             :class="{ disabled: !item.btn_receber }"
             :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
@@ -228,14 +228,15 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "Data Recebimento", value: "data", width: "140px" },
-  { title: "Número", value: "numero", width: "120px" },
-  { title: "Situação", value: "situacao", width: "120px" },
-  { title: "CPF", value: "apresentante_cpf", width: "120px" },
-  { title: "Apresentante", value: "apresentante_nome", width: "120px" },
-  { title: "Usuario", value: "usuario_nome", width: "120px" },
-  { title: "Valor", value: "valor", width: "100px" },
-  { title: "A Receber", value: "valor_a_receber", width: "100px" },
+  { title: "Data Abertura", value: "dt_abertura", width: "100px" },
+  { title: "Data Recebimento", value: "data", width: "100px", },
+  { title: "Número", value: "numero", width: "10px" },
+  { title: "Situação", value: "situacao", width: "115px" },
+  { title: "CPF", value: "apresentante_cpf", width: "100px" },
+  { title: "Apresentante", value: "apresentante_nome", width: "228px" },
+  { title: "Usuario", value: "usuario_nome", width: "30px" },
+  { title: "Valor", value: "valor", width: "50px" },
+  { title: "A Receber", value: "valor_a_receber", width: "50px" },
   {
     value: "actions",
   },

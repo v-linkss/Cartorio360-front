@@ -78,7 +78,7 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                class="mr-2"
+                class="mr-1"
                 @click="redirectToFicha(item)"
                 title="Visualizar Ficha"
               >
@@ -95,7 +95,7 @@
                   justify-content: flex-end;
                 "
                 @click="redirectToPapel(item)"
-                class="mr-2"
+                class="mr-1"
                 title="Alterar Papel"
               >
                 <img
@@ -105,7 +105,7 @@
                 />
               </div>
               <div
-                class="mr-2"
+                class="mr-1"
                 style="
                   display: flex;
                   cursor: pointer;
@@ -136,7 +136,7 @@
                   cursor: pointer;
                   justify-content: flex-end;
                 "
-                class="mr-2"
+                class="mr-1"
                 @click="redirectToRepresentante(item)"
                 title="Selecionar Representante"
               >
@@ -379,7 +379,7 @@ const redirectToFicha = async (item) => {
   if (/\.(tr7|tiff)$/i.test(linkMinio)) {
     fichaRender.value = linkPayload;
   } else {
-    fotoRender.value = `data:image/jpeg;base64,${linkPayload}`;
+    fichaRender.value = linkPayload;
   }
 };
 
