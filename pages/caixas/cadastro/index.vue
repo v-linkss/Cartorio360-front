@@ -8,7 +8,7 @@ const cartorio_id = ref(useCookie("user-data").value.cartorio_id || null);
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
-
+console.log("cartorio_token", cartorio_token.value);
 const classesDespesas = ref([])
 
 const { $toast } = useNuxtApp();
@@ -20,9 +20,11 @@ const form = ref({
   valor: null,
 });
 
+
 const token = {
-    cartorio_token: cartorio_token.value,
-  }
+  cartorio_token: cartorio_token.value,
+}
+console.log("token", token);
 
 const {data: classesDespesasData} = await useFetch(`${getClsassesDespesas}`, {
   method: "POST",

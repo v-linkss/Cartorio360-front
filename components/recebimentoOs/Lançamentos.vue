@@ -123,6 +123,8 @@
       } else {
         $toast.error("Erro ao buscar dados da API.");
       }
+
+      console.log('data', response)
     } catch (error) {
       const errorMessage =
         error.message || "Erro ao buscar dados da API. Tente novamente.";
