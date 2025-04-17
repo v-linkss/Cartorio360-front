@@ -6,9 +6,11 @@ const getClsassesDespesas = `${config.public.managemant}/classes-despesas`;
 const userData = ref(useCookie("user-data").value || {});
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id || null);
 
+const caixa_service = ref(useCookie("caixa-service").value) || null;
+
 const usuario_token = ref(useCookie("auth_token").value) || null;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
-console.log("cartorio_token", cartorio_token.value);
+
 const classesDespesas = ref([])
 
 const { $toast } = useNuxtApp();
@@ -19,7 +21,6 @@ const form = ref({
   descricao: "",
   valor: null,
 });
-
 
 const token = {
   cartorio_token: cartorio_token.value,
@@ -36,13 +37,14 @@ classesDespesas.value = classesDespesasData.value || [];
 const handleCreateCaixas = async () => {
   try {
     const classesDespesasPayload = {
-      data: form.data,
-      classe_despesa_id: form.value.pai_id,
-      descricao: form.value.ato_tipo_tj_id,
-      valor: form.value.descricao,
+      data: form.value.data,
+      classe_despesa_id: form.value.classe_despesa_id,
+      descricao: form.value.descricao,
+      valor: form.value.valor,
       user_id: userData.value.usuario_id,
       user_alteracao_id: userData.value.usuario_id,
       cartorio_id: cartorio_id.value,
+      caixa_id: caixa_service.value.caixa_id,
     };
     
     const { data, error } = await useFetch(createCaixa, {
@@ -50,12 +52,14 @@ const handleCreateCaixas = async () => {
       body: classesDespesasPayload,
     });
 
+    console.log('data:', data.value);
+
     if (error.value) {
       throw new Error(error.value.message || "Erro desconhecido na API");
     }
 
     $toast.success("Caixa cadastrada com sucesso");
-    navigateTo('/tipoAtos/lista');
+    navigateTo('/caixas/lista');
 
   } catch (error) {
     console.error("Erro ao criar caixa:", error);
@@ -67,7 +71,7 @@ const handleCreateCaixas = async () => {
 
 <template>
   <v-container>
-    <h1 class="mb-5">Criar Caixa</h1>
+    <h1 class="mb-5">Criar lançamento do caixa Caixa</h1>
     <v-form @submit.prevent="handleCreateCaixas">
       <v-col cols="6">
         <v-row>
