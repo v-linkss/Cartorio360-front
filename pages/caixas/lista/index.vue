@@ -181,6 +181,7 @@ function redirectToCiaxasRecebimento(item) {
     caixa_token: item.token,
     usuario_nome: item.usuario_nome,
     data: item.data,
+    caixa_id: item.id
   });
   navigateTo("/caixas/caixasRecebimentoOs");
 }
