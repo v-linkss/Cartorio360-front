@@ -119,7 +119,7 @@ const enviaSelo = async () => {
         seloData.value.forEach((retorno) => {
           const seloEncontrado = selos.value.find((s) => s.token === retorno.selo_token);
           if (seloEncontrado) {
-            seloEncontrado.resultado = retorno.error || "TRANSMITIDO";
+            seloEncontrado.resultado = retorno.details || "TRANSMITIDO";
           }
         });
       }
