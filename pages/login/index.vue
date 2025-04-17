@@ -162,7 +162,7 @@ const authenticateUser = async () => {
       email: loginData.value.email,
     },
   });
-
+  console.log(data.value[0].func_autentica_acesso_v1[0].registro[0].cartorios  );
   return { data: data?.value, status: status?.value, error: error?.value };
 };
 
