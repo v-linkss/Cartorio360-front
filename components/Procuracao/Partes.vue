@@ -25,6 +25,7 @@
           title="Criar Pessoa"
           @click="createPessoa"
         />
+
       </div>
     </v-row>
 
@@ -54,12 +55,19 @@
       </v-col>
       <div>
         <img
-          class="mt-3"
+          class="mt-3" 
           src="../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Representante"
           @click="createRepresentante"
         />
+        <img
+          class="mt-3 ml-2"
+          src="../../assets/visualizar.png"
+          style="width: 40px; cursor: pointer"
+          title="Visualisar Fixa"
+          @click="isModalFichaOpen = true"
+          />
       </div>
     </v-row>
 
@@ -173,10 +181,10 @@
       @updatePapel="atualizarPapel"
     />
     <ModalFichaCard
-      :show="isModalFichaOpen"
-      :link-view="fichaRender"
-      :is-view="true"
-      @close="isModalFichaOpen = false"
+    :show="isModalFichaOpen"
+    :item="state.pessoa" 
+    @confirmar="confirmItem(state.pessoa)"
+    @close="isModalFichaOpen = false"
     />
     <v-row>
       <NuxtLink @click="goBack">

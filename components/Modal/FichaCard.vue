@@ -40,7 +40,7 @@
             transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
           }"
         />
-        <div v-if="!fotoRender && !fichaRender">
+        <div v-if="!fotoRender && !fichaRender ">
           <h3 class="mb-5">
             Este usuario não possui ficha de firma cadastrada.
           </h3>
