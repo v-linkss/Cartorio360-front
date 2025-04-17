@@ -295,6 +295,9 @@ async function searchOrdersService() {
         return {
           ...item,
           data: item.data ? formatDate(item.data, "dd/mm/yyyy") : null,
+          dt_abertura: item.dt_abertura
+            ? formatDate(item.dt_abertura, "dd/mm/yyyy")
+            : null, 
         };
       });
     } else {
@@ -338,6 +341,7 @@ const servicosDataTable = async () => {
         return {
           ...item,
           data: formatDate(item.data, "dd/mm/yyyy"),
+          dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
         };
       });
     } else {
