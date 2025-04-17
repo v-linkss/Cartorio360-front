@@ -74,7 +74,7 @@
       </v-col>
       <v-col md="2">
         <v-text-field
-          v-modal="state.fone_celular"
+          v-model="state.fone_celular"
           label="Celular"
           placeholder="'(99) 99999-9999'"
           v-mask="'(##) #####-####'"
@@ -260,7 +260,7 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
       data_nascimento: formatToISO(state.data_nascimento),
-      fone_celular: state.fone_celular.replace(/[^0-9]/g, "")
+      fone_celular: state.fone_celular ? state.fone_celular.replace(/[^0-9]/g, "") : null, // Adicionada verificação
     };
     const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",

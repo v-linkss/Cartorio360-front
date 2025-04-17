@@ -2,72 +2,42 @@
   <v-card width="1300">
     <v-row style="background-color: #f5f2f2">
       <v-col>
-        <h1
-          style="
+        <h1 style="
             color: #525050;
             padding: 10px 0px 0px 30px;
-          "
-        >
+          ">
           {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
         </h1>
       </v-col>
       <v-col class="d-flex justify-end">
-        <h3
-          style="
+        <h3 style="
             color: #525050;
             padding: 20px 10px 10px 10px;
-          "
-        >
+          ">
           Cadastrado em {{ criacaoData }}
         </h3>
       </v-col>
     </v-row>
     <div style="background-color: #f5f2f2; padding: 20px 0px 20px 20px">
-      <v-autocomplete
-        v-model="state.tipo_pessoa"
-        style="width: 200px"
-        :items="pessoa_tipo"
-        item-title="label"
-        item-value="value"
-        label="Tipo de pessoa"
-        bg-color="#F6F6F6"
-        disabled
-      >
+      <v-autocomplete v-model="state.tipo_pessoa" style="width: 200px" :items="pessoa_tipo" item-title="label"
+        item-value="value" label="Tipo de pessoa" bg-color="#F6F6F6" disabled>
       </v-autocomplete>
     </div>
     <div v-if="loading" class="d-flex justify-center">
-      <v-progress-circular
-        indeterminate
-        class="loading-spinner"
-        size="64"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate class="loading-spinner" size="64"></v-progress-circular>
     </div>
     <div v-else>
       <v-tabs v-model="tab" bg-color="#f5f2f2">
         <v-tab value="dados">Dados</v-tab>
-        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento"
-          >Documentos</v-tab
-        >
-        <v-tab v-if="state.tipo_pessoa === 'JURIDICA'" value="representante"
-          >Representantes</v-tab
-        >
-        <v-tab
-          v-if="
-            state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
-          "
-          value="endereco"
-          >Endereços</v-tab
-        >
-        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria"
-          >Biometria</v-tab
-        >
-        <v-tab
-          v-if="
-            state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
-          "
-          value="restricao"
-          >Restrições</v-tab
-        >
+        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento">Documentos</v-tab>
+        <v-tab v-if="state.tipo_pessoa === 'JURIDICA'" value="representante">Representantes</v-tab>
+        <v-tab v-if="
+          state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
+        " value="endereco">Endereços</v-tab>
+        <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria">Biometria</v-tab>
+        <v-tab v-if="
+          state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
+        " value="restricao">Restrições</v-tab>
       </v-tabs>
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="dados">
@@ -77,119 +47,65 @@
                 <v-text-field v-model="state.nome" label="Nome"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model="state.doc_identificacao"
-                  label="CPF"
-                  v-mask="'###.###.###-##'"
-                ></v-text-field>
+                <v-text-field v-model="state.doc_identificacao" label="CPF" v-mask="'###.###.###-##'"></v-text-field>
               </v-col>
               <v-col md="2">
-                <v-select
-                  label="Sexo"
-                  v-model="state.tabvalores_sexo_id"
-                  :items="sexoItemsData"
-                  item-title="descricao"
-                  item-value="id"
-                ></v-select>
+                <v-select label="Sexo" v-model="state.tabvalores_sexo_id" :items="sexoItemsData" item-title="descricao"
+                  item-value="id"></v-select>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" md="4">
-                <v-autocomplete
-                  v-model="state.tabvalores_estadocivil_id"
-                  :items="estadoCivilItemsData"
-                  item-title="descricao"
-                  item-value="id"
-                  label="Estado Civil"
-                >
+                <v-autocomplete v-model="state.tabvalores_estadocivil_id" :items="estadoCivilItemsData"
+                  item-title="descricao" item-value="id" label="Estado Civil">
                 </v-autocomplete>
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model="state.profissao"
-                  label="Profissão"
-                ></v-text-field>
+                <v-text-field v-model="state.profissao" label="Profissão"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model="state.local_trabalho"
-                  label="Local de trabalho"
-                ></v-text-field>
+                <v-text-field v-model="state.local_trabalho" label="Local de trabalho"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" md="2">
-                <v-text-field
-                  v-model="state.data_nascimento"
-                  label="Data de nascimento"
-                  placeholder="dd/mm/yyyy"
-                  v-mask="'##/##/####'"
-                ></v-text-field>
+                <v-text-field v-model="state.data_nascimento" label="Data de nascimento" placeholder="dd/mm/yyyy"
+                  v-mask="'##/##/####'"></v-text-field>
               </v-col>
               <v-col cols="12" md="2">
-                <v-text-field
-                v-model="state.fone_celular"
-                  label="Celular"
-                  placeholder="'(99) 99999-9999'"
-                  v-mask="'(##) #####-####'"
-                ></v-text-field>
+                <v-text-field v-model="state.fone_celular" label="Celular" placeholder="'(99) 99999-9999'"
+                  v-mask="'(##) #####-####'"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
-                <v-autocomplete
-                  v-model="state.tabvalores_capacidadecivil_id"
-                  :items="capacidadeCivilItemsData"
-                  label="Capacidade Civil"
-                  item-title="descricao"
-                  item-value="id"
-                ></v-autocomplete>
+                <v-autocomplete v-model="state.tabvalores_capacidadecivil_id" :items="capacidadeCivilItemsData"
+                  label="Capacidade Civil" item-title="descricao" item-value="id"></v-autocomplete>
               </v-col>
               <v-col cols="12" md="4">
-                <v-autocomplete
-                  v-model="state.cidade_natural_id"
-                  :items="cidadeNascimentoItemsData"
-                  label="Cidade de nascimento"
-                  item-title="descricao"
-                  item-value="id"
-                ></v-autocomplete>
+                <v-autocomplete v-model="state.cidade_natural_id" :items="cidadeNascimentoItemsData"
+                  label="Cidade de nascimento" item-title="descricao" item-value="id"></v-autocomplete>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model.date="state.cpf_pai"
-                  label="CPF do Pai"
-                  v-mask="'###.###.###-##'"
-                ></v-text-field>
+                <v-text-field v-model.date="state.cpf_pai" label="CPF do Pai" v-mask="'###.###.###-##'"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model.date="state.nome_pai"
-                  label="Nome do Pai"
-                ></v-text-field>
+                <v-text-field v-model.date="state.nome_pai" label="Nome do Pai"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model.date="state.cpf_mae"
-                  label="CPF da Mãe"
-                  v-mask="'###.###.###-##'"
-                ></v-text-field>
+                <v-text-field v-model.date="state.cpf_mae" label="CPF da Mãe" v-mask="'###.###.###-##'"></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
-                <v-text-field
-                  v-model.date="state.nome_mae"
-                  label="Nome da Mãe"
-                ></v-text-field>
+                <v-text-field v-model.date="state.nome_mae" label="Nome da Mãe"></v-text-field>
               </v-col>
             </v-row>
             <v-row class="mb-3">
               <NuxtLink to="/pessoas/lista">
                 <v-btn size="large" color="red">Voltar</v-btn>
               </NuxtLink>
-              <v-btn @click="onUpdate()" class="ml-4" size="large" color="green"
-                >Salvar</v-btn
-              >
+              <v-btn @click="onUpdate()" class="ml-4" size="large" color="green">Salvar</v-btn>
             </v-row>
           </v-container>
           <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
@@ -337,8 +253,8 @@ function formatPayload(payload) {
         formattedPayload[key] = formatToISO(payload[key]);
         break;
       case "fone_celular":
-        formattedPayload[key] = payload[key].replace(/[^0-9]/g, "");
-        break;  
+        formattedPayload[key] = payload[key] ? payload[key].replace(/[^0-9]/g, "") : null; // Verificação adicionada
+        break;
       default:
         formattedPayload[key] = payload[key] === "" ? null : payload[key];
         break;

@@ -607,22 +607,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-BLR8RWxa.mjs')
+    component: () => import('./_id_-gfuQDs8q.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-DbUIWX5i.mjs')
+    component: () => import('./geral-Cg5GWMaO.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-DeKavBd0.mjs')
+    component: () => import('./_id_-Bvvx0Ice.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-n59WI36N.mjs')
+    component: () => import('./geral-BC-armzI.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -632,17 +632,17 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-CoFcs4n-.mjs')
+    component: () => import('./procuracao-BAkaMClr.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-ClO_lJrn.mjs')
+    component: () => import('./autencidade-CnnATTW2.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-CoWK6Xx0.mjs')
+    component: () => import('./semelhanca-C_n2V9a1.mjs')
   },
   {
     name: "index",
@@ -689,7 +689,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-thcRJbt6.mjs')
+    component: () => import('./criar-ato-C2sfbc-Y.mjs')
   },
   {
     name: "os-criar-registro",
@@ -704,12 +704,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-kL46kCWe.mjs')
+    component: () => import('./_id_-BBvn0LKp.mjs')
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-DCHM0Q99.mjs')
+    component: () => import('./index-CThf8QRp.mjs')
   },
   {
     name: "pessoas-lista",
