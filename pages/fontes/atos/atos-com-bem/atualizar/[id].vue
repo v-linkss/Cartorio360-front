@@ -8,12 +8,12 @@
     </v-row>
     <v-row>
       <v-col md="6">
-        <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
+        <v-autocomplete label="Serviço" class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
       <v-col md="5">
         <v-autocomplete
           v-model="updatedAtoDetails"
-          label="Serviço e Tipo de Ato Selecionado"
+          label="Tipo de Ato"
           disabled
         ></v-autocomplete>
       </v-col>
@@ -103,10 +103,14 @@ const body = route.query.id
   : { cartorio_token: cartorio_token };
 const situacoesItems = ref([]);
 const dadosData = ref([]);
-const label = ref("PROCURAÇÕES");
 const modalVisible = ref(false);
 const usaImoveis = ref(route.query.usa_imoveis === 'true' ? true : false);
-const updatedAtoDetails = ref(route.query.tipo_ato || "");
+const tipoAto = route.query.tipo_ato || '';
+const label = ref(null);
+const updatedAtoDetails = ref(null);
+const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(' - ');
+label.value = initialLabel || ''; // Primeiro autocomplete
+updatedAtoDetails.value = initialUpdatedAtoDetails || ''; // Segundo autocomplete
 
 async function loadData() {
   try {
@@ -144,8 +148,9 @@ function openModal() {
 }
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
-  console.log(usaImoveisParams)
-  updatedAtoDetails.value = descricao;
+  const [firstPart, secondPart] = descricao.split(' - ');
+  label.value = firstPart || ''; // Primeiro autocomplete
+  updatedAtoDetails.value = secondPart || ''; // Segundo autocomplete
   usaImoveis.value = usaImoveisParams;
 }
 </script>
