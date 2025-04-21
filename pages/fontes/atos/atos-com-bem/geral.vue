@@ -11,7 +11,6 @@
         <v-tab v-if="showTabs" value="anexo">Anexos</v-tab>
         <v-tab v-if="showTabs" value="outros">Outros</v-tab>
       </v-tabs>
-  
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="dados">
           <ProcuracaoDados @saved="handleSave" :ato_token="selectedAto" :ato_tipo_id="selectedTipoAtoId"/>

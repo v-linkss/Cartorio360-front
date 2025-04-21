@@ -83,7 +83,7 @@
             >
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/visualizar.png"
+                src="../../assets/visualizar.png"
                 alt="Visualizar"
               />
             </div>
@@ -255,7 +255,7 @@ const redirectToUpdateAto = (item) => {
         tipo_ato: item.tipo,
         tipo_ato_token: item.tipo_token,
         ato_token_edit: item.token,
-        numero_os: ordemNumero,
+        numero_os: ordemNumero.value,
       },
     });
   }

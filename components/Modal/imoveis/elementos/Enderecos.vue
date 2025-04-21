@@ -1,21 +1,15 @@
 <template>
   <div v-if="loading" class="d-flex justify-center">
-    <v-progress-circular
-      indeterminate
-      class="loading-spinner"
-      size="64"
-    ></v-progress-circular>
+    <v-progress-circular indeterminate class="loading-spinner" size="64"></v-progress-circular>
   </div>
   <v-container style="height: 500px;" class="mt-2" v-else>
     <v-row>
+      <v-col cols="2">
+        <v-text-field label="CEP" v-model="state.end_cep"></v-text-field>
+      </v-col>
       <v-col cols="5">
-        <v-autocomplete
-          label="Cidade"
-          v-model="state.end_cidade_id"
-          :items="cidadeItems"
-          item-title="descricao"
-          item-value="id"
-        >
+        <v-autocomplete label="Cidade" v-model="state.end_cidade_id" :items="cidadeItems" item-title="descricao"
+          item-value="id">
         </v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -24,65 +18,35 @@
       <v-col cols="2">
         <v-text-field label="Lote" v-model="state.end_lote"></v-text-field>
       </v-col>
-      <v-col cols="3">
-        <v-autocomplete
-          label="Tipo de Logradouro"
-          v-model="state.tabvalores_tipologradouro_id"
-          :items="tipoLogradouroItems"
-          item-title="descricao"
-          item-value="id"
-        >
+    </v-row>
+    <v-row>
+      <v-col cols="4">
+        <v-autocomplete label="Tipo de Logradouro" v-model="state.tabvalores_tipologradouro_id"
+          :items="tipoLogradouroItems" item-title="descricao" item-value="id">
         </v-autocomplete>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="5">
-        <v-text-field
-          label="Logradouro"
-          v-model="state.end_logradouro"
-        ></v-text-field>
+      <v-col cols="6">
+        <v-text-field label="Logradouro" v-model="state.end_logradouro"></v-text-field>
       </v-col>
       <v-col cols="1">
-        <v-text-field
-          label="N*"
-          v-model="state.end_logradouro_numero"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Bairro" v-model="state.end_bairro"></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field label="CEP" v-model="state.end_cep"></v-text-field>
+        <v-text-field label="N*" v-model="state.end_logradouro_numero"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="6">
+        <v-text-field label="Bairro" v-model="state.end_bairro"></v-text-field>
+      </v-col>
       <v-col cols="5">
-        <v-text-field
-          label="Complemento"
-          v-model="state.end_complemento"
-        ></v-text-field>
+        <v-text-field label="Complemento" v-model="state.end_complemento"></v-text-field>
       </v-col>
     </v-row>
     <v-row class="mt-10 justify-start ">
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn
-        v-if="isUpdate"
-        class="ml-5"
-        size="large"
-        color="green"
-        @click="updateImovelModal(props.imovel_id)"
-        >Atualizar</v-btn
-      >
-      <v-btn
-        v-else
-        class="ml-5"
-        size="large"
-        color="green"
-        @click="updateImovelModal(props.imovel_id)"
-        >Salvar</v-btn
-      >
+      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green"
+        @click="updateImovelModal(props.imovel_id)">Atualizar</v-btn>
+      <v-btn v-else class="ml-5" size="large" color="green" @click="updateImovelModal(props.imovel_id)">Salvar</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -271,10 +235,10 @@ watch(
 );
 
 onMounted(() => {
-  if (id || props.ato_id) {
+  if (id || props.ato_id || props.imovel_id) {
     loadImoveisData();
   } else {
-    loading.value = false; // Caso não tenha ID, finaliza o carregamento
+    loading.value = false;
   }
 });
 </script>
