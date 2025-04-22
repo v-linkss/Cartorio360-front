@@ -602,7 +602,7 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-BmK8tH8C.mjs')
+    component: () => import('./index-B8WIdUTQ.mjs')
   },
   {
     name: "caixas-lista",
@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-AWTEouS5.mjs')
+    component: () => import('./index-BmGYZ8x8.mjs')
   },
   {
     name: "pessoas-atualizar-id",
