@@ -91,6 +91,8 @@
   </template>
   
   <script setup>
+import { ca } from 'vuetify/locale';
+
   const config = useRuntimeConfig();
   const { $toast } = useNuxtApp();
   const listarOSCaixas = `${config.public.managemant}/listarOSCaixas`;
@@ -238,6 +240,7 @@
       numero: item.numero,
       valor: item.valor,
       valor_pago: item.valor_pago,
+      caixa_token: useCookie("caixa-service").value.caixa_token 
     };
     isModalRecebimentoOpen.value = true;
   }

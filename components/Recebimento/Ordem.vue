@@ -183,7 +183,7 @@ const realizarRecebimentoCompleto = async () => {
       ordemserv_token: props.ordem.token,
       usuario_token,
       recebimentos: [recebimentos.value],
-      caixa_token: useCookie("caixa-service").value.caixa_token,
+      caixa_token: props.ordem.caixa_token ? props.ordem.caixa_token : null,
     };
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
