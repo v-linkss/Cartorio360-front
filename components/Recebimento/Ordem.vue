@@ -56,7 +56,7 @@
           <template v-slot:item.actions="{ item }">
             <div style="display: flex; justify-content: flex-end">
               <img
-               v-if="item.btn_cancelar === true"
+                v-if="item.btn_cancelar === true"
                 src="../../assets/mudarStatus.png"
                 style="width: 30px; height: 30px; cursor: pointer"
                 @click="removeFormValueFromTable(item)"
@@ -66,7 +66,7 @@
               <img
                 v-if="item.btn_cancelar === false"
                 src="../../assets/excluido.png"
-                style="width: 30px; height: 30px; cursor: not-allowed;"
+                style="width: 30px; height: 30px; cursor: not-allowed"
                 alt="Remover"
               />
             </div>
@@ -107,7 +107,7 @@ const props = defineProps({
   ordem: { type: Object, required: true },
 });
 
-const emit = defineEmits(["close","refresh-value"]);
+const emit = defineEmits(["close", "refresh-value"]);
 
 const { $toast } = useNuxtApp();
 const isVisible = ref(props.show);
@@ -183,7 +183,7 @@ const realizarRecebimentoCompleto = async () => {
       ordemserv_token: props.ordem.token,
       usuario_token,
       recebimentos: [recebimentos.value],
-      // caixa_token: useCookie("caixa-service").value.caixa_token,
+      caixa_token: props.ordem.caixa_token ? props.ordem.caixa_token : null,
     };
     const { data } = await useFetch(routereceberOs, {
       method: "POST",
@@ -193,7 +193,7 @@ const realizarRecebimentoCompleto = async () => {
     if (data.value[0].status === "OK") {
       $toast.success(`${data.value[0].status}: Valores Recebidos com Sucesso!`);
       selosItems.value = [];
-      emit('refresh-value')
+      emit("refresh-value");
       closeModal();
     } else {
       $toast.error(data.value[0].status_mensagem);
@@ -273,7 +273,7 @@ const removeFormValueFromTable = async (itemRemove) => {
     faltaReceberValorDeOrdem.value = formatNumber(
       faltaReceberValorDeOrdem.value + valor
     );
-  } 
+  }
   formatDecimal();
 };
 
