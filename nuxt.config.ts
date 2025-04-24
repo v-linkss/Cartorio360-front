@@ -8,9 +8,6 @@ export default defineNuxtConfig({
   },
 
   devtools: { enabled: true },
-  devServer: {
-    https: false,
-  },
 
   build: {
     transpile: ["vuetify"],
