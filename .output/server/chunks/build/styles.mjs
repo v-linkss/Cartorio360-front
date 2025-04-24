@@ -1,8 +1,8 @@
 const interopDefault = r => r.default || r || [];
 const styles = {
   "node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.CstcGR3t.mjs').then(interopDefault),
-  "plugins/vuetify.ts": () => import('./vuetify-styles.B4rUdRRA.mjs').then(interopDefault),
   "plugins/toast.ts": () => import('./toast-styles.card-CM_.mjs').then(interopDefault),
+<<<<<<< HEAD
   "pages/fontes/atos/autenticacao/autenticacao.vue": () => import('./autenticacao-styles.BC7AfXks.mjs').then(interopDefault),
   "pages/login/index.vue": () => import('./index-styles.Iw2xU4Yf.mjs').then(interopDefault),
   "pages/matriculas/vizualizar/[id].vue": () => import('./_id_-styles.CNjCnpmS.mjs').then(interopDefault),
@@ -11,11 +11,23 @@ const styles = {
   "pages/pessoas/vizualizar/[id].vue": () => import('./_id_-styles.DOiREXg3.mjs').then(interopDefault),
   "pages/situacoes-matriculas/vizualizar/[id].vue": () => import('./_id_-styles.CIbTPJau.mjs').then(interopDefault),
   "pages/tipoAtos/visualizar/[id].vue": () => import('./_id_-styles.C0f_Fqll.mjs').then(interopDefault),
+=======
+  "plugins/vuetify.ts": () => import('./vuetify-styles.B4rUdRRA.mjs').then(interopDefault),
+  "pages/fontes/atos/autenticacao/autenticacao.vue": () => import('./autenticacao-styles.Dnu3HSvN.mjs').then(interopDefault),
+  "pages/login/index.vue": () => import('./index-styles.DiuMoN7A.mjs').then(interopDefault),
+  "pages/matriculas/vizualizar/[id].vue": () => import('./_id_-styles.CQAUv7hJ.mjs').then(interopDefault),
+  "pages/os/criar-ato.vue": () => import('./criar-ato-styles.CTbvRoto.mjs').then(interopDefault),
+  "pages/pessoas/atualizar/[id].vue": () => import('./_id_-styles.CFPBpkJS.mjs').then(interopDefault),
+  "pages/pessoas/vizualizar/[id].vue": () => import('./_id_-styles.BPal1N1B.mjs').then(interopDefault),
+  "pages/situacoes-matriculas/vizualizar/[id].vue": () => import('./_id_-styles.BwKbnsNW.mjs').then(interopDefault),
+  "pages/tipoAtos/visualizar/[id].vue": () => import('./_id_-styles.GlyHKAwT.mjs').then(interopDefault),
+>>>>>>> c7c646353299be2e332cdcdc306712795081fb85
   "node_modules/nuxt/dist/app/components/error-404.vue": () => import('./error-404-styles.B5yeQDbX.mjs').then(interopDefault),
   "node_modules/nuxt/dist/app/components/error-500.vue": () => import('./error-500-styles.HhVXVi60.mjs').then(interopDefault),
   "pages/login/index.vue?vue&type=style&index=0&scoped=428bd26a&lang.css": () => import('./index-styles.DK1OcX3S.mjs').then(interopDefault),
   "pages/matriculas/vizualizar/[id].vue?vue&type=style&index=0&scoped=15d7606b&lang.css": () => import('./_id_-styles.DCa0y04E.mjs').then(interopDefault),
   "components/MoneyInput.vue": () => import('./MoneyInput-styles.CkIF0DEc.mjs').then(interopDefault),
+<<<<<<< HEAD
   "pages/os/criar-ato.vue?vue&type=style&index=0&scoped=d51cc4a9&lang.css": () => import('./criar-ato-styles.DuhXiin8.mjs').then(interopDefault),
   "components/Procuracao/atualizar/Minuta.vue": () => import('./Minuta-styles.Bp8uPicN.mjs').then(interopDefault),
   "pages/fontes/atos/autenticacao/autenticacao.vue?vue&type=style&index=0&scoped=af5726e1&lang.css": () => import('./autenticacao-styles.CtfK-v_Y.mjs').then(interopDefault),
@@ -25,6 +37,18 @@ const styles = {
   "pages/tipoAtos/visualizar/[id].vue?vue&type=style&index=0&scoped=6941efb5&lang.css": () => import('./_id_-styles.ZBpQuve2.mjs').then(interopDefault),
   "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=8bca4d61&lang.css": () => import('./_id_-styles.4RfkCTAf.mjs').then(interopDefault),
   "components/Modal/FichaCard.vue": () => import('./FichaCard-styles.CM5_RHEh.mjs').then(interopDefault),
+=======
+  "pages/matriculas/vizualizar/[id].vue?vue&type=style&index=0&scoped=9f4622d5&lang.css": () => import('./_id_-styles.5lAUvEL6.mjs').then(interopDefault),
+  "pages/fontes/atos/autenticacao/autenticacao.vue?vue&type=style&index=0&scoped=cca2736d&lang.css": () => import('./autenticacao-styles.Bz1CO6lz.mjs').then(interopDefault),
+  "pages/os/criar-ato.vue?vue&type=style&index=0&scoped=a142e2b6&lang.css": () => import('./criar-ato-styles.B0Xk7c0o.mjs').then(interopDefault),
+  "components/Procuracao/Minuta.vue": () => import('./Minuta-styles.BeTgw17z.mjs').then(interopDefault),
+  "pages/pessoas/vizualizar/[id].vue?vue&type=style&index=0&scoped=09b8699c&lang.css": () => import('./_id_-styles.B0MFWje6.mjs').then(interopDefault),
+  "components/Procuracao/atualizar/Minuta.vue": () => import('./Minuta-styles.Bp8uPicN.mjs').then(interopDefault),
+  "pages/situacoes-matriculas/vizualizar/[id].vue?vue&type=style&index=0&scoped=43e9e178&lang.css": () => import('./_id_-styles.DvlQ1pi2.mjs').then(interopDefault),
+  "pages/tipoAtos/visualizar/[id].vue?vue&type=style&index=0&scoped=d264e454&lang.css": () => import('./_id_-styles.EjN1T6ud.mjs').then(interopDefault),
+  "components/Modal/FichaCard.vue": () => import('./FichaCard-styles.BNMa6Z2m.mjs').then(interopDefault),
+  "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=b6e32455&lang.css": () => import('./_id_-styles.Ct0yKm0-.mjs').then(interopDefault),
+>>>>>>> c7c646353299be2e332cdcdc306712795081fb85
   "node_modules/vuetify/lib/components/VDatePicker/VDatePicker.mjs": () => import('./VDatePicker-styles.ZB7Ix1z8.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VMenu/VMenu.mjs": () => import('./VMenu-styles.DWU_ZlPW.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VTextField/VTextField.mjs": () => import('./VTextField-styles.aaJU4X3r.mjs').then(interopDefault),
@@ -33,9 +57,14 @@ const styles = {
   "node_modules/nuxt/dist/app/components/error-500.vue?vue&type=style&index=0&scoped=3726f659&lang.css": () => import('./error-500-styles.K0bbvuT_.mjs').then(interopDefault),
   "components/MoneyInput.vue?vue&type=style&index=0&lang.css": () => import('./MoneyInput-styles.BrJLlRZf.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VGrid/VSpacer.mjs": () => import('./VSpacer-styles.B6j6RHRr.mjs').then(interopDefault),
+<<<<<<< HEAD
   "node_modules/vuetify/lib/components/VBtn/VBtn.mjs": () => import('./VBtn-styles.ciukOywf.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VSheet/VSheet.mjs": () => import('./VSheet-styles.1o-fy70V.mjs').then(interopDefault),
   "components/Modal/FichaCard.vue?vue&type=style&index=0&scoped=efe33cd3&lang.css": () => import('./FichaCard-styles.DJiS2xt6.mjs').then(interopDefault),
+=======
+  "components/Modal/FichaCard.vue?vue&type=style&index=0&scoped=54ccf0cb&lang.css": () => import('./FichaCard-styles.0LLhn5hX.mjs').then(interopDefault),
+  "node_modules/vuetify/lib/components/VSheet/VSheet.mjs": () => import('./VSheet-styles.1o-fy70V.mjs').then(interopDefault),
+>>>>>>> c7c646353299be2e332cdcdc306712795081fb85
   "node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.mjs": () => import('./VProgressCircular-styles.AJFtC2xE.mjs').then(interopDefault),
   "components/Biometria/Digital.vue": () => import('./Digital-styles.BKiM8NLx.mjs').then(interopDefault),
   "layouts/default.vue": () => import('./default-styles.D4ZCCU_i.mjs').then(interopDefault),
