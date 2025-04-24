@@ -3,13 +3,14 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   app: {
     head: {
-      link: [
-        { rel: 'icon', type: 'image/png', href: '/cartorio_icon.png' }
-      ]
-    }
+      link: [{ rel: "icon", type: "image/png", href: "/cartorio_icon.png" }],
+    },
   },
 
   devtools: { enabled: true },
+  devServer: {
+    https: false,
+  },
 
   build: {
     transpile: ["vuetify"],
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
-    '@pinia/nuxt'
+    "@pinia/nuxt",
   ],
 
   vite: {
@@ -36,13 +37,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       auth: process.env.MS_AUTH,
-      managemant:  process.env.MS_MANAGEMENT,
+      managemant: process.env.MS_MANAGEMENT,
       biometria: process.env.BIOMETRIA,
       // auth: process.env.MS_AUTH_DESENV,
       // managemant: process.env.MS_MANAGEMENT_DESENV,
       envioDoc: process.env.OBSERVER,
       docEditor: process.env.LICENSE_KEY,
-      ws: process.env.WEB_SERVICE
+      ws: process.env.WEB_SERVICE,
     },
   },
 
