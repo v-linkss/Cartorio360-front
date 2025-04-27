@@ -719,7 +719,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-0314Tmqz.mjs')
+    component: () => import('./index-BadsI6ug.mjs')
   },
   {
     name: "pessoas-vizualizar-id",
@@ -734,12 +734,12 @@ const _routes = [
   {
     name: "selos-enviar",
     path: "/selos/enviar",
-    component: () => import('./index-Cf9XU5aI.mjs')
+    component: () => import('./index-CGLwUAHP.mjs')
   },
   {
     name: "selos-importar",
     path: "/selos/importar",
-    component: () => import('./index-_lXtLmVw.mjs')
+    component: () => import('./index-CbXKTu8G.mjs')
   },
   {
     name: "situacoes-matriculas-atualizar-id",

@@ -7,12 +7,22 @@
         alt="Cadastro"
       />
     </NuxtLink>
-    <v-row style="gap: 3rem">
+    <v-row style="gap: 1rem">
       <div style="width: 200px">
         <v-text-field
           class="mt-7 mb-4"
           v-model="searchDoc"
           label="Documento"
+          prepend-inner-icon="mdi-magnify"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+      </div>
+      <div style="width: 150px">
+        <v-text-field
+          class="mt-7 mb-4"
+          v-model="searchCartao"
+          label="Cartão"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
@@ -34,7 +44,11 @@
       :headers="headers"
       :items="filteredPessoas"
       item-key="id"
+      :items-per-page-options="[10, 25, 50]"
     >
+      <template v-slot:item.doc_identificacao="{ item }">
+        {{ formatDoc(item.doc_identificacao) }}
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
@@ -43,9 +57,18 @@
             title="Visualizar"
           >
             <img
+              v-if="item.link_ficha"
               style="width: 30px; height: 30px"
               src="../../../assets/visualizar.png"
               alt="Visualizar"
+              title="Possui Ficha"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px"
+              src="../../../assets/visualizar-vermelho.png"
+              alt="Visualizar"
+              title="Não Ficha"
             />
           </div>
           <div
@@ -95,28 +118,61 @@ const router = useRouter();
 
 const search = ref("");
 const searchDoc = ref("");
+const searchCartao = ref("");
 
 const headers = [
-  { title: "Documento", value: "doc_identificacao" },
-  { title: "Nome/Razão Social", value: "nome" },
+  { title: "Documento", value: "doc_identificacao", width: "190px" },
+  { title: "Cartão", value: "numero_ficha" },
+  { title: "Nome/Razão Social", value: "nome", width: "400px" },
   { value: "actions" },
 ];
 
-const { data: pessoasItems, status } = await fetchWithToken(`${pessoasLista}?pageNumber=${1}&pageSize=${1000000}`);
+const { data: pessoasItems, status } = await fetchWithToken(
+  `${pessoasLista}?pageNumber=${1}&pageSize=${1000000}`
+);
 
 const filteredPessoas = computed(() => {
-  return pessoasItems.value.data.filter((item) => {
-    const docIdentificacao = item.doc_identificacao
-      ? item.doc_identificacao.toLowerCase()
+  const normalizeText = (text) =>
+    text
+      ? text
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
       : "";
-    const nome = item.nome ? item.nome.toLowerCase() : "";
 
-    const matchesDoc = docIdentificacao.includes(searchDoc.value.toLowerCase());
-    const matchesNome = nome.includes(search.value.toLowerCase());
+  return pessoasItems.value.data.filter((item) => {
+    const docIdentificacao = normalizeText(item.doc_identificacao);
+    const nome = normalizeText(item.nome);
+    const numeroFicha = normalizeText(item.numero_ficha);
 
-    return matchesDoc && matchesNome;
+    const matchesDoc = docIdentificacao.includes(
+      normalizeText(searchDoc.value)
+    );
+    const matchesNome = nome.includes(normalizeText(search.value));
+    const matchesCartao = numeroFicha.includes(
+      normalizeText(searchCartao.value)
+    );
+
+    return matchesDoc && matchesNome && matchesCartao;
   });
 });
+
+function formatDoc(doc) {
+  if (!doc) return "";
+
+  const cleaned = doc.replace(/\D/g, "");
+
+  if (cleaned.length === 11) {
+    return cleaned.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  } else if (cleaned.length === 14) {
+    return cleaned.replace(
+      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+      "$1.$2.$3/$4-$5"
+    );
+  }
+
+  return doc;
+}
 
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
