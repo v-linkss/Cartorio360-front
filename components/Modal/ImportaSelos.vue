@@ -14,14 +14,24 @@
         <v-text-field label="Lote" v-model.number="state.nuLote" />
       </v-container>
       <v-card-actions>
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: red; color: white" @click="closeModal">
+          Voltar
+        </v-btn>
         <v-btn
           style="background-color: green; color: white"
+          :loading="isLoading"
+          :disabled="isLoading"
           @click="importaSelo"
-          >Importar</v-btn
         >
+          <template v-slot:loader>
+            <v-progress-circular
+              indeterminate
+              color="white"
+              size="24"
+            ></v-progress-circular>
+          </template>
+          Importar
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -40,14 +50,13 @@ const props = defineProps({
   representante_nome: String,
 });
 const isVisible = ref(props.show);
-const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const errorModalVisible = ref(false);
 const errorMessage = ref("");
 const forneceSeloPorLote = `${config.public.ws}/fornecer_selos_por_lote`;
 const forneceSelo = `${config.public.managemant}/fornecer_selos`;
-const papeisItems = ref([]);
+const isLoading = ref(false);
 
 const state = reactive({
   nuLote: null,
@@ -67,41 +76,48 @@ const closeModal = () => {
 };
 
 const importaSelo = async () => {
-  const { data, error, status } = await useFetch(forneceSeloPorLote, {
-    method: "POST",
-    body: {
-      user: "56415451472",
-      pass: "Ra961206",
-      statusSelo: "D",
-      nuLote: state.nuLote,
-    },
-    onResponseError({ response }) {
-      const mensagemErro =
-        response._data?.details || "Erro ao buscar lote de selos.";
-      errorMessage.value = mensagemErro;
-      errorModalVisible.value = true;
-      console.error("Erro forneceSeloPorLote:", mensagemErro);
-    },
-  });
-  if (status.value === "success") {
-    const selos = data.value.selos;
-    const {
-      data: seloData,
-      error,
-      status: sucessoSelo,
-    } = await useFetch(forneceSelo, {
+  isLoading.value = true; // Ativa o loading
+  try {
+    const { data, error, status } = await useFetch(forneceSeloPorLote, {
       method: "POST",
       body: {
-        tipo_id: 1,
-        cartorio_id: useCookie("user-data").value.cartorio_id,
-        selos,
-        user_id: useCookie("user-data").value.usuario_id,
+        user: "56415451472",
+        pass: "Ra961206",
+        statusSelo: "D",
+        nuLote: state.nuLote,
+      },
+      onResponseError({ response }) {
+        const mensagemErro =
+          response._data?.details || "Erro ao buscar lote de selos.";
+        errorMessage.value = mensagemErro;
+        errorModalVisible.value = true;
+        console.error("Erro forneceSeloPorLote:", mensagemErro);
       },
     });
-    if (sucessoSelo.value === "success") {
-      $toast.success("Selos importados com sucesso");
-      closeModal();
+    if (status.value === "success") {
+      const selos = data.value.selos;
+      const {
+        data: seloData,
+        error,
+        status: sucessoSelo,
+      } = await useFetch(forneceSelo, {
+        method: "POST",
+        body: {
+          tipo_id: 1,
+          cartorio_id: useCookie("user-data").value.cartorio_id,
+          selos,
+          user_id: useCookie("user-data").value.usuario_id,
+        },
+      });
+      if (sucessoSelo.value === "success") {
+        $toast.success("Selos importados com sucesso");
+        closeModal();
+      }
     }
+  } catch (err) {
+    console.error("Erro ao importar selos:", err);
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>
