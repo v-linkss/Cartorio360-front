@@ -719,7 +719,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-BadsI6ug.mjs')
+    component: () => import('./index-BhH5OJyB.mjs')
   },
   {
     name: "pessoas-vizualizar-id",

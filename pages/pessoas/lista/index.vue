@@ -133,24 +133,22 @@ const { data: pessoasItems, status } = await fetchWithToken(
 
 const filteredPessoas = computed(() => {
   const normalizeText = (text) =>
-    text
-      ? text
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-      : "";
+    String(text || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
   return pessoasItems.value.data.filter((item) => {
     const docIdentificacao = normalizeText(item.doc_identificacao);
     const nome = normalizeText(item.nome);
-    const numeroFicha = normalizeText(item.numero_ficha);
+    const numeroFicha = normalizeText(String(item.numero_ficha)); // Convertendo número para string
 
     const matchesDoc = docIdentificacao.includes(
       normalizeText(searchDoc.value)
     );
     const matchesNome = nome.includes(normalizeText(search.value));
     const matchesCartao = numeroFicha.includes(
-      normalizeText(searchCartao.value)
+      normalizeText(String(searchCartao.value)) // Convertendo número para string
     );
 
     return matchesDoc && matchesNome && matchesCartao;
