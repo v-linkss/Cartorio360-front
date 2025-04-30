@@ -709,7 +709,7 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-BnaalMei.mjs')
+    component: () => import('./_id_-B1aUbdSO.mjs')
   },
   {
     name: "pessoas-cadastro",
@@ -734,7 +734,7 @@ const _routes = [
   {
     name: "selos-enviar",
     path: "/selos/enviar",
-    component: () => import('./index-CGLwUAHP.mjs')
+    component: () => import('./index-Dot2sPRH.mjs')
   },
   {
     name: "selos-importar",

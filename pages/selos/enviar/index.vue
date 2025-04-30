@@ -178,6 +178,7 @@ const enviaSelo = async () => {
             seloEncontrado.resultado = retorno.details || "TRANSMITIDO";
           }
         });
+        selectedSelos.value = [];
       }
       const { status: sucessoMarcar } = await useFetch(marcarSelos, {
         method: "PUT",

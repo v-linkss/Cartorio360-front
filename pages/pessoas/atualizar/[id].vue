@@ -1,16 +1,12 @@
 <template>
   <v-card width="1300">
     <v-row style="background-color: #f5f2f2">
-      <v-col>
-        <h1 style="color: #525050; padding: 10px 0px 0px 30px">
-          {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
-        </h1>
-      </v-col>
-      <v-col class="d-flex justify-end">
-        <h3 style="color: #525050; padding: 20px 10px 10px 10px">
-          Cadastrado em {{ criacaoData }}
-        </h3>
-      </v-col>
+      <h1 style="color: #525050; padding: 10px 0px 0px 30px">
+        {{ id ? "Atualização de Pessoas" : "Cadastramento de Pessoas" }}
+      </h1>
+      <h3 style="color: #525050; padding: 25px 0px 0px 20px">
+        Cadastrado em {{ criacaoData }}
+      </h3>
     </v-row>
     <div style="background-color: #f5f2f2; padding: 20px 0px 20px 20px">
       <v-autocomplete
