@@ -52,20 +52,25 @@ const handleCreateCaixas = async () => {
       body: classesDespesasPayload,
     });
 
-    console.log('data:', data.value);
-
     if (error.value) {
       throw new Error(error.value.message || "Erro desconhecido na API");
     }
 
     $toast.success("Caixa cadastrada com sucesso");
-    navigateTo('/caixas/lista');
+
+    form.value = {
+      data: null,
+      classe_despesa_id: null,
+      descricao: "",
+      valor: null,
+    };
 
   } catch (error) {
     console.error("Erro ao criar caixa:", error);
     $toast.error(error.message || "Erro ao cadastrar caixa");
   }
 };
+
 
 </script>
 
