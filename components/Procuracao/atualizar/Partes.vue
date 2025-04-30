@@ -62,12 +62,20 @@
         />
 
         <img
-          class="mt-3 ml-2"
+          v-if="possuiFicha"
+          class="mt-0 ml-2"
           src="../../../assets/visualizar.png"
           style="width: 40px; cursor: pointer"
-          title="Visualisar Fixa"
+          title="Visualizar Ficha"
           @click="isModalFichaOpen = true"
-          />
+        />
+        <img
+          v-else
+          style="width: 40px; height: 40px"
+          src="../../../assets/visualizar-vermelho.png"
+          alt="Visualizar"
+          title="Não Ficha"
+        />
       </div>
     </v-row>
 
@@ -181,10 +189,10 @@
       @updatePapel="atualizarPapel"
     />
     <ModalFichaCard
-    :show="isModalFichaOpen"
-    :item="state.pessoa" 
-    @confirmar="confirmItem(state.pessoa)"
-    @close="isModalFichaOpen = false"
+      :show="isModalFichaOpen"
+      :item="state.pessoa"
+      :is-view="true"
+      @close="isModalFichaOpen = false"
     />
     <v-row>
       <NuxtLink @click="goBack">
@@ -255,7 +263,7 @@ const state = reactive({
   pessoa: null,
   documento: null,
 });
-
+const possuiFicha = computed(() => state.pessoa?.link_ficha || false);
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
   body: { tipo_ato_token: route.query.tipo_ato_token },

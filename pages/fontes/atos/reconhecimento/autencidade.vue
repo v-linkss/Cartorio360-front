@@ -59,9 +59,17 @@
             title="Visualizar Ficha"
           >
             <img
-              style="width: 30px; height: 30px"
-              src="../../../../assets/visualizar.png"
+              v-if="item.link_ficha"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/mudarStatus.png"
+              alt="Possui Ficha"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar-vermelho.png"
               alt="Visualizar"
+              title="Não Possui Ficha"
             />
           </div>
         </template>
@@ -96,10 +104,10 @@
     @close="isModalRegistroOpen = false"
   />
   <ModalFichaCard
-   :show="isModalFichaOpen"
-   :item="selectedItem" 
-   @confirmar="confirmItem(selectedItem)"
-   @close="isModalFichaOpen = false"
+    :show="isModalFichaOpen"
+    :item="selectedItem"
+    @confirmar="confirmItem(selectedItem)"
+    @close="isModalFichaOpen = false"
   />
   <ErrorModalCard
     :show="errorModalVisible"
@@ -111,17 +119,17 @@
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-      <v-btn
-        class="ml-5"
-        @click="reconhecerAtoAutencidade"
-        size="large" 
-        color="green"
-      >Salvar</v-btn>
+    <v-btn
+      class="ml-5"
+      @click="reconhecerAtoAutencidade"
+      size="large"
+      color="green"
+      >Salvar</v-btn
+    >
   </v-row>
 </template>
 
 <script setup>
-
 const props = defineProps({
   ato_token: {
     type: String,
@@ -190,7 +198,7 @@ async function searchPessoasService() {
       },
     });
     if (pessoasData.value.length > 0) {
-      emit('ato-created')
+      emit("ato-created");
       pessoasItems.value = pessoasData.value;
     } else {
       pessoasItems.value = [];
@@ -208,53 +216,51 @@ function confirmItem(item) {
   selectedObjects.value.push(item);
 }
 
-const redirectToFicha = (item) =>{
+const redirectToFicha = (item) => {
   selectedItem.value = item;
-  isModalFichaOpen.value = true
-}
+  isModalFichaOpen.value = true;
+};
 
 function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
     (pessoa) => pessoa.token !== item.token
   );
-
 }
 
-  async function reconhecerAtoAutencidade() {
-    if (!state.escrevente) {
-      $toast.error("Por favor selecione um Escrevente")
-      return
-    }
-    try {
-      const selectedTokens = selectedObjects.value.map((item) => {
-        return { pessoa_token: item.token };
-      });
-      const { data, error, status } = await useFetch(reconhecerPessoa, {
-        method: "POST",
-        body: {
-          pessoas: selectedTokens,
-          cartorio_token: cartorio_token.value,
-          ordemserv_token: ordemserv_token,
-          quantidade: state.quantidade,
-          usuario_token: usuario_token,
-          ato_tipo_token: props.ato_token,
-        },
-      });
-      if (status.value === "success" && data.value[0].status === "OK") {
-        reconhecerEtiquetaAutencidade(data.value[0].token);
-        goBack();
-      } else {
-        errorModalVisible.value = true;
-        errorMessage.value =
-          ato_token.value.status_mensagem || error.value.data.details;
-      }
-    } catch (error) {
-      errorModalVisible.value = true;
-      errorMessage.value = error
-      console.error("Erro na requisição", error);
-    }
+async function reconhecerAtoAutencidade() {
+  if (!state.escrevente) {
+    $toast.error("Por favor selecione um Escrevente");
+    return;
   }
-
+  try {
+    const selectedTokens = selectedObjects.value.map((item) => {
+      return { pessoa_token: item.token };
+    });
+    const { data, error, status } = await useFetch(reconhecerPessoa, {
+      method: "POST",
+      body: {
+        pessoas: selectedTokens,
+        cartorio_token: cartorio_token.value,
+        ordemserv_token: ordemserv_token,
+        quantidade: state.quantidade,
+        usuario_token: usuario_token,
+        ato_tipo_token: props.ato_token,
+      },
+    });
+    if (status.value === "success" && data.value[0].status === "OK") {
+      reconhecerEtiquetaAutencidade(data.value[0].token);
+      goBack();
+    } else {
+      errorModalVisible.value = true;
+      errorMessage.value =
+        ato_token.value.status_mensagem || error.value.data.details;
+    }
+  } catch (error) {
+    errorModalVisible.value = true;
+    errorMessage.value = error;
+    console.error("Erro na requisição", error);
+  }
+}
 
 async function reconhecerEtiquetaAutencidade(token) {
   try {

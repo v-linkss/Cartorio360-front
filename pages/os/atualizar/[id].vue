@@ -73,10 +73,7 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 2px; margin-top: -5px">
-            <div
-              @click="redirectoToView(item)"
-              title="Visualizar"
-            >
+            <div @click="redirectoToView(item)" title="Visualizar">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../../assets/visualizar.png"
@@ -96,7 +93,7 @@
             <div
               :class="{ disabled: !item.btn_editar }"
               @click="
-                item.btn_editar
+                !item.btn_editar
                   ? redirectToUpdateAto({
                       id: item.id,
                       tipo: item.tipo,
@@ -229,8 +226,11 @@ const redirectToModalReimprimir = (token) => {
   isModalReimprimirOpen.value = true;
 };
 
-const redirectoToView = (item) =>{
-  if (item.rota === '/fontes/atos/ato-com-bem/geral' || item.rota === '/fontes/atos/ato-sem-bem/geral') {
+const redirectoToView = (item) => {
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -241,11 +241,11 @@ const redirectoToView = (item) =>{
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
-        usa_imoveis:item.usa_imoveis
+        usa_imoveis: item.usa_imoveis,
       },
     });
   }
-}
+};
 
 const redirectToUpdateAto = (item) => {
   if (item.usa_imoveis || !item.usa_imoveis) {
@@ -259,7 +259,7 @@ const redirectToUpdateAto = (item) => {
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
-        usa_imoveis:item.usa_imoveis
+        usa_imoveis: item.usa_imoveis,
       },
     });
   }
