@@ -53,7 +53,7 @@
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
             style="cursor: pointer"
-            @click="redirectToView(item.id)"
+            @click="openModalFicha(item.link_ficha)"
             title="Visualizar"
           >
             <img
@@ -106,6 +106,13 @@
         </v-row>
       </template>
     </v-data-table>
+    <ModalFichaCard
+      v-if="isModalFichaOpen"
+      :show="isModalFichaOpen"
+      :link-view="linkFichaPessoa"
+      :is-view="true"
+      @close="isModalFichaOpen = false"
+    />
   </v-container>
 </template>
 
@@ -113,7 +120,9 @@
 const config = useRuntimeConfig();
 const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
 const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
-
+const baixarDocumento = `${config.public.managemant}/download`;
+const isModalFichaOpen = ref(false);
+const linkFichaPessoa = ref(null);
 const router = useRouter();
 
 const search = ref("");
@@ -172,6 +181,18 @@ function formatDoc(doc) {
   return doc;
 }
 
+const openModalFicha = async (link) => {
+  isModalFichaOpen.value = true;
+  const { data: linkUrl } = await useFetch(baixarDocumento, {
+    method: "POST",
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: link,
+    },
+  });
+  linkFichaPessoa.value = linkUrl.value;
+};
+
 async function deletePessoa(item) {
   item.excluido = !item.excluido;
   try {
@@ -182,10 +203,6 @@ async function deletePessoa(item) {
   } catch (error) {
     console.error("Erro ao excluir pessoa:", error);
   }
-}
-
-function redirectToView(id) {
-  router.push({ path: `/pessoas/vizualizar/${id}` });
 }
 
 function redirectToUpdate(id) {

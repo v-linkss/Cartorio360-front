@@ -25,7 +25,6 @@
           title="Criar Pessoa"
           @click="createPessoa"
         />
-
       </div>
     </v-row>
 
@@ -55,19 +54,27 @@
       </v-col>
       <div>
         <img
-          class="mt-3" 
+          class="mt-3"
           src="../../assets/novo.png"
           style="width: 40px; cursor: pointer"
           title="Criar Representante"
           @click="createRepresentante"
         />
         <img
-          class="mt-3 ml-2"
-          src="../../assets/visualizar.png"
+          v-if="possuiFicha"
+          class="mt-0 ml-2"
+          src="../../../assets/visualizar.png"
           style="width: 40px; cursor: pointer"
-          title="Visualisar Fixa"
+          title="Visualizar Ficha"
           @click="isModalFichaOpen = true"
-          />
+        />
+        <img
+          v-else
+          style="width: 40px; height: 40px"
+          src="../../../assets/visualizar-vermelho.png"
+          alt="Visualizar"
+          title="Não Ficha"
+        />
       </div>
     </v-row>
 
@@ -181,10 +188,10 @@
       @updatePapel="atualizarPapel"
     />
     <ModalFichaCard
-    :show="isModalFichaOpen"
-    :item="state.pessoa" 
-    @confirmar="confirmItem(state.pessoa)"
-    @close="isModalFichaOpen = false"
+      :show="isModalFichaOpen"
+      :item="state.pessoa"
+      :is-view="true"
+      @close="isModalFichaOpen = false"
     />
     <v-row>
       <NuxtLink @click="goBack">
@@ -263,14 +270,13 @@ const state = reactive({
   pessoa: null,
   documento: null,
 });
-
+const possuiFicha = computed(() => state.pessoa?.link_ficha || false);
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
   body: { tipo_ato_token: props.ato_token },
 });
 
 papeisItems.value = data.value;
-
 
 async function searchPessoasService() {
   try {
@@ -347,12 +353,12 @@ const createRepresentante = async () => {
     });
 
     if (status.value === "success") {
-      representante.id = data.value.id
+      representante.id = data.value.id;
       $toast.success("Pessoa Registrada com Sucesso!");
       pessoasTable.value.push(representante);
-    } else{
-    $toast.error(error.value.message)
-  }
+    } else {
+      $toast.error(error.value.message);
+    }
   } catch (error) {
     $toast.error("Erro no servidor. Tente novamente.");
   }
@@ -381,7 +387,7 @@ const redirectToRepresentante = (item) => {
       id: p.pessoa.id,
       nome: p.pessoa.nome,
     }));
-  ato_pessoa_id.value = item.id
+  ato_pessoa_id.value = item.id;
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
@@ -389,7 +395,7 @@ const redirectToRepresentante = (item) => {
 };
 
 const redirectToPapel = (item) => {
-  ato_pessoa_id.value = item.id
+  ato_pessoa_id.value = item.id;
   isModalPapelOpen.value = true;
   representante_nome.value = item.pessoa.nome;
 };

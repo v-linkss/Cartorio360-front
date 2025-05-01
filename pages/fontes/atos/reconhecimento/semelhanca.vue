@@ -12,17 +12,23 @@
       </v-autocomplete>
     </v-col>
     <v-col cols="2">
-      <v-text-field label="Quantidade" type="number" v-model="stateSemelhanca.quantidade">
+      <v-text-field
+        label="Quantidade"
+        type="number"
+        v-model="stateSemelhanca.quantidade"
+      >
       </v-text-field>
     </v-col>
   </v-row>
 
   <v-row>
     <v-col cols="3">
-      <v-text-field label="Documento" v-model="stateSemelhanca.documento"> </v-text-field>
+      <v-text-field label="Documento" v-model="stateSemelhanca.documento">
+      </v-text-field>
     </v-col>
     <v-col cols="4">
-      <v-text-field label="Pessoa" v-model="stateSemelhanca.nome"> </v-text-field>
+      <v-text-field label="Pessoa" v-model="stateSemelhanca.nome">
+      </v-text-field>
     </v-col>
 
     <div>
@@ -59,9 +65,17 @@
             title="Visualizar Ficha"
           >
             <img
-              style="width: 30px; height: 30px"
-              src="../../../../assets/visualizar.png"
+              v-if="item.link_ficha"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/mudarStatus.png"
+              alt="Possui Ficha"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar-vermelho.png"
               alt="Visualizar"
+              title="Não Possui Ficha"
             />
           </div>
         </template>
@@ -96,22 +110,23 @@
     @close="isModalRegistroOpen = false"
   />
   <ModalFichaCard
-   :show="isModalFichaOpen"
-   :item="selectedItem" 
-   @confirmar="confirmItem(selectedItem)"
-   @close="isModalFichaOpen = false"
+    :show="isModalFichaOpen"
+    :item="selectedItem"
+    @confirmar="confirmItem(selectedItem)"
+    @close="isModalFichaOpen = false"
   />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-      <v-btn
-        class="ml-5"
-        @click="reconhecerAtoSemelhanca"
-        size="large" 
-        color="green"
-      >Salvar</v-btn>
+    <v-btn
+      class="ml-5"
+      @click="reconhecerAtoSemelhanca"
+      size="large"
+      color="green"
+      >Salvar</v-btn
+    >
   </v-row>
   <ErrorModalCard
     :show="errorModalVisible"
@@ -121,7 +136,6 @@
 </template>
 
 <script setup>
-
 const props = defineProps({
   ato_token: {
     type: String,
@@ -173,7 +187,6 @@ const stateSemelhanca = reactive({
   documento: null,
 });
 
-
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
@@ -192,7 +205,7 @@ async function searchPessoasService() {
     });
     if (pessoasData.value.length > 0) {
       pessoasItems.value = pessoasData.value;
-      emit('ato-created')
+      emit("ato-created");
     } else {
       pessoasItems.value = [];
     }
@@ -209,10 +222,10 @@ function confirmItem(item) {
   selectedObjects.value.push(item);
 }
 
-const redirectToFicha = (item) =>{
+const redirectToFicha = (item) => {
   selectedItem.value = item;
-  isModalFichaOpen.value = true
-}
+  isModalFichaOpen.value = true;
+};
 
 function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
@@ -222,38 +235,36 @@ function removeFormValueFromTable(item) {
 
 async function reconhecerAtoSemelhanca() {
   if (!stateSemelhanca.escrevente) {
-    $toast.error("Por favor selecione um Escrevente")
-    return
+    $toast.error("Por favor selecione um Escrevente");
+    return;
   }
-    const selectedTokens = selectedObjects.value.map((item) => {
-      return { pessoa_token: item.token };
+  const selectedTokens = selectedObjects.value.map((item) => {
+    return { pessoa_token: item.token };
+  });
+  try {
+    const { data, error, status } = await useFetch(reconhecerPessoa, {
+      method: "POST",
+      body: {
+        pessoas: selectedTokens,
+        cartorio_token: cartorio_token.value,
+        ordemserv_token: ordemserv_token,
+        quantidade: stateSemelhanca.quantidade,
+        usuario_token: usuario_token,
+        ato_tipo_token: props.ato_token,
+      },
     });
-    try {
-      const { data, error, status } = await useFetch(reconhecerPessoa, {
-        method: "POST",
-        body: {
-          pessoas: selectedTokens,
-          cartorio_token: cartorio_token.value,
-          ordemserv_token: ordemserv_token,
-          quantidade: stateSemelhanca.quantidade,
-          usuario_token: usuario_token,
-          ato_tipo_token: props.ato_token,
-        },
-      });
 
-      if (status.value === "success" && data.value[0].status === "OK") {
-        reconhecerEtiquetaSemelhanca(data.value[0].token);
-      } else {
-        errorModalVisible.value = true;
-        errorMessage.value =
-          ato_token.value.status_mensagem || error.value.data.details;
-      }
-    } catch (error) {
-      console.error("Erro na requisição", error);
+    if (status.value === "success" && data.value[0].status === "OK") {
+      reconhecerEtiquetaSemelhanca(data.value[0].token);
+    } else {
+      errorModalVisible.value = true;
+      errorMessage.value =
+        ato_token.value.status_mensagem || error.value.data.details;
     }
+  } catch (error) {
+    console.error("Erro na requisição", error);
   }
-
-
+}
 
 async function reconhecerEtiquetaSemelhanca(token) {
   try {
@@ -266,7 +277,7 @@ async function reconhecerEtiquetaSemelhanca(token) {
       },
     });
     if (status.value === "success") {
-      goBack()
+      goBack();
       const newWindow = window.open("", "_blank");
       newWindow.document.open();
       newWindow.document.write(data.value[0].etiqueta);
