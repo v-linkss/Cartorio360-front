@@ -246,6 +246,11 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
+function resetForm() {
+  Object.assign(state, { ...initialState });
+  v$.value.$reset(); 
+}
+
 async function onSubmit() {
   if (await v$.value.$validate()) {
     const payload = { ...state };
@@ -275,6 +280,7 @@ async function onSubmit() {
       const pessoa_token = useCookie("pessoa_token");
       pessoa_token.value = data.value.token;
       isEditMode.value = true;
+      resetForm();
       emit("saved");
     }
   } else {
