@@ -9,7 +9,7 @@
             padding: 10px 0px 0px 20px;
           "
         >
-          Cadastramento de pessoas
+          Cadastramento de pessoas2
         </h1>
         <div style="background-color: #f5f2f2; padding: 5px 0px 0px 20px">
           <v-autocomplete

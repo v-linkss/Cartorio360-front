@@ -91,7 +91,7 @@
       </v-col>
       <v-col md="4">
         <v-autocomplete
-          v-model="state.cidade_natural_id"
+          v-model="state.cidade_nascimento_id"
           :items="dados.cidadeNascimentoItems"
           label="Cidade de nascimento"
           item-title="descricao"
@@ -124,7 +124,7 @@
       </v-col>
       <v-col md="4">
         <v-text-field
-          v-model.date="state.nome_mae"
+          v-model="state.nome_mae"
           :error-messages="v$.nome_mae.$errors.map((e) => e.$message)"
           label="Nome da Mãe"
           required
@@ -185,7 +185,7 @@ const initialState = {
   tabvalores_estadocivil_id: null,
   tabvalores_capacidadecivil_id: null,
   tabvalores_sexo_id: null,
-  cidade_natural_id: null,
+  cidade_nascimento_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
@@ -261,6 +261,7 @@ async function onSubmit() {
       cpf_mae: removeFormatting(state.cpf_mae),
       data_nascimento: formatToISO(state.data_nascimento),
       fone_celular: state.fone_celular ? state.fone_celular.replace(/[^0-9]/g, "") : null, // Adicionada verificação
+      cidade_nascimento_id: state.cidade_nascimento_id,
     };
     const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",
