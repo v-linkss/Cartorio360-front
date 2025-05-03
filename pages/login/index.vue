@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <v-row style="background-color:#0a063b;">
+  <v-row style="background-color: #0a063b">
     <v-col cols="5" class="d-flex align-center justify-center">
-      <v-container style="max-width: 650px;">
+      <v-container style="max-width: 650px">
         <center>
           <v-img
             style="margin-bottom: 30px"
@@ -20,7 +20,7 @@
           v-model="loginData.email"
           persistent-hint
           class="input mb-5"
-          style="background-color: aliceblue;"
+          style="background-color: aliceblue"
           hide-details
           density="compact"
           placeholder="Email"
@@ -34,7 +34,7 @@
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
           density="compact"
-          style="background-color: aliceblue;"
+          style="background-color: aliceblue"
           hide-details
           placeholder="Senha"
           prepend-inner-icon="mdi-lock-outline"
@@ -113,7 +113,7 @@
           <a
             class="text-decoration-none"
             rel="noopener noreferrer"
-            style="color: white;margin-left: 10px;"
+            style="color: white; margin-left: 10px"
           >
             Esqueceu a senha?</a
           >
@@ -162,7 +162,7 @@ const authenticateUser = async () => {
       email: loginData.value.email,
     },
   });
-  console.log(data.value[0].func_autentica_acesso_v1[0].registro[0].cartorios  );
+
   return { data: data?.value, status: status?.value, error: error?.value };
 };
 
@@ -246,7 +246,6 @@ const login = async () => {
 <style scoped>
 .input {
   margin-left: 10px;
-
 }
 .text {
   font-size: 25px;
@@ -255,5 +254,4 @@ const login = async () => {
   margin-bottom: 30px;
   margin-left: 10px;
 }
-
 </style>

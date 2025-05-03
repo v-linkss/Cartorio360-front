@@ -267,7 +267,6 @@ const createAnexo = async () => {
     if (status.value === "success") {
       $toast.success("Anexo registrado com sucesso!");
       anexos.value.push(data.value);
-      console.log("createAnexo\n", data.value.token);
       UploadAnexo(data.value.token);
     }
   }

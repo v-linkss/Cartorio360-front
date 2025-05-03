@@ -318,7 +318,7 @@ async function fetchData() {
       }),
     ]);
     if (matriculasItens.data) {
-      matriculasItens.data = formatDate(matriculasItens.data,'dd/mm/yyyy');
+      matriculasItens.data = formatDate(matriculasItens.data, "dd/mm/yyyy");
     }
     Object.assign(state, matriculasItens);
     return {
@@ -378,7 +378,6 @@ async function onUpdate() {
       router.push("/matriculas/lista");
     }
   } catch (error) {
-    console.log("Erro ao Atualizar:", error);
     $toast.error("Erro ao Atualizar. Tente novamente.");
   }
 }

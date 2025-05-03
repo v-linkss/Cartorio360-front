@@ -22,14 +22,19 @@
       <v-btn size="large" @click="goBack" color="red">Voltar</v-btn>
     </NuxtLink>
     <v-btn
-    v-if="!isVisualizar"
+      v-if="!isVisualizar"
       size="large"
       color="green"
       @click="salvarDocumento"
       :disabled="loading"
       >Atualizar</v-btn
     >
-    <v-btn v-if="!isVisualizar" class="ml-4" size="large" color="blue" @click="isModalMinutaOpen = true"
+    <v-btn
+      v-if="!isVisualizar"
+      class="ml-4"
+      size="large"
+      color="blue"
+      @click="isModalMinutaOpen = true"
       >Gerar Minuta</v-btn
     >
   </v-row>
@@ -71,7 +76,7 @@ const isModalMinutaOpen = ref(false);
 const condMessage = ref(
   "Ao executar a geração, a minuta atual será substituída e não poderá ser recuperada.Confirma ?"
 );
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 // Variável de estado para controlar o loading
 const loading = ref(false);
 
@@ -111,7 +116,10 @@ const loadDefaultDocument = async () => {
     const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket:useCookie("user-data").value.cartorio_token, path: filePath },
+      body: {
+        bucket: useCookie("user-data").value.cartorio_token,
+        path: filePath,
+      },
     });
 
     const fileUrl = data.value;
@@ -188,8 +196,8 @@ const salvarDocumento = async () => {
   }
 };
 const confirmaGerarMinuta = () => {
-  isModalMinutaOpen.value = false
-  gerarMinuta()
+  isModalMinutaOpen.value = false;
+  gerarMinuta();
 };
 const gerarMinuta = async () => {
   setLoading(true);
@@ -219,7 +227,10 @@ const carregarModeloDeMinuta = async () => {
   try {
     const { data: docModelo } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket:useCookie("user-data").value.cartorio_token, path: "provider/modeloAto.sfdt" },
+      body: {
+        bucket: useCookie("user-data").value.cartorio_token,
+        path: "provider/modeloAto.sfdt",
+      },
     });
 
     const blob = await fetchBlobFromMinIO(docModelo.value);

@@ -251,12 +251,13 @@ const {
   ]);
 
   const formattedPessoasDocsItems = pessoasDocsItems.map((doc) => {
-    console.log(doc.data_emissao, doc.data_vencimento);
     return {
       ...doc,
-      data_emissao: doc.data_emissao ? formatDate(doc.data_emissao,'dd/mm/yyyy') : null,
+      data_emissao: doc.data_emissao
+        ? formatDate(doc.data_emissao, "dd/mm/yyyy")
+        : null,
       data_vencimento: doc.data_vencimento
-        ? formatDate(doc.data_vencimento,'dd/mm/yyyy')
+        ? formatDate(doc.data_vencimento, "dd/mm/yyyy")
         : null,
     };
   });
@@ -307,7 +308,7 @@ function redirectToUpdate(item) {
       data_emissao: item.data_emissao
         ? formatDate(item.data_emissao, "dd/mm/yyyy")
         : null,
-        data_vencimento: item.data_vencimento
+      data_vencimento: item.data_vencimento
         ? formatDate(item.data_vencimento, "dd/mm/yyyy")
         : null,
     };
