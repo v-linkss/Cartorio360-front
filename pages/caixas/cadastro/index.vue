@@ -55,7 +55,12 @@ const handleCreateCaixas = async () => {
     }
 
     $toast.success("Caixa cadastrada com sucesso");
-    navigateTo("/caixas/lista");
+    form.value = {
+      data: null,
+      classe_despesa_id: null,
+      descricao: "",
+      valor: null,
+    };
   } catch (error) {
     console.error("Erro ao criar caixa:", error);
     $toast.error(error.message || "Erro ao cadastrar caixa");

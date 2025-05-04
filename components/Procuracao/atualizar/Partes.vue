@@ -60,7 +60,7 @@
           title="Criar Representante"
           @click="createRepresentante"
         />
-
+        <!-- 
         <img
           v-if="possuiFicha"
           class="mt-0 ml-2"
@@ -75,7 +75,7 @@
           src="../../../assets/visualizar-vermelho.png"
           alt="Visualizar"
           title="Não Ficha"
-        />
+        /> -->
       </div>
     </v-row>
 

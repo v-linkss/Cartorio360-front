@@ -91,7 +91,7 @@
       </v-col>
       <v-col md="4">
         <v-autocomplete
-          v-model="state.cidade_natural_id"
+          v-model="state.cidade_nascimento_id"
           :items="dados.cidadeNascimentoItems"
           label="Cidade de nascimento"
           item-title="descricao"
@@ -185,7 +185,7 @@ const initialState = {
   tabvalores_estadocivil_id: null,
   tabvalores_capacidadecivil_id: null,
   tabvalores_sexo_id: null,
-  cidade_natural_id: null,
+  cidade_nascimento_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
 };
@@ -260,7 +260,9 @@ async function onSubmit() {
       cpf_pai: removeFormatting(state.cpf_pai),
       cpf_mae: removeFormatting(state.cpf_mae),
       data_nascimento: formatToISO(state.data_nascimento),
-      fone_celular: state.fone_celular ? state.fone_celular.replace(/[^0-9]/g, "") : null, // Adicionada verificação
+      fone_celular: state.fone_celular
+        ? state.fone_celular.replace(/[^0-9]/g, "")
+        : null, // Adicionada verificação
     };
     const { data, error, status } = await fetchWithToken(createPessoa, {
       method: "POST",
@@ -292,7 +294,7 @@ async function onUpdate() {
     ...payload,
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
-    fone_celular: state.fone_celular.replace(/[^0-9]/g, "")
+    fone_celular: state.fone_celular.replace(/[^0-9]/g, ""),
   };
   const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,

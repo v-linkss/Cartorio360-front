@@ -131,7 +131,7 @@
               </v-col>
               <v-col cols="12" md="4">
                 <v-autocomplete
-                  v-model="state.cidade_natural_id"
+                  v-model="state.cidade_nascimento_id"
                   :items="cidadeNascimentoItemsData"
                   label="Cidade de nascimento"
                   item-title="descricao"
@@ -240,7 +240,7 @@ const initialState = {
   tipo_pessoa: "FISICA",
   tabvalores_estadocivil_id: null,
   tabvalores_capacidadecivil_id: null,
-  cidade_natural_id: null,
+  cidade_nascimento_id: null,
   tabvalores_sexo_id: null,
   cartorio_id: useCookie("user-data").value.cartorio_id,
   user_id: useCookie("user-data").value.usuario_id,
