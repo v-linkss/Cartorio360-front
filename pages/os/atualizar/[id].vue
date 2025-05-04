@@ -93,7 +93,7 @@
             <div
               :class="{ disabled: !item.btn_editar }"
               @click="
-                !item.btn_editar
+                item.btn_editar
                   ? redirectToUpdateAto({
                       id: item.id,
                       tipo: item.tipo,
