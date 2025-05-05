@@ -61,8 +61,9 @@
             <img
               v-if="item.link_ficha"
               style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/mudarStatus.png"
+              src="../../../../assets/visualizar.png"
               alt="Possui Ficha"
+              title="Possui Ficha"
             />
             <img
               v-else

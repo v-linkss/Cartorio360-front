@@ -642,12 +642,12 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-Ds1mQzab.mjs')
+    component: () => import('./autencidade-DVAhgpJR.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-DdLaJVfX.mjs')
+    component: () => import('./semelhanca-CGUK5fL8.mjs')
   },
   {
     name: "index",
@@ -694,7 +694,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-Bm_Aybzk.mjs')
+    component: () => import('./criar-ato-B29chZg3.mjs')
   },
   {
     name: "os-criar-registro",
