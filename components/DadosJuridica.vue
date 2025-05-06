@@ -136,9 +136,9 @@ async function onSubmit() {
       body: payloadFormated,
     });
     if (status.value === "error" && error.value.statusCode === 500) {
-      $toast.error(
-        "Erro ao cadastrar Pessoa Juridica,o CNPJ já está cadastrado."
-      );
+      const mensagemErro = error.value?.data?.error?.errors?.[0]?.message;
+
+      $toast.error(mensagemErro || "Erro interno ao cadastrar pessoa juridica.");
     } else {
       $toast.success("Pessoa Juridica cadastrada com sucesso!");
       const pessoaIdValue = data.value.id;

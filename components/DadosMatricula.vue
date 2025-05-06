@@ -278,7 +278,8 @@ async function onSubmit() {
 
       // Verificação de sucesso
       if (response.statusCode === 500) {
-        $toast.error("Erro ao cadastrar Matricula, o CPF já está cadastrado.");
+        const mensagemErro = error.value?.data?.error?.errors?.[0]?.message;
+        $toast.error(mensagemErro || "Erro interno ao cadastrar Matricula.");
       } else {
         $toast.success("Matricula cadastrada com sucesso!");
         const MatriculaIdValue = response.id;

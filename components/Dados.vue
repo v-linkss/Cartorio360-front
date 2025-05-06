@@ -267,9 +267,12 @@ async function onSubmit() {
       method: "POST",
       body: payloadFormated,
     });
-    if (status.value === "error" && error.value.statusCode === 500) {
-      $toast.error("Erro ao cadastrar pessoa,o CPF já está cadastrado.");
-    } else {
+    if (status.value === "error" && error.value?.statusCode === 500) {
+      const mensagemErro = error.value?.data?.error?.errors?.[0]?.message;
+
+      $toast.error(mensagemErro || "Erro interno ao cadastrar pessoa.");
+    }
+    else {
       $toast.success("Pessoa cadastrada com sucesso!");
       const pessoaIdValue = data.value.id;
       pessoaId.value = pessoaIdValue;
