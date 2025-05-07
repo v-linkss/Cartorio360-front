@@ -1,6 +1,6 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="850">
-    <v-card>
+  <v-dialog persistent v-model="isVisible" max-width="1100">
+    <!-- <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
       <v-container>
         <v-row>
@@ -40,7 +40,7 @@
             transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
           }"
         />
-        <div v-if="!fotoRender && !fichaRender ">
+        <div v-if="!fotoRender && !fichaRender">
           <h3 class="mb-5">
             Este usuario não possui ficha de firma cadastrada.
           </h3>
@@ -57,11 +57,36 @@
           >Voltar</v-btn
         >
       </v-card-actions>
+    </v-card> -->
+    <v-card>
+      <v-card-title class="text-h5">Ficha de Firma</v-card-title>
+      <div class="d-flex justify-center align-center">
+        <ejs-imageeditor height="750px" width="750px"></ejs-imageeditor>
+      </div>
+
+      <v-card-actions>
+        <v-btn
+          style="background-color: aqua; color: white"
+          @click="editarImagem"
+          >editar</v-btn
+        >
+        <v-btn
+          v-if="!props.isView"
+          style="background-color: #429946; color: white"
+          @click="confirmarRecebimento"
+          >Reconhecer</v-btn
+        >
+        <v-btn style="background-color: red; color: white" @click="closeModal"
+          >Voltar</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
+import { registerLicense } from "@syncfusion/ej2-base";
+import { ImageEditorComponent as EjsImageeditor } from "@syncfusion/ej2-vue-image-editor";
 const props = defineProps({
   show: Boolean,
   item: Object,
@@ -71,9 +96,12 @@ const props = defineProps({
   },
   linkView: String,
 });
+const toolbar = [];
 const config = useRuntimeConfig();
+registerLicense(`${config.public.docEditor}`);
 const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const baixarDocumento = `${config.public.managemant}/download`;
+const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
 
 const hasTiff = computed(() => !!fichaRender.value);
 const hasFoto = computed(() => !!fotoRender.value);
@@ -99,14 +127,14 @@ watch(
     fichaRender.value = null;
     await beforeOpenFicha();
   },
-  {immediate: true}
+  { immediate: true }
 );
 
 watch(
   () => props.linkView,
   (newLinkView) => {
-    if(props.isView){
-      if (newLinkView && newLinkView.includes('.tr7')) {
+    if (props.isView) {
+      if (newLinkView && newLinkView.includes(".tr7")) {
         fichaRender.value = newLinkView;
         fotoRender.value = null;
       } else {
@@ -115,7 +143,7 @@ watch(
       }
     }
   },
-  {immediate: true}
+  { immediate: true }
 );
 
 const confirmarRecebimento = () => {
@@ -123,9 +151,20 @@ const confirmarRecebimento = () => {
   closeModal();
 };
 
+const editarImagem = async () => {
+  const { data: imagemBiometria } = await useFetch(transformarTiffParaPng, {
+    method: "POST",
+    body: {
+      tipo: "ficha",
+      cartorio_token: useCookie("user-data").value.cartorio_token,
+    },
+  });
+  console.log(imagemBiometria.value);
+};
+
 const beforeOpenFicha = async () => {
   if (props.isView) {
-    return
+    return;
   }
   if (!props.item.id) return;
 
@@ -171,9 +210,22 @@ const rotateImage = () => {
 };
 </script>
 
-<style scoped>
-/* Estilo para o slider */
-.v-slider {
+<style>
+@import "../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-image-editor/styles/material.css";
+
+#image-editor {
+  width: 550px !important;
+  height: 350px !important;
+}
+v.slider {
   width: 100%;
 }
 </style>
