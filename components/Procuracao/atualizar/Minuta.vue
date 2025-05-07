@@ -38,6 +38,7 @@
       >Gerar Minuta</v-btn
     >
   </v-row>
+
   <ModalConfirmacao
     @confirm="confirmaGerarMinuta"
     :condMessage="condMessage"
@@ -58,6 +59,7 @@ import {
 import { registerLicense } from "@syncfusion/ej2-base";
 
 provide("DocumentEditorContainer", [Toolbar, WordExport, Search]);
+
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const router = useRouter();
@@ -146,6 +148,7 @@ const loadDefaultDocument = async () => {
 
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
+  console.log(document.pageCount);
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {

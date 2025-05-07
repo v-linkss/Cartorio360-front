@@ -30,13 +30,12 @@
         <v-row>
           <v-col>
             <v-sheet style="font-weight: bold" class="pa-2 ma-2">
-                  <v-col>
-                  Livro: {{ lavraData[0].livro_numero }}
-                  </v-col>
-                  <v-col>
-                  Protocolo: {{ lavraData[0].protocolo ? lavraData[0].protocolo : null }}
-                  </v-col>
-                </v-sheet>
+              <v-col> Livro: {{ lavraData[0].livro_numero }} </v-col>
+              <v-col>
+                Protocolo:
+                {{ lavraData[0].protocolo ? lavraData[0].protocolo : null }}
+              </v-col>
+            </v-sheet>
           </v-col>
           <v-col>
             <v-sheet style="font-weight: bold" class="pa-2 ma-2 mt-3">
@@ -45,16 +44,12 @@
             </v-sheet>
           </v-col>
         </v-row>
+
         <div
-          style="
-          margin-left: 10px;
-            padding-bottom: 20px;
-            margin-top: -10px;
-          "
+          style="margin-left: 10px; padding-bottom: 20px; margin-top: -10px"
           v-html="selo"
         ></div>
       </v-card>
-
     </v-col>
   </v-row>
 
@@ -101,10 +96,9 @@ const condMessage = ref(
 const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 const documentEditorContainer = ref(null);
 const escreventesItems = ref([]);
-
 const state = reactive({
   escrevente: null,
 });
@@ -143,7 +137,10 @@ const loadDefaultDocument = async () => {
     const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket: useCookie("user-data").value.cartorio_token, path: filePath },
+      body: {
+        bucket: useCookie("user-data").value.cartorio_token,
+        path: filePath,
+      },
     });
 
     const fileUrl = data.value;
@@ -166,15 +163,17 @@ const loadDefaultDocument = async () => {
 };
 loadDefaultDocument();
 const lavraAto = async () => {
+  const pages =
+    documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
   try {
     const { data, status } = await useFetch(lavraAtoLivro, {
       method: "POST",
       body: {
         ato_token: route.query.ato_token_edit,
-        qtd_paginas: props.pages,
+        qtd_paginas: pages,
         escrevente_token: state.escrevente,
         usuario_token: usuario_token,
-        cartorio_token: cartorio_token
+        cartorio_token: cartorio_token,
       },
     });
 
@@ -204,11 +203,12 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") if (origem === "atualizar" || origem === "vizualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
-  }
+  if (origem === "atualizar")
+    if (origem === "atualizar" || origem === "vizualizar") {
+      router.push(`/os/atualizar/${id}`);
+    } else {
+      router.push("/os/criar-registro");
+    }
 };
 
 watch(
