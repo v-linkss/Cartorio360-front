@@ -208,114 +208,15 @@
   const allServicos = `${config.public.managemant}/listarOrdensServico`;
   const allTiposAtos = `${config.public.managemant}/tipoAtos`;
   const updateAto = `${config.public.managemant}/updateAtos`;
+  const pequisaAtos = `${config.public.managemant}/pequisaAtos`;
 
   
   const router = useRouter();
   
   const usuario_token = ref(useCookie("auth_token").value) || null;
   const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
-  const servicosItems = ref([
-  {
-    id: 1,
-    dt_abertura: '2023-01-15',
-    data: '2023-01-20',
-    numero: 'OS-001',
-    situacao: 'Finalizado',
-    apresentante_cpf: '123.456.789-00',
-    apresentante_nome: 'João Silva',
-    usuario_nome: 'ADM'
-  },
-  {
-    id: 2,
-    dt_abertura: '2023-02-10',
-    data: '2023-02-15',
-    numero: 'OS-002',
-    situacao: 'Em andamento',
-    apresentante_cpf: '987.654.321-00',
-    apresentante_nome: 'Maria Oliveira',
-    usuario_nome: 'USER'
-  },
-  {
-    id: 3,
-    dt_abertura: '2023-03-05',
-    data: null,
-    numero: 'OS-003',
-    situacao: 'Aguardando',
-    apresentante_cpf: '456.789.123-00',
-    apresentante_nome: 'Carlos Souza',
-    usuario_nome: 'ADM'
-  },
-  {
-    id: 4,
-    dt_abertura: '2023-04-12',
-    data: '2023-04-18',
-    numero: 'OS-004',
-    situacao: 'Finalizado',
-    apresentante_cpf: '789.123.456-00',
-    apresentante_nome: 'Ana Costa',
-    usuario_nome: 'USER'
-  },
-  {
-    id: 5,
-    dt_abertura: '2023-05-20',
-    data: null,
-    numero: 'OS-005',
-    situacao: 'Cancelado',
-    apresentante_cpf: '321.654.987-00',
-    apresentante_nome: 'Pedro Santos',
-    usuario_nome: 'ADM'
-  },
-  {
-    id: 6,
-    dt_abertura: '2023-06-08',
-    data: '2023-06-12',
-    numero: 'OS-006',
-    situacao: 'Finalizado',
-    apresentante_cpf: '654.987.321-00',
-    apresentante_nome: 'Juliana Lima',
-    usuario_nome: 'USER'
-  },
-  {
-    id: 7,
-    dt_abertura: '2023-07-15',
-    data: '2023-07-22',
-    numero: 'OS-007',
-    situacao: 'Finalizado',
-    apresentante_cpf: '147.258.369-00',
-    apresentante_nome: 'Marcos Oliveira',
-    usuario_nome: 'ADM'
-  },
-  {
-    id: 8,
-    dt_abertura: '2023-08-30',
-    data: null,
-    numero: 'OS-008',
-    situacao: 'Em andamento',
-    apresentante_cpf: '258.369.147-00',
-    apresentante_nome: 'Fernanda Silva',
-    usuario_nome: 'USER'
-  },
-  {
-    id: 9,
-    dt_abertura: '2023-09-17',
-    data: '2023-09-25',
-    numero: 'OS-009',
-    situacao: 'Finalizado',
-    apresentante_cpf: '369.147.258-00',
-    apresentante_nome: 'Ricardo Pereira',
-    usuario_nome: 'ADM'
-  },
-  {
-    id: 10,
-    dt_abertura: '2023-10-05',
-    data: null,
-    numero: 'OS-010',
-    situacao: 'Aguardando',
-    apresentante_cpf: '951.753.852-00',
-    apresentante_nome: 'Patricia Almeida',
-    usuario_nome: 'USER'
-  }
-]);
+ 
+  const servicosItems = ref([]);
   const usuariosItems = ref([]);
   const tipoAtosItems = ref([]);
   const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
@@ -348,8 +249,8 @@
   const headers = [
     { title: "ID", value: "id", width: "100px" },
     { title: "Data Abertura", value: "dt_abertura", width: "100px" },
-    { title: "Data Recebimento", value: "data", width: "100px", },
-    { title: "N° OS", value: "numero", width: "10px" },
+    { title: "Data lavratura", value: "dt_lavratura", width: "100px", },
+    { title: "N° OS", value: "numero_os", width: "10px" },
     { title: "Situação", value: "situacao", width: "115px" },
     { title: "CPF", value: "apresentante_cpf", width: "100px" },
     { title: "Apresentante", value: "apresentante_nome", width: "228px" },
@@ -373,6 +274,16 @@
     return `${yyyy}-${mm}-${dd}`;
   }
   
+  async function servicoItemsPayload() {
+    const { data: servicos } = await useFetch(pequisaAtos, {
+      method: "POST",
+      body: {
+        cartorio_token: cartorio_token.value,
+      },
+    });
+    servicosItems.value = servicos.value;
+  }
+ 
   async function usuariosDataPayload() {
     const { data: usuarioData } = await useFetch(allUsuarios, {
       method: "POST",
@@ -537,6 +448,8 @@ const redirectToUpdateAto = (item) => {
   
   usuariosDataPayload();
   tipoAtosDataPayload();
+  servicoItemsPayload();
+
   onMounted(() => {
     nextTick(async () => {
       const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
