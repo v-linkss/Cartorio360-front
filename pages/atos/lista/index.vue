@@ -111,75 +111,83 @@
         </v-col>
       </v-row>
       <hr class="mt-5 mb-5" />
-      <v-data-table :headers="headers" style="min-width: 1230px;font-size:12px;" :items="servicosItems" item-key="id">
-        <template v-slot:item.actions="{ item }">
-          <v-row style="display: flex; gap: 2px; margin-top: -5px">
-            <div @click="redirectoToView(item)" title="Visualizar">
-              <img
-                style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/visualizar.png"
-                alt="Visualizar"
-              />
-            </div>
-            <div
-              @click="redirectToModalReimprimir(item.token)"
-              title="Reimprimir"
-            >
-              <img
-                style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/selo.png"
-                alt="Reimprimir"
-              />
-            </div>
-            <div
-              :class="{ disabled: !item.btn_editar }"
-              @click="
-                item.btn_editar
-                  ? redirectToUpdateAto({
-                      id: item.id,
-                      tipo: item.tipo,
-                      token: item.token,
-                      tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
-                    })
-                  : null
-              "
-              :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
-            >
-              <img
-                :style="{
-                  cursor: item.btn_editar ? 'pointer' : 'default',
-                  width: '30px',
-                  height: '30px',
-                }"
-                src="../../../assets/editar.png"
-                alt="Editar"
-              />
-            </div>
-            <div
-              :disabled="!item.btn_cancelar"
-              @click="item.btn_cancelar ? deleteAto(item) : null"
-              title="Excluir"
-            >
-              <img
-                v-if="item.excluido"
-                style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/excluido.png"
-                alt="Visualizar"
-                title="Reativar"
-              />
-              <img
-                v-else
-                src="../../../assets/mudarStatus.png"
-                alt="Excluir"
-                class="trash-icon"
-                style="width: 30px; height: 30px; cursor: pointer"
+      <div style="overflow-x: auto;">
+        <v-data-table 
+          :headers="headers" 
+          :items="servicosItems" 
+          item-key="id"
+          class="elevation-1"
+          style="min-width: 100%"
+        >
+          <template v-slot:item.actions="{ item }">
+            <div style="display: flex; gap: 8px; justify-content: center;">
+              <div @click="redirectoToView(item)" title="Visualizar">
+                <img
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  src="../../../assets/visualizar.png"
+                  alt="Visualizar"
+                />
+              </div>
+              <div
+                @click="redirectToModalReimprimir(item.token)"
+                title="Reimprimir"
+              >
+                <img
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  src="../../../assets/selo.png"
+                  alt="Reimprimir"
+                />
+              </div>
+              <div
+                :class="{ disabled: !item.btn_editar }"
+                @click="
+                  item.btn_editar
+                    ? redirectToUpdateAto({
+                        id: item.id,
+                        tipo: item.tipo,
+                        token: item.token,
+                        tipo_token: item.tipo_token,
+                        usa_imoveis: item.usa_imoveis,
+                      })
+                    : null
+                "
+                :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
+              >
+                <img
+                  :style="{
+                    cursor: item.btn_editar ? 'pointer' : 'default',
+                    width: '30px',
+                    height: '30px',
+                  }"
+                  src="../../../assets/editar.png"
+                  alt="Editar"
+                />
+              </div>
+              <div
+                :disabled="!item.btn_cancelar"
+                @click="item.btn_cancelar ? deleteAto(item) : null"
                 title="Excluir"
-              />
+              >
+                <img
+                  v-if="item.excluido"
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  src="../../../assets/excluido.png"
+                  alt="Visualizar"
+                  title="Reativar"
+                />
+                <img
+                  v-else
+                  src="../../../assets/mudarStatus.png"
+                  alt="Excluir"
+                  class="trash-icon"
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  title="Excluir"
+                />
+              </div>
             </div>
-          </v-row>
-        </template>
-      </v-data-table>
+          </template>
+        </v-data-table>
+      </div>
       <ReimpressaoSelos
         :show="isModalReimprimirOpen"
         :ato_token="ato_token"
@@ -247,17 +255,20 @@
   });
   
   const headers = [
-    { title: "ID", value: "id", width: "100px" },
+    { title: "ID", value: "id", width: "50px" },
     { title: "Data Abertura", value: "dt_abertura", width: "100px" },
-    { title: "Data lavratura", value: "dt_lavratura", width: "100px", },
-    { title: "N° OS", value: "numero_os", width: "10px" },
-    { title: "Situação", value: "situacao", width: "115px" },
-    { title: "CPF", value: "apresentante_cpf", width: "100px" },
-    { title: "Apresentante", value: "apresentante_nome", width: "228px" },
-    { title: "Usuario", value: "usuario_nome", width: "30px" },
-    {
-      title: 'Ações', value: "actions",
-    },
+    { title: "Data lavratura", value: "dt_lavratura", width: "100px" },
+    { title: "N° OS", value: "numero_os", width: "80px" },
+    { title: "Protocolo", value: "protocolo", width: "80px" },
+    { title: "Apresentante", value: "apresentante_nome", width: "150px" },
+    { title: "CPF", value: "apresentante_cpf", width: "120px" },
+    { title: "Tipo Serviço", value: "ato_servico", width: "150px" },
+    { title: "Usuario", value: "usuario_nome", width: "150px" },
+    { title: "Situação", value: "situacao", width: "120px" },
+    { title: "Livro", value: "livro_numero", width: "80px" },
+    { title: "Folha", value: "folha", width: "80px" },
+    { title: "Valor", value: "valor", width: "100px" },
+    { title: "Ações", value: "actions", width: "180px", align: "center" },
   ];
   
   function getCurrentDate() {
@@ -469,4 +480,10 @@ const redirectToUpdateAto = (item) => {
   };
 
   </script>
-  
+
+<style scoped>
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
