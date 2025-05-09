@@ -1,74 +1,21 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="1100">
-    <!-- <v-card>
-      <v-card-title class="text-h5">Ficha de Firma</v-card-title>
-      <v-container>
-        <v-row>
-          <v-col cols="10">
-            <v-slider
-              v-model="zoomLevel"
-              min="0.5"
-              max="1.1"
-              step="0.1"
-              label="Zoom"
-              class="mt-3"
-            ></v-slider>
-          </v-col>
-          <v-col cols="2">
-            <v-icon class="ml-6" :size="'50px'" @click="rotateImage"
-              >mdi-rotate-right</v-icon
-            >
-          </v-col>
-        </v-row>
-      </v-container>
-      <div class="d-flex justify-center align-center">
-        <div v-if="hasTiff" class="ml-5 mt-15">
-          <TiffViewer
-            :tiff-url="fichaRender"
-            :is-modal="true"
-            :zoom-level="zoomLevel"
-            :rotation-degree="rotationDegree"
-            :translate-x="translateX"
-          />
-        </div>
-        <img
-          v-else-if="hasFoto"
-          :src="fotoRender"
-          :style="{
-            width: '70%',
-            height: '70%',
-            transform: `scale(${zoomLevel}) rotate(${rotationDegree}deg)`,
-          }"
-        />
-        <div v-if="!fotoRender && !fichaRender">
-          <h3 class="mb-5">
-            Este usuario não possui ficha de firma cadastrada.
-          </h3>
-        </div>
-      </div>
-      <v-card-actions>
-        <v-btn
-          v-if="!props.isView"
-          style="background-color: #429946; color: white"
-          @click="confirmarRecebimento"
-          >Reconhecer</v-btn
-        >
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
-      </v-card-actions>
-    </v-card> -->
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
       <div class="d-flex justify-center align-center">
-        <ejs-imageeditor height="750px" width="750px"></ejs-imageeditor>
+        <ejs-imageeditor
+          height="750px"
+          width="750px"
+          ref="imageEditorRef"
+          :created="created"
+        ></ejs-imageeditor>
       </div>
 
       <v-card-actions>
         <v-btn
           style="background-color: aqua; color: white"
           @click="editarImagem"
-          >editar</v-btn
+          >Editar</v-btn
         >
         <v-btn
           v-if="!props.isView"
@@ -85,7 +32,7 @@
 </template>
 
 <script setup>
-import { registerLicense } from "@syncfusion/ej2-base";
+import { Browser, registerLicense } from "@syncfusion/ej2-base";
 import { ImageEditorComponent as EjsImageeditor } from "@syncfusion/ej2-vue-image-editor";
 const props = defineProps({
   show: Boolean,
@@ -95,17 +42,15 @@ const props = defineProps({
     default: false,
   },
   linkView: String,
+  pessoaObj: Object,
 });
-const toolbar = [];
+
 const config = useRuntimeConfig();
 registerLicense(`${config.public.docEditor}`);
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
-const baixarDocumento = `${config.public.managemant}/download`;
 const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
+const imageEditorRef = ref(null);
 
-const hasTiff = computed(() => !!fichaRender.value);
-const hasFoto = computed(() => !!fotoRender.value);
-
+const isLoading = ref(true);
 const isVisible = ref(props.show);
 const fichaRender = ref(null);
 const fotoRender = ref(null);
@@ -115,17 +60,12 @@ const rotationDegree = ref(0); // Grau de rotação (inicialmente 0)
 
 const emit = defineEmits(["close", "confirmar"]);
 
-const translateX = computed(() => {
-  // Ajuste o valor de acordo com o quanto você quer que ele se mova
-  return (zoomLevel.value - 1) * -50; // Move 50px para a esquerda por nível de zoom
-});
-
 watch(
   () => props.show,
   async (newVal) => {
     isVisible.value = newVal;
     fichaRender.value = null;
-    await beforeOpenFicha();
+    // await beforeOpenFicha();
   },
   { immediate: true }
 );
@@ -151,45 +91,41 @@ const confirmarRecebimento = () => {
   closeModal();
 };
 
-const editarImagem = async () => {
-  const { data: imagemBiometria } = await useFetch(transformarTiffParaPng, {
-    method: "POST",
-    body: {
-      tipo: "ficha",
-      cartorio_token: useCookie("user-data").value.cartorio_token,
-    },
-  });
-  console.log(imagemBiometria.value);
-};
+// const editarImagem = async () => {};
 
-const beforeOpenFicha = async () => {
-  if (props.isView) {
-    return;
-  }
-  if (!props.item.id) return;
+const created = async () => {
+  isLoading.value = true; // Inicia o loading ao criar o editor
+  try {
+    const imageEditor = imageEditorRef.value?.ej2Instances;
+    if (!imageEditor) return;
 
-  const { data: imagemBiometria } = await useFetch(buscarPessoa, {
-    method: "POST",
-    body: { tipo: "ficha", id: props.item.id },
-  });
+    const response = await fetch(props.linkView);
+    const blob = await response.blob();
 
-  if (!imagemBiometria.value?.link) return;
+    const file = new File([blob], "image.tiff", {
+      type: blob.type || "application/octet-stream",
+    });
 
-  const { data: link } = await useFetch(baixarDocumento, {
-    method: "POST",
-    body: {
-      bucket: useCookie("user-data").value.cartorio_token,
-      path: imagemBiometria.value.link,
-    },
-  });
+    const formData = new FormData();
+    formData.append("tipo", "ficha");
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
+    formData.append("path", props.pessoaObj.link_ficha);
+    formData.append("pessoa_token", props.pessoaObj.token);
+    formData.append("file", file);
 
-  const linkMinio = imagemBiometria.value.link;
-  const linkPayload = link.value;
+    const { data: imagemBiometria } = await useFetch(transformarTiffParaPng, {
+      method: "POST",
+      body: formData,
+    });
 
-  if (/\.(tr7|tiff)$/i.test(linkMinio)) {
-    fichaRender.value = linkPayload;
-  } else {
-    fotoRender.value = linkPayload;
+    imageEditor.open(imagemBiometria.value.msg);
+  } catch (error) {
+    console.error("Erro ao criar o editor de imagem:", error);
+  } finally {
+    isLoading.value = false; // Finaliza o loading
   }
 };
 
@@ -200,13 +136,6 @@ const closeModal = () => {
   zoomLevel.value = 0.8;
   rotationDegree.value = 0;
   emit("close");
-};
-
-const rotateImage = () => {
-  rotationDegree.value += 90;
-  if (rotationDegree.value >= 360) {
-    rotationDegree.value = 0;
-  }
 };
 </script>
 
