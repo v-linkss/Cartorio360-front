@@ -111,7 +111,6 @@
       :show="isModalFichaOpen"
       :link-view="linkFichaPessoa"
       :is-view="true"
-      :path-ficha="pathFichaPessoa"
       :pessoa-obj="pessoaObj"
       @close="isModalFichaOpen = false"
     />
@@ -197,7 +196,6 @@ const openModalFicha = async (link, objeto) => {
   linkFichaPessoa.value = linkUrl.value;
   pathFichaPessoa.value = link;
   pessoaObj.value = objeto;
-  console.log(pessoaObj.value);
 };
 
 async function deletePessoa(item) {

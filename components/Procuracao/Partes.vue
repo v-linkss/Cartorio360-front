@@ -188,8 +188,10 @@
       @updatePapel="atualizarPapel"
     />
     <ModalFichaCard
+      v-if="isModalFichaOpen"
       :show="isModalFichaOpen"
-      :item="state.pessoa"
+      :link-view="fichaRender"
+      :pessoa-obj="pessoasItem"
       :is-view="true"
       @close="isModalFichaOpen = false"
     />
@@ -219,13 +221,14 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
+const baixarDocumento = `${config.public.managemant}/download`;
 const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const getAtoPessoa = `${config.public.managemant}/getAtosPessoaById`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 
 const pessoasItems = ref([]);
+const pessoasItem = ref({});
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
 
@@ -366,18 +369,15 @@ const createRepresentante = async () => {
 
 const redirectToFicha = async (item) => {
   isModalFichaOpen.value = true;
-
-  fichaRender.value = null;
-
-  const { data: imagemBiometria } = await useFetch(`${buscarPessoa}`, {
+  const { data: linkUrl } = await useFetch(baixarDocumento, {
     method: "POST",
-    body: { id: item.pessoa.id, tipo: "ficha" },
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: item.pessoa.link_ficha,
+    },
   });
-  if (imagemBiometria.value && imagemBiometria.value.link) {
-    fichaRender.value = `data:image/jpeg;base64,${imagemBiometria.value.link}`;
-  } else {
-    fichaRender.value = null;
-  }
+  fichaRender.value = linkUrl.value;
+  pessoasItem.value = item.pessoa;
 };
 
 const redirectToRepresentante = (item) => {
