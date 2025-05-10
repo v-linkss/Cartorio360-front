@@ -88,6 +88,7 @@
         >
           <template v-slot:item.actions="{ item }">
             <v-row v-if="!isVisualizar">
+              <!-- {{ item.pessoa }} -->
               <div
                 style="
                   display: flex;
@@ -99,8 +100,15 @@
                 title="Visualizar Ficha"
               >
                 <img
+                  v-if="item.pessoa.link_ficha"
                   style="width: 30px; height: 30px"
                   src="../../../assets/visualizar.png"
+                  alt="Visualizar"
+                />
+                <img
+                  v-else
+                  style="width: 30px; height: 30px"
+                  src="../../../assets/visualizar-vermelho.png"
                   alt="Visualizar"
                 />
               </div>
@@ -189,8 +197,10 @@
       @updatePapel="atualizarPapel"
     />
     <ModalFichaCard
+      v-if="isModalFichaOpen"
       :show="isModalFichaOpen"
-      :item="state.pessoa"
+      :link-view="fichaRender"
+      :pessoa-obj="pessoasItem"
       :is-view="true"
       @close="isModalFichaOpen = false"
     />
@@ -209,7 +219,6 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const papeisApresentante = `${config.public.managemant}/listarPapeis`;
-const buscarPessoa = `${config.public.managemant}/getLinkTipo`;
 const criarAtoPessoa = `${config.public.managemant}/createAtosPessoa`;
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const getPartesId = `${config.public.managemant}/getAtosPessoaById`;
@@ -218,6 +227,7 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const isVisualizar = ref(route.query.origem === "vizualizar");
 
 const pessoasItems = ref([]);
+const pessoasItem = ref({});
 const pessoasTable = ref([]);
 const papeisItems = ref([]);
 
@@ -369,34 +379,15 @@ const createRepresentante = async () => {
 
 const redirectToFicha = async (item) => {
   isModalFichaOpen.value = true;
-
-  fichaRender.value = null;
-
-  if (!item.pessoa.id) return;
-
-  const { data: imagemBiometria } = await useFetch(buscarPessoa, {
-    method: "POST",
-    body: { tipo: "ficha", id: item.pessoa.id },
-  });
-
-  if (!imagemBiometria.value?.link) return;
-
-  const { data: link } = await useFetch(baixarDocumento, {
+  const { data: linkUrl } = await useFetch(baixarDocumento, {
     method: "POST",
     body: {
       bucket: useCookie("user-data").value.cartorio_token,
-      path: imagemBiometria.value.link,
+      path: item.pessoa.link_ficha,
     },
   });
-
-  const linkMinio = imagemBiometria.value.link;
-  const linkPayload = link.value;
-
-  if (/\.(tr7|tiff)$/i.test(linkMinio)) {
-    fichaRender.value = linkPayload;
-  } else {
-    fichaRender.value = linkPayload;
-  }
+  fichaRender.value = linkUrl.value;
+  pessoasItem.value = item.pessoa;
 };
 
 const redirectToRepresentante = (item) => {

@@ -105,8 +105,11 @@
     @close="isModalRegistroOpen = false"
   />
   <ModalFichaCard
+    v-if="isModalFichaOpen"
     :show="isModalFichaOpen"
     :item="selectedItem"
+    :pessoa-obj="selectedItem"
+    :link-view="linkFichaPessoa"
     @confirmar="confirmItem(selectedItem)"
     @close="isModalFichaOpen = false"
   />
@@ -146,6 +149,7 @@ const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
 const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
+const baixarDocumento = `${config.public.managemant}/download`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -159,6 +163,7 @@ const errorModalVisible = ref(false);
 const isModalRegistroOpen = ref(false);
 const isModalFichaOpen = ref(false);
 const selectedItem = ref(null);
+const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
 
 const headers = [
@@ -217,9 +222,17 @@ function confirmItem(item) {
   selectedObjects.value.push(item);
 }
 
-const redirectToFicha = (item) => {
+const redirectToFicha = async (item) => {
   selectedItem.value = item;
   isModalFichaOpen.value = true;
+  const { data: linkUrl } = await useFetch(baixarDocumento, {
+    method: "POST",
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: item.link_ficha,
+    },
+  });
+  linkFichaPessoa.value = linkUrl.value;
 };
 
 function removeFormValueFromTable(item) {

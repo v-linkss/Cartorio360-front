@@ -53,7 +53,7 @@
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
             style="cursor: pointer"
-            @click="openModalFicha(item.link_ficha)"
+            @click="openModalFicha(item.link_ficha, item)"
             title="Visualizar"
           >
             <img
@@ -111,6 +111,7 @@
       :show="isModalFichaOpen"
       :link-view="linkFichaPessoa"
       :is-view="true"
+      :pessoa-obj="pessoaObj"
       @close="isModalFichaOpen = false"
     />
   </v-container>
@@ -123,6 +124,8 @@ const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
 const baixarDocumento = `${config.public.managemant}/download`;
 const isModalFichaOpen = ref(false);
 const linkFichaPessoa = ref(null);
+const pathFichaPessoa = ref(null);
+const pessoaObj = ref({});
 const router = useRouter();
 
 const search = ref("");
@@ -181,7 +184,7 @@ function formatDoc(doc) {
   return doc;
 }
 
-const openModalFicha = async (link) => {
+const openModalFicha = async (link, objeto) => {
   isModalFichaOpen.value = true;
   const { data: linkUrl } = await useFetch(baixarDocumento, {
     method: "POST",
@@ -191,6 +194,8 @@ const openModalFicha = async (link) => {
     },
   });
   linkFichaPessoa.value = linkUrl.value;
+  pathFichaPessoa.value = link;
+  pessoaObj.value = objeto;
 };
 
 async function deletePessoa(item) {
