@@ -11,106 +11,125 @@
           />
         </NuxtLink>
       </v-row>
-      <v-row style="margin-bottom: -35px">
-        <v-col>
-          <v-text-field v-model="state.numero" label="Número OS"></v-text-field>
+      
+      <!-- Primeira linha de filtros -->
+      <v-row>
+        <v-col cols="1">
+          <v-text-field v-model="state.numero" label="N° OS" dense></v-text-field>
         </v-col>
-        <v-col>
-          <v-text-field
-            v-model="state.data_inicio"
-            label="Abertura de"
-            placeholder="dd/mm/yyyy"
-            v-mask="'##/##/####'"
-            style="width: 150px"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="state.data_fim"
-            label="Abertura até"
-            placeholder="dd/mm/yyyy"
-            v-mask="'##/##/####'"
-            style="width: 150px"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="state.data_lavratura_inicio"
-            label="Lavratura de"
-            placeholder="dd/mm/yyyy"
-            v-mask="'##/##/####'"
-            style="width: 150px"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="state.data_lavratura_fim"
-            label="Lavratura até"
-            placeholder="dd/mm/yyyy"
-            v-mask="'##/##/####'"
-            style="width: 150px"
-          ></v-text-field>
-        </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             v-model="state.protocolo"
             label="Protocolo"
+            dense
           ></v-text-field>
         </v-col>
-        <v-col md="1">
-          <v-text-field v-model="state.livro" label="Livro"></v-text-field>
+        <v-col cols="2">
+          <v-text-field
+            v-model="state.apresentante"
+            label="Apresentante"
+            dense
+          ></v-text-field>
         </v-col>
-        <v-col md="1">
-          <v-text-field v-model="state.folha" label="Folha"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col md="3">
-          <v-autocomplete
-            v-model="state.situacao"
-            :items="situacaoItems"
-            label="Situação"
-          ></v-autocomplete>
-        </v-col>
-        <v-col md="2">
-          <v-autocomplete
-            :items="usuariosItems"
-            v-model="state.usuario_token"
-            item-title="user_nome"
-            item-value="user_token"
-            label="Usuario"
-          ></v-autocomplete>
-        </v-col>
-        <v-col md="1">
-          <v-text-field v-model="state.selo" label="Selo"></v-text-field>
-        </v-col>
-        <v-col md="3">
+        <v-col cols="2">
           <v-autocomplete
             v-model="state.ato_tipo_token"
             :items="tipoAtosItems"
             item-title="descricao"
             item-value="token"
-            label="Serviço"
+            label="Tipo Serviço"
+            dense
           ></v-autocomplete>
         </v-col>
-        <v-col md="2">
-          <v-text-field
-            v-model="state.apresentante"
-            label="Apresentante"
-          ></v-text-field>
+        <v-col cols="2">
+          <v-autocomplete
+            :items="usuariosItems"
+            v-model="state.usuario_token"
+            item-title="user_nome"
+            item-value="user_token"
+            label="Usuário"
+            dense
+          ></v-autocomplete>
         </v-col>
-        <v-col>
-          <div>
+        <v-col cols="2">
+          <v-autocomplete
+            v-model="state.situacao"
+            :items="situacaoItems"
+            label="Situação"
+            dense
+          ></v-autocomplete>
+        </v-col>
+        <v-col cols="1">
+          <div class="d-flex justify-end">
             <img
               @click="searchOrdersService"
-              style="width: 40px; height: 40px; cursor: pointer"
+              style="width: 40px; height: 40px; cursor: pointer; margin-top: 16px"
               src="../../../assets/visualizar.png"
               alt="Pesquisar"
             />
           </div>
         </v-col>
       </v-row>
+      
+      <!-- Segunda linha de filtros -->
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            v-model="state.data_inicio"
+            label="Abertura de"
+            placeholder="dd/mm/yyyy"
+            v-mask="'##/##/####'"
+            dense
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="state.data_fim"
+            label="Abertura até"
+            placeholder="dd/mm/yyyy"
+            v-mask="'##/##/####'"
+            dense
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="state.data_lavratura_inicio"
+            label="Lavratura de"
+            placeholder="dd/mm/yyyy"
+            v-mask="'##/##/####'"
+            dense
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="state.data_lavratura_fim"
+            label="Lavratura até"
+            placeholder="dd/mm/yyyy"
+            v-mask="'##/##/####'"
+            dense
+          ></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-text-field v-model="state.livro" label="Livro" dense></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-text-field v-model="state.folha" label="Folha" dense></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-text-field v-model="state.selo" label="Selo" dense></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-text-field
+            v-model="state.apresentante_cpf"
+            label="CPF"
+            v-mask="'###.###.###-##'"
+            dense
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      
       <hr class="mt-5 mb-5" />
+      
       <div style="overflow-x: auto;">
         <v-data-table 
           :headers="headers" 
@@ -188,6 +207,14 @@
           </template>
         </v-data-table>
       </div>
+      <ModalTiposAtos
+        v-if="modalVisible"
+        :show="modalVisible"
+        :servicos="dadosData.servicos || []"
+        :tiposAtos="dadosData.tiposAtos || []"
+        @close="modalVisible = false"
+        @updateAto="handleUpdateAto"
+      />
       <ReimpressaoSelos
         :show="isModalReimprimirOpen"
         :ato_token="ato_token"
@@ -218,11 +245,12 @@
   const updateAto = `${config.public.managemant}/updateAtos`;
   const pequisaAtos = `${config.public.managemant}/pequisaAtos`;
 
-  
   const router = useRouter();
   
   const usuario_token = ref(useCookie("auth_token").value) || null;
   const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
+
+  const modalVisible = ref(false);
  
   const servicosItems = ref([]);
   const usuariosItems = ref([]);
@@ -347,6 +375,28 @@
       console.error("Erro na requisição", error);
     }
   }
+
+  function openModal() {
+  if (!dadosData.dt_lavratura) {
+    modalVisible.value = true;
+  }
+}
+
+  const redirectoToView = (item) => {
+    router.push({
+      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+      query: {
+        origem: "vizualizar",
+        id: id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
+        usa_imoveis: item.usa_imoveis,
+      },
+    });
+};
   
   async function tipoAtosDataPayload() {
     const { data: tipoAtosData, error } = await useFetch(allTiposAtos, {
@@ -403,23 +453,23 @@
     }
 }
 
-const redirectToUpdateAto = (item) => {
-  if (item.usa_imoveis || !item.usa_imoveis) {
-    router.push({
-      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar",
-        id: id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: numeroOs.value,
-        usa_imoveis: item.usa_imoveis,
-      },
-    });
-  }
-};
+  const redirectToUpdateAto = (item) => {
+    if (item.usa_imoveis || !item.usa_imoveis) {
+      router.push({
+        path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+        query: {
+          origem: "atualizar",
+          id: id,
+          ato_id: item.id,
+          tipo_ato_token: item.tipo_token,
+          tipo_ato: item.tipo,
+          ato_token_edit: item.token,
+          numero_os: numeroOs.value,
+          usa_imoveis: item.usa_imoveis,
+        },
+      });
+    }
+  };
   
   function redirectToCancelamento(item) {
     numero_os.value = item.numero;
