@@ -62,7 +62,7 @@
         <v-col cols="1">
           <div class="d-flex justify-end">
             <img
-              @click="searchOrdersService"
+              @click="searchAtos"
               style="width: 40px; height: 40px; cursor: pointer; margin-top: 16px"
               src="../../../assets/visualizar.png"
               alt="Pesquisar"
@@ -129,17 +129,17 @@
       </v-row>
       
       <hr class="mt-5 mb-5" />
-      
+     
       <div style="overflow-x: auto;">
         <v-data-table 
           :headers="headers" 
-          :items="servicosItems" 
+          :items="atos" 
           item-key="id"
           class="elevation-1"
           style="min-width: 100%"
         >
           <template v-slot:item.actions="{ item }">
-            <div style="display: flex; gap: 8px; justify-content: center;">
+            <div style="display: flex; gap: 4px; justify-content: center;">
               <div @click="redirectoToView(item)" title="Visualizar">
                 <img
                   style="width: 30px; height: 30px; cursor: pointer"
@@ -243,7 +243,7 @@
   const allServicos = `${config.public.managemant}/listarOrdensServico`;
   const allTiposAtos = `${config.public.managemant}/tipoAtos`;
   const updateAto = `${config.public.managemant}/updateAtos`;
-  const pequisaAtos = `${config.public.managemant}/pequisaAtos`;
+  const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
   const router = useRouter();
   
@@ -253,6 +253,7 @@
   const modalVisible = ref(false);
  
   const servicosItems = ref([]);
+  const atos = ref([]);
   const usuariosItems = ref([]);
   const tipoAtosItems = ref([]);
   const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
@@ -313,14 +314,16 @@
     return `${yyyy}-${mm}-${dd}`;
   }
   
-  async function servicoItemsPayload() {
-    const { data: servicos } = await useFetch(pequisaAtos, {
+  async function atosPayload() {
+    const { data: atosData } = await useFetch(pesquisaAtos, {
       method: "POST",
       body: {
-        cartorio_token: cartorio_token.value,
+        cartorio_token: "qvGJz"
       },
     });
-    servicosItems.value = servicos.value;
+    atos.value = atosData.value;
+    console.log("atos.value", atos.value);
+    // console.log("token", cartorio_token.value);
   }
  
   async function usuariosDataPayload() {
@@ -333,11 +336,11 @@
     usuariosItems.value = usuarioData.value;
   }
   
-  async function searchOrdersService() {
+  async function searchAtos() {
     try {
       sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
   
-      const { data: servicosData, error } = await useFetch(allServicos, {
+      const { data: servicosData, error } = await useFetch(pesquisaAtos, {
         method: "POST",
         body: {
           cartorio_token: cartorio_token.value,
@@ -357,8 +360,8 @@
           apresentante: state.apresentante || null,
         },
       });
-      if (servicosData.value.length > 0) {
-        servicosItems.value = servicosData.value.map((item) => {
+      if (atos.value.length > 0) {
+        atos.value = atos.value.map((item) => {
           return {
             ...item,
             data: item.data ? formatDate(item.data, "dd/mm/yyyy") : null,
@@ -368,8 +371,8 @@
           };
         });
       } else {
-        servicosItems.value = [];
-        $toast.error("Não existe Ordem de Serviço Registrada!");
+        atos.value = [];
+        $toast.error("Não existe ato Registrado!");
       }
     } catch (error) {
       console.error("Erro na requisição", error);
@@ -387,12 +390,12 @@
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
         origem: "vizualizar",
-        id: id,
+        id: item.id,
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
-        numero_os: numeroOs.value,
+        numero_os: item.numero_os,
         usa_imoveis: item.usa_imoveis,
       },
     });
@@ -459,12 +462,12 @@
         path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
         query: {
           origem: "atualizar",
-          id: id,
+          id: item.id,
           ato_id: item.id,
           tipo_ato_token: item.tipo_token,
           tipo_ato: item.tipo,
           ato_token_edit: item.token,
-          numero_os: numeroOs.value,
+          numero_os: item.numero_os,
           usa_imoveis: item.usa_imoveis,
         },
       });
@@ -479,7 +482,7 @@
   
   function redirectToUpdate(id) {
     const serviceCookie = useCookie("user-service");
-    const servico = servicosItems.value.find((item) => item.id === id);
+    const servico = atos.value.find((item) => item.id === id);
     serviceCookie.value = serviceCookie.value = JSON.stringify({
       id: servico.id,
       token: servico.token,
@@ -509,7 +512,7 @@
   
   usuariosDataPayload();
   tipoAtosDataPayload();
-  servicoItemsPayload();
+  atosPayload();
 
   onMounted(() => {
     nextTick(async () => {
@@ -521,6 +524,7 @@
       }
   
       await servicosDataTable();
+      await atosPayload();
     });
   });
 
