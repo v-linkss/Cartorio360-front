@@ -30,14 +30,16 @@
         ></v-autocomplete>
       </v-col>
     </v-row>
+
+    <component
+      class="mt-10"
+      :is="selectedComponent"
+      :ato_token="selectedAto?.token"
+      :ato_tipo_id="selectedAto?.id"
+      :usa_imoveis="selectedAto?.usa_imoveis"
+      @ato-created="blockCombolists"
+    />
   </v-container>
-  <component 
-    :is="selectedComponent" 
-    :ato_token="selectedAto?.token" 
-    :ato_tipo_id="selectedAto?.id"  
-    :usa_imoveis="selectedAto?.usa_imoveis"
-    @ato-created="blockCombolists" 
-  />
 </template>
 
 <script setup>
@@ -51,18 +53,18 @@ const route = useRoute();
 const numeroOs = route.query.numeroOs;
 
 const components = {
- "/fontes/atos/reconhecimento/semelhanca": semelhanca,
- "/fontes/atos/reconhecimento/autenticidade": autencidade,
- "/fontes/atos/autenticacao/autenticacao": autenticacao,
- "/fontes/atos/ato-sem-bem/geral": procuracao,
- "/fontes/atos/ato-com-bem/geral": procuracaoComBens
+  "/fontes/atos/reconhecimento/semelhanca": semelhanca,
+  "/fontes/atos/reconhecimento/autenticidade": autencidade,
+  "/fontes/atos/autenticacao/autenticacao": autenticacao,
+  "/fontes/atos/ato-sem-bem/geral": procuracao,
+  "/fontes/atos/ato-com-bem/geral": procuracaoComBens,
 };
 
 const servicos = ref([]);
 const atos = ref([]);
 const selectedServico = ref("");
 const selectedAto = ref(null);
-const combolistsBlockeds = ref(false)
+const combolistsBlockeds = ref(false);
 const selectedComponent = computed(() => {
   return selectedAto.value?.rota ? components[selectedAto.value.rota] : null;
 });
@@ -84,9 +86,9 @@ const loadServicos = async () => {
   }
 };
 
-const blockCombolists = () =>{
-  combolistsBlockeds.value = true
-}
+const blockCombolists = () => {
+  combolistsBlockeds.value = true;
+};
 
 const onServicoChange = async (token) => {
   const { data } = await useFetch(getTiposAtos, {

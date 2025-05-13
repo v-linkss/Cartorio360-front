@@ -8,6 +8,7 @@
           height="750px"
           width="850px"
           ref="imageEditorRef"
+          :toolbar="toolbar"
         ></ejs-imageeditor>
       </div>
 
@@ -44,7 +45,7 @@ const props = defineProps({
   linkView: String,
   pessoaObj: Object,
 });
-
+const toolbar = ["RotateLeft", "RotateRight", "Crop", "ZoomIn", "ZoomOut"];
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 registerLicense(`${config.public.docEditor}`);

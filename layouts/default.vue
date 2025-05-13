@@ -59,9 +59,9 @@
 
     <!-- Corpo da página -->
     <v-main>
-      <v-container>
-        <slot></slot>
-      </v-container>
+      <slot></slot>
+      <!-- <v-container>
+      </v-container> -->
     </v-main>
   </v-app>
 </template>

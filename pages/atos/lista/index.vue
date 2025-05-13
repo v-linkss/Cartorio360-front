@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5" style="width: 100%">
+  <v-container class="mt-5">
     <v-row class="mb-5">
       <h1>Atos</h1>
       <NuxtLink to="/os/criar-registro">
@@ -61,7 +61,7 @@
         <v-text-field v-model="state.selo" label="Selo" dense></v-text-field>
       </v-col>
     </v-row>
-    <!-- Primeira linha de filtros -->
+
     <v-row>
       <v-col cols="2">
         <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
@@ -125,10 +125,16 @@
         </div>
       </v-col>
     </v-row>
-
+  </v-container>
+  <div style="width: 1580px; margin: 0 auto">
     <hr class="mt-5 mb-5" />
 
-    <v-data-table :headers="headers" :items="atos" item-key="id">
+    <v-data-table
+      :headers="headers"
+      :items="atos"
+      style="font-size: 12px"
+      item-key="id"
+    >
       <template v-slot:item.actions="{ item }">
         <div style="display: flex; gap: 4px; justify-content: center">
           <div @click="redirectoToView(item)" title="Visualizar">
@@ -197,34 +203,34 @@
         </div>
       </template>
     </v-data-table>
+  </div>
 
-    <ModalTiposAtos
-      v-if="modalVisible"
-      :show="modalVisible"
-      :servicos="dadosData.servicos || []"
-      :tiposAtos="dadosData.tiposAtos || []"
-      @close="modalVisible = false"
-      @updateAto="handleUpdateAto"
-    />
-    <ReimpressaoSelos
-      :show="isModalReimprimirOpen"
-      :ato_token="ato_token"
-      @close="isModalReimprimirOpen = false"
-    />
-    <RecebimentoOrdem
-      :show="isModalRecebimentoOpen"
-      :numero_os="numero_os"
-      :ordem="selectedOrder"
-      @close="isModalRecebimentoOpen = false"
-      @refresh-value="servicosDataTable()"
-    />
-    <CancelamentoOrdem
-      :show="isModalCancelamentoOpen"
-      :numero_os="numero_os"
-      :ordemserv_token="ordemserv_token"
-      @close="isModalCancelamentoOpen = false"
-    />
-  </v-container>
+  <ModalTiposAtos
+    v-if="modalVisible"
+    :show="modalVisible"
+    :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []"
+    @close="modalVisible = false"
+    @updateAto="handleUpdateAto"
+  />
+  <ReimpressaoSelos
+    :show="isModalReimprimirOpen"
+    :ato_token="ato_token"
+    @close="isModalReimprimirOpen = false"
+  />
+  <RecebimentoOrdem
+    :show="isModalRecebimentoOpen"
+    :numero_os="numero_os"
+    :ordem="selectedOrder"
+    @close="isModalRecebimentoOpen = false"
+    @refresh-value="servicosDataTable()"
+  />
+  <CancelamentoOrdem
+    :show="isModalCancelamentoOpen"
+    :numero_os="numero_os"
+    :ordemserv_token="ordemserv_token"
+    @close="isModalCancelamentoOpen = false"
+  />
 </template>
 
 <script setup>
@@ -307,13 +313,28 @@ function convertToISODate(date) {
 }
 
 async function atosPayload() {
+  const currentDate = getCurrentDate();
+  const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
+  const dadosRestaurados = JSON.parse(pesquisaSalva);
   const { data: atosData } = await useFetch(pesquisaAtos, {
     method: "POST",
     body: {
       cartorio_token: useCookie("user-data").value.cartorio_token,
+      // usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
+      // data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
+      // data_inicio:
+      //   convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
     },
   });
-  atos.value = atosData.value;
+  if (atosData.value.length > 0) {
+    atos.value = atosData.value.map((item) => {
+      return {
+        ...item,
+        data: formatDate(item.data, "dd/mm/yyyy"),
+        dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
+      };
+    });
+  }
 }
 
 async function usuariosDataPayload() {

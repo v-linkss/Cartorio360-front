@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-W6Xq5FgE.mjs')
+    component: () => import('./index-DeYAtSPa.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -617,22 +617,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-C3SYEfNF.mjs')
+    component: () => import('./_id_-BOKm-Lyb.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-C2AkP3j7.mjs')
+    component: () => import('./geral-VM-DusSX.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-CqnKj96U.mjs')
+    component: () => import('./_id_-CBM3s7Ub.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-aUkJqEnq.mjs')
+    component: () => import('./geral-Dor1jAep.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -642,17 +642,17 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-v5gp1U1t.mjs')
+    component: () => import('./procuracao-Drt09ZOZ.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-DFW0iF0B.mjs')
+    component: () => import('./autencidade-Cgq205zM.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-KLT8GQoI.mjs')
+    component: () => import('./semelhanca-Di8b2RnG.mjs')
   },
   {
     name: "index",
@@ -699,7 +699,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-WKOYwSRO.mjs')
+    component: () => import('./criar-ato-DjKNGs02.mjs')
   },
   {
     name: "os-criar-registro",
@@ -714,17 +714,17 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-B297ORuk.mjs')
+    component: () => import('./_id_-k_2wXfl3.mjs')
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-BHGkMQQh.mjs')
+    component: () => import('./index-CaLHErjM.mjs')
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-CI1FjTzG.mjs')
+    component: () => import('./index-CCWSy-Hi.mjs')
   },
   {
     name: "relatorios-lista",
@@ -10418,7 +10418,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-Dy07xdWf.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-DckZnZdk.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
