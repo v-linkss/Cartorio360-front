@@ -39,7 +39,12 @@
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
 
-      <v-btn v-if="!isVisualizar" class="ml-10" @click="onUpdate" size="large" color="green"
+      <v-btn
+        v-if="!isVisualizar"
+        class="ml-10"
+        @click="onUpdate"
+        size="large"
+        color="green"
         >Atualizar</v-btn
       >
     </v-row>
@@ -64,7 +69,7 @@ const router = useRouter();
 const route = useRoute();
 const updateAtoProcuracao = `${config.public.managemant}/updateAtos`;
 const situacoesItems = ref(props.item_situacoes);
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 const state = reactive({
   dt_abertura: props.item_dados[0].dt_abertura || null,
   status: props.item_dados[0].status || null,
@@ -72,14 +77,17 @@ const state = reactive({
 });
 
 async function onUpdate() {
-  const { data, error, status } = await useFetch(`${updateAtoProcuracao}/${route.query.ato_id}`, {
-    method: "PUT",
-    body: {
-      status: state.status,
-      mne: state.mne,
-      dt_abertura: state.dt_abertura
-  },
-  });
+  const { data, error, status } = await useFetch(
+    `${updateAtoProcuracao}/${route.query.ato_id}`,
+    {
+      method: "PUT",
+      body: {
+        status: state.status,
+        mne: state.mne,
+        dt_abertura: state.dt_abertura,
+      },
+    }
+  );
   if (status.value === "success") {
     $toast.success("Ato Atualizado com sucesso");
   }
@@ -88,10 +96,18 @@ async function onUpdate() {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar" || origem === "vizualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

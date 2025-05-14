@@ -19,7 +19,7 @@
         <label>Valor</label>
         <MoneyInput v-model="state.vlr_alienacao" />
       </v-col>
-      <div >
+      <div>
         <img
           class="mt-7 ml-4"
           src="../../../assets/novo.png"
@@ -37,13 +37,13 @@
           :headers="headers"
           :items="pessoasTable"
         >
-        <template v-slot:item.descricao="{item}">
+          <template v-slot:item.descricao="{ item }">
             <h3 style="width: 800px; font-weight: 500">
-          {{ item.descricao }}
-        </h3>
-        </template>
+              {{ item.descricao }}
+            </h3>
+          </template>
           <template v-slot:item.actions="{ item }">
-            <v-row style="margin-top: -8px;" justify="end">
+            <v-row style="margin-top: -8px" justify="end">
               <div
                 style="cursor: pointer"
                 class="mr-2"
@@ -139,7 +139,6 @@
 </template>
 
 <script setup>
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
@@ -150,7 +149,7 @@ const getAtosBens = `${config.public.managemant}/listarBens`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 
 const pessoasTable = ref([]);
 const selectedBem = ref([]);
@@ -187,7 +186,7 @@ const createTiposDeBens = async () => {
     body: {
       descricao: state.descricao,
       tipo_id: state.tipo_id,
-      valor_mercado: '0.00',
+      valor_mercado: "0.00",
       vlr_alienacao: state.vlr_alienacao.replace(/,/g, ""),
       user_id: user_id,
       ato_id: Number.parseInt(route.query.ato_id),
@@ -206,7 +205,7 @@ const createTiposDeBens = async () => {
 };
 
 const updateAtosBensModal = async (id) => {
- const {status} = await useFetch(`${updateAtosBens}/${id}`, {
+  const { status } = await useFetch(`${updateAtosBens}/${id}`, {
     method: "PUT",
     body: {
       descricao: selectedBem.value.descricao,
@@ -214,9 +213,9 @@ const updateAtosBensModal = async (id) => {
       vlr_alienacao: selectedBem.value.vlr_alienacao.replace(/,/g, ""),
     },
   });
-  if(status.value === 'success'){
-    $toast.success('Bem Atualizado com sucesso!')
-    isModalOpen.value = false
+  if (status.value === "success") {
+    $toast.success("Bem Atualizado com sucesso!");
+    isModalOpen.value = false;
   }
 };
 
@@ -234,14 +233,10 @@ const { data } = await useFetch(`${listarBens}`, {
 });
 state.tiposBens = data.value;
 
-const { data: bensPayload } = await useFetch(
-  `${getAtosBens}`,
-  {
-    method: "POST",
-    body:{ato_token:route.query.ato_token_edit}
-  }
-  
-);
+const { data: bensPayload } = await useFetch(`${getAtosBens}`, {
+  method: "POST",
+  body: { ato_token: route.query.ato_token_edit },
+});
 pessoasTable.value =
   bensPayload.value && Object.keys(bensPayload.value).length === 0
     ? []
@@ -262,10 +257,18 @@ async function deletePessoa(item) {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar" || origem === "vizualizar"){
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

@@ -203,12 +203,19 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar")
-    if (origem === "atualizar" || origem === "vizualizar") {
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
       router.push(`/os/atualizar/${id}`);
-    } else {
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
       router.push("/os/criar-registro");
-    }
+      break;
+  }
 };
 
 watch(

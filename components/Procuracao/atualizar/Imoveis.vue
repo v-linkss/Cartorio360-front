@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="status === 'success'" class="mt-5">
     <img
-    v-if="!isVisualizar"
+      v-if="!isVisualizar"
       @click="isModalCadastroImoveisOpen = true"
       style="cursor: pointer"
       src="../../../assets/novo.png"
@@ -43,7 +43,7 @@
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
           <div
-          v-if="!isVisualizar"
+            v-if="!isVisualizar"
             style="cursor: pointer"
             @click="redirectToView(item.id)"
             title="Visualizar"
@@ -55,7 +55,7 @@
             />
           </div>
           <div
-          v-if="!isVisualizar"
+            v-if="!isVisualizar"
             style="cursor: pointer"
             @click="redirectToUpdate(item.id)"
             title="Atualizar"
@@ -67,7 +67,7 @@
             />
           </div>
           <div
-          v-if="!isVisualizar"
+            v-if="!isVisualizar"
             style="cursor: pointer"
             @click="deletePessoa(item)"
             title="Deletar"
@@ -175,10 +175,18 @@ const atualizarListaImoveis = async () => {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar" || origem === "vizualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

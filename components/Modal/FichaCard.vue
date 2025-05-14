@@ -14,13 +14,13 @@
 
       <v-card-actions>
         <v-btn
-          style="background-color: aqua; color: white"
+          style="background-color: #429946; color: white"
           @click="editarImagem"
-          >Editar</v-btn
+          >Salvar</v-btn
         >
         <v-btn
           v-if="!props.isView"
-          style="background-color: #429946; color: white"
+          style="background-color: #085a98; color: white"
           @click="confirmarRecebimento"
           >Reconhecer</v-btn
         >

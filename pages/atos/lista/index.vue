@@ -245,6 +245,7 @@ const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 const router = useRouter();
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
+
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 
 const modalVisible = ref(false);
@@ -316,21 +317,22 @@ async function atosPayload() {
   const currentDate = getCurrentDate();
   const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
   const dadosRestaurados = JSON.parse(pesquisaSalva);
+
   const { data: atosData } = await useFetch(pesquisaAtos, {
     method: "POST",
     body: {
       cartorio_token: useCookie("user-data").value.cartorio_token,
-      // usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
-      // data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
-      // data_inicio:
-      //   convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
+      usuario_token: usuario_token.value,
+      data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
+      data_inicio:
+        convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
     },
   });
   if (atosData.value.length > 0) {
     atos.value = atosData.value.map((item) => {
       return {
         ...item,
-        data: formatDate(item.data, "dd/mm/yyyy"),
+        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy"),
         dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
       };
     });
@@ -368,14 +370,16 @@ async function searchAtos() {
         usuario_token: state.usuario_token,
         selo: state.selo || null,
         ato_tipo_token: state.ato_tipo_token,
-        apresentante: state.apresentante || null,
+        apresentante: state.apresentante_nome || null,
       },
     });
     if (atos.value.length > 0) {
       atos.value = atos.value.map((item) => {
         return {
           ...item,
-          data: item.data ? formatDate(item.data, "dd/mm/yyyy") : null,
+          dt_lavratura: item.data
+            ? formatDate(item.dt_lavratura, "dd/mm/yyyy")
+            : null,
           dt_abertura: item.dt_abertura
             ? formatDate(item.dt_abertura, "dd/mm/yyyy")
             : null,
@@ -394,14 +398,14 @@ const redirectoToView = (item) => {
   router.push({
     path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
     query: {
-      origem: "vizualizar",
+      origem: "vizualizar-lista",
       id: item.id,
       ato_id: item.id,
       tipo_ato_token: item.tipo_token,
-      tipo_ato: item.tipo,
+      tipo_ato: item.ato_servico,
       ato_token_edit: item.token,
       numero_os: item.numero_os,
-      usa_imoveis: item.usa_imoveis,
+      usa_imoveis: true,
     },
   });
 };
@@ -416,6 +420,11 @@ async function tipoAtosDataPayload() {
   });
   tipoAtosItems.value = tipoAtosData.value;
 }
+
+const redirectToModalReimprimir = (token) => {
+  ato_token.value = token;
+  isModalReimprimirOpen.value = true;
+};
 
 const servicosDataTable = async () => {
   try {
@@ -437,7 +446,7 @@ const servicosDataTable = async () => {
       servicosItems.value = servicosData.value.map((item) => {
         return {
           ...item,
-          data: formatDate(item.data, "dd/mm/yyyy"),
+          dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy"),
           dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
         };
       });
@@ -466,14 +475,14 @@ const redirectToUpdateAto = (item) => {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
-        origem: "atualizar",
+        origem: "atualizar-lista",
         id: item.id,
         ato_id: item.id,
         tipo_ato_token: item.tipo_token,
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: item.numero_os,
-        usa_imoveis: item.usa_imoveis,
+        usa_imoveis: true,
       },
     });
   }

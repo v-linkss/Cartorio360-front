@@ -60,8 +60,6 @@
     <!-- Corpo da página -->
     <v-main>
       <slot></slot>
-      <!-- <v-container>
-      </v-container> -->
     </v-main>
   </v-app>
 </template>

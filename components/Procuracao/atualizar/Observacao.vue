@@ -1,25 +1,57 @@
 <template>
   <v-container>
     <v-row v-if="!isVisualizar" class="mt-5">
-      <v-text-field label="Observação" v-model="state.observacao" required
-        :error-messages="v$.observacao.$errors.length > 0 ? v$.observacao.$errors.map((e) => e.$message) : []"
-        @blur="v$.observacao.$touch" @input="v$.observacao.$touch" />
+      <v-text-field
+        label="Observação"
+        v-model="state.observacao"
+        required
+        :error-messages="
+          v$.observacao.$errors.length > 0
+            ? v$.observacao.$errors.map((e) => e.$message)
+            : []
+        "
+        @blur="v$.observacao.$touch"
+        @input="v$.observacao.$touch"
+      />
       <div>
-        <img class="btn-pointer ml-2" src="../../../assets/novo.png" style="width: 40px; cursor: pointer"
-          title="Criar Pessoa" @click="onSubmit" />
+        <img
+          class="btn-pointer ml-2"
+          src="../../../assets/novo.png"
+          style="width: 40px; cursor: pointer"
+          title="Criar Pessoa"
+          @click="onSubmit"
+        />
       </div>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-data-table style="height: 465px" :headers="headers" :items="observacoesItems">
+        <v-data-table
+          style="height: 465px"
+          :headers="headers"
+          :items="observacoesItems"
+        >
           <template v-slot:item.actions="{ item }">
-            <div style="display: flex; cursor: pointer; justify-content: flex-end" @click="deleteObservacao(item)"
-              title="Deletar Observação">
-              <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
-                alt="Visualizar" title="Reativar" />
-              <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
-                style="width: 30px; height: 30px" title="Excluir" />
+            <div
+              style="display: flex; cursor: pointer; justify-content: flex-end"
+              @click="deleteObservacao(item)"
+              title="Deletar Observação"
+            >
+              <img
+                v-if="item.excluido"
+                style="width: 30px; height: 30px"
+                src="../../../assets/excluido.png"
+                alt="Visualizar"
+                title="Reativar"
+              />
+              <img
+                v-else
+                src="../../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
             </div>
           </template>
         </v-data-table>
@@ -55,7 +87,7 @@ const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-const isVisualizar = ref(route.query.origem === 'vizualizar');
+const isVisualizar = ref(route.query.origem === "vizualizar");
 const observacoesItems = ref([]);
 const escreventesItems = ref([]);
 
@@ -152,10 +184,18 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar" || origem === "vizualizar"){
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

@@ -148,7 +148,6 @@ const loadDefaultDocument = async () => {
 
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
-  console.log(document.pageCount);
   const sfdt = await document.saveAsBlob("Sfdt");
   const reader = new FileReader();
   reader.onload = () => {
@@ -296,10 +295,18 @@ const setLoading = (status) => {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar" || origem === "vizualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 
