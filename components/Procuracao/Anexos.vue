@@ -277,7 +277,6 @@ const UploadAnexo = async (token) => {
       body: formData,
     });
 
-    console.log("Resposta do servidor:", response.data);
     $toast.success("Anexo registrado com sucesso!");
   } catch (error) {
     console.error("Erro ao enviar o arquivo:", error);

@@ -1,6 +1,6 @@
-<template> 
-<div class="mb-10">
-  <v-row class="mb-5 mt-5">
+<template>
+  <div class="mb-10">
+    <v-row class="mb-5 mt-5">
       <h1>Ordem de Serviço nº</h1>
       <h1 style="color: red; margin-left: 30px">
         {{ route.query.numero_os }}
@@ -11,7 +11,10 @@
         <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
       <v-col md="5">
-        <v-autocomplete v-model="route.query.tipo_ato" disabled></v-autocomplete>
+        <v-autocomplete
+          v-model="route.query.tipo_ato"
+          disabled
+        ></v-autocomplete>
       </v-col>
       <div>
         <img
@@ -27,7 +30,7 @@
         />
       </div>
     </v-row>
-</div> 
+  </div>
   <v-card width="1300">
     <v-tabs v-model="tab" bg-color="#f5f2f2">
       <v-tab value="dados">Dados</v-tab>
@@ -86,8 +89,8 @@ const body = route.query.id
   : { cartorio_token: cartorio_token };
 const situacoesItems = ref([]);
 const dadosData = ref([]);
-const label = ref("PROCURAÇÕES")
-const label2 = ref("PROCURAÇÃO GERAL")
+const label = ref("PROCURAÇÕES");
+const label2 = ref("PROCURAÇÃO GERAL");
 
 async function loadData() {
   try {
@@ -99,7 +102,7 @@ async function loadData() {
     );
     dadosData.value = tipoAtoId.value;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 await loadData();

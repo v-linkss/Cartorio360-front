@@ -223,7 +223,7 @@
     :numero_os="numero_os"
     :ordem="selectedOrder"
     @close="isModalRecebimentoOpen = false"
-    @refresh-value="servicosDataTable()"
+    @refresh-value="atosPayload()"
   />
   <CancelamentoOrdem
     :show="isModalCancelamentoOpen"
@@ -250,7 +250,6 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 
 const modalVisible = ref(false);
 
-const servicosItems = ref([]);
 const atos = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
@@ -315,14 +314,14 @@ function convertToISODate(date) {
 
 async function atosPayload() {
   const currentDate = getCurrentDate();
-  const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
+  const pesquisaSalva = sessionStorage.getItem("pesquisaAto");
   const dadosRestaurados = JSON.parse(pesquisaSalva);
 
   const { data: atosData } = await useFetch(pesquisaAtos, {
     method: "POST",
     body: {
       cartorio_token: useCookie("user-data").value.cartorio_token,
-      usuario_token: usuario_token.value,
+      usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
       data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
       data_inicio:
         convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
@@ -351,9 +350,9 @@ async function usuariosDataPayload() {
 
 async function searchAtos() {
   try {
-    sessionStorage.setItem("pesquisaOS", JSON.stringify(state));
+    sessionStorage.setItem("pesquisaAto", JSON.stringify(state));
 
-    const { data: servicosData, error } = await useFetch(pesquisaAtos, {
+    const { data: atosData, error } = await useFetch(pesquisaAtos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -373,8 +372,8 @@ async function searchAtos() {
         apresentante: state.apresentante_nome || null,
       },
     });
-    if (atos.value.length > 0) {
-      atos.value = atos.value.map((item) => {
+    if (atosData.value.length > 0) {
+      atos.value = atosData.value.map((item) => {
         return {
           ...item,
           dt_lavratura: item.data
@@ -426,38 +425,6 @@ const redirectToModalReimprimir = (token) => {
   isModalReimprimirOpen.value = true;
 };
 
-const servicosDataTable = async () => {
-  try {
-    const currentDate = getCurrentDate();
-    const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
-    const dadosRestaurados = JSON.parse(pesquisaSalva);
-
-    const { data: servicosData, error } = await useFetch(allServicos, {
-      method: "POST",
-      body: {
-        cartorio_token: cartorio_token.value,
-        usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
-        data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
-        data_inicio:
-          convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
-      },
-    });
-    if (servicosData.value.length > 0) {
-      servicosItems.value = servicosData.value.map((item) => {
-        return {
-          ...item,
-          dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy"),
-          dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
-        };
-      });
-    } else {
-      servicosItems.value = [];
-    }
-  } catch (error) {
-    console.error("Erro ao buscar serviços", error);
-  }
-};
-
 async function deleteAto(item) {
   item.excluido = !item.excluido;
   try {
@@ -498,21 +465,19 @@ const showCreateOrdem = () => {
 
 onMounted(() => {
   nextTick(async () => {
-    const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
+    const pesquisaSalva = sessionStorage.getItem("pesquisaAto");
 
     if (pesquisaSalva) {
       const dadosRestaurados = JSON.parse(pesquisaSalva);
       Object.assign(state, dadosRestaurados);
     }
 
-    await servicosDataTable();
     await atosPayload();
   });
 });
 
 usuariosDataPayload();
 tipoAtosDataPayload();
-atosPayload();
 </script>
 
 <style scoped>

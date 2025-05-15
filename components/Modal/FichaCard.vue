@@ -9,6 +9,7 @@
           width="850px"
           ref="imageEditorRef"
           :toolbar="toolbar"
+          :toolbarUpdating="onToolbarUpdating"
         ></ejs-imageeditor>
       </div>
 
@@ -16,6 +17,7 @@
         <v-btn
           style="background-color: #429946; color: white"
           @click="editarImagem"
+          :disabled="isCropActive"
           >Salvar</v-btn
         >
         <v-btn
@@ -55,8 +57,17 @@ const imageEditorRef = ref(null);
 
 const isVisible = ref(props.show);
 const fichaRender = ref(props.linkView || null);
+const isCropActive = ref(false);
 
 const emit = defineEmits(["close", "confirmar"]);
+
+const onToolbarUpdating = (args) => {
+  if (args.toolbarType === "crop-transform") {
+    isCropActive.value = true;
+    return;
+  }
+  isCropActive.value = false;
+};
 
 const confirmarRecebimento = () => {
   emit("confirmar");

@@ -289,7 +289,6 @@ async function onSubmit() {
         emit("saved");
       }
     } catch (error) {
-      console.log("Erro ao cadastrar:", error);
       $toast.error("Erro ao cadastrar. Tente novamente.");
     }
   }

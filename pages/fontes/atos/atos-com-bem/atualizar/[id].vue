@@ -130,7 +130,7 @@ async function loadData() {
     );
     dadosData.value = tipoAtoId.value;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 await loadData();

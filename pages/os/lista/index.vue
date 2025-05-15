@@ -111,7 +111,12 @@
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
-    <v-data-table :headers="headers" style="min-width: 1230px;font-size:12px;" :items="servicosItems" item-key="id">
+    <v-data-table
+      :headers="headers"
+      style="min-width: 1230px; font-size: 12px"
+      :items="servicosItems"
+      item-key="id"
+    >
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 2px; margin-top: -5px">
           <div
@@ -229,7 +234,7 @@ const state = reactive({
 
 const headers = [
   { title: "Data Abertura", value: "dt_abertura", width: "100px" },
-  { title: "Data Recebimento", value: "data", width: "100px", },
+  { title: "Data Recebimento", value: "data", width: "100px" },
   { title: "Número", value: "numero", width: "10px" },
   { title: "Situação", value: "situacao", width: "115px" },
   { title: "CPF", value: "apresentante_cpf", width: "100px" },
@@ -297,7 +302,7 @@ async function searchOrdersService() {
           data: item.data ? formatDate(item.data, "dd/mm/yyyy") : null,
           dt_abertura: item.dt_abertura
             ? formatDate(item.dt_abertura, "dd/mm/yyyy")
-            : null, 
+            : null,
         };
       });
     } else {
@@ -388,8 +393,6 @@ const showCreateOrdem = () => {
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
 
-usuariosDataPayload();
-tipoAtosDataPayload();
 onMounted(() => {
   nextTick(async () => {
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
@@ -402,4 +405,7 @@ onMounted(() => {
     await servicosDataTable();
   });
 });
+
+usuariosDataPayload();
+tipoAtosDataPayload();
 </script>
