@@ -56,7 +56,6 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-    
     </v-row>
     <v-row>
       <v-col cols="2">
@@ -74,7 +73,10 @@
         </v-autocomplete>
       </v-col>
       <v-col cols="3">
-        <v-text-field label="Inscrição Municipal" v-model="state.inscricao_estadual"></v-text-field>
+        <v-text-field
+          label="Inscrição Municipal"
+          v-model="state.inscricao_estadual"
+        ></v-text-field>
       </v-col>
       <v-col cols="4">
         <v-autocomplete
@@ -115,17 +117,17 @@
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green" @click="updateImovelModal(props.imovel_id)"
-        >Atualizar</v-btn
-      >
       <v-btn
-        v-else
+        v-if="isUpdate"
         class="ml-5"
         size="large"
         color="green"
-        @click="createImovel"
-        >Salvar</v-btn
+        @click="updateImovelModal(props.imovel_id)"
+        >Atualizar</v-btn
       >
+      <SaveButton v-else class="ml-5" :onSave="createImovel">
+        Salvar
+      </SaveButton>
     </v-row>
   </v-container>
 </template>
@@ -151,7 +153,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["saved", "close-modal","refresh-list"]);
+const emit = defineEmits(["saved", "close-modal", "refresh-list"]);
 const route = useRoute();
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
@@ -199,7 +201,7 @@ const state = reactive({
   user_id: user_id,
   ato_id: Number(route.query.ato_id) || Number(props.ato_id),
 });
-const statePayload = reactive({ ...state })
+const statePayload = reactive({ ...state });
 const rules = {
   descricao: {
     required: helpers.withMessage("O campo é obrigatório", required),
@@ -224,13 +226,17 @@ const createImovel = async () => {
     vlr_itbi: state.vlr_itbi?.replace(/,/g, ""),
   };
 
-  const { data,status } = await useFetch(`${createAtosBens}`, {
+  const { data, status } = await useFetch(`${createAtosBens}`, {
     method: "POST",
     body: payload,
   });
   if (status.value === "success") {
     $toast.success("Imovel criado com sucesso!");
-    emit("saved", { id: data.value.id,token:data.value.token,ato_id:data.value.ato_id });
+    emit("saved", {
+      id: data.value.id,
+      token: data.value.token,
+      ato_id: data.value.ato_id,
+    });
   }
 };
 
@@ -256,7 +262,6 @@ if (props.isUpdate === true) {
   }
   Object.assign(statePayload, state);
 }
-
 
 async function loadImoveisData() {
   try {
@@ -313,16 +318,19 @@ const updateImovelModal = async (id) => {
 
 const goBack = () => {
   emit("close-modal");
-  emit('refresh-list')
+  emit("refresh-list");
 };
 
 watch(
   [
-    () => state.vlr_avaliacao ? state.vlr_avaliacao.replace(/,/g, "") : "0",
-    () => state.aliq_itbi ? state.aliq_itbi.replace(/,/g, "") : "0"
+    () => (state.vlr_avaliacao ? state.vlr_avaliacao.replace(/,/g, "") : "0"),
+    () => (state.aliq_itbi ? state.aliq_itbi.replace(/,/g, "") : "0"),
   ],
   ([novo_vlr_avaliacao, novo_aliq_itbi]) => {
-    state.vlr_itbi = ((Number(novo_vlr_avaliacao) * Number(novo_aliq_itbi)) / 100).toFixed(2);
+    state.vlr_itbi = (
+      (Number(novo_vlr_avaliacao) * Number(novo_aliq_itbi)) /
+      100
+    ).toFixed(2);
   }
 );
 

@@ -237,7 +237,6 @@
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
-const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;

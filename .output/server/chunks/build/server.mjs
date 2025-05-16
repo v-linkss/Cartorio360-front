@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-BY0PxXfi.mjs')
+    component: () => import('./index-BPpz1iTQ.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -617,12 +617,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-Dz6KlmD6.mjs')
+    component: () => import('./_id_-BKBqOsFM.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-sCjYYdgS.mjs')
+    component: () => import('./geral-XQUFUpLF.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -642,7 +642,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-C4EQ03_P.mjs')
+    component: () => import('./procuracao-BjUtTm5j.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -699,7 +699,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BywOxckR.mjs')
+    component: () => import('./criar-ato-ks9ZXkiy.mjs')
   },
   {
     name: "os-criar-registro",
