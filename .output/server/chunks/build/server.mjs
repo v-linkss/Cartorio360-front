@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-DLvpqfME.mjs')
+    component: () => import('./index--QY7snTc.mjs')
   },
   {
     name: "caixas-cadastro",

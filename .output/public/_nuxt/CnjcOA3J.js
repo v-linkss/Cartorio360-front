@@ -1,1 +1,0 @@
-import{Z as n,a7 as o,aw as r,a8 as l,a2 as i,ad as c,b as u}from"./CZ7-18UE.js";const m=n({fluid:{type:Boolean,default:!1},...o(),...r()},"VContainer"),p=l()({name:"VContainer",props:m(),setup(a,e){let{slots:s}=e;const{rtlClasses:t}=i();return c(()=>u(a.tag,{class:["v-container",{"v-container--fluid":a.fluid},t.value,a.class],style:a.style},s)),{}}});export{p as V};

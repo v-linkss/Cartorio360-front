@@ -118,7 +118,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <div style="width: 175vh; margin-left: 100px; overflow-x: auto">
+  <div style="width: 1300px; margin: 0 auto">
     <hr class="mt-5 mb-5" />
 
     <v-data-table
@@ -273,16 +273,63 @@ const state = reactive({
 });
 
 const headers = [
-  { title: "ID", value: "id" },
-  { title: "Data Abertura", value: "dt_abertura" },
-  { title: "Data lavratura", value: "dt_lavratura" },
+  {
+    title: "ID/Protocolo",
+    key: "protocoloId",
+    width: "70px",
+    value: (item) =>
+      item.protocolo ? `${item.id}\n${item.protocolo}` : `${item.id}`,
+    cellProps: {
+      style: {
+        whiteSpace: "pre-line",
+        lineHeight: "2",
+      },
+    },
+  },
+  {
+    title: "Abertura/CPF",
+    key: "aberturaCpf",
+    value: (item) =>
+      item.dt_abertura
+        ? `${item.dt_abertura}\n${item.apresentante_cpf}`
+        : `${item.apresentante_cpf}`,
+    cellProps: {
+      style: {
+        whiteSpace: "pre-line",
+        lineHeight: "2",
+      },
+    },
+  },
+  {
+    title: "Data lavratura",
+    key: "lavraturaNome",
+    value: (item) =>
+      item.dt_lavratura
+        ? `${item.dt_lavratura}\n${item.apresentante_nome}`
+        : `${item.apresentante_nome}`,
+    cellProps: {
+      style: {
+        whiteSpace: "pre-line",
+        lineHeight: "2",
+      },
+    },
+  },
   { title: "N° OS", value: "numero_os" },
-  { title: "Protocolo", value: "protocolo" },
-  { title: "Apresentante", value: "apresentante_nome" },
-  { title: "CPF", value: "apresentante_cpf" },
-  { title: "Tipo Serviço", value: "ato_servico" },
   { title: "Usuario", value: "usuario_nome" },
-  { title: "Situação", value: "situacao" },
+  {
+    title: "Situação/Serviço",
+    key: "situacaoServico",
+    value: (item) =>
+      item.situacao
+        ? `${item.situacao}\n${item.ato_servico}`
+        : `${item.ato_servico}`,
+    cellProps: {
+      style: {
+        whiteSpace: "pre-line",
+        lineHeight: "2",
+      },
+    },
+  },
   { title: "Livro", value: "livro_numero" },
   { title: "Folha", value: "folha" },
   { title: "Valor", value: "valor" },
@@ -304,7 +351,6 @@ function convertToISODate(date) {
 }
 
 async function atosPayload() {
-  const currentDate = getCurrentDate();
   const pesquisaSalva = sessionStorage.getItem("pesquisaAto");
   const dadosRestaurados = JSON.parse(pesquisaSalva);
 
@@ -313,16 +359,15 @@ async function atosPayload() {
     body: {
       cartorio_token: useCookie("user-data").value.cartorio_token,
       usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
-      data_fim: convertToISODate(dadosRestaurados?.data_fim) || currentDate,
-      data_inicio:
-        convertToISODate(dadosRestaurados?.data_inicio) || currentDate,
+      data_fim: convertToISODate(dadosRestaurados?.data_fim),
+      data_inicio: convertToISODate(dadosRestaurados?.data_inicio),
     },
   });
   if (atosData.value.length > 0) {
     atos.value = atosData.value.map((item) => {
       return {
         ...item,
-        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy"),
+        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm"),
         dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
       };
     });
@@ -367,8 +412,8 @@ async function searchAtos() {
       atos.value = atosData.value.map((item) => {
         return {
           ...item,
-          dt_lavratura: item.data
-            ? formatDate(item.dt_lavratura, "dd/mm/yyyy")
+          dt_lavratura: item.dt_lavratura
+            ? formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm")
             : null,
           dt_abertura: item.dt_abertura
             ? formatDate(item.dt_abertura, "dd/mm/yyyy")
@@ -444,14 +489,6 @@ const redirectToUpdateAto = (item) => {
       },
     });
   }
-};
-
-const showCreateOrdem = () => {
-  const serviceCookie = useCookie("user-service");
-  const isTrueOrdemServ = useCookie("ordem-button");
-  serviceCookie.value = null;
-  showCreateOrdemServ.value = true;
-  isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
 
 onMounted(() => {
