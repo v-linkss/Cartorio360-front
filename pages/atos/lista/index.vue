@@ -2,14 +2,6 @@
   <v-container class="mt-5">
     <v-row class="mb-5">
       <h1>Atos</h1>
-      <NuxtLink to="/os/criar-registro">
-        <img
-          style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px"
-          src="../../../assets/novo.png"
-          alt="novo"
-          @click="showCreateOrdem"
-        />
-      </NuxtLink>
     </v-row>
 
     <v-row>
@@ -126,7 +118,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <div style="width: 1580px; margin: 0 auto">
+  <div style="width: 175vh; margin-left: 100px; overflow-x: auto">
     <hr class="mt-5 mb-5" />
 
     <v-data-table
