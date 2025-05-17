@@ -177,8 +177,8 @@ const state = reactive({
 });
 
 const createTiposDeBens = async () => {
-  if (!state.vlr_alienacao && !state.descricao) {
-    $toast.error("Os campos Descrição e Valor são Obrigatorios!");
+  if (state.vlr_alienacao <= 0 && !state.descricao) {
+    $toast.error("Os campos Descrição é obrigatório e Valor não pode ser 0 !");
     return;
   }
   const { data, status } = await useFetch(`${createAtosBens}`, {

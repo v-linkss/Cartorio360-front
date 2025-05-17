@@ -22,7 +22,7 @@
       >
       </v-autocomplete>
       <img
-        @click="isModalCondOpen = true"
+        @click="openModalCond()"
         style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
         src="../../../assets/lavrar.png"
       />
@@ -59,6 +59,7 @@
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"
+    :valor="valorAto"
     @close="isModalCondOpen = false"
     @confirm="confirmLavrar"
   />
@@ -88,6 +89,7 @@ const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const calculaAto = `${config.public.managemant}/ato_calcular`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const condMessage = ref(
@@ -99,6 +101,7 @@ const selo = ref(null);
 const isVisualizar = ref(route.query.origem === "vizualizar");
 const documentEditorContainer = ref(null);
 const escreventesItems = ref([]);
+const valorAto = ref({});
 const state = reactive({
   escrevente: null,
 });
@@ -162,6 +165,7 @@ const loadDefaultDocument = async () => {
   }
 };
 loadDefaultDocument();
+
 const lavraAto = async () => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
@@ -189,11 +193,36 @@ const lavraAto = async () => {
   }
 };
 
-const confirmLavrar = () => {
+const calcularAto = async () => {
+  const pages =
+    documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
+  const { data, status } = await useFetch(calculaAto, {
+    method: "POST",
+    body: {
+      ato_token: route.query.ato_token_edit,
+      cartorio_token: cartorio_token,
+      quantidade: 1,
+      usuario_token: usuario_token,
+      escrevente_token: state.escrevente,
+      qtd_paginas: pages,
+    },
+  });
+
+  if (status.value === "success") {
+    valorAto.value = data.value[0];
+  } else {
+    $toast.error("Falha ao calcular o ato.");
+  }
+};
+const confirmLavrar = async () => {
   isModalCondOpen.value = false;
   lavraAto();
 };
 
+const openModalCond = async () => {
+  isModalCondOpen.value = true;
+  await calcularAto();
+};
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },

@@ -1,28 +1,44 @@
 <template>
   <v-row>
     <v-col>
-      <ejs-documenteditorcontainer :restrictEditing="true" :enableToolbar="false"
-        :created="props.document ? onCreated : null" ref="documentEditorContainer" height="850px" width="850px"
-        :key="props.document">
+      <ejs-documenteditorcontainer
+        :restrictEditing="true"
+        :enableToolbar="false"
+        :created="props.document ? onCreated : null"
+        ref="documentEditorContainer"
+        height="850px"
+        width="850px"
+        :key="props.document"
+      >
       </ejs-documenteditorcontainer>
     </v-col>
     <v-col>
-      <v-autocomplete class="mt-15" label="Tabelião/escrevente" v-model="state.escrevente" :items="escreventesItems"
-        item-title="nome" item-value="token" required>
+      <v-autocomplete
+        class="mt-15"
+        label="Tabelião/escrevente"
+        v-model="state.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
       </v-autocomplete>
       <div>
         <div>
-          <img @click="isModalCondOpen = true" class="ml-2"
-            style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px" src="../../assets/lavrar.png" />
+          <img
+            @click="openModalCond()"
+            class="ml-2"
+            style="height: 80px; width: 80px; cursor: pointer; margin-top: 40px"
+            src="../../assets/lavrar.png"
+          />
           <v-card v-if="lavraData" class="mr-16">
             <v-row no-gutters>
               <v-col>
                 <v-sheet style="font-weight: bold" class="pa-2 ma-2">
+                  <v-col> Livro: {{ lavraData[0].livro_numero }} </v-col>
                   <v-col>
-                  Livro: {{ lavraData[0].livro_numero }}
-                  </v-col>
-                  <v-col>
-                  Protocolo: {{ lavraData[0].protocolo ? lavraData[0].protocolo : null }}
+                    Protocolo:
+                    {{ lavraData[0].protocolo ? lavraData[0].protocolo : null }}
                   </v-col>
                 </v-sheet>
               </v-col>
@@ -39,9 +55,16 @@
       </div>
     </v-col>
   </v-row>
-  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack">Voltar</v-btn>
-  <ModalConfirmacao :show="isModalCondOpen" :condMessage="condMessage" @close="isModalCondOpen = false"
-    @confirm="confirmLavrar" />
+  <v-btn class="mt-5 ml-7 mb-5" color="red" size="large" @click="goBack"
+    >Voltar</v-btn
+  >
+  <ModalConfirmacao
+    :show="isModalCondOpen"
+    :condMessage="condMessage"
+    :valor="valorAto"
+    @close="isModalCondOpen = false"
+    @confirm="confirmLavrar"
+  />
 </template>
 
 <script setup>
@@ -79,6 +102,7 @@ const documentEditorContainer = ref(null);
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const escreventesItems = ref([]);
+const valorAto = ref({});
 
 const state = reactive({
   escrevente: null,
@@ -109,11 +133,34 @@ const lavraAto = async () => {
   }
 };
 
-const confirmLavrar = () => {
-  isModalCondOpen.value = false;
-  lavraAto();
+const calcularAto = async () => {
+  const { data, status } = await useFetch(calculaAto, {
+    method: "POST",
+    body: {
+      ato_token: route.query.ato_token_edit,
+      cartorio_token: cartorio_token,
+      quantidade: 1,
+      usuario_token: usuario_token,
+      escrevente_token: state.escrevente,
+      qtd_paginas: props.pages,
+    },
+  });
+
+  if (status.value === "success") {
+    valorAto.value = data.value[0];
+  } else {
+    $toast.error("Falha ao calcular o ato.");
+  }
 };
 
+const confirmLavrar = async () => {
+  isModalCondOpen.value = false;
+  await lavraAto();
+};
+const openModalCond = async () => {
+  isModalCondOpen.value = true;
+  await calcularAto();
+};
 const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },

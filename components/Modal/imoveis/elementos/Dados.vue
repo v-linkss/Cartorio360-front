@@ -96,6 +96,12 @@
           label="Valor Avaliação"
           v-model="state.vlr_avaliacao"
         ></MoneyInput>
+        <div
+          v-if="v$.vlr_avaliacao.$error"
+          class="text-error text-caption mt-1"
+        >
+          {{ v$.vlr_avaliacao.$errors[0]?.$message }}
+        </div>
       </v-col>
       <v-col cols="2">
         <label>Valor Mercado</label>
@@ -207,6 +213,20 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatório", required),
   },
   tipo_id: { required: helpers.withMessage("O campo é obrigatório", required) },
+  vlr_avaliacao: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+    notZero: helpers.withMessage(
+      "O valor não pode ser zero",
+      (value) => !!value && Number(value.toString().replace(/,/g, "")) > 0
+    ),
+  },
+  // vlr_mercado: {
+  //   required: helpers.withMessage("O campo é obrigatório", required),
+  //   notZero: helpers.withMessage(
+  //     "O valor não pode ser zero",
+  //     (value) => !!value && Number(value.toString().replace(/,/g, "")) > 0
+  //   ),
+  // },
 };
 
 const v$ = useVuelidate(rules, state);
