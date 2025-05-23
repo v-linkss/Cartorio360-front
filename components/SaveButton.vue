@@ -13,7 +13,7 @@
         size="24"
       ></v-progress-circular>
     </template>
-    <slot>Salvar</slot>
+    <slot>{{ text }}</slot>
   </v-btn>
 </template>
 
@@ -26,6 +26,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  text: {
+    type: String,
+    default: "Salvar",
   },
 });
 
