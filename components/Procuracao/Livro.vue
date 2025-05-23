@@ -92,6 +92,7 @@ const router = useRouter();
 const route = useRoute();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const calculaAto = `${config.public.managemant}/ato_calcular`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -137,8 +138,8 @@ const calcularAto = async () => {
   const { data, status } = await useFetch(calculaAto, {
     method: "POST",
     body: {
-      ato_token: route.query.ato_token_edit,
-      cartorio_token: cartorio_token,
+      ato_token: props.ato_token,
+      cartorio_token: cartorio_token.value,
       quantidade: 1,
       usuario_token: usuario_token,
       escrevente_token: state.escrevente,
