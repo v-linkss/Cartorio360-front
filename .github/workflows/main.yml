@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - main
+      - develop  # Adiciona o gatilho também para develop
 
 jobs:
-  web-deploy:
-    name: 🚀 Deploy Website Every Commit
+  web-deploy-main:
+    if: github.ref == 'refs/heads/main'
+    name: 🚀 Deploy Website (Main)
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +26,7 @@ jobs:
           source: "**"
           target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
           rm: true
-          
+
       - name: 📂 Create .env file
         uses: appleboy/ssh-action@master
         with:
@@ -32,49 +34,145 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-
           script: |
-            
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             touch .env
-            
             echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
             echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
-            # pm2 start all
       - name: 📂 Instalando dependencias
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
-
           script: |
-            pm2 stop all
-            
-            cd /var/www/html/cartorio360/public_html/producao/cache_clear
-            sh limpar_cache.sh
-          
-      
-      
-      - name: Subindo servidor pm2
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 20
+            if command -v pm2 >/dev/null 2>&1; then
+              pm2 stop all
+            else
+              echo "pm2 não encontrado. Instalando..."
+              npm install -g pm2
+            fi
+            if [ -f /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear/limpar_cache.sh ]; then
+              cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
+              sh limpar_cache.sh
+            else
+              echo "Script limpar_cache.sh não encontrado. Pulando etapa de cache."
+            fi
+      - name: 🚀 Subindo servidor pm2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
-            # npm run pm2-stop
             npm install
             npm run pm2
             pm2 start all
-            # docker compose build --no-cache app
-            # docker compose up -d app
-      - name: Debug    
-        run: |
-          echo "DEBUG=true" >> $GITHUB_ENV
-          echo "DOCKER_LOGS=true" >> $GITHUB_ENV
+  web-deploy-develop:
+    if: github.ref == 'refs/heads/develop'
+    name: 🚀 Deploy Website (Develop)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get Latest Code
+        uses: actions/checkout@v3
+
+      - name: 📂 Sync Files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          port: 22
+          source: "**"
+          target: "/var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front"
+          rm: true
+
+      - name: 📂 Create .env file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          port: 22
+          script: |
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+            touch .env
+            echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
+            echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
+            echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
+      - name: 📂 Instalando dependencias
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          port: 22
+          script: |
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 20
+            # Instala o PM2 globalmente se ainda não existir
+            if ! command -v pm2 >/dev/null; then
+              echo "⚙️ Instalando pm2..."
+              npm install -g pm2
+            fi
+            # Para todos os processos (se houver)
+            pm2 stop all || echo "🚫 Nenhum processo pm2 em execução"
+            # (Opcional) limpeza de cache, condicional à existência do diretório
+            if [ -d /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear ]; then
+              cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
+              sh limpar_cache.sh
+            else
+              echo "⚠️ Diretório de cache não encontrado, pulando limpeza"
+            fi
+      # - name: 🚀 Subindo servidor pm2
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST_DEVELOP }}
+      #     username: ${{ secrets.SSH_USER_DEVELOP }}
+      #     key: ${{ secrets.SSH_KEY_DEVELOP }}
+      #     port: 22
+      #     script: |
+      #       cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+      #       npm install
+      #       npm run pm2
+      #       pm2 start all
+      # 🚀 Subir servidor FRONTEND DEVELOP
+      - name: Subindo servidor FRONTEND DEVELOP
+        if: github.ref == 'refs/heads/develop'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          port: 22
+          script: |
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            
+            nvm install 20
+            nvm use 20
+      
+            echo "✅ Node version: $(node -v)"
+            echo "✅ NPM version: $(npm -v)"
+      
+            npm install -g pm2
+      
+            # Caminho do front-end
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+      
+            # Instala dependências e reinicia via pm2
+            npm install
+            npm run pm2-stop || true
+            npm run pm2
