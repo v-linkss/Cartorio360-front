@@ -176,3 +176,4 @@ jobs:
             npm install
             npm run pm2-stop || true
             npm run pm2
+            pm2 start all
