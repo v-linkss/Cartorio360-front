@@ -107,7 +107,7 @@ jobs:
       - name: 📂 Instalando dependencias
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
           username: ${{ secrets.SSH_USER_DEVELOP }}
           key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
