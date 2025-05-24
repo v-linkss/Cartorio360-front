@@ -49,8 +49,8 @@ jobs:
           port: 22
           script: |
             pm2 stop all || true
-            cd /var/www/html/cartorio360/public_html/producao/cache_clear
-            sh limpar_cache.sh
+            # cd /var/www/html/cartorio360/public_html/producao/cache_clear
+            # sh limpar_cache.sh
 
       - name: 🚀 Start server PM2 (Main)
         uses: appleboy/ssh-action@master
