@@ -4,17 +4,19 @@ on:
   push:
     branches:
       - main
+      - develop
 
 jobs:
-  web-deploy:
-    name: 🚀 Deploy Website Every Commit
+  web-deploy-main:
+    if: github.ref == 'refs/heads/main'
+    name: 🚀 Deploy Website (Main)
     runs-on: ubuntu-latest
 
     steps:
       - name: 🚚 Get Latest Code
         uses: actions/checkout@v3
 
-      - name: 📂 Sync Files via SSH
+      - name: 📂 Sync Files via SSH (Main)
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -24,13 +26,72 @@ jobs:
           source: "**"
           target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
           rm: true
-          
-      - name: 📂 Create .env file
+
+      - name: 📂 Create .env file (Main)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            echo "MS_AUTH=${{ secrets.MS_AUTH }}" >> .env
+            echo "MS_MANAGEMENT=${{ secrets.MS_MANAGEMENT }}" >> .env
+            echo "BIOMETRIA=${{ secrets.BIOMETRIA }}" >> .env
+
+      - name: 📂 Limpar cache (Main)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            pm2 stop all || true
+            cd /var/www/html/cartorio360/public_html/producao/cache_clear
+            sh limpar_cache.sh
+
+      - name: 🚀 Start server PM2 (Main)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            npm install
+            npm run pm2
+            pm2 start all
+
+
+  web-deploy-develop:
+    if: github.ref == 'refs/heads/develop'
+    name: Publish Website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get Latest Code
+        uses: actions/checkout@v3
+
+      - name: 📂 Sync Files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          port: 22
+          source: "**"
+          target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
+          rm: true
+          
+      - name: 📂 Create .env file
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
 
           script: |
@@ -39,16 +100,16 @@ jobs:
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             touch .env
             
-            echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
-            echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
+            echo "MS_AUTH=${{secrets.MS_AUTH_DEVELOP}}" | tee -a .env
+            echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT_DEVELOP}}" | tee -a .env
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
             # pm2 start all
       - name: 📂 Instalando dependencias
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
 
           script: |
@@ -62,9 +123,9 @@ jobs:
       - name: Subindo servidor pm2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST_DEVELOP }}
+          username: ${{ secrets.SSH_USER_DEVELOP }}
+          key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
 
           script: |
