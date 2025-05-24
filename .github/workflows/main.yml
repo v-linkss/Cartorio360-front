@@ -115,8 +115,8 @@ jobs:
           script: |
             pm2 stop all
             
-            cd /var/www/html/cartorio360/public_html/producao/cache_clear
-            sh limpar_cache.sh
+            # cd /var/www/html/cartorio360/public_html/producao/cache_clear
+            # sh limpar_cache.sh
           
       
       
