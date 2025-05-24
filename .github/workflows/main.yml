@@ -66,47 +66,106 @@ jobs:
             npm run pm2
             pm2 start all
 
+
+
   web-deploy-develop:
-    if: github.ref == 'refs/heads/develop'
-    name: 🚀 Deploy Website (Develop)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 🚚 Get Latest Code
-        uses: actions/checkout@v3
-
-      - name: 🚀 Deploy Completo (Develop)
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_DEVELOP }}
-          username: ${{ secrets.SSH_USER_DEVELOP }}
-          key: ${{ secrets.SSH_KEY_DEVELOP }}
-          port: 22
-          script: |
-            export NVM_DIR="$HOME/.nvm"
-            source "$NVM_DIR/nvm.sh"
-            nvm install 20
-            nvm use 20
-            npm install -g pm2
-            sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/node" /usr/local/bin/node
-            sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/npm" /usr/local/bin/npm
-            sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" /usr/local/bin/pm2
-
-            # Deploy dos arquivos
-            rm -rf /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-            mkdir -p /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-
-            # Configuração do .env
-            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-            touch .env
-            echo "MS_AUTH=${{ secrets.MS_AUTH }}" >> .env
-            echo "MS_MANAGEMENT=${{ secrets.MS_MANAGEMENT }}" >> .env
-            echo "BIOMETRIA=${{ secrets.BIOMETRIA }}" >> .env
-
-            # Instalar dependências
-            npm install
-
-            # PM2 restart
-            pm2 stop all || true
-            npm run pm2
-            pm2 start all
+      if: github.ref == 'refs/heads/main'
+      name: 🚀 Deploy Website (Main)
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: 🚚 Get Latest Code
+          uses: actions/checkout@v3
+  
+        - name: 📂 Sync Files via SSH
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            port: 22
+            source: "**"
+            target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
+            rm: true
+  
+        # - name: 📂 Create .env file
+        #   uses: appleboy/ssh-action@master
+        #   with:
+        #     host: ${{ secrets.SSH_HOST }}
+        #     username: ${{ secrets.SSH_USER }}
+        #     key: ${{ secrets.SSH_KEY }}
+        #     port: 22
+        #     script: |
+        #       cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+        #       touch .env
+        #       echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
+        #       echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
+        #       echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
+        - name: 📂 Instalando dependencias
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            port: 22
+            script: |
+              pm2 stop all
+              cd /var/www/html/cartorio360/public_html/producao/cache_clear
+              sh limpar_cache.sh
+        - name: 🚀 Subindo servidor pm2
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            port: 22
+            script: |
+              cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+              npm install
+              npm run pm2
+              pm2 start all
+  
+    web-deploy-develop:
+      if: github.ref == 'refs/heads/develop'
+      name: 🚀 Deploy Website (Develop)
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: 🚚 Get Latest Code
+          uses: actions/checkout@v3
+  
+        - name: 🚀 Deploy Completo (Develop)
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST_DEVELOP }}
+            username: ${{ secrets.SSH_USER_DEVELOP }}
+            key: ${{ secrets.SSH_KEY_DEVELOP }}
+            port: 22
+            script: |
+              export NVM_DIR="$HOME/.nvm"
+              source "$NVM_DIR/nvm.sh"
+              nvm install 20
+              nvm use 20
+              npm install -g pm2
+              sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/node" /usr/local/bin/node
+              sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/npm" /usr/local/bin/npm
+              sudo ln -sf "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" /usr/local/bin/pm2
+  
+              # Deploy dos arquivos
+              rm -rf /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+              mkdir -p /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+  
+              # Configuração do .env
+              cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
+              touch .env
+              echo "MS_AUTH=${{ secrets.MS_AUTH }}" >> .env
+              echo "MS_MANAGEMENT=${{ secrets.MS_MANAGEMENT }}" >> .env
+              echo "BIOMETRIA=${{ secrets.BIOMETRIA }}" >> .env
+  
+              # Instalar dependências
+              npm install
+  
+              # PM2 restart
+              pm2 stop all || true
+              npm run pm2
+              pm2 start all
