@@ -617,12 +617,12 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-Cb_yYwRn.mjs')
+    component: () => import('./_id_-BjSLNIyG.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-D-nxRg1M.mjs')
+    component: () => import('./geral-DfOfZxM_.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -642,7 +642,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-CgqjKJex.mjs')
+    component: () => import('./procuracao-CcmGLo1E.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -662,7 +662,7 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
-    component: () => import('./censec-C5B6CMUw.mjs')
+    component: () => import('./censec-CVbxYc1_.mjs')
   },
   {
     name: "login",
@@ -704,7 +704,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CMN6Mjs0.mjs')
+    component: () => import('./criar-ato-Dzc_G7GF.mjs')
   },
   {
     name: "os-criar-registro",
@@ -735,6 +735,11 @@ const _routes = [
     name: "relatorios-lista",
     path: "/relatorios/lista",
     component: () => import('./lista-V5yqyCAZ.mjs')
+  },
+  {
+    name: "relatorios-livro-diario",
+    path: "/relatorios/livro-diario",
+    component: () => import('./livro-diario-gVPchfIc.mjs')
   },
   {
     name: "selos-enviar",
