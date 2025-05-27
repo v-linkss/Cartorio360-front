@@ -737,6 +737,11 @@ const _routes = [
     component: () => import('./lista-V5yqyCAZ.mjs')
   },
   {
+    name: "relatorios-livro-diario",
+    path: "/relatorios/livro-diario",
+    component: () => import('./livro-diario-gVPchfIc.mjs')
+  },
+  {
     name: "selos-enviar",
     path: "/selos/enviar",
     component: () => import('./index-DxoMfKPM.mjs')
