@@ -1926,5 +1926,5 @@ function useFilter(props, items, query, options) {
   };
 }
 
-export { VSelect as V, makeSelectProps as a, useScrolling as b, VVirtualScroll as c, VCheckboxBtn as d, VChip as e, makeVSlideGroupProps as f, VSlideGroup as g, makeVCheckboxBtnProps as h, makeFilterProps as m, useFilter as u };
+export { VVirtualScroll as V, makeSelectProps as a, useScrolling as b, VCheckboxBtn as c, VChip as d, VSelect as e, makeVSlideGroupProps as f, VSlideGroup as g, makeVCheckboxBtnProps as h, makeFilterProps as m, useFilter as u };
 //# sourceMappingURL=filter-DktR6j_7.mjs.map

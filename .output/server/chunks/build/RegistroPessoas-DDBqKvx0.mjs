@@ -10,7 +10,7 @@ import { f as formatDate, a as formatToISO } from './formatDate-DflkuJ_V.mjs';
 import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
-import { V as VSelect } from './filter-DktR6j_7.mjs';
+import { e as VSelect } from './filter-DktR6j_7.mjs';
 import { V as VAutocomplete } from './VAutocomplete-BKZ1aqE0.mjs';
 import { _ as __nuxt_component_0$1 } from './nuxt-link-TpvcaGEw.mjs';
 import { _ as _imports_0$3 } from './novo-CWU3oYa5.mjs';

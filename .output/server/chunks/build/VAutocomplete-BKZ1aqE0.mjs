@@ -1,5 +1,5 @@
 import { ref, shallowRef, computed, watch, nextTick, createVNode, mergeProps, Fragment, createTextVNode } from 'vue';
-import { m as makeFilterProps, a as makeSelectProps, u as useFilter, b as useScrolling, c as VVirtualScroll, d as VCheckboxBtn, e as VChip } from './filter-DktR6j_7.mjs';
+import { m as makeFilterProps, a as makeSelectProps, u as useFilter, b as useScrolling, V as VVirtualScroll, c as VCheckboxBtn, d as VChip } from './filter-DktR6j_7.mjs';
 import { p as propsFactory, v as omit, w as makeVTextFieldProps, x as makeTransitionProps$1, o as genericComponent, y as useLocale, z as useProxiedModel, A as useTextColor, H as wrapInArray, B as useForm, s as useRender, V as VTextField, D as VMenu, h as VIcon, E as ensureValidVNode, F as VDefaultsProvider, G as noop, C as forwardRefs, I as matchesSelector } from './server.mjs';
 import { u as useItems, V as VList, a as VListItem } from './VList-nUNnjYu3.mjs';
 import { a as VAvatar } from './VAvatar-B-oWAlT9.mjs';

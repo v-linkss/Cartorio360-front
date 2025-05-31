@@ -11,7 +11,7 @@ import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VAutocomplete } from './VAutocomplete-BKZ1aqE0.mjs';
 import { V as VTabs, a as VTab, d as VTabsWindow, e as VTabsWindowItem } from './VTabs-4rOjSK8M.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
-import { V as VSelect } from './filter-DktR6j_7.mjs';
+import { e as VSelect } from './filter-DktR6j_7.mjs';
 import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';

@@ -1,5 +1,5 @@
 import { computed, createVNode, mergeProps } from 'vue';
-import { h as makeVCheckboxBtnProps, d as VCheckboxBtn } from './filter-DktR6j_7.mjs';
+import { h as makeVCheckboxBtnProps, c as VCheckboxBtn } from './filter-DktR6j_7.mjs';
 import { p as propsFactory, ax as makeVInputProps, v as omit, o as genericComponent, z as useProxiedModel, aA as useFocus, aJ as getUid, s as useRender, aB as filterInputAttrs, aC as VInput } from './server.mjs';
 
 const makeVCheckboxProps = propsFactory({

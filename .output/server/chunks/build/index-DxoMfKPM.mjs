@@ -7,7 +7,7 @@ import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
 import { V as VDataTable } from './VDataTable-0yHZ8pfB.mjs';
-import { e as VChip } from './filter-DktR6j_7.mjs';
+import { d as VChip } from './filter-DktR6j_7.mjs';
 import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
