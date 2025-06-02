@@ -73,18 +73,20 @@ const openConfirmModal = () => {
 };
 
 async function importFile() {
+  const conteudo = await file.value.text();
   statusLoading.value = "pending";
   const { data, status, error } = await useFetch(importaCaixaOnrtd, {
     method: "POST",
     body: {
       cartorio_token,
       usuario_token,
-      conteudo: file.value,
+      conteudo,
     },
   });
   statusLoading.value = status.value;
   if (status.value === "success") {
     $toast.success("Importação realizada com sucesso!");
+    ModalConfirmacaoOpen.value = false;
   } else {
     $toast.error(`Erro: ${error.value.data.details}`);
   }
