@@ -42,13 +42,9 @@
         ></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.apresentante_cpf"
-          label="CPF"
-          v-mask="'###.###.###-##'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
       </v-col>
+
       <v-col cols="2">
         <v-text-field v-model="state.selo" label="Selo" dense></v-text-field>
       </v-col>
@@ -56,20 +52,22 @@
 
     <v-row>
       <v-col cols="2">
-        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
-      </v-col>
-      <v-col cols="2">
         <v-text-field
           v-model="state.protocolo"
           label="Protocolo"
         ></v-text-field>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <v-text-field
-          v-model="state.apresentante"
-          label="Apresentante"
+          v-model="state.apresentante_cpf"
+          label="CPF"
+          v-mask="'###.###.###-##'"
           dense
         ></v-text-field>
+      </v-col>
+
+      <v-col cols="3">
+        <v-text-field v-model="state.parte" label="Parte" dense></v-text-field>
       </v-col>
       <v-col cols="3">
         <v-autocomplete
@@ -261,6 +259,7 @@ const state = reactive({
   data_lavratura_inicio: null,
   data_lavratura_fim: null,
   protocolo: null,
+  parte: null,
   livro: null,
   folha: null,
   situacao: null,
@@ -301,7 +300,7 @@ const headers = [
     },
   },
   {
-    title: "Data lavratura",
+    title: "Data lavratura/Parte",
     key: "lavraturaNome",
     value: (item) =>
       item.dt_lavratura
@@ -361,13 +360,16 @@ async function atosPayload() {
       usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
       data_fim: convertToISODate(dadosRestaurados?.data_fim),
       data_inicio: convertToISODate(dadosRestaurados?.data_inicio),
+      tipo_servico: "servico_ato",
     },
   });
   if (atosData.value.length > 0) {
     atos.value = atosData.value.map((item) => {
       return {
         ...item,
-        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm"),
+        dt_lavratura: item.dt_lavratura
+          ? formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm")
+          : null,
         dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
       };
     });
@@ -391,6 +393,7 @@ async function searchAtos() {
     const { data: atosData, error } = await useFetch(pesquisaAtos, {
       method: "POST",
       body: {
+        tipo_servico: "servico_ato",
         cartorio_token: cartorio_token.value,
         numero: state.numero || null,
         data_inicio: convertToISODate(state.data_inicio) || null,
