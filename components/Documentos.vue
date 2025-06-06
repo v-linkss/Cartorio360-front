@@ -64,6 +64,8 @@
         />
       </div>
     </v-row>
+
+
     <v-data-table
       style="max-height: 330px"
       :headers="headers"
@@ -71,6 +73,7 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
+
         <v-row style="display: flex; margin-top: -8px; gap: 10px">
           <div @click="redirectToUpdate(item)" title="editar">
             <img
@@ -94,6 +97,28 @@
               class="trash-icon"
               style="width: 30px; height: 30px; cursor: pointer"
               title="reativar"
+            />
+            
+          </div>
+          <div @click="handleScannerClick(item.token)" title="Criar">
+
+            <img
+              v-if="status_arquivo === false"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/abre-arquivo-vermelho.jpeg"
+              alt="Criar"
+            />
+            <img
+              v-else-if="status_arquivo === true"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/abre-arquivo-verde.png"
+              alt="Criar"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/escanear.png"
+              alt="Criar"
             />
           </div>
         </v-row>
@@ -299,6 +324,46 @@ async function onSubmit() {
     $toast.error(
       "Erro ao cadastrar documento, preencha os campos obrigatorios."
     );
+  }
+}
+async function handleScannerClick(pessoa_docs_token) {
+  try {
+    console.log("Ação do scanner iniciada\n");
+    console.log("Token do documento:", pessoa_docs_token);
+    await openScanner();
+    await enviarArquivo(pessoa_docs_token);
+  } catch (error) {
+    console.error("Erro ao executar scanner ou listar arquivos:", error);
+  }
+}
+async function openScanner() {
+  try {
+    const { data } = await useFetch(acionarScanner, { method: "GET" });
+  } catch (error) {
+    $toast.error("Erro ao acionar o scanner:", error);
+  }
+}
+
+/**
+ * Envia o arquivo escolhido pelo usuário para o servidor local.
+ * @returns {Promise<void>}
+ */
+async function enviarArquivo(pessoa_docs_token) {
+  try {
+
+    const { data, status } = await useFetch(
+      "http://localhost:3500/uploadAnexo",
+      {
+        method: "POST",
+        body: {
+          tipo: "docs",
+          token: route.query.ato_token_edit,
+          cartorio_token: pessoa_docs_token,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Erro ao enviar o arquivo:", error);
   }
 }
 function redirectToUpdate(item) {

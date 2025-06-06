@@ -102,6 +102,7 @@
               style="width: 30px; height: 30px"
               title="Excluir"
             />
+              
           </div>
         </v-row>
       </template>
