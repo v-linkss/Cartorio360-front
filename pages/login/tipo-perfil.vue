@@ -43,12 +43,13 @@ definePageMeta({
   layout: "false",
 });
 
-const cartorios = cartorioStore.cartorioInfos
+const cartorios = cartorioStore.cartorioInfos.cartorios
 const perfil_descricao = ref(null);
 const acessarSistema = async () => {
+  console.log("Listar Menu sem id do usuari:\n", JSON.stringify(cartorioStore));
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
-    body: { perfil_descricao: perfil_descricao.value },
+    body: { usuario_id: cartorioStore.cartorioInfos.id , perfil_descricao: perfil_descricao.value },
   });
   const menuItemsCookie = useCookie("menu-navbar");
   menuItemsCookie.value = menuItems.value
