@@ -360,7 +360,6 @@ async function atosPayload() {
       usuario_token: dadosRestaurados.usuario_token || usuario_token.value,
       data_fim: convertToISODate(dadosRestaurados?.data_fim),
       data_inicio: convertToISODate(dadosRestaurados?.data_inicio),
-      tipo_servico: "servico_ato",
     },
   });
   if (atosData.value.length > 0) {
@@ -393,7 +392,6 @@ async function searchAtos() {
     const { data: atosData, error } = await useFetch(pesquisaAtos, {
       method: "POST",
       body: {
-        tipo_servico: "servico_ato",
         cartorio_token: cartorio_token.value,
         numero: state.numero || null,
         data_inicio: convertToISODate(state.data_inicio) || null,
@@ -408,7 +406,7 @@ async function searchAtos() {
         usuario_token: state.usuario_token,
         selo: state.selo || null,
         ato_tipo_token: state.ato_tipo_token,
-        apresentante: state.apresentante_nome || null,
+        parte: state.parte || null,
       },
     });
     if (atosData.value.length > 0) {
@@ -454,6 +452,7 @@ async function tipoAtosDataPayload() {
     body: {
       cartorio_token: cartorio_token.value,
       usuario_token: usuario_token.value,
+      tipo_servico: "servico_ato",
     },
   });
   tipoAtosItems.value = tipoAtosData.value;

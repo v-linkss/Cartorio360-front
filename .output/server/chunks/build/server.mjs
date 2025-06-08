@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-BXrIL4Pd.mjs')
+    component: () => import('./index-AQzx3d_X.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -679,7 +679,7 @@ const _routes = [
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-JOnTYEbB.mjs')
+    component: () => import('./tipo-perfil-BFWrJcUR.mjs')
   },
   {
     name: "matriculas-atualizar-id",

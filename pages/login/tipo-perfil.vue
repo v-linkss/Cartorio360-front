@@ -18,6 +18,7 @@
           item-title="cartorio_descricao"
           item-value="perfil_descricao"
           label="Selecione uma opção"
+          return-object
         />
         <v-btn
           rounded
@@ -48,7 +49,10 @@ const perfil_descricao = ref(null);
 const acessarSistema = async () => {
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
-    body: { perfil_descricao: perfil_descricao.value },
+    body: {
+      usuario_id: perfil_descricao.value.perfil_id,
+      perfil_descricao: perfil_descricao.value.perfil_descricao,
+    },
   });
   const menuItemsCookie = useCookie("menu-navbar");
   menuItemsCookie.value = menuItems.value;
