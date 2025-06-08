@@ -5,19 +5,15 @@
         <div>
           {{ condMessage }}
           <div class="mt-5" v-if="valor">
-            <span style="font-size: larger">Valor Emolumento</span> : R${{
-              valor.valor_emolumento
-            }}
-            &nbsp; <span style="font-size: large">Valor Ato</span>: R${{
-              valor.valor_ato
-            }}
+            <span style="font-size: larger">Valor Emolumento</span> :
+            {{ formatCurrency(valor.valor_emolumento) }}
+            &nbsp; <span style="font-size: large">Valor Ato</span>:
+            {{ formatCurrency(valor.valor_ato) }}
             <br />
-            <span style="font-size: large">Valor Selo</span> : R${{
-              valor.valor_selo
-            }}
-            &nbsp;<span style="font-size: large">Valor TSNR</span> : R${{
-              valor.valor_tsnr
-            }}
+            <span style="font-size: large">Valor Selo</span> :
+            {{ formatCurrency(valor.valor_selo) }}
+            &nbsp;<span style="font-size: large">Valor TSNR</span> :
+            {{ formatCurrency(valor.valor_tsnr) }}
           </div>
         </div>
       </v-card-text>
@@ -52,6 +48,18 @@ watch(
     isVisible.value = newVal;
   }
 );
+
+function formatCurrency(value) {
+  if (typeof value !== "number") {
+    value = Number(value);
+  }
+  if (isNaN(value)) return "R$ 0,00";
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
+}
 
 const closeModal = () => {
   isVisible.value = false;

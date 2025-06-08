@@ -69,7 +69,8 @@
       item-key="token"
       item-value="token"
       v-model="selectedSelos"
-      :items-per-page-options="[10, 25, 50]"
+      :items-per-page="50"
+      :items-per-page-options="[50]"
     >
       <template v-slot:item.situacao="{ item }">
         <v-chip color="green" text-color="white" outlined>
@@ -135,60 +136,25 @@ const fetchSelos = async () => {
 const enviaSelo = async () => {
   loadingEnvio.value = true;
   let erroEnvio = null;
-  try {
-    const selosJson = selectedSelos.value.map((selo) => ({ selo_token: selo }));
-    const { data, error, status } = await useFetch(integraSelos, {
-      method: "POST",
-      body: selosJson,
-      onResponseError({ response }) {
-        const mensagemErro =
-          response._data?.details || "Erro ao buscar lote de selos.";
-        $toast.error(mensagemErro);
-      },
-    });
 
-    if (status.value === "success") {
-      const selosData = data.value;
-      const {
-        data: seloData,
-        error,
-        status: sucessoSelo,
-      } = await useFetch(enviaSelos, {
-        method: "POST",
-        body: {
-          user: "56415451472",
-          pass: "Ra961206",
-          xmlData: selosData,
-        },
-        onResponseError({ response }) {
-          const mensagemErro =
-            response._data?.result || "Erro ao enviar os selos.";
-          const mensagemErroEnvio =
-            response._data?.result[0].error || "Erro ao enviar os selos.";
-          erroEnvio = mensagemErro;
-          $toast.error(mensagemErroEnvio);
-        },
-      });
-      if (sucessoSelo.value === "success" && seloData.value) {
-        seloData.value.forEach((retorno) => {
-          const seloEncontrado = selos.value.find(
-            (s) => s.token === retorno.selo_token
-          );
-          if (seloEncontrado) {
-            seloEncontrado.resultado = retorno.details || "TRANSMITIDO";
-          }
-        });
-        selectedSelos.value = [];
-      }
-      const { status: sucessoMarcar } = await useFetch(marcarSelos, {
-        method: "PUT",
-        body: erroEnvio || seloData.value,
-      });
-      if (sucessoMarcar.value === "success") {
-        $toast.success("Selos marcados como enviados com sucesso");
-      } else {
-        $toast.error("Erro ao marcar os selos como enviados");
-      }
+  try {
+    const selosJson = montarSelosJson();
+    const dadosSelos = await buscarDadosSelos(selosJson);
+    if (!dadosSelos) return;
+
+    const respostaEnvio = await enviarSelosExternos(dadosSelos, (erro) => {
+      erroEnvio = erro;
+    });
+    if (!respostaEnvio) return;
+
+    atualizarResultadoSelos(respostaEnvio);
+    selectedSelos.value = [];
+
+    const marcado = await marcarSelosComoEnviados(erroEnvio || respostaEnvio);
+    if (marcado) {
+      $toast.success("Selos marcados como enviados com sucesso");
+    } else {
+      $toast.error("Erro ao marcar os selos como enviados");
     }
   } catch (err) {
     console.error("Erro ao enviar selos:", err);
@@ -197,6 +163,67 @@ const enviaSelo = async () => {
     loadingEnvio.value = false;
   }
 };
+
+function montarSelosJson() {
+  return selectedSelos.value.map((selo) => ({ selo_token: selo }));
+}
+
+async function buscarDadosSelos(selosJson) {
+  const { data, error, status } = await useFetch(integraSelos, {
+    method: "POST",
+    body: selosJson,
+    onResponseError({ response }) {
+      const mensagemErro =
+        response._data?.details || "Erro ao buscar lote de selos.";
+      $toast.error(mensagemErro);
+    },
+  });
+  if (status.value !== "success" || !data.value) {
+    return null;
+  }
+  return data.value;
+}
+
+async function enviarSelosExternos(dadosSelos, setErroEnvio) {
+  const { data, error, status } = await useFetch(enviaSelos, {
+    method: "POST",
+    body: {
+      user: "56415451472",
+      pass: "Ra961206",
+      xmlData: dadosSelos,
+    },
+    onResponseError({ response }) {
+      const mensagemErro = response._data?.result || "Erro ao enviar os selos.";
+      const mensagemErroEnvio =
+        response._data?.result?.[0]?.error || "Erro ao enviar os selos.";
+      setErroEnvio(mensagemErro);
+      $toast.error(mensagemErroEnvio);
+    },
+  });
+  if (status.value !== "success" || !data.value) {
+    return null;
+  }
+  return data.value;
+}
+
+function atualizarResultadoSelos(respostaEnvio) {
+  respostaEnvio.forEach((retorno) => {
+    const seloEncontrado = selos.value.find(
+      (s) => s.token === retorno.selo_token
+    );
+    if (seloEncontrado) {
+      seloEncontrado.resultado = retorno.details || "TRANSMITIDO";
+    }
+  });
+}
+
+async function marcarSelosComoEnviados(body) {
+  const { status } = await useFetch(marcarSelos, {
+    method: "PUT",
+    body,
+  });
+  return status.value === "success";
+}
 
 const filteredSelos = computed(() => {
   return selos.value.filter((item) => {
