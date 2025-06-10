@@ -56,4 +56,5 @@ const acessarSistema = async () => {
     router.push("/");
   }
 };
+
 </script>
