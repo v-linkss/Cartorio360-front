@@ -42,13 +42,9 @@
         ></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.apresentante_cpf"
-          label="CPF"
-          v-mask="'###.###.###-##'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
       </v-col>
+
       <v-col cols="2">
         <v-text-field v-model="state.selo" label="Selo" dense></v-text-field>
       </v-col>
@@ -56,20 +52,22 @@
 
     <v-row>
       <v-col cols="2">
-        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
-      </v-col>
-      <v-col cols="2">
         <v-text-field
           v-model="state.protocolo"
           label="Protocolo"
         ></v-text-field>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <v-text-field
-          v-model="state.apresentante"
-          label="Apresentante"
+          v-model="state.apresentante_cpf"
+          label="CPF"
+          v-mask="'###.###.###-##'"
           dense
         ></v-text-field>
+      </v-col>
+
+      <v-col cols="3">
+        <v-text-field v-model="state.parte" label="Parte" dense></v-text-field>
       </v-col>
       <v-col cols="3">
         <v-autocomplete
@@ -229,7 +227,7 @@
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
-const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const allTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
@@ -261,6 +259,7 @@ const state = reactive({
   data_lavratura_inicio: null,
   data_lavratura_fim: null,
   protocolo: null,
+  parte: null,
   livro: null,
   folha: null,
   situacao: null,
@@ -301,7 +300,7 @@ const headers = [
     },
   },
   {
-    title: "Data lavratura",
+    title: "Data lavratura/Parte",
     key: "lavraturaNome",
     value: (item) =>
       item.dt_lavratura
@@ -367,7 +366,9 @@ async function atosPayload() {
     atos.value = atosData.value.map((item) => {
       return {
         ...item,
-        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm"),
+        dt_lavratura: item.dt_lavratura
+          ? formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm")
+          : null,
         dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
       };
     });
@@ -405,7 +406,7 @@ async function searchAtos() {
         usuario_token: state.usuario_token,
         selo: state.selo || null,
         ato_tipo_token: state.ato_tipo_token,
-        apresentante: state.apresentante_nome || null,
+        parte: state.parte || null,
       },
     });
     if (atosData.value.length > 0) {
@@ -451,6 +452,7 @@ async function tipoAtosDataPayload() {
     body: {
       cartorio_token: cartorio_token.value,
       usuario_token: usuario_token.value,
+      tipo_retorno: "servico_ato",
     },
   });
   tipoAtosItems.value = tipoAtosData.value;
