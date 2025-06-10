@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-DZ2n2zut.mjs')
+    component: () => import('./index-BcIbQ4u3.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -673,13 +673,13 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1,
-    component: () => import('./index-CG02TCBl.mjs')
+    component: () => import('./index-BWUXqvLQ.mjs')
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
     meta: __nuxt_page_meta,
-    component: () => import('./tipo-perfil-BFWrJcUR.mjs')
+    component: () => import('./tipo-perfil-CHr5xuVW.mjs')
   },
   {
     name: "matriculas-atualizar-id",

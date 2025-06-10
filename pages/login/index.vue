@@ -210,7 +210,7 @@ const login = async () => {
 
   if (status === "success") {
     const userInfo = data?.[0]?.func_autentica_acesso_v1?.[0]?.registro?.[0];
-    useCartoriosStore().cartorioInfos = userInfo.cartorios;
+    useCartoriosStore().cartorioInfos = userInfo;
     setCookies(userInfo);
 
     if (userInfo.cartorios.length > 1) {

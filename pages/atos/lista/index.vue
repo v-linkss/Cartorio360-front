@@ -452,7 +452,7 @@ async function tipoAtosDataPayload() {
     body: {
       cartorio_token: cartorio_token.value,
       usuario_token: usuario_token.value,
-      tipo_servico: "servico_ato",
+      tipo_retorno: "servico_ato",
     },
   });
   tipoAtosItems.value = tipoAtosData.value;

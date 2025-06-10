@@ -13,7 +13,7 @@
         <v-autocomplete
           v-model="perfil_descricao"
           variant="outlined"
-          :items="cartorios"
+          :items="perfis"
           style="background-color: aliceblue"
           item-title="cartorio_descricao"
           item-value="perfil_descricao"
@@ -43,14 +43,15 @@ const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 definePageMeta({
   layout: "false",
 });
-
-const cartorios = cartorioStore.cartorioInfos;
+const perfis = cartorioStore.cartorioInfos.cartorios;
+const user_id = cartorioStore.cartorioInfos.id;
 const perfil_descricao = ref(null);
+
 const acessarSistema = async () => {
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
     body: {
-      usuario_id: perfil_descricao.value.perfil_id,
+      usuario_id: user_id,
       perfil_descricao: perfil_descricao.value.perfil_descricao,
     },
   });
