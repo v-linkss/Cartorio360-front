@@ -73,11 +73,22 @@
         <v-autocomplete
           v-model="state.ato_tipo_token"
           :items="tipoAtosItems"
-          item-title="descricao"
           item-value="token"
           label="Tipo Serviço"
+          :menu-props="{
+            maxWidth: '680px',
+            width: '680px',
+          }"
           dense
-        ></v-autocomplete>
+        >
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props">
+              <template v-slot:title>
+                <span v-html="item.raw.descricao"></span>
+              </template>
+            </v-list-item>
+          </template>
+        </v-autocomplete>
       </v-col>
       <v-col cols="2">
         <v-autocomplete
@@ -455,7 +466,13 @@ async function tipoAtosDataPayload() {
       tipo_retorno: "servico_ato",
     },
   });
-  tipoAtosItems.value = tipoAtosData.value;
+
+  tipoAtosItems.value = tipoAtosData.value.map((item) => {
+    return {
+      ...item,
+      descricao: item.descricao.replace(/\(/g, "<br>("),
+    };
+  });
 }
 
 const redirectToModalReimprimir = (token) => {
