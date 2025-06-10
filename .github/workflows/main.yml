@@ -36,50 +36,21 @@ jobs:
           port: 22
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
-<<<<<<< HEAD
             echo "MS_AUTH=${{ secrets.MS_AUTH }}" >> .env
             echo "MS_MANAGEMENT=${{ secrets.MS_MANAGEMENT }}" >> .env
             echo "BIOMETRIA=${{ secrets.BIOMETRIA }}" >> .env
-
       - name: 📂 Limpar cache (Main)
-=======
-            touch .env
-            echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
-            echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
-            echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
-      - name: 📂 Instalando dependencias
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST_DEVELOP }}
-          username: ${{ secrets.SSH_USER_DEVELOP }}
-          key: ${{ secrets.SSH_KEY_DEVELOP }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-<<<<<<< HEAD
             pm2 stop all || true
             cd /var/www/html/cartorio360/public_html/producao/cache_clear
             sh limpar_cache.sh
-
       - name: 🚀 Start server PM2 (Main)
-=======
-            export NVM_DIR="/root/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 20
-            if command -v pm2 >/dev/null 2>&1; then
-              pm2 stop all
-            else
-              echo "pm2 não encontrado. Instalando..."
-              npm install -g pm2
-            fi
-            if [ -f /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear/limpar_cache.sh ]; then
-              cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
-              sh limpar_cache.sh
-            else
-              echo "Script limpar_cache.sh não encontrado. Pulando etapa de cache."
-            fi
-      - name: 🚀 Subindo servidor pm2
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -91,11 +62,6 @@ jobs:
             npm install
             npm run pm2
             pm2 start all
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
   web-deploy-develop:
     if: github.ref == 'refs/heads/develop'
     name: Publish Website
@@ -113,15 +79,9 @@ jobs:
           key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
           source: "**"
-<<<<<<< HEAD
           target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
           rm: true
           
-=======
-          target: "/var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front"
-          rm: true
-
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
       - name: 📂 Create .env file
         uses: appleboy/ssh-action@master
         with:
@@ -131,8 +91,6 @@ jobs:
           port: 22
 
           script: |
-<<<<<<< HEAD
-
             
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             touch .env
@@ -141,13 +99,6 @@ jobs:
             echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT_DEVELOP}}" | tee -a .env
             echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
             # pm2 start all
-=======
-            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-            touch .env
-            echo "MS_AUTH=${{secrets.MS_AUTH}}" | tee -a .env
-            echo "MS_MANAGEMENT=${{secrets.MS_MANAGEMENT}}" | tee -a .env
-            echo "BIOMETRIA=${{secrets.BIOMETRIA}}" | tee -a .env
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
       - name: 📂 Instalando dependencias
         uses: appleboy/ssh-action@master
         with:
@@ -155,7 +106,6 @@ jobs:
           username: ${{ secrets.SSH_USER_DEVELOP }}
           key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
-<<<<<<< HEAD
 
           script: |
             pm2 stop all
@@ -166,76 +116,17 @@ jobs:
       
       
       - name: Subindo servidor pm2
-=======
-          script: |
-            export NVM_DIR="/root/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 20
-            # Instala o PM2 globalmente se ainda não existir
-            if ! command -v pm2 >/dev/null; then
-              echo "⚙️ Instalando pm2..."
-              npm install -g pm2
-            fi
-            # Para todos os processos (se houver)
-            pm2 stop all || echo "🚫 Nenhum processo pm2 em execução"
-            # (Opcional) limpeza de cache, condicional à existência do diretório
-            if [ -d /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear ]; then
-              cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
-              sh limpar_cache.sh
-            else
-              echo "⚠️ Diretório de cache não encontrado, pulando limpeza"
-            fi
-      # - name: 🚀 Subindo servidor pm2
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST_DEVELOP }}
-      #     username: ${{ secrets.SSH_USER_DEVELOP }}
-      #     key: ${{ secrets.SSH_KEY_DEVELOP }}
-      #     port: 22
-      #     script: |
-      #       cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-      #       npm install
-      #       npm run pm2
-      #       pm2 start all
-      # 🚀 Subir servidor FRONTEND DEVELOP
-      - name: Subindo servidor FRONTEND DEVELOP
-        if: github.ref == 'refs/heads/develop'
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_DEVELOP }}
           username: ${{ secrets.SSH_USER_DEVELOP }}
           key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
-<<<<<<< HEAD
 
           script: |
             cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
             # npm run pm2-stop
             npm install
-=======
-          script: |
-            export NVM_DIR="/root/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            
-            nvm install 20
-            nvm use 20
-      
-            echo "✅ Node version: $(node -v)"
-            echo "✅ NPM version: $(npm -v)"
-      
-            npm install -g pm2
-      
-            # Caminho do front-end
-            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
-      
-            # Instala dependências e reinicia via pm2
-            npm install
-            npm run pm2-stop || true
->>>>>>> ffe13076d741ba890efad41b795c5336429e8d07
             npm run pm2
             pm2 start all
             # docker compose build --no-cache app
