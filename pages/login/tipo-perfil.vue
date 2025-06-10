@@ -47,13 +47,12 @@ const perfis = cartorioStore.cartorioInfos.cartorios;
 const user_id = cartorioStore.cartorioInfos.id;
 const perfil_descricao = ref(null);
 
+console.log(perfil_descricao.value);
 const acessarSistema = async () => {
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
-    body: {
-      usuario_id: user_id,
-      perfil_descricao: perfil_descricao.value.perfil_descricao,
-    },
+    body: { usuario_id: cartorioStore.cartorioInfos.id , perfil_descricao: perfil_descricao.value },
+
   });
   const menuItemsCookie = useCookie("menu-navbar");
   menuItemsCookie.value = menuItems.value;
@@ -62,3 +61,4 @@ const acessarSistema = async () => {
   }
 };
 </script>
+

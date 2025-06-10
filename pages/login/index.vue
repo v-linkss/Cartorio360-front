@@ -223,8 +223,8 @@ const login = async () => {
     const { data: menuItems, status: statusMenu } = await fetchWithToken(
       listarMenu,
       {
-        method: "POST",
-        body: { perfil_descricao: userInfo.cartorios[0].perfil_descricao },
+        method: "POST", 
+        body: { usuario_id: userInfo.id ,perfil_descricao: userInfo.cartorios[0].perfil_descricao },
       }
     );
     if (statusMenu.value === "success") {
