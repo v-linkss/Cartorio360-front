@@ -46,7 +46,7 @@ definePageMeta({
 const cartorios = cartorioStore.cartorioInfos.cartorios
 const perfil_descricao = ref(null);
 const acessarSistema = async () => {
-  console.log("Listar Menu sem id do usuari:\n", JSON.stringify(cartorioStore));
+  g("Listar Menu sem id do usuari:\n", JSON.stringify(cartorioStore));
   const { data: menuItems, status } = await fetchWithToken(listarMenu, {
     method: "POST",
     body: { usuario_id: cartorioStore.cartorioInfos.id , perfil_descricao: perfil_descricao.value },
