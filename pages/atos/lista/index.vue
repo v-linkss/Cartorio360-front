@@ -42,13 +42,9 @@
         ></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.apresentante_cpf"
-          label="CPF"
-          v-mask="'###.###.###-##'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
       </v-col>
+
       <v-col cols="2">
         <v-text-field v-model="state.selo" label="Selo" dense></v-text-field>
       </v-col>
@@ -56,30 +52,43 @@
 
     <v-row>
       <v-col cols="2">
-        <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
-      </v-col>
-      <v-col cols="2">
         <v-text-field
           v-model="state.protocolo"
           label="Protocolo"
         ></v-text-field>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <v-text-field
-          v-model="state.apresentante"
-          label="Apresentante"
+          v-model="state.apresentante_cpf"
+          label="CPF"
+          v-mask="'###.###.###-##'"
           dense
         ></v-text-field>
+      </v-col>
+
+      <v-col cols="3">
+        <v-text-field v-model="state.parte" label="Parte" dense></v-text-field>
       </v-col>
       <v-col cols="3">
         <v-autocomplete
           v-model="state.ato_tipo_token"
           :items="tipoAtosItems"
-          item-title="descricao"
           item-value="token"
           label="Tipo Serviço"
+          :menu-props="{
+            maxWidth: '680px',
+            width: '680px',
+          }"
           dense
-        ></v-autocomplete>
+        >
+          <template v-slot:item="{ props, item }">
+            <v-list-item v-bind="props">
+              <template v-slot:title>
+                <span v-html="item.raw.descricao"></span>
+              </template>
+            </v-list-item>
+          </template>
+        </v-autocomplete>
       </v-col>
       <v-col cols="2">
         <v-autocomplete
@@ -171,11 +180,19 @@
               alt="Editar"
             />
           </div>
-          <div
+          <!-- <div
             :disabled="!item.btn_cancelar"
-            @click="item.btn_cancelar ? deleteAto(item) : null"
+            @click="item.btn_cancelar ? cancelaAto(item.token) : null"
             title="Excluir"
           >
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/btn_cancela_lavratura.png"
+              alt="Cancelar"
+              title="Cancelar"
+            />
+          </div> -->
+          <div @click="deleteAto(item)" title="Excluir">
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px; cursor: pointer"
@@ -217,11 +234,11 @@
     @close="isModalRecebimentoOpen = false"
     @refresh-value="atosPayload()"
   />
-  <CancelamentoOrdem
+  <ModalConfirmacao
     :show="isModalCancelamentoOpen"
-    :numero_os="numero_os"
-    :ordemserv_token="ordemserv_token"
+    :condMessage="condMessage"
     @close="isModalCancelamentoOpen = false"
+    @confirm="cancelaAto"
   />
 </template>
 
@@ -229,7 +246,8 @@
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
-const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const allTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
+const cancelaLavratura = `${config.public.managemant}/cancela_lavratura`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
@@ -247,8 +265,7 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
-const showCreateOrdemServ = ref(null);
-const ordemserv_token = ref(null);
+const condMessage = ref("");
 const numero_os = ref(null);
 const selectedOrder = ref({});
 const isModalReimprimirOpen = ref(false);
@@ -261,6 +278,7 @@ const state = reactive({
   data_lavratura_inicio: null,
   data_lavratura_fim: null,
   protocolo: null,
+  parte: null,
   livro: null,
   folha: null,
   situacao: null,
@@ -301,7 +319,7 @@ const headers = [
     },
   },
   {
-    title: "Data lavratura",
+    title: "Data lavratura/Parte",
     key: "lavraturaNome",
     value: (item) =>
       item.dt_lavratura
@@ -367,7 +385,9 @@ async function atosPayload() {
     atos.value = atosData.value.map((item) => {
       return {
         ...item,
-        dt_lavratura: formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm"),
+        dt_lavratura: item.dt_lavratura
+          ? formatDate(item.dt_lavratura, "dd/mm/yyyy hh:mm")
+          : null,
         dt_abertura: formatDate(item.dt_abertura, "dd/mm/yyyy"),
       };
     });
@@ -405,7 +425,7 @@ async function searchAtos() {
         usuario_token: state.usuario_token,
         selo: state.selo || null,
         ato_tipo_token: state.ato_tipo_token,
-        apresentante: state.apresentante_nome || null,
+        parte: state.parte || null,
       },
     });
     if (atosData.value.length > 0) {
@@ -451,9 +471,16 @@ async function tipoAtosDataPayload() {
     body: {
       cartorio_token: cartorio_token.value,
       usuario_token: usuario_token.value,
+      tipo_retorno: "servico_ato",
     },
   });
-  tipoAtosItems.value = tipoAtosData.value;
+
+  tipoAtosItems.value = tipoAtosData.value.map((item) => {
+    return {
+      ...item,
+      descricao: item.descricao.replace(/\(/g, "<br>("),
+    };
+  });
 }
 
 const redirectToModalReimprimir = (token) => {
@@ -472,6 +499,23 @@ async function deleteAto(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
+
+const cancelaAto = async (ato_token) => {
+  const { data, status } = await useFetch(cancelaLavratura, {
+    method: "POST",
+    body: {
+      ato_token: ato_token,
+      user_token: usuario_token.value,
+      cancelar_selo: false,
+    },
+  });
+  if (status.value === "success" && data.value[0].status === "OK") {
+    $toast.success("Lavratura cancelada com sucesso!");
+  } else if (data.value[0].status === "ERRO") {
+    isModalCancelamentoOpen.value = true;
+    condMessage.value = data.value[0].status_mensagem;
+  }
+};
 
 const redirectToUpdateAto = (item) => {
   if (item.usa_imoveis || !item.usa_imoveis) {

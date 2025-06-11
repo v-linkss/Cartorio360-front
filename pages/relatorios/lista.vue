@@ -1,8 +1,8 @@
 <script setup>
 const config = useRuntimeConfig();
-const getRelatorios = `${config.public.managemant}/getRelatorios`
-const createRelatorios = `${config.public.managemant}/gerarRelatorioPessoa`
-const getDadosDominio = `${config.public.managemant}/listaQuery`
+const getRelatorios = `${config.public.managemant}/getRelatorios`;
+const createRelatorios = `${config.public.managemant}/gerarRelatorioPessoa`;
+const getDadosDominio = `${config.public.managemant}/listaQuery`;
 
 const relatorios = ref([]);
 const selectedRelatorio = ref(null);
@@ -21,8 +21,9 @@ const { data } = await useFetch(getRelatorios, {
 
 relatorios.value = Array.isArray(data.value) ? data.value : [];
 const options = computed(() =>
-  relatorios.value.every((relatorio) => 
-    !relatorio.codigo && !relatorio.value && !relatorio.parametros
+  relatorios.value.every(
+    (relatorio) =>
+      !relatorio.codigo && !relatorio.value && !relatorio.parametros
   )
     ? []
     : relatorios.value.map((relatorio) => ({
@@ -33,7 +34,9 @@ const options = computed(() =>
 );
 
 const handleRelatorioChange = async (selected) => {
-  const selectedItem = options.value.find((option) => option.value === selected);
+  const selectedItem = options.value.find(
+    (option) => option.value === selected
+  );
   if (selectedItem) {
     // Inicializa os campos com os parâmetros
     formInputs.value = selectedItem.parametros.map((param) => ({
@@ -55,7 +58,10 @@ const handleRelatorioChange = async (selected) => {
             },
           });
           input.items = Array.isArray(data.value)
-            ? data.value.map((item) => ({ label: item.nome, value: item.token }))
+            ? data.value.map((item) => ({
+                label: item.nome,
+                value: item.token,
+              }))
             : [];
         } catch (error) {
           console.error("Erro ao buscar dados para TABLE:", error);
@@ -68,7 +74,6 @@ const handleRelatorioChange = async (selected) => {
 };
 
 const handleCreateRelatorio = async (input) => {
-
   // Prepara os dados para envio com base no formulário preenchido
   const parametros = formInputs.value.reduce((acc, input) => {
     acc[input.parametro] = input.value;
@@ -79,27 +84,24 @@ const handleCreateRelatorio = async (input) => {
       ...parametros,
       // user_id: useCookie("user-data").value.usuario_id,
       cartorio_token: useCookie("user-data").value.cartorio_token,
-      consulta: selectedRelatorio.value
+      consulta: selectedRelatorio.value,
+    };
 
-    }    
-    // {"atos":null,"user_id":2,"consulta":"TIPOS ATOS - PARTES"}
-    const {data} = await useFetch(createRelatorios, {
+    const { data } = await useFetch(createRelatorios, {
       method: "POST",
       body: novoRelatorio,
     });
-        // Criar um Blob com o HTML retornado
+    // Criar um Blob com o HTML retornado
     const blob = new Blob([data.value], { type: "text/html" });
     const url = URL.createObjectURL(blob);
 
     window.open(url, "_blank");
     formInputs.value = [];
     selectedRelatorio.value = null;
-
   } catch (error) {
-    console.error('Erro ao criar o relatório:', error);
+    console.error("Erro ao criar o relatório:", error);
   }
 };
-
 </script>
 
 <template>
@@ -121,7 +123,6 @@ const handleCreateRelatorio = async (input) => {
     <v-form>
       <v-row v-for="(input, index) in formInputs" :key="index">
         <v-col cols="4">
-          <!-- Campo de texto padrão -->
           <v-text-field
             v-if="input.tipo !== 'DATE' && input.tipo !== 'TABLE'"
             v-model="input.value"
@@ -132,6 +133,7 @@ const handleCreateRelatorio = async (input) => {
           <v-text-field
             v-if="input.tipo === 'INTEGER'"
             v-model="input.value"
+            :label="input.label"
             type="number"
             outlined
           />
@@ -139,6 +141,7 @@ const handleCreateRelatorio = async (input) => {
           <!-- Campo de data -->
           <v-text-field
             v-if="input.tipo === 'DATE'"
+            :label="input.label"
             v-model="input.value"
             type="date"
           >
@@ -150,15 +153,19 @@ const handleCreateRelatorio = async (input) => {
             v-model="input.value"
             :items="input.items"
             item-title="label"
-            item-value="value" 
+            item-value="value"
             :label="input.label"
             :required="input.obrigatorio"
           />
-
         </v-col>
       </v-row>
 
-      <v-btn color="green" class="mt-4" @click="handleCreateRelatorio(selectedRelatorio)">Enviar</v-btn>
+      <v-btn
+        color="green"
+        class="mt-4"
+        @click="handleCreateRelatorio(selectedRelatorio)"
+        >Enviar</v-btn
+      >
     </v-form>
   </div>
 </template>
