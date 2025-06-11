@@ -45,6 +45,8 @@
         <v-tab value="partes">Partes</v-tab>
         <v-tab v-if="usaImoveis" value="bens">Bens</v-tab>
         <v-tab v-if="usaImoveis" value="imoveis">Imoveis</v-tab>
+        <v-tab v-if="usaImoveis" value="separação_divórcio">Separação e Divórcio</v-tab>
+
         <v-tab value="minuta">Minuta</v-tab>
         <v-tab value="livro">Livro</v-tab>
         <v-tab value="observacao">Observações</v-tab>
@@ -67,6 +69,9 @@
         </v-tabs-window-item>
         <v-tabs-window-item value="imoveis" v-if="usaImoveis">
           <ProcuracaoAtualizarImoveis />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="separação_divórcio" v-if="usaImoveis">
+          <ProcuracaoAtualizarSeparacaoDivorcio />
         </v-tabs-window-item>
         <v-tabs-window-item value="minuta">
           <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
