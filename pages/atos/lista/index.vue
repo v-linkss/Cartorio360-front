@@ -182,9 +182,17 @@
           </div>
           <div
             :disabled="!item.btn_cancelar"
-            @click="item.btn_cancelar ? deleteAto(item) : null"
+            @click="item.btn_cancelar ? cancelaAto(item.token) : null"
             title="Excluir"
           >
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/btn_cancela_lavratura.png"
+              alt="Cancelar"
+              title="Cancelar"
+            />
+          </div>
+          <div @click="deleteAto(item)" title="Excluir">
             <img
               v-if="item.excluido"
               style="width: 30px; height: 30px; cursor: pointer"
@@ -226,11 +234,11 @@
     @close="isModalRecebimentoOpen = false"
     @refresh-value="atosPayload()"
   />
-  <CancelamentoOrdem
+  <ModalConfirmacao
     :show="isModalCancelamentoOpen"
-    :numero_os="numero_os"
-    :ordemserv_token="ordemserv_token"
+    :condMessage="condMessage"
     @close="isModalCancelamentoOpen = false"
+    @confirm="cancelaAto"
   />
 </template>
 
@@ -239,6 +247,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
+const cancelaLavratura = `${config.public.managemant}/cancela_lavratura`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
@@ -256,8 +265,7 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
-const showCreateOrdemServ = ref(null);
-const ordemserv_token = ref(null);
+const condMessage = ref("");
 const numero_os = ref(null);
 const selectedOrder = ref({});
 const isModalReimprimirOpen = ref(false);
@@ -491,6 +499,23 @@ async function deleteAto(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
+
+const cancelaAto = async (ato_token) => {
+  const { data, status } = await useFetch(cancelaLavratura, {
+    method: "POST",
+    body: {
+      ato_token: ato_token,
+      user_token: usuario_token.value,
+      cancelar_selo: false,
+    },
+  });
+  if (status.value === "success" && data.value[0].status === "OK") {
+    $toast.success("Lavratura cancelada com sucesso!");
+  } else if (data.value[0].status === "ERRO") {
+    isModalCancelamentoOpen.value = true;
+    condMessage.value = data.value[0].status_mensagem;
+  }
+};
 
 const redirectToUpdateAto = (item) => {
   if (item.usa_imoveis || !item.usa_imoveis) {
