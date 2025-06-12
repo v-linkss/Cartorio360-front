@@ -98,7 +98,19 @@
   const isModalCadastroImoveisOpen = ref(false);
   const isModalAtualizarImoveisOpen = ref(false);
   const idImovel = ref(null);
-  
+  onMounted(async () => {
+    const { data: atosData, status } = await fetchWithToken(getAtos, {
+      method: "GET",
+    });
+
+    if(atosData.value){
+      atos.dt_casamento = atosData.value[0]?.dt_casamento;
+      atos.tabvalores_regimecasamento_id = atosData.value[0]?.tabvalores_regimecasamento_id;
+      atos.qtd_filhos_maiores = atosData.value[0]?.qtd_filhos_maiores;
+      atos.qtd_filhos_menores = atosData.value[0]?.qtd_filhos_menores;
+      atos.responsavel_menores_id = atosData.value[0]?.responsavel_menores_id;
+    }
+  })
   
   const { data: atosData, status } = await fetchWithToken(getAtos, {
     method: "GET",
