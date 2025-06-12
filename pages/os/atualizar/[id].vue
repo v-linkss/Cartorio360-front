@@ -72,6 +72,7 @@
       </NuxtLink>
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
+          {{ item }}
           <v-row style="display: flex; gap: 2px; margin-top: -5px">
             <div @click="redirectoToView(item)" title="Visualizar">
               <img
