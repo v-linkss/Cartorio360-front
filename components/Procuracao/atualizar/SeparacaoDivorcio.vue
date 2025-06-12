@@ -66,7 +66,7 @@
             @click="onUpdate"
             size="large"
             color="green"
-          >Atualizar</v-btn>
+          >Salvar</v-btn>
         </v-col>
       </v-row>
     </v-container>

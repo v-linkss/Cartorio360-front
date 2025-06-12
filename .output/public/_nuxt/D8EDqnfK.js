@@ -1,0 +1,1 @@
+import{n as a}from"./D_TA2-g7.js";import{u as s}from"./CAv8H9jr.js";const h=async(o,e={})=>{const t=a("auth_token").value,n={...e.headers,Authorization:`Bearer ${t}`};return await s(o,{...e,headers:n},"$xCdwQCU31G")},i=async(o,e={})=>{const t=a("auth_token").value,n={...e.headers,Authorization:`Bearer ${t}`};return await $fetch(o,{...e,headers:n})};export{i as $,h as f};
