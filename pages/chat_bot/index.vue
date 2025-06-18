@@ -73,7 +73,7 @@ function sendMessage() {
 }
 
 onMounted(() => {
-  socket = new WebSocket('ws://157.230.216.74:3452?room=chat1&user_name=Deborah2');
+  socket = new WebSocket('ws://localhost:3452?room=chat1&user_name=Deborah2');
 
   socket.addEventListener('open', () => {
     console.log('✅ Conectado ao servidor');
