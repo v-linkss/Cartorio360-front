@@ -8,7 +8,7 @@
 
     <!-- Histórico -->
     <div ref="chatHistory" class="chat-history">
-      <div
+      <div 
         v-for="(msg, i) in messages"
         :key="i"
         :class="[
@@ -20,10 +20,22 @@
               : 'server-bubble'
         ]"
       >
-        {{ msg.text.message || msg.text }}
+        <!-- Se a mensagem for do tipo botão com URL de download -->
+        <template v-if="msg.from === 'button'">
+          <button 
+            class="chat-button"
+            @click="downloadDocument(msg.text.message)"
+          >
+            📎 Baixar documento
+          </button>
+        </template>
+
+        <!-- Se for uma mensagem de texto comum -->
+        <template v-else>
+          {{ msg.text.message || msg.text }}
+        </template>
       </div>
     </div>
-
     <!-- Input -->
     <form @submit.prevent="sendMessage" class="chat-input-area">
       <input
@@ -37,16 +49,28 @@
   </div>
 </template>
 
+
 <script setup>
+import { useRoute } from 'vue-router';
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 definePageMeta({
   layout: 'empty',
 });
+const route = useRoute();
+
 const input = ref('');
-const messages = ref([]);
+const messages = ref([
+  { from: 'server', text: 'Por favor, me informe seu nome' }
+]);
+const userName = ref();
+
 const chatHistory = ref(null)
 
+const exibirBotãoDownload = ref()
 let socket = null;
+
+
+const cartorio_token = route.query.cartorio_token
 
 function addMessage(from, text) {
   messages.value.push({ from, text });
@@ -58,55 +82,85 @@ function addMessage(from, text) {
 }
 
 function sendMessage() {
+  if(!userName.value){
+    userName.value = input.value
+    connect()
+
+  }
+
   if (!input.value.trim()) return;
-  const msg = formatMessage(input.value);
-  addMessage('user', msg);
-  const data = {
-    type: "chat_bot_message",
-    message: msg,
-    cartorio_token:"qvgjz"
+    const msg = formatMessage(input.value);
+    addMessage('user', msg);
+    const data = {
+      type: "chat_bot_message",
+      message: msg,
+      cartorio_token:"qvgjz"
 
 
   } 
-  socket.send(JSON.stringify(data)); 
   input.value = '';
+  socket.send(JSON.stringify(data)); 
 }
 
-onMounted(() => {
-  socket = new WebSocket('ws://localhost:3452?room=chat1&user_name=Deborah2');
+  function connect() {
+    socket = new WebSocket(`ws://localhost:3452?user_name=${userName.value}`);
 
-  socket.addEventListener('open', () => {
-    console.log('✅ Conectado ao servidor');
-  });
+    socket.addEventListener('open', () => {
+      console.log('✅ Conectado ao servidor');
+    });
 
-  socket.addEventListener('message', (event) => {
-    
-    try {
-      const data = JSON.parse(event.data);
-      if (data.message) {
-        addMessage('server', data.message);
+    socket.addEventListener('message', (event) => {
+      
+      try {
+        const data = JSON.parse(event.data);
+        if (data.message && data.message.state !== 'ExibirResposta') {
+          addMessage('server', data.message);
+        }
+        else if (data.message && data.message.state === 'ExibirResposta') {
+          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@data.message")
+          exibirBotãoDownload.value = data.message
+          addMessage('button', data.message);
+
+        }
+        else if (data.type === 'connection_info') {
+          // addMessage('system', `🔗 Conectado como ${data.username} na sala ${data.roomId}`);
+        }
+        else {
+          addMessage('server', JSON.stringify(data));
+        }
+      } catch (e) {
+        addMessage('server', event.data);
       }
-       else if (data.type === 'connection_info') {
-        // addMessage('system', `🔗 Conectado como ${data.username} na sala ${data.roomId}`);
-      }
-       else {
-        addMessage('server', JSON.stringify(data));
-      }
-    } catch (e) {
-      addMessage('server', event.data);
-    }
-  });
+    });
 
-  socket.addEventListener('close', () => {
-    console.log('❌ Conexão encerrada');
-    addMessage('system', '⚠️ Conexão encerrada');
-  });
+    socket.addEventListener('close', () => {
+      console.log('❌ Conexão encerrada');
+      addMessage('system', '⚠️ Conexão encerrada');
+    });
 
-  socket.addEventListener('error', (error) => {
-    console.error('⚠️ Erro na conexão:', error);
-    addMessage('system', '⚠️ Erro na conexão');
-  });
-});
+    socket.addEventListener('error', (error) => {
+      console.error('⚠️ Erro na conexão:', error);
+      addMessage('system', '⚠️ Erro na conexão');
+    });
+  };
+
+  function downloadDocument(url) {
+    fetch(url)
+    .then(response=>{
+      if (!response.ok) {
+        throw new Error('Erro ao baixar o arquivo');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'documento.pdf';
+      link.click();
+      URL.revokeObjectURL(url);
+    })
+  }
 
 function formatMessage(text) {
   const rawText = typeof text === 'object' ? text.message : text;
@@ -167,6 +221,34 @@ onBeforeUnmount(() => {
   gap: 0.5rem;
   background-color: white;
 }
+
+/* Bolhas botão */
+.chat-button {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb); /* azul suave */
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.chat-button:hover {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+.chat-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+
 
 /* Bolhas de mensagem */
 .chat-bubble {
