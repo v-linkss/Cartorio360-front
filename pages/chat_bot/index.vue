@@ -94,7 +94,7 @@ function sendMessage() {
     const data = {
       type: "chat_bot_message",
       message: msg,
-      cartorio_token:"qvgjz"
+      cartorio_token: cartorio_token
 
 
   } 
