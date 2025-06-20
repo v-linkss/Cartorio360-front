@@ -103,7 +103,7 @@ function sendMessage() {
 }
 
   function connect() {
-    socket = new WebSocket(`ws://localhost:3452?user_name=${userName.value}`);
+    socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
 
     socket.addEventListener('open', () => {
       console.log('✅ Conectado ao servidor');
@@ -117,7 +117,6 @@ function sendMessage() {
           addMessage('server', data.message);
         }
         else if (data.message && data.message.state === 'ExibirResposta') {
-          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@data.message")
           exibirBotãoDownload.value = data.message
           addMessage('button', data.message);
 
