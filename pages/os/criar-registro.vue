@@ -77,10 +77,7 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 2px; margin-top: -5px">
-            <div
-              @click="redirectoToView(item)"
-              title="Visualizar"
-            >
+            <div @click="redirectoToView(item)" title="Visualizar">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/visualizar.png"
@@ -103,7 +100,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
+                      rota: item.rota,
                     })
                   : null
               "
@@ -227,8 +224,11 @@ function removeFormatting(value) {
   }
 }
 
-const redirectoToView = (item) =>{
-  if (item.rota === '/fontes/atos/ato-com-bem/geral' || item.rota === '/fontes/atos/ato-sem-bem/geral') {
+const redirectoToView = (item) => {
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -242,12 +242,28 @@ const redirectoToView = (item) =>{
       },
     });
   }
-}
+};
 
 const redirectToUpdateAto = (item) => {
-  if (item.usa_imoveis || !item.usa_imoveis) {
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar",
+        id: useCookie("user-service").value.id,
+        ato_id: item.id,
+        tipo_ato: item.tipo,
+        tipo_ato_token: item.tipo_token,
+        ato_token_edit: item.token,
+        numero_os: ordemNumero.value,
+      },
+    });
+  } else if (item.rota === "/fontes/atos/divorcio/geral") {
+    router.push({
+      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
       query: {
         origem: "atualizar",
         id: useCookie("user-service").value.id,

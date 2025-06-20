@@ -99,7 +99,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
+                      rota: item.rota,
                     })
                   : null
               "
@@ -248,7 +248,10 @@ const redirectoToView = (item) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.usa_imoveis || !item.usa_imoveis) {
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -259,11 +262,24 @@ const redirectToUpdateAto = (item) => {
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: numeroOs.value,
-        usa_imoveis: item.usa_imoveis,
+      },
+    });
+  } else if (item.rota === "/fontes/atos/divorcio/geral") {
+    router.push({
+      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar",
+        id: id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: numeroOs.value,
       },
     });
   }
 };
+
 async function onUpdate() {
   const payloadFormated = {
     apresentante_cpf: removeFormatting(state.apresentante_cpf),
