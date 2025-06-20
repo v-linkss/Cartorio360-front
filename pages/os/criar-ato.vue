@@ -28,6 +28,7 @@
           :disabled="combolistsBlockeds"
           return-object
         ></v-autocomplete>
+        {{ selectedAto }}
       </v-col>
     </v-row>
 
@@ -60,7 +61,10 @@ const components = {
   "/fontes/atos/ato-sem-bem/geral": procuracao,
   "/fontes/atos/ato-com-bem/geral": procuracaoComBens,
   "/fontes/atos/divorcio/geral": divorcio,
+<<<<<<< HEAD
 
+=======
+>>>>>>> 699a24233871bd78d2574d004758037ef643f840
 };
 
 const servicos = ref([]);

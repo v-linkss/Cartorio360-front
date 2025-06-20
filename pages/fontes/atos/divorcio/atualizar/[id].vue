@@ -43,9 +43,15 @@
       <v-tabs v-model="tab" bg-color="#f5f2f2">
         <v-tab value="dados">Dados</v-tab>
         <v-tab value="partes">Partes</v-tab>
+<<<<<<< HEAD
         <v-tab v-if="usaImoveis" value="bens">Bens</v-tab>
         <v-tab v-if="usaImoveis" value="imoveis">Imoveis</v-tab>
         <v-tab v-if="usaImoveis" value="separacao_ivorcio"> Separação e Divórcio</v-tab>
+=======
+        <v-tab value="bens">Bens</v-tab>
+        <v-tab value="imoveis">Imoveis</v-tab>
+        <v-tab value="divorcio">Matrimônio</v-tab>
+>>>>>>> 699a24233871bd78d2574d004758037ef643f840
         <v-tab value="minuta">Minuta</v-tab>
         <v-tab value="livro">Livro</v-tab>
         <v-tab value="observacao">Observações</v-tab>
@@ -63,6 +69,7 @@
         <v-tabs-window-item value="partes">
           <ProcuracaoAtualizarPartes />
         </v-tabs-window-item>
+<<<<<<< HEAD
         <v-tabs-window-item value="bens" v-if="usaImoveis">
           <ProcuracaoAtualizarBens />
         </v-tabs-window-item>
@@ -72,6 +79,17 @@
         <v-tabs-window-item value="separacao_ivorcio" v-if="usaImoveis">
           <ProcuracaoAtualizarSeparacaoDivorcio/>
         </v-tabs-window-item>
+=======
+        <v-tabs-window-item value="divorcio">
+          <ProcuracaoAtualizarSeparacaoDivorcio />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="bens">
+          <ProcuracaoAtualizarBens />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="imoveis">
+          <ProcuracaoAtualizarImoveis />
+        </v-tabs-window-item>
+>>>>>>> 699a24233871bd78d2574d004758037ef643f840
         <v-tabs-window-item value="minuta">
           <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
         </v-tabs-window-item>
@@ -116,7 +134,10 @@ const body = route.query.id
 const situacoesItems = ref([]);
 const dadosData = ref([]);
 const modalVisible = ref(false);
+<<<<<<< HEAD
 const usaImoveis = ref(route.query.usa_imoveis === "true" ? true : false);
+=======
+>>>>>>> 699a24233871bd78d2574d004758037ef643f840
 const tipoAto = route.query.tipo_ato || "";
 const label = ref(null);
 const updatedAtoDetails = ref(null);
@@ -161,8 +182,13 @@ function openModal() {
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
   const [firstPart, secondPart] = descricao.split(" - ");
+<<<<<<< HEAD
   label.value = firstPart || ""; // Primeiro autocomplete
   updatedAtoDetails.value = secondPart || ""; // Segundo autocomplete
   usaImoveis.value = usaImoveisParams;
+=======
+  label.value = firstPart || "";
+  updatedAtoDetails.value = secondPart || "";
+>>>>>>> 699a24233871bd78d2574d004758037ef643f840
 }
 </script>

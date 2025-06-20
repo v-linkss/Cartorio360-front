@@ -138,7 +138,19 @@
     >
       <template v-slot:item.actions="{ item }">
         <div style="display: flex; gap: 4px; justify-content: center">
-          <div @click="redirectoToView(item)" title="Visualizar">
+          <div
+            @click="
+              redirectoToView({
+                id: item.id,
+                tipo: item.ato_servico,
+                token: item.token,
+                tipo_token: item.tipo_token,
+                rota: item.rota,
+                numero_os: item.numero_os,
+              })
+            "
+            title="Visualizar"
+          >
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/visualizar.png"
@@ -161,10 +173,11 @@
               item.btn_editar
                 ? redirectToUpdateAto({
                     id: item.id,
-                    tipo: item.tipo,
+                    tipo: item.ato_servico,
                     token: item.token,
                     tipo_token: item.tipo_token,
-                    usa_imoveis: item.usa_imoveis,
+                    rota: item.rota,
+                    numero_os: item.numero_os,
                   })
                 : null
             "
@@ -450,19 +463,36 @@ async function searchAtos() {
 }
 
 const redirectoToView = (item) => {
-  router.push({
-    path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-    query: {
-      origem: "vizualizar-lista",
-      id: item.id,
-      ato_id: item.id,
-      tipo_ato_token: item.tipo_token,
-      tipo_ato: item.ato_servico,
-      ato_token_edit: item.token,
-      numero_os: item.numero_os,
-      usa_imoveis: true,
-    },
-  });
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
+    router.push({
+      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar-lista",
+        id: item.id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: item.numero_os,
+      },
+    });
+  } else if (item.rota === "/fontes/atos/divorcio/geral") {
+    router.push({
+      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar-lista",
+        id: item.id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: item.numero_os,
+      },
+    });
+  }
 };
 
 async function tipoAtosDataPayload() {
@@ -518,7 +548,10 @@ const cancelaAto = async (ato_token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.usa_imoveis || !item.usa_imoveis) {
+  if (
+    item.rota === "/fontes/atos/ato-com-bem/geral" ||
+    item.rota === "/fontes/atos/ato-sem-bem/geral"
+  ) {
     router.push({
       path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
       query: {
@@ -529,7 +562,19 @@ const redirectToUpdateAto = (item) => {
         tipo_ato: item.tipo,
         ato_token_edit: item.token,
         numero_os: item.numero_os,
-        usa_imoveis: true,
+      },
+    });
+  } else if (item.rota === "/fontes/atos/divorcio/geral") {
+    router.push({
+      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
+      query: {
+        origem: "atualizar-lista",
+        id: item.id,
+        ato_id: item.id,
+        tipo_ato_token: item.tipo_token,
+        tipo_ato: item.tipo,
+        ato_token_edit: item.token,
+        numero_os: item.numero_os,
       },
     });
   }
