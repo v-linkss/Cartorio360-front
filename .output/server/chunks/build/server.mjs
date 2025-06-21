@@ -753,7 +753,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-B9_j6rBP.mjs')
+    component: () => import('./index-CXEbj1Ca.mjs')
   },
   {
     name: "relatorios-lista",
