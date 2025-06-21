@@ -621,7 +621,7 @@ const _routes = [
     name: "chat_bot",
     path: "/chat_bot",
     meta: __nuxt_page_meta$2,
-    component: () => import('./index-BSM1r2iK.mjs')
+    component: () => import('./index-Ch5vpFCY.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
