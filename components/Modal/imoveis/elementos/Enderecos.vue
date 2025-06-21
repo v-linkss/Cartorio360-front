@@ -1,15 +1,30 @@
 <template>
   <div v-if="loading" class="d-flex justify-center">
-    <v-progress-circular indeterminate class="loading-spinner" size="64"></v-progress-circular>
+    <v-progress-circular
+      indeterminate
+      class="loading-spinner"
+      size="64"
+    ></v-progress-circular>
   </div>
-  <v-container style="height: 500px;" class="mt-2" v-else>
+  <v-container style="height: 500px" class="mt-2" v-else>
     <v-row>
       <v-col cols="2">
-        <v-text-field label="CEP" v-model="state.end_cep"></v-text-field>
+        <v-text-field
+          label="CEP"
+          v-mask="'########'"
+          v-model.trim="state.end_cep"
+          :error-messages="v$.end_cep.$errors.map((e) => e.$message)"
+        />
       </v-col>
       <v-col cols="5">
-        <v-autocomplete label="Cidade" v-model="state.end_cidade_id" :items="cidadeItems" item-title="descricao"
-          item-value="id">
+        <v-autocomplete
+          label="Cidade"
+          v-model="state.end_cidade_id"
+          :items="cidadeItems"
+          item-title="descricao"
+          item-value="id"
+          :error-messages="v$.end_cidade_id.$errors.map((e) => e.$message)"
+        >
         </v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -21,38 +36,76 @@
     </v-row>
     <v-row>
       <v-col cols="4">
-        <v-autocomplete label="Tipo de Logradouro" v-model="state.tabvalores_tipologradouro_id"
-          :items="tipoLogradouroItems" item-title="descricao" item-value="id">
+        <v-autocomplete
+          label="Tipo de Logradouro"
+          v-model="state.tabvalores_tipologradouro_id"
+          :items="tipoLogradouroItems"
+          item-title="descricao"
+          item-value="id"
+          :error-messages="
+            v$.tabvalores_tipologradouro_id.$errors.map((e) => e.$message)
+          "
+        >
         </v-autocomplete>
       </v-col>
       <v-col cols="6">
-        <v-text-field label="Logradouro" v-model="state.end_logradouro"></v-text-field>
+        <v-text-field
+          label="Logradouro"
+          v-model="state.end_logradouro"
+        ></v-text-field>
       </v-col>
       <v-col cols="1">
-        <v-text-field label="N*" v-model="state.end_logradouro_numero"></v-text-field>
+        <v-text-field
+          label="N*"
+          v-model="state.end_logradouro_numero"
+          :error-messages="
+            v$.end_logradouro_numero.$errors.map((e) => e.$message)
+          "
+        ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
-        <v-text-field label="Bairro" v-model="state.end_bairro"></v-text-field>
+        <v-text-field
+          label="Bairro"
+          v-model="state.end_bairro"
+          :error-messages="v$.end_bairro.$errors.map((e) => e.$message)"
+        ></v-text-field>
       </v-col>
       <v-col cols="5">
-        <v-text-field label="Complemento" v-model="state.end_complemento"></v-text-field>
+        <v-text-field
+          label="Complemento"
+          v-model="state.end_complemento"
+        ></v-text-field>
       </v-col>
     </v-row>
-    <v-row class="mt-10 justify-start ">
+    <v-row class="mt-10 justify-start">
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
       </NuxtLink>
-      <v-btn v-if="isUpdate" class="ml-5" size="large" color="green"
-        @click="updateImovelModal(props.imovel_id)">Atualizar</v-btn>
-      <v-btn v-else class="ml-5" size="large" color="green" @click="updateImovelModal(props.imovel_id)">Salvar</v-btn>
+      <v-btn
+        v-if="isUpdate"
+        class="ml-5"
+        size="large"
+        color="green"
+        @click="updateImovelModal(props.imovel_id)"
+        >Atualizar</v-btn
+      >
+      <v-btn
+        v-else
+        class="ml-5"
+        size="large"
+        color="green"
+        @click="updateImovelModal(props.imovel_id)"
+        >Salvar</v-btn
+      >
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-
+import { useVuelidate } from "@vuelidate/core";
+import { helpers, required } from "@vuelidate/validators";
 const props = defineProps({
   ato_token: {
     type: String,
@@ -86,8 +139,9 @@ const listarCidades = `${config.public.managemant}/listarCidades`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const user_id = ref(useCookie("user-data").value.usuario_id).value;
-const tokenCookie = useCookie('auth_token');
+const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
+const triedSubmit = ref(false);
 
 const registroItems = ref([]);
 const naturezaItems = ref([]);
@@ -112,6 +166,24 @@ const state = reactive({
 });
 const statePayload = reactive({ ...state });
 
+const rules = {
+  end_logradouro_numero: {
+    required: helpers.withMessage("", required),
+  },
+  end_cep: { required: helpers.withMessage("O campo é obrigatório", required) },
+  end_bairro: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
+  end_cidade_id: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
+  tabvalores_tipologradouro_id: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
+};
+
+const v$ = useVuelidate(rules, state);
+
 const { data } = await useFetch(`${listarBens}`, {
   method: "POST",
   body: { cartorio_token: cartorio_token.value, imoveis: true },
@@ -126,7 +198,6 @@ if (props.isUpdate === true) {
     }
   );
   if (dadosParte.value) {
-
     Object.keys(state).forEach((key) => {
       if (dadosParte.value[key] !== undefined) {
         state[key] = dadosParte.value[key];
@@ -160,6 +231,15 @@ async function loadImoveisData() {
 }
 
 const updateImovelModal = async (id) => {
+  triedSubmit.value = true;
+  if (!props.isUpdate) {
+    const isValid = await v$.value.$validate();
+
+    if (!isValid) {
+      $toast.error("Preencha todos os campos obrigatórios!");
+      return;
+    }
+  }
   const updatedValues = {};
 
   Object.keys(state).forEach((key) => {
@@ -182,7 +262,7 @@ const updateImovelModal = async (id) => {
 
 const goBack = () => {
   emit("close-modal");
-  emit('refresh-list')
+  emit("refresh-list");
 };
 
 watch(
@@ -212,7 +292,8 @@ watch(
           state.end_bairro = data.value.bairro;
           state.end_complemento = data.value.complemento;
 
-          let cidade = `${data.value.localidade}/${data.value.uf}`.toUpperCase();
+          let cidade =
+            `${data.value.localidade}/${data.value.uf}`.toUpperCase();
 
           const cidadeItem = cidadeItems.value.find(
             (item) => item.descricao === cidade

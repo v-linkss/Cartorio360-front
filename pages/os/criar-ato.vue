@@ -28,7 +28,6 @@
           :disabled="combolistsBlockeds"
           return-object
         ></v-autocomplete>
-        {{ selectedAto }}
       </v-col>
     </v-row>
 

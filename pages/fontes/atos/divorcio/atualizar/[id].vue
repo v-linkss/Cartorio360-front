@@ -43,15 +43,9 @@
       <v-tabs v-model="tab" bg-color="#f5f2f2">
         <v-tab value="dados">Dados</v-tab>
         <v-tab value="partes">Partes</v-tab>
-<<<<<<< HEAD
-        <v-tab v-if="usaImoveis" value="bens">Bens</v-tab>
-        <v-tab v-if="usaImoveis" value="imoveis">Imoveis</v-tab>
-        <v-tab v-if="usaImoveis" value="separacao_ivorcio"> Separação e Divórcio</v-tab>
-=======
         <v-tab value="bens">Bens</v-tab>
         <v-tab value="imoveis">Imoveis</v-tab>
         <v-tab value="divorcio">Matrimônio</v-tab>
->>>>>>> 699a24233871bd78d2574d004758037ef643f840
         <v-tab value="minuta">Minuta</v-tab>
         <v-tab value="livro">Livro</v-tab>
         <v-tab value="observacao">Observações</v-tab>

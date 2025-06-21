@@ -74,6 +74,7 @@
           v-model="state.ato_tipo_token"
           :items="tipoAtosItems"
           item-value="token"
+          item-title="descricao"
           label="Tipo Serviço"
           :menu-props="{
             maxWidth: '680px',
@@ -81,13 +82,6 @@
           }"
           dense
         >
-          <template v-slot:item="{ props, item }">
-            <v-list-item v-bind="props">
-              <template v-slot:title>
-                <span v-html="item.raw.descricao"></span>
-              </template>
-            </v-list-item>
-          </template>
         </v-autocomplete>
       </v-col>
       <v-col cols="2">
@@ -421,7 +415,7 @@ async function searchAtos() {
   try {
     sessionStorage.setItem("pesquisaAto", JSON.stringify(state));
 
-    const { data: atosData, error } = await useFetch(pesquisaAtos, {
+    const { data: atosData } = await useFetch(pesquisaAtos, {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
@@ -505,12 +499,7 @@ async function tipoAtosDataPayload() {
     },
   });
 
-  tipoAtosItems.value = tipoAtosData.value.map((item) => {
-    return {
-      ...item,
-      descricao: item.descricao.replace(/\(/g, "<br>("),
-    };
-  });
+  tipoAtosItems.value = tipoAtosData.value;
 }
 
 const redirectToModalReimprimir = (token) => {
