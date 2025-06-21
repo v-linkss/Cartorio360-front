@@ -1,5 +1,4 @@
 <template>
-  {{ messages }}
   <div class="chat-container">
     <!-- Cabeçalho azul -->
     <div class="chat-header">
@@ -105,7 +104,7 @@ function sendMessage() {
 
   function connect() {
     // socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
-    socket = new WebSocket(`ws://localhost:3452?user_name=${userName.value}`);
+    socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
 
     socket.addEventListener('open', () => {
       console.log('✅ Conectado ao servidor');
@@ -150,45 +149,6 @@ function sendMessage() {
       }
     });
 
-    // socket.addEventListener('message', (event) => {
-    //   const data = JSON.parse(event.data);
-      
-    //   try {
-    //     const data = JSON.parse(event.data);
-    //     if (data.message && data.message.state !== 'ExibirResposta') {
-    //       console.log('################################1\n',data.message.state);
-
-    //       addMessage('server', data.message);
-    //     }
-    //     else if (data.message && data.message.state === 'ExibirResposta') {
-    //       console.log('################################2\n',data.message.state);
-
-    //       exibirBotãoDownload.value = data.message
-    //       addMessage('button', data.message);
-
-    //     }
-    //     else if (data.message && data.message.state === 'Fim') {
-    //       console.log('################################3\n',data.message.state);
-
-    //       console.log('Chat encerrado pelo servidor');
-    //       addMessage('system', '⚠️ Chat encerrado pelo servidor');
-    //       socket.close(1000, 'Chat encerrado pelo servidor');
-    //     }
-    //     else if (data.type === 'connection_info') {
-    //       console.log('################################4\n',data.message.state);
-
-    //       // addMessage('system', `🔗 Conectado como ${data.username} na sala ${data.roomId}`);
-    //     }
-    //     else {
-    //   console.log('################################\n',data.message.state);
-
-    //       console.log('Mensagem recebida:', data.message.state);
-    //       addMessage('server', JSON.stringify(data));
-    //     }
-    //   } catch (e) {
-    //     addMessage('server', event.data);
-    //   }
-    // });
 
     socket.addEventListener('close', () => {
       console.log('❌ Conexão encerrada');
