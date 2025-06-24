@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="status === 'success'" class="mt-5">
+  <v-container class="mt-5">
     <v-row dense>
       <v-col cols="12" sm="4" md="3">
         <v-text-field
@@ -21,15 +21,14 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-      <v-text-field
+        <v-text-field
           label="Filhos Maiores"
           v-model.number="atos.qtd_filhos_maiores"
           type="number"
           min="0"
           @keydown="blockNonNumeric"
-      ></v-text-field>
+        ></v-text-field>
       </v-col>
-
 
       <v-col cols="12" sm="6" md="3">
         <v-text-field
@@ -38,7 +37,6 @@
           type="number"
           min="0"
           @keydown="blockNonNumeric"
-
         ></v-text-field>
       </v-col>
 
@@ -61,17 +59,13 @@
         </NuxtLink>
       </v-col>
       <v-col cols="auto">
-        <v-btn
-          class="ml-2"
-          @click="onUpdate"
-          size="large"
-          color="green"
-        >Salvar</v-btn>
+        <v-btn class="ml-2" @click="onUpdate" size="large" color="green"
+          >Salvar</v-btn
+        >
       </v-col>
     </v-row>
   </v-container>
 </template>
-
 
 <script setup>
 const props = defineProps({
@@ -83,83 +77,55 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  tabEvent: {
+    type: Number,
+    default: 0,
+  },
 });
 const config = useRuntimeConfig();
 const atos = reactive({
   dt_casamento: null,
   tabvalores_regimecasamento_id: null,
-  qtd_filhos_maiores:null,
-  qtd_filhos_menores:null,
-  responsavel_menores_id:null,
-
-  
+  qtd_filhos_maiores: null,
+  qtd_filhos_menores: null,
+  responsavel_menores_id: null,
 });
 const combolistRegimeBens = ref([]);
 
 const router = useRouter();
 const route = useRoute();
 const { $toast } = useNuxtApp();
-const getAtos = `${config.public.auth}/service/gerencia/getAtos/${props.ato_id}`;
 const regimeBens = `${config.public.auth}/service/gerencia/regime_casamento`;
 const getAtosPessoa = `${config.public.auth}/service/gerencia/getAtosPessoaById/${props.ato_id}`;
 const updateAtos = `${config.public.managemant}/updateAtos`;
-const search = ref("");
-const searchMatricula = ref("");
-const isModalCadastroImoveisOpen = ref(false);
-const isModalAtualizarImoveisOpen = ref(false);
-const idImovel = ref(null);
 
-
-const { data: atosData, status } = await fetchWithToken(getAtos, {
+const { data: regimeBensData } = await fetchWithToken(regimeBens, {
   method: "GET",
 });
 
-const { data: regimeBensData } = await fetchWithToken(regimeBens
-, {
-  method: "GET",
-});
-
-const { data: responsavelFilhos } = await fetchWithToken(getAtosPessoa
-, {
-  method: "GET",
-});
+async function fetchAtosPessoa() {
+  const { data: responsavelFilhos } = await fetchWithToken(getAtosPessoa, {
+    method: "GET",
+  });
+  if (responsavelFilhos.value) {
+    rawResponsavelFilhos.value = responsavelFilhos.value;
+  }
+}
 
 const rawResponsavelFilhos = ref([]);
 
-  const combolistResponsavel = computed(() =>
-  rawResponsavelFilhos.value?.map((parte) => ({
+const combolistResponsavel = computed(
+  () =>
+    rawResponsavelFilhos.value?.map((parte) => ({
       id: parte.id,
-      nome: parte.pessoa?.nome || "Sem nome"
-  })) || []
-  );
+      nome: parte.pessoa?.nome || "Sem nome",
+    })) || []
+);
 
-if(atosData.value){
-  atos.dt_casamento = atosData.value.dt_casamento;
-  atos.tabvalores_regimecasamento_id = atosData.value.tabvalores_regimecasamento_id;
-  atos.qtd_filhos_maiores = atosData.value.qtd_filhos_maiores;
-  atos.qtd_filhos_menores = atosData.value.qtd_filhos_menores;
-  atos.responsavel_menores_id = atosData.value.responsavel_menores_id;
+if (regimeBensData.value) {
+  combolistRegimeBens.value = regimeBensData.value;
 }
 
-if(regimeBensData.value){
-  combolistRegimeBens.value = regimeBensData.value
-}
-
-if (responsavelFilhos.value) {
-      rawResponsavelFilhos.value = responsavelFilhos.value;
-  }
-
-
-function redirectToUpdate(id) {
-  idImovel.value = id;
-  isModalAtualizarImoveisOpen.value = true;
-}
-const atualizarListaImoveis = async () => {
-  await fetchWithToken(imoveisLista, {
-    method: "POST",
-    body: { ato_token: route.query.ato_token_edit },
-  });
-};
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
@@ -178,36 +144,36 @@ const goBack = () => {
   }
 };
 async function onUpdate() {
-const { data, error, status } = await useFetch(
-  `${updateAtos}/${Number.parseInt(props.ato_id)}`,
-  {
-    method: "PUT",
-    body: {
-      dt_casamento: atos.dt_casamento,
-      tabvalores_regimecasamento_id: atos.tabvalores_regimecasamento_id,
-      qtd_filhos_maiores:atos.qtd_filhos_maiores,
-      qtd_filhos_menores:atos.qtd_filhos_menores,
-      responsavel_menores_id:atos.responsavel_menores_id,
-    },
+  const { data, error, status } = await useFetch(
+    `${updateAtos}/${Number.parseInt(props.ato_id)}`,
+    {
+      method: "PUT",
+      body: {
+        dt_casamento: atos.dt_casamento,
+        tabvalores_regimecasamento_id: atos.tabvalores_regimecasamento_id,
+        qtd_filhos_maiores: Number(atos.qtd_filhos_maiores),
+        qtd_filhos_menores: Number(atos.qtd_filhos_menores),
+        responsavel_menores_id: atos.responsavel_menores_id,
+      },
+    }
+  );
+  if (status.value === "success") {
+    $toast.success("Divórcio salvo com sucesso");
+  }
+}
+
+watch(
+  () => props.tabEvent,
+  async (val) => {
+    await fetchAtosPessoa();
   }
 );
-if (status.value === "success") {
-  $toast.success("Divórcio salvo com sucesso");
-}
-}
+
 const blockNonNumeric = (e) => {
-const allowedKeys = [
-  'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete',
-];
+  const allowedKeys = ["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"];
 
-if (
-  !/[0-9]/.test(e.key) &&
-  !allowedKeys.includes(e.key)
-) {
-  e.preventDefault();
-}
+  if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+    e.preventDefault();
+  }
 };
-
 </script>
-
-

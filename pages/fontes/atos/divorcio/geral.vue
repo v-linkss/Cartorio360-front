@@ -5,14 +5,16 @@
       <v-tab v-if="showTabs" value="partes">Partes</v-tab>
       <v-tab v-if="showTabs" value="bens">Bens</v-tab>
       <v-tab v-if="showTabs" value="imoveis">Imoveis</v-tab>
-      <v-tab v-if="showTabs" value="divorcio">Matrimônio</v-tab>
+      <v-tab v-if="showTabs" @click="onDivorcioTabClick" value="divorcio"
+        >Matrimônio</v-tab
+      >
       <v-tab v-if="showTabs" value="minuta">Minuta</v-tab>
       <v-tab v-if="showTabs" value="livro">Livro</v-tab>
       <v-tab v-if="showTabs" value="observacao">Observações</v-tab>
       <v-tab v-if="showTabs" value="anexo">Anexos</v-tab>
       <v-tab v-if="showTabs" value="outros">Outros</v-tab>
     </v-tabs>
-    <v-tabs-window v-model="tab">
+    <v-tabs-window v-model="tab" @update:modelValue="onTabChange">
       <v-tabs-window-item value="dados">
         <ProcuracaoDados
           @saved="handleSave"
@@ -30,6 +32,7 @@
         <ProcuracaoSeparacaoDivorcio
           :ato_token="ato_token_prop"
           :ato_id="ato_id_prop"
+          :tab-event="tabEvent"
         />
       </v-tabs-window-item>
       <v-tabs-window-item v-if="showTabs" value="imoveis">
@@ -89,6 +92,8 @@ const tab = ref(null);
 const showTabs = ref(false);
 const selectedAto = ref(props.ato_token);
 const selectedTipoAtoId = ref(props.ato_tipo_id);
+const tabEvent = ref(0);
+const divorcioTabClicks = ref(0);
 
 const handleSave = ({ id, token }) => {
   ato_id_prop.value = id;
@@ -96,6 +101,20 @@ const handleSave = ({ id, token }) => {
   showTabs.value = true;
   emit("ato-created");
 };
+
+function onTabChange(newTab) {
+  if (newTab === "divorcio") {
+    tabEvent.value++;
+  }
+}
+
+function onDivorcioTabClick() {
+  if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
+    console.log("oi");
+    tabEvent.value++;
+    divorcioTabClicks.value++;
+  }
+}
 
 const getPages = (pages) => {
   pages_prop.value = pages;
