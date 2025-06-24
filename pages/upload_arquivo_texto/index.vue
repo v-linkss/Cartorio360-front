@@ -67,7 +67,9 @@
 
 <script setup>
 import { ref } from 'vue'
-
+definePageMeta({
+  layout: 'empty',
+});
 const fileContent = ref('')
 const fileName = ref('')
 const uploadedFile = ref(null)
