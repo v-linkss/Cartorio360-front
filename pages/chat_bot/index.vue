@@ -8,7 +8,7 @@
 
     <!-- Histórico -->
     <div ref="chatHistory" class="chat-history">
-      <div
+      <div 
         v-for="(msg, i) in messages"
         :key="i"
         :class="[
@@ -16,13 +16,13 @@
           msg.from === 'user'
             ? 'user-bubble'
             : msg.from === 'system'
-            ? 'system-bubble'
-            : 'server-bubble',
+              ? 'system-bubble'
+              : 'server-bubble'
         ]"
       >
         <!-- Se a mensagem for do tipo botão com URL de download -->
         <template v-if="msg.from === 'button'">
-          <button
+          <button 
             class="chat-button"
             @click="downloadDocument(msg.text.message)"
           >
@@ -49,26 +49,28 @@
   </div>
 </template>
 
+
 <script setup>
-import { useRoute } from "vue-router";
-import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { useRoute } from 'vue-router';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 definePageMeta({
-  layout: "empty",
+  layout: 'empty',
 });
 const route = useRoute();
 
-const input = ref("");
+const input = ref('');
 const messages = ref([
-  { from: "server", text: "Por favor, me informe seu nome" },
+  { from: 'server', text: 'Por favor, me informe seu nome' }
 ]);
 const userName = ref();
 
-const chatHistory = ref(null);
+const chatHistory = ref(null)
 
-const exibirBotãoDownload = ref();
+const exibirBotãoDownload = ref()
 let socket = null;
 
-const cartorio_token = route.query.cartorio_token;
+
+const cartorio_token = route.query.cartorio_token
 
 function addMessage(from, text) {
   messages.value.push({ from, text });
@@ -80,102 +82,105 @@ function addMessage(from, text) {
 }
 
 function sendMessage() {
-  if (!userName.value) {
-    userName.value = input.value;
-    connect();
+  if(!userName.value){
+    userName.value = input.value
+    connect()
+
   }
 
   if (!input.value.trim()) return;
-  const msg = formatMessage(input.value);
-  addMessage("user", msg);
-  const data = {
-    type: "chat_bot_message",
-    message: msg,
-    cartorio_token: cartorio_token,
-  };
-  input.value = "";
-  socket.send(JSON.stringify(data));
+    const msg = formatMessage(input.value);
+    addMessage('user', msg);
+    const data = {
+      type: "chat_bot_message",
+      message: msg,
+      cartorio_token: cartorio_token
+
+
+  } 
+  input.value = '';
+  socket.send(JSON.stringify(data)); 
 }
 
-function connect() {
-  // socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
-  socket = new WebSocket(
-    `ws://157.230.216.74:3452?user_name=${userName.value}`
-  );
+  function connect() {
+    // socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
+    socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
 
-  socket.addEventListener("open", () => {
-    console.log("✅ Conectado ao servidor");
-  });
+    socket.addEventListener('open', () => {
+      console.log('✅ Conectado ao servidor');
+    });
 
-  socket.addEventListener("message", (event) => {
-    try {
-      const data = JSON.parse(event.data);
-      const state = data?.message?.state;
+    socket.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        const state = data?.message?.state;
 
-      switch (state) {
-        case "ExibirResposta":
-          console.log("📥 ExibirResposta");
-          exibirBotãoDownload.value = data.message;
-          addMessage("button", data.message);
-          break;
+        switch (state) {
+          case 'ExibirResposta':
+            console.log('📥 ExibirResposta');
+            exibirBotãoDownload.value = data.message;
+            addMessage('button', data.message);
+            break;
 
-        case "Fim":
-          console.log("📴 Chat encerrado pelo servidor");
-          socket.close(1000, "Chat encerrado pelo servidor");
-          break;
+          case 'Fim':
+            console.log('📴 Chat encerrado pelo servidor');
+            socket.close(1000, 'Chat encerrado pelo servidor');
+            break;
 
-        case undefined:
-          if (data.type === "connection_info") {
-            console.log("🔗 Informações de conexão recebidas");
-            // addMessage('system', `Conectado como ${data.username} na sala ${data.roomId}`);
-          } else {
-            console.log("📩 Mensagem desconhecida:", data);
-            addMessage("server", JSON.stringify(data));
-          }
-          break;
+          case undefined:
+            if (data.type === 'connection_info') {
+              console.log('🔗 Informações de conexão recebidas');
+              // addMessage('system', `Conectado como ${data.username} na sala ${data.roomId}`);
+            } else {
+              console.log('📩 Mensagem desconhecida:', data);
+              addMessage('server', JSON.stringify(data));
+            }
+            break;
 
-        default:
-          console.log(`📨 Mensagem com estado "${state}"`);
-          addMessage("server", data.message);
-          break;
+          default:
+            console.log(`📨 Mensagem com estado "${state}"`);
+            addMessage('server', data.message);
+            break;
+        }
+
+      } catch (e) {
+        console.error('❌ Erro ao processar mensagem:', e);
+        addMessage('server', event.data);
       }
-    } catch (e) {
-      console.error("❌ Erro ao processar mensagem:", e);
-      addMessage("server", event.data);
-    }
-  });
+    });
 
-  socket.addEventListener("close", () => {
-    console.log("❌ Conexão encerrada");
-    addMessage("system", "⚠️ Chat encerrado");
-  });
 
-  socket.addEventListener("error", (error) => {
-    console.error("⚠️ Erro na conexão:", error);
-    addMessage("system", "⚠️ Erro na conexão");
-  });
-}
+    socket.addEventListener('close', () => {
+      console.log('❌ Conexão encerrada');
+      addMessage('system', '⚠️ Chat encerrado');
+    });
 
-function downloadDocument(url) {
-  fetch(url)
-    .then((response) => {
+    socket.addEventListener('error', (error) => {
+      console.error('⚠️ Erro na conexão:', error);
+      addMessage('system', '⚠️ Erro na conexão');
+    });
+  };
+
+  function downloadDocument(url) {
+    fetch(url)
+    .then(response=>{
       if (!response.ok) {
-        throw new Error("Erro ao baixar o arquivo");
+        throw new Error('Erro ao baixar o arquivo');
       }
       return response.blob();
     })
-    .then((blob) => {
+    .then(blob => {
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
-      link.download = "documento.pdf";
+      link.download = 'documento.pdf';
       link.click();
       URL.revokeObjectURL(url);
-    });
-}
+    })
+  }
 
 function formatMessage(text) {
-  const rawText = typeof text === "object" ? text.message : text;
+  const rawText = typeof text === 'object' ? text.message : text;
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   return rawText.replace(urlRegex, (url) => {
     return `<a href="${url}" target="_blank" class="chat-link">${url}</a>`;
@@ -260,6 +265,7 @@ onBeforeUnmount(() => {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
 }
+
 
 /* Bolhas de mensagem */
 .chat-bubble {
