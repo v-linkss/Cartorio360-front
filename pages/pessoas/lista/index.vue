@@ -171,7 +171,7 @@ const searchPessoas = async () => {
         cartorio_token: useCookie("user-data").value.cartorio_token,
         nome: searchName.value,
         documento: searchDoc.value.replace(/\D/g, ""),
-        numero_ficha: searchCartao.value,
+        numero_ficha: Number(searchCartao.value),
       },
     }
   );

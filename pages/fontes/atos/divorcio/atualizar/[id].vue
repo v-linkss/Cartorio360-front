@@ -45,7 +45,7 @@
         <v-tab value="partes">Partes</v-tab>
         <v-tab value="bens">Bens</v-tab>
         <v-tab value="imoveis">Imoveis</v-tab>
-        <v-tab value="divorcio">Matrimônio</v-tab>
+        <v-tab @click="onDivorcioTabClick" value="divorcio">Matrimônio</v-tab>
         <v-tab value="minuta">Minuta</v-tab>
         <v-tab value="livro">Livro</v-tab>
         <v-tab value="observacao">Observações</v-tab>
@@ -53,7 +53,7 @@
         <v-tab value="outros">Outros</v-tab>
       </v-tabs>
 
-      <v-tabs-window v-model="tab">
+      <v-tabs-window v-model="tab" @update:modelValue="onTabChange">
         <v-tabs-window-item value="dados">
           <ProcuracaoAtualizarDados
             :item_dados="dadosData"
@@ -64,7 +64,7 @@
           <ProcuracaoAtualizarPartes />
         </v-tabs-window-item>
         <v-tabs-window-item value="divorcio">
-          <ProcuracaoAtualizarSeparacaoDivorcio />
+          <ProcuracaoAtualizarSeparacaoDivorcio :tab-event="tabEvent" />
         </v-tabs-window-item>
         <v-tabs-window-item value="bens">
           <ProcuracaoAtualizarBens />
@@ -120,6 +120,8 @@ const tipoAto = route.query.tipo_ato || "";
 const label = ref(null);
 const updatedAtoDetails = ref(null);
 const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(" - ");
+const tabEvent = ref(0);
+const divorcioTabClicks = ref(0);
 label.value = initialLabel || ""; // Primeiro autocomplete
 updatedAtoDetails.value = initialUpdatedAtoDetails || ""; // Segundo autocomplete
 
@@ -155,6 +157,19 @@ const getDocument = (doc) => {
 function openModal() {
   if (!dadosData.dt_lavratura) {
     modalVisible.value = true;
+  }
+}
+
+function onTabChange(newTab) {
+  if (newTab === "divorcio") {
+    tabEvent.value++;
+  }
+}
+
+function onDivorcioTabClick() {
+  if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
+    tabEvent.value++;
+    divorcioTabClicks.value++;
   }
 }
 
