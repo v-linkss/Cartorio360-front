@@ -78,7 +78,7 @@ jobs:
           key: ${{ secrets.SSH_KEY_DEVELOP }}
           port: 22
           source: "**"
-          target: "/var/www/html/cartorio360/public_html/producao/cartorio360-front"
+          target: "/var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front"
           rm: true
           
       - name: 📂 Create .env file
@@ -91,7 +91,7 @@ jobs:
 
           script: |
             
-            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
             touch .env
             
             echo "MS_AUTH=${{secrets.MS_AUTH_DEVELOP}}" | tee -a .env
@@ -109,7 +109,7 @@ jobs:
           script: |
             pm2 stop all
             
-            # cd /var/www/html/cartorio360/public_html/producao/cache_clear
+            # cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
             # sh limpar_cache.sh
           
       
@@ -123,7 +123,7 @@ jobs:
           port: 22
 
           script: |
-            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
             # npm run pm2-stop
             npm install
             npm run pm2
