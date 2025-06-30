@@ -1,54 +1,70 @@
+<!-- Navbar.vue -->
 <template>
-  <v-app >
+  <v-app>
     <v-app-bar color="#0a063b" height="100">
-      <div>
+      <!-- ­­­­­­­­­ Logo + nome do cartório -->
+      <div class="d-flex align-center">
         <img
-        class="ml-5 mt-2"
-          :width="300"
-          :height="50"
+          class="ml-5 mt-2"
+          width="300"
+          height="50"
           src="../assets/logo_navbar.png"
-        ></img>
-    <h3 style="color: white; margin-left: 30px">
-      {{ useCookie("user-data").value.cartorio_nome }}
-    </h3> 
+        />
+        <h3 class="cartorio ml-6">{{ cartorioNome }}</h3>
       </div>
-      <v-spacer></v-spacer>
 
-      <!-- Loop de menus -->
-      <v-menu v-for="(menu, index) in menuName" :key="index">
-        <template v-slot:activator="{ props }">
-          <v-btn style="color: white" v-bind="props">
-            {{ menu.name }}
-          </v-btn>
-        </template>
-        <v-list>
-          <!-- Submenu: itera sobre as subchaves de cada menu -->
-          <v-list-item
-            v-for="(subMenu, subIndex) in menu.subMenus"
-            :key="subIndex"
-            :value="subMenu.url"
-          >
-            <NuxtLink
-              style="text-decoration: none; color: inherit"
-              :to="`/${subMenu.url}`"
+      <v-spacer />
+
+      <!-- Menus dinâmicos vindos do cookie -->
+      <template v-for="(menu, idx) in menuName" :key="`menu-${idx}`">
+        <v-menu>
+          <template #activator="{ props }">
+            <v-btn v-bind="props" text class="white--text">
+              {{ menu.name }}
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="(sub, sIdx) in menu.subMenus"
+              :key="`submenu-${sIdx}`"
             >
-              <v-list-item-title>{{ subMenu.name }}</v-list-item-title>
-            </NuxtLink>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+              <NuxtLink
+                :to="`/${sub.url}`"
+                class="text-decoration-none inherit"
+              >
+                <v-list-item-title>{{ sub.name }}</v-list-item-title>
+              </NuxtLink>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
 
-      <!-- Menu de usuário -->
+      <!-- Ícone de notificações -->
+      <v-badge
+        v-if="notificationCount > 0"
+        :content="notificationCount"
+        color="red"
+        overlap
+      >
+        <v-btn icon @click="openNotificationPanel">
+          <v-icon color="white">mdi-bell</v-icon>
+        </v-btn>
+      </v-badge>
+      <v-btn v-else icon @click="openNotificationPanel">
+        <v-icon color="white">mdi-bell</v-icon>
+      </v-btn>
+
+      <!-- Menu do usuário -->
       <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn class="user" v-bind="props">
-            {{ useCookie("user-data").value.nome }}
-          </v-btn>
+        <template #activator="{ props }">
+          <v-btn class="user" v-bind="props">{{ userName }}</v-btn>
         </template>
+
         <v-list>
           <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
+            v-for="(item, i) in items"
+            :key="`item-${i}`"
             @click="itemClick(item.title)"
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -57,52 +73,136 @@
       </v-menu>
     </v-app-bar>
 
-    <!-- Corpo da página -->
+    <!-- Conteúdo principal -->
     <v-main>
-      <slot></slot>
+      <slot />
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-const router = useRouter();
-const items = [{ title: "Alterar Senha" }, { title: "Sair" }];
+/* ------------------------------------------------------------------
+ * Imports e utilitários
+ * ---------------------------------------------------------------- */
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useCookie } from '#app'
+const config = useRuntimeConfig();
 
-const tipoPerfilData = useCookie("menu-navbar");
+/* ------------------------------------------------------------------
+ * Dados fixos
+ * ---------------------------------------------------------------- */
+const router = useRouter()
+const items = [{ title: 'Alterar Senha' }, { title: 'Sair' }]
 
-const menuName = ref(
-  Object.keys(tipoPerfilData.value || {})
-    .filter(key => key !== "Tela Principal")
-    .map(key => ({
+/* ------------------------------------------------------------------
+ * Cookies
+ * ---------------------------------------------------------------- */
+const perfilCookie = useCookie('menu-navbar')
+const userCookie = useCookie('user-data')
+const authToken = useCookie('auth_token')
+
+/* ------------------------------------------------------------------
+ * Menus vindos do cookie
+ * ---------------------------------------------------------------- */
+const menuName = computed(() =>
+  Object.keys(perfilCookie.value || {})
+    .filter((key) => key !== 'Tela Principal')
+    .map((key) => ({
       name: key,
-      subMenus: Object.keys(tipoPerfilData.value[key]).map(subKey => ({
+      subMenus: Object.keys(perfilCookie.value[key]).map((subKey) => ({
         name: subKey,
-        url: tipoPerfilData.value[key][subKey].url
-      }))
-    }))
-);
+        url: perfilCookie.value[key][subKey].url,
+      })),
+    })),
+)
 
+/* ------------------------------------------------------------------
+ * Dados do usuário
+ * ---------------------------------------------------------------- */
+const userName = computed(() => userCookie.value?.nome ?? 'Usuário')
+const cartorioNome = computed(() => userCookie.value?.cartorio_nome ?? '')
+
+/* ------------------------------------------------------------------
+ * Notificações via WebSocket
+ * ---------------------------------------------------------------- */
+const notificationCount = ref(0)
+let socket = null
+
+function openNotificationPanel() {
+  router.push('/chat_atendimento'); // Substitua '/notifications' pela rota desejada
+
+}
+
+function connectWebSocket() {
+  socket = new WebSocket(`${config.public.chat_bot}?user_name=${userName.value}&room_id=notifications`);
+
+  socket.onopen = () => console.log('🔌 WebSocket conectado')
+
+  socket.onmessage = (event) => {
+    try {
+      console.log(event.data)
+      const data = JSON.parse(event.data)
+      if (data?.type === 'notification') notificationCount.value = data.queue.length || 0
+    } catch (err) {
+      console.error('Falha ao parsear mensagem:', err)
+    }
+  }
+
+  socket.onclose = () => {
+    console.warn('WebSocket desconectado — reconectando em 5 s…')
+    setTimeout(connectWebSocket, 5_000)
+  }
+
+  socket.onerror = (err) => {
+    console.error('Erro WebSocket:', err)
+    socket.close()
+  }
+}
+function goToNotifications() {
+  router.push('/notifications'); // Substitua '/notifications' pela rota desejada
+}
+
+onMounted(connectWebSocket)
+onUnmounted(() => socket?.close())
+
+/* ------------------------------------------------------------------
+ * Ações do menu do usuário
+ * ---------------------------------------------------------------- */
 function itemClick(title) {
-  if (title === "Sair") {
-    logout();
-  } else if (title === "Alterar Senha") {
-    // Placeholder para a funcionalidade de Alterar Senha
+  if (title === 'Sair') logout()
+  if (title === 'Alterar Senha') {
+    /* implementar fluxo de alteração de senha */
   }
 }
 
 function logout() {
-  useCookie("user-data").value = "";
-  useCookie("auth_token").value = "";
-  router.push("/login");
+  userCookie.value = ''
+  authToken.value = ''
+  router.push('/login')
 }
 </script>
 
 <style scoped>
-.menu-texts .v-btn {
-  color: #429946;
+/* Ajustes de cor para textos */
+.cartorio,
+.white--text {
+  color: #ffffff;
 }
+
+/* Mantém links sem sublinhado herdar cor */
+.inherit {
+  color: inherit;
+}
+
+/* Distância extra para o nome do cartório */
+.ml-6 {
+  margin-left: 30px;
+}
+
+/* Botão do usuário */
 .user {
-  background-color: #ffffff;
+  background: #ffffff;
   color: #73777a;
 }
 </style>
