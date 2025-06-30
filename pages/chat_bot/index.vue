@@ -63,7 +63,7 @@ const messages = ref([
   { from: 'server', text: 'Por favor, me informe seu nome' }
 ]);
 const userName = ref();
-
+const typeMenssage =ref('chat_bot_message')
 const chatHistory = ref(null)
 
 const exibirBotãoDownload = ref()
@@ -73,7 +73,15 @@ let socket = null;
 const cartorio_token = route.query.cartorio_token
 
 function addMessage(from, text) {
-  messages.value.push({ from, text });
+  console.log("from ",from)
+  console.log("userName ",userName.value)
+
+  if(from !== userName.value){
+    console.log("addMessage",from)
+
+    messages.value.push({ from, text });
+
+  }
   nextTick(() => {
     if (chatHistory.value) {
       chatHistory.value.scrollTop = chatHistory.value.scrollHeight;
@@ -92,12 +100,13 @@ function sendMessage() {
     const msg = formatMessage(input.value);
     addMessage('user', msg);
     const data = {
-      type: "chat_bot_message",
+      type: typeMenssage.value,
       message: msg,
       cartorio_token: cartorio_token
 
 
   } 
+  console.log("typeMenssage",typeMenssage.value)
   input.value = '';
   socket.send(JSON.stringify(data)); 
 }
@@ -122,6 +131,9 @@ function sendMessage() {
             addMessage('button', data.message);
             break;
 
+          case 'user_joined':
+            break;
+
           case 'Fim':
             console.log('📴 Chat encerrado pelo servidor');
             socket.close(1000, 'Chat encerrado pelo servidor');
@@ -130,15 +142,26 @@ function sendMessage() {
           case undefined:
             if (data.type === 'connection_info') {
               console.log('🔗 Informações de conexão recebidas');
-              // addMessage('system', `Conectado como ${data.username} na sala ${data.roomId}`);
             } else {
-              console.log('📩 Mensagem desconhecida:', data);
-              addMessage('server', JSON.stringify(data));
+              // addMessage(userName.value, data.message);
+              if(data.username && data.username != userName.value){
+                addMessage('server', data.message);
+                
+              }else{
+  
+
+                addMessage(userName.value, data.message);
+              }
             }
             break;
+          case 'NotasDevolutivas':
+            typeMenssage.value = 'chat_message';
+            addMessage('server', data.message);
 
           default:
             console.log(`📨 Mensagem com estado "${state}"`);
+            console.log('📩 Mensagem com estado desconhecido:', data);
+
             addMessage('server', data.message);
             break;
         }
@@ -331,3 +354,6 @@ onBeforeUnmount(() => {
   background-color: #2563eb;
 }
 </style>
+
+
+
