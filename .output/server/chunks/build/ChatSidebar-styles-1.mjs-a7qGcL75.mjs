@@ -1,0 +1,4 @@
+const ChatSidebar_vue_vue_type_style_index_0_scoped_e3721af5_lang = ".chat-sidebar[data-v-e3721af5]{background:#111b21;color:#fff;display:flex;flex-direction:column;overflow-y:auto;padding:1rem;width:280px}.sidebar-header[data-v-e3721af5]{font-size:1.25rem;font-weight:700;margin-bottom:1rem}.chat-item[data-v-e3721af5]{background:#202c33;border:none;border-radius:8px;cursor:pointer;padding:.75rem;text-align:left;transition:background .3s ease;width:100%}.chat-item[data-v-e3721af5]:hover{background:#2a3942}.chat-item.active[data-v-e3721af5]{background:#005c4b}.chat-name[data-v-e3721af5]{color:#fff;display:block;font-weight:600}.chat-preview[data-v-e3721af5]{color:#aebac1;display:block;font-size:.8rem;margin-top:.2rem}";
+
+export { ChatSidebar_vue_vue_type_style_index_0_scoped_e3721af5_lang as C };
+//# sourceMappingURL=ChatSidebar-styles-1.mjs-a7qGcL75.mjs.map

@@ -585,6 +585,12 @@ const generateRouteKey$1 = (routeProps, override) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+const __nuxt_page_meta$6 = {
+  layout: "empty"
+};
+const __nuxt_page_meta$5 = {
+  layout: "empty"
+};
 const __nuxt_page_meta$4 = {
   layout: "empty"
 };
@@ -624,6 +630,18 @@ const _routes = [
     component: () => import('./index-BUqHo36P.mjs')
   },
   {
+    name: "chat_atendimento",
+    path: "/chat_atendimento",
+    meta: __nuxt_page_meta$6,
+    component: () => import('./index-DI9El62g.mjs')
+  },
+  {
+    name: "chat_bot-atendimento",
+    path: "/chat_bot/atendimento",
+    meta: __nuxt_page_meta$5,
+    component: () => import('./atendimento-BC7Fv87C.mjs')
+  },
+  {
     name: "chat_bot-index copy",
     path: "/chat_bot/index%20copy",
     meta: __nuxt_page_meta$4,
@@ -633,7 +651,7 @@ const _routes = [
     name: "chat_bot",
     path: "/chat_bot",
     meta: __nuxt_page_meta$3,
-    component: () => import('./index-DRPR9x0p.mjs')
+    component: () => import('./index-COb0QjuF.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
@@ -4237,6 +4255,12 @@ function provideTheme(props) {
   };
   provide(ThemeSymbol, newTheme);
   return newTheme;
+}
+function useTheme() {
+  getCurrentInstance("useTheme");
+  const theme = inject$1(ThemeSymbol, null);
+  if (!theme) throw new Error("Could not find Vuetify theme injection");
+  return theme;
 }
 function createCssClass(lines, selector, content) {
   lines.push(`${selector} {
@@ -10470,7 +10494,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-Cbv_Cq11.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-Bb_VCn0_.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -10882,5 +10906,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VTextField as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, isObject as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, filterInputAttrs as aA, VLabel as aB, makeGroupProps as aC, useGroup as aD, useGoTo as aE, VFadeTransition as aF, focusableChildren as aG, makeGroupItemProps as aH, useSize as aI, useGroupItem as aJ, VExpandXTransition as aK, debounce as aL, useToggleScope as aM, defineComponent as aN, MaybeTransition as aO, VExpandTransition as aP, deprecate as aQ, focusChild as aR, Intersect as aS, makeFormProps as aT, createForm as aU, makeVBtnProps as aV, animate as aW, standardEasing as aX, keys as aY, makeLazyProps as aZ, useLazy as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, asyncDataDefaults as ax, createError as ay, getUid as az, useNuxtApp as b, VProgressCircular as b0, VSheet as b1, VSpacer as b2, getDecimals as b3, VScaleTransition as b4, makeFocusProps as b5, makeVInputProps as b6, useFocus as b7, VInput as b8, makeVFieldProps as b9, filterFieldProps as ba, VField as bb, VCounter as bc, callEvent as bd, makeLayoutItemProps as be, useLayoutItem as bf, useLayout as bg, VApp as bh, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, useRoute$1 as f, VBtn as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
+export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VTextField as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, isObject as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, filterInputAttrs as aA, VLabel as aB, makeGroupProps as aC, useGroup as aD, useGoTo as aE, VFadeTransition as aF, focusableChildren as aG, makeGroupItemProps as aH, useSize as aI, useGroupItem as aJ, VExpandXTransition as aK, debounce as aL, useToggleScope as aM, defineComponent as aN, MaybeTransition as aO, VExpandTransition as aP, deprecate as aQ, focusChild as aR, Intersect as aS, makeFormProps as aT, createForm as aU, makeVBtnProps as aV, animate as aW, standardEasing as aX, keys as aY, makeLazyProps as aZ, useLazy as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, asyncDataDefaults as ax, createError as ay, getUid as az, useNuxtApp as b, VProgressCircular as b0, VSheet as b1, VSpacer as b2, getDecimals as b3, VScaleTransition as b4, makeFocusProps as b5, makeVInputProps as b6, useFocus as b7, VInput as b8, makeVFieldProps as b9, filterFieldProps as ba, VField as bb, VCounter as bc, callEvent as bd, makeLayoutItemProps as be, useLayoutItem as bf, useTheme as bg, pickWithRest as bh, useLayout as bi, VApp as bj, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, useRoute$1 as f, VBtn as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
 //# sourceMappingURL=server.mjs.map
