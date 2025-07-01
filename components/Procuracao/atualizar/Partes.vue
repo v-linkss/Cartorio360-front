@@ -253,7 +253,7 @@ const headers = [
     title: "Pessoa",
     align: "start",
     key: "pessoa.nome",
-    width: "400px",
+    width: "30%",
   },
   {
     title: "Papel",
@@ -264,6 +264,7 @@ const headers = [
     title: "Representante",
     align: "start",
     key: "representante.nome",
+    width: "25%",
   },
   { value: "actions" },
 ];
@@ -393,7 +394,7 @@ const redirectToFicha = async (item) => {
 
 const redirectToRepresentante = (item) => {
   const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id)
+    .filter((p) => p.pessoa.id !== item.pessoa.id && !p.excluido)
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,

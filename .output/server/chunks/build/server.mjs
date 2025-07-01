@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-BfbQYGrR.mjs')
+    component: () => import('./index-CAUGmcHx.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -617,22 +617,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-YJB4jsbk.mjs')
+    component: () => import('./_id_-a9afLlTf.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-BxhaNc4U.mjs')
+    component: () => import('./geral-CFxtpfWg.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-DiLM8hoc.mjs')
+    component: () => import('./_id_-BRtZBSlr.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-DhXsd9af.mjs')
+    component: () => import('./geral-B-k4h4-J.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -642,7 +642,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-Qkaw8uJI.mjs')
+    component: () => import('./procuracao-NyCSpu8b.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -704,17 +704,17 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-1u5mhz6-.mjs')
+    component: () => import('./_id_-Ce99wC2r.mjs')
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BOWBAMrt.mjs')
+    component: () => import('./criar-ato-DGsEq-tm.mjs')
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-D7rBcQ3v.mjs')
+    component: () => import('./criar-registro-Btn7UKlS.mjs')
   },
   {
     name: "os-lista",

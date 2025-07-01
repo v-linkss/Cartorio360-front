@@ -187,6 +187,7 @@ const headers = [
     title: "Pessoa",
     align: "start",
     key: "pessoa.nome",
+    width: "50%",
   },
   {
     title: "Papel",
@@ -293,7 +294,10 @@ const redirectToFicha = async (item) => {
 
   const { data: link } = await useFetch(baixarDocumento, {
     method: "POST",
-    body: { bucket:useCookie("user-data").value.cartorio_token, path: imagemBiometria.value.link },
+    body: {
+      bucket: useCookie("user-data").value.cartorio_token,
+      path: imagemBiometria.value.link,
+    },
   });
 
   const linkMinio = imagemBiometria.value.link;

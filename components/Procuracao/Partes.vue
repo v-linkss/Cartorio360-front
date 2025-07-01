@@ -253,7 +253,7 @@ const headers = [
     title: "Pessoa",
     align: "start",
     key: "pessoa.nome",
-    width: "400px",
+    width: "30%",
   },
   {
     title: "Papel",
@@ -264,6 +264,7 @@ const headers = [
     title: "Representante",
     align: "start",
     key: "representante.nome",
+    width: "25%",
   },
   { value: "actions" },
 ];

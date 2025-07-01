@@ -57,7 +57,7 @@ const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const getSelos = `${config.public.managemant}/listarSelos`;
-const reimprimeSelos = `${config.public.envioDoc}/print`;
+const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 
 const selosItems = ref([]);
@@ -113,20 +113,19 @@ const reimprimeSelosAtos = async () => {
   if (await v$.value.$validate()) {
     const selosJson = selectedSelos.value.map((selo) => ({ selo_token: selo }));
     const body = {
-      // escrevente_token: state.escrevente,
-      // ato_token: props.ato_token,
-      // selos: selosJson,
-      zpl: "^XA\n^CF0,40\n^FO50,30^FDCartório 360^FS\n^CF0,30\n^FO50,80^FDDocumento: 123456^FS\n^FO50,120^FDData: 21/06/2025^FS\n^FO50,160^FDAssinatura:___________________^FS\n^FO50,210^GB700,3,3^FS\n^CF0,25\n^FO50,230^FDEste documento foi autenticado eletronicamente.^FS\n^XZ",
+      escrevente_token: state.escrevente,
+      ato_token: props.ato_token,
+      selos: selosJson,
     };
     const { data, error, status } = await useFetch(`${reimprimeSelos}`, {
       method: "POST",
       body: body,
     });
     if (status.value === "success") {
-      // const newWindow = window.open("", "_blank");
-      // newWindow.document.open();
-      // newWindow.document.write(data.value[0].etiqueta);
-      // newWindow.document.close();
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value[0].etiqueta);
+      newWindow.document.close();
       closeModal();
     }
   }
