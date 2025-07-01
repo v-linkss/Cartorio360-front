@@ -297,6 +297,7 @@ onBeforeUnmount(() => {
   max-width: 80%;
   word-wrap: break-word;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  white-space: pre-line; /* Permite a quebra de linha com \n */
 }
 
 .user-bubble {
