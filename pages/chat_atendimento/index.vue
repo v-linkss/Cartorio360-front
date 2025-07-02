@@ -34,6 +34,8 @@ definePageMeta({
 const config        = useRuntimeConfig()
 const chats         = ref([])
 const activeChatId  = ref(null)
+const isHumanized  = ref(false)
+
 const activeChat    = computed(() => chats.value.find(c => c.id === activeChatId.value))
 
 const route         = useRoute()
@@ -93,7 +95,7 @@ function connectWebSocket() {
 function sendAcceptRequest() {
   if (socket && socket.readyState === WebSocket.OPEN) {
     const payload = {
-      type: "accept_request",
+      type: "queue_list",
       message: "1",
       id: "notifications", // Substitua pelo ID correto, se necessário
     };

@@ -59,7 +59,7 @@
   
   function sendMessage(text){
     if(!socket || socket.readyState!==WebSocket.OPEN) return
-    const payload = { type:'chat_message', message:text, cartorio_token:props.cartorioToken }
+    const payload = { type:'chat_message', message:text, cartorio_token:props.cartorioToken, isHumanized: true }
     messages.value.push({ from:'user', text })
     socket.send(JSON.stringify(payload))
     nextTick(()=>scrollBottom())
@@ -83,8 +83,13 @@
   history.forEach(entry => {
     if (entry.type === 'chat_message') {
       console.log("📜 Processando mensagem do chat_message:", entry);
+      var from =  entry.username
+      if(entry.username === "Ewerton"){
+         from = 'user' ;
+      } else{
+         from = entry.username ;
+      }
 
-      const from = entry.username === userName.value ? 'user' : 'server';
       messages.value.push({ from, text: entry.message });
     } else if (entry.type === 'bot_message') {
       console.log("📜 Processando mensagem do bot_message:", entry);
@@ -94,6 +99,7 @@
       console.warn("⚠️ Tipo de mensagem desconhecido:", entry.type);
     }
   });
+
 
   nextTick(() => {
     if (historyRef.value) {
