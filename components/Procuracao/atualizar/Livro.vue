@@ -90,6 +90,7 @@ const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const calculaAto = `${config.public.managemant}/ato_calcular`;
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const condMessage = ref(
@@ -169,27 +170,37 @@ loadDefaultDocument();
 const lavraAto = async () => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
-  try {
-    const { data, status } = await useFetch(lavraAtoLivro, {
-      method: "POST",
-      body: {
-        ato_token: route.query.ato_token_edit,
-        qtd_paginas: pages,
-        escrevente_token: state.escrevente,
-        usuario_token: usuario_token,
-        cartorio_token: cartorio_token,
-      },
-    });
 
-    if (status.value === "success") {
+  const { data, status } = await useFetch(lavraAtoLivro, {
+    method: "POST",
+    body: {
+      ato_token: route.query.ato_token_edit,
+      qtd_paginas: pages,
+      escrevente_token: state.escrevente,
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+    },
+  });
+
+  if (status.value === "success") {
+    if (data.value[0].tipo_etiqueta === "html") {
       lavraData.value = data.value;
       selo.value = data.value[0].selo;
-      $toast.success("Ato lavrado com sucesso!");
-    } else {
-      $toast.error("Falha ao lavrar o ato.");
+    } else if (data.value[0].tipo_etiqueta === "zpl") {
+      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: "^XA\n^CF0,40\n^FO50,30^FDCartório 360^FS\n^CF0,30\n^FO50,80^FDDocumento: 123456^FS\n^FO50,120^FDData: 21/06/2025^FS\n^FO50,160^FDAssinatura:___________________^FS\n^FO50,210^GB700,3,3^FS\n^CF0,25\n^FO50,230^FDEste documento foi autenticado eletronicamente.^FS\n^XZ",
+        },
+      });
+      if (zplStatus.value !== "success") {
+        $toast.error("Não foi possivel fazer a impressao da etiqueta");
+        return;
+      }
     }
-  } catch (error) {
-    $toast.error("Erro ao conectar com o servidor.");
+    $toast.success("Ato lavrado com sucesso!");
+  } else {
+    $toast.error("Falha ao lavrar o ato.");
   }
 };
 

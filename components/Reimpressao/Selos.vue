@@ -59,6 +59,7 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const getSelos = `${config.public.managemant}/listarSelos`;
 const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
 
 const selosItems = ref([]);
 const selectedSelos = ref([]);

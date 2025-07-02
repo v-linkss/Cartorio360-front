@@ -110,27 +110,36 @@ const state = reactive({
 });
 
 const lavraAto = async () => {
-  try {
-    const { data, status } = await useFetch(lavraAtoLivro, {
-      method: "POST",
-      body: {
-        ato_token: props.ato_token,
-        qtd_paginas: props.pages,
-        escrevente_token: state.escrevente,
-        usuario_token: usuario_token,
-        cartorio_token: cartorio_token,
-      },
-    });
+  const { data, status } = await useFetch(lavraAtoLivro, {
+    method: "POST",
+    body: {
+      ato_token: props.ato_token,
+      qtd_paginas: props.pages,
+      escrevente_token: state.escrevente,
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+    },
+  });
 
-    if (status.value === "success") {
+  if (status.value === "success") {
+    if (data.value[0].tipo_etiqueta === "html") {
       lavraData.value = data.value;
       selo.value = data.value[0].selo;
-      $toast.success("Ato lavrado com sucesso!");
-    } else {
-      $toast.error("Falha ao lavrar o ato.");
+    } else if (data.value[0].tipo_etiqueta === "zpl") {
+      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: "^XA\n^CF0,40\n^FO50,30^FDCartório 360^FS\n^CF0,30\n^FO50,80^FDDocumento: 123456^FS\n^FO50,120^FDData: 21/06/2025^FS\n^FO50,160^FDAssinatura:___________________^FS\n^FO50,210^GB700,3,3^FS\n^CF0,25\n^FO50,230^FDEste documento foi autenticado eletronicamente.^FS\n^XZ",
+        },
+      });
+      if (zplStatus.value !== "success") {
+        $toast.error("Não foi possivel fazer a impressao da etiqueta");
+        return;
+      }
     }
-  } catch (error) {
-    $toast.error("Erro ao conectar com o servidor.");
+    $toast.success("Ato lavrado com sucesso!");
+  } else {
+    $toast.error("Falha ao lavrar o ato.");
   }
 };
 
