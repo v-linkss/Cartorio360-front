@@ -1,8 +1,6 @@
-<!-- Navbar.vue -->
 <template>
   <v-app>
     <v-app-bar color="#0a063b" height="100">
-      <!-- ­­­­­­­­­ Logo + nome do cartório -->
       <div class="d-flex align-center">
         <img
           class="ml-5 mt-2"
@@ -15,7 +13,6 @@
 
       <v-spacer />
 
-      <!-- Menus dinâmicos vindos do cookie -->
       <template v-for="(menu, idx) in menuName" :key="`menu-${idx}`">
         <v-menu>
           <template #activator="{ props }">
@@ -81,30 +78,22 @@
 </template>
 
 <script setup>
-/* ------------------------------------------------------------------
- * Imports e utilitários
- * ---------------------------------------------------------------- */
+
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCookie } from '#app'
 const config = useRuntimeConfig();
 
-/* ------------------------------------------------------------------
- * Dados fixos
- * ---------------------------------------------------------------- */
+
 const router = useRouter()
 const items = [{ title: 'Alterar Senha' }, { title: 'Sair' }]
 
-/* ------------------------------------------------------------------
- * Cookies
- * ---------------------------------------------------------------- */
+
 const perfilCookie = useCookie('menu-navbar')
 const userCookie = useCookie('user-data')
 const authToken = useCookie('auth_token')
 
-/* ------------------------------------------------------------------
- * Menus vindos do cookie
- * ---------------------------------------------------------------- */
+
 const menuName = computed(() =>
   Object.keys(perfilCookie.value || {})
     .filter((key) => key !== 'Tela Principal')
@@ -117,33 +106,42 @@ const menuName = computed(() =>
     })),
 )
 
-/* ------------------------------------------------------------------
- * Dados do usuário
- * ---------------------------------------------------------------- */
+
 const userName = computed(() => userCookie.value?.nome ?? 'Usuário')
 const cartorioNome = computed(() => userCookie.value?.cartorio_nome ?? '')
 
-/* ------------------------------------------------------------------
- * Notificações via WebSocket
- * ---------------------------------------------------------------- */
+
 const notificationCount = ref(0)
 let socket = null
 
 function openNotificationPanel() {
-  router.push('/chat_atendimento'); // Substitua '/notifications' pela rota desejada
-
+  router.push('/chat_atendimento'); 
 }
 
 function connectWebSocket() {
   socket = new WebSocket(`${config.public.chat_bot}?user_name=${userName.value}&room_id=notifications`);
 
-  socket.onopen = () => console.log('🔌 WebSocket conectado')
+  socket.onopen = () => {
+    console.log('🔌 WebSocket conectado');
 
+    // Envia o evento "accept_request" após a conexão ser estabelecida
+    sendAcceptRequest();
+  };
   socket.onmessage = (event) => {
     try {
       console.log(event.data)
       const data = JSON.parse(event.data)
-      if (data?.type === 'notification') notificationCount.value = data.queue.length || 0
+      switch (data.type) {
+        case 'notification':
+          console.log('Nova notificação recebida:', data)
+          notificationCount.value = data.queue.length || 0
+          break
+        case 'queue_list':
+          console.log('Lista de notificações recebida:', data)
+          notificationCount.value = data.totalRequests || 0
+          break
+      }
+
     } catch (err) {
       console.error('Falha ao parsear mensagem:', err)
     }
@@ -166,13 +164,10 @@ function goToNotifications() {
 onMounted(connectWebSocket)
 onUnmounted(() => socket?.close())
 
-/* ------------------------------------------------------------------
- * Ações do menu do usuário
- * ---------------------------------------------------------------- */
+
 function itemClick(title) {
   if (title === 'Sair') logout()
   if (title === 'Alterar Senha') {
-    /* implementar fluxo de alteração de senha */
   }
 }
 
@@ -181,26 +176,38 @@ function logout() {
   authToken.value = ''
   router.push('/login')
 }
+
+
+function sendAcceptRequest() {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    const payload = {
+      type: "queue_list",
+      message: "1",
+      id: "notifications", // Substitua pelo ID correto, se necessário
+    };
+    socket.send(JSON.stringify(payload));
+    console.log("📤 Evento enviado ao WebSocket:", payload);
+  } else {
+    console.warn("⚠️ WebSocket não está conectado. Tentando novamente em 1 segundo...");
+    setTimeout(sendAcceptRequest, 1000); // Tenta novamente após 1 segundo
+  }
+}
 </script>
 
 <style scoped>
-/* Ajustes de cor para textos */
 .cartorio,
 .white--text {
   color: #ffffff;
 }
 
-/* Mantém links sem sublinhado herdar cor */
 .inherit {
   color: inherit;
 }
 
-/* Distância extra para o nome do cartório */
 .ml-6 {
   margin-left: 30px;
 }
 
-/* Botão do usuário */
 .user {
   background: #ffffff;
   color: #73777a;

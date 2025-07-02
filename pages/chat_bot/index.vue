@@ -65,6 +65,7 @@ const messages = ref([
 const userName = ref();
 const typeMenssage =ref('chat_bot_message')
 const chatHistory = ref(null)
+const isHumanized  = ref(false)
 
 const exibirBotãoDownload = ref()
 let socket = null;
@@ -99,13 +100,15 @@ function sendMessage() {
   if (!input.value.trim()) return;
     const msg = formatMessage(input.value);
     addMessage('user', msg);
+    
     const data = {
       type: typeMenssage.value,
       message: msg,
-      cartorio_token: cartorio_token
+      cartorio_token: cartorio_token,
+      isHumanized: isHumanized.value,
+    } 
 
-
-  } 
+  console.log("#######################################",data) 
   console.log("typeMenssage",typeMenssage.value)
   input.value = '';
   socket.send(JSON.stringify(data)); 
@@ -118,31 +121,40 @@ function sendMessage() {
     socket.addEventListener('open', () => {
       console.log('✅ Conectado ao servidor');
     });
-
     socket.addEventListener('message', (event) => {
+    console.log('Conectando ao chat:', event);
+
       try {
         const data = JSON.parse(event.data);
         const state = data?.message?.state;
-
+        // if(data.type = 'user_joined'){
+        //   console.log('👤 Usuário entrou:', data);
+        //   return
+        // }
         switch (state) {
           case 'ExibirResposta':
+          console.log('ExibirResposta:', event);
+
             console.log('📥 ExibirResposta');
             exibirBotãoDownload.value = data.message;
             addMessage('button', data.message);
             break;
 
-          case 'user_joined':
-            break;
-
           case 'Fim':
+          console.log('Fim:', event);
+
             console.log('📴 Chat encerrado pelo servidor');
             socket.close(1000, 'Chat encerrado pelo servidor');
             break;
 
           case undefined:
+          console.log('undefined:', event);
+
             if (data.type === 'connection_info') {
               console.log('🔗 Informações de conexão recebidas');
-            } else {
+            } else if(data.type === 'user_joined' || data.type === 'user_left'){
+              break
+            }else {
               // addMessage(userName.value, data.message);
               if(data.username && data.username != userName.value){
                 addMessage('server', data.message);
@@ -155,10 +167,14 @@ function sendMessage() {
             }
             break;
           case 'NotasDevolutivas':
+          console.log('NotasDevolutivas:', data.message);
+            isHumanized.value = true;
             typeMenssage.value = 'chat_message';
             addMessage('server', data.message);
-
+            break
           default:
+          console.log('default:', event);
+
             console.log(`📨 Mensagem com estado "${state}"`);
             console.log('📩 Mensagem com estado desconhecido:', data);
 
@@ -209,6 +225,26 @@ function formatMessage(text) {
     return `<a href="${url}" target="_blank" class="chat-link">${url}</a>`;
   });
 }
+import { watch } from 'vue';
+
+watch(isHumanized, (newValue) => {
+  console.log('isHumanized:', newValue);
+  if (newValue === true) {
+    // Verifica se o socket está conectado
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      const data = {
+        type: 'chat_message',
+        message: 'O chat foi humanizado.',
+        cartorio_token: cartorio_token,
+        isHumanized: newValue,
+      };
+
+      socket.send(JSON.stringify(data));
+    } else {
+      console.warn('⚠️ WebSocket não está conectado.');
+    }
+  }
+});
 
 onBeforeUnmount(() => {
   if (socket && socket.readyState === WebSocket.OPEN) {
