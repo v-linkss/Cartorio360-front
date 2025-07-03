@@ -123,10 +123,23 @@ const reimprimeSelosAtos = async () => {
       body: body,
     });
     if (status.value === "success") {
-      const newWindow = window.open("", "_blank");
-      newWindow.document.open();
-      newWindow.document.write(data.value[0].etiqueta);
-      newWindow.document.close();
+      if (data.value[0].tipo_etiqueta === "html") {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].etiqueta);
+        newWindow.document.close();
+      } else if (data.value[0].tipo_etiqueta === "zpl") {
+        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+          method: "POST",
+          body: {
+            zpl: "^XA\n^CF0,40\n^FO50,30^FDCartório 360^FS\n^CF0,30\n^FO50,80^FDDocumento: 123456^FS\n^FO50,120^FDData: 21/06/2025^FS\n^FO50,160^FDAssinatura:___________________^FS\n^FO50,210^GB700,3,3^FS\n^CF0,25\n^FO50,230^FDEste documento foi autenticado eletronicamente.^FS\n^XZ",
+          },
+        });
+        if (zplStatus.value !== "success") {
+          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          return;
+        }
+      }
       closeModal();
     }
   }
