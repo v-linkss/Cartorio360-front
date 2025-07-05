@@ -630,7 +630,7 @@ const _routes = [
     name: "chat_atendimento",
     path: "/chat_atendimento",
     meta: __nuxt_page_meta$5,
-    component: () => import('./index-4CP_h7Of.mjs')
+    component: () => import('./index-BktLCm92.mjs')
   },
   {
     name: "chat_bot-atendimento",
@@ -10485,7 +10485,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-mAv1250e.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-Dfitqp93.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",

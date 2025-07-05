@@ -85,6 +85,7 @@ import { useCookie } from '#app'
 const config = useRuntimeConfig();
 
 
+
 const router = useRouter()
 const items = [{ title: 'Alterar Senha' }, { title: 'Sair' }]
 
@@ -92,6 +93,7 @@ const items = [{ title: 'Alterar Senha' }, { title: 'Sair' }]
 const perfilCookie = useCookie('menu-navbar')
 const userCookie = useCookie('user-data')
 const authToken = useCookie('auth_token')
+
 
 
 const menuName = computed(() =>
@@ -110,6 +112,8 @@ const menuName = computed(() =>
 const userName = computed(() => userCookie.value?.nome ?? 'Usuário')
 const cartorioNome = computed(() => userCookie.value?.cartorio_nome ?? '')
 
+const userNameCookie = useCookie('userName') 
+userNameCookie.value = userName.value
 
 const notificationCount = ref(0)
 let socket = null
