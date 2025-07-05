@@ -5,7 +5,6 @@
       <span class="chat-title">Chat</span>
       <button class="chat-close">&times;</button>
     </div>
-
     <!-- Histórico -->
     <div ref="chatHistory" class="chat-history">
       <div 
@@ -56,6 +55,7 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 definePageMeta({
   layout: 'empty',
 });
+const config = useRuntimeConfig();
 const route = useRoute();
 
 const input = ref('');
@@ -333,7 +333,7 @@ onBeforeUnmount(() => {
   max-width: 80%;
   word-wrap: break-word;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  white-space: pre-line; /* Permite a quebra de linha com \n */
+  white-space: pre-line
 }
 
 .user-bubble {

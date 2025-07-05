@@ -585,12 +585,6 @@ const generateRouteKey$1 = (routeProps, override) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
-const __nuxt_page_meta$6 = {
-  layout: "empty"
-};
-const __nuxt_page_meta$5 = {
-  layout: "empty"
-};
 const __nuxt_page_meta$4 = {
   layout: "empty"
 };
@@ -632,26 +626,14 @@ const _routes = [
   {
     name: "chat_atendimento",
     path: "/chat_atendimento",
-    meta: __nuxt_page_meta$6,
-    component: () => import('./index-n13U1twB.mjs')
-  },
-  {
-    name: "chat_bot-atendimento",
-    path: "/chat_bot/atendimento",
-    meta: __nuxt_page_meta$5,
-    component: () => import('./atendimento-BC7Fv87C.mjs')
-  },
-  {
-    name: "chat_bot-index copy",
-    path: "/chat_bot/index%20copy",
     meta: __nuxt_page_meta$4,
-    component: () => import('./index copy-DydcPw0z.mjs')
+    component: () => import('./index-n13U1twB.mjs')
   },
   {
     name: "chat_bot",
     path: "/chat_bot",
     meta: __nuxt_page_meta$3,
-    component: () => import('./index-v1nIYcfe.mjs')
+    component: () => import('./index-DvAJRiQa.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
