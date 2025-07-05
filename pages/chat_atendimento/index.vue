@@ -1,5 +1,6 @@
 // ChatApp.vue
 <template>
+  
   <div class="chat-app">
     <ChatSidebar
       :chats="chats"
@@ -22,6 +23,10 @@
 </template>
 
 <script setup>
+import { useCookie } from '#app'  // para Nuxt 3
+
+// Pega todos os cookies
+const userNameCookie = useCookie('userName')  // retorna um proxy
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRuntimeConfig } from '#imports'
 import ChatSidebar from './components/chat_atendimento/ChatSidebar.vue'
@@ -50,7 +55,7 @@ function selectChat(id){ activeChatId.value = id }
 
 //use e ssa função para preencher 
 function connectWebSocket() {
-  socket = new WebSocket(`${config.public.chat_bot}?user_name='Ewerton'&room_id=notifications`);
+  socket = new WebSocket(`${config.public.chat_bot}?user_name='${userNameCookie.value}'&room_id=notifications`);
 
   socket.onopen = () => {
     console.log('🔌 WebSocket conectado');
@@ -63,6 +68,7 @@ function connectWebSocket() {
     console.log('Mensagem recebida:', JSON.parse(event.data));
     try {
       const dataQueue = JSON.parse(event.data);
+      console.log('Data Queue:', dataQueue);
       chats.value = []; // Limpa para evitar valores duplicados
 
       dataQueue.queue.forEach(element => {
