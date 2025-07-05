@@ -585,6 +585,9 @@ const generateRouteKey$1 = (routeProps, override) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+const __nuxt_page_meta$6 = {
+  layout: "empty"
+};
 const __nuxt_page_meta$5 = {
   layout: "empty"
 };
@@ -629,20 +632,26 @@ const _routes = [
   {
     name: "chat_atendimento",
     path: "/chat_atendimento",
-    meta: __nuxt_page_meta$5,
-    component: () => import('./index-BktLCm92.mjs')
+    meta: __nuxt_page_meta$6,
+    component: () => import('./index-n13U1twB.mjs')
   },
   {
     name: "chat_bot-atendimento",
     path: "/chat_bot/atendimento",
-    meta: __nuxt_page_meta$4,
+    meta: __nuxt_page_meta$5,
     component: () => import('./atendimento-BC7Fv87C.mjs')
+  },
+  {
+    name: "chat_bot-index copy",
+    path: "/chat_bot/index%20copy",
+    meta: __nuxt_page_meta$4,
+    component: () => import('./index copy-DydcPw0z.mjs')
   },
   {
     name: "chat_bot",
     path: "/chat_bot",
     meta: __nuxt_page_meta$3,
-    component: () => import('./index-DvAJRiQa.mjs')
+    component: () => import('./index-v1nIYcfe.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
@@ -652,7 +661,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-Dkkc2pNE.mjs')
+    component: () => import('./geral-DH__1BF1.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -672,12 +681,12 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-DKhUPmJZ.mjs')
+    component: () => import('./_id_-C9ao_0S9.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
-    component: () => import('./geral-BINQ-l6g.mjs')
+    component: () => import('./geral-CrfpJBoN.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
@@ -749,7 +758,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BOhVjLxX.mjs')
+    component: () => import('./criar-ato-CdTr9j4S.mjs')
   },
   {
     name: "os-criar-registro",
@@ -774,7 +783,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-CXEbj1Ca.mjs')
+    component: () => import('./index-D0xKPrQ5.mjs')
   },
   {
     name: "relatorios-lista",

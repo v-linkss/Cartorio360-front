@@ -126,6 +126,7 @@ jobs:
             cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
             # npm run pm2-stop
             npm install
+            pm2 delete cartorio360-front-produção
             npm run pm2
             pm2 start all
             # docker compose build --no-cache app
