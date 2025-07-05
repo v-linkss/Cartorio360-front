@@ -116,7 +116,7 @@ function sendMessage() {
 
   function connect() {
     // socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
-    socket = new WebSocket(`ws://157.230.216.74:3452?user_name=${userName.value}`);
+    socket = new WebSocket(`${config.public.chat_bot}?user_name=${userName.value}`);
 
     socket.addEventListener('open', () => {
       console.log('✅ Conectado ao servidor');
