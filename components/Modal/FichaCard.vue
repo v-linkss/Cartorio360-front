@@ -1,7 +1,44 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="1100">
+  <v-dialog persistent v-model="isVisible" max-width="1200">
     <v-card>
-      <v-card-title class="text-h5">Ficha de Firma</v-card-title>
+      <v-card-title class="text-h5 d-flex justify-space-between align-center">
+        <span>Ficha de Firma</span>
+        <div v-if="images[0].length > 1" class="d-flex align-center">
+          <v-btn
+            icon
+            small
+            @click="previousImage"
+            :disabled="currentIndex === 0"
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+          <span class="mx-2">{{ currentIndex + 1 }} / {{ images[0].length }}</span>
+          <v-btn
+            icon
+            small
+            @click="nextImage"
+            :disabled="currentIndex === images[0].length - 1"
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </div>
+      </v-card-title>
+
+      <!-- Thumbnails do carrossel -->
+      <div v-if="images[0].length > 1" class="d-flex justify-center pa-2">
+        <v-chip-group v-model="currentIndex" mandatory>
+          <v-chip
+            v-for="(image, index) in images[0]"
+            :key="index"
+            :value="index"
+            small
+            @click="selectImage(index)"
+            :class="{ 'v-chip--active': index === currentIndex }"
+          >
+            {{ index + 1 }}
+          </v-chip>
+        </v-chip-group>
+      </div>
 
       <div class="d-flex justify-center align-center">
         <ejs-imageeditor
@@ -37,6 +74,7 @@
 <script setup>
 import { registerLicense } from "@syncfusion/ej2-base";
 import { ImageEditorComponent as EjsImageeditor } from "@syncfusion/ej2-vue-image-editor";
+
 const props = defineProps({
   show: Boolean,
   item: Object,
@@ -45,21 +83,42 @@ const props = defineProps({
     default: false,
   },
   linkView: String,
+  images: {
+    type: Array,
+    default: () => []
+  },
   pessoaObj: Object,
 });
+
 const toolbar = ["RotateLeft", "RotateRight", "Crop", "ZoomIn", "ZoomOut"];
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 registerLicense(`${config.public.docEditor}`);
+
 const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
 const atualizarFicha = `${config.public.managemant}/minio/update_image`;
 const imageEditorRef = ref(null);
 
 const isVisible = ref(props.show);
+const currentIndex = ref(0);
 const fichaRender = ref(props.linkView || null);
 const isCropActive = ref(false);
+const processedImages = ref([]);
 
 const emit = defineEmits(["close", "confirmar"]);
+
+// Computed para obter as imagens (array de URLs ou single URL)
+const images = computed(() => {
+  if (props.images && props.images.length > 0) {
+    // Se images é um array aninhado [[]], pega o primeiro array interno
+    if (Array.isArray(props.images[0])) {
+      return props.images;
+    }
+    // Se images é um array simples []
+    return props.images;
+  }
+  return props.linkView ? [props.linkView] : [];
+});
 
 const onToolbarUpdating = (args) => {
   if (args.toolbarType === "crop-transform") {
@@ -74,8 +133,29 @@ const confirmarRecebimento = () => {
   closeModal();
 };
 
+// Navegação do carrossel
+const nextImage = () => {
+  if (currentIndex.value < images.value[0].length - 1) {
+    currentIndex.value++;
+    loadCurrentImage();
+  }
+};
+
+const previousImage = () => {
+  if (currentIndex.value > 0) {
+    currentIndex.value--;
+    loadCurrentImage();
+  }
+};
+
+const selectImage = (index) => {
+  currentIndex.value = index;
+  loadCurrentImage();
+};
+
 const editarImagem = async () => {
   try {
+    // console.log('Imaghe',currentIndex.value,images.value[0][currentIndex.value].path,'\n',currentIndex.value,images.value[0][currentIndex.value].url)
     const imageEditor = imageEditorRef.value?.ej2Instances;
     if (!imageEditor) return;
 
@@ -98,8 +178,14 @@ const editarImagem = async () => {
       "cartorio_token",
       useCookie("user-data").value.cartorio_token
     );
-    formData.append("path", props.pessoaObj.link_ficha);
-    formData.append("file", blob, "ficha_editada.png");
+    
+    // Se estiver trabalhando com múltiplas imagens, incluir o índice
+    // const currentImagePath = Array.isArray(props.pessoaObj.link_ficha) 
+    //   ? props.pessoaObj.link_ficha[currentIndex.value]
+    //   : props.pessoaObj.link_ficha;
+    
+    formData.append("path", images.value[0][currentIndex.value].path);
+    formData.append("file", blob, `ficha_editada_${currentIndex.value}.png`);
 
     const { status } = await useFetch(atualizarFicha, {
       method: "PUT",
@@ -107,7 +193,7 @@ const editarImagem = async () => {
     });
 
     if (status.value === "success") {
-      $toast.success("Ficha Atualizada com Sucesso!");
+      $toast.success(`Ficha ${currentIndex.value + 1} atualizada com sucesso!`);
     }
   } catch (error) {
     console.error("Erro ao editar imagem:", error);
@@ -115,13 +201,25 @@ const editarImagem = async () => {
   }
 };
 
-const loadImageIntoEditor = async () => {
-  if (!fichaRender.value || !imageEditorRef.value?.ej2Instances) return;
+const loadNextImageIntoEditor = async (imageUrl) => {
+  if (!imageUrl || !imageEditorRef.value?.ej2Instances) return;
+
+  try {
+    const imageEditor = imageEditorRef.value.ej2Instances;   
+    await imageEditor.open(imageUrl);
+  } catch (error) {
+    console.error("Erro ao carregar imagem no editor:", error);
+  }
+};
+
+const loadImageIntoEditor = async (imageUrl) => {
+  if (!imageUrl || !imageEditorRef.value?.ej2Instances) return;
 
   try {
     const imageEditor = imageEditorRef.value.ej2Instances;
 
-    const response = await fetch(fichaRender.value);
+    const response = await fetch(imageUrl.url);
+
     const blob = await response.blob();
 
     const file = new File([blob], "image.tiff", {
@@ -134,7 +232,13 @@ const loadImageIntoEditor = async () => {
       "cartorio_token",
       useCookie("user-data").value.cartorio_token
     );
-    formData.append("path", props.pessoaObj.link_ficha);
+    
+    // Corrigindo o acesso ao path
+    // const currentImagePath = Array.isArray(props.pessoaObj.link_ficha) 
+    //   ? props.pessoaObj.link_ficha[currentIndex.value]
+    //   : props.pessoaObj.link_ficha;
+    
+    formData.append("path", imageUrl.path);
     formData.append("pessoa_token", props.pessoaObj.token);
     formData.append("file", file);
 
@@ -142,27 +246,64 @@ const loadImageIntoEditor = async () => {
       method: "POST",
       body: formData,
     });
-
     await imageEditor.open(imagemBiometria.value.msg);
   } catch (error) {
     console.error("Erro ao carregar imagem no editor:", error);
   }
 };
 
+const loadCurrentImage = async () => {
+  if (images.value[0].length > 0 && currentIndex.value < images.value[0].length) {
+    await loadImageIntoEditor(images.value[0][currentIndex.value]);
+  }
+};
+
+// Watchers
 watch(
   () => props.linkView,
   async (newLinkView) => {
     if (newLinkView) {
       fichaRender.value = newLinkView;
-      await loadImageIntoEditor();
+      currentIndex.value = 0;
+      await loadCurrentImage();
     }
   },
   { immediate: true }
 );
 
+watch(
+  () => props.images,
+  async (newImages) => {
+    if (newImages && newImages.length > 0) {
+      currentIndex.value = 0;
+      await loadCurrentImage();
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+// Watch para mudanças no currentIndex - ESTE É O PONTO CHAVE
+watch(
+  () => currentIndex.value,
+  async (newIndex, oldIndex) => {
+    // Só carrega se realmente mudou e não é a primeira vez
+    if (newIndex !== oldIndex && oldIndex !== undefined) {
+      await loadCurrentImage();
+    }
+  }
+);
+
+// Inicialização
+onMounted(async () => {
+  console.log('Componente montado');
+  await nextTick();
+  await loadCurrentImage();
+});
+
 const closeModal = () => {
   isVisible.value = false;
   fichaRender.value = null;
+  currentIndex.value = 0;
   emit("close");
 };
 </script>
@@ -182,7 +323,18 @@ const closeModal = () => {
   width: 550px !important;
   height: 350px !important;
 }
-v.slider {
+
+.v-slider {
   width: 100%;
+}
+
+.v-chip--active {
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+.v-chip-group {
+  max-width: 100%;
+  overflow-x: auto;
 }
 </style>
