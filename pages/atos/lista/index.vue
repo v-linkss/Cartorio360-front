@@ -136,7 +136,7 @@
             @click="
               redirectoToView({
                 id: item.id,
-                tipo: item.ato_servico,
+                tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
                 token: item.token,
                 tipo_token: item.tipo_token,
                 rota: item.rota,
@@ -167,7 +167,7 @@
               item.btn_editar
                 ? redirectToUpdateAto({
                     id: item.id,
-                    tipo: item.ato_servico,
+                    tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
                     token: item.token,
                     tipo_token: item.tipo_token,
                     rota: item.rota,
