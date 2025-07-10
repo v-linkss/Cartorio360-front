@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="status === 'success'" class="mt-5">
+  <v-container class="mt-5">
     <NuxtLink to="/pessoas/cadastro">
       <img
         style="cursor: pointer"
@@ -31,23 +31,43 @@
       <div style="width: 300px">
         <v-text-field
           class="mt-7 mb-4"
-          v-model="search"
+          v-model="searchName"
           label="Pessoa"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
         ></v-text-field>
       </div>
+      <div
+        style="cursor: pointer"
+        @click="searchPessoas()"
+        title="Visualizar"
+        class="mt-7"
+      >
+        <img
+          style="width: 40px; height: 40px"
+          src="../../../assets/visualizar.png"
+          alt="Visualizar"
+          title="Possui Ficha"
+        />
+      </div>
     </v-row>
+    <v-progress-circular
+      class="loading-spinner"
+      indeterminate
+      size="80"
+      v-if="pending"
+    ></v-progress-circular>
     <v-data-table
+      v-else
       density="compact"
       :headers="headers"
-      :items="filteredPessoas"
+      :items="pessoasItems"
       item-key="id"
       :items-per-page-options="[10, 25, 50]"
     >
       <template v-slot:item.doc_identificacao="{ item }">
-        {{ formatDoc(item.doc_identificacao) }}
+        {{ formatDoc(item.documento) }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
@@ -119,16 +139,18 @@
 
 <script setup>
 const config = useRuntimeConfig();
-const pessoasLista = `${config.public.auth}/service/gerencia/getAllPessoa`;
+const pessoasLista = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
 const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
-const baixarDocumento = `${config.public.managemant}/download`;
+const baixarDocumento = `${config.public.managemant}/lista_download`;
 const isModalFichaOpen = ref(false);
-const linkFichaPessoa = ref(null);
+const linkFichaPessoa = ref([]);
 const pathFichaPessoa = ref(null);
 const pessoaObj = ref({});
 const router = useRouter();
+const pending = ref(false);
+const pessoasItems = ref([]);
 
-const search = ref("");
+const searchName = ref("");
 const searchDoc = ref("");
 const searchCartao = ref("");
 
@@ -139,33 +161,25 @@ const headers = [
   { value: "actions" },
 ];
 
-const { data: pessoasItems, status } = await fetchWithToken(
-  `${pessoasLista}?pageNumber=${1}&pageSize=${1000000}`
-);
-
-const filteredPessoas = computed(() => {
-  const normalizeText = (text) =>
-    String(text || "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-  return pessoasItems.value.data.filter((item) => {
-    const docIdentificacao = normalizeText(item.doc_identificacao);
-    const nome = normalizeText(item.nome);
-    const numeroFicha = normalizeText(String(item.numero_ficha)); // Convertendo número para string
-
-    const matchesDoc = docIdentificacao.includes(
-      normalizeText(searchDoc.value)
-    );
-    const matchesNome = nome.includes(normalizeText(search.value));
-    const matchesCartao = numeroFicha.includes(
-      normalizeText(String(searchCartao.value)) // Convertendo número para string
-    );
-
-    return matchesDoc && matchesNome && matchesCartao;
-  });
-});
+const searchPessoas = async () => {
+  pending.value = true;
+  const { data: pessoasResponse, status } = await fetchWithToken(
+    `${pessoasLista}`,
+    {
+      method: "POST",
+      body: {
+        cartorio_token: useCookie("user-data").value.cartorio_token,
+        nome: searchName.value,
+        documento: searchDoc.value.replace(/\D/g, ""),
+        numero_ficha: Number(searchCartao.value),
+      },
+    }
+  );
+  if (status.value === "success") {
+    pending.value = false;
+    pessoasItems.value = pessoasResponse.value;
+  }
+};
 
 function formatDoc(doc) {
   if (!doc) return "";
@@ -194,6 +208,7 @@ const openModalFicha = async (link, objeto) => {
     },
   });
   linkFichaPessoa.value = linkUrl.value;
+
   pathFichaPessoa.value = link;
   pessoaObj.value = objeto;
 };

@@ -39,6 +39,7 @@
         <v-text-field
           label="Matricula"
           v-model="state.registro_matricula"
+          :error-messages="v$.registro_matricula.$errors.map((e) => e.$message)"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -76,6 +77,7 @@
         <v-text-field
           label="Inscrição Municipal"
           v-model="state.inscricao_estadual"
+          :error-messages="v$.inscricao_estadual.$errors.map((e) => e.$message)"
         ></v-text-field>
       </v-col>
       <v-col cols="4">
@@ -191,9 +193,6 @@ const state = reactive({
   matricula_letra: null,
   tabvalores_nat_imovel_id: null,
   cib: null,
-  end_cidade_id: null,
-  end_quadra: null,
-  end_lote: null,
   tabvalores_tipologradouro_id: null,
   tipo_id: null,
   descricao: null,
@@ -213,6 +212,12 @@ const rules = {
     required: helpers.withMessage("O campo é obrigatório", required),
   },
   tipo_id: { required: helpers.withMessage("O campo é obrigatório", required) },
+  registro_matricula: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
+  inscricao_estadual: {
+    required: helpers.withMessage("O campo é obrigatório", required),
+  },
   vlr_avaliacao: {
     required: helpers.withMessage("O campo é obrigatório", required),
     notZero: helpers.withMessage(
@@ -220,13 +225,6 @@ const rules = {
       (value) => !!value && Number(value.toString().replace(/,/g, "")) > 0
     ),
   },
-  // vlr_mercado: {
-  //   required: helpers.withMessage("O campo é obrigatório", required),
-  //   notZero: helpers.withMessage(
-  //     "O valor não pode ser zero",
-  //     (value) => !!value && Number(value.toString().replace(/,/g, "")) > 0
-  //   ),
-  // },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -358,7 +356,7 @@ onMounted(() => {
   if (id || props.ato_id) {
     loadImoveisData();
   } else {
-    loading.value = false; // Caso não tenha ID, finaliza o carregamento
+    loading.value = false;
   }
 });
 </script>
