@@ -195,8 +195,8 @@
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/btn_cancela_lavratura.png"
-              alt="Cancelar"
-              title="Cancelar"
+              alt="Cancelar Lavratura"
+              title="Cancelar Lavratura"
             />
           </div>
           <div @click="deleteAto(item)" title="Excluir">
