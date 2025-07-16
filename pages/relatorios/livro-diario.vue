@@ -76,12 +76,19 @@ const gerarRelatorioDiarioCaixa = async () => {
   });
 
   if (data.value) {
-    const newWindow = window.open();
-    if (newWindow) {
-      newWindow.document.open();
-      newWindow.document.writeln(data.value);
-      newWindow.document.close();
-    }
+    const blob = new Blob([data.value], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+
+    // (Opcional) libera a URL da memória após uso
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    
+    // const newWindow = window.open();
+    // if (newWindow) {
+    //   newWindow.document.open();
+    //   newWindow.document.writeln(data.value);
+    //   newWindow.document.close();
+    // }
   }
 };
 </script>
