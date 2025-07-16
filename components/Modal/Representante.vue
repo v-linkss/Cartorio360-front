@@ -22,6 +22,7 @@
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
         >
+        <v-btn @click="limparRepresentante" border>Limpar</v-btn>
         <v-btn
           style="background-color: green; color: white"
           @click="updateAtoPessoa"
@@ -35,7 +36,7 @@
 <script setup>
 const props = defineProps({
   show: Boolean,
-  representantes:Array,
+  representantes: Array,
   ato_id: Number,
   representante_nome: String,
 });
@@ -46,7 +47,7 @@ const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 
 const state = reactive({
- representante_id: null,
+  representante_id: null,
 });
 
 const emit = defineEmits(["close", "update-representante"]);
@@ -58,18 +59,19 @@ watch(
   }
 );
 const closeModal = () => {
-  state.representante_id = null
+  state.representante_id = null;
   isVisible.value = false;
   emit("close");
 };
 
 const updateAtoPessoa = async () => {
+  const representanteId = state.representante_id?.id ?? null;
   const { data, error, status } = await useFetch(
     `${pessoasUpdate}/${props.ato_id}`,
     {
       method: "PUT",
       body: {
-       representante_id: state.representante_id.id,
+        representante_id: representanteId,
       },
     }
   );
@@ -78,5 +80,11 @@ const updateAtoPessoa = async () => {
     emit("update-representante", state.representante_id.nome);
     closeModal();
   }
+};
+
+const limparRepresentante = () => {
+  console.log("oi");
+  state.representante_id = null;
+  updateAtoPessoa();
 };
 </script>

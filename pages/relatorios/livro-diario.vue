@@ -32,8 +32,22 @@
         ></v-text-field>
       </v-col>
       <v-col>
-        <SaveButton :text="'Imprimir'" :onSave="gerarRelatorioDiarioCaixa" />
+        <img
+          @click="gerarRelatorioDiarioCaixa"
+          style="width: 40px; height: 40px; cursor: pointer"
+          src="../../assets/imprimir.png"
+          alt="imprimir"
+          title="imprimir"
+        />
+        <img
+          @click="gerarRelatorioDiarioCaixa"
+          style="width: 40px; height: 40px; cursor: pointer; margin-left: 20px"
+          src="../../assets/btn-csv.png"
+          alt="exportar"
+          title="exportar"
+        />
       </v-col>
+      <v-col> </v-col>
     </v-row>
   </v-container>
 </template>

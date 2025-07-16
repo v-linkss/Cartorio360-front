@@ -88,7 +88,6 @@
         >
           <template v-slot:item.actions="{ item }">
             <v-row v-if="!isVisualizar">
-              <!-- {{ item.pessoa }} -->
               <div
                 style="
                   display: flex;
@@ -393,7 +392,7 @@ const redirectToFicha = async (item) => {
 
 const redirectToRepresentante = (item) => {
   const pessoasFiltradas = pessoasTable.value
-    .filter((p) => p.pessoa.id !== item.pessoa.id)
+    .filter((p) => p.pessoa.id !== item.pessoa.id && !p.pessoa.excluido)
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
