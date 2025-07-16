@@ -156,6 +156,7 @@ const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
 const etiquetaSemelhanca = `${config.public.managemant}/etiquetaReconhecimento`;
 const baixarDocumento = `${config.public.managemant}/download`;
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -291,11 +292,23 @@ async function reconhecerEtiquetaSemelhanca(token) {
       },
     });
     if (status.value === "success") {
-      goBack();
-      const newWindow = window.open("", "_blank");
-      newWindow.document.open();
-      newWindow.document.write(data.value[0].etiqueta);
-      newWindow.document.close();
+      if (data.value[0].tipo_etiqueta === "html") {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].etiqueta);
+        newWindow.document.close();
+      } else if (data.value[0].tipo_etiqueta === "zpl") {
+        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+          method: "POST",
+          body: {
+            zpl: data.value[0].selo,
+          },
+        });
+        if (zplStatus.value !== "success") {
+          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          return;
+        }
+      }
     }
   } catch (error) {
     console.error("Erro na requisição", error);

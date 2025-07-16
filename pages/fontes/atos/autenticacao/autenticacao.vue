@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-10" >
+  <v-card class="mt-10">
     <v-container>
       <div style="width: 600px; margin-top: 10px">
         <v-autocomplete
@@ -63,7 +63,8 @@ const ordemserv_token =
 const usuario_token = useCookie("auth_token").value;
 const autenticaAtos = `${config.public.auth}/service/gerencia/atoAutentica`;
 const autenticaEtiquetas = `${config.public.auth}/service/gerencia/etiquetaAutentica`;
-const errorModalVisible = ref(false); 
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
+const errorModalVisible = ref(false);
 const errorMessage = ref("");
 const state = reactive({
   escrevente: null,
@@ -121,11 +122,24 @@ const etiquetaAutentica = async (ato_token) => {
     },
   });
   if (status.value === "success") {
+    if (data.value.tipo_etiqueta === "html") {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value.etiqueta);
+      newWindow.document.close();
+    } else if (data.value.tipo_etiqueta === "zpl") {
+      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: data.value.etiqueta,
+        },
+      });
+      if (zplStatus.value !== "success") {
+        $toast.error("Não foi possivel fazer a impressao da etiqueta");
+        return;
+      }
+    }
     goBack();
-    const newWindow = window.open("", "_blank");
-    newWindow.document.open();
-    newWindow.document.write(data.value.etiqueta);
-    newWindow.document.close();
   }
 };
 
