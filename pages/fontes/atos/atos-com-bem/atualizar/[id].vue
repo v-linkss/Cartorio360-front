@@ -43,8 +43,8 @@
       <v-tabs v-model="tab" bg-color="#f5f2f2">
         <v-tab value="dados">Dados</v-tab>
         <v-tab value="partes">Partes</v-tab>
-        <v-tab v-if="usaImoveis" value="bens">Bens</v-tab>
-        <v-tab v-if="usaImoveis" value="imoveis">Imoveis</v-tab>
+        <v-tab value="bens">Bens</v-tab>
+        <v-tab value="imoveis">Imoveis</v-tab>
         <v-tab value="minuta">Minuta</v-tab>
         <v-tab value="livro">Livro</v-tab>
         <v-tab value="observacao">Observações</v-tab>
@@ -62,10 +62,10 @@
         <v-tabs-window-item value="partes">
           <ProcuracaoAtualizarPartes />
         </v-tabs-window-item>
-        <v-tabs-window-item value="bens" v-if="usaImoveis">
+        <v-tabs-window-item value="bens">
           <ProcuracaoAtualizarBens />
         </v-tabs-window-item>
-        <v-tabs-window-item value="imoveis" v-if="usaImoveis">
+        <v-tabs-window-item value="imoveis">
           <ProcuracaoAtualizarImoveis />
         </v-tabs-window-item>
         <v-tabs-window-item value="minuta">
@@ -112,7 +112,6 @@ const body = route.query.id
 const situacoesItems = ref([]);
 const dadosData = ref([]);
 const modalVisible = ref(false);
-const usaImoveis = ref(route.query.usa_imoveis === "true" ? true : false);
 const tipoAto = route.query.tipo_ato || "";
 const label = ref(null);
 const updatedAtoDetails = ref(null);
@@ -159,6 +158,5 @@ function handleUpdateAto({ descricao, usaImoveisParams }) {
   const [firstPart, secondPart] = descricao.split(" - ");
   label.value = firstPart || ""; // Primeiro autocomplete
   updatedAtoDetails.value = secondPart || ""; // Segundo autocomplete
-  usaImoveis.value = usaImoveisParams;
 }
 </script>
