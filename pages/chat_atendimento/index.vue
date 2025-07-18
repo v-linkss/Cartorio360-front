@@ -117,7 +117,7 @@ onMounted(() => {
   connectWebSocket();
 });
 
-onUnmounted(() => socket?.close())
+// onUnmounted(() => socket?.close())
 // onMounted(() => {
 //   userName.value = '  (mock)'
 //   chats.value = [

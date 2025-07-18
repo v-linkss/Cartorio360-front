@@ -1,7 +1,7 @@
 <template>
   <section class="chat-window">
     <header class="chat-header">
-      <h3 class="chat-title">{{ chat.name }}</h3>
+      <h3 class="chat-title">{{ chat.name.split("_").slice(1).join("_")   }}</h3>
       <div>
         <button class="chat-button end" @click="endChat">Encerrar</button>
         <button class="chat-close" @click="$emit('close')">✖</button>

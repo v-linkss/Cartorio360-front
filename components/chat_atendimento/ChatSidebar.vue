@@ -8,7 +8,7 @@
       :class="{ active: chat.id === activeChatId }"
       @click="$emit('select', chat.id)"
     >
-      <span class="chat-name">{{ chat.name }}</span>
+      <span class="chat-name">{{ chat.name.split("_").slice(1).join("_")   }}</span>
       <span class="chat-preview">{{ chat.preview }}</span>
     </button>
   </aside>
