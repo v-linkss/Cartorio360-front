@@ -43,9 +43,9 @@ function connect(){
 function handleMessage(evt){
   try{
     const data = JSON.parse(evt.data)
-    if(data.type === 'chat_message' && data.username !== "${userNameCookie.value}"){
+    if(data.type === 'chat_message' && data.username !== userNameCookie.value){
       messages.value.push({
-        from: data.username === '${userNameCookie.value}',
+        from: data.username === userNameCookie.value,
         text: data.message
       })
     }
@@ -89,7 +89,7 @@ function processHistory(history) {
 
   history.forEach(entry => {
     if (entry.type === 'chat_message') {
-      var from = entry.username === "${userNameCookie.value}" ? 'user' : entry.username
+      var from = entry.username === userNameCookie.value ? userNameCookie.value : entry.username
       messages.value.push({ from, text: entry.message })
     } else if (entry.type === 'bot_message') {
       messages.value.push({ from: 'server', text: entry.message.message || entry.message })
