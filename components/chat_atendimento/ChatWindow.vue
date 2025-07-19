@@ -62,7 +62,9 @@ function handleMessage(evt){
 function sendMessage(text){
   if(!socket || socket.readyState!==WebSocket.OPEN) return
   const payload = { type:'chat_message', message:text, cartorio_token:props.cartorioToken, isHumanized: true }
-  messages.value.push({ from:'user', text })
+  // messages.value.push({ from:'user', text })
+  messages.value.push({ from:userNameCookie.value, text })
+
   socket.send(JSON.stringify(payload))
   nextTick(()=>scrollBottom())
 }

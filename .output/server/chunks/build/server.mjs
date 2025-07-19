@@ -627,7 +627,7 @@ const _routes = [
     name: "chat_atendimento",
     path: "/chat_atendimento",
     meta: __nuxt_page_meta$4,
-    component: () => import('./index-DN7EmEUE.mjs')
+    component: () => import('./index-CZu4Pyzl.mjs')
   },
   {
     name: "chat_bot",
