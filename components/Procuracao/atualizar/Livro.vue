@@ -88,6 +88,7 @@ const route = useRoute();
 const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const validaAto = `${config.public.managemant}/valida_lavratura`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const calculaAto = `${config.public.managemant}/ato_calcular`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
@@ -170,23 +171,31 @@ const lavraAto = async () => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
   try {
-    const { data, status } = await useFetch(lavraAtoLivro, {
+    const { data: validaData } = await useFetch(validaAto, {
       method: "POST",
-      body: {
-        ato_token: route.query.ato_token_edit,
-        qtd_paginas: pages,
-        escrevente_token: state.escrevente,
-        usuario_token: usuario_token,
-        cartorio_token: cartorio_token,
-      },
     });
+    if (validaData.value.status === "OK") {
+      const { data, status } = await useFetch(lavraAtoLivro, {
+        method: "POST",
+        body: {
+          ato_token: route.query.ato_token_edit,
+          qtd_paginas: pages,
+          escrevente_token: state.escrevente,
+          usuario_token: usuario_token,
+          cartorio_token: cartorio_token,
+        },
+      });
 
-    if (status.value === "success") {
-      lavraData.value = data.value;
-      selo.value = data.value[0].selo;
-      $toast.success("Ato lavrado com sucesso!");
+      if (status.value === "success") {
+        lavraData.value = data.value;
+        selo.value = data.value[0].selo;
+        $toast.success("Ato lavrado com sucesso!");
+      } else {
+        $toast.error("Falha ao lavrar o ato.");
+      }
     } else {
-      $toast.error("Falha ao lavrar o ato.");
+      isModalCondOpen.value = true;
+      condMessage.value = "O ato apresenta inconsistências, deseja prosseguir?";
     }
   } catch (error) {
     $toast.error("Erro ao conectar com o servidor.");

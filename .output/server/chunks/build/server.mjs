@@ -638,7 +638,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-JYYSKGom.mjs')
+    component: () => import('./_id_-CjZk1XnD.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
@@ -648,7 +648,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-B5KFFQeb.mjs')
+    component: () => import('./_id_-Beo2-n0Z.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
@@ -663,7 +663,7 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-CBhrZJK-.mjs')
+    component: () => import('./_id_-wkXoFKRw.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
