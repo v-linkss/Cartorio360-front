@@ -606,7 +606,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-CplZ-RwL.mjs')
+    component: () => import('./index-DEyTTiTy.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -735,7 +735,7 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-B_OCv9gi.mjs')
+    component: () => import('./_id_--OareCqv.mjs')
   },
   {
     name: "os-criar-ato",
