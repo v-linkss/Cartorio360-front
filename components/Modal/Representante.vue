@@ -43,6 +43,7 @@ const props = defineProps({
 const isVisible = ref(props.show);
 
 const config = useRuntimeConfig();
+const isClear = ref(false);
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 
@@ -64,7 +65,7 @@ const closeModal = () => {
   emit("close");
 };
 
-const updateAtoPessoa = async () => {
+const updateAtoPessoa = async (clear) => {
   const representanteId = state.representante_id?.id ?? null;
   const { data, error, status } = await useFetch(
     `${pessoasUpdate}/${props.ato_id}`,
@@ -76,15 +77,21 @@ const updateAtoPessoa = async () => {
     }
   );
   if (status.value === "success") {
-    $toast.success("Representante Adicionado com Sucesso!");
-    emit("update-representante", state.representante_id.nome);
-    closeModal();
+    if (clear) {
+      $toast.success("Representante removido com Sucesso!");
+      emit("update-representante", "");
+      closeModal();
+    } else {
+      $toast.success("Representante adicionado com Sucesso!");
+      emit("update-representante", state.representante_id.nome);
+      closeModal();
+    }
   }
 };
 
 const limparRepresentante = () => {
-  console.log("oi");
   state.representante_id = null;
-  updateAtoPessoa();
+  isClear.value = true;
+  updateAtoPessoa(isClear.value);
 };
 </script>
