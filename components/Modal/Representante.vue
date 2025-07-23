@@ -77,7 +77,7 @@ const updateAtoPessoa = async (clear) => {
     }
   );
   if (status.value === "success") {
-    if (clear) {
+    if (clear === true) {
       $toast.success("Representante removido com Sucesso!");
       emit("update-representante", "");
       closeModal();
