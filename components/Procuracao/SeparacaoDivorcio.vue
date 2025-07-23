@@ -162,12 +162,16 @@ async function onUpdate() {
   }
 }
 
+
 watch(
   () => props.tabEvent,
-  async (val) => {
-    await fetchAtosPessoa();
-  }
+  async () => {
+    await fetchAtosPessoa()
+  },
+  { immediate: true }  // traz os dados já na primeira montagem
 );
+
+
 
 const blockNonNumeric = (e) => {
   const allowedKeys = ["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"];

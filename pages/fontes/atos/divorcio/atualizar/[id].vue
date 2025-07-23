@@ -167,10 +167,10 @@ function onTabChange(newTab) {
 }
 
 function onDivorcioTabClick() {
-  if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
+  // if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
     tabEvent.value++;
-    divorcioTabClicks.value++;
-  }
+    // divorcioTabClicks.value++;
+  // }
 }
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {

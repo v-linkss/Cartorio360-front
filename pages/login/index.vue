@@ -114,17 +114,56 @@
             class="text-decoration-none"
             rel="noopener noreferrer"
             style="color: white; margin-left: 10px"
+            @click="showRecoverDialog = true"
           >
-            Esqueceu a senha?</a
-          >
+            Esqueceu a senha?
+          </a>
+
         </div>
       </v-container>
     </v-col>
     <v-img src="../../assets/Login.jpg" cover></v-img>
+  
+    <v-dialog v-model="showRecoverDialog" max-width="500">
+      <v-card>
+        <v-card-title>Recuperar senha</v-card-title>
+        <v-card-text>
+  '        <v-text-field
+            v-model="recoveryEmail"
+            :readonly="codigoEnviado"
+            type="email"
+            label="Digite seu email"
+            prepend-inner-icon="mdi-email-outline"
+          />
+          <v-text-field
+            v-if="codigoEnviado"
+            v-model="recoveryCode"
+            label="Código de verificação"
+            prepend-inner-icon="mdi-numeric"
+          />
+        </v-card-text>'
+
+        <v-card-actions>
+          <v-spacer />
+          {{ codigoEnviado }}
+          <v-btn
+            color="primary"
+            @click="codigoEnviado ? confirmarCodigo() : enviarCodigo()"
+          >
+            {{ codigoEnviado ? 'Confirmar' : 'Enviar' }}
+          </v-btn>
+          <v-btn color="secondary" @click="showRecoverDialog = false">Cancelar</v-btn>
+        </v-card-actions>
+
+      </v-card>
+    </v-dialog>
+
   </v-row>
 </template>
 
 <script setup>
+import toast from '~/plugins/toast';
+
 definePageMeta({
   layout: "false",
 });
@@ -143,6 +182,9 @@ const showEmailError = ref(false);
 const ShowNoPermissionError = ref(false);
 const showError = ref(false);
 
+const showRecoverDialog = ref(false);
+const recoveryEmail = ref("");
+
 const closeAlert = () => {
   showPasswordError.value = false;
   showEmailError.value = false;
@@ -153,7 +195,10 @@ const closeAlert = () => {
 const config = useRuntimeConfig();
 const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 const auth = config.public.auth;
+const managemant = config.public.managemant;
 
+const codigoEnviado = ref(false);
+const recoveryCode = ref("");
 const authenticateUser = async () => {
   const { data, status, error } = await fetchWithToken(`${auth}/login`, {
     method: "POST",
@@ -242,6 +287,65 @@ const login = async () => {
     }
   }
 };
+
+const enviarCodigo = async () => {
+  const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
+    method: "POST",
+    body: {
+      email: recoveryEmail.value,
+      acao: "gerar",
+    },
+  });
+
+  if (status.value === 'success') {
+    $toast.success(data.value.message || 'Código enviado');
+    codigoEnviado.value = true;
+  } else {
+    $toast.error(error.value?.data?.menssage?.details || 'Erro desconhecido');
+  }
+};
+
+const confirmarCodigo = async () => {
+  const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
+    method: "POST",
+    body: {
+      email: recoveryEmail.value,
+      code: recoveryCode.value,
+    },
+  });
+
+  if (status.value === 'success') {
+    $toast.success(data.value.message || 'Código verificado com sucesso');
+    showRecoverDialog.value = false;
+  } else {
+    $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
+  }
+};
+
+
+// const enviarCodigo = async () => {
+//   const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
+//     method: "POST",
+//     body: {
+//       email: recoveryEmail.value,
+//       acao: "gerar",
+//     },
+//   });
+//   console.log(status.value)
+//   if(status.value ===  'success') {
+//     $toast.success(data.value.message)
+//   } else {
+//     $toast.error(error.value.data.menssage?.details || 'Erro desconhecido');
+//   }
+//   // const retorno = data.value?.func_recupera_senha?.[0];
+//   // if (retorno?.statis === "ERRO") {
+//   //   $toast.error(retorno.status_mensagem);
+//   // } else {
+//   //   $toast.success(retorno.status_mensagem);
+//   //   showRecoverDialog.value = false;
+//   // }
+// };
+
 </script>
 <style scoped>
 .input {
