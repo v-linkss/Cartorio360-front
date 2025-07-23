@@ -585,11 +585,14 @@ const generateRouteKey$1 = (routeProps, override) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+const __nuxt_page_meta$5 = {
+  layout: "empty"
+};
 const __nuxt_page_meta$4 = {
   layout: "empty"
 };
 const __nuxt_page_meta$3 = {
-  layout: "empty"
+  layout: "false"
 };
 const __nuxt_page_meta$2 = {
   layout: "false"
@@ -626,13 +629,13 @@ const _routes = [
   {
     name: "chat_atendimento",
     path: "/chat_atendimento",
-    meta: __nuxt_page_meta$4,
+    meta: __nuxt_page_meta$5,
     component: () => import('./index-CZu4Pyzl.mjs')
   },
   {
     name: "chat_bot",
     path: "/chat_bot",
-    meta: __nuxt_page_meta$3,
+    meta: __nuxt_page_meta$4,
     component: () => import('./index-DvAJRiQa.mjs')
   },
   {
@@ -703,13 +706,13 @@ const _routes = [
   {
     name: "login",
     path: "/login",
-    meta: __nuxt_page_meta$2,
-    component: () => import('./index-B1Qi3skZ.mjs')
+    meta: __nuxt_page_meta$3,
+    component: () => import('./index-CR0Pkmux.mjs')
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
-    meta: __nuxt_page_meta$1,
+    meta: __nuxt_page_meta$2,
     component: () => import('./tipo-perfil-BQrs6RZw.mjs')
   },
   {
@@ -766,6 +769,12 @@ const _routes = [
     name: "pessoas-lista",
     path: "/pessoas/lista",
     component: () => import('./index-BnR0y13T.mjs')
+  },
+  {
+    name: "recupera_senha",
+    path: "/recupera_senha",
+    meta: __nuxt_page_meta$1,
+    component: () => import('./index-CM3jtTcL.mjs')
   },
   {
     name: "relatorios-lista",
@@ -1032,7 +1041,7 @@ function writeServerCookie(event, name, value, opts = {}) {
 const auth_45global = /* @__PURE__ */ defineNuxtRouteMiddleware((to, from) => {
   const tokenCookie = useCookie("auth_token");
   const token = tokenCookie.value;
-  if (!token && to.path !== "/login") {
+  if (!token && to.path !== "/login" && to.path !== "/chat_bot" && to.path !== "/recupera_senha") {
     return navigateTo("/login");
   }
 });

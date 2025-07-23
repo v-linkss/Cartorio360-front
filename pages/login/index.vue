@@ -142,18 +142,26 @@
             prepend-inner-icon="mdi-numeric"
           />
         </v-card-text>'
-
         <v-card-actions>
-          <v-spacer />
-          {{ codigoEnviado }}
-          <v-btn
-            color="primary"
-            @click="codigoEnviado ? confirmarCodigo() : enviarCodigo()"
-          >
-            {{ codigoEnviado ? 'Confirmar' : 'Enviar' }}
-          </v-btn>
-          <v-btn color="secondary" @click="showRecoverDialog = false">Cancelar</v-btn>
-        </v-card-actions>
+  <v-spacer />
+  
+  <!-- Botão verde (Enviar ou Confirmar) -->
+  <v-btn
+    class="bg-green text-white"
+    @click="codigoEnviado ? confirmarCodigo() : enviarCodigo()"
+  >
+    {{ codigoEnviado ? 'Confirmar' : 'Enviar' }}
+  </v-btn>
+
+  <!-- Botão vermelho (Cancelar) -->
+  <v-btn
+    class="bg-red text-white"
+    @click="showRecoverDialog = false; codigoEnviado = false"
+  >
+    Cancelar
+  </v-btn>
+</v-card-actions>
+
 
       </v-card>
     </v-dialog>
@@ -317,6 +325,8 @@ const confirmarCodigo = async () => {
   if (status.value === 'success') {
     $toast.success(data.value.message || 'Código verificado com sucesso');
     showRecoverDialog.value = false;
+    router.push('/recupera_senha');
+
   } else {
     $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
   }
