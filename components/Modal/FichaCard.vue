@@ -1,4 +1,12 @@
 <template>
+  <div v-if="pending" class="#loaing-overlay">
+    <v-progress-circular
+      indeterminate
+      color="white"
+      size="60"
+      class="loading-spinner"
+    ></v-progress-circular>
+  </div>
   <v-dialog persistent v-model="isVisible" max-width="1100">
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
@@ -184,5 +192,22 @@ const closeModal = () => {
 }
 v.slider {
   width: 100%;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-spinner {
+  margin-right: 20px;
 }
 </style>
