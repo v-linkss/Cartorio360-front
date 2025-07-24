@@ -173,46 +173,43 @@ loadDefaultDocument();
 const lavraAto = async (force = false) => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
-  try {
-    if (!force) {
-      const { data: validaData } = await useFetch(validaAto, {
-        method: "POST",
-        body: { ato_token: route.query.ato_token_edit },
-      });
-      const statusResp = validaData.value[0].status;
-      const statusMsg = validaData.value[0].status_mensagem;
-      if (statusResp !== "OK") {
-        condStatus.value = statusResp;
-        condStatusMensagem.value = statusMsg;
-        valorAto.value = null;
-        isModalCondOpen.value = true;
-        condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
-        return;
-      }
-    }
-    // Fluxo normal de lavratura
-    const { data, status, error } = await useFetch(lavraAtoLivro, {
-      method: "POST",
-      body: {
-        ato_token: route.query.ato_token_edit,
-        qtd_paginas: pages,
-        escrevente_token: state.escrevente,
-        usuario_token: usuario_token,
-        cartorio_token: cartorio_token,
-      },
-    });
 
-    if (status.value === "success") {
-      lavraData.value = data.value;
-      selo.value = data.value[0].selo;
-      $toast.success("Ato lavrado com sucesso!");
-    } else {
-      $toast.error(
-        error.value.data[0].status_mensagem || "Falha ao lavrar o ato."
-      );
+  if (!force) {
+    const { data: validaData } = await useFetch(validaAto, {
+      method: "POST",
+      body: { ato_token: route.query.ato_token_edit },
+    });
+    const statusResp = validaData.value[0].status;
+    const statusMsg = validaData.value[0].status_mensagem;
+    if (statusResp !== "OK") {
+      condStatus.value = statusResp;
+      condStatusMensagem.value = statusMsg;
+      valorAto.value = null;
+      isModalCondOpen.value = true;
+      condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
+      return;
     }
-  } catch (error) {
-    $toast.error("Erro ao conectar com o servidor.");
+  }
+  // Fluxo normal de lavratura
+  const { data, status, error } = await useFetch(lavraAtoLivro, {
+    method: "POST",
+    body: {
+      ato_token: route.query.ato_token_edit,
+      qtd_paginas: pages,
+      escrevente_token: state.escrevente,
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+    },
+  });
+
+  if (status.value === "success") {
+    lavraData.value = data.value;
+    selo.value = data.value[0].selo;
+    $toast.success("Ato lavrado com sucesso!");
+  } else {
+    $toast.error(
+      error.value.data[0].status_mensagem || "Falha ao lavrar o ato."
+    );
   }
 };
 

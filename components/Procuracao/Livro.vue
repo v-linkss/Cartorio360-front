@@ -92,6 +92,7 @@ const router = useRouter();
 const route = useRoute();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const validaAto = `${config.public.managemant}/valida_lavratura`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -103,33 +104,47 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const escreventesItems = ref([]);
 const valorAto = ref({});
-
+const condStatus = ref(null); // Guarda status da validação
+const condStatusMensagem = ref(""); // Guarda mensagem do backend
 const state = reactive({
   escrevente: null,
 });
 
-const lavraAto = async () => {
-  try {
-    const { data, status } = await useFetch(lavraAtoLivro, {
+const lavraAto = async (force = false) => {
+  if (!force) {
+    const { data: validaData } = await useFetch(validaAto, {
       method: "POST",
-      body: {
-        ato_token: props.ato_token,
-        qtd_paginas: props.pages,
-        escrevente_token: state.escrevente,
-        usuario_token: usuario_token,
-        cartorio_token: cartorio_token,
-      },
+      body: { ato_token: props.ato_token },
     });
-
-    if (status.value === "success") {
-      lavraData.value = data.value;
-      selo.value = data.value[0].selo;
-      $toast.success("Ato lavrado com sucesso!");
-    } else {
-      $toast.error("Falha ao lavrar o ato.");
+    const statusResp = validaData.value[0].status;
+    const statusMsg = validaData.value[0].status_mensagem;
+    if (statusResp !== "OK") {
+      condStatus.value = statusResp;
+      condStatusMensagem.value = statusMsg;
+      valorAto.value = null;
+      isModalCondOpen.value = true;
+      condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
+      return;
     }
-  } catch (error) {
-    $toast.error("Erro ao conectar com o servidor.");
+  }
+  // Fluxo normal de lavratura
+  const { data, status } = await useFetch(lavraAtoLivro, {
+    method: "POST",
+    body: {
+      ato_token: props.ato_token,
+      qtd_paginas: props.pages,
+      escrevente_token: state.escrevente,
+      usuario_token: usuario_token,
+      cartorio_token: cartorio_token,
+    },
+  });
+
+  if (status.value === "success") {
+    lavraData.value = data.value;
+    selo.value = data.value[0].selo;
+    $toast.success("Ato lavrado com sucesso!");
+  } else {
+    $toast.error("Falha ao lavrar o ato.");
   }
 };
 
@@ -155,7 +170,14 @@ const calcularAto = async () => {
 
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
-  await lavraAto();
+  // Se condStatus está preenchido e não é OK, força lavratura
+  if (condStatus.value && condStatus.value !== "OK") {
+    await lavraAto(true);
+    condStatus.value = null;
+    condStatusMensagem.value = "";
+  } else {
+    await lavraAto();
+  }
 };
 const openModalCond = async () => {
   isModalCondOpen.value = true;
