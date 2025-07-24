@@ -1,10 +1,12 @@
 <template>
-  <v-dialog persistent v-model="isVisible" per max-width="500">
+  <v-dialog persistent v-model="isVisible" max-width="500">
     <v-card>
       <v-card-text>
         <div>
           {{ condMessage }}
-          <p class="mt-2">{{ description ? description : "" }}</p>
+          <div class="description-scroll mt-2" v-if="description">
+            {{ description }}
+          </div>
           <div class="mt-5" v-if="valor">
             <span style="font-size: larger">Valor Emolumento</span> : R${{
               valor.valor_emolumento
@@ -65,3 +67,16 @@ const confirmAction = () => {
   emit("confirm");
 };
 </script>
+<style scoped>
+.description-scroll {
+  max-height: 400px; /* ajuste conforme necessário */
+  overflow-y: auto;
+  /* Só aplica o scroll se o modal for maior que 700px */
+}
+
+@media (min-height: 700px) {
+  .description-scroll {
+    max-height: 500px; /* ou outro valor que funcione bem para seu layout */
+  }
+}
+</style>
