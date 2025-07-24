@@ -62,6 +62,7 @@
     :show="isModalCondOpen"
     :condMessage="condMessage"
     :valor="valorAto"
+    :description="condStatusMensagem"
     @close="isModalCondOpen = false"
     @confirm="confirmLavrar"
   />

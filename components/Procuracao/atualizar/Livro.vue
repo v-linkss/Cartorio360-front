@@ -175,23 +175,36 @@ const lavraAto = async (force = false) => {
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
 
   if (!force) {
-    const { data: validaData } = await useFetch(validaAto, {
+    const { data, error, status } = await useFetch(validaAto, {
       method: "POST",
       body: { ato_token: route.query.ato_token_edit },
     });
-    const statusResp = validaData.value[0].status;
-    const statusMsg = validaData.value[0].status_mensagem;
+
+    let statusResp, statusMsg;
+
+    if (status.value === "success" && data.value) {
+      statusResp = data.value[0].status;
+      statusMsg = data.value[0].status_mensagem;
+    } else if (error.value && error.value.data) {
+      statusResp = error.value.data[0].status;
+      statusMsg = error.value.data[0].status_mensagem;
+    }
+
     if (statusResp !== "OK") {
       condStatus.value = statusResp;
       condStatusMensagem.value = statusMsg;
       valorAto.value = null;
       isModalCondOpen.value = true;
-      condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
+      condMessage.value = ` O ato apresenta inconsistências, deseja prosseguir?`;
       return;
     }
   }
   // Fluxo normal de lavratura
-  const { data, status, error } = await useFetch(lavraAtoLivro, {
+  const {
+    data,
+    status: statusLavrar,
+    error,
+  } = await useFetch(lavraAtoLivro, {
     method: "POST",
     body: {
       ato_token: route.query.ato_token_edit,
@@ -202,7 +215,7 @@ const lavraAto = async (force = false) => {
     },
   });
 
-  if (status.value === "success") {
+  if (statusLavrar.value === "success") {
     lavraData.value = data.value;
     selo.value = data.value[0].selo;
     $toast.success("Ato lavrado com sucesso!");
@@ -238,7 +251,7 @@ const calcularAto = async () => {
 // Confirmação do modal: se veio de inconsistência, força lavratura
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
-  // Se condStatus está preenchido e não é OK, força lavratura
+
   if (condStatus.value && condStatus.value !== "OK") {
     await lavraAto(true);
     condStatus.value = null;

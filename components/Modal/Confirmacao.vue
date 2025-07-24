@@ -4,6 +4,7 @@
       <v-card-text>
         <div>
           {{ condMessage }}
+          {{ description ? description : "" }}
           <div class="mt-5" v-if="valor">
             <span style="font-size: larger">Valor Emolumento</span> : R${{
               valor.valor_emolumento
@@ -39,6 +40,7 @@
 const props = defineProps({
   show: Boolean,
   condMessage: String,
+  description: String,
   valor: Object,
 });
 
