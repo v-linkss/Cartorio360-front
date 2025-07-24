@@ -4,7 +4,7 @@
       <v-card-text>
         <div>
           {{ condMessage }}
-          {{ description ? description : "" }}
+          <p class="mt-2">{{ description ? description : "" }}</p>
           <div class="mt-5" v-if="valor">
             <span style="font-size: larger">Valor Emolumento</span> : R${{
               valor.valor_emolumento

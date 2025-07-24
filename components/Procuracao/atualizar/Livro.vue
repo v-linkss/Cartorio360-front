@@ -59,6 +59,7 @@
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"
+    :description="condStatusMensagem"
     :valor="valorAto"
     @close="isModalCondOpen = false"
     @confirm="confirmLavrar"
