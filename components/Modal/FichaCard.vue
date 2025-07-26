@@ -1,13 +1,13 @@
 <template>
-  <div v-if="pending" class="#loaing-overlay">
-    <v-progress-circular
-      indeterminate
-      color="white"
-      size="60"
-      class="loading-spinner"
-    ></v-progress-circular>
-  </div>
   <v-dialog persistent v-model="isVisible" max-width="1100">
+    <div v-if="pending" class="loading-overlay">
+      <v-progress-circular
+        indeterminate
+        color="white"
+        size="60"
+        class="loading-spinner"
+      ></v-progress-circular>
+    </div>
     <v-card>
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
 
@@ -62,6 +62,7 @@ registerLicense(`${config.public.docEditor}`);
 const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
 const atualizarFicha = `${config.public.managemant}/minio/update_image`;
 const imageEditorRef = ref(null);
+const pending = ref(false);
 
 const isVisible = ref(props.show);
 const fichaRender = ref(props.linkView || null);
@@ -126,6 +127,8 @@ const editarImagem = async () => {
 const loadImageIntoEditor = async () => {
   if (!fichaRender.value || !imageEditorRef.value?.ej2Instances) return;
 
+  pending.value = true;
+
   try {
     const imageEditor = imageEditorRef.value.ej2Instances;
 
@@ -154,6 +157,8 @@ const loadImageIntoEditor = async () => {
     await imageEditor.open(imagemBiometria.value.msg);
   } catch (error) {
     console.error("Erro ao carregar imagem no editor:", error);
+  } finally {
+    pending.value = false;
   }
 };
 
