@@ -61,7 +61,7 @@
     :condMessage="condMessage"
     :description="condStatusMensagem"
     :valor="valorAto"
-    @close="isModalCondOpen = false"
+    @close="restartProcess"
     @confirm="confirmLavrar"
   />
 </template>
@@ -226,7 +226,12 @@ const lavraAto = async (force = false) => {
     );
   }
 };
-
+const restartProcess = () => {
+  isModalCondOpen.value = false;
+  condStatus.value = null;
+  condStatusMensagem.value = "";
+  valorAto.value = {};
+};
 const calcularAto = async () => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;

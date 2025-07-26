@@ -63,7 +63,7 @@
     :condMessage="condMessage"
     :valor="valorAto"
     :description="condStatusMensagem"
-    @close="isModalCondOpen = false"
+    @close="restartProcess"
     @confirm="confirmLavrar"
   />
 </template>
@@ -147,6 +147,13 @@ const lavraAto = async (force = false) => {
   } else {
     $toast.error("Falha ao lavrar o ato.");
   }
+};
+
+const restartProcess = () => {
+  isModalCondOpen.value = false;
+  condStatus.value = null;
+  condStatusMensagem.value = "";
+  valorAto.value = {};
 };
 
 const calcularAto = async () => {
