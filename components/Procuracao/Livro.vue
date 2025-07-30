@@ -62,7 +62,8 @@
     :show="isModalCondOpen"
     :condMessage="condMessage"
     :valor="valorAto"
-    @close="isModalCondOpen = false"
+    :description="condStatusMensagem"
+    @close="restartProcess"
     @confirm="confirmLavrar"
   />
 </template>
@@ -92,7 +93,7 @@ const router = useRouter();
 const route = useRoute();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
-const calculaAto = `${config.public.managemant}/ato_calcular`;
+const validaAto = `${config.public.managemant}/valida_lavratura`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -104,12 +105,30 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const escreventesItems = ref([]);
 const valorAto = ref({});
-
+const condStatus = ref(null); // Guarda status da validação
+const condStatusMensagem = ref(""); // Guarda mensagem do backend
 const state = reactive({
   escrevente: null,
 });
 
-const lavraAto = async () => {
+const lavraAto = async (force = false) => {
+  if (!force) {
+    const { data: validaData } = await useFetch(validaAto, {
+      method: "POST",
+      body: { ato_token: props.ato_token },
+    });
+    const statusResp = validaData.value[0].status;
+    const statusMsg = validaData.value[0].status_mensagem;
+    if (statusResp !== "OK") {
+      condStatus.value = statusResp;
+      condStatusMensagem.value = statusMsg;
+      valorAto.value = null;
+      isModalCondOpen.value = true;
+      condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
+      return;
+    }
+  }
+  // Fluxo normal de lavratura
   const { data, status } = await useFetch(lavraAtoLivro, {
     method: "POST",
     body: {
@@ -122,33 +141,27 @@ const lavraAto = async () => {
   });
 
   if (status.value === "success") {
-    if (data.value[0].tipo_etiqueta === "html") {
-      lavraData.value = data.value;
-      selo.value = data.value[0].selo;
-    } else if (data.value[0].tipo_etiqueta === "zpl") {
-      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
-        method: "POST",
-        body: {
-          zpl: data.value[0].selo,
-        },
-      });
-      if (zplStatus.value !== "success") {
-        $toast.error("Não foi possivel fazer a impressao da etiqueta");
-        return;
-      }
-    }
+    lavraData.value = data.value;
+    selo.value = data.value[0].selo;
     $toast.success("Ato lavrado com sucesso!");
   } else {
     $toast.error("Falha ao lavrar o ato.");
   }
 };
 
+const restartProcess = () => {
+  isModalCondOpen.value = false;
+  condStatus.value = null;
+  condStatusMensagem.value = "";
+  valorAto.value = {};
+};
+
 const calcularAto = async () => {
   const { data, status } = await useFetch(calculaAto, {
     method: "POST",
     body: {
-      ato_token: props.ato_token,
-      cartorio_token: cartorio_token.value,
+      ato_token: route.query.ato_token_edit,
+      cartorio_token: cartorio_token,
       quantidade: 1,
       usuario_token: usuario_token,
       escrevente_token: state.escrevente,
@@ -165,7 +178,14 @@ const calcularAto = async () => {
 
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
-  await lavraAto();
+  // Se condStatus está preenchido e não é OK, força lavratura
+  if (condStatus.value && condStatus.value !== "OK") {
+    await lavraAto(true);
+    condStatus.value = null;
+    condStatusMensagem.value = "";
+  } else {
+    await lavraAto();
+  }
 };
 const openModalCond = async () => {
   isModalCondOpen.value = true;

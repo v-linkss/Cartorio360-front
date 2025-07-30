@@ -597,7 +597,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-u-M7QAXV.mjs')
+    component: () => import('./index-Bj5Dew7y.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -607,7 +607,7 @@ const _routes = [
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
-    component: () => import('./index-CpEP4lQp.mjs')
+    component: () => import('./index-BM4QCAQY.mjs')
   },
   {
     name: "caixas-lista",
@@ -617,22 +617,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-CuagPbiG.mjs')
+    component: () => import('./_id_-B6fQFtVD.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-B00djaXg.mjs')
+    component: () => import('./geral-DyrobAX_.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-B1l9ZNYq.mjs')
+    component: () => import('./_id_-CvZyBpzh.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-LOOkxWof.mjs')
+    component: () => import('./geral-DEdPUHzh.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -642,7 +642,7 @@ const _routes = [
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-DxOahIte.mjs')
+    component: () => import('./procuracao-RKcddlRD.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -667,7 +667,7 @@ const _routes = [
   {
     name: "integracao-importa-onrtd",
     path: "/integracao/importa-onrtd",
-    component: () => import('./importa-onrtd-B8ueMnKT.mjs')
+    component: () => import('./importa-onrtd-CiYV-PrK.mjs')
   },
   {
     name: "login",
@@ -704,17 +704,17 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-BkAKaOb3.mjs')
+    component: () => import('./_id_-k-3tsBDv.mjs')
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DE_Vyn3m.mjs')
+    component: () => import('./criar-ato-B9Vwzmfo.mjs')
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-C8gagXf8.mjs')
+    component: () => import('./criar-registro-DWIlvobI.mjs')
   },
   {
     name: "os-lista",

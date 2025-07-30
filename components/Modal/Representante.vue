@@ -22,6 +22,7 @@
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
         >
+        <v-btn @click="limparRepresentante" border>Limpar</v-btn>
         <v-btn
           style="background-color: green; color: white"
           @click="updateAtoPessoa"
@@ -35,18 +36,19 @@
 <script setup>
 const props = defineProps({
   show: Boolean,
-  representantes:Array,
+  representantes: Array,
   ato_id: Number,
   representante_nome: String,
 });
 const isVisible = ref(props.show);
 
 const config = useRuntimeConfig();
+const isClear = ref(false);
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 
 const state = reactive({
- representante_id: null,
+  representante_id: null,
 });
 
 const emit = defineEmits(["close", "update-representante"]);
@@ -58,25 +60,38 @@ watch(
   }
 );
 const closeModal = () => {
-  state.representante_id = null
+  state.representante_id = null;
   isVisible.value = false;
   emit("close");
 };
 
-const updateAtoPessoa = async () => {
+const updateAtoPessoa = async (clear) => {
+  const representanteId = state.representante_id?.id ?? null;
   const { data, error, status } = await useFetch(
     `${pessoasUpdate}/${props.ato_id}`,
     {
       method: "PUT",
       body: {
-       representante_id: state.representante_id.id,
+        representante_id: representanteId,
       },
     }
   );
   if (status.value === "success") {
-    $toast.success("Representante Adicionado com Sucesso!");
-    emit("update-representante", state.representante_id.nome);
-    closeModal();
+    if (clear === true) {
+      $toast.success("Representante removido com Sucesso!");
+      emit("update-representante", "");
+      closeModal();
+    } else {
+      $toast.success("Representante adicionado com Sucesso!");
+      emit("update-representante", state.representante_id.nome);
+      closeModal();
+    }
   }
+};
+
+const limparRepresentante = () => {
+  state.representante_id = null;
+  isClear.value = true;
+  updateAtoPessoa(isClear.value);
 };
 </script>

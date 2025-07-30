@@ -195,8 +195,8 @@
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/btn_cancela_lavratura.png"
-              alt="Cancelar Lavratura"
-              title="Cancelar Lavratura"
+              alt="Cancelar"
+              title="Cancelar"
             />
           </div>
           <div @click="deleteAto(item)" title="Excluir">
@@ -258,10 +258,9 @@ const cancelaLavratura = `${config.public.managemant}/cancela_lavratura`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
-const router = useRouter();
+const { redirectTo } = useRedirectTo();
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
-
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 
 const modalVisible = ref(false);
@@ -457,36 +456,7 @@ async function searchAtos() {
 }
 
 const redirectoToView = (item) => {
-  if (
-    item.rota === "/fontes/atos/ato-com-bem/geral" ||
-    item.rota === "/fontes/atos/ato-sem-bem/geral"
-  ) {
-    router.push({
-      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar-lista",
-        id: item.id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: item.numero_os,
-      },
-    });
-  } else if (item.rota === "/fontes/atos/divorcio/geral") {
-    router.push({
-      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar-lista",
-        id: item.id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: item.numero_os,
-      },
-    });
-  }
+  redirectTo({ item, id, numeroOs: item.numero_os, origem: "vizualizar" });
 };
 
 async function tipoAtosDataPayload() {
@@ -537,36 +507,12 @@ const cancelaAto = async (ato_token) => {
 };
 
 const redirectToUpdateAto = (item) => {
-  if (
-    item.rota === "/fontes/atos/ato-com-bem/geral" ||
-    item.rota === "/fontes/atos/ato-sem-bem/geral"
-  ) {
-    router.push({
-      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar-lista",
-        id: item.id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: item.numero_os,
-      },
-    });
-  } else if (item.rota === "/fontes/atos/divorcio/geral") {
-    router.push({
-      path: `/fontes/atos/divorcio/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar-lista",
-        id: item.id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: item.numero_os,
-      },
-    });
-  }
+  redirectTo({
+    item,
+    id: item.id,
+    numeroOs: item.numero_os,
+    origem: "atualizar",
+  });
 };
 
 onMounted(() => {

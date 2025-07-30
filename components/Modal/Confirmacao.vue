@@ -1,19 +1,26 @@
 <template>
-  <v-dialog persistent v-model="isVisible" per max-width="500">
+  <v-dialog persistent v-model="isVisible" max-width="500">
     <v-card>
       <v-card-text>
         <div>
           {{ condMessage }}
+          <div class="description-scroll mt-2" v-if="description">
+            {{ description }}
+          </div>
           <div class="mt-5" v-if="valor">
-            <span style="font-size: larger">Valor Emolumento</span> :
-            {{ formatCurrency(valor.valor_emolumento) }}
-            &nbsp; <span style="font-size: large">Valor Ato</span>:
-            {{ formatCurrency(valor.valor_ato) }}
+            <span style="font-size: larger">Valor Emolumento</span> : R${{
+              valor.valor_emolumento
+            }}
+            &nbsp; <span style="font-size: large">Valor Ato</span>: R${{
+              valor.valor_ato
+            }}
             <br />
-            <span style="font-size: large">Valor Selo</span> :
-            {{ formatCurrency(valor.valor_selo) }}
-            &nbsp;<span style="font-size: large">Valor TSNR</span> :
-            {{ formatCurrency(valor.valor_tsnr) }}
+            <span style="font-size: large">Valor Selo</span> : R${{
+              valor.valor_selo
+            }}
+            &nbsp;<span style="font-size: large">Valor TSNR</span> : R${{
+              valor.valor_tsnr
+            }}
           </div>
         </div>
       </v-card-text>
@@ -35,6 +42,7 @@
 const props = defineProps({
   show: Boolean,
   condMessage: String,
+  description: String,
   valor: Object,
 });
 
@@ -49,18 +57,6 @@ watch(
   }
 );
 
-function formatCurrency(value) {
-  if (typeof value !== "number") {
-    value = Number(value);
-  }
-  if (isNaN(value)) return "R$ 0,00";
-  return value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-  });
-}
-
 const closeModal = () => {
   isVisible.value = false;
   emit("close");
@@ -71,3 +67,16 @@ const confirmAction = () => {
   emit("confirm");
 };
 </script>
+<style scoped>
+.description-scroll {
+  max-height: 400px; /* ajuste conforme necessário */
+  overflow-y: auto;
+  /* Só aplica o scroll se o modal for maior que 700px */
+}
+
+@media (min-height: 700px) {
+  .description-scroll {
+    max-height: 500px; /* ou outro valor que funcione bem para seu layout */
+  }
+}
+</style>

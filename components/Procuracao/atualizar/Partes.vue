@@ -88,7 +88,6 @@
         >
           <template v-slot:item.actions="{ item }">
             <v-row v-if="!isVisualizar">
-              <!-- {{ item.pessoa }} -->
               <div
                 style="
                   display: flex;
@@ -253,7 +252,7 @@ const headers = [
     title: "Pessoa",
     align: "start",
     key: "pessoa.nome",
-    width: "30%",
+    width: "320px",
   },
   {
     title: "Papel",
@@ -264,7 +263,7 @@ const headers = [
     title: "Representante",
     align: "start",
     key: "representante.nome",
-    width: "25%",
+    width: "320px",
   },
   { value: "actions" },
 ];

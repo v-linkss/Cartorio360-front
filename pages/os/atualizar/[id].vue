@@ -99,7 +99,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
+                      rota: item.rota,
                     })
                   : null
               "
@@ -155,6 +155,7 @@
 import { helpers, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
+const { redirectTo } = useRedirectTo();
 const { $toast } = useNuxtApp();
 
 const route = useRoute();
@@ -227,43 +228,13 @@ const redirectToModalReimprimir = (token) => {
 };
 
 const redirectoToView = (item) => {
-  if (
-    item.rota === "/fontes/atos/ato-com-bem/geral" ||
-    item.rota === "/fontes/atos/ato-sem-bem/geral"
-  ) {
-    router.push({
-      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-      query: {
-        origem: "vizualizar",
-        id: id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: numeroOs.value,
-        usa_imoveis: item.usa_imoveis,
-      },
-    });
-  }
+  redirectTo({ item, id, numeroOs: numeroOs.value, origem: "vizualizar" });
 };
 
 const redirectToUpdateAto = (item) => {
-  if (item.usa_imoveis || !item.usa_imoveis) {
-    router.push({
-      path: `/fontes/atos/atos-com-bem/atualizar/${item.id}`,
-      query: {
-        origem: "atualizar",
-        id: id,
-        ato_id: item.id,
-        tipo_ato_token: item.tipo_token,
-        tipo_ato: item.tipo,
-        ato_token_edit: item.token,
-        numero_os: numeroOs.value,
-        usa_imoveis: item.usa_imoveis,
-      },
-    });
-  }
+  redirectTo({ item, id, numeroOs: numeroOs.value, origem: "atualizar" });
 };
+
 async function onUpdate() {
   const payloadFormated = {
     apresentante_cpf: removeFormatting(state.apresentante_cpf),

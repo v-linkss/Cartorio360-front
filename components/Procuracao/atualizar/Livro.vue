@@ -59,8 +59,9 @@
   <ModalConfirmacao
     :show="isModalCondOpen"
     :condMessage="condMessage"
+    :description="condStatusMensagem"
     :valor="valorAto"
-    @close="isModalCondOpen = false"
+    @close="restartProcess"
     @confirm="confirmLavrar"
   />
 </template>
@@ -88,14 +89,16 @@ const route = useRoute();
 const baixarDocumento = `${config.public.managemant}/download`;
 const pegarCaminhoDocumento = `${config.public.managemant}/atos/files`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
+const validaAto = `${config.public.managemant}/valida_lavratura`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const calculaAto = `${config.public.managemant}/ato_calcular`;
-const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const usuario_token = useCookie("auth_token").value;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
+const condStatus = ref(null); // Guarda status da validação
+const condStatusMensagem = ref(""); // Guarda mensagem do backend
 const isModalCondOpen = ref(false);
 const lavraData = ref(null);
 const selo = ref(null);
@@ -167,11 +170,42 @@ const loadDefaultDocument = async () => {
 };
 loadDefaultDocument();
 
-const lavraAto = async () => {
+// Função para validar antes de lavrar
+const lavraAto = async (force = false) => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
 
-  const { data, status } = await useFetch(lavraAtoLivro, {
+  if (!force) {
+    const { data, error, status } = await useFetch(validaAto, {
+      method: "POST",
+      body: { ato_token: route.query.ato_token_edit },
+    });
+
+    let statusResp, statusMsg;
+
+    if (status.value === "success" && data.value) {
+      statusResp = data.value[0].status;
+      statusMsg = data.value[0].status_mensagem;
+    } else if (error.value && error.value.data) {
+      statusResp = error.value.data[0].status;
+      statusMsg = error.value.data[0].status_mensagem;
+    }
+
+    if (statusResp !== "OK") {
+      condStatus.value = statusResp;
+      condStatusMensagem.value = statusMsg;
+      valorAto.value = null;
+      isModalCondOpen.value = true;
+      condMessage.value = ` O ato apresenta inconsistências, deseja prosseguir?`;
+      return;
+    }
+  }
+  // Fluxo normal de lavratura
+  const {
+    data,
+    status: statusLavrar,
+    error,
+  } = await useFetch(lavraAtoLivro, {
     method: "POST",
     body: {
       ato_token: route.query.ato_token_edit,
@@ -182,28 +216,22 @@ const lavraAto = async () => {
     },
   });
 
-  if (status.value === "success") {
-    if (data.value[0].tipo_etiqueta === "html") {
-      lavraData.value = data.value;
-      selo.value = data.value[0].selo;
-    } else if (data.value[0].tipo_etiqueta === "zpl") {
-      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
-        method: "POST",
-        body: {
-          zpl: data.value[0].selo,
-        },
-      });
-      if (zplStatus.value !== "success") {
-        $toast.error("Não foi possivel fazer a impressao da etiqueta");
-        return;
-      }
-    }
+  if (statusLavrar.value === "success") {
+    lavraData.value = data.value;
+    selo.value = data.value[0].selo;
     $toast.success("Ato lavrado com sucesso!");
   } else {
-    $toast.error("Falha ao lavrar o ato.");
+    $toast.error(
+      error.value.data[0].status_mensagem || "Falha ao lavrar o ato."
+    );
   }
 };
-
+const restartProcess = () => {
+  isModalCondOpen.value = false;
+  condStatus.value = null;
+  condStatusMensagem.value = "";
+  valorAto.value = {};
+};
 const calcularAto = async () => {
   const pages =
     documentEditorContainer.value.ej2Instances.documentEditor.pageCount;
@@ -225,13 +253,24 @@ const calcularAto = async () => {
     $toast.error("Falha ao calcular o ato.");
   }
 };
+
+// Confirmação do modal: se veio de inconsistência, força lavratura
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
-  lavraAto();
+
+  if (condStatus.value && condStatus.value !== "OK") {
+    await lavraAto(true);
+    condStatus.value = null;
+    condStatusMensagem.value = "";
+  } else {
+    await lavraAto();
+  }
 };
 
 const openModalCond = async () => {
   isModalCondOpen.value = true;
+  condMessage.value =
+    "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?";
   await calcularAto();
 };
 const { data } = await useFetch(allEscreventes, {
