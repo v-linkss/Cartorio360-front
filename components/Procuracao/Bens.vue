@@ -197,7 +197,7 @@ const createTiposDeBens = async () => {
     body: {
       descricao: state.descricao,
       tipo_id: state.tipo_id,
-      valor_mercado: '0.00',
+      valor_mercado: "0.00",
       vlr_alienacao: state.vlr_alienacao.replace(/,/g, ""),
       user_id: user_id,
       ato_id: Number.parseInt(props.ato_id),
@@ -214,7 +214,6 @@ const createTiposDeBens = async () => {
     });
   }
 };
-
 
 const updateAtosBensModal = async (id) => {
   const { status } = await useFetch(`${updateAtosBens}/${id}`, {
@@ -265,14 +264,21 @@ async function deletePessoa(item) {
     console.error("Erro ao excluir pessoa:", error);
   }
 }
-
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

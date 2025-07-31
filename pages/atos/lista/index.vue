@@ -456,7 +456,12 @@ async function searchAtos() {
 }
 
 const redirectoToView = (item) => {
-  redirectTo({ item, id, numeroOs: item.numero_os, origem: "vizualizar" });
+  redirectTo({
+    item,
+    id,
+    numeroOs: item.numero_os,
+    origem: "vizualizar-lista",
+  });
 };
 
 async function tipoAtosDataPayload() {
@@ -511,7 +516,7 @@ const redirectToUpdateAto = (item) => {
     item,
     id: item.id,
     numeroOs: item.numero_os,
-    origem: "atualizar",
+    origem: "atualizar-lista",
   });
 };
 

@@ -35,21 +35,21 @@
               @click="deleteObservacao(item)"
               title="Deletar Observação"
             >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
+              <img
+                v-if="item.excluido"
+                style="width: 30px; height: 30px"
+                src="../../assets/excluido.png"
+                alt="Visualizar"
+                title="Reativar"
+              />
+              <img
+                v-else
+                src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
             </div>
           </template>
         </v-data-table>
@@ -135,11 +135,11 @@ async function onSubmit() {
 
     if (status.value === "success") {
       observacoesItems.value.push({
-        data:formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
-        observacao:data.value.observacao,
-        id:data.value.id,
-        escrevente:useCookie("user-data").value.nome
-      })
+        data: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
+        observacao: data.value.observacao,
+        id: data.value.id,
+        escrevente: useCookie("user-data").value.nome,
+      });
       $toast.success("Observação registrada com sucesso");
     }
   } else {
@@ -168,10 +168,18 @@ escreventesItems.value = data.value[0].func_json_escreventes;
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>
