@@ -609,7 +609,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-CZDrIWhl.mjs')
+    component: () => import('./index-Ch8pl5kQ.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -625,6 +625,11 @@ const _routes = [
     name: "caixas-lista",
     path: "/caixas/lista",
     component: () => import('./index-Btkl8u5X.mjs')
+  },
+  {
+    name: "cancela_ato",
+    path: "/cancela_ato",
+    component: () => import('./index-CNzFcDjH.mjs')
   },
   {
     name: "chat_atendimento",
