@@ -11,148 +11,68 @@
             src="../../assets/logo_login.png"
           ></v-img>
         </center>
-        <div class="text">Login</div>
+
 
         <v-text-field
-          autofocus
-          autocomplete="email"
-          type="email"
-          v-model="loginData.email"
-          persistent-hint
-          class="input mb-5"
+          v-model="recoveryCode"
+          class="input mt-5"
+          :type="text"
+          density="compact"
           style="background-color: aliceblue"
           hide-details
-          density="compact"
-          placeholder="Email"
-          prepend-inner-icon="mdi-email-outline"
+          placeholder="Código de verificação"
           variant="outlined"
-        ></v-text-field>
+        />
+
+        <v-text-field
+          v-model="novaSenha"
+          class="input mt-5"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="compact"
+          style="background-color: aliceblue"
+          hide-details
+          placeholder="Nova Senha"
+          prepend-inner-icon="mdi-lock-outline"
+          variant="outlined"
+          @click:append-inner="visible = !visible"
+        />
+
+        <v-text-field
+          v-model="confirmarSenha"
+          class="input mt-3"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="compact"
+          style="background-color: aliceblue"
+          hide-details
+          placeholder="Confirmar Senha"
+          prepend-inner-icon="mdi-lock-outline"
+          variant="outlined"
+          @click:append-inner="visible = !visible"
+        />
+          
 
 
-        <v-dialog v-model="dialog" max-width="400" persistent>
-          <template v-slot:activator="{ props: activatorProps }">
-            <v-btn
-              rounded
-              class="mb-10 mt-4 ml-1"
-              v-bind="activatorProps"
-              color="primary"
-              v-on:click="login"
-              v-model="dialog"
-              block
-            >
-              Acessar
-            </v-btn>
-          </template>
-
-          <v-card v-if="showPasswordError" text="Senha inválida.">
-            <template v-slot:actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
-                OK
-              </v-btn>
-            </template>
-          </v-card>
-          <v-card v-if="showEmailError" text="Esse email não está cadastrado.">
-            <template v-slot:actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
-                OK
-              </v-btn>
-            </template>
-          </v-card>
-          <v-card v-if="showError" text="Erro no sistema, fora do ar.">
-            <template v-slot:actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
-                OK
-              </v-btn>
-            </template>
-          </v-card>
-          <v-card
-            v-if="ShowNoPermissionError"
-            text="Seu cadastro está desativado. Entre em contato com o administrador da conta."
-          >
-            <template v-slot:actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
-                OK
-              </v-btn>
-            </template>
-          </v-card>
-        </v-dialog>
         <div>
-          <a
-            class="text-decoration-none"
-            rel="noopener noreferrer"
-            style="color: white; margin-left: 10px"
-            @click="showRecoverDialog = true"
+          <v-btn
+            rounded
+            class="mb-10 mt-4 ml-1"
+            v-bind="activatorProps"
+            color="primary"
+            v-on:click="alterarSenha"
+            v-model="dialog"
+            block
+            :disabled="!senhasValidas"
           >
-            Esqueceu a senha?
-          </a>
+            Alterar Senha
+          </v-btn>
+
 
         </div>
       </v-container>
     </v-col>
     <v-img src="../../assets/Login.jpg" cover></v-img>
-  
-    <v-dialog v-model="showRecoverDialog" max-width="500">
-      <v-card>
-        <v-card-title>Recuperar senha</v-card-title>
-        <v-card-text>
-  '        <v-text-field
-            v-model="recoveryEmail"
-            :readonly="codigoEnviado"
-            type="email"
-            label="Digite seu email"
-            prepend-inner-icon="mdi-email-outline"
-          />
-          <v-text-field
-            v-if="codigoEnviado"
-            v-model="recoveryCode"
-            label="Código de verificação"
-            prepend-inner-icon="mdi-numeric"
-          />
-        </v-card-text>'
-        <v-card-actions>
-  <v-spacer />
-  
-  <!-- Botão verde (Enviar ou Confirmar) -->
-  <v-btn
-    class="bg-green text-white"
-    @click="codigoEnviado ? confirmarCodigo() : enviarCodigo()"
-  >
-    {{ codigoEnviado ? 'Confirmar' : 'Enviar' }}
-  </v-btn>
-
-  <!-- Botão vermelho (Cancelar) -->
-  <v-btn
-    class="bg-red text-white"
-    @click="showRecoverDialog = false; codigoEnviado = false"
-  >
-    Cancelar
-  </v-btn>
-</v-card-actions>
-
-
-      </v-card>
-    </v-dialog>
-
   </v-row>
 </template>
 
@@ -172,6 +92,9 @@ const loginData = ref({
 const visible = ref(false);
 const dialog = ref(false);
 
+const novaSenha = ref('');
+const confirmarSenha = ref('');
+
 const showPasswordError = ref(false);
 const showEmailError = ref(false);
 const ShowNoPermissionError = ref(false);
@@ -179,17 +102,9 @@ const showError = ref(false);
 
 const showRecoverDialog = ref(false);
 const recoveryEmail = ref("");
-
-const novaSenha = ref("");
-const confirmarSenha = ref("");
 const senhaInvalida = ref(false);
-const closeAlert = () => {
-  showPasswordError.value = false;
-  showEmailError.value = false;
-  showError.value = false;
-  ShowNoPermissionError.value = false;
-  dialog.value = false;
-};
+
+
 const config = useRuntimeConfig();
 const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 const auth = config.public.auth;
@@ -319,6 +234,39 @@ const confirmarCodigo = async () => {
     $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
   }
 };
+const alterarSenha = async () => {
+  if (novaSenha.value !== confirmarSenha.value) {
+    senhaInvalida.value = true;
+    $toast.error("As senhas não coincidem.");
+    return;
+  }
+
+  senhaInvalida.value = false;
+
+  try {
+    const response = await $fetch(`${managemant}/verifica_codigo_recuperacao`, {
+      method: "POST",
+      body: {
+        email: recoveryEmail.value,
+        acao: "alterar",
+        token: recoveryCode.value,
+        senha: novaSenha.value,
+      },
+    });
+
+    $toast.success(response.message || "Senha alterada com sucesso!");
+
+    // Limpa e fecha o formulário
+    showRecoverDialog.value = false;
+    codigoEnviado.value = false;
+    recoveryEmail.value = "";
+    recoveryCode.value = "";
+    novaSenha.value = "";
+    confirmarSenha.value = "";
+  } catch (error) {
+    $toast.error(error?.data?.menssage?.details || error?.data?.status_mensagem);
+  }
+};
 
 
 // const enviarCodigo = async () => {
@@ -343,6 +291,14 @@ const confirmarCodigo = async () => {
 //   //   showRecoverDialog.value = false;
 //   // }
 // };
+
+const senhasValidas = computed(() => {
+  return (
+    novaSenha.value &&
+    confirmarSenha.value &&
+    novaSenha.value === confirmarSenha.value
+  );
+});
 
 </script>
 <style scoped>

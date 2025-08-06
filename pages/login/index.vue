@@ -135,12 +135,6 @@
             label="Digite seu email"
             prepend-inner-icon="mdi-email-outline"
           />
-          <v-text-field
-            v-if="codigoEnviado"
-            v-model="recoveryCode"
-            label="Código de verificação"
-            prepend-inner-icon="mdi-numeric"
-          />
         </v-card-text>'
         <v-card-actions>
   <v-spacer />
@@ -304,33 +298,35 @@ const enviarCodigo = async () => {
       acao: "gerar",
     },
   });
-
-  if (status.value === 'success') {
-    $toast.success(data.value.message || 'Código enviado');
+  console.log(data)
+  if (data.value.status === 'OK') {
+    $toast.success(data.value.status_mensagem || 'Código enviado');
     codigoEnviado.value = true;
+    router.push('/recupera_senha');
+
   } else {
     $toast.error(error.value?.data?.menssage?.details || 'Erro desconhecido');
   }
 };
 
-const confirmarCodigo = async () => {
-  const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
-    method: "POST",
-    body: {
-      email: recoveryEmail.value,
-      code: recoveryCode.value,
-    },
-  });
+// const confirmarCodigo = async () => {
+//   const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
+//     method: "POST",
+//     body: {
+//       email: recoveryEmail.value,
+//       code: recoveryCode.value,
+//     },
+//   });
 
-  if (status.value === 'success') {
-    $toast.success(data.value.message || 'Código verificado com sucesso');
-    showRecoverDialog.value = false;
-    router.push('/recupera_senha');
+//   if (status.value === 'success') {
+//     $toast.success(data.value.message || 'Código verificado com sucesso');
+//     showRecoverDialog.value = false;
+//     router.push('/recupera_senha');
 
-  } else {
-    $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
-  }
-};
+//   } else {
+//     $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
+//   }
+// };
 
 
 // const enviarCodigo = async () => {
