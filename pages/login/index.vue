@@ -113,12 +113,11 @@
           <a
             class="text-decoration-none"
             rel="noopener noreferrer"
-            style="color: white; margin-left: 10px"
+            style="color: white; margin-left: 10px; cursor: pointer"
             @click="showRecoverDialog = true"
           >
             Esqueceu a senha?
           </a>
-
         </div>
       </v-container>
     </v-col>
@@ -130,11 +129,11 @@
         <v-card-text>
   '        <v-text-field
             v-model="recoveryEmail"
-            :readonly="codigoEnviado"
             type="email"
             label="Digite seu email"
             prepend-inner-icon="mdi-email-outline"
           />
+
         </v-card-text>'
         <v-card-actions>
   <v-spacer />
@@ -142,15 +141,15 @@
   <!-- Botão verde (Enviar ou Confirmar) -->
   <v-btn
     class="bg-green text-white"
-    @click="codigoEnviado ? confirmarCodigo() : enviarCodigo()"
+    @click="enviarCodigo()"
   >
-    {{ codigoEnviado ? 'Confirmar' : 'Enviar' }}
+   Enviar
   </v-btn>
 
   <!-- Botão vermelho (Cancelar) -->
   <v-btn
     class="bg-red text-white"
-    @click="showRecoverDialog = false; codigoEnviado = false"
+    @click="showRecoverDialog = false"
   >
     Cancelar
   </v-btn>
@@ -199,7 +198,6 @@ const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 const auth = config.public.auth;
 const managemant = config.public.managemant;
 
-const codigoEnviado = ref(false);
 const recoveryCode = ref("");
 const authenticateUser = async () => {
   const { data, status, error } = await fetchWithToken(`${auth}/login`, {
@@ -291,6 +289,7 @@ const login = async () => {
 };
 
 const enviarCodigo = async () => {
+
   const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
     method: "POST",
     body: {
@@ -298,59 +297,16 @@ const enviarCodigo = async () => {
       acao: "gerar",
     },
   });
-  console.log(data)
-  if (data.value.status === 'OK') {
+  if (status.value === 'success') {
     $toast.success(data.value.status_mensagem || 'Código enviado');
-    codigoEnviado.value = true;
-    router.push('/recupera_senha');
-
+    recoveryEmailCookie.value = recoveryEmail.value;
+    showRecoverDialog.value = false;
   } else {
-    $toast.error(error.value?.data?.menssage?.details || 'Erro desconhecido');
+    $toast.error(error.value?.data?.menssage?.details || error.value?.data?.status_mensagem);
   }
 };
 
-// const confirmarCodigo = async () => {
-//   const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
-//     method: "POST",
-//     body: {
-//       email: recoveryEmail.value,
-//       code: recoveryCode.value,
-//     },
-//   });
 
-//   if (status.value === 'success') {
-//     $toast.success(data.value.message || 'Código verificado com sucesso');
-//     showRecoverDialog.value = false;
-//     router.push('/recupera_senha');
-
-//   } else {
-//     $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
-//   }
-// };
-
-
-// const enviarCodigo = async () => {
-//   const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
-//     method: "POST",
-//     body: {
-//       email: recoveryEmail.value,
-//       acao: "gerar",
-//     },
-//   });
-//   console.log(status.value)
-//   if(status.value ===  'success') {
-//     $toast.success(data.value.message)
-//   } else {
-//     $toast.error(error.value.data.menssage?.details || 'Erro desconhecido');
-//   }
-//   // const retorno = data.value?.func_recupera_senha?.[0];
-//   // if (retorno?.statis === "ERRO") {
-//   //   $toast.error(retorno.status_mensagem);
-//   // } else {
-//   //   $toast.success(retorno.status_mensagem);
-//   //   showRecoverDialog.value = false;
-//   // }
-// };
 
 </script>
 <style scoped>

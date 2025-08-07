@@ -41,15 +41,15 @@
         <v-text-field
           v-model="confirmarSenha"
           class="input mt-3"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
+          :append-inner-icon="visible_confirmar ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible_confirmar ? 'text' : 'password'"
           density="compact"
           style="background-color: aliceblue"
           hide-details
           placeholder="Confirmar Senha"
           prepend-inner-icon="mdi-lock-outline"
           variant="outlined"
-          @click:append-inner="visible = !visible"
+          @click:append-inner="visible_confirmar = !visible_confirmar"
         />
           
 
@@ -90,6 +90,8 @@ const loginData = ref({
 });
 
 const visible = ref(false);
+const visible_confirmar = ref(false);
+
 const dialog = ref(false);
 
 const novaSenha = ref('');
@@ -201,39 +203,9 @@ const login = async () => {
   }
 };
 
-const enviarCodigo = async () => {
-  const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
-    method: "POST",
-    body: {
-      email: recoveryEmail.value,
-      acao: "gerar",
-    },
-  });
 
-  if (status.value === 'success') {
-    $toast.success(data.value.message || 'Código enviado');
-    codigoEnviado.value = true;
-  } else {
-    $toast.error(error.value?.data?.menssage?.details || 'Erro desconhecido');
-  }
-};
 
-const confirmarCodigo = async () => {
-  const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
-    method: "POST",
-    body: {
-      email: recoveryEmail.value,
-      code: recoveryCode.value,
-    },
-  });
 
-  if (status.value === 'success') {
-    $toast.success(data.value.message || 'Código verificado com sucesso');
-    showRecoverDialog.value = false;
-  } else {
-    $toast.error(error.value?.data?.menssage?.details || 'Código inválido');
-  }
-};
 const alterarSenha = async () => {
   if (novaSenha.value !== confirmarSenha.value) {
     senhaInvalida.value = true;
@@ -244,17 +216,17 @@ const alterarSenha = async () => {
   senhaInvalida.value = false;
 
   try {
-    const response = await $fetch(`${managemant}/verifica_codigo_recuperacao`, {
+    const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
       method: "POST",
       body: {
-        email: recoveryEmail.value,
+        // email: useCookie("recovery-email").value,
         acao: "alterar",
         token: recoveryCode.value,
         senha: novaSenha.value,
       },
     });
 
-    $toast.success(response.message || "Senha alterada com sucesso!");
+    $toast.success(data.value.status_mensagem || "Senha alterada com sucesso!");
 
     // Limpa e fecha o formulário
     showRecoverDialog.value = false;
@@ -269,28 +241,6 @@ const alterarSenha = async () => {
 };
 
 
-// const enviarCodigo = async () => {
-//   const { data, status, error } = await useFetch(`${managemant}/recupera_senha`, {
-//     method: "POST",
-//     body: {
-//       email: recoveryEmail.value,
-//       acao: "gerar",
-//     },
-//   });
-//   console.log(status.value)
-//   if(status.value ===  'success') {
-//     $toast.success(data.value.message)
-//   } else {
-//     $toast.error(error.value.data.menssage?.details || 'Erro desconhecido');
-//   }
-//   // const retorno = data.value?.func_recupera_senha?.[0];
-//   // if (retorno?.statis === "ERRO") {
-//   //   $toast.error(retorno.status_mensagem);
-//   // } else {
-//   //   $toast.success(retorno.status_mensagem);
-//   //   showRecoverDialog.value = false;
-//   // }
-// };
 
 const senhasValidas = computed(() => {
   return (
