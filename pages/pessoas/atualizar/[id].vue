@@ -187,6 +187,7 @@
               </v-row>
             </v-container>
             <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
+            <DadosEstrangeira v-else-if="state.tipo_pessoa === 'ESTRANGEIRA'" />
           </v-tabs-window-item>
           <v-tabs-window-item value="documento">
             <Documentos />

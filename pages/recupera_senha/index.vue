@@ -12,7 +12,6 @@
           ></v-img>
         </center>
 
-
         <v-text-field
           v-model="recoveryCode"
           class="input mt-5"
@@ -51,8 +50,6 @@
           variant="outlined"
           @click:append-inner="visible_confirmar = !visible_confirmar"
         />
-          
-
 
         <div>
           <v-btn
@@ -67,8 +64,6 @@
           >
             Alterar Senha
           </v-btn>
-
-
         </div>
       </v-container>
     </v-col>
@@ -77,7 +72,7 @@
 </template>
 
 <script setup>
-import toast from '~/plugins/toast';
+import toast from "~/plugins/toast";
 
 definePageMeta({
   layout: "false",
@@ -94,8 +89,8 @@ const visible_confirmar = ref(false);
 
 const dialog = ref(false);
 
-const novaSenha = ref('');
-const confirmarSenha = ref('');
+const novaSenha = ref("");
+const confirmarSenha = ref("");
 
 const showPasswordError = ref(false);
 const showEmailError = ref(false);
@@ -105,7 +100,6 @@ const showError = ref(false);
 const showRecoverDialog = ref(false);
 const recoveryEmail = ref("");
 const senhaInvalida = ref(false);
-
 
 const config = useRuntimeConfig();
 const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
@@ -183,8 +177,11 @@ const login = async () => {
     const { data: menuItems, status: statusMenu } = await fetchWithToken(
       listarMenu,
       {
-        method: "POST", 
-        body: { usuario_id: userInfo.id ,perfil_descricao: userInfo.cartorios[0].perfil_descricao },
+        method: "POST",
+        body: {
+          usuario_id: userInfo.id,
+          perfil_descricao: userInfo.cartorios[0].perfil_descricao,
+        },
       }
     );
     if (statusMenu.value === "success") {
@@ -203,9 +200,6 @@ const login = async () => {
   }
 };
 
-
-
-
 const alterarSenha = async () => {
   if (novaSenha.value !== confirmarSenha.value) {
     senhaInvalida.value = true;
@@ -216,15 +210,18 @@ const alterarSenha = async () => {
   senhaInvalida.value = false;
 
   try {
-    const { data, status, error } = await useFetch(`${managemant}/verifica_codigo_recuperacao`, {
-      method: "POST",
-      body: {
-        // email: useCookie("recovery-email").value,
-        acao: "alterar",
-        token: recoveryCode.value,
-        senha: novaSenha.value,
-      },
-    });
+    const { data, status, error } = await useFetch(
+      `${managemant}/verifica_codigo_recuperacao`,
+      {
+        method: "POST",
+        body: {
+          // email: useCookie("recovery-email").value,
+          acao: "alterar",
+          token: recoveryCode.value,
+          senha: novaSenha.value,
+        },
+      }
+    );
 
     $toast.success(data.value.status_mensagem || "Senha alterada com sucesso!");
 
@@ -236,11 +233,11 @@ const alterarSenha = async () => {
     novaSenha.value = "";
     confirmarSenha.value = "";
   } catch (error) {
-    $toast.error(error?.data?.menssage?.details || error?.data?.status_mensagem);
+    $toast.error(
+      error?.data?.menssage?.details || error?.data?.status_mensagem
+    );
   }
 };
-
-
 
 const senhasValidas = computed(() => {
   return (
@@ -249,7 +246,6 @@ const senhasValidas = computed(() => {
     novaSenha.value === confirmarSenha.value
   );
 });
-
 </script>
 <style scoped>
 .input {
