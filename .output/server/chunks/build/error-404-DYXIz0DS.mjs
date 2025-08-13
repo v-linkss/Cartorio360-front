@@ -3,12 +3,12 @@ import { mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext } 
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import { _ as _export_sfc } from './server.mjs';
 import { u as useHead } from './index-C2merokO.mjs';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';

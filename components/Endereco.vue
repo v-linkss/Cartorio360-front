@@ -205,7 +205,7 @@
               <v-text-field
                 v-else
                 v-model="selectedEndereco.cidade_estrangeira"
-                label="Cidade Estrangeira"
+                label="Cidade"
               />
             </v-col>
           </v-row>
@@ -288,7 +288,7 @@ const headers = [
   },
 ];
 
-const isModalOpen = ref(false); 
+const isModalOpen = ref(false);
 const selectedEndereco = ref(null);
 
 const isForeign = computed(() => {
@@ -321,7 +321,7 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-const tokenCookie = useCookie('auth_token');
+const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
 const {
   data: enderecos,
@@ -387,12 +387,11 @@ async function onSubmitAdressForeign() {
   if (status.value === "error" && error.value.statusCode === 500) {
     $toast.error("Erro ao cadastrar endereço,erro no sistema.");
   } else {
-
     $toast.success("Endereço cadastrado com sucesso!");
     refresh();
     for (const key in state) {
       state[key] = null;
-    } 
+    }
     v$.value.$reset();
   }
 }
@@ -455,7 +454,8 @@ watch(
           state.bairro = data.value.bairro;
           state.complemento = data.value.complemento;
 
-          let cidade = `${data.value.localidade}/${data.value.uf}`.toUpperCase();
+          let cidade =
+            `${data.value.localidade}/${data.value.uf}`.toUpperCase();
 
           const cidadeItem = enderecos.value.cidadesItems.find(
             (item) => item.descricao === cidade
