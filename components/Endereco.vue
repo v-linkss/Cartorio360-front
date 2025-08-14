@@ -10,7 +10,7 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-      <v-col md="2">
+      <v-col md="2" v-if="!isForeign">
         <v-text-field
           v-if="!isForeign"
           v-model="state.codcep"
@@ -19,12 +19,6 @@
           required
           @blur="v$.codcep.$touch"
           @input="v$.codcep.$touch"
-          label="CEP"
-        ></v-text-field>
-        <v-text-field
-          v-else
-          v-model="state.codcep"
-          v-mask="'########'"
           label="CEP"
         ></v-text-field>
       </v-col>
@@ -100,7 +94,7 @@
         <v-text-field
           v-else
           v-model="state.cidade_estrangeira"
-          label="Cidade Estrangeira"
+          label="Cidade"
         ></v-text-field>
       </v-col>
     </v-row>
