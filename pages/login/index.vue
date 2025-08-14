@@ -77,7 +77,7 @@
       <v-card>
         <v-card-title>Recuperar senha</v-card-title>
         <v-card-text>
-          ' <v-text-field v-model="recoveryEmail" type="email" label="Digite seu email"
+          <v-text-field v-model="recoveryEmail" type="email" label="Digite seu email"
             prepend-inner-icon="mdi-email-outline" />
 
         </v-card-text>'
@@ -239,6 +239,7 @@ const enviarCodigo = async () => {
   if (status.value === 'success') {
     $toast.success(data.value.status_mensagem || 'Código enviado');
     recoveryEmailCookie.value = recoveryEmail.value;
+    showRecoverDialog.value = false;
     showRecoverDialog.value = false;
   } else {
     $toast.error(error.value?.data?.menssage?.details || error.value?.data?.status_mensagem);

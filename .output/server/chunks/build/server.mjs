@@ -712,7 +712,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$3,
-    component: () => import('./index-D6AazzuV.mjs')
+    component: () => import('./index-IUndUP3j.mjs')
   },
   {
     name: "login-tipo-perfil",
