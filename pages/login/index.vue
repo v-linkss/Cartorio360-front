@@ -4,55 +4,23 @@
     <v-col cols="5" class="d-flex align-center justify-center">
       <v-container style="max-width: 650px">
         <center>
-          <v-img
-            style="margin-bottom: 30px"
-            :width="400"
-            :height="330"
-            src="../../assets/logo_login.png"
-          ></v-img>
+          <v-img style="margin-bottom: 30px" :width="400" :height="330" src="../../assets/logo_login.png"></v-img>
         </center>
         <div class="text">Login</div>
 
-        <v-text-field
-          autofocus
-          autocomplete="email"
-          type="email"
-          v-model="loginData.email"
-          persistent-hint
-          class="input mb-5"
-          style="background-color: aliceblue"
-          hide-details
-          density="compact"
-          placeholder="Email"
-          prepend-inner-icon="mdi-email-outline"
-          variant="outlined"
-        ></v-text-field>
+        <v-text-field autofocus autocomplete="email" type="email" v-model="loginData.email" persistent-hint
+          class="input mb-5" style="background-color: aliceblue" hide-details density="compact" placeholder="Email"
+          prepend-inner-icon="mdi-email-outline" variant="outlined"></v-text-field>
 
-        <v-text-field
-          v-model="loginData.senha"
-          class="input"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          density="compact"
-          style="background-color: aliceblue"
-          hide-details
-          placeholder="Senha"
-          prepend-inner-icon="mdi-lock-outline"
-          variant="outlined"
-          @click:append-inner="visible = !visible"
-        ></v-text-field>
+        <v-text-field v-model="loginData.senha" class="input" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'" density="compact" style="background-color: aliceblue" hide-details
+          placeholder="Senha" prepend-inner-icon="mdi-lock-outline" variant="outlined"
+          @click:append-inner="visible = !visible"></v-text-field>
 
         <v-dialog v-model="dialog" max-width="400" persistent>
           <template v-slot:activator="{ props: activatorProps }">
-            <v-btn
-              rounded
-              class="mb-10 mt-4 ml-1"
-              v-bind="activatorProps"
-              color="primary"
-              v-on:click="login"
-              v-model="dialog"
-              block
-            >
+            <v-btn rounded class="mb-10 mt-4 ml-1" v-bind="activatorProps" color="primary" v-on:click="login"
+              v-model="dialog" block>
               Acessar
             </v-btn>
           </template>
@@ -61,10 +29,7 @@
             <template v-slot:actions>
               <v-spacer></v-spacer>
 
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
+              <v-btn @click="closeAlert" style="background-color: #429946; color: white">
                 OK
               </v-btn>
             </template>
@@ -73,10 +38,7 @@
             <template v-slot:actions>
               <v-spacer></v-spacer>
 
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
+              <v-btn @click="closeAlert" style="background-color: #429946; color: white">
                 OK
               </v-btn>
             </template>
@@ -85,75 +47,53 @@
             <template v-slot:actions>
               <v-spacer></v-spacer>
 
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
+              <v-btn @click="closeAlert" style="background-color: #429946; color: white">
                 OK
               </v-btn>
             </template>
           </v-card>
-          <v-card
-            v-if="ShowNoPermissionError"
-            text="Seu cadastro está desativado. Entre em contato com o administrador da conta."
-          >
+          <v-card v-if="ShowNoPermissionError"
+            text="Seu cadastro está desativado. Entre em contato com o administrador da conta.">
             <template v-slot:actions>
               <v-spacer></v-spacer>
 
-              <v-btn
-                @click="closeAlert"
-                style="background-color: #429946; color: white"
-              >
+              <v-btn @click="closeAlert" style="background-color: #429946; color: white">
                 OK
               </v-btn>
             </template>
           </v-card>
         </v-dialog>
         <div>
-          <a
-            class="text-decoration-none"
-            rel="noopener noreferrer"
-            style="color: white; margin-left: 10px; cursor: pointer"
-            @click="showRecoverDialog = true"
-          >
+          <a class="text-decoration-none" rel="noopener noreferrer"
+            style="color: white; margin-left: 10px; cursor: pointer" @click="showRecoverDialog = true">
             Esqueceu a senha?
           </a>
         </div>
       </v-container>
     </v-col>
     <v-img src="../../assets/Login.jpg" cover></v-img>
-  
+
     <v-dialog v-model="showRecoverDialog" max-width="500">
       <v-card>
         <v-card-title>Recuperar senha</v-card-title>
         <v-card-text>
-  '        <v-text-field
-            v-model="recoveryEmail"
-            type="email"
-            label="Digite seu email"
-            prepend-inner-icon="mdi-email-outline"
-          />
+          ' <v-text-field v-model="recoveryEmail" type="email" label="Digite seu email"
+            prepend-inner-icon="mdi-email-outline" />
 
         </v-card-text>'
         <v-card-actions>
-  <v-spacer />
-  
-  <!-- Botão verde (Enviar ou Confirmar) -->
-  <v-btn
-    class="bg-green text-white"
-    @click="enviarCodigo()"
-  >
-   Enviar
-  </v-btn>
+          <v-spacer />
 
-  <!-- Botão vermelho (Cancelar) -->
-  <v-btn
-    class="bg-red text-white"
-    @click="showRecoverDialog = false"
-  >
-    Cancelar
-  </v-btn>
-</v-card-actions>
+          <!-- Botão verde (Enviar ou Confirmar) -->
+          <v-btn class="bg-green text-white" @click="enviarCodigo()">
+            Enviar
+          </v-btn>
+
+          <!-- Botão vermelho (Cancelar) -->
+          <v-btn class="bg-red text-white" @click="showRecoverDialog = false">
+            Cancelar
+          </v-btn>
+        </v-card-actions>
 
 
       </v-card>
@@ -163,7 +103,6 @@
 </template>
 
 <script setup>
-import toast from '~/plugins/toast';
 
 definePageMeta({
   layout: "false",
@@ -268,8 +207,8 @@ const login = async () => {
     const { data: menuItems, status: statusMenu } = await fetchWithToken(
       listarMenu,
       {
-        method: "POST", 
-        body: { usuario_id: userInfo.id ,perfil_descricao: userInfo.cartorios[0].perfil_descricao },
+        method: "POST",
+        body: { usuario_id: userInfo.id, perfil_descricao: userInfo.cartorios[0].perfil_descricao },
       }
     );
     if (statusMenu.value === "success") {
@@ -313,6 +252,7 @@ const enviarCodigo = async () => {
 .input {
   margin-left: 10px;
 }
+
 .text {
   font-size: 25px;
   font-family: "calibri";

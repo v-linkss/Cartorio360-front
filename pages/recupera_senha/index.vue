@@ -4,64 +4,26 @@
     <v-col cols="5" class="d-flex align-center justify-center">
       <v-container style="max-width: 650px">
         <center>
-          <v-img
-            style="margin-bottom: 30px"
-            :width="400"
-            :height="330"
-            src="../../assets/logo_login.png"
-          ></v-img>
+          <v-img style="margin-bottom: 30px" :width="400" :height="330" src="../../assets/logo_login.png"></v-img>
         </center>
 
-        <v-text-field
-          v-model="recoveryCode"
-          class="input mt-5"
-          :type="text"
-          density="compact"
-          style="background-color: aliceblue"
-          hide-details
-          placeholder="Código de verificação"
-          variant="outlined"
-        />
+        <v-text-field v-model="recoveryCode" class="input mt-5" :type="text" density="compact"
+          style="background-color: aliceblue" hide-details placeholder="Código de verificação" variant="outlined" />
 
-        <v-text-field
-          v-model="novaSenha"
-          class="input mt-5"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          density="compact"
-          style="background-color: aliceblue"
-          hide-details
-          placeholder="Nova Senha"
-          prepend-inner-icon="mdi-lock-outline"
-          variant="outlined"
-          @click:append-inner="visible = !visible"
-        />
+        <v-text-field v-model="novaSenha" class="input mt-5" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'" density="compact" style="background-color: aliceblue" hide-details
+          placeholder="Nova Senha" prepend-inner-icon="mdi-lock-outline" variant="outlined"
+          @click:append-inner="visible = !visible" />
 
-        <v-text-field
-          v-model="confirmarSenha"
-          class="input mt-3"
+        <v-text-field v-model="confirmarSenha" class="input mt-3"
           :append-inner-icon="visible_confirmar ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible_confirmar ? 'text' : 'password'"
-          density="compact"
-          style="background-color: aliceblue"
-          hide-details
-          placeholder="Confirmar Senha"
-          prepend-inner-icon="mdi-lock-outline"
-          variant="outlined"
-          @click:append-inner="visible_confirmar = !visible_confirmar"
-        />
+          :type="visible_confirmar ? 'text' : 'password'" density="compact" style="background-color: aliceblue"
+          hide-details placeholder="Confirmar Senha" prepend-inner-icon="mdi-lock-outline" variant="outlined"
+          @click:append-inner="visible_confirmar = !visible_confirmar" />
 
         <div>
-          <v-btn
-            rounded
-            class="mb-10 mt-4 ml-1"
-            v-bind="activatorProps"
-            color="primary"
-            v-on:click="alterarSenha"
-            v-model="dialog"
-            block
-            :disabled="!senhasValidas"
-          >
+          <v-btn rounded class="mb-10 mt-4 ml-1" v-bind="activatorProps" color="primary" v-on:click="alterarSenha"
+            v-model="dialog" block :disabled="!senhasValidas">
             Alterar Senha
           </v-btn>
         </div>
@@ -72,7 +34,6 @@
 </template>
 
 <script setup>
-import toast from "~/plugins/toast";
 
 definePageMeta({
   layout: "false",
@@ -216,14 +177,20 @@ const alterarSenha = async () => {
         method: "POST",
         body: {
           // email: useCookie("recovery-email").value,
-          acao: "alterar",
+          acao: "recuperar",
           token: recoveryCode.value,
           senha: novaSenha.value,
         },
       }
     );
-
-    $toast.success(data.value.status_mensagem || "Senha alterada com sucesso!");
+    if (status.value === "success") {
+      $toast.success(data.value.status_mensagem || "Senha alterada com sucesso!");
+    } else {
+      console.log(error.value.data);
+      $toast.error(
+        error.value?.data?.menssage?.details || error.value?.data?.status_mensagem || "Erro desconhecido ao alterar a senha."
+      );
+    }
 
     // Limpa e fecha o formulário
     showRecoverDialog.value = false;
@@ -232,10 +199,11 @@ const alterarSenha = async () => {
     recoveryCode.value = "";
     novaSenha.value = "";
     confirmarSenha.value = "";
+
   } catch (error) {
-    $toast.error(
-      error?.data?.menssage?.details || error?.data?.status_mensagem
-    );
+    // $toast.error(
+    //   error?.data?.menssage?.details || error?.data?.status_mensagem
+    // );
   }
 };
 
@@ -251,6 +219,7 @@ const senhasValidas = computed(() => {
 .input {
   margin-left: 10px;
 }
+
 .text {
   font-size: 25px;
   font-family: "calibri";

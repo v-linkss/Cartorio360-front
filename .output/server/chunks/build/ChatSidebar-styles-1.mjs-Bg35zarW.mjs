@@ -1,4 +1,0 @@
-const ChatSidebar_vue_vue_type_style_index_0_scoped_5ea6e85d_lang = ".chat-sidebar[data-v-5ea6e85d]{background:#111b21;color:#fff;display:flex;flex-direction:column;overflow-y:auto;padding:1rem;width:280px}.sidebar-header[data-v-5ea6e85d]{font-size:1.25rem;font-weight:700;margin-bottom:1rem}.chat-item[data-v-5ea6e85d]{background:#202c33;border:none;border-radius:8px;cursor:pointer;padding:.75rem;text-align:left;transition:background .3s ease;width:100%}.chat-item[data-v-5ea6e85d]:hover{background:#2a3942}.chat-item.active[data-v-5ea6e85d]{background:#005c4b}.chat-name[data-v-5ea6e85d]{color:#fff;display:block;font-weight:600}.chat-preview[data-v-5ea6e85d]{color:#aebac1;display:block;font-size:.8rem;margin-top:.2rem}";
-
-export { ChatSidebar_vue_vue_type_style_index_0_scoped_5ea6e85d_lang as C };
-//# sourceMappingURL=ChatSidebar-styles-1.mjs-Bg35zarW.mjs.map
