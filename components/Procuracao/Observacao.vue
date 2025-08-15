@@ -1,15 +1,13 @@
 <template>
   <v-container>
     <v-row class="mt-5">
-      <v-text-field
-        label="Observação"
-        v-model="state.observacao"
-        required
-        :error-messages="v$.observacao.$errors.map((e) => e.$message)"
-        @blur="v$.observacao.$touch"
-        @input="v$.observacao.$touch"
+      <v-btn
+        class="mb-4 ml-8"
+        @click="openModalCreateObservacao"
+        size="large"
+        color="green"
+        >Novo</v-btn
       >
-      </v-text-field>
 
       <div>
         <img
@@ -29,32 +27,60 @@
           :headers="headers"
           :items="observacoesItems"
         >
+          <template v-slot:item.observacao="{ item }">
+            {{
+              item.observacao.length > 100
+                ? item.observacao.slice(0, 100) + "..."
+                : item.observacao
+            }}
+          </template>
           <template v-slot:item.actions="{ item }">
-            <div
-              style="display: flex; cursor: pointer; justify-content: flex-end"
-              @click="deleteObservacao(item)"
-              title="Deletar Observação"
-            >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
-            </div>
+            <v-row>
+              <div @click="openModalVisualizar(item)">
+                <img
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  src="../../../assets/visualizar.png"
+                  alt="Visualizar"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  cursor: pointer;
+                  justify-content: flex-end;
+                "
+                @click="deleteObservacao(item)"
+                title="Deletar Observação"
+              >
+                <img
+                  v-if="item.excluido"
+                  style="width: 30px; height: 30px"
+                  src="../../assets/excluido.png"
+                  alt="Visualizar"
+                  title="Reativar"
+                />
+                <img
+                  v-else
+                  src="../../assets/mudarStatus.png"
+                  alt="Excluir"
+                  class="trash-icon"
+                  style="width: 30px; height: 30px"
+                  title="Excluir"
+                />
+              </div>
+            </v-row>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+    <ModalObservacao
+      v-if="isModalObservacaoOpen"
+      :show="isModalObservacaoOpen"
+      :observacao="modalObservacaoText"
+      :visualizar="isVisualizarModal"
+      @close="isModalObservacaoOpen = false"
+    />
+
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -82,9 +108,11 @@ const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
 const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
-
 const observacoesItems = ref([]);
 const escreventesItems = ref([]);
+const isModalObservacaoOpen = ref(false);
+const isVisualizarModal = ref(false);
+const modalObservacaoText = ref("");
 
 const headers = [
   {
@@ -122,30 +150,17 @@ const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
   method: "GET",
 });
 
-async function onSubmit() {
-  if (await v$.value.$validate()) {
-    const { data, error, status } = await useFetch(createAtoObservacao, {
-      method: "POST",
-      body: {
-        ato_id: props.ato_id,
-        observacao: state.observacao,
-        user_id: useCookie("user-data").value.usuario_id,
-      },
-    });
-
-    if (status.value === "success") {
-      observacoesItems.value.push({
-        data:formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
-        observacao:data.value.observacao,
-        id:data.value.id,
-        escrevente:useCookie("user-data").value.nome
-      })
-      $toast.success("Observação registrada com sucesso");
-    }
-  } else {
-    $toast.error("Preencha os campos obrigatorios.");
-  }
+function openModalVisualizar(item) {
+  modalObservacaoText.value = item.observacao;
+  isVisualizarModal.value = true;
+  isModalObservacaoOpen.value = true;
 }
+
+const openModalCreateObservacao = () => {
+  isVisualizarModal.value = false;
+  isModalObservacaoOpen.value = true;
+  modalObservacaoText.value = "";
+};
 
 async function deleteObservacao(item) {
   item.excluido = !item.excluido;
