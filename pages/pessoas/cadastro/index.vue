@@ -46,6 +46,10 @@
             v-else-if="state.tipo_pessoa === 'JURIDICA'"
             @saved="handleSaveJuridica"
           />
+          <DadosEstrangeira
+            v-else-if="state.tipo_pessoa === 'ESTRANGEIRA'"
+            @saved="handleSave"
+          />
         </v-tabs-window-item>
         <v-tabs-window-item v-if="showTabsFisica" value="documento">
           <Documentos />

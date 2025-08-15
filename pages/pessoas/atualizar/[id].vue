@@ -32,29 +32,27 @@
       <div v-else>
         <v-tabs v-model="tab" bg-color="#f5f2f2">
           <v-tab value="dados">Dados</v-tab>
-          <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="documento"
+          <v-tab
+            v-if="
+              state.tipo_pessoa === 'FISICA' ||
+              state.tipo_pessoa === 'ESTRANGEIRA'
+            "
+            value="documento"
             >Documentos</v-tab
           >
           <v-tab v-if="state.tipo_pessoa === 'JURIDICA'" value="representante"
             >Representantes</v-tab
           >
+          <v-tab value="endereco">Endereços</v-tab>
           <v-tab
             v-if="
-              state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
+              state.tipo_pessoa === 'FISICA' ||
+              state.tipo_pessoa === 'ESTRANGEIRA'
             "
-            value="endereco"
-            >Endereços</v-tab
-          >
-          <v-tab v-if="state.tipo_pessoa === 'FISICA'" value="biometria"
+            value="biometria"
             >Biometria</v-tab
           >
-          <v-tab
-            v-if="
-              state.tipo_pessoa === 'JURIDICA' || state.tipo_pessoa === 'FISICA'
-            "
-            value="restricao"
-            >Restrições</v-tab
-          >
+          <v-tab value="restricao">Restrições</v-tab>
         </v-tabs>
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="dados">
@@ -187,6 +185,7 @@
               </v-row>
             </v-container>
             <DadosJuridica v-else-if="state.tipo_pessoa === 'JURIDICA'" />
+            <DadosEstrangeira v-else-if="state.tipo_pessoa === 'ESTRANGEIRA'" />
           </v-tabs-window-item>
           <v-tabs-window-item value="documento">
             <Documentos />

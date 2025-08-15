@@ -10,7 +10,7 @@
           item-value="id"
         ></v-autocomplete>
       </v-col>
-      <v-col md="2">
+      <v-col md="2" v-if="!isForeign">
         <v-text-field
           v-if="!isForeign"
           v-model="state.codcep"
@@ -19,12 +19,6 @@
           required
           @blur="v$.codcep.$touch"
           @input="v$.codcep.$touch"
-          label="CEP"
-        ></v-text-field>
-        <v-text-field
-          v-else
-          v-model="state.codcep"
-          v-mask="'########'"
           label="CEP"
         ></v-text-field>
       </v-col>
@@ -100,7 +94,7 @@
         <v-text-field
           v-else
           v-model="state.cidade_estrangeira"
-          label="Cidade Estrangeira"
+          label="Cidade"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -205,7 +199,7 @@
               <v-text-field
                 v-else
                 v-model="selectedEndereco.cidade_estrangeira"
-                label="Cidade Estrangeira"
+                label="Cidade"
               />
             </v-col>
           </v-row>
@@ -288,7 +282,7 @@ const headers = [
   },
 ];
 
-const isModalOpen = ref(false); 
+const isModalOpen = ref(false);
 const selectedEndereco = ref(null);
 
 const isForeign = computed(() => {
@@ -321,7 +315,7 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-const tokenCookie = useCookie('auth_token');
+const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
 const {
   data: enderecos,
@@ -387,12 +381,11 @@ async function onSubmitAdressForeign() {
   if (status.value === "error" && error.value.statusCode === 500) {
     $toast.error("Erro ao cadastrar endereço,erro no sistema.");
   } else {
-
     $toast.success("Endereço cadastrado com sucesso!");
     refresh();
     for (const key in state) {
       state[key] = null;
-    } 
+    }
     v$.value.$reset();
   }
 }
@@ -455,7 +448,8 @@ watch(
           state.bairro = data.value.bairro;
           state.complemento = data.value.complemento;
 
-          let cidade = `${data.value.localidade}/${data.value.uf}`.toUpperCase();
+          let cidade =
+            `${data.value.localidade}/${data.value.uf}`.toUpperCase();
 
           const cidadeItem = enderecos.value.cidadesItems.find(
             (item) => item.descricao === cidade
