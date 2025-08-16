@@ -199,6 +199,14 @@
               title="Cancelar"
             />
           </div>
+          <div>
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/escanear.png"
+              alt="escanear"
+              title="escanear"
+            />
+          </div>
           <div @click="deleteAto(item)" title="Excluir">
             <img
               v-if="item.excluido"
