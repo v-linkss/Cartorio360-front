@@ -2,53 +2,27 @@
   <v-container class="mt-5">
     <v-row dense>
       <v-col cols="12" sm="4" md="3">
-        <v-text-field
-          v-model="atos.dt_casamento"
-          type="date"
-          label="Data Casamento"
-        ></v-text-field>
+        <v-text-field v-model="atos.dt_casamento" type="date" label="Data Casamento"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-        <v-autocomplete
-          label="Regime Bens"
-          v-model="atos.tabvalores_regimecasamento_id"
-          :items="combolistRegimeBens"
-          item-title="descricao"
-          item-value="id"
-          required
-        ></v-autocomplete>
+        <v-autocomplete label="Regime Bens" v-model="atos.tabvalores_regimecasamento_id" :items="combolistRegimeBens"
+          item-title="descricao" item-value="id" required></v-autocomplete>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <v-text-field
-          label="Filhos Maiores"
-          v-model.number="atos.qtd_filhos_maiores"
-          type="number"
-          min="0"
-          @keydown="blockNonNumeric"
-        ></v-text-field>
+        <v-text-field label="Filhos Maiores" v-model.number="atos.qtd_filhos_maiores" type="number" min="0"
+          @keydown="blockNonNumeric"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <v-text-field
-          label="Filhos Menores"
-          v-model="atos.qtd_filhos_menores"
-          type="number"
-          min="0"
-          @keydown="blockNonNumeric"
-        ></v-text-field>
+        <v-text-field label="Filhos Menores" v-model="atos.qtd_filhos_menores" type="number" min="0"
+          @keydown="blockNonNumeric"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-        <v-autocomplete
-          label="Responsável"
-          v-model="atos.responsavel_menores_id"
-          :items="combolistResponsavel"
-          item-title="nome"
-          item-value="id"
-          required
-        ></v-autocomplete>
+        <v-autocomplete label="Responsável" v-model="atos.responsavel_menores_id" :items="combolistResponsavel"
+          item-title="nome" item-value="id" required></v-autocomplete>
       </v-col>
     </v-row>
 
@@ -59,9 +33,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="auto">
-        <v-btn class="ml-2" @click="onUpdate" size="large" color="green"
-          >Salvar</v-btn
-        >
+        <v-btn class="ml-2" @click="onUpdate" size="large" color="green">Salvar</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -113,11 +85,13 @@ async function fetchAtosPessoa() {
 }
 
 const rawResponsavelFilhos = ref([]);
+// O array "rawResponsavelFilhos" é preenchido pela função fetchAtosPessoa, que faz uma requisição GET para o endpoint getAtosPessoa.
+
 
 const combolistResponsavel = computed(
   () =>
     rawResponsavelFilhos.value?.map((parte) => ({
-      id: parte.id,
+      id: parte.pessoa_id,
       nome: parte.pessoa?.nome || "Sem nome",
     })) || []
 );
