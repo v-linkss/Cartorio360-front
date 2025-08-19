@@ -133,7 +133,7 @@ const reimprimeSelosAtos = async () => {
         const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
           method: "POST",
           body: {
-            zpl: "^XA\n^CF0,40\n^FO50,30^FDCartório 360^FS\n^CF0,30\n^FO50,80^FDDocumento: 123456^FS\n^FO50,120^FDData: 21/06/2025^FS\n^FO50,160^FDAssinatura:___________________^FS\n^FO50,210^GB700,3,3^FS\n^CF0,25\n^FO50,230^FDEste documento foi autenticado eletronicamente.^FS\n^XZ",
+            zpl: data.value[0].etiqueta,
           },
         });
         if (zplStatus.value !== "success") {

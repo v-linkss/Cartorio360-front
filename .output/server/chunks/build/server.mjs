@@ -600,7 +600,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-CKqGLHVY.mjs')
+    component: () => import('./index-DRmhB4HQ.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -707,7 +707,7 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-DK9rmUcZ.mjs')
+    component: () => import('./_id_-BPPELMVV.mjs')
   },
   {
     name: "os-criar-ato",
@@ -717,7 +717,7 @@ const _routes = [
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-CKfm6AvP.mjs')
+    component: () => import('./criar-registro-CZ_vpGG2.mjs')
   },
   {
     name: "os-lista",
