@@ -70,7 +70,7 @@
       :show="isModalObservacaoOpen"
       :observacao="modalObservacaoText"
       :visualizar="isVisualizarModal"
-      @close="isModalObservacaoOpen = false"
+      @close="refetchObservacoes"
     />
     <v-row>
       <NuxtLink @click="goBack">
@@ -81,9 +81,6 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-import { ref, reactive } from "vue";
 const props = defineProps({
   ato_id: {
     type: Number,
@@ -94,7 +91,6 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
-const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
@@ -123,38 +119,34 @@ const headers = [
   { value: "actions" },
 ];
 
-const state = reactive({
-  observacao: "",
-});
-
-const rules = {
-  observacao: {
-    required: helpers.withMessage("O campo é obrigatório", required),
-  },
+const refetchObservacoes = async () => {
+  isModalObservacaoOpen.value = false;
+  await fetchObservacoes();
 };
 
-const v$ = useVuelidate(rules, state);
-
-// Carrega as observações ao carregar o componente
-const { data: dadosObservacao } = await useFetch(
-  `${getAtosObservacao}/${route.query.ato_id}`,
-  {
-    method: "GET",
-  }
-);
-if (Array.isArray(dadosObservacao.value)) {
-  observacoesItems.value = dadosObservacao.value.map((item) => ({
-    ...item,
-    created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
-  }));
-} else if (dadosObservacao.value && typeof dadosObservacao.value === "object") {
-  observacoesItems.value = [
+async function fetchObservacoes() {
+  const { data } = await useFetch(
+    `${getAtosObservacao}/${route.query.ato_id}`,
     {
-      ...dadosObservacao.value,
-      created: formatDate(dadosObservacao.value.created, "dd/mm/yyyy hh:mm"),
-    },
-  ];
+      method: "GET",
+    }
+  );
+  if (Array.isArray(data.value)) {
+    observacoesItems.value = data.value.map((item) => ({
+      ...item,
+      created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
+    }));
+  } else if (data.value && typeof data.value === "object") {
+    observacoesItems.value = [
+      {
+        ...data.value,
+        created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
+      },
+    ];
+  }
 }
+
+await fetchObservacoes();
 
 async function deleteObservacao(item) {
   item.excluido = !item.excluido;

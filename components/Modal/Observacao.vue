@@ -60,7 +60,6 @@ const closeModal = () => {
 };
 
 async function onSubmit() {
-  console.log("oi");
   // Verifica se o campo está vazio e só valida se houver algo
   if (state.observacao === "" || state.observacao === null) {
     $toast.error("O campo de observação está vazio.");
@@ -76,13 +75,6 @@ async function onSubmit() {
     },
   });
   if (status.value === "success") {
-    // observacoesItems.value.push({
-    //   created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
-    //   observacao: data.value.observacao,
-    //   id: data.value.id,
-    //   escrevente: useCookie("user-data").value.nome,
-    // });
-
     state.observacao = "";
     closeModal();
     $toast.success("Observação registrada com sucesso");

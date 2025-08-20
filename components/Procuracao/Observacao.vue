@@ -78,7 +78,7 @@
       :show="isModalObservacaoOpen"
       :observacao="modalObservacaoText"
       :visualizar="isVisualizarModal"
-      @close="isModalObservacaoOpen = false"
+      @close="refetchObservacoes"
     />
 
     <v-row>
@@ -90,8 +90,6 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
 const props = defineProps({
   ato_id: {
     type: Number,
@@ -102,11 +100,9 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
-const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
+const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const observacoesItems = ref([]);
 const escreventesItems = ref([]);
@@ -134,22 +130,6 @@ const headers = [
   { value: "actions" },
 ];
 
-const state = reactive({
-  observacao: null,
-});
-
-const rules = {
-  observacao: {
-    required: helpers.withMessage("O campo é obrigatorio", required),
-  },
-};
-
-const v$ = useVuelidate(rules, state);
-
-const { data: tipoAtoId } = await useFetch(`${getAtoId}/${props.ato_token}`, {
-  method: "GET",
-});
-
 function openModalVisualizar(item) {
   modalObservacaoText.value = item.observacao;
   isVisualizarModal.value = true;
@@ -171,6 +151,30 @@ async function deleteObservacao(item) {
     });
   } catch (error) {
     console.error("Erro ao excluir observacao:", error);
+  }
+}
+
+const refetchObservacoes = async () => {
+  isModalObservacaoOpen.value = false;
+  await fetchObservacoes();
+};
+
+async function fetchObservacoes() {
+  const { data } = await useFetch(`${getAtosObservacao}/${props.ato_id}`, {
+    method: "GET",
+  });
+  if (Array.isArray(data.value)) {
+    observacoesItems.value = data.value.map((item) => ({
+      ...item,
+      created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
+    }));
+  } else if (data.value && typeof data.value === "object") {
+    observacoesItems.value = [
+      {
+        ...data.value,
+        created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
+      },
+    ];
   }
 }
 
