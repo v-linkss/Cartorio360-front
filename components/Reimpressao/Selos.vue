@@ -133,7 +133,7 @@ const reimprimeSelosAtos = async () => {
         const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
           method: "POST",
           body: {
-            zpl: data.value[0].etiqueta,
+            zpl: atob(data.value[0].etiqueta),
           },
         });
         if (zplStatus.value !== "success") {

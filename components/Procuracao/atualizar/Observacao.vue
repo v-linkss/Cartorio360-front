@@ -1,27 +1,14 @@
 <template>
   <v-container>
     <v-row v-if="!isVisualizar" class="mt-5">
-      <v-text-field
-        label="Observação"
-        v-model="state.observacao"
-        required
-        :error-messages="
-          v$.observacao.$errors.length > 0
-            ? v$.observacao.$errors.map((e) => e.$message)
-            : []
-        "
-        @blur="v$.observacao.$touch"
-        @input="v$.observacao.$touch"
-      />
-      <div>
-        <img
-          class="btn-pointer ml-2"
-          src="../../../assets/novo.png"
-          style="width: 40px; cursor: pointer"
-          title="Criar Pessoa"
-          @click="onSubmit"
-        />
-      </div>
+      <v-btn
+        v-if="!isVisualizar"
+        class="mb-4 ml-8"
+        @click="openModalCreateObservacao"
+        size="large"
+        color="green"
+        >Novo</v-btn
+      >
     </v-row>
 
     <v-row>
@@ -31,33 +18,60 @@
           :headers="headers"
           :items="observacoesItems"
         >
+          <template v-slot:item.observacao="{ item }">
+            {{
+              item.observacao.length > 100
+                ? item.observacao.slice(0, 100) + "..."
+                : item.observacao
+            }}
+          </template>
           <template v-slot:item.actions="{ item }">
-            <div
-              style="display: flex; cursor: pointer; justify-content: flex-end"
-              @click="deleteObservacao(item)"
-              title="Deletar Observação"
-            >
-              <img
-                v-if="item.excluido"
-                style="width: 30px; height: 30px"
-                src="../../../assets/excluido.png"
-                alt="Visualizar"
-                title="Reativar"
-              />
-              <img
-                v-else
-                src="../../../assets/mudarStatus.png"
-                alt="Excluir"
-                class="trash-icon"
-                style="width: 30px; height: 30px"
-                title="Excluir"
-              />
-            </div>
+            <v-row>
+              <div @click="openModalVisualizar(item)">
+                <img
+                  style="width: 30px; height: 30px; cursor: pointer"
+                  src="../../../assets/visualizar.png"
+                  alt="Visualizar"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  cursor: pointer;
+                  justify-content: flex-end;
+                  margin-left: 5px;
+                "
+                @click="deleteObservacao(item)"
+                title="Deletar Observação"
+              >
+                <img
+                  v-if="item.excluido"
+                  style="width: 30px; height: 30px"
+                  src="../../../assets/excluido.png"
+                  alt="Visualizar"
+                  title="Reativar"
+                />
+                <img
+                  v-else
+                  src="../../../assets/mudarStatus.png"
+                  alt="Excluir"
+                  class="trash-icon"
+                  style="width: 30px; height: 30px"
+                  title="Excluir"
+                />
+              </div>
+            </v-row>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
-
+    <ModalObservacao
+      v-if="isModalObservacaoOpen"
+      :show="isModalObservacaoOpen"
+      :observacao="modalObservacaoText"
+      :visualizar="isVisualizarModal"
+      @close="refetchObservacoes"
+    />
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -67,30 +81,30 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-import { ref, reactive } from "vue";
-const props = defineProps({
-  ato_id: {
-    type: Number,
-    required: true,
-  },
-});
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
-const { $toast } = useNuxtApp();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
-const getAtoId = `${config.public.managemant}/getAtosTiposByToken`;
-const createAtoObservacao = `${config.public.managemant}/atos_observacao`;
 const observacaoUpdate = `${config.public.managemant}/atos_observacao`;
 const getAtosObservacao = `${config.public.managemant}/atos_observacao`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const isVisualizar = ref(route.query.origem === "vizualizar");
+const isModalObservacaoOpen = ref(false);
+const isVisualizarModal = ref(false);
+const modalObservacaoText = ref("");
 const observacoesItems = ref([]);
 const escreventesItems = ref([]);
+function openModalVisualizar(item) {
+  modalObservacaoText.value = item.observacao;
+  isVisualizarModal.value = true;
+  isModalObservacaoOpen.value = true;
+}
 
+const openModalCreateObservacao = () => {
+  isVisualizarModal.value = false;
+  isModalObservacaoOpen.value = true;
+  modalObservacaoText.value = "";
+};
 const headers = [
   { title: "Data", align: "start", key: "created" },
   { title: "Escrevente", align: "start", key: "users.nome" },
@@ -98,70 +112,34 @@ const headers = [
   { value: "actions" },
 ];
 
-const state = reactive({
-  observacao: "",
-});
-
-const rules = {
-  observacao: {
-    required: helpers.withMessage("O campo é obrigatório", required),
-  },
+const refetchObservacoes = async () => {
+  isModalObservacaoOpen.value = false;
+  await fetchObservacoes();
 };
 
-const v$ = useVuelidate(rules, state);
-
-// Carrega as observações ao carregar o componente
-const { data: dadosObservacao } = await useFetch(
-  `${getAtosObservacao}/${route.query.ato_id}`,
-  {
-    method: "GET",
-  }
-);
-if (Array.isArray(dadosObservacao.value)) {
-  observacoesItems.value = dadosObservacao.value.map((item) => ({
-    ...item,
-    created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
-  }));
-} else if (dadosObservacao.value && typeof dadosObservacao.value === "object") {
-  observacoesItems.value = [
+async function fetchObservacoes() {
+  const { data } = await useFetch(
+    `${getAtosObservacao}/${route.query.ato_id}`,
     {
-      ...dadosObservacao.value,
-      created: formatDate(dadosObservacao.value.created, "dd/mm/yyyy hh:mm"),
-    },
-  ];
-}
-async function onSubmit() {
-  // Verifica se o campo está vazio e só valida se houver algo
-  if (state.observacao.trim() === "") {
-    $toast.error("O campo de observação está vazio.");
-    return;
-  }
-
-  if (await v$.value.$validate()) {
-    const { data, error, status } = await useFetch(createAtoObservacao, {
-      method: "POST",
-      body: {
-        ato_id: Number(route.query.ato_id),
-        observacao: state.observacao,
-        user_id: useCookie("user-data").value.usuario_id,
-      },
-    });
-    if (status.value === "success") {
-      observacoesItems.value.push({
-        created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
-        observacao: data.value.observacao,
-        id: data.value.id,
-        escrevente: useCookie("user-data").value.nome,
-      });
-
-      state.observacao = "";
-
-      $toast.success("Observação registrada com sucesso");
+      method: "GET",
     }
-  } else {
-    $toast.error("Preencha os campos obrigatórios.");
+  );
+  if (Array.isArray(data.value)) {
+    observacoesItems.value = data.value.map((item) => ({
+      ...item,
+      created: formatDate(item.created, "dd/mm/yyyy hh:mm"),
+    }));
+  } else if (data.value && typeof data.value === "object") {
+    observacoesItems.value = [
+      {
+        ...data.value,
+        created: formatDate(data.value.created, "dd/mm/yyyy hh:mm"),
+      },
+    ];
   }
 }
+
+await fetchObservacoes();
 
 async function deleteObservacao(item) {
   item.excluido = !item.excluido;

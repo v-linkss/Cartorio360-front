@@ -131,7 +131,7 @@ const etiquetaAutentica = async (ato_token) => {
       const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
         method: "POST",
         body: {
-          zpl: data.value.etiqueta,
+          zpl: atob(data.value.etiqueta),
         },
       });
       if (zplStatus.value !== "success") {
