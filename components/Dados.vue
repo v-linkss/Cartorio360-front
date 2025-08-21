@@ -191,7 +191,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = useCookie("pessoa-id");
+const pessoaId = ref(id || useCookie("pessoa-id").value);
 
 const state = reactive({
   ...initialState,

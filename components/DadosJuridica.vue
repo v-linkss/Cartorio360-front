@@ -93,7 +93,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = useCookie("pessoa-id");
+const pessoaId = ref(id || useCookie("pessoa-id").value);
 
 const state = reactive({
   ...initialState,
@@ -184,10 +184,13 @@ async function onUpdate() {
 }
 
 async function loadPessoaJuridicaData() {
-  const { data, error } = await fetchWithToken(`${buscarPessoaJuridica}/${id}`, {
-    method: "GET",
-  });
-  Object.assign(state,data.value)
+  const { data, error } = await fetchWithToken(
+    `${buscarPessoaJuridica}/${id}`,
+    {
+      method: "GET",
+    }
+  );
+  Object.assign(state, data.value);
 }
 
 const voltar = () => {
@@ -201,9 +204,7 @@ const voltar = () => {
 onMounted(() => {
   if (id) {
     loadPessoaJuridicaData();
-    isEditMode.value = true
+    isEditMode.value = true;
   }
 });
-
-
 </script>
