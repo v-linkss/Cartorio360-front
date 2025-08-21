@@ -297,6 +297,7 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
     fone_celular: state.fone_celular.replace(/[^0-9]/g, ""),
+    data_nascimento: formatToISO(state.data_nascimento),
   };
   const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,
@@ -313,6 +314,8 @@ async function onUpdate() {
     }
     $toast.success("Pessoa atualizada com sucesso!");
     router.push("/pessoas/lista");
+  } else {
+    $toast.error("Erro ao atualizar Pessoa Fisica");
   }
 }
 

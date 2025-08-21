@@ -180,6 +180,8 @@ async function onUpdate() {
     }
     $toast.success("Pessoa Juridica atualizada com sucesso!");
     router.push("/pessoas/lista");
+  } else {
+    $toast.error("Erro ao atualizar Pessoa Juridica");
   }
 }
 

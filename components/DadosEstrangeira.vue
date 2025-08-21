@@ -215,6 +215,12 @@ const loadPessoaEstrangeira = async () => {
   const { data, error } = await fetchWithToken(`${buscarPessoa}/${id}`, {
     method: "GET",
   });
+  if (data.value) {
+    data.value.data_nascimento
+      ? formatDate(data.value.data_nascimento, "dd/mm/yyyy")
+      : null;
+    data.value.created ? formatDate(data.value.created, "dd/mm/yyyy") : null;
+  }
   Object.assign(state, data.value);
 };
 
@@ -313,6 +319,7 @@ async function onUpdate() {
     fone_celular: state.fone_celular
       ? state.fone_celular.replace(/[^0-9]/g, "")
       : "",
+    data_nascimento: formatToISO(state.data_nascimento),
   };
   const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,
@@ -329,6 +336,8 @@ async function onUpdate() {
     }
     $toast.success("Pessoa atualizada com sucesso!");
     router.push("/pessoas/lista");
+  } else {
+    $toast.error("Erro ao atualizar Pessoa Estrangeira");
   }
 }
 
