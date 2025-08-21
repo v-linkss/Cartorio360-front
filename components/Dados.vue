@@ -160,6 +160,7 @@ const props = defineProps({
 
 const emit = defineEmits(["saved", "close-modal"]);
 const router = useRouter();
+const route = useRoute();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
@@ -169,6 +170,7 @@ const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
 const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
+const { id } = route.params;
 
 const initialState = {
   nome: null,
@@ -191,7 +193,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = ref(id || useCookie("pessoa-id").value);
+const pessoaId = ref(id ? id : useCookie("pessoa-id").value);
 
 const state = reactive({
   ...initialState,

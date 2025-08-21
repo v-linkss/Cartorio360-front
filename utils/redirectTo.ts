@@ -9,7 +9,7 @@ interface AtoItem {
 interface RedirectOptions {
   item: AtoItem;
   id: string | number;
-  numeroOs: Ref<string>;
+  numeroOs: string;
   origem?: string;
 }
 
@@ -39,7 +39,7 @@ export function useRedirectTo() {
           tipo_ato_token: item.tipo_token,
           tipo_ato: item.tipo,
           ato_token_edit: item.token,
-          numero_os: numeroOs.value,
+          numero_os: numeroOs,
         },
       });
     } else {

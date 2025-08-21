@@ -77,7 +77,7 @@
       <v-data-table :headers="headers" :items="atosItems" item-key="id">
         <template v-slot:item.actions="{ item }">
           <v-row style="display: flex; gap: 2px; margin-top: -5px">
-            <div @click="redirectoToView(item)" title="Visualizar">
+            <div @click="redirectToView(item)" title="Visualizar">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/visualizar.png"
@@ -223,7 +223,7 @@ function removeFormatting(value) {
   }
 }
 
-const redirectoToView = (item) => {
+const redirectToView = (item) => {
   redirectTo({
     item,
     id: useCookie("user-service").value.id,

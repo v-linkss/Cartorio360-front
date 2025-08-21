@@ -11,10 +11,7 @@
         <v-autocomplete class="mr-5" v-model="label" disabled></v-autocomplete>
       </v-col>
       <v-col md="5">
-        <v-autocomplete
-          v-model="route.query.tipo_ato"
-          disabled
-        ></v-autocomplete>
+        <v-autocomplete v-model="updatedAtoDetails" disabled></v-autocomplete>
       </v-col>
       <div>
         <img
@@ -71,6 +68,7 @@
     :servicos="dadosData.servicos || []"
     :tiposAtos="dadosData.tiposAtos || []"
     @close="modalVisible = false"
+    @updateAto="handleUpdateAto"
   />
 </template>
 
@@ -89,8 +87,12 @@ const body = route.query.id
   : { cartorio_token: cartorio_token };
 const situacoesItems = ref([]);
 const dadosData = ref([]);
-const label = ref("PROCURAÇÕES");
-const label2 = ref("PROCURAÇÃO GERAL");
+const label = ref(null);
+const updatedAtoDetails = ref(null);
+const tipoAto = route.query.tipo_ato || "";
+const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(" - ");
+label.value = initialLabel || "";
+updatedAtoDetails.value = initialUpdatedAtoDetails || "";
 
 async function loadData() {
   try {
@@ -125,5 +127,11 @@ function openModal() {
   if (!dadosData.dt_lavratura) {
     modalVisible.value = true;
   }
+}
+
+function handleUpdateAto({ descricao }) {
+  const [firstPart, secondPart] = descricao.split(" - ");
+  label.value = firstPart || "";
+  updatedAtoDetails.value = secondPart || "";
 }
 </script>

@@ -134,7 +134,7 @@
         <div style="display: flex; gap: 4px; justify-content: center">
           <div
             @click="
-              redirectoToView({
+              redirectToView({
                 id: item.id,
                 tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
                 token: item.token,
@@ -455,10 +455,10 @@ async function searchAtos() {
   }
 }
 
-const redirectoToView = (item) => {
+const redirectToView = (item) => {
   redirectTo({
     item,
-    id,
+    id: item.id,
     numeroOs: item.numero_os,
     origem: "vizualizar-lista",
   });
