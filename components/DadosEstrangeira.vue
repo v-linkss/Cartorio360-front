@@ -216,10 +216,12 @@ const loadPessoaEstrangeira = async () => {
     method: "GET",
   });
   if (data.value) {
-    data.value.data_nascimento
+    data.value.data_nascimento = data.value.data_nascimento
       ? formatDate(data.value.data_nascimento, "dd/mm/yyyy")
       : null;
-    data.value.created ? formatDate(data.value.created, "dd/mm/yyyy") : null;
+    data.value.created = data.value.created
+      ? formatDate(data.value.created, "dd/mm/yyyy")
+      : null;
   }
   Object.assign(state, data.value);
 };
