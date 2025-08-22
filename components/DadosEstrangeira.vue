@@ -150,7 +150,6 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
-import { cpf } from "~/composables/validaCpf";
 
 const props = defineProps({
   isModal: {
@@ -218,9 +217,6 @@ const loadPessoaEstrangeira = async () => {
   if (data.value) {
     data.value.data_nascimento = data.value.data_nascimento
       ? formatDate(data.value.data_nascimento, "dd/mm/yyyy")
-      : null;
-    data.value.created = data.value.created
-      ? formatDate(data.value.created, "dd/mm/yyyy")
       : null;
   }
   Object.assign(state, data.value);

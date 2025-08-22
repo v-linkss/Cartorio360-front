@@ -763,12 +763,12 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-DFQQpe-f.mjs')
+    component: () => import('./_id_-DrZamtdY.mjs')
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
-    component: () => import('./index-DxF4dD7v.mjs')
+    component: () => import('./index-B_7ZnKXA.mjs')
   },
   {
     name: "pessoas-lista",
