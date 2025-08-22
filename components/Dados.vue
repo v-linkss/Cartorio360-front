@@ -160,6 +160,7 @@ const props = defineProps({
 
 const emit = defineEmits(["saved", "close-modal"]);
 const router = useRouter();
+const route = useRoute();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
@@ -169,6 +170,7 @@ const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
 const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
+const { id } = route.params;
 
 const initialState = {
   nome: null,
@@ -191,7 +193,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = useCookie("pessoa-id");
+const pessoaId = ref(id ? id : useCookie("pessoa-id").value);
 
 const state = reactive({
   ...initialState,
@@ -295,6 +297,7 @@ async function onUpdate() {
     doc_identificacao: removeFormatting(state.doc_identificacao),
     cpf_mae: removeFormatting(state.cpf_mae),
     fone_celular: state.fone_celular.replace(/[^0-9]/g, ""),
+    data_nascimento: formatToISO(state.data_nascimento),
   };
   const { data, error, status } = await fetchWithToken(
     `${updatePessoa}/${pessoaId.value}`,
@@ -311,6 +314,8 @@ async function onUpdate() {
     }
     $toast.success("Pessoa atualizada com sucesso!");
     router.push("/pessoas/lista");
+  } else {
+    $toast.error("Erro ao atualizar Pessoa Fisica");
   }
 }
 

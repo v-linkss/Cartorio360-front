@@ -93,7 +93,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = useCookie("pessoa-id");
+const pessoaId = ref(id ? id : useCookie("pessoa-id").value);
 
 const state = reactive({
   ...initialState,
@@ -180,14 +180,19 @@ async function onUpdate() {
     }
     $toast.success("Pessoa Juridica atualizada com sucesso!");
     router.push("/pessoas/lista");
+  } else {
+    $toast.error("Erro ao atualizar Pessoa Juridica");
   }
 }
 
 async function loadPessoaJuridicaData() {
-  const { data, error } = await fetchWithToken(`${buscarPessoaJuridica}/${id}`, {
-    method: "GET",
-  });
-  Object.assign(state,data.value)
+  const { data, error } = await fetchWithToken(
+    `${buscarPessoaJuridica}/${id}`,
+    {
+      method: "GET",
+    }
+  );
+  Object.assign(state, data.value);
 }
 
 const voltar = () => {
@@ -201,9 +206,7 @@ const voltar = () => {
 onMounted(() => {
   if (id) {
     loadPessoaJuridicaData();
-    isEditMode.value = true
+    isEditMode.value = true;
   }
 });
-
-
 </script>

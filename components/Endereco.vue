@@ -418,6 +418,8 @@ async function onUpdate(id) {
     isModalOpen.value = false;
     $toast.success("Endereço atualizado com sucesso!");
     refresh();
+  } else {
+    $toast.error("Erro ao atualizar Endereço");
   }
 }
 
