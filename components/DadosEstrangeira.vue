@@ -150,7 +150,6 @@
 <script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
-import { cpf } from "~/composables/validaCpf";
 
 const props = defineProps({
   isModal: {
@@ -219,9 +218,6 @@ const loadPessoaEstrangeira = async () => {
     data.value.data_nascimento = data.value.data_nascimento
       ? formatDate(data.value.data_nascimento, "dd/mm/yyyy")
       : null;
-    data.value.created = data.value.created
-      ? formatDate(data.value.created, "dd/mm/yyyy")
-      : null;
   }
   Object.assign(state, data.value);
 };
@@ -262,10 +258,6 @@ const rules = {
   nome_mae: {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
-  //   doc_identificacao: {
-  //     required: helpers.withMessage("O campo é obrigatorio", required),
-  //     cpf,
-  //   },
 };
 
 const v$ = useVuelidate(rules, state);
