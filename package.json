@@ -6,6 +6,8 @@
     "pm2": "pm2 start .output/server/index.mjs --name 'cartorio360-front-produção' --watch -- 3000",
     "pm2-stop": "pm2 stop cartorio360-front-produção",
     "build": "nuxt build",
+    "build:devmode": "DEV_MODE=true nuxt build",
+    "build:prodmode": "DEV_MODE=false nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
