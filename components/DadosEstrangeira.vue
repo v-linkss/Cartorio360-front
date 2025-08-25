@@ -196,7 +196,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = ref(id ? id : useCookie("pessoa-id").value);
+const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({
   ...initialState,
