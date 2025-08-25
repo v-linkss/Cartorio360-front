@@ -170,7 +170,6 @@ const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
 const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
-const { id } = route.params;
 
 const initialState = {
   nome: null,
@@ -193,7 +192,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
-const pessoaId = ref(id ? id : useCookie("pessoa-id").value);
+const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({
   ...initialState,
