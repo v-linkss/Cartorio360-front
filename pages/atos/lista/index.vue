@@ -199,7 +199,7 @@
               title="Cancelar"
             />
           </div>
-          <div>
+          <div @click="digitalizeDocument(item.token)">
             <img
               style="width: 30px; height: 30px; cursor: pointer"
               src="../../../assets/escanear.png"
@@ -263,6 +263,8 @@ const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
 const cancelaLavratura = `${config.public.managemant}/cancela_lavratura`;
+const acionarScanner = `${config.public.biometria}/run-scanner?format=pdf`;
+const viewDoc = `${config.public.envioDoc}/upload`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
 
@@ -527,6 +529,42 @@ const redirectToUpdateAto = (item) => {
     origem: "atualizar-lista",
   });
 };
+
+const digitalizeDocument = async (token) => {
+  try {
+    await openScanner();
+    await enviarArquivo(token);
+  } catch (error) {
+    console.error("Erro ao executar scanner ou listar arquivos:", error);
+  }
+};
+
+async function enviarArquivo(ato_token) {
+  try {
+    const { status, data } = await useFetch(viewDoc, {
+      method: "POST",
+      body: {
+        tipo: "ato_livro",
+        token: ato_token,
+        cartorio_token: useCookie("user-data").value.cartorio_token,
+      },
+    });
+    if (status.value === "success") {
+      $toast.success("Arquivo enviado com sucesso!");
+    }
+  } catch (error) {
+    $toast.error(error);
+    console.error("Erro ao enviar o arquivo:", error);
+  }
+}
+
+async function openScanner() {
+  try {
+    const { data } = await useFetch(acionarScanner, { method: "GET" });
+  } catch (error) {
+    $toast.error("Erro ao acionar o scanner:", error);
+  }
+}
 
 onMounted(() => {
   nextTick(async () => {
