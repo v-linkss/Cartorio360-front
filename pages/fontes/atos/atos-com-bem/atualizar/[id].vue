@@ -72,7 +72,11 @@
           <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
         </v-tabs-window-item>
         <v-tabs-window-item value="livro">
-          <ProcuracaoAtualizarLivro :pages="pages_prop" :document="doc_prop" />
+          <ProcuracaoAtualizarLivro
+            :pages="pages_prop"
+            :document="doc_prop"
+            :linkLivro="linkLivro"
+          />
         </v-tabs-window-item>
         <v-tabs-window-item value="observacao">
           <ProcuracaoAtualizarObservacao />
@@ -115,6 +119,7 @@ const modalVisible = ref(false);
 const tipoAto = route.query.tipo_ato || "";
 const label = ref(null);
 const updatedAtoDetails = ref(null);
+const linkLivro = ref(null);
 const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(" - ");
 label.value = initialLabel || ""; // Primeiro autocomplete
 updatedAtoDetails.value = initialUpdatedAtoDetails || ""; // Segundo autocomplete
@@ -128,6 +133,8 @@ async function loadData() {
       }
     );
     dadosData.value = tipoAtoId.value;
+    linkLivro.value = dadosData.value[0].link_livro;
+    console.log(dadosData.value[0].link_livro);
   } catch (error) {
     console.error(error);
   }
