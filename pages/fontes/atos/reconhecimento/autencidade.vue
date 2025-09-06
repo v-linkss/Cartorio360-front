@@ -297,7 +297,7 @@ async function reconhecerEtiquetaAutencidade(token) {
         const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
           method: "POST",
           body: {
-            zpl: atob(data.value[0].selo),
+            zpl: atob(data.value[0].etiqueta),
           },
         });
         if (zplStatus.value !== "success") {
