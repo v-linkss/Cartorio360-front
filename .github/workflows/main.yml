@@ -140,3 +140,4 @@ jobs:
         run: |
           echo "DEBUG=true" >> $GITHUB_ENV
           echo "DOCKER_LOGS=true" >> $GITHUB_ENV
+
