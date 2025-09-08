@@ -118,16 +118,17 @@
     :errorMessage="errorMessage"
     @close="errorModalVisible = false"
   />
+  <ModalValidadorAutencidade
+    :show="isValidadorModalOpen"
+    @close="isValidadorModalOpen = false"
+    @confirm="handleValidadorConfirm"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
-      class="ml-5"
-      @click="reconhecerAtoAutencidade"
-      size="large"
-      color="green"
+    <v-btn class="ml-5" @click="onSaveClick" size="large" color="green"
       >Salvar</v-btn
     >
   </v-row>
@@ -166,6 +167,8 @@ const isModalFichaOpen = ref(false);
 const selectedItem = ref(null);
 const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
+
+const isValidadorModalOpen = ref(false);
 
 const headers = [
   {
@@ -240,6 +243,15 @@ function removeFormValueFromTable(item) {
   selectedObjects.value = selectedObjects.value.filter(
     (pessoa) => pessoa.token !== item.token
   );
+}
+
+function onSaveClick() {
+  isValidadorModalOpen.value = true;
+}
+
+function handleValidadorConfirm() {
+  isValidadorModalOpen.value = false;
+  reconhecerAtoAutencidade();
 }
 
 async function reconhecerAtoAutencidade() {
