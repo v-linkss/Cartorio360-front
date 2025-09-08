@@ -57,12 +57,25 @@ const route = useRoute();
 const emit = defineEmits(["page", "doc"]);
 registerLicense(`${config.public.docEditor}`);
 const enviarDocumento = `${config.public.managemant}/upload`;
-
+const substituirModelo = `${config.public.managemant}/subitituirModelo`;
+const baixarDocumento = `${config.public.managemant}/download`;
 const serviceUrl =
   "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/";
 const documentEditorContainer = ref(null);
 const loading = ref(false);
 
+const fetchBlobFromMinIO = async (fileUrl) => {
+  try {
+    const response = await fetch(fileUrl);
+    if (!response.ok) {
+      throw new Error("Erro ao baixar o arquivo do MinIO.");
+    }
+    return await response.blob();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 const onDocumentChange = async () => {
   const document = documentEditorContainer.value.ej2Instances.documentEditor;
   const sfdt = await document.saveAsBlob("Sfdt");
@@ -139,7 +152,10 @@ const carregarModeloDeMinuta = async () => {
   try {
     const { data: docModelo } = await useFetch(baixarDocumento, {
       method: "POST",
-      body: { bucket:useCookie("user-data").value.cartorio_token, path: "provider/modeloAto.sfdt" },
+      body: {
+        bucket: useCookie("user-data").value.cartorio_token,
+        path: "provider/modeloAto.sfdt",
+      },
     });
 
     const blob = await fetchBlobFromMinIO(docModelo.value);
@@ -203,10 +219,18 @@ const setLoading = (status) => {
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

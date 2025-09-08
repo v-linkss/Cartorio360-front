@@ -356,7 +356,7 @@ onMounted(() => {
   if (id || props.ato_id) {
     loadImoveisData();
   } else {
-    loading.value = false; // Caso não tenha ID, finaliza o carregamento
+    loading.value = false;
   }
 });
 </script>

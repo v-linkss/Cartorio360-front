@@ -72,8 +72,10 @@ watch(
     isVisible.value = newVal;
     if (newVal) {
       await getPartesAtos();
-      state.tipo_parte_id = props.partes_imovel.partes_tipos.descricao || null;
-      state.percentual = props.partes_imovel.percentual.replace(/,/g, "") || null;
+
+      state.tipo_parte_id = props.partes_imovel.papel.descricao || null;
+      state.percentual =
+        props.partes_imovel.percentual.replace(/,/g, "") || null;
 
       initialState.value = {
         tipo_parte_id: state.tipo_parte_id,
@@ -84,6 +86,8 @@ watch(
 );
 
 const closeModal = () => {
+  state.tipo_parte_id = null;
+  state.percentual = null;
   isVisible.value = false;
   emit("close");
 };
@@ -112,7 +116,9 @@ const updateAtoPessoa = async () => {
     }
   });
   if (updatedValues.percentual) {
-    updatedValues.percentual = updatedValues.percentual.toString().replace(/,/g, "");
+    updatedValues.percentual = updatedValues.percentual
+      .toString()
+      .replace(/,/g, "");
   }
 
   const { status } = await useFetch(
@@ -122,7 +128,7 @@ const updateAtoPessoa = async () => {
       body: updatedValues,
     }
   );
-  
+
   if (status.value === "success") {
     $toast.success("Parte Atualizada com Sucesso!");
     emit("update-imovel", updatedValues);
@@ -130,4 +136,3 @@ const updateAtoPessoa = async () => {
   }
 };
 </script>
-

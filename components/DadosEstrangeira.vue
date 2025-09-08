@@ -258,10 +258,6 @@ const rules = {
   nome_mae: {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
-  //   doc_identificacao: {
-  //     required: helpers.withMessage("O campo é obrigatorio", required),
-  //     cpf,
-  //   },
 };
 
 const v$ = useVuelidate(rules, state);

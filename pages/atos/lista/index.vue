@@ -134,7 +134,7 @@
         <div style="display: flex; gap: 4px; justify-content: center">
           <div
             @click="
-              redirectoToView({
+              redirectToView({
                 id: item.id,
                 tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
                 token: item.token,
@@ -187,11 +187,9 @@
               alt="Editar"
             />
           </div>
-          <!-- <div
+          <div
             :disabled="!item.btn_cancelar"
-            @click="
-              item.btn_cancelar ? abrirModalCancelamento(item.token) : null
-            "
+            @click="item.btn_cancelar ? cancelaAto(item.token) : null"
             title="Excluir"
           >
             <img
@@ -200,7 +198,7 @@
               alt="Cancelar"
               title="Cancelar"
             />
-          </div> -->
+          </div>
           <div @click="deleteAto(item)" title="Excluir">
             <img
               v-if="item.excluido"
@@ -247,7 +245,7 @@
     :show="isModalCancelamentoOpen"
     :condMessage="condMessage"
     @close="isModalCancelamentoOpen = false"
-    @confirm="confirmarCancelamento"
+    @confirm="cancelaAto"
   />
 </template>
 
@@ -278,7 +276,6 @@ const numero_os = ref(null);
 const selectedOrder = ref({});
 const isModalReimprimirOpen = ref(false);
 const ato_token = ref(null);
-const ato_token_para_cancelar = ref(null); // Novo ref para armazenar o token do ato a ser cancelado
 
 const state = reactive({
   numero: null,
@@ -458,10 +455,10 @@ async function searchAtos() {
   }
 }
 
-const redirectoToView = (item) => {
+const redirectToView = (item) => {
   redirectTo({
     item,
-    id,
+    id: item.id,
     numeroOs: item.numero_os,
     origem: "vizualizar-lista",
   });
@@ -497,20 +494,21 @@ async function deleteAto(item) {
   }
 }
 
-// Nova função para abrir o modal de confirmação
-const abrirModalCancelamento = (token) => {
-  ato_token_para_cancelar.value = token;
-  condMessage.value = "Tem certeza que deseja cancelar este ato?";
-  isModalCancelamentoOpen.value = true;
-};
-
-// Nova função para confirmar o cancelamento
-const confirmarCancelamento = async () => {
-  if (ato_token_para_cancelar.value) {
-    await cancelaAto(ato_token_para_cancelar.value);
-    ato_token_para_cancelar.value = null;
+const cancelaAto = async (ato_token) => {
+  const { data, status } = await useFetch(cancelaLavratura, {
+    method: "POST",
+    body: {
+      ato_token: ato_token,
+      user_token: usuario_token.value,
+      cancelar_selo: false,
+    },
+  });
+  if (status.value === "success" && data.value[0].status === "OK") {
+    $toast.success("Lavratura cancelada com sucesso!");
+  } else if (data.value[0].status === "ERRO") {
+    isModalCancelamentoOpen.value = true;
+    condMessage.value = data.value[0].status_mensagem;
   }
-  isModalCancelamentoOpen.value = false;
 };
 
 const redirectToUpdateAto = (item) => {

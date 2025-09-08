@@ -13,7 +13,7 @@
           @blur="v$.status.$touch"
           @input="v$.status.$touch"
         >
-        </v-autocomplete> 
+        </v-autocomplete>
       </v-col>
     </v-row>
     <v-row>
@@ -59,11 +59,14 @@ const props = defineProps({
   },
   ato_tipo_id: {
     type: Number,
+  },
+});
+watch(
+  () => props.ato_tipo_id,
+  (value) => {
+    tipoAtoId.value = { id: value };
   }
-});
-watch(() => props.ato_tipo_id, (value) => {
-  tipoAtoId.value = { id: value };
-});
+);
 const emit = defineEmits(["saved"]);
 const router = useRouter();
 const route = useRoute();
@@ -105,7 +108,7 @@ async function onSubmit() {
         dt_abertura: state.dt_abertura,
         mne: state.mne,
         user_id: useCookie("user-data").value.usuario_id,
-        user_alteracao_id:useCookie("user-data").value.usuario_id
+        user_alteracao_id: useCookie("user-data").value.usuario_id,
       },
     });
     if (status.value === "success") {
@@ -119,17 +122,25 @@ async function onSubmit() {
 
 const { data: situacaoData } = await useFetch(allSituacoes, {
   method: "POST",
-  body: {cartorio_token:cartorio_token.value},
+  body: { cartorio_token: cartorio_token.value },
 });
 situacoesItems.value = situacaoData.value;
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
-  if (origem === "atualizar") {
-    router.push(`/os/atualizar/${id}`);
-  } else {
-    router.push("/os/criar-registro");
+  switch (origem) {
+    case "atualizar":
+    case "vizualizar":
+      router.push(`/os/atualizar/${id}`);
+      break;
+    case "atualizar-lista":
+    case "vizualizar-lista":
+      router.push("/atos/lista");
+      break;
+    default:
+      router.push("/os/criar-registro");
+      break;
   }
 };
 </script>

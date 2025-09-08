@@ -1,5 +1,13 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="1200" >
+  <v-dialog persistent v-model="isVisible" max-width="1100">
+    <div v-if="pending" class="loading-overlay">
+      <v-progress-circular
+        indeterminate
+        color="white"
+        size="60"
+        class="loading-spinner"
+      ></v-progress-circular>
+    </div>
     <v-card>
       <!-- ­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­ Cabeçalho -->
       <v-card-title class="text-h5 d-flex justify-space-between align-center">
@@ -29,10 +37,7 @@
       </v-carousel>
 
       <!-- ­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­ Edição -->
-      <div
-        v-if="isEditing"
-        class="d-flex justify-center align-center mt-4"
-      >
+      <div v-if="isEditing" class="d-flex justify-center align-center mt-4">
         <ejs-imageeditor
           height="750px"
           width="850px"
@@ -43,27 +48,28 @@
       </div>
 
       <v-card-actions>
-
         <!-- Botão Salvar só no modo edição -->
         <v-btn
           style="background-color: #429946; color: white"
           @click="toggleEditing"
           :disabled="isCropActive"
-        >{{ isEditing ? 'Voltar ao carrossel' : 'Editar imagem' }}</v-btn>
+          >{{ isEditing ? "Voltar ao carrossel" : "Editar imagem" }}</v-btn
+        >
         <v-btn
           style="background-color: #429946; color: white"
           @click="editarImagem"
           :disabled="isCropActive"
-        >Salvar</v-btn>
+          >Salvar</v-btn
+        >
         <v-btn
           v-if="!props.isView"
           style="background-color: #085a98; color: white"
           @click="confirmarRecebimento"
-        >Reconhecer</v-btn>
+          >Reconhecer</v-btn
+        >
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
         >
-
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -101,6 +107,8 @@ const atualizarFicha = `${config.public.managemant}/minio/update_image`;
 
 /***** State *****/
 const imageEditorRef = ref(null);
+const pending = ref(false);
+
 const isVisible = ref(props.show);
 const currentIndex = ref(0);
 const isCropActive = ref(false);
@@ -143,41 +151,62 @@ const editarImagem = async () => {
     const ctx = canvas.getContext("2d");
     ctx.putImageData(imageData, 0, 0);
 
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/png")
+    );
 
     const formData = new FormData();
-    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
     formData.append("path", images.value[0][currentIndex.value].path);
     formData.append("file", blob, `ficha_editada_${currentIndex.value}.png`);
 
-    const { status } = await useFetch(atualizarFicha, { method: "PUT", body: formData });
-    if (status.value === "success") $toast.success(`Ficha ${currentIndex.value + 1} atualizada com sucesso!`);
+    const { status } = await useFetch(atualizarFicha, {
+      method: "PUT",
+      body: formData,
+    });
+    if (status.value === "success")
+      $toast.success(`Ficha ${currentIndex.value + 1} atualizada com sucesso!`);
   } catch (error) {
     console.error(error);
     $toast.error("Erro ao atualizar a ficha");
   }
 };
 
-/***** Carregamento de imagens *****/
-const loadImageIntoEditor = async (imageObj) => {
-  if (!imageObj || !imageEditorRef.value?.ej2Instances) return;
+const loadImageIntoEditor = async () => {
+  if (!fichaRender.value || !imageEditorRef.value?.ej2Instances) return;
+
+  pending.value = true;
+
   try {
     const imageEditor = imageEditorRef.value.ej2Instances;
     const response = await fetch(imageObj.url);
     const blob = await response.blob();
-    const file = new File([blob], "image.tiff", { type: blob.type || "application/octet-stream" });
+    const file = new File([blob], "image.tiff", {
+      type: blob.type || "application/octet-stream",
+    });
 
     const formData = new FormData();
     formData.append("tipo", "ficha");
-    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append(
+      "cartorio_token",
+      useCookie("user-data").value.cartorio_token
+    );
     formData.append("path", imageObj.path);
     formData.append("pessoa_token", props.pessoaObj.token);
     formData.append("file", file);
 
-    const { data } = await useFetch(transformarTiffParaPng, { method: "POST", body: formData });
+    const { data } = await useFetch(transformarTiffParaPng, {
+      method: "POST",
+      body: formData,
+    });
     await imageEditor.open(data.value.msg);
   } catch (error) {
-    console.error("Erro ao carregar imagem:", error);
+    console.error("Erro ao carregar imagem no editor:", error);
+  } finally {
+    pending.value = false;
   }
 };
 
@@ -189,16 +218,8 @@ const loadCurrentImage = async () => {
 };
 
 /***** Watchers *****/
-watch(
-  () => props.linkView,
-  loadCurrentImage,
-  { immediate: true }
-);
-watch(
-  () => props.images,
-  loadCurrentImage,
-  { immediate: true, deep: true }
-);
+watch(() => props.linkView, loadCurrentImage, { immediate: true });
+watch(() => props.images, loadCurrentImage, { immediate: true, deep: true });
 watch(currentIndex, async () => await loadCurrentImage());
 
 /***** Ciclo de vida *****/
@@ -249,5 +270,22 @@ const toggleEditing = async () => {
 .v-chip--active {
   background-color: #1976d2 !important;
   color: white !important;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-spinner {
+  margin-right: 20px;
 }
 </style>

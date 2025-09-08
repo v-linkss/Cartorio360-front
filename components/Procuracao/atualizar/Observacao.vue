@@ -81,13 +81,6 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  ato_id: {
-    type: Number,
-    required: true,
-  },
-});
-
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();

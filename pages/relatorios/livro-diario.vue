@@ -95,7 +95,6 @@ const gerarRelatorioDiarioCaixa = async () => {
     window.open(url, "_blank");
 
     setTimeout(() => URL.revokeObjectURL(url), 10000);
-
   }
 };
 
@@ -111,7 +110,7 @@ const gerarRelatorioDiarioCaixaCSV = async () => {
       data_final: convertToISODate(state.data_final),
       livro: state.livro,
       paginaInicial: state.paginaInicial,
-      tipo_retorno: "csv"
+      tipo_retorno: "csv",
     }),
   });
 
@@ -121,18 +120,15 @@ const gerarRelatorioDiarioCaixaCSV = async () => {
     // Se o header não vier, usamos "relatorio.csv" como padrão.
     let filename = "relatorio.csv";
     const disposition = response.headers.get("Content-Disposition");
-    console.log("######\n",disposition);
+    console.log("######\n", disposition);
     if (disposition && disposition.includes("filename=")) {
-      filename = disposition
-        .split("filename=")[1]
-        .replace(/['"]/g, "")
-        .trim();
+      filename = disposition.split("filename=")[1].replace(/['"]/g, "").trim();
     }
     // Se quiser um nome mais descritivo, pode gerar aqui caso o header não venha:
     if (filename === "relatorio.csv") {
       // Gera nome no padrão livro_diario_ddmmyyyyhhmiss.csv
       const now = new Date();
-      const pad = (n) => n.toString().padStart(2, '0');
+      const pad = (n) => n.toString().padStart(2, "0");
       const dd = pad(now.getDate());
       const mm = pad(now.getMonth() + 1);
       const yyyy = now.getFullYear();

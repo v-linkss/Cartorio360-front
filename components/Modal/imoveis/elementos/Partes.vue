@@ -187,6 +187,7 @@ const headers = [
     title: "Pessoa",
     align: "start",
     key: "pessoa.nome",
+    width: "50%",
   },
   {
     title: "Papel",

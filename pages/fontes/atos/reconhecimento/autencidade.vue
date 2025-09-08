@@ -118,16 +118,17 @@
     :errorMessage="errorMessage"
     @close="errorModalVisible = false"
   />
+  <ModalValidadorAutencidade
+    :show="isValidadorModalOpen"
+    @close="isValidadorModalOpen = false"
+    @confirm="handleValidadorConfirm"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
-      class="ml-5"
-      @click="reconhecerAtoAutencidade"
-      size="large"
-      color="green"
+    <v-btn class="ml-5" @click="onSaveClick" size="large" color="green"
       >Salvar</v-btn
     >
   </v-row>
@@ -150,6 +151,7 @@ const procurarPessoa = `${config.public.managemant}/pesquisarPessoas`;
 const reconhecerPessoa = `${config.public.managemant}/atoReconhecimento`;
 const etiquetaAutencidade = `${config.public.managemant}/etiquetaAutenticidade`;
 const baixarDocumento = `${config.public.managemant}/download`;
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -165,6 +167,8 @@ const isModalFichaOpen = ref(false);
 const selectedItem = ref(null);
 const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
+
+const isValidadorModalOpen = ref(false);
 
 const headers = [
   {
@@ -241,6 +245,15 @@ function removeFormValueFromTable(item) {
   );
 }
 
+function onSaveClick() {
+  isValidadorModalOpen.value = true;
+}
+
+function handleValidadorConfirm() {
+  isValidadorModalOpen.value = false;
+  reconhecerAtoAutencidade();
+}
+
 async function reconhecerAtoAutencidade() {
   if (!state.escrevente) {
     $toast.error("Por favor selecione um Escrevente");
@@ -287,10 +300,23 @@ async function reconhecerEtiquetaAutencidade(token) {
       },
     });
     if (status.value === "success") {
-      const newWindow = window.open("", "_blank");
-      newWindow.document.open();
-      newWindow.document.write(data.value[0].etiqueta);
-      newWindow.document.close();
+      if (data.value[0].tipo_etiqueta === "html") {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].etiqueta);
+        newWindow.document.close();
+      } else if (data.value[0].tipo_etiqueta === "zpl") {
+        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+          method: "POST",
+          body: {
+            zpl: atob(data.value[0].etiqueta),
+          },
+        });
+        if (zplStatus.value !== "success") {
+          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          return;
+        }
+      }
     }
   } catch (error) {
     console.error("Erro na requisição", error);

@@ -3,7 +3,7 @@
     <v-card>
       <v-container>
         <v-row class="mt-1 mb-3" style="justify-content: space-between">
-          <h1 class=" ml-4">Reimpressão de Selos</h1>
+          <h1 class="ml-4">Reimpressão de Selos</h1>
 
           <v-icon class="mt-4 mr-4" style="color: red" @click="closeModal"
             >mdi-close</v-icon
@@ -33,7 +33,11 @@
       </v-container>
       <v-card-actions>
         <div>
-          <img src="../../assets/selo.png" style="cursor: pointer;" @click="reimprimeSelosAtos" />
+          <img
+            src="../../assets/selo.png"
+            style="cursor: pointer"
+            @click="reimprimeSelosAtos"
+          />
         </div>
       </v-card-actions>
     </v-card>
@@ -51,10 +55,12 @@ const props = defineProps({
 
 const isVisible = ref(props.show);
 const config = useRuntimeConfig();
+const { $toast } = useNuxtApp();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const getSelos = `${config.public.managemant}/listarSelos`;
 const reimprimeSelos = `${config.public.managemant}/reimprimirSelo`;
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
+const imprimeZplSelo = `${config.public.envioDoc}/print`;
 
 const selosItems = ref([]);
 const selectedSelos = ref([]);
@@ -93,8 +99,8 @@ watch(
 );
 const closeModal = () => {
   isVisible.value = false;
-  state.escrevente = null
-  selectedSelos.value = null
+  state.escrevente = null;
+  selectedSelos.value = null;
   emit("close");
 };
 
@@ -118,10 +124,23 @@ const reimprimeSelosAtos = async () => {
       body: body,
     });
     if (status.value === "success") {
-      const newWindow = window.open("", "_blank");
-      newWindow.document.open();
-      newWindow.document.write(data.value[0].etiqueta);
-      newWindow.document.close();
+      if (data.value[0].tipo_etiqueta === "html") {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].etiqueta);
+        newWindow.document.close();
+      } else if (data.value[0].tipo_etiqueta === "zpl") {
+        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+          method: "POST",
+          body: {
+            zpl: atob(data.value[0].etiqueta),
+          },
+        });
+        if (zplStatus.value !== "success") {
+          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          return;
+        }
+      }
       closeModal();
     }
   }
@@ -133,8 +152,8 @@ const fetchSelos = async () => {
     body: { ato_token: props.ato_token },
   });
   if (data.value.selos === null) {
-    selosItems.value = []
-  }else{
+    selosItems.value = [];
+  } else {
     selosItems.value = data.value.selos;
   }
 };

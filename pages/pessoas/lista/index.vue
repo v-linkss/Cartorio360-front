@@ -150,9 +150,9 @@ const router = useRouter();
 const pending = ref(false);
 const pessoasItems = ref([]);
 
-const searchName = ref("");
-const searchDoc = ref("");
-const searchCartao = ref("");
+const searchName = ref(null);
+const searchDoc = ref(null);
+const searchCartao = ref(null);
 
 const headers = [
   { title: "Documento", value: "doc_identificacao", width: "190px" },
@@ -169,9 +169,11 @@ const searchPessoas = async () => {
       method: "POST",
       body: {
         cartorio_token: useCookie("user-data").value.cartorio_token,
-        nome: searchName.value,
-        documento: searchDoc.value.replace(/\D/g, ""),
-        numero_ficha: Number(searchCartao.value),
+        nome: searchName.value ? searchName.value : null,
+        documento: searchDoc.value ? searchDoc.value.replace(/\D/g, "") : null,
+        numero_ficha: Number(searchCartao.value)
+          ? Number(searchCartao.value)
+          : null,
       },
     }
   );

@@ -156,7 +156,7 @@ function openModal() {
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
   const [firstPart, secondPart] = descricao.split(" - ");
-  label.value = firstPart || "";
-  updatedAtoDetails.value = secondPart || "";
+  label.value = firstPart || ""; // Primeiro autocomplete
+  updatedAtoDetails.value = secondPart || ""; // Segundo autocomplete
 }
 </script>
