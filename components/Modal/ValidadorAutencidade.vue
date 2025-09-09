@@ -1,10 +1,12 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="500">
     <v-card>
-      <v-card-title class="text-h6">Validador de Autenticidade</v-card-title>
       <v-card-text>
         <div>
-          <p>Digite os números abaixo para validar a autenticidade:</p>
+          <p>
+            Digite o código de validação para confirmar o ato de reconhecimento
+            por autenticidade:
+          </p>
           <div class="random-numbers">
             <span>{{ randomNumbers.join(" ") }}</span>
           </div>
