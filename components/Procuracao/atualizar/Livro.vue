@@ -1,14 +1,24 @@
 <template>
   <v-row>
     <v-col>
-      <ejs-documenteditorcontainer
-        :restrictEditing="true"
-        :enableToolbar="false"
-        ref="documentEditorContainer"
-        height="850px"
-        width="850px"
-      >
-      </ejs-documenteditorcontainer>
+      <div v-if="props.linkLivro">
+        <iframe
+          :src="pdfUrl"
+          type="application/pdf"
+          width="100%"
+          height="850px"
+        />
+      </div>
+      <div v-else>
+        <ejs-documenteditorcontainer
+          :restrictEditing="true"
+          :enableToolbar="false"
+          ref="documentEditorContainer"
+          height="850px"
+          width="850px"
+        >
+        </ejs-documenteditorcontainer>
+      </div>
     </v-col>
     <v-col v-if="!isVisualizar">
       <v-autocomplete
@@ -79,6 +89,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  linkLivro: {
+    type: String || null,
+  },
 });
 
 const config = useRuntimeConfig();
@@ -106,6 +119,7 @@ const isVisualizar = ref(route.query.origem === "vizualizar");
 const documentEditorContainer = ref(null);
 const escreventesItems = ref([]);
 const valorAto = ref({});
+const pdfUrl = ref(null);
 const state = reactive({
   escrevente: null,
 });
@@ -141,6 +155,19 @@ const getPathFromDocument = async () => {
 
 const loadDefaultDocument = async () => {
   try {
+    if (props.linkLivro) {
+      const { data } = await useFetch(baixarDocumento, {
+        method: "POST",
+        body: {
+          bucket: useCookie("user-data").value.cartorio_token,
+          path: props.linkLivro,
+        },
+      });
+
+      pdfUrl.value = data.value; // esse já é o link direto do backend
+      return;
+    }
+
     const filePath = await getPathFromDocument();
     const { data, status } = await useFetch(baixarDocumento, {
       method: "POST",
@@ -254,7 +281,6 @@ const calcularAto = async () => {
   }
 };
 
-// Confirmação do modal: se veio de inconsistência, força lavratura
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
 
@@ -299,7 +325,7 @@ const goBack = () => {
 
 watch(
   () => props.document,
-  (newVal, oldVal) => {
+  () => {
     loadDefaultDocument();
   }
 );
