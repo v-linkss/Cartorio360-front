@@ -1,75 +1,22 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="1100">
     <div v-if="pending" class="loading-overlay">
-      <v-progress-circular
-        indeterminate
-        color="white"
-        size="60"
-        class="loading-spinner"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
     </div>
     <v-card>
-      <!-- ­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­ Cabeçalho -->
-      <v-card-title class="text-h5 d-flex justify-space-between align-center">
-        <span>Ficha de Firma</span>
-        <span v-if="images[0].length > 1 && !isEditing" class="mx-2">
-          {{ currentIndex + 1 }} / {{ images[0].length }}
-        </span>
-      </v-card-title>
+      <v-card-title class="text-h5">Ficha de Firma2</v-card-title>
 
-      <!-- ­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­ Visualização (miniaturas) -->
-      <v-carousel
-        v-if="!isEditing && images[0].length > 1"
-        v-model="currentIndex"
-        show-arrows="hover"
-        hide-delimiter-background
-        height="750"
-        width="1000"
-        class="rounded-lg overflow-hidden"
-      >
-        <v-carousel-item
-          v-for="(image, index) in images[0]"
-          :key="index"
-          :value="index"
-        >
-          <v-img :src="image.url" cover />
-        </v-carousel-item>
-      </v-carousel>
-
-      <!-- ­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­ Edição -->
-      <div v-if="isEditing" class="d-flex justify-center align-center mt-4">
-        <ejs-imageeditor
-          height="750px"
-          width="850px"
-          ref="imageEditorRef"
-          :toolbar="toolbar"
-          :toolbarUpdating="onToolbarUpdating"
-        />
+      <div class="d-flex justify-center align-center">
+        <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef" :toolbar="toolbar"
+          :toolbarUpdating="onToolbarUpdating"></ejs-imageeditor>
       </div>
 
       <v-card-actions>
-        <!-- Botão Salvar só no modo edição -->
-        <v-btn
-          style="background-color: #429946; color: white"
-          @click="toggleEditing"
-          :disabled="isCropActive"
-          >{{ isEditing ? "Voltar ao carrossel" : "Editar imagem" }}</v-btn
-        >
-        <v-btn
-          style="background-color: #429946; color: white"
-          @click="editarImagem"
-          :disabled="isCropActive"
-          >Salvar</v-btn
-        >
-        <v-btn
-          v-if="!props.isView"
-          style="background-color: #085a98; color: white"
-          @click="confirmarRecebimento"
-          >Reconhecer</v-btn
-        >
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: #429946; color: white" @click="editarImagem"
+          :disabled="isCropActive">Salvar</v-btn>
+        <v-btn v-if="!props.isView" style="background-color: #085a98; color: white"
+          @click="confirmarRecebimento">Reconhecer</v-btn>
+        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -78,8 +25,6 @@
 <script setup>
 import { registerLicense } from "@syncfusion/ej2-base";
 import { ImageEditorComponent as EjsImageeditor } from "@syncfusion/ej2-vue-image-editor";
-
-/***** Props *****/
 const props = defineProps({
   show: Boolean,
   item: Object,
@@ -88,52 +33,31 @@ const props = defineProps({
     default: false,
   },
   linkView: String,
-  images: {
-    type: Array,
-    default: () => [],
-  },
   pessoaObj: Object,
 });
-
-/***** Global utils *****/
 const toolbar = ["RotateLeft", "RotateRight", "Crop", "ZoomIn", "ZoomOut"];
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 registerLicense(`${config.public.docEditor}`);
-
-/***** Endpoints *****/
 const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
 const atualizarFicha = `${config.public.managemant}/minio/update_image`;
-
-/***** State *****/
 const imageEditorRef = ref(null);
 const pending = ref(false);
 
 const isVisible = ref(props.show);
-const currentIndex = ref(0);
+const fichaRender = ref(props.linkView || null);
 const isCropActive = ref(false);
-const isEditing = ref(false);
+
 const emit = defineEmits(["close", "confirmar"]);
 
-/***** Imagens *****/
-const images = computed(() => {
-  if (props.images && props.images.length > 0) {
-    // Se images é um array aninhado [[]], pega o primeiro array interno
-    if (Array.isArray(props.images[0])) {
-      return props.images;
-    }
-    // Se images é um array simples []
-    return props.images;
-  }
-  return props.linkView ? [props.linkView] : [];
-});
-
-/***** Toolbar update *****/
 const onToolbarUpdating = (args) => {
-  isCropActive.value = args.toolbarType === "crop-transform";
+  if (args.toolbarType === "crop-transform") {
+    isCropActive.value = true;
+    return;
+  }
+  isCropActive.value = false;
 };
 
-/***** Ações *****/
 const confirmarRecebimento = () => {
   emit("confirmar");
   closeModal();
@@ -145,32 +69,37 @@ const editarImagem = async () => {
     if (!imageEditor) return;
 
     const imageData = imageEditor.getImageData();
+
     const canvas = document.createElement("canvas");
     canvas.width = imageData.width;
     canvas.height = imageData.height;
     const ctx = canvas.getContext("2d");
     ctx.putImageData(imageData, 0, 0);
 
-    const blob = await new Promise((resolve) =>
-      canvas.toBlob(resolve, "image/png")
-    );
+    const blob = await new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, "image/png");
+    });
 
     const formData = new FormData();
     formData.append(
       "cartorio_token",
       useCookie("user-data").value.cartorio_token
     );
-    formData.append("path", images.value[0][currentIndex.value].path);
-    formData.append("file", blob, `ficha_editada_${currentIndex.value}.png`);
+    formData.append("path", props.pessoaObj.link_ficha);
+    formData.append("file", blob, "ficha_editada.png");
 
     const { status } = await useFetch(atualizarFicha, {
       method: "PUT",
       body: formData,
     });
-    if (status.value === "success")
-      $toast.success(`Ficha ${currentIndex.value + 1} atualizada com sucesso!`);
+
+    if (status.value === "success") {
+      $toast.success("Ficha Atualizada com Sucesso!");
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao editar imagem:", error);
     $toast.error("Erro ao atualizar a ficha");
   }
 };
@@ -182,8 +111,10 @@ const loadImageIntoEditor = async () => {
 
   try {
     const imageEditor = imageEditorRef.value.ej2Instances;
-    const response = await fetch(imageObj.url);
+
+    const response = await fetch(fichaRender.value);
     const blob = await response.blob();
+
     const file = new File([blob], "image.tiff", {
       type: blob.type || "application/octet-stream",
     });
@@ -194,15 +125,16 @@ const loadImageIntoEditor = async () => {
       "cartorio_token",
       useCookie("user-data").value.cartorio_token
     );
-    formData.append("path", imageObj.path);
+    formData.append("path", props.pessoaObj.link_ficha);
     formData.append("pessoa_token", props.pessoaObj.token);
     formData.append("file", file);
 
-    const { data } = await useFetch(transformarTiffParaPng, {
+    const { data: imagemBiometria } = await useFetch(transformarTiffParaPng, {
       method: "POST",
       body: formData,
     });
-    await imageEditor.open(data.value.msg);
+
+    await imageEditor.open(imagemBiometria.value.msg);
   } catch (error) {
     console.error("Erro ao carregar imagem no editor:", error);
   } finally {
@@ -210,41 +142,22 @@ const loadImageIntoEditor = async () => {
   }
 };
 
-const loadCurrentImage = async () => {
-  if (!isEditing) return;
-  if (images.value[0].length && images.value[0][currentIndex.value]) {
-    await loadImageIntoEditor(images.value[0][currentIndex.value]);
-  }
-};
+watch(
+  () => props.linkView,
+  async (newLinkView) => {
+    if (newLinkView) {
+      fichaRender.value = newLinkView;
+      await loadImageIntoEditor();
+    }
+  },
+  { immediate: true }
+);
 
-/***** Watchers *****/
-watch(() => props.linkView, loadCurrentImage, { immediate: true });
-watch(() => props.images, loadCurrentImage, { immediate: true, deep: true });
-watch(currentIndex, async () => await loadCurrentImage());
-
-/***** Ciclo de vida *****/
-onMounted(async () => {
-  await nextTick();
-  await loadCurrentImage();
-});
-
-/***** Encerrar *****/
 const closeModal = () => {
   isVisible.value = false;
+  fichaRender.value = null;
   emit("close");
 };
-
-/***** Alternador *****/
-const toggleEditing = async () => {
-  isEditing.value = !isEditing.value;
-  if (isEditing.value) {
-    // ao entrar no modo edição carregamos/atualizamos a imagem corrente
-    await nextTick();
-    await loadCurrentImage();
-  }
-};
-
-// Ajuste: só carregue imagem no editor quando ele estiver visível
 </script>
 
 <style>
@@ -258,18 +171,13 @@ const toggleEditing = async () => {
 @import "../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-image-editor/styles/material.css";
 
-.overlay-chips {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 2;
+#image-editor {
+  width: 550px !important;
+  height: 350px !important;
 }
 
-.v-chip--active {
-  background-color: #1976d2 !important;
-  color: white !important;
+v.slider {
+  width: 100%;
 }
 
 .loading-overlay {

@@ -7,20 +7,10 @@
       </v-card-title>
 
       <!-- Carousel de miniaturas -->
-      <v-carousel
-        v-if="images[0].length > 1"
-        v-model="currentIndex"
-        show-arrows="hover"
-        hide-delimiter-background
-        height="160"
-        class="rounded-lg overflow-hidden position-relative"
-      >
+      <v-carousel v-if="images[0].length > 1" v-model="currentIndex" show-arrows="hover" hide-delimiter-background
+        height="160" class="rounded-lg overflow-hidden position-relative">
         <!-- Slides (miniaturas) -->
-        <v-carousel-item
-          v-for="(image, index) in images[0]"
-          :key="index"
-          :value="index"
-        >
+        <v-carousel-item v-for="(image, index) in images[0]" :key="index" :value="index">
           <v-img :src="image.url" cover></v-img>
         </v-carousel-item>
 
@@ -29,29 +19,16 @@
 
       <!-- Editor da imagem selecionada -->
       <div class="d-flex justify-center align-center mt-4">
-        <ejs-imageeditor
-          height="750px"
-          width="850px"
-          ref="imageEditorRef"
-          :toolbar="toolbar"
-          :toolbarUpdating="onToolbarUpdating"
-        />
+        <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef" :toolbar="toolbar"
+          :toolbarUpdating="onToolbarUpdating" />
       </div>
 
       <v-card-actions>
-        <v-btn
-          style="background-color: #429946; color: white"
-          @click="editarImagem"
-          :disabled="isCropActive"
-        >Salvar</v-btn>
-        <v-btn
-          v-if="!props.isView"
-          style="background-color: #085a98; color: white"
-          @click="confirmarRecebimento"
-        >Reconhecer</v-btn>
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: #429946; color: white" @click="editarImagem"
+          :disabled="isCropActive">Salvar</v-btn>
+        <v-btn v-if="!props.isView" style="background-color: #085a98; color: white"
+          @click="confirmarRecebimento">Reconhecer</v-btn>
+        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -97,15 +74,20 @@ const emit = defineEmits(["close", "confirmar"]);
 
 /***** Imagens *****/
 const images = computed(() => {
-  if (props.images && props.images.length > 0) {
-    // Se images é um array aninhado [[]], pega o primeiro array interno
+  // Normaliza para sempre retornar um array de arrays: [ [ { url, path } ] ]
+  if (Array.isArray(props.images) && props.images.length > 0) {
     if (Array.isArray(props.images[0])) {
       return props.images;
     }
-    // Se images é um array simples []
-    return props.images;
+    return [props.images];
   }
-  return props.linkView ? [props.linkView] : [];
+  if (props.linkView) {
+    const item = typeof props.linkView === "string"
+      ? { url: props.linkView, path: props.pessoaObj?.link_ficha }
+      : props.linkView;
+    return [[item]];
+  }
+  return [[]];
 });
 
 /***** Toolbar update *****/
@@ -135,7 +117,9 @@ const editarImagem = async () => {
 
     const formData = new FormData();
     formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
-    formData.append("path", images.value[0][currentIndex.value].path);
+    const currentImage = images.value?.[0]?.[currentIndex.value];
+    if (!currentImage?.path) return;
+    formData.append("path", currentImage.path);
     formData.append("file", blob, `ficha_editada_${currentIndex.value}.png`);
 
     const { status } = await useFetch(atualizarFicha, { method: "PUT", body: formData });
@@ -170,8 +154,9 @@ const loadImageIntoEditor = async (imageObj) => {
 };
 
 const loadCurrentImage = async () => {
-  if (images.value[0].length && images.value[0][currentIndex.value]) {
-    await loadImageIntoEditor(images.value[0][currentIndex.value]);
+  const list = images.value?.[0] || [];
+  if (list.length && list[currentIndex.value]) {
+    await loadImageIntoEditor(list[currentIndex.value]);
   }
 };
 
