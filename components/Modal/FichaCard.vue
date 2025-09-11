@@ -1,42 +1,22 @@
 <template>
   <v-dialog persistent v-model="isVisible" max-width="1100">
     <div v-if="pending" class="loading-overlay">
-      <v-progress-circular
-        indeterminate
-        color="white"
-        size="60"
-        class="loading-spinner"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
     </div>
     <v-card>
-      <v-card-title class="text-h5">Ficha de Firma</v-card-title>
+      <v-card-title class="text-h5">Ficha de Firma2</v-card-title>
 
       <div class="d-flex justify-center align-center">
-        <ejs-imageeditor
-          height="750px"
-          width="850px"
-          ref="imageEditorRef"
-          :toolbar="toolbar"
-          :toolbarUpdating="onToolbarUpdating"
-        ></ejs-imageeditor>
+        <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef" :toolbar="toolbar"
+          :toolbarUpdating="onToolbarUpdating"></ejs-imageeditor>
       </div>
 
       <v-card-actions>
-        <v-btn
-          style="background-color: #429946; color: white"
-          @click="editarImagem"
-          :disabled="isCropActive"
-          >Salvar</v-btn
-        >
-        <v-btn
-          v-if="!props.isView"
-          style="background-color: #085a98; color: white"
-          @click="confirmarRecebimento"
-          >Reconhecer</v-btn
-        >
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: #429946; color: white" @click="editarImagem"
+          :disabled="isCropActive">Salvar</v-btn>
+        <v-btn v-if="!props.isView" style="background-color: #085a98; color: white"
+          @click="confirmarRecebimento">Reconhecer</v-btn>
+        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -89,11 +69,13 @@ const editarImagem = async () => {
     if (!imageEditor) return;
 
     const imageData = imageEditor.getImageData();
+    if (!imageData) return;
 
     const canvas = document.createElement("canvas");
     canvas.width = imageData.width;
     canvas.height = imageData.height;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     ctx.putImageData(imageData, 0, 0);
 
     const blob = await new Promise((resolve) => {
@@ -102,12 +84,14 @@ const editarImagem = async () => {
       }, "image/png");
     });
 
+    if (!blob) return;
+
     const formData = new FormData();
     formData.append(
       "cartorio_token",
-      useCookie("user-data").value.cartorio_token
+      useCookie("user-data").value?.cartorio_token || ""
     );
-    formData.append("path", props.pessoaObj.link_ficha);
+    formData.append("path", props.pessoaObj?.link_ficha || "");
     formData.append("file", blob, "ficha_editada.png");
 
     const { status } = await useFetch(atualizarFicha, {
@@ -125,6 +109,7 @@ const editarImagem = async () => {
 };
 
 const loadImageIntoEditor = async () => {
+  // Se não houver link, apenas exibe o modal sem carregar imagem
   if (!fichaRender.value || !imageEditorRef.value?.ej2Instances) return;
 
   pending.value = true;
@@ -133,7 +118,11 @@ const loadImageIntoEditor = async () => {
     const imageEditor = imageEditorRef.value.ej2Instances;
 
     const response = await fetch(fichaRender.value);
+    if (!response.ok) throw new Error("Falha ao baixar imagem");
     const blob = await response.blob();
+
+    // Se não houver conteúdo, não tenta abrir
+    if (!blob || blob.size === 0) return;
 
     const file = new File([blob], "image.tiff", {
       type: blob.type || "application/octet-stream",
@@ -143,18 +132,24 @@ const loadImageIntoEditor = async () => {
     formData.append("tipo", "ficha");
     formData.append(
       "cartorio_token",
-      useCookie("user-data").value.cartorio_token
+      useCookie("user-data").value?.cartorio_token || ""
     );
-    formData.append("path", props.pessoaObj.link_ficha);
-    formData.append("pessoa_token", props.pessoaObj.token);
+    formData.append("path", props.pessoaObj?.link_ficha || "");
+    formData.append("pessoa_token", props.pessoaObj?.token || "");
     formData.append("file", file);
 
-    const { data: imagemBiometria } = await useFetch(transformarTiffParaPng, {
+    const { data: imagemBiometria, status } = await useFetch(transformarTiffParaPng, {
       method: "POST",
       body: formData,
     });
 
-    await imageEditor.open(imagemBiometria.value.msg);
+    const pngUrl = imagemBiometria?.value?.msg;
+    if (status.value === "success" && pngUrl) {
+      await imageEditor.open(pngUrl);
+    } else {
+      // Sem imagem válida: mantém o editor vazio
+      console.warn("Nenhuma imagem para abrir no editor");
+    }
   } catch (error) {
     console.error("Erro ao carregar imagem no editor:", error);
   } finally {
@@ -165,12 +160,20 @@ const loadImageIntoEditor = async () => {
 watch(
   () => props.linkView,
   async (newLinkView) => {
+    fichaRender.value = newLinkView || null;
     if (newLinkView) {
-      fichaRender.value = newLinkView;
       await loadImageIntoEditor();
     }
   },
   { immediate: true }
+);
+
+// Mantém o v-model do dialog sincronizado com a prop `show`
+watch(
+  () => props.show,
+  (val) => {
+    isVisible.value = !!val;
+  }
 );
 
 const closeModal = () => {
@@ -195,6 +198,7 @@ const closeModal = () => {
   width: 550px !important;
   height: 350px !important;
 }
+
 v.slider {
   width: 100%;
 }

@@ -1,0 +1,1 @@
+import{Y as n,a6 as o,av as r,a7 as l,a1 as c,ac as i,b as u}from"./Cdw3Zumo.js";const m=n({fluid:{type:Boolean,default:!1},...o(),...r()},"VContainer"),C=l()({name:"VContainer",props:m(),setup(a,e){let{slots:s}=e;const{rtlClasses:t}=c();return i(()=>u(a.tag,{class:["v-container",{"v-container--fluid":a.fluid},t.value,a.class],style:a.style},s)),{}}});export{C as V};

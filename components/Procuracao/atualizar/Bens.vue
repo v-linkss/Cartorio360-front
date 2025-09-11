@@ -6,13 +6,8 @@
 
     <v-row class="ml-1 mb-3" v-if="!isVisualizar">
       <v-col class="mt-6" cols="8">
-        <v-autocomplete
-          label="Selecione o Tipo"
-          :items="state.tiposBens"
-          v-model="state.tipo_id"
-          item-title="descricao"
-          item-value="id"
-        >
+        <v-autocomplete label="Selecione o Tipo" :items="state.tiposBens" v-model="state.tipo_id" item-title="descricao"
+          item-value="id">
         </v-autocomplete>
       </v-col>
       <v-col class="ml-5" cols="3">
@@ -20,23 +15,14 @@
         <MoneyInput v-model="state.vlr_alienacao" />
       </v-col>
       <div>
-        <img
-          class="mt-7 ml-4"
-          src="../../../assets/novo.png"
-          style="width: 40px; cursor: pointer"
-          title="Criar Representante"
-          @click="createTiposDeBens"
-        />
+        <img class="mt-7 ml-4" src="../../../assets/novo.png" style="width: 40px; cursor: pointer"
+          title="Criar Representante" @click="createTiposDeBens" />
       </div>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-data-table
-          style="height: 465px"
-          :headers="headers"
-          :items="pessoasTable"
-        >
+        <v-data-table style="height: 465px" :headers="headers" :items="pessoasTable">
           <template v-slot:item.descricao="{ item }">
             <h3 style="width: 800px; font-weight: 500">
               {{ item.descricao }}
@@ -44,50 +30,17 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <v-row style="margin-top: -8px" justify="end">
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/visualizar.png"
-                  alt="Visualizar"
-                />
+              <div style="cursor: pointer" class="mr-2" @click="redirectToFicha(item)" title="Visualizar Ficha">
+                <img style="width: 30px; height: 30px" src="../../../assets/visualizar.png" alt="Visualizar" />
               </div>
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="redirectToUpdateBens(item.id)"
-                title="Alterar Papel"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/editar.png"
-                  alt="Editar"
-                />
+              <div style="cursor: pointer" class="mr-2" @click="redirectToUpdateBens(item.id)" title="Alterar Papel">
+                <img style="width: 30px; height: 30px" src="../../../assets/editar.png" alt="Editar" />
               </div>
-              <div
-                style="cursor: pointer"
-                class="mr-2"
-                @click="deletePessoa(item)"
-                title="Deletar Pessoa"
-              >
-                <img
-                  v-if="item.excluido"
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/excluido.png"
-                  alt="Reativar"
-                  title="Reativar"
-                />
-                <img
-                  v-else
-                  src="../../../assets/mudarStatus.png"
-                  alt="Excluir"
-                  style="width: 30px; height: 30px"
-                  title="Excluir"
-                />
+              <div style="cursor: pointer" class="mr-2" @click="deletePessoa(item)" title="Deletar Pessoa">
+                <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
+                  alt="Reativar" title="Reativar" />
+                <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" style="width: 30px; height: 30px"
+                  title="Excluir" />
               </div>
             </v-row>
           </template>
@@ -98,19 +51,16 @@
       <v-card>
         <v-card-title style="color: green">Atualizar Bem</v-card-title>
         <v-card-text>
+          {{ selectedBem }}
+
           <v-col class="mt-1" cols="12">
             <v-textarea label="Descrição" v-model="selectedBem.descricao">
             </v-textarea>
           </v-col>
           <v-row>
             <v-col class="mt-6 ml-3" cols="8">
-              <v-autocomplete
-                label="Selecione o Tipo"
-                :items="state.tiposBens"
-                v-model="selectedBem.tipo_id"
-                item-title="descricao"
-                item-value="id"
-              >
+              <v-autocomplete label="Selecione o Tipo" :items="state.tiposBens" v-model="selectedBem.tipo_id"
+                item-title="descricao" item-value="id">
               </v-autocomplete>
             </v-col>
             <v-col class="ml-5" cols="3">
@@ -121,12 +71,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green" text @click="isModalOpen = false"
-            >Cancelar</v-btn
-          >
-          <v-btn color="green" text @click="updateAtosBensModal(selectedBem.id)"
-            >Salvar</v-btn
-          >
+          <v-btn color="green" text @click="isModalOpen = false">Cancelar</v-btn>
+          <v-btn color="green" text @click="updateAtosBensModal(selectedBem.id)">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
