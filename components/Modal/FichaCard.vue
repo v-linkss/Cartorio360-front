@@ -4,7 +4,7 @@
       <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
     </div>
     <v-card>
-      <v-card-title class="text-h5">Ficha de Firma2</v-card-title>
+      <v-card-title class="text-h5">Ficha de Firma</v-card-title>
 
       <div class="d-flex justify-center align-center">
         <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef" :toolbar="toolbar"

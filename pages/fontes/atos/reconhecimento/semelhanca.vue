@@ -231,18 +231,16 @@ async function reconhecerEtiquetaSemelhanca(token) {
       },
     });
     if (status.value === "success") {
-      const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
-      if (!etiquetaResp) return;
-      if (etiquetaResp.tipo_etiqueta === "html") {
+      if (data.value[0].tipo_etiqueta === "html") {
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
-        newWindow.document.write(etiquetaResp.etiqueta);
+        newWindow.document.write(data.value[0].etiqueta);
         newWindow.document.close();
-      } else if (etiquetaResp.tipo_etiqueta === "zpl") {
+      } else if (data.value[0].tipo_etiqueta === "zpl") {
         const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
           method: "POST",
           body: {
-            zpl: atob(etiquetaResp.etiqueta),
+            zpl: atob(data.value[0].etiqueta),
           },
         });
         if (zplStatus.value !== "success") {
