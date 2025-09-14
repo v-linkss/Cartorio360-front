@@ -131,7 +131,6 @@
       item-key="id"
     >
       <template v-slot:item.actions="{ item }">
-        {{ item.token }}
         <div style="display: flex; gap: 4px; justify-content: center">
           <div
             @click="
