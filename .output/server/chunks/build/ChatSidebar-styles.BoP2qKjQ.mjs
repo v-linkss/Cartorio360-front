@@ -1,6 +1,0 @@
-import { C as ChatSidebar_vue_vue_type_style_index_0_scoped_2cb5d4ee_lang } from './ChatSidebar-styles-1.mjs-BmcSvSQw.mjs';
-
-const ChatSidebarStyles_BoP2qKjQ = [ChatSidebar_vue_vue_type_style_index_0_scoped_2cb5d4ee_lang];
-
-export { ChatSidebarStyles_BoP2qKjQ as default };
-//# sourceMappingURL=ChatSidebar-styles.BoP2qKjQ.mjs.map
