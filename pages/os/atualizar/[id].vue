@@ -116,24 +116,28 @@
               />
             </div>
             <div
-              :disabled="!item.btn_cancelar"
               @click="item.btn_cancelar ? deleteAto(item) : null"
               title="Excluir"
             >
               <img
-                v-if="item.excluido"
+                v-if="item.btn_cancelar"
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../../assets/excluido.png"
-                alt="Visualizar"
-                title="Reativar"
+                alt="Cancelar"
+                title="Cancelado"
               />
               <img
                 v-else
                 src="../../../assets/mudarStatus.png"
-                alt="Excluir"
+                alt="Cancelado"
                 class="trash-icon"
-                style="width: 30px; height: 30px; cursor: pointer"
-                title="Excluir"
+                style="
+                  width: 30px;
+                  height: 30px;
+                  cursor: not-allowed;
+                  opacity: 0.5;
+                "
+                title="Não permitido cancelar"
               />
             </div>
           </v-row>

@@ -4,28 +4,14 @@
       <v-card-title class="text-h5">Ficha de Firma</v-card-title>
 
       <div class="d-flex justify-center align-center">
-        <ejs-imageeditor
-          height="750px"
-          width="850px"
-          ref="imageEditorRef"
-        ></ejs-imageeditor>
+        <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef"></ejs-imageeditor>
       </div>
 
       <v-card-actions>
-        <v-btn
-          style="background-color: aqua; color: white"
-          @click="editarImagem"
-          >Editar</v-btn
-        >
-        <v-btn
-          v-if="!props.isView"
-          style="background-color: #429946; color: white"
-          @click="confirmarRecebimento"
-          >Reconhecer</v-btn
-        >
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: aqua; color: white" @click="editarImagem">Editar</v-btn>
+        <v-btn v-if="!props.isView" style="background-color: #429946; color: white"
+          @click="confirmarRecebimento">Reconhecer</v-btn>
+        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -170,6 +156,7 @@ const closeModal = () => {
   width: 550px !important;
   height: 350px !important;
 }
+
 v.slider {
   width: 100%;
 }

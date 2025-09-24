@@ -13,7 +13,7 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 
 const viewDoc = `${config.public.envioDoc}/upload`;
-const acionarScanner = `${config.public.biometria}/run-scanner`;
+const acionarScanner = `${config.public.biometria}/run-scanner?format=img`;
 const tokenCookie = useCookie("pessoa_token");
 const token = tokenCookie.value;
 
