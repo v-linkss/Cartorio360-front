@@ -212,23 +212,6 @@
               title="escanear"
             />
           </div>
-          <div @click="deleteAto(item)" title="Excluir">
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px; cursor: pointer"
-              title="Excluir"
-            />
-          </div>
         </div>
       </template>
     </v-data-table>
@@ -433,7 +416,7 @@ async function searchAtos() {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        numero: state.numero || null,
+        numero_os: state.numero || null,
         data_inicio: convertToISODate(state.data_inicio) || null,
         data_fim: convertToISODate(state.data_fim) || null,
         data_lavratura_inicio:
@@ -496,18 +479,6 @@ const redirectToModalReimprimir = (token) => {
   ato_token.value = token;
   isModalReimprimirOpen.value = true;
 };
-
-async function deleteAto(item) {
-  item.excluido = !item.excluido;
-  try {
-    await fetchWithToken(`${updateAto}/${item.id}`, {
-      method: "PUT",
-      body: { excluido: item.excluido },
-    });
-  } catch (error) {
-    console.error("Erro ao excluir pessoa:", error);
-  }
-}
 
 const cancelaAto = async (ato_token) => {
   const { data, status } = await useFetch(cancelaLavratura, {
