@@ -118,26 +118,18 @@
             <div
               @click="item.btn_cancelar ? deleteAto(item) : null"
               title="Excluir"
+              :style="{ cursor: item.btn_cancelar ? 'pointer' : 'not-allowed' }"
             >
               <img
-                v-if="item.btn_cancelar"
-                style="width: 30px; height: 30px; cursor: pointer"
-                src="../../../assets/excluido.png"
+                :style="{
+                  width: '30px',
+                  height: '30px',
+                  cursor: item.btn_cancelar ? 'pointer' : 'not-allowed',
+                  opacity: item.btn_cancelar ? '1' : '0.5',
+                }"
+                src="../../../assets/btn_cancela_lavratura.png"
                 alt="Cancelar"
-                title="Cancelado"
-              />
-              <img
-                v-else
-                src="../../../assets/mudarStatus.png"
-                alt="Cancelado"
-                class="trash-icon"
-                style="
-                  width: 30px;
-                  height: 30px;
-                  cursor: not-allowed;
-                  opacity: 0.5;
-                "
-                title="Não permitido cancelar"
+                :title="item.btn_cancelar ? 'Cancelar' : 'Não permitido'"
               />
             </div>
           </v-row>
