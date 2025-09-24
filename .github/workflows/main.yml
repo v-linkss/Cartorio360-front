@@ -10,8 +10,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     name: 🚀 Deploy Website (Main)
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.ref_name }}
 
     steps:
       - name: 🚚 Get Latest Code
@@ -63,13 +61,10 @@ jobs:
             npm install
             npm run pm2
             pm2 start all
-
   web-deploy-develop:
     if: github.ref == 'refs/heads/develop'
     name: Publish Website
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.ref_name }}
 
     steps:
       - name: 🚚 Get Latest Code
@@ -96,8 +91,7 @@ jobs:
 
           script: |
 
-
-            cd /var/www/html/cartorio360/public_html/producao/cartorio360-front
+            cd /var/www/html/cartorio360/public_html/desenvolvimento/cartorio360-front
             touch .env
 
             echo "MS_AUTH=${{secrets.MS_AUTH_DEVELOP}}" | tee -a .env
@@ -115,8 +109,8 @@ jobs:
           script: |
             pm2 stop all
 
-            cd /var/www/html/cartorio360/public_html/producao/cache_clear
-            sh limpar_cache.sh
+            # cd /var/www/html/cartorio360/public_html/desenvolvimento/cache_clear
+            # sh limpar_cache.sh
 
       - name: Subindo servidor pm2
         uses: appleboy/ssh-action@master
