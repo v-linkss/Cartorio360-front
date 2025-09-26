@@ -5,83 +5,46 @@
     </v-row>
     <v-row>
       <v-col cols="2">
-        <v-text-field
-          v-model="searchNumero"
-          type="text"
-          label="Número"
-        ></v-text-field>
+        <v-text-field v-model="searchNumero" type="text" label="Número"></v-text-field>
       </v-col>
       <v-col md="3">
-        <v-text-field
-          v-model="searchApresentante"
-          label="Apresentante"
-        ></v-text-field>
+        <v-text-field v-model="searchApresentante" label="Apresentante"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="3">
-        <v-autocomplete
-          v-model="searchSituacao"
-          :items="situacoes"
-          label="Situação"
-          clearable
-        ></v-autocomplete>
+        <v-autocomplete v-model="searchSituacao" :items="situacoes" label="Situação" clearable></v-autocomplete>
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 4px; margin-top: -5px">
-          <div
-            :class="{ disabled: !item.btn_receber }"
-            :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
-            @click="
-              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
-            "
-            title="Receber"
-          >
-            <img
-              :style="{
-                cursor: item.btn_receber ? 'pointer' : 'default',
-                width: '30px',
-                height: '30px',
-              }"
-              src="../../assets/recebe.png"
-              alt="Receber"
-            />
+          <div :class="{ disabled: !item.btn_receber }" :title="item.btn_receber ? 'Receber' : 'Bloqueado'" @click="
+            item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+            " title="Receber">
+            <img :style="{
+              cursor: item.btn_receber ? 'pointer' : 'default',
+              width: '30px',
+              height: '30px',
+            }" src="../../assets/recebe.png" alt="Receber" />
           </div>
-          <div
-            :class="{ disabled: !item.btn_encerrar }"
-            @click="item.btn_encerrar ? openCancelamentoModal(item.id) : false"
-            title="Cancelamento"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/salvar.png"
-              alt="Encerrar"
-              title="Encerrar"
-            />
+          <div :class="{ disabled: !item.btn_encerrar }"
+            @click="item.btn_encerrar ? openCancelamentoModal(item.id) : false" title="Cancelamento">
+            <img style="width: 30px; height: 30px; cursor: pointer" src="../../assets/salvar.png" alt="Encerrar"
+              title="Encerrar" />
           </div>
         </v-row>
       </template>
     </v-data-table>
-    <RecebimentoOrdem
-      :show="isModalRecebimentoOpen"
-      :numero_os="numero_os"
-      :ordem="selectedOrder"
-      @close="isModalRecebimentoOpen = false"
-    />
-    <ModalConfirmacao
-      @confirm="encerrarOS(selectedOrder)"
-      :condMessage="condMessage"
-      :show="isModalCancelamentoOpen"
-      @close="isModalCancelamentoOpen = false"
-    />
+    <RecebimentoOrdem :show="isModalRecebimentoOpen" :numero_os="numero_os" :ordem="selectedOrder"
+      @close="isModalRecebimentoOpen = false" />
+    <ModalConfirmacao @confirm="encerrarOS(selectedOrder)" :condMessage="condMessage" :show="isModalCancelamentoOpen"
+      @close="isModalCancelamentoOpen = false" />
   </v-container>
   <v-rows>
     <v-cols>
-      <v-btn class="ml-8" size="large" @click="goBack" color="red"
-        >Voltar
+      <v-btn class="ml-8" size="large" @click="goBack" color="red">Voltar
       </v-btn>
     </v-cols>
   </v-rows>
