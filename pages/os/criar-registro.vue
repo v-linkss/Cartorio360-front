@@ -100,7 +100,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
+                      rota: item.rota,
                     })
                   : null
               "

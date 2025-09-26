@@ -89,7 +89,7 @@ const updateTipoAto = async () => {
     {
       method: "PUT",
       body: {
-      ato_tipo_id: selectedAto.value.id,
+        ato_tipo_id: selectedAto.value.id,
       },
     }
   );
@@ -97,7 +97,6 @@ const updateTipoAto = async () => {
     $toast.success("Tipo de ato atualizado com Sucesso!");
     emit("update-ato", {
       descricao: `${selectedServico.value.descricao} - ${selectedAto.value.descricao}`,
-      usaImoveisParams: selectedAto.value.usa_imoveis,
     });
     closeModal();
   }
@@ -115,6 +114,5 @@ watch(selectedServico, async (newValue) => {
   }
 });
 
-loadServicos()
-
+loadServicos();
 </script>

@@ -41,6 +41,10 @@ export default defineNuxtConfig({
         process.env.DEV_MODE === "true"
           ? process.env.MS_MANAGEMENT_DESENV
           : process.env.MS_MANAGEMENT,
+      chat_bot:
+        process.env.DEV_MODE === "true"
+          ? process.env.CHAT_BOT_DESENV
+          : process.env.CHAT_BOT,
       biometria: process.env.BIOMETRIA,
       envioDoc: process.env.OBSERVER,
       docEditor: process.env.LICENSE_KEY,

@@ -209,6 +209,7 @@ const state = reactive({
 
 const { data } = await useFetch(papeisApresentante, {
   method: "POST",
+  body: { rotina: "PARTE_IMOVEL" },
 });
 
 papeisItems.value = data.value;

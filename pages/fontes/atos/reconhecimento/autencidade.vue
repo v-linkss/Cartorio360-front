@@ -1,14 +1,8 @@
 <template>
   <v-row class="mt-5">
     <v-col cols="5">
-      <v-autocomplete
-        label="Tabelião/escrevente"
-        v-model="state.escrevente"
-        :items="escreventesItems"
-        item-title="nome"
-        item-value="token"
-        required
-      >
+      <v-autocomplete label="Tabelião/escrevente" v-model="state.escrevente" :items="escreventesItems" item-title="nome"
+        item-value="token" required>
       </v-autocomplete>
     </v-col>
     <v-col cols="2">
@@ -26,110 +20,53 @@
     </v-col>
 
     <div>
-      <img
-        class="btn-pointer mt-1"
-        src="../../../../assets/visualizar.png"
-        style="width: 40px; cursor: pointer"
-        title="Pesquisar Pessoa"
-        @click="searchPessoasService"
-      />
+      <img class="btn-pointer mt-1" src="../../../../assets/visualizar.png" style="width: 40px; cursor: pointer"
+        title="Pesquisar Pessoa" @click="searchPessoasService" />
     </div>
     <div>
-      <img
-        class="btn-pointer mt-1 ml-2"
-        src="../../../../assets/novo.png"
-        style="width: 40px; cursor: pointer"
-        title="Criar Pessoa"
-        @click="createPessoa"
-      />
+      <img class="btn-pointer mt-1 ml-2" src="../../../../assets/novo.png" style="width: 40px; cursor: pointer"
+        title="Criar Pessoa" @click="createPessoa" />
     </div>
   </v-row>
 
   <v-row>
     <v-col class="mr-10">
-      <v-data-table
-        style="height: 465px"
-        :headers="headers"
-        :items="pessoasItems"
-      >
+      <v-data-table style="height: 465px" :headers="headers" :items="pessoasItems">
         <template v-slot:item.actions="{ item }">
-          <div
-            style="display: flex; cursor: pointer; justify-content: flex-end"
-            @click="redirectToFicha(item)"
-            title="Visualizar Ficha"
-          >
-            <img
-              v-if="item.link_ficha"
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar.png"
-              alt="Possui Ficha"
-              title="Possui Ficha"
-            />
-            <img
-              v-else
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar-vermelho.png"
-              alt="Visualizar"
-              title="Não Possui Ficha"
-            />
+          <div style="display: flex; cursor: pointer; justify-content: flex-end" @click="redirectToFicha(item)"
+            title="Visualizar Ficha">
+            <img v-if="item.link_ficha" style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar.png" alt="Possui Ficha" title="Possui Ficha" />
+            <img v-else style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar-vermelho.png" alt="Visualizar" title="Não Possui Ficha" />
           </div>
         </template>
       </v-data-table>
     </v-col>
 
     <v-col>
-      <v-data-table
-        :headers="headers"
-        :items="selectedObjects"
-        style="height: 465px"
-        item-key="id"
-      >
+      <v-data-table :headers="headers" :items="selectedObjects" style="height: 465px" item-key="id">
         <template v-slot:item.actions="{ item }">
-          <div
-            style="display: flex; justify-content: flex-end"
-            @click="removeFormValueFromTable(item)"
-            title="Remover"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/mudarStatus.png"
-              alt="Remover"
-            />
+          <div style="display: flex; justify-content: flex-end" @click="removeFormValueFromTable(item)" title="Remover">
+            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../../assets/mudarStatus.png"
+              alt="Remover" />
           </div>
         </template>
       </v-data-table>
     </v-col>
   </v-row>
-  <ModalRegistroPessoas
-    :show="isModalRegistroOpen"
-    @close="isModalRegistroOpen = false"
-  />
-  <ModalFichaCard
-    v-if="isModalFichaOpen"
-    :show="isModalFichaOpen"
-    :item="selectedItem"
-    :pessoa-obj="selectedItem"
-    :link-view="linkFichaPessoa"
-    @confirmar="confirmItem(selectedItem)"
-    @close="isModalFichaOpen = false"
-  />
-  <ErrorModalCard
-    :show="errorModalVisible"
-    :errorMessage="errorMessage"
-    @close="errorModalVisible = false"
-  />
+  <ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false" />
+  <ModalFichaCard v-if="isModalFichaOpen" :show="isModalFichaOpen" :item="selectedItem" :pessoa-obj="selectedItem"
+    :link-view="linkFichaPessoa" @confirmar="confirmItem(selectedItem)" @close="isModalFichaOpen = false" />
+  <ErrorModalCard :show="errorModalVisible" :errorMessage="errorMessage" @close="errorModalVisible = false" />
+  <ModalValidadorAutencidade :show="isValidadorModalOpen" @close="isValidadorModalOpen = false"
+    @confirm="handleValidadorConfirm" />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
-      class="ml-5"
-      @click="reconhecerAtoAutencidade"
-      size="large"
-      color="green"
-      >Salvar</v-btn
-    >
+    <v-btn class="ml-5" @click="onSaveClick" size="large" color="green">Salvar</v-btn>
   </v-row>
 </template>
 
@@ -167,6 +104,8 @@ const selectedItem = ref(null);
 const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
 
+const isValidadorModalOpen = ref(false);
+
 const headers = [
   {
     title: "Documento",
@@ -192,7 +131,9 @@ const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
-escreventesItems.value = data.value[0].func_json_escreventes;
+// Proteção para resposta vazia/inesperada em produção
+escreventesItems.value =
+  (Array.isArray(data.value) && data.value[0]?.func_json_escreventes) || [];
 
 async function searchPessoasService() {
   try {
@@ -242,6 +183,15 @@ function removeFormValueFromTable(item) {
   );
 }
 
+function onSaveClick() {
+  isValidadorModalOpen.value = true;
+}
+
+function handleValidadorConfirm() {
+  isValidadorModalOpen.value = false;
+  reconhecerAtoAutencidade();
+}
+
 async function reconhecerAtoAutencidade() {
   if (!state.escrevente) {
     $toast.error("Por favor selecione um Escrevente");
@@ -262,13 +212,19 @@ async function reconhecerAtoAutencidade() {
         ato_tipo_token: props.ato_token,
       },
     });
-    if (status.value === "success" && data.value[0].status === "OK") {
+    if (
+      status.value === "success" &&
+      Array.isArray(data.value) &&
+      data.value[0]?.status === "OK"
+    ) {
       reconhecerEtiquetaAutencidade(data.value[0].token);
       goBack();
     } else {
       errorModalVisible.value = true;
       errorMessage.value =
-        ato_token.value.status_mensagem || error.value.data.details;
+        (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
+        error?.value?.data?.details ||
+        "Não foi possível concluir o reconhecimento";
     }
   } catch (error) {
     errorModalVisible.value = true;
@@ -288,16 +244,18 @@ async function reconhecerEtiquetaAutencidade(token) {
       },
     });
     if (status.value === "success") {
-      if (data.value[0].tipo_etiqueta === "html") {
+      const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
+      if (!etiquetaResp) return;
+      if (etiquetaResp.tipo_etiqueta === "html") {
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
-        newWindow.document.write(data.value[0].etiqueta);
+        newWindow.document.write(etiquetaResp.etiqueta);
         newWindow.document.close();
-      } else if (data.value[0].tipo_etiqueta === "zpl") {
+      } else if (etiquetaResp.tipo_etiqueta === "zpl") {
         const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
           method: "POST",
           body: {
-            zpl: atob(data.value[0].etiqueta),
+            zpl: atob(etiquetaResp.etiqueta),
           },
         });
         if (zplStatus.value !== "success") {

@@ -33,11 +33,18 @@
       <v-col>
         <v-autocomplete
           v-model="state.tabvalores_ufemissor_id"
+          :error="v$.tabvalores_ufemissor_id.$error"
+          :error-messages="
+            v$.tabvalores_ufemissor_id.$errors.map((e) => e.$message)
+          "
           :items="documentos.ufItems"
           label="UF"
           item-title="descricao"
           item-value="id"
-        ></v-autocomplete>
+          required
+          @blur="v$.tabvalores_ufemissor_id.$touch"
+          @input="v$.tabvalores_ufemissor_id.$touch"
+        />
       </v-col>
       <v-col md="2">
         <v-text-field
@@ -64,6 +71,7 @@
         />
       </div>
     </v-row>
+
     <v-data-table
       style="max-height: 330px"
       :headers="headers"
@@ -94,6 +102,26 @@
               class="trash-icon"
               style="width: 30px; height: 30px; cursor: pointer"
               title="reativar"
+            />
+          </div>
+          <div @click="handleScannerClick(item.token)" title="Criar">
+            <img
+              v-if="status_arquivo === false"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/abre-arquivo-vermelho.jpeg"
+              alt="Criar"
+            />
+            <img
+              v-else-if="status_arquivo === true"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/abre-arquivo-verde.png"
+              alt="Criar"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../assets/escanear.png"
+              alt="Criar"
             />
           </div>
         </v-row>
@@ -235,6 +263,9 @@ const rules = {
   emissor: {
     required: helpers.withMessage("O campo é obrigatorio", required),
   },
+  tabvalores_ufemissor_id: {
+    required: helpers.withMessage("O campo é obrigatorio", required),
+  },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -286,7 +317,9 @@ async function onSubmit() {
       body: payloadFormated,
     });
     if (status.value === "error" && error.value.statusCode === 500) {
-      $toast.error("Erro ao cadastrar documento,erro no sistema.");
+      console.log(JSON.stringify(error.value));
+
+      $toast.error(error.value.data.details);
     } else {
       $toast.success("Documento cadastrado com sucesso!");
       refresh();
@@ -297,8 +330,47 @@ async function onSubmit() {
     }
   } else {
     $toast.error(
-      "Erro ao cadastrar documento, preencha os campos obrigatorios."
+      "Erro ao cadastrar documento. Os seguintes campos são obrigatórios: Número, Emissor e UF."
     );
+  }
+}
+async function handleScannerClick(pessoa_docs_token) {
+  try {
+    console.log("Ação do scanner iniciada\n");
+    console.log("Token do documento:", pessoa_docs_token);
+    await openScanner();
+    await enviarArquivo(pessoa_docs_token);
+  } catch (error) {
+    console.error("Erro ao executar scanner ou listar arquivos:", error);
+  }
+}
+async function openScanner() {
+  try {
+    const { data } = await useFetch(acionarScanner, { method: "GET" });
+  } catch (error) {
+    $toast.error("Erro ao acionar o scanner:", error);
+  }
+}
+
+/**
+ * Envia o arquivo escolhido pelo usuário para o servidor local.
+ * @returns {Promise<void>}
+ */
+async function enviarArquivo(pessoa_docs_token) {
+  try {
+    const { data, status } = await useFetch(
+      "http://localhost:3500/uploadAnexo",
+      {
+        method: "POST",
+        body: {
+          tipo: "docs",
+          token: route.query.ato_token_edit,
+          cartorio_token: pessoa_docs_token,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Erro ao enviar o arquivo:", error);
   }
 }
 function redirectToUpdate(item) {
