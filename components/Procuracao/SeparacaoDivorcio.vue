@@ -1,56 +1,29 @@
 <template>
-  <v-container v-if="status === 'success'" class="mt-5">
+  <v-container class="mt-5">
     <v-row dense>
       <v-col cols="12" sm="4" md="3">
-        <v-text-field
-          v-model="atos.dt_casamento"
-          type="date"
-          label="Data Casamento"
-        ></v-text-field>
+        <v-text-field v-model="atos.dt_casamento" type="date" label="Data Casamento"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-        <v-autocomplete
-          label="Regime Bens"
-          v-model="atos.tabvalores_regimecasamento_id"
-          :items="combolistRegimeBens"
-          item-title="descricao"
-          item-value="id"
-          required
-        ></v-autocomplete>
+        <v-autocomplete label="Regime Bens" v-model="atos.tabvalores_regimecasamento_id" :items="combolistRegimeBens"
+          item-title="descricao" item-value="id" required></v-autocomplete>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-      <v-text-field
-          label="Filhos Maiores"
-          v-model.number="atos.qtd_filhos_maiores"
-          type="number"
-          min="0"
-          @keydown="blockNonNumeric"
-      ></v-text-field>
+        <v-text-field label="Filhos Maiores" v-model.number="atos.qtd_filhos_maiores" type="number" min="0"
+          @keydown="blockNonNumeric"></v-text-field>
       </v-col>
 
 
       <v-col cols="12" sm="6" md="3">
-        <v-text-field
-          label="Filhos Menores"
-          v-model="atos.qtd_filhos_menores"
-          type="number"
-          min="0"
-          @keydown="blockNonNumeric"
-
-        ></v-text-field>
+        <v-text-field label="Filhos Menores" v-model="atos.qtd_filhos_menores" type="number" min="0"
+          @keydown="blockNonNumeric"></v-text-field>
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-        <v-autocomplete
-          label="Responsável"
-          v-model="atos.responsavel_menores_id"
-          :items="combolistResponsavel"
-          item-title="nome"
-          item-value="id"
-          required
-        ></v-autocomplete>
+        <v-autocomplete @focus="reloadResponsaveis" label="Responsável" v-model="atos.responsavel_menores_id"
+          :items="combolistResponsavel" item-title="nome" item-value="id" required></v-autocomplete>
       </v-col>
     </v-row>
 
@@ -61,12 +34,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="auto">
-        <v-btn
-          class="ml-2"
-          @click="onUpdate"
-          size="large"
-          color="green"
-        >Salvar</v-btn>
+        <v-btn class="ml-2" @click="onUpdate" size="large" color="green">Salvar</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -74,6 +42,8 @@
 
 
 <script setup>
+import { nextTick, onActivated, onMounted } from 'vue';
+
 const props = defineProps({
   ato_token: {
     type: String,
@@ -88,11 +58,11 @@ const config = useRuntimeConfig();
 const atos = reactive({
   dt_casamento: null,
   tabvalores_regimecasamento_id: null,
-  qtd_filhos_maiores:null,
-  qtd_filhos_menores:null,
-  responsavel_menores_id:null,
+  qtd_filhos_maiores: null,
+  qtd_filhos_menores: null,
+  responsavel_menores_id: null,
 
-  
+
 });
 const combolistRegimeBens = ref([]);
 
@@ -109,45 +79,79 @@ const isModalCadastroImoveisOpen = ref(false);
 const isModalAtualizarImoveisOpen = ref(false);
 const idImovel = ref(null);
 
-
-const { data: atosData, status } = await fetchWithToken(getAtos, {
-  method: "GET",
-});
-
-const { data: regimeBensData } = await fetchWithToken(regimeBens
-, {
-  method: "GET",
-});
-
-const { data: responsavelFilhos } = await fetchWithToken(getAtosPessoa
-, {
-  method: "GET",
-});
-
 const rawResponsavelFilhos = ref([]);
 
-  const combolistResponsavel = computed(() =>
+const combolistResponsavel = computed(() =>
   rawResponsavelFilhos.value?.map((parte) => ({
-      id: parte.id,
-      nome: parte.pessoa?.nome || "Sem nome"
+    id: parte.pessoa.id,
+    nome: parte.pessoa?.nome || "Sem nome"
   })) || []
-  );
+);
 
-if(atosData.value){
-  atos.dt_casamento = atosData.value.dt_casamento;
-  atos.tabvalores_regimecasamento_id = atosData.value.tabvalores_regimecasamento_id;
-  atos.qtd_filhos_maiores = atosData.value.qtd_filhos_maiores;
-  atos.qtd_filhos_menores = atosData.value.qtd_filhos_menores;
-  atos.responsavel_menores_id = atosData.value.responsavel_menores_id;
-}
+onMounted(async () => {
+  const [atosRes, regimeBensRes, responsavelRes] = await Promise.all([
+    fetchWithToken(getAtos, { method: "GET" }),
+    fetchWithToken(regimeBens, { method: "GET" }),
+    fetchWithToken(getAtosPessoa, { method: "GET" }),
+  ]);
 
-if(regimeBensData.value){
-  combolistRegimeBens.value = regimeBensData.value
-}
-
-if (responsavelFilhos.value) {
-      rawResponsavelFilhos.value = responsavelFilhos.value;
+  if (atosRes.data.value) {
+    Object.assign(atos, atosRes.data.value[0] || atosRes.data.value);
   }
+
+  if (regimeBensRes.data.value) {
+    combolistRegimeBens.value = regimeBensRes.data.value;
+  }
+
+  if (responsavelRes.data.value) {
+    rawResponsavelFilhos.value = responsavelRes.data.value;
+  }
+});
+
+const reloadResponsaveis = async () => {
+  try {
+    const { data } = await fetchWithToken(getAtosPessoa, { method: "GET" });
+    rawResponsavelFilhos.value = data.value || [];
+  } catch (e) {
+    // mantém lista anterior em caso de erro
+  }
+}
+
+// Recarrega quando a aba for ativada
+onActivated(async () => {
+  await nextTick();
+  await reloadResponsaveis();
+});
+
+// const { data: atosData, status } = await fetchWithToken(getAtos, {
+//   method: "GET",
+// });
+
+// const { data: regimeBensData } = await fetchWithToken(regimeBens
+//   , {
+//     method: "GET",
+//   });
+
+// const { data: responsavelFilhos } = await fetchWithToken(getAtosPessoa
+//   , {
+//     method: "GET",
+//   });
+
+// if (atosData.value) {
+//   atos.dt_casamento = atosData.value.dt_casamento;
+//   atos.tabvalores_regimecasamento_id = atosData.value.tabvalores_regimecasamento_id;
+//   atos.qtd_filhos_maiores = atosData.value.qtd_filhos_maiores;
+//   atos.qtd_filhos_menores = atosData.value.qtd_filhos_menores;
+//   atos.responsavel_menores_id = atosData.value.responsavel_menores_id;
+// }
+
+// if (regimeBensData.value) {
+//   combolistRegimeBens.value = regimeBensData.value
+// }
+
+// if (responsavelFilhos.value) {
+//   rawResponsavelFilhos.value = responsavelFilhos.value;
+// }
 
 
 function redirectToUpdate(id) {
@@ -178,36 +182,34 @@ const goBack = () => {
   }
 };
 async function onUpdate() {
-const { data, error, status } = await useFetch(
-  `${updateAtos}/${Number.parseInt(props.ato_id)}`,
-  {
-    method: "PUT",
-    body: {
-      dt_casamento: atos.dt_casamento,
-      tabvalores_regimecasamento_id: atos.tabvalores_regimecasamento_id,
-      qtd_filhos_maiores:atos.qtd_filhos_maiores,
-      qtd_filhos_menores:atos.qtd_filhos_menores,
-      responsavel_menores_id:atos.responsavel_menores_id,
-    },
+  const { data, error, status } = await useFetch(
+    `${updateAtos}/${Number.parseInt(props.ato_id)}`,
+    {
+      method: "PUT",
+      body: {
+        dt_casamento: atos.dt_casamento,
+        tabvalores_regimecasamento_id: atos.tabvalores_regimecasamento_id,
+        qtd_filhos_maiores: atos.qtd_filhos_maiores,
+        qtd_filhos_menores: atos.qtd_filhos_menores,
+        responsavel_menores_id: atos.responsavel_menores_id,
+      },
+    }
+  );
+  if (status.value === "success") {
+    $toast.success("Divórcio salvo com sucesso");
   }
-);
-if (status.value === "success") {
-  $toast.success("Divórcio salvo com sucesso");
-}
 }
 const blockNonNumeric = (e) => {
-const allowedKeys = [
-  'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete',
-];
+  const allowedKeys = [
+    'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete',
+  ];
 
-if (
-  !/[0-9]/.test(e.key) &&
-  !allowedKeys.includes(e.key)
-) {
-  e.preventDefault();
-}
+  if (
+    !/[0-9]/.test(e.key) &&
+    !allowedKeys.includes(e.key)
+  ) {
+    e.preventDefault();
+  }
 };
 
 </script>
-
-
