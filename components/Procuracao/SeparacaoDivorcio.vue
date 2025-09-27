@@ -21,13 +21,8 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-<<<<<<< HEAD
         <v-autocomplete label="Responsável" v-model="atos.responsavel_menores_id" :items="combolistResponsavel"
           item-title="nome" item-value="id" required></v-autocomplete>
-=======
-        <v-autocomplete @focus="reloadResponsaveis" label="Responsável" v-model="atos.responsavel_menores_id"
-          :items="combolistResponsavel" item-title="nome" item-value="id" required></v-autocomplete>
->>>>>>> fix/divorcio
       </v-col>
     </v-row>
 
@@ -45,7 +40,6 @@
 </template>
 
 <script setup>
-import { nextTick, onActivated, onMounted } from 'vue';
 
 const props = defineProps({
   ato_token: {
@@ -68,11 +62,6 @@ const atos = reactive({
   qtd_filhos_maiores: null,
   qtd_filhos_menores: null,
   responsavel_menores_id: null,
-<<<<<<< HEAD
-=======
-
-
->>>>>>> fix/divorcio
 });
 const combolistRegimeBens = ref([]);
 
@@ -83,7 +72,6 @@ const regimeBens = `${config.public.auth}/service/gerencia/regime_casamento`;
 const getAtosPessoa = `${config.public.auth}/service/gerencia/getAtosPessoaById/${props.ato_id}`;
 const updateAtos = `${config.public.managemant}/updateAtos`;
 
-<<<<<<< HEAD
 const { data: regimeBensData } = await fetchWithToken(regimeBens, {
   method: "GET",
 });
@@ -97,12 +85,9 @@ async function fetchAtosPessoa() {
   }
 }
 
-=======
->>>>>>> fix/divorcio
 const rawResponsavelFilhos = ref([]);
 // O array "rawResponsavelFilhos" é preenchido pela função fetchAtosPessoa, que faz uma requisição GET para o endpoint getAtosPessoa.
 
-<<<<<<< HEAD
 
 const combolistResponsavel = computed(
   () =>
@@ -116,91 +101,6 @@ if (regimeBensData.value) {
   combolistRegimeBens.value = regimeBensData.value;
 }
 
-=======
-const combolistResponsavel = computed(() =>
-  rawResponsavelFilhos.value?.map((parte) => ({
-    id: parte.pessoa.id,
-    nome: parte.pessoa?.nome || "Sem nome"
-  })) || []
-);
-
-onMounted(async () => {
-  const [atosRes, regimeBensRes, responsavelRes] = await Promise.all([
-    fetchWithToken(getAtos, { method: "GET" }),
-    fetchWithToken(regimeBens, { method: "GET" }),
-    fetchWithToken(getAtosPessoa, { method: "GET" }),
-  ]);
-
-  if (atosRes.data.value) {
-    Object.assign(atos, atosRes.data.value[0] || atosRes.data.value);
-  }
-
-  if (regimeBensRes.data.value) {
-    combolistRegimeBens.value = regimeBensRes.data.value;
-  }
-
-  if (responsavelRes.data.value) {
-    rawResponsavelFilhos.value = responsavelRes.data.value;
-  }
-});
-
-const reloadResponsaveis = async () => {
-  try {
-    const { data } = await fetchWithToken(getAtosPessoa, { method: "GET" });
-    rawResponsavelFilhos.value = data.value || [];
-  } catch (e) {
-    // mantém lista anterior em caso de erro
-  }
-}
-
-// Recarrega quando a aba for ativada
-onActivated(async () => {
-  await nextTick();
-  await reloadResponsaveis();
-});
-
-// const { data: atosData, status } = await fetchWithToken(getAtos, {
-//   method: "GET",
-// });
-
-// const { data: regimeBensData } = await fetchWithToken(regimeBens
-//   , {
-//     method: "GET",
-//   });
-
-// const { data: responsavelFilhos } = await fetchWithToken(getAtosPessoa
-//   , {
-//     method: "GET",
-//   });
-
-// if (atosData.value) {
-//   atos.dt_casamento = atosData.value.dt_casamento;
-//   atos.tabvalores_regimecasamento_id = atosData.value.tabvalores_regimecasamento_id;
-//   atos.qtd_filhos_maiores = atosData.value.qtd_filhos_maiores;
-//   atos.qtd_filhos_menores = atosData.value.qtd_filhos_menores;
-//   atos.responsavel_menores_id = atosData.value.responsavel_menores_id;
-// }
-
-// if (regimeBensData.value) {
-//   combolistRegimeBens.value = regimeBensData.value
-// }
-
-// if (responsavelFilhos.value) {
-//   rawResponsavelFilhos.value = responsavelFilhos.value;
-// }
-
-
-function redirectToUpdate(id) {
-  idImovel.value = id;
-  isModalAtualizarImoveisOpen.value = true;
-}
-const atualizarListaImoveis = async () => {
-  await fetchWithToken(imoveisLista, {
-    method: "POST",
-    body: { ato_token: route.query.ato_token_edit },
-  });
-};
->>>>>>> fix/divorcio
 const goBack = () => {
   const origem = route.query.origem || "criar";
   const id = route.query.id;
@@ -226,13 +126,8 @@ async function onUpdate() {
       body: {
         dt_casamento: atos.dt_casamento,
         tabvalores_regimecasamento_id: atos.tabvalores_regimecasamento_id,
-<<<<<<< HEAD
         qtd_filhos_maiores: Number(atos.qtd_filhos_maiores),
         qtd_filhos_menores: Number(atos.qtd_filhos_menores),
-=======
-        qtd_filhos_maiores: atos.qtd_filhos_maiores,
-        qtd_filhos_menores: atos.qtd_filhos_menores,
->>>>>>> fix/divorcio
         responsavel_menores_id: atos.responsavel_menores_id,
       },
     }
@@ -241,7 +136,6 @@ async function onUpdate() {
     $toast.success("Divórcio salvo com sucesso");
   }
 }
-<<<<<<< HEAD
 
 
 watch(
@@ -258,17 +152,6 @@ const blockNonNumeric = (e) => {
   const allowedKeys = ["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"];
 
   if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
-=======
-const blockNonNumeric = (e) => {
-  const allowedKeys = [
-    'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete',
-  ];
-
-  if (
-    !/[0-9]/.test(e.key) &&
-    !allowedKeys.includes(e.key)
-  ) {
->>>>>>> fix/divorcio
     e.preventDefault();
   }
 };
