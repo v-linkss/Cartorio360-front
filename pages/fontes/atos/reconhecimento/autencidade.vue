@@ -212,11 +212,13 @@ async function reconhecerAtoAutencidade() {
         ato_tipo_token: props.ato_token,
       },
     });
-    if (
-      status.value === "success" &&
-      Array.isArray(data.value) &&
-      data.value[0]?.status === "OK"
-    ) {
+    if (status.value === "success" && data.value[0].status === "OK") {
+      if(data.value[0].livro && data.value[0].livro !== null) {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].livro);
+        newWindow.document.close();
+      }
       reconhecerEtiquetaAutencidade(data.value[0].token);
       goBack();
     } else {
