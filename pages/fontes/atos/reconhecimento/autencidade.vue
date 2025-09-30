@@ -219,6 +219,7 @@ async function reconhecerAtoAutencidade() {
         newWindow.document.write(data.value[0].livro);
         newWindow.document.close();
       }
+      console.log("Mostrando Livro");
       reconhecerEtiquetaAutencidade(data.value[0].token);
       goBack();
     } else {
@@ -235,8 +236,10 @@ async function reconhecerAtoAutencidade() {
   }
 }
 
+
 async function reconhecerEtiquetaAutencidade(token) {
   try {
+    console.log("Reconhecimento de Etiqueta");
     const { data, error, status } = await useFetch(etiquetaAutencidade, {
       method: "POST",
       body: {
@@ -249,6 +252,8 @@ async function reconhecerEtiquetaAutencidade(token) {
       const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
       if (!etiquetaResp) return;
       if (etiquetaResp.tipo_etiqueta === "html") {
+        console.log("Abrindo Etiqueta HTML");
+
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
         newWindow.document.write(etiquetaResp.etiqueta);
