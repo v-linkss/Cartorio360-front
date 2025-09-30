@@ -120,6 +120,21 @@
         <label>Valor ITB</label>
         <MoneyInput label="Valor ITB" v-model="state.vlr_itbi"></MoneyInput>
       </v-col>
+      <v-col>
+        <label>Valor Recebido em R$</label>
+        <MoneyInput
+          label="Valor Recebido em R$"
+          v-model="state.vlr_pago_dinheiro"
+          style="width: 160px"
+        ></MoneyInput>
+      </v-col>
+      <v-col>
+        <v-checkbox
+          v-model="state.sem_recebimento"
+          label="Não houve recebimento em R$"
+        >
+        </v-checkbox>
+      </v-col>
     </v-row>
     <v-row class="mt-10">
       <NuxtLink @click="goBack">
@@ -193,6 +208,7 @@ const state = reactive({
   matricula_letra: null,
   tabvalores_nat_imovel_id: null,
   cib: null,
+  sem_recebimento: false,
   tabvalores_tipologradouro_id: null,
   tipo_id: null,
   descricao: null,
@@ -203,6 +219,7 @@ const state = reactive({
   valor_mercado: "0.00",
   aliq_itbi: null,
   vlr_itbi: null,
+  vlr_pago_dinheiro: null,
   user_id: user_id,
   ato_id: Number(route.query.ato_id) || Number(props.ato_id),
 });
@@ -236,6 +253,18 @@ const createImovel = async () => {
     $toast.error("Preencha todos os campos obrigatórios!");
     return;
   }
+
+  const valorRecebido = Number(
+    (state.vlr_pago_dinheiro || "0").toString().replace(/,/g, "")
+  );
+
+  if (valorRecebido === 0 && !state.sem_recebimento) {
+    $toast.error(
+      "É obrigatório marcar a declaração quando não houver recebimento em espécie."
+    );
+    return;
+  }
+
   const payload = {
     ...state,
     vlr_avaliacao: state.vlr_avaliacao?.replace(/,/g, ""),
