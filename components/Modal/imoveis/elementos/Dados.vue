@@ -268,6 +268,7 @@ const createImovel = async () => {
   const payload = {
     ...state,
     vlr_avaliacao: state.vlr_avaliacao?.replace(/,/g, ""),
+    vlr_pago_dinheiro: state.vlr_pago_dinheiro?.replace(/,/g, ""),
     vlr_mercado: state.vlr_mercado?.replace(/,/g, ""),
     aliq_itbi: state.aliq_itbi?.replace(/,/g, ""),
     vlr_itbi: state.vlr_itbi?.replace(/,/g, ""),
@@ -342,7 +343,24 @@ const updateImovelModal = async (id) => {
     }
   });
 
-  ["vlr_avaliacao", "vlr_mercado", "aliq_itbi", "vlr_itbi"].forEach((campo) => {
+  const valorRecebido = Number(
+    (state.vlr_pago_dinheiro || "0").toString().replace(/,/g, "")
+  );
+
+  if (valorRecebido === 0 && !state.sem_recebimento) {
+    $toast.error(
+      "É obrigatório marcar a declaração quando não houver recebimento em espécie."
+    );
+    return;
+  }
+
+  [
+    "vlr_avaliacao",
+    "vlr_mercado",
+    "aliq_itbi",
+    "vlr_itbi",
+    "vlr_pago_dinheiro",
+  ].forEach((campo) => {
     if (updatedValues[campo]) {
       updatedValues[campo] = updatedValues[campo]?.toString().replace(/,/g, "");
     }
