@@ -1,45 +1,24 @@
-<template>
-  <v-container class="mt-5">
+<template> <v-container class="mt-5">
     <v-row class="mb-5">
       <h1>Atos</h1>
     </v-row>
 
     <v-row>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.data_inicio"
-          label="Abertura de"
-          placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.data_inicio" label="Abertura de" placeholder="dd/mm/yyyy" v-mask="'##/##/####'"
+          dense></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.data_fim"
-          label="Abertura até"
-          placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.data_fim" label="Abertura até" placeholder="dd/mm/yyyy" v-mask="'##/##/####'"
+          dense></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.data_lavratura_inicio"
-          label="Lavratura de"
-          placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.data_lavratura_inicio" label="Lavratura de" placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'" dense></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.data_lavratura_fim"
-          label="Lavratura até"
-          placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.data_lavratura_fim" label="Lavratura até" placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'" dense></v-text-field>
       </v-col>
       <v-col cols="2">
         <v-text-field v-model="state.numero" label="N° OS"></v-text-field>
@@ -52,55 +31,29 @@
 
     <v-row>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.protocolo"
-          label="Protocolo"
-        ></v-text-field>
+        <v-text-field v-model="state.protocolo" label="Protocolo"></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.apresentante_cpf"
-          label="CPF"
-          v-mask="'###.###.###-##'"
-          dense
-        ></v-text-field>
+        <v-text-field v-model="state.apresentante_cpf" label="CPF" v-mask="'###.###.###-##'" dense></v-text-field>
       </v-col>
 
       <v-col cols="3">
         <v-text-field v-model="state.parte" label="Parte" dense></v-text-field>
       </v-col>
       <v-col cols="3">
-        <v-autocomplete
-          v-model="state.ato_tipo_token"
-          :items="tipoAtosItems"
-          item-value="token"
-          item-title="descricao"
-          label="Tipo Serviço"
-          :menu-props="{
+        <v-autocomplete v-model="state.ato_tipo_token" :items="tipoAtosItems" item-value="token" item-title="descricao"
+          label="Tipo Serviço" :menu-props="{
             maxWidth: '680px',
             width: '680px',
-          }"
-          dense
-        >
+          }" dense>
         </v-autocomplete>
       </v-col>
       <v-col cols="2">
-        <v-autocomplete
-          :items="usuariosItems"
-          v-model="state.usuario_token"
-          item-title="user_nome"
-          item-value="user_token"
-          label="Usuário"
-          dense
-        ></v-autocomplete>
+        <v-autocomplete :items="usuariosItems" v-model="state.usuario_token" item-title="user_nome"
+          item-value="user_token" label="Usuário" dense></v-autocomplete>
       </v-col>
       <v-col cols="3">
-        <v-autocomplete
-          v-model="state.situacao"
-          :items="situacaoItems"
-          label="Situação"
-          dense
-        ></v-autocomplete>
+        <v-autocomplete v-model="state.situacao" :items="situacaoItems" label="Situação" dense></v-autocomplete>
       </v-col>
       <v-col cols="1">
         <v-text-field v-model="state.livro" label="Livro" dense></v-text-field>
@@ -111,30 +64,36 @@
 
       <v-col>
         <div>
-          <img
-            @click="searchAtos"
-            style="width: 40px; height: 40px; cursor: pointer"
-            src="../../../assets/visualizar.png"
-            alt="Pesquisar"
-          />
+          <img @click="searchAtos" style="width: 40px; height: 40px; cursor: pointer"
+            src="../../../assets/visualizar.png" alt="Pesquisar" />
         </div>
       </v-col>
     </v-row>
   </v-container>
   <div style="width: 1300px; margin: 0 auto">
     <hr class="mt-5 mb-5" />
-
-    <v-data-table
-      :headers="headers"
-      :items="atos"
-      style="font-size: 12px"
-      item-key="id"
-    >
+    <v-data-table :headers="headers" :items="atos" style="font-size: 12px" item-key="id">
       <template v-slot:item.actions="{ item }">
         <div style="display: flex; gap: 4px; justify-content: center">
-          <div
-            @click="
-              redirectToView({
+          <div @click="
+            redirectToView({
+              id: item.id,
+              tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
+              token: item.token,
+              tipo_token: item.tipo_token,
+              rota: item.rota,
+              numero_os: item.numero_os,
+            })
+            " title="Visualizar">
+            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../assets/visualizar.png"
+              alt="Visualizar" />
+          </div>
+          <div @click="redirectToModalReimprimir(item.token)" title="Reimprimir">
+            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../assets/selo.png" alt="Reimprimir" />
+          </div>
+          <div :class="{ disabled: !item.btn_editar }" @click="
+            item.btn_editar
+              ? redirectToUpdateAto({
                 id: item.id,
                 tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
                 token: item.token,
@@ -142,119 +101,42 @@
                 rota: item.rota,
                 numero_os: item.numero_os,
               })
-            "
-            title="Visualizar"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/visualizar.png"
-              alt="Visualizar"
-            />
+              : null
+            " :title="item.btn_editar ? 'Editar' : 'Desabilitado'">
+            <img :style="{
+              cursor: item.btn_editar ? 'pointer' : 'default',
+              width: '30px',
+              height: '30px',
+            }" src="../../../assets/editar.png" alt="Editar" />
           </div>
-          <div
-            @click="redirectToModalReimprimir(item.token)"
-            title="Reimprimir"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/selo.png"
-              alt="Reimprimir"
-            />
-          </div>
-          <div
-            :class="{ disabled: !item.btn_editar }"
-            @click="
-              item.btn_editar
-                ? redirectToUpdateAto({
-                    id: item.id,
-                    tipo: `${item.tipo_servico} - ${item.tipo_ato}`,
-                    token: item.token,
-                    tipo_token: item.tipo_token,
-                    rota: item.rota,
-                    numero_os: item.numero_os,
-                  })
-                : null
-            "
-            :title="item.btn_editar ? 'Editar' : 'Desabilitado'"
-          >
-            <img
-              :style="{
-                cursor: item.btn_editar ? 'pointer' : 'default',
-                width: '30px',
-                height: '30px',
-              }"
-              src="../../../assets/editar.png"
-              alt="Editar"
-            />
-          </div>
-          <div
-            :disabled="!item.btn_cancelar"
-            @click="item.btn_cancelar ? cancelaAto(item.token) : null"
-            title="Excluir"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/btn_cancela_lavratura.png"
-              alt="Cancelar"
-              title="Cancelar"
-            />
+          <div @click="item.btn_cancelar ? redirectToCancelamento(item) : null" title="Excluir"
+            :style="{ cursor: item.btn_cancelar ? 'pointer' : 'not-allowed' }">
+            <img :style="{
+              width: '30px',
+              height: '30px',
+              cursor: item.btn_cancelar ? 'pointer' : 'not-allowed',
+              opacity: item.btn_cancelar ? '1' : '0.5',
+            }" src="../../../assets/btn_cancela_lavratura.png" alt="Cancelar"
+              :title="item.btn_cancelar ? 'Cancelar' : 'Não permitido'" />
           </div>
           <div @click="digitalizeDocument(item.token)">
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/escanear.png"
-              alt="escanear"
-              title="escanear"
-            />
-          </div>
-          <div @click="deleteAto(item)" title="Excluir">
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px; cursor: pointer"
-              title="Excluir"
-            />
+            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../assets/escanear.png" alt="escanear"
+              title="escanear" />
           </div>
         </div>
       </template>
     </v-data-table>
   </div>
 
-  <ModalTiposAtos
-    v-if="modalVisible"
-    :show="modalVisible"
-    :servicos="dadosData.servicos || []"
-    :tiposAtos="dadosData.tiposAtos || []"
-    @close="modalVisible = false"
-    @updateAto="handleUpdateAto"
-  />
-  <ReimpressaoSelos
-    :show="isModalReimprimirOpen"
-    :ato_token="ato_token"
-    @close="isModalReimprimirOpen = false"
-  />
-  <RecebimentoOrdem
-    :show="isModalRecebimentoOpen"
-    :numero_os="numero_os"
-    :ordem="selectedOrder"
-    @close="isModalRecebimentoOpen = false"
-    @refresh-value="atosPayload()"
-  />
-  <ModalConfirmacao
-    :show="isModalCancelamentoOpen"
-    :condMessage="condMessage"
-    @close="isModalCancelamentoOpen = false"
-    @confirm="cancelaAto"
-  />
+  <ModalTiposAtos v-if="modalVisible" :show="modalVisible" :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []" @close="modalVisible = false" @updateAto="handleUpdateAto" />
+  <ReimpressaoSelos :show="isModalReimprimirOpen" :ato_token="ato_token" @close="isModalReimprimirOpen = false" />
+  <RecebimentoOrdem :show="isModalRecebimentoOpen" :numero_os="numero_os" :ordem="selectedOrder"
+    @close="isModalRecebimentoOpen = false" @refresh-value="atosPayload()" />
+  <ModalConfirmacao :show="isModalCancelamentoOpen" :condMessage="condMessage" @close="isModalCancelamentoOpen = false"
+    @confirm="cancelaAto" />
+  <ModalCancelamentoAto :show="isModalCancelamentoAtoOpen" :ato_token="ato_token"
+    @close="isModalCancelamentoAtoOpen = false" />
 </template>
 
 <script setup>
@@ -262,7 +144,6 @@ const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allTiposAtos = `${config.public.managemant}/listar_tipo_atos`;
-const cancelaLavratura = `${config.public.managemant}/cancela_lavratura`;
 const acionarScanner = `${config.public.biometria}/run-scanner?format=pdf`;
 const viewDoc = `${config.public.envioDoc}/upload`;
 const updateAto = `${config.public.managemant}/updateAtos`;
@@ -281,11 +162,14 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
-const condMessage = ref("");
+const isModalCancelamentoAtoOpen = ref(false);
+// const condMessage = ref("");
 const numero_os = ref(null);
 const selectedOrder = ref({});
 const isModalReimprimirOpen = ref(false);
 const ato_token = ref(null);
+
+
 
 const state = reactive({
   numero: null,
@@ -428,7 +312,7 @@ async function searchAtos() {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        numero: state.numero || null,
+        numero_os: state.numero || null,
         data_inicio: convertToISODate(state.data_inicio) || null,
         data_fim: convertToISODate(state.data_fim) || null,
         data_lavratura_inicio:
@@ -492,34 +376,12 @@ const redirectToModalReimprimir = (token) => {
   isModalReimprimirOpen.value = true;
 };
 
-async function deleteAto(item) {
-  item.excluido = !item.excluido;
-  try {
-    await fetchWithToken(`${updateAto}/${item.id}`, {
-      method: "PUT",
-      body: { excluido: item.excluido },
-    });
-  } catch (error) {
-    console.error("Erro ao excluir pessoa:", error);
-  }
-}
 
-const cancelaAto = async (ato_token) => {
-  const { data, status } = await useFetch(cancelaLavratura, {
-    method: "POST",
-    body: {
-      ato_token: ato_token,
-      user_token: usuario_token.value,
-      cancelar_selo: false,
-    },
-  });
-  if (status.value === "success" && data.value[0].status === "OK") {
-    $toast.success("Lavratura cancelada com sucesso!");
-  } else if (data.value[0].status === "ERRO") {
-    isModalCancelamentoOpen.value = true;
-    condMessage.value = data.value[0].status_mensagem;
-  }
-};
+function redirectToCancelamento(item) {
+  numero_os.value = item.numero;
+  ato_token.value = item.token;
+  isModalCancelamentoAtoOpen.value = true;
+}
 
 const redirectToUpdateAto = (item) => {
   redirectTo({

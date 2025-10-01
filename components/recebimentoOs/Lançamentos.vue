@@ -3,12 +3,8 @@
     <v-row class="mb-5">
       <h1>Lançamentos do caixa</h1>
       <NuxtLink to="/caixas/cadastro">
-        <img
-          style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px"
-          src="../../assets/novo.png"
-          alt="novo"
-          @click="redirectCreateCaixa"
-        />
+        <img style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px" src="../../assets/novo.png"
+          alt="novo" @click="redirectCreateCaixa" />
       </NuxtLink>
     </v-row>
     <v-row>
@@ -23,41 +19,21 @@
     <v-data-table :headers="headers" :items="filteredItems" item-key="id">
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 4px; margin-top: -5px">
-          <div
-            style="cursor: pointer"
-            @click="HandleDelete(item)"
-            title="Cancelamento"
-          >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
+          <div style="cursor: pointer" @click="HandleDelete(item)" title="Cancelamento">
+            <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../assets/excluido.png" alt="Visualizar"
+              title="Reativar" />
+            <img v-else src="../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
+              style="width: 30px; height: 30px" title="Excluir" />
           </div>
         </v-row>
       </template>
     </v-data-table>
-    <ModalConfirmacao
-      @confirm="encerrarCaixaLancamento(selectedOrder)"
-      :condMessage="condMessage"
-      :show="isModalCancelamentoOpen"
-      @close="isModalCancelamentoOpen = false"
-    />
+    <ModalConfirmacao @confirm="encerrarCaixaLancamento(selectedOrder)" :condMessage="condMessage"
+      :show="isModalCancelamentoOpen" @close="isModalCancelamentoOpen = false" />
   </v-container>
   <v-rows>
     <v-cols>
-      <v-btn class="ml-8" size="large" @click="goBack" color="red"
-        >Voltar
+      <v-btn class="ml-8" size="large" @click="goBack" color="red">Voltar
       </v-btn>
     </v-cols>
   </v-rows>
