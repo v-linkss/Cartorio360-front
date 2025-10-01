@@ -342,7 +342,24 @@ const updateImovelModal = async (id) => {
     }
   });
 
-  ["vlr_avaliacao", "vlr_mercado", "aliq_itbi", "vlr_itbi"].forEach((campo) => {
+  const valorRecebido = Number(
+    (state.vlr_pago_dinheiro || "0").toString().replace(/,/g, "")
+  );
+
+  if (valorRecebido === 0 && !state.sem_recebimento) {
+    $toast.error(
+      "É obrigatório marcar a declaração quando não houver recebimento em espécie."
+    );
+    return;
+  }
+
+  [
+    "vlr_avaliacao",
+    "vlr_mercado",
+    "aliq_itbi",
+    "vlr_itbi",
+    "vlr_pago_dinheiro",
+  ].forEach((campo) => {
     if (updatedValues[campo]) {
       updatedValues[campo] = updatedValues[campo]?.toString().replace(/,/g, "");
     }
