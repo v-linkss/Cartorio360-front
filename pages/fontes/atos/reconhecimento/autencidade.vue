@@ -118,16 +118,17 @@
     :errorMessage="errorMessage"
     @close="errorModalVisible = false"
   />
+  <ModalValidadorAutencidade
+    :show="isValidadorModalOpen"
+    @close="isValidadorModalOpen = false"
+    @confirm="handleValidadorConfirm"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
-      class="ml-5"
-      @click="reconhecerAtoAutencidade"
-      size="large"
-      color="green"
+    <v-btn class="ml-5" @click="onSaveClick" size="large" color="green"
       >Salvar</v-btn
     >
   </v-row>
@@ -166,6 +167,8 @@ const isModalFichaOpen = ref(false);
 const selectedItem = ref(null);
 const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
+
+const isValidadorModalOpen = ref(false);
 
 const headers = [
   {
@@ -242,6 +245,15 @@ function removeFormValueFromTable(item) {
   );
 }
 
+function onSaveClick() {
+  isValidadorModalOpen.value = true;
+}
+
+function handleValidadorConfirm() {
+  isValidadorModalOpen.value = false;
+  reconhecerAtoAutencidade();
+}
+
 async function reconhecerAtoAutencidade() {
   if (!state.escrevente) {
     $toast.error("Por favor selecione um Escrevente");
@@ -263,6 +275,12 @@ async function reconhecerAtoAutencidade() {
       },
     });
     if (status.value === "success" && data.value[0].status === "OK") {
+      if(data.value[0].livro && data.value[0].livro !== null) {
+        const newWindow = window.open("", "_blank");
+        newWindow.document.open();
+        newWindow.document.write(data.value[0].livro);
+        newWindow.document.close();
+      }
       reconhecerEtiquetaAutencidade(data.value[0].token);
       goBack();
     } else {
