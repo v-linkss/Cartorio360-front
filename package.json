@@ -5,8 +5,8 @@
   "scripts": {
     "pm2": "pm2 start .output/server/index.mjs --name 'cartorio360-front-produção' --watch -- 3000",
     "pm2-stop": "pm2 stop cartorio360-front-produção",
-    "build:dev": "echo 'Building for production from develop branch' && node build-confirm.js ",
-    "build:prod": "echo 'Building for production from main branch' && node build-confirm.js ",
+    "build:dev": "echo 'Building for development' && cross-env BUILD_MODE=dev node build-confirm.js",
+    "build:prod": "echo 'Building for production' && cross-env BUILD_MODE=prod node build-confirm.js",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -38,6 +38,7 @@
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
     "@types/vue-the-mask": "^0.11.5",
+    "cross-env": "^10.1.0",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.6.11"
   }
