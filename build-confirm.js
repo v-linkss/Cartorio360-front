@@ -68,7 +68,6 @@ rl.question(
       });
 
       buildProcess.on("close", (code) => {
-        console.log(`Build finalizado com código ${code}`);
         rl.close();
       });
     } else {
