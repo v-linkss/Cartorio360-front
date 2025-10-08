@@ -213,7 +213,8 @@ async function reconhecerAtoAutencidade() {
       },
     });
     if (status.value === "success" && data.value[0].status === "OK") {
-      if(data.value[0].livro && data.value[0].livro !== null) {
+      if (data.value[0].livro && data.value[0].livro !== null) {
+        console.log("############################ livro valido")
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
         newWindow.document.write(data.value[0].livro);
