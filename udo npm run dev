@@ -1,0 +1,15 @@
+* [32mdevelop[m
+  feature/cancela_ato[m
+  feature/divorcio[m
+  feature/recupera_senha_main[m
+  feature/upload_arquivo_texto[m
+  fix-cancelamento-button[m
+  fix/chat_bot[m
+  fix/divorcio[m
+  main[m
+  refact/build[m
+  refact/divorcio[m
+  refact/integracao_CENSEC_atualizacao[m
+  refact/reconhecimento_atenticidade[m
+  rotfix/formatacao_valor_ben[m
+  validator-autencidade[m

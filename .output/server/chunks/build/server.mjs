@@ -705,7 +705,7 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
-    component: () => import('./censec-n2jGuPdJ.mjs')
+    component: () => import('./censec-JYNOri2P.mjs')
   },
   {
     name: "integracao-importa-onrtd",
