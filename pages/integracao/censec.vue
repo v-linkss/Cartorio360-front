@@ -9,19 +9,17 @@
       <div class="mb-6">
         <h3 class="text-h6 mb-2">Período de Consulta</h3>
         <v-row>
-          <v-col cols="12" md="1">
+          <v-col cols="12" md="2">
             <v-text-field v-model="state.data_inicio" label="Data Inicio" placeholder="dd/mm/yyyy"
               v-mask="'##/##/####'"></v-text-field>
           </v-col>
-          <v-col cols="12" md="1">
+          <v-col cols="12" md="2">
             <v-text-field v-model="state.data_fim" label="Data Fim" placeholder="dd/mm/yyyy"
               v-mask="'##/##/####'"></v-text-field>
           </v-col>
         </v-row>
       </div>
-
       <v-divider class="my-6"></v-divider>
-
       <!-- Seção de Tipo de Validação -->
       <div class="mb-6">
         <v-row>
