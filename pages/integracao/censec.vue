@@ -19,9 +19,7 @@
           </v-col>
         </v-row>
       </div>
-
       <v-divider class="my-6"></v-divider>
-
       <!-- Seção de Tipo de Validação -->
       <div class="mb-6">
         <v-row>
