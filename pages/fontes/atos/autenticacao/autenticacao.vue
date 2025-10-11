@@ -27,8 +27,12 @@
           <v-btn class="ml-4" size="large" color="red">Voltar</v-btn>
         </NuxtLink>
 
-        <v-btn class="ml-4" size="large" color="green" @click="atoAutentica"
-          >Salvar</v-btn
+        <SaveButton
+          class="ml-4"
+          size="large"
+          color="green"
+          :onSave="atoAutentica"
+          >Salvar</SaveButton
         >
       </v-row>
     </v-container>
@@ -122,6 +126,7 @@ const etiquetaAutentica = async (ato_token) => {
     },
   });
   if (status.value === "success") {
+    $toast.success("Ato autenticado com sucesso!");
     if (data.value.tipo_etiqueta === "html") {
       const newWindow = window.open("", "_blank");
       newWindow.document.open();
@@ -135,6 +140,7 @@ const etiquetaAutentica = async (ato_token) => {
         },
       });
       if (zplStatus.value !== "success") {
+        goBack();
         $toast.error("Não foi possivel fazer a impressao da etiqueta");
         return;
       }

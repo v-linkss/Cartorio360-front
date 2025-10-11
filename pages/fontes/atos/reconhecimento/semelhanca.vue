@@ -124,13 +124,13 @@
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
+    <SaveButton
       class="ml-5"
-      @click="reconhecerAtoSemelhanca"
+      :onSave="reconhecerAtoSemelhanca"
       size="large"
       color="green"
-      >Salvar</v-btn
-    >
+      >Salvar
+    </SaveButton>
   </v-row>
   <ErrorModalCard
     :show="errorModalVisible"
@@ -271,12 +271,16 @@ async function reconhecerAtoSemelhanca() {
 
     if (status.value === "success" && data.value[0].status === "OK") {
       reconhecerEtiquetaSemelhanca(data.value[0].token);
+      goBack();
     } else {
+      goBack();
       errorModalVisible.value = true;
       errorMessage.value =
         ato_token.value.status_mensagem || error.value.data.details;
     }
   } catch (error) {
+    goBack();
+    $toast.error("Erro ao reconhecer o ato");
     console.error("Erro na requisição", error);
   }
 }
@@ -305,12 +309,15 @@ async function reconhecerEtiquetaSemelhanca(token) {
           },
         });
         if (zplStatus.value !== "success") {
+          goBack();
           $toast.error("Não foi possivel fazer a impressao da etiqueta");
           return;
         }
       }
     }
   } catch (error) {
+    goBack();
+    $toast.error("Erro ao reconhecer a etiqueta");
     console.error("Erro na requisição", error);
   }
 }
