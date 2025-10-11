@@ -1,8 +1,14 @@
 <template>
   <v-row class="mt-5">
     <v-col cols="5">
-      <v-autocomplete label="Tabelião/escrevente" v-model="state.escrevente" :items="escreventesItems" item-title="nome"
-        item-value="token" required>
+      <v-autocomplete
+        label="Tabelião/escrevente"
+        v-model="state.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
       </v-autocomplete>
     </v-col>
     <v-col cols="2">
@@ -20,53 +26,111 @@
     </v-col>
 
     <div>
-      <img class="btn-pointer mt-1" src="../../../../assets/visualizar.png" style="width: 40px; cursor: pointer"
-        title="Pesquisar Pessoa" @click="searchPessoasService" />
+      <img
+        class="btn-pointer mt-1"
+        src="../../../../assets/visualizar.png"
+        style="width: 40px; cursor: pointer"
+        title="Pesquisar Pessoa"
+        @click="searchPessoasService"
+      />
     </div>
     <div>
-      <img class="btn-pointer mt-1 ml-2" src="../../../../assets/novo.png" style="width: 40px; cursor: pointer"
-        title="Criar Pessoa" @click="createPessoa" />
+      <img
+        class="btn-pointer mt-1 ml-2"
+        src="../../../../assets/novo.png"
+        style="width: 40px; cursor: pointer"
+        title="Criar Pessoa"
+        @click="createPessoa"
+      />
     </div>
   </v-row>
 
   <v-row>
     <v-col class="mr-10">
-      <v-data-table style="height: 465px" :headers="headers" :items="pessoasItems">
+      <v-data-table
+        style="height: 465px"
+        :headers="headers"
+        :items="pessoasItems"
+      >
         <template v-slot:item.actions="{ item }">
-          <div style="display: flex; cursor: pointer; justify-content: flex-end" @click="redirectToFicha(item)"
-            title="Visualizar Ficha">
-            <img v-if="item.link_ficha" style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar.png" alt="Possui Ficha" title="Possui Ficha" />
-            <img v-else style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar-vermelho.png" alt="Visualizar" title="Não Possui Ficha" />
+          <div
+            style="display: flex; cursor: pointer; justify-content: flex-end"
+            @click="redirectToFicha(item)"
+            title="Visualizar Ficha"
+          >
+            <img
+              v-if="item.link_ficha"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar.png"
+              alt="Possui Ficha"
+              title="Possui Ficha"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar-vermelho.png"
+              alt="Visualizar"
+              title="Não Possui Ficha"
+            />
           </div>
         </template>
       </v-data-table>
     </v-col>
 
     <v-col>
-      <v-data-table :headers="headers" :items="selectedObjects" style="height: 465px" item-key="id">
+      <v-data-table
+        :headers="headers"
+        :items="selectedObjects"
+        style="height: 465px"
+        item-key="id"
+      >
         <template v-slot:item.actions="{ item }">
-          <div style="display: flex; justify-content: flex-end" @click="removeFormValueFromTable(item)" title="Remover">
-            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../../assets/mudarStatus.png"
-              alt="Remover" />
+          <div
+            style="display: flex; justify-content: flex-end"
+            @click="removeFormValueFromTable(item)"
+            title="Remover"
+          >
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/mudarStatus.png"
+              alt="Remover"
+            />
           </div>
         </template>
       </v-data-table>
     </v-col>
   </v-row>
-  <ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false" />
-  <ModalFichaCard v-if="isModalFichaOpen" :show="isModalFichaOpen" :item="selectedItem" :pessoa-obj="selectedItem"
-    :link-view="linkFichaPessoa" @confirmar="confirmItem(selectedItem)" @close="isModalFichaOpen = false" />
-  <ErrorModalCard :show="errorModalVisible" :errorMessage="errorMessage" @close="errorModalVisible = false" />
-  <ModalValidadorAutencidade :show="isValidadorModalOpen" @close="isValidadorModalOpen = false"
-    @confirm="handleValidadorConfirm" />
+  <ModalRegistroPessoas
+    :show="isModalRegistroOpen"
+    @close="isModalRegistroOpen = false"
+  />
+  <ModalFichaCard
+    v-if="isModalFichaOpen"
+    :show="isModalFichaOpen"
+    :item="selectedItem"
+    :pessoa-obj="selectedItem"
+    :link-view="linkFichaPessoa"
+    @confirmar="confirmItem(selectedItem)"
+    @close="isModalFichaOpen = false"
+  />
+  <ErrorModalCard
+    :show="errorModalVisible"
+    :errorMessage="errorMessage"
+    @close="errorModalVisible = false"
+  />
+  <ModalValidadorAutencidade
+    :show="isValidadorModalOpen"
+    @close="isValidadorModalOpen = false"
+    @confirm="handleValidadorConfirm"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn class="ml-5" @click="onSaveClick" size="large" color="green">Salvar</v-btn>
+    <SaveButton :onSave="onSaveClick" class="ml-5" size="large" color="green"
+      >Salvar</SaveButton
+    >
   </v-row>
 </template>
 
@@ -103,6 +167,7 @@ const isModalFichaOpen = ref(false);
 const selectedItem = ref(null);
 const linkFichaPessoa = ref(null);
 const errorMessage = ref("");
+const resolveSavePromise = ref(null);
 
 const isValidadorModalOpen = ref(false);
 
@@ -184,18 +249,28 @@ function removeFormValueFromTable(item) {
 }
 
 function onSaveClick() {
-  isValidadorModalOpen.value = true;
+  return new Promise((resolve) => {
+    resolveSavePromise.value = resolve;
+    isValidadorModalOpen.value = true;
+  });
 }
 
-function handleValidadorConfirm() {
+async function handleValidadorConfirm() {
   isValidadorModalOpen.value = false;
-  reconhecerAtoAutencidade();
+  try {
+    await reconhecerAtoAutencidade();
+  } finally {
+    if (resolveSavePromise.value) {
+      resolveSavePromise.value();
+      resolveSavePromise.value = null;
+    }
+  }
 }
 
 async function reconhecerAtoAutencidade() {
   if (!state.escrevente) {
     $toast.error("Por favor selecione um Escrevente");
-    return;
+    throw new Error("Escrevente não selecionado");
   }
   try {
     const selectedTokens = selectedObjects.value.map((item) => {
@@ -214,7 +289,6 @@ async function reconhecerAtoAutencidade() {
     });
     if (status.value === "success" && data.value[0].status === "OK") {
       if (data.value[0].livro && data.value[0].livro !== null) {
-        console.log("############################ livro valido")
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
         newWindow.document.write(data.value[0].livro);
@@ -224,6 +298,7 @@ async function reconhecerAtoAutencidade() {
       reconhecerEtiquetaAutencidade(data.value[0].token);
       goBack();
     } else {
+      goBack();
       errorModalVisible.value = true;
       errorMessage.value =
         (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
@@ -231,6 +306,7 @@ async function reconhecerAtoAutencidade() {
         "Não foi possível concluir o reconhecimento";
     }
   } catch (error) {
+    goBack();
     errorModalVisible.value = true;
     errorMessage.value = error;
     console.error("Erro na requisição", error);
@@ -267,12 +343,15 @@ async function reconhecerEtiquetaAutencidade(token) {
           },
         });
         if (zplStatus.value !== "success") {
+          goBack();
           $toast.error("Não foi possivel fazer a impressao da etiqueta");
           return;
         }
       }
     }
   } catch (error) {
+    goBack();
+    $toast.error("Erro ao reconhecer a etiqueta");
     console.error("Erro na requisição", error);
   }
 }

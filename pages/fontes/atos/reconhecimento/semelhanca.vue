@@ -1,12 +1,22 @@
 <template>
   <v-row class="mt-5">
     <v-col cols="5">
-      <v-autocomplete label="Tabelião/escrevente" v-model="stateSemelhanca.escrevente" :items="escreventesItems"
-        item-title="nome" item-value="token" required>
+      <v-autocomplete
+        label="Tabelião/escrevente"
+        v-model="stateSemelhanca.escrevente"
+        :items="escreventesItems"
+        item-title="nome"
+        item-value="token"
+        required
+      >
       </v-autocomplete>
     </v-col>
     <v-col cols="2">
-      <v-text-field label="Quantidade" type="number" v-model="stateSemelhanca.quantidade">
+      <v-text-field
+        label="Quantidade"
+        type="number"
+        v-model="stateSemelhanca.quantidade"
+      >
       </v-text-field>
     </v-col>
   </v-row>
@@ -22,52 +32,111 @@
     </v-col>
 
     <div>
-      <img class="btn-pointer mt-3" src="../../../../assets/visualizar.png" style="width: 40px; cursor: pointer"
-        title="Pesquisar Pessoa" @click="searchPessoasService" />
+      <img
+        class="btn-pointer mt-3"
+        src="../../../../assets/visualizar.png"
+        style="width: 40px; cursor: pointer"
+        title="Pesquisar Pessoa"
+        @click="searchPessoasService"
+      />
     </div>
     <div>
-      <img class="btn-pointer mt-3 ml-2" src="../../../../assets/novo.png" style="width: 40px; cursor: pointer"
-        title="Criar Pessoa" @click="createPessoa" />
+      <img
+        class="btn-pointer mt-3 ml-2"
+        src="../../../../assets/novo.png"
+        style="width: 40px; cursor: pointer"
+        title="Criar Pessoa"
+        @click="createPessoa"
+      />
     </div>
   </v-row>
 
   <v-row>
     <v-col class="mr-10">
-      <v-data-table style="height: 465px" :headers="headers" :items="pessoasItems">
+      <v-data-table
+        style="height: 465px"
+        :headers="headers"
+        :items="pessoasItems"
+      >
         <template v-slot:item.actions="{ item }">
-          <div style="display: flex; cursor: pointer; justify-content: flex-end" @click="redirectToFicha(item)"
-            title="Visualizar Ficha">
-            <img v-if="item.link_ficha" style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar.png" alt="Possui Ficha" title="Possui Ficha" />
-            <img v-else style="width: 30px; height: 30px; cursor: pointer"
-              src="../../../../assets/visualizar-vermelho.png" alt="Visualizar" title="Não Possui Ficha" />
+          <div
+            style="display: flex; cursor: pointer; justify-content: flex-end"
+            @click="redirectToFicha(item)"
+            title="Visualizar Ficha"
+          >
+            <img
+              v-if="item.link_ficha"
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar.png"
+              alt="Possui Ficha"
+              title="Possui Ficha"
+            />
+            <img
+              v-else
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/visualizar-vermelho.png"
+              alt="Visualizar"
+              title="Não Possui Ficha"
+            />
           </div>
         </template>
       </v-data-table>
     </v-col>
 
     <v-col>
-      <v-data-table :headers="headers" :items="selectedObjects" style="height: 465px" item-key="id">
+      <v-data-table
+        :headers="headers"
+        :items="selectedObjects"
+        style="height: 465px"
+        item-key="id"
+      >
         <template v-slot:item.actions="{ item }">
-          <div style="display: flex; justify-content: flex-end" @click="removeFormValueFromTable(item)" title="Remover">
-            <img style="width: 30px; height: 30px; cursor: pointer" src="../../../../assets/mudarStatus.png"
-              alt="Remover" />
+          <div
+            style="display: flex; justify-content: flex-end"
+            @click="removeFormValueFromTable(item)"
+            title="Remover"
+          >
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../../assets/mudarStatus.png"
+              alt="Remover"
+            />
           </div>
         </template>
       </v-data-table>
     </v-col>
   </v-row>
-  <ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false" />
-  <ModalFichaCard v-if="isModalFichaOpen" :show="isModalFichaOpen" :item="selectedItem" :pessoa-obj="selectedItem"
-    :link-view="linkFichaPessoa" @confirmar="confirmItem(selectedItem)" @close="isModalFichaOpen = false" />
+  <ModalRegistroPessoas
+    :show="isModalRegistroOpen"
+    @close="isModalRegistroOpen = false"
+  />
+  <ModalFichaCard
+    v-if="isModalFichaOpen"
+    :show="isModalFichaOpen"
+    :item="selectedItem"
+    :pessoa-obj="selectedItem"
+    :link-view="linkFichaPessoa"
+    @confirmar="confirmItem(selectedItem)"
+    @close="isModalFichaOpen = false"
+  />
   <v-row>
     <NuxtLink @click="goBack">
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn class="ml-5" @click="reconhecerAtoSemelhanca" size="large" color="green">Salvar</v-btn>
+    <SaveButton
+      class="ml-5"
+      :onSave="reconhecerAtoSemelhanca"
+      size="large"
+      color="green"
+      >Salvar
+    </SaveButton>
   </v-row>
-  <ErrorModalCard :show="errorModalVisible" :errorMessage="errorMessage" @close="errorModalVisible = false" />
+  <ErrorModalCard
+    :show="errorModalVisible"
+    :errorMessage="errorMessage"
+    @close="errorModalVisible = false"
+  />
 </template>
 
 <script setup>
@@ -208,7 +277,9 @@ async function reconhecerAtoSemelhanca() {
       data.value[0]?.status === "OK"
     ) {
       reconhecerEtiquetaSemelhanca(data.value[0].token);
+      goBack();
     } else {
+      goBack();
       errorModalVisible.value = true;
       errorMessage.value =
         (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
@@ -216,6 +287,8 @@ async function reconhecerAtoSemelhanca() {
         "Não foi possível concluir o reconhecimento";
     }
   } catch (error) {
+    goBack();
+    $toast.error("Erro ao reconhecer o ato");
     console.error("Erro na requisição", error);
   }
 }
@@ -244,12 +317,15 @@ async function reconhecerEtiquetaSemelhanca(token) {
           },
         });
         if (zplStatus.value !== "success") {
+          goBack();
           $toast.error("Não foi possivel fazer a impressao da etiqueta");
           return;
         }
       }
     }
   } catch (error) {
+    goBack();
+    $toast.error("Erro ao reconhecer a etiqueta");
     console.error("Erro na requisição", error);
   }
 }
