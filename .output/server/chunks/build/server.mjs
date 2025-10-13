@@ -675,7 +675,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-9SiUTgFF.mjs')
+    component: () => import('./autenticacao-CFBwqHzi.mjs')
   },
   {
     name: "fontes-atos-divorcio-atualizar-id",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-Dk0CZijF.mjs')
+    component: () => import('./criar-ato-CctFbf0x.mjs')
   },
   {
     name: "os-criar-registro",

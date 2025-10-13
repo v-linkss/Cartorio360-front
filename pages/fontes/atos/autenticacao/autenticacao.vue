@@ -59,7 +59,7 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
-
+const { $toast } = useNuxtApp();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -107,7 +107,7 @@ const atoAutentica = async () => {
       },
     });
     if (status.value === "success" && ato_token.value.status === "OK") {
-      etiquetaAutentica(ato_token.value.token);
+      await etiquetaAutentica(ato_token.value.token);
     } else {
       errorModalVisible.value = true;
       errorMessage.value =
