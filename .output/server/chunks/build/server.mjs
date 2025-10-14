@@ -630,9 +630,9 @@ const _routes = [
     component: () => import('./index-CVQ2Bx3S.mjs')
   },
   {
-    name: "cancela_ato",
-    path: "/cancela_ato",
-    component: () => import('./index-DDZOvckS.mjs')
+    name: "cancela_lavratura",
+    path: "/cancela_lavratura",
+    component: () => import('./index-8W4VBH61.mjs')
   },
   {
     name: "carregar_arquivo_texto",
@@ -675,7 +675,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CFBwqHzi.mjs')
+    component: () => import('./autenticacao-CzHg5f4R.mjs')
   },
   {
     name: "fontes-atos-divorcio-atualizar-id",
@@ -695,12 +695,12 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-CLHg3iP0.mjs')
+    component: () => import('./autencidade-DBaPcq7m.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-BlfoWEp9.mjs')
+    component: () => import('./semelhanca-DM4NqR2U.mjs')
   },
   {
     name: "index",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-CctFbf0x.mjs')
+    component: () => import('./criar-ato-BhrBx5Oj.mjs')
   },
   {
     name: "os-criar-registro",

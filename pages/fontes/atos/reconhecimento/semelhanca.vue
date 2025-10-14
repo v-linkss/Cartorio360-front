@@ -135,7 +135,7 @@
   <ErrorModalCard
     :show="errorModalVisible"
     :errorMessage="errorMessage"
-    @close="errorModalVisible = false"
+    @close="returnToPreviousPage"
   />
 </template>
 
@@ -198,7 +198,7 @@ const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
-// Proteção para resposta vazia/inesperada em produção
+
 escreventesItems.value =
   (Array.isArray(data.value) && data.value[0]?.func_json_escreventes) || [];
 
@@ -287,8 +287,11 @@ async function reconhecerAtoSemelhanca() {
         "Não foi possível concluir o reconhecimento";
     }
   } catch (error) {
-    goBack();
-    $toast.error("Erro ao reconhecer o ato");
+    errorModalVisible.value = true;
+    errorMessage.value =
+      ato_token.value.status_mensagem ||
+      error.value.data.details ||
+      "erro na requisição";
     console.error("Erro na requisição", error);
   }
 }
@@ -317,18 +320,26 @@ async function reconhecerEtiquetaSemelhanca(token) {
           },
         });
         if (zplStatus.value !== "success") {
-          goBack();
-          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          errorModalVisible.value = true;
+          errorMessage.value = error.value.data.message;
           return;
         }
       }
     }
   } catch (error) {
-    goBack();
-    $toast.error("Erro ao reconhecer a etiqueta");
+    errorModalVisible.value = true;
+    errorMessage.value =
+      ato_token.value.status_mensagem ||
+      error.value.data.details ||
+      "erro na requisição";
     console.error("Erro na requisição", error);
   }
 }
+
+const returnToPreviousPage = () => {
+  errorModalVisible.value = false;
+  goBack();
+};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

@@ -39,7 +39,7 @@
     <ErrorModalCard
       :show="errorModalVisible"
       :errorMessage="errorMessage"
-      @close="errorModalVisible = false"
+      @close="returnToPreviousPage"
     />
   </v-card>
 </template>
@@ -117,7 +117,7 @@ const atoAutentica = async () => {
 };
 
 const etiquetaAutentica = async (ato_token) => {
-  const { data, status } = await fetchWithToken(autenticaEtiquetas, {
+  const { data, status, error } = await fetchWithToken(autenticaEtiquetas, {
     method: "POST",
     body: {
       escrevente_token: state.escrevente,
@@ -133,20 +133,25 @@ const etiquetaAutentica = async (ato_token) => {
       newWindow.document.write(data.value.etiqueta);
       newWindow.document.close();
     } else if (data.value.tipo_etiqueta === "zpl") {
-      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+      const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
         method: "POST",
         body: {
           zpl: atob(data.value.etiqueta),
         },
       });
       if (zplStatus.value !== "success") {
-        goBack();
-        $toast.error("Não foi possivel fazer a impressao da etiqueta");
+        errorModalVisible.value = true;
+        errorMessage.value = error.value.data.message;
         return;
       }
     }
     goBack();
   }
+};
+
+const returnToPreviousPage = () => {
+  errorModalVisible.value = false;
+  goBack();
 };
 
 const goBack = () => {

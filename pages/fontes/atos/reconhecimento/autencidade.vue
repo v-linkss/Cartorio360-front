@@ -116,7 +116,7 @@
   <ErrorModalCard
     :show="errorModalVisible"
     :errorMessage="errorMessage"
-    @close="errorModalVisible = false"
+    @close="returnToPreviousPage"
   />
   <ModalValidadorAutencidade
     :show="isValidadorModalOpen"
@@ -294,9 +294,7 @@ async function reconhecerAtoAutencidade() {
         newWindow.document.write(data.value[0].livro);
         newWindow.document.close();
       }
-      console.log("Mostrando Livro");
       reconhecerEtiquetaAutencidade(data.value[0].token);
-      goBack();
     } else {
       goBack();
       errorModalVisible.value = true;
@@ -306,13 +304,11 @@ async function reconhecerAtoAutencidade() {
         "Não foi possível concluir o reconhecimento";
     }
   } catch (error) {
-    goBack();
     errorModalVisible.value = true;
     errorMessage.value = error;
     console.error("Erro na requisição", error);
   }
 }
-
 
 async function reconhecerEtiquetaAutencidade(token) {
   try {
@@ -329,8 +325,6 @@ async function reconhecerEtiquetaAutencidade(token) {
       const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
       if (!etiquetaResp) return;
       if (etiquetaResp.tipo_etiqueta === "html") {
-        console.log("Abrindo Etiqueta HTML");
-
         const newWindow = window.open("", "_blank");
         newWindow.document.open();
         newWindow.document.write(etiquetaResp.etiqueta);
@@ -343,18 +337,22 @@ async function reconhecerEtiquetaAutencidade(token) {
           },
         });
         if (zplStatus.value !== "success") {
-          goBack();
-          $toast.error("Não foi possivel fazer a impressao da etiqueta");
+          errorModalVisible.value = true;
+          errorMessage.value = error.value.data.message;
           return;
         }
       }
     }
   } catch (error) {
-    goBack();
     $toast.error("Erro ao reconhecer a etiqueta");
     console.error("Erro na requisição", error);
   }
 }
+
+const returnToPreviousPage = () => {
+  errorModalVisible.value = false;
+  goBack();
+};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";
