@@ -158,21 +158,25 @@
             :disabled="!item.btn_cancelar"
             @click="item.btn_cancelar ? redirectToCancelamento(item) : null"
             title="Cancelamento"
+            :style="{
+              opacity: item.btn_cancelar ? 1 : 0.5,
+              cursor: item.btn_cancelar ? 'pointer' : 'not-allowed',
+            }"
           >
             <img
-              v-if="!item.btn_cancelar"
+              v-if="item.excluido"
               style="width: 30px; height: 30px"
               src="../../../assets/excluido.png"
               alt="Visualizar"
-              title="Não Permitido"
+              title="Reativar"
             />
             <img
               v-else
               src="../../../assets/mudarStatus.png"
               alt="Cancelamento"
               class="trash-icon"
-              style="width: 30px; height: 30px; cursor: pointer"
-              title="Cancelamento"
+              style="width: 30px; height: 30px"
+              title="Excluir"
             />
           </div>
         </v-row>
