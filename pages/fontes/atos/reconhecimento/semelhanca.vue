@@ -258,81 +258,67 @@ async function reconhecerAtoSemelhanca() {
   const selectedTokens = selectedObjects.value.map((item) => {
     return { pessoa_token: item.token };
   });
-  try {
-    const { data, error, status } = await useFetch(reconhecerPessoa, {
-      method: "POST",
-      body: {
-        pessoas: selectedTokens,
-        cartorio_token: cartorio_token.value,
-        ordemserv_token: ordemserv_token,
-        quantidade: stateSemelhanca.quantidade,
-        usuario_token: usuario_token,
-        ato_tipo_token: props.ato_token,
-      },
-    });
 
-    if (
-      status.value === "success" &&
-      Array.isArray(data.value) &&
-      data.value[0]?.status === "OK"
-    ) {
-      reconhecerEtiquetaSemelhanca(data.value[0].token);
-      goBack();
-    } else {
-      goBack();
-      errorModalVisible.value = true;
-      errorMessage.value =
-        (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
-        error?.value?.data?.details ||
-        "Não foi possível concluir o reconhecimento";
-    }
-  } catch (error) {
+  const { data, error, status } = await useFetch(reconhecerPessoa, {
+    method: "POST",
+    body: {
+      pessoas: selectedTokens,
+      cartorio_token: cartorio_token.value,
+      ordemserv_token: ordemserv_token,
+      quantidade: stateSemelhanca.quantidade,
+      usuario_token: usuario_token,
+      ato_tipo_token: props.ato_token,
+    },
+  });
+
+  if (
+    status.value === "success" &&
+    Array.isArray(data.value) &&
+    data.value[0]?.status === "OK"
+  ) {
+    reconhecerEtiquetaSemelhanca(data.value[0].token);
+  } else {
+    goBack();
     errorModalVisible.value = true;
     errorMessage.value =
-      ato_token.value.status_mensagem ||
-      error.value.data.details ||
-      "erro na requisição";
-    console.error("Erro na requisição", error);
+      (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
+      error?.value?.data?.details ||
+      "Não foi possível concluir o reconhecimento";
   }
 }
 
 async function reconhecerEtiquetaSemelhanca(token) {
-  try {
-    const { data, error, status } = await useFetch(etiquetaSemelhanca, {
-      method: "POST",
-      body: {
-        ato_token: token,
-        cartorio_token: cartorio_token.value,
-        escrevente_token: stateSemelhanca.escrevente,
-      },
-    });
-    if (status.value === "success") {
-      if (data.value[0].tipo_etiqueta === "html") {
-        const newWindow = window.open("", "_blank");
-        newWindow.document.open();
-        newWindow.document.write(data.value[0].etiqueta);
-        newWindow.document.close();
-      } else if (data.value[0].tipo_etiqueta === "zpl") {
-        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+  const { data, error, status } = await useFetch(etiquetaSemelhanca, {
+    method: "POST",
+    body: {
+      ato_token: token,
+      cartorio_token: cartorio_token.value,
+      escrevente_token: stateSemelhanca.escrevente,
+    },
+  });
+  if (status.value === "success") {
+    if (data.value[0].tipo_etiqueta === "html") {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value[0].etiqueta);
+      newWindow.document.close();
+    } else if (data.value[0].tipo_etiqueta === "zpl") {
+      const { status: zplStatus, error: zplError } = await useFetch(
+        `${imprimeZplSelo}`,
+        {
           method: "POST",
           body: {
             zpl: atob(data.value[0].etiqueta),
           },
-        });
-        if (zplStatus.value !== "success") {
-          errorModalVisible.value = true;
-          errorMessage.value = error.value.data.message;
-          return;
         }
+      );
+      if (zplStatus.value !== "success") {
+        errorModalVisible.value = true;
+        errorMessage.value = zplError.value.data.message;
+        return;
       }
     }
-  } catch (error) {
-    errorModalVisible.value = true;
-    errorMessage.value =
-      ato_token.value.status_mensagem ||
-      error.value.data.details ||
-      "erro na requisição";
-    console.error("Erro na requisição", error);
+    goBack();
   }
 }
 

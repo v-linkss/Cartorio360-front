@@ -272,80 +272,71 @@ async function reconhecerAtoAutencidade() {
     $toast.error("Por favor selecione um Escrevente");
     throw new Error("Escrevente não selecionado");
   }
-  try {
-    const selectedTokens = selectedObjects.value.map((item) => {
-      return { pessoa_token: item.token };
-    });
-    const { data, error, status } = await useFetch(reconhecerPessoa, {
-      method: "POST",
-      body: {
-        pessoas: selectedTokens,
-        cartorio_token: cartorio_token.value,
-        ordemserv_token: ordemserv_token,
-        quantidade: state.quantidade,
-        usuario_token: usuario_token,
-        ato_tipo_token: props.ato_token,
-      },
-    });
-    if (status.value === "success" && data.value[0].status === "OK") {
-      if (data.value[0].livro && data.value[0].livro !== null) {
-        const newWindow = window.open("", "_blank");
-        newWindow.document.open();
-        newWindow.document.write(data.value[0].livro);
-        newWindow.document.close();
-      }
-      reconhecerEtiquetaAutencidade(data.value[0].token);
-    } else {
-      goBack();
-      errorModalVisible.value = true;
-      errorMessage.value =
-        (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
-        error?.value?.data?.details ||
-        "Não foi possível concluir o reconhecimento";
+
+  const selectedTokens = selectedObjects.value.map((item) => {
+    return { pessoa_token: item.token };
+  });
+  const { data, error, status } = await useFetch(reconhecerPessoa, {
+    method: "POST",
+    body: {
+      pessoas: selectedTokens,
+      cartorio_token: cartorio_token.value,
+      ordemserv_token: ordemserv_token,
+      quantidade: state.quantidade,
+      usuario_token: usuario_token,
+      ato_tipo_token: props.ato_token,
+    },
+  });
+  if (status.value === "success" && data.value[0].status === "OK") {
+    if (data.value[0].livro && data.value[0].livro !== null) {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value[0].livro);
+      newWindow.document.close();
     }
-  } catch (error) {
+    reconhecerEtiquetaAutencidade(data.value[0].token);
+  } else {
     errorModalVisible.value = true;
-    errorMessage.value = error;
-    console.error("Erro na requisição", error);
+    errorMessage.value =
+      (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
+      error?.value?.data?.details ||
+      "Não foi possível concluir o reconhecimento";
   }
 }
 
 async function reconhecerEtiquetaAutencidade(token) {
-  try {
-    console.log("Reconhecimento de Etiqueta");
-    const { data, error, status } = await useFetch(etiquetaAutencidade, {
-      method: "POST",
-      body: {
-        ato_token: token,
-        cartorio_token: cartorio_token.value,
-        escrevente_token: state.escrevente,
-      },
-    });
-    if (status.value === "success") {
-      const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
-      if (!etiquetaResp) return;
-      if (etiquetaResp.tipo_etiqueta === "html") {
-        const newWindow = window.open("", "_blank");
-        newWindow.document.open();
-        newWindow.document.write(etiquetaResp.etiqueta);
-        newWindow.document.close();
-      } else if (etiquetaResp.tipo_etiqueta === "zpl") {
-        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+  const { data, error, status } = await useFetch(etiquetaAutencidade, {
+    method: "POST",
+    body: {
+      ato_token: token,
+      cartorio_token: cartorio_token.value,
+      escrevente_token: state.escrevente,
+    },
+  });
+  if (status.value === "success") {
+    const etiquetaResp = Array.isArray(data.value) ? data.value[0] : null;
+    if (!etiquetaResp) return;
+    if (etiquetaResp.tipo_etiqueta === "html") {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(etiquetaResp.etiqueta);
+      newWindow.document.close();
+    } else if (etiquetaResp.tipo_etiqueta === "zpl") {
+      const { status: zplStatus, error: zplError } = await useFetch(
+        `${imprimeZplSelo}`,
+        {
           method: "POST",
           body: {
             zpl: atob(etiquetaResp.etiqueta),
           },
-        });
-        if (zplStatus.value !== "success") {
-          errorModalVisible.value = true;
-          errorMessage.value = error.value.data.message;
-          return;
         }
+      );
+      if (zplStatus.value !== "success") {
+        errorModalVisible.value = true;
+        errorMessage.value = zplError.value.data.message;
+        return;
       }
     }
-  } catch (error) {
-    $toast.error("Erro ao reconhecer a etiqueta");
-    console.error("Erro na requisição", error);
   }
 }
 
