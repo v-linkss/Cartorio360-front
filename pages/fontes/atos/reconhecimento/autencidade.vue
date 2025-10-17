@@ -343,6 +343,7 @@ async function reconhecerEtiquetaAutencidade(token) {
         return;
       }
     }
+    goBack();
   }
 }
 

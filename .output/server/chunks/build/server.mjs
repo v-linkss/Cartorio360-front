@@ -695,7 +695,7 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-CFFEVTm-.mjs')
+    component: () => import('./autencidade-BN_lBuGp.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-HCgMmtJp.mjs')
+    component: () => import('./criar-ato-DTORGcBn.mjs')
   },
   {
     name: "os-criar-registro",
