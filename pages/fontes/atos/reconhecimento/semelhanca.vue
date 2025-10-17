@@ -126,6 +126,7 @@
 
     <SaveButton
       class="ml-5"
+      :disabled="isSaving"
       :onSave="reconhecerAtoSemelhanca"
       size="large"
       color="green"
@@ -162,7 +163,7 @@ const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
   ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
-
+const isSaving = ref(false);
 const pessoasItems = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
@@ -255,6 +256,8 @@ async function reconhecerAtoSemelhanca() {
     $toast.error("Por favor selecione um Escrevente");
     return;
   }
+  if (isSaving.value) return; // 🔹 evita duplo clique
+  isSaving.value = true;
   const selectedTokens = selectedObjects.value.map((item) => {
     return { pessoa_token: item.token };
   });

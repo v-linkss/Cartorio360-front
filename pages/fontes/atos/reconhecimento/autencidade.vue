@@ -128,7 +128,12 @@
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <SaveButton :onSave="onSaveClick" class="ml-5" size="large" color="green"
+    <SaveButton
+      :onSave="onSaveClick"
+      :disabled="isSaving"
+      class="ml-5"
+      size="large"
+      color="green"
       >Salvar</SaveButton
     >
   </v-row>
@@ -157,7 +162,7 @@ const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
   ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
-
+const isSaving = ref(false);
 const pessoasItems = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
@@ -272,7 +277,8 @@ async function reconhecerAtoAutencidade() {
     $toast.error("Por favor selecione um Escrevente");
     throw new Error("Escrevente não selecionado");
   }
-
+  if (isSaving.value) return;
+  isSaving.value = true;
   const selectedTokens = selectedObjects.value.map((item) => {
     return { pessoa_token: item.token };
   });

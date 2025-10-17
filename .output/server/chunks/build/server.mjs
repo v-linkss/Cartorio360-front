@@ -675,7 +675,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CzHg5f4R.mjs')
+    component: () => import('./autenticacao-B-lFSstf.mjs')
   },
   {
     name: "fontes-atos-divorcio-atualizar-id",
@@ -695,12 +695,12 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-SWq7neHV.mjs')
+    component: () => import('./autencidade-CFFEVTm-.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-Cqy58NkC.mjs')
+    component: () => import('./semelhanca-DVs_xl-k.mjs')
   },
   {
     name: "index",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BDp4oTfY.mjs')
+    component: () => import('./criar-ato-HCgMmtJp.mjs')
   },
   {
     name: "os-criar-registro",

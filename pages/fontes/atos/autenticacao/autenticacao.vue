@@ -32,6 +32,7 @@
           size="large"
           color="green"
           :onSave="atoAutentica"
+          :disabled="isSaving"
           >Salvar</SaveButton
         >
       </v-row>
@@ -70,6 +71,7 @@ const autenticaEtiquetas = `${config.public.auth}/service/gerencia/etiquetaAuten
 const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const errorModalVisible = ref(false);
 const errorMessage = ref("");
+const isSaving = ref(false);
 const state = reactive({
   escrevente: null,
   quantidade: 1,
@@ -92,6 +94,8 @@ const v$ = useVuelidate(rules, state);
 
 const atoAutentica = async () => {
   if (await v$.value.$validate()) {
+    if (isSaving.value) return; // 🔹 evita duplo clique
+    isSaving.value = true;
     const {
       data: ato_token,
       status,
