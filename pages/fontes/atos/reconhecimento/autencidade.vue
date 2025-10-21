@@ -328,18 +328,25 @@ async function reconhecerEtiquetaAutencidade(token) {
       newWindow.document.write(etiquetaResp.etiqueta);
       newWindow.document.close();
     } else if (etiquetaResp.tipo_etiqueta === "zpl") {
-      const { status: zplStatus, error: zplError } = await useFetch(
-        `${imprimeZplSelo}`,
-        {
-          method: "POST",
-          body: {
-            zpl: atob(etiquetaResp.etiqueta),
-          },
-        }
-      );
+      const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: atob(data.value.etiqueta),
+        },
+        timeout: 30000, // Set timeout to 30 seconds
+      });
       if (zplStatus.value !== "success") {
         errorModalVisible.value = true;
-        errorMessage.value = zplError.value.data.message;
+
+        const apiErrorMessage = error.value?.data?.message;
+
+        if (apiErrorMessage) {
+          errorMessage.value = apiErrorMessage;
+        } else {
+          errorMessage.value =
+            "O sistema demorou demais para responder e a impressão não foi feita.";
+        }
+
         return;
       }
     }

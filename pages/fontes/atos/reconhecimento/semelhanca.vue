@@ -306,18 +306,25 @@ async function reconhecerEtiquetaSemelhanca(token) {
       newWindow.document.write(data.value[0].etiqueta);
       newWindow.document.close();
     } else if (data.value[0].tipo_etiqueta === "zpl") {
-      const { status: zplStatus, error: zplError } = await useFetch(
-        `${imprimeZplSelo}`,
-        {
-          method: "POST",
-          body: {
-            zpl: atob(data.value[0].etiqueta),
-          },
-        }
-      );
+      const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: atob(data.value.etiqueta),
+        },
+        timeout: 30000,
+      });
       if (zplStatus.value !== "success") {
         errorModalVisible.value = true;
-        errorMessage.value = zplError.value.data.message;
+
+        const apiErrorMessage = error.value?.data?.message;
+
+        if (apiErrorMessage) {
+          errorMessage.value = apiErrorMessage;
+        } else {
+          errorMessage.value =
+            "O sistema demorou demais para responder e a impressão não foi feita.";
+        }
+
         return;
       }
     }
