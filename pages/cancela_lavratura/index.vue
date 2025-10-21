@@ -31,13 +31,7 @@
       >
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px; justify-content: center">
-            <div
-              :disabled="!item.btn_cancelar"
-              @click="
-                item.btn_cancelar ? abrirModalCancelamento(item.token) : null
-              "
-              title="Excluir"
-            >
+            <div @click="abrirModalCancelamento(item.token)" title="Excluir">
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/btn_cancela_lavratura.png"
