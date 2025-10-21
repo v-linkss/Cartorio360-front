@@ -116,7 +116,7 @@ async function searchAtos() {
       method: "POST",
       body: {
         cartorio_token: cartorio_token.value,
-        protocolo: state.protocolo || null,
+        ato_id: Number(state.id) || null,
       },
     });
     if (atosData.value.length > 0) {
