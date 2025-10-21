@@ -16,6 +16,8 @@ const envVars = {
     LICENSE_KEY:
       "Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXpec3VXRmhfVUx2WUFWYUA=",
     WEB_SERVICE: "http://localhost:3333",
+    CHAT_BOT_DESENV: "http://157.230.216.74:3452",
+
     DEV_MODE: "true",
   },
   // PROD
@@ -27,6 +29,8 @@ const envVars = {
     LICENSE_KEY:
       "Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXpec3VXRmhfVUx2WUFWYUA=",
     WEB_SERVICE: "http://localhost:3333",
+    CHAT_BOT: "https://www.cartorio360.com.br:3452",
+
     DEV_MODE: "false",
   },
 };
