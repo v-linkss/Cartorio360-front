@@ -154,7 +154,7 @@ const cancelaAto = async () => {
 const executaCancelaAto = async (forcar) => {
   isModalCancelamentoOpen.value = false;
 
-  const { data, status } = await useFetch(cancelaLavratura, {
+  const { data, status, error } = await useFetch(cancelaLavratura, {
     method: "POST",
     body: {
       ato_token: ato_token.value,
@@ -167,19 +167,15 @@ const executaCancelaAto = async (forcar) => {
 
   if (status.value === "success" && data.value && data.value[0]) {
     const resultado = data.value[0];
-
     if (resultado.status === "OK") {
       $toast.success("Lavratura cancelada com sucesso!");
       cancelamentoForcadoPendente.value = false;
-      await searchAtos();
-    } else {
-      mensagemAvisoCondicional.value = `${resultado.status_mensagem} Confirma o cancelamento?`;
-      condMessage.value = mensagemAvisoCondicional.value;
-      cancelamentoForcadoPendente.value = true;
-      isModalCancelamentoOpen.value = true;
     }
-  } else {
-    $toast.error("Erro ao tentar cancelar o ato. Tente novamente.");
+  } else if (status.value === "error" && error.value) {
+    mensagemAvisoCondicional.value = `${error.value.data[0].status_mensagem} Confirma o cancelamento?`;
+    condMessage.value = mensagemAvisoCondicional.value;
+    cancelamentoForcadoPendente.value = true;
+    isModalCancelamentoOpen.value = true;
   }
 };
 </script>
