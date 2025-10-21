@@ -1,15 +1,12 @@
 <template>
-  <v-container class="mt-5">
+  <v-container>
     <v-row class="mb-5">
       <h1>Cancelamento de Lavratura</h1>
     </v-row>
 
     <v-row>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.protocolo"
-          label="Protocolo"
-        ></v-text-field>
+        <v-text-field v-model="state.id" label="ID"></v-text-field>
       </v-col>
       <v-col>
         <div>
@@ -22,36 +19,37 @@
         </div>
       </v-col>
     </v-row>
-  </v-container>
-  <div style="width: 1300px; margin: 0 auto">
-    <hr class="mt-5 mb-5" />
 
-    <v-data-table
-      :headers="headers"
-      :items="atos"
-      style="font-size: 12px"
-      item-key="id"
-    >
-      <template v-slot:item.actions="{ item }">
-        <div style="display: flex; gap: 4px; justify-content: center">
-          <div
-            :disabled="!item.btn_cancelar"
-            @click="
-              item.btn_cancelar ? abrirModalCancelamento(item.token) : null
-            "
-            title="Excluir"
-          >
-            <img
-              style="width: 30px; height: 30px; cursor: pointer"
-              src="../../assets/btn_cancela_lavratura.png"
-              alt="Cancelar"
-              title="Cancelar"
-            />
+    <div>
+      <hr class="mt-5 mb-5" />
+
+      <v-data-table
+        :headers="headers"
+        :items="atos"
+        style="font-size: 12px"
+        item-key="id"
+      >
+        <template v-slot:item.actions="{ item }">
+          <div style="display: flex; gap: 4px; justify-content: center">
+            <div
+              :disabled="!item.btn_cancelar"
+              @click="
+                item.btn_cancelar ? abrirModalCancelamento(item.token) : null
+              "
+              title="Excluir"
+            >
+              <img
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../assets/btn_cancela_lavratura.png"
+                alt="Cancelar"
+                title="Cancelar"
+              />
+            </div>
           </div>
-        </div>
-      </template>
-    </v-data-table>
-  </div>
+        </template>
+      </v-data-table>
+    </div>
+  </v-container>
 
   <ModalConfirmacao
     :show="isModalCancelamentoOpen"
@@ -74,9 +72,11 @@ const atos = ref([]);
 const isModalCancelamentoOpen = ref(false);
 const condMessage = ref("");
 const ato_token = ref(null);
+const cancelamentoForcadoPendente = ref(false);
+const mensagemAvisoCondicional = ref("");
 
 const state = reactive({
-  protocolo: null,
+  id: null,
 });
 
 const headers = [
@@ -139,28 +139,53 @@ async function searchAtos() {
     console.error("Erro na requisição", error);
   }
 }
+
 const abrirModalCancelamento = (token) => {
   ato_token.value = token;
-  condMessage.value = "Tem certeza que deseja cancelar este ato?";
+  condMessage.value =
+    "O cancelamento de lavratura é definitivo e não poderá ser revertido. Confirma o cancelamento da lavratura deste ato?";
+  cancelamentoForcadoPendente.value = false;
   isModalCancelamentoOpen.value = true;
 };
 
 const cancelaAto = async () => {
+  if (cancelamentoForcadoPendente.value) {
+    await executaCancelaAto(true);
+    return;
+  }
+
+  await executaCancelaAto(false);
+};
+
+const executaCancelaAto = async (forcar) => {
+  isModalCancelamentoOpen.value = false;
+
   const { data, status } = await useFetch(cancelaLavratura, {
     method: "POST",
     body: {
       ato_token: ato_token.value,
       user_token: usuario_token.value,
-      cancelar_selo: false,
+      forcar_cancelamento: forcar,
     },
   });
-  if (status.value === "success" && data.value[0].status === "OK") {
-    $toast.success("Lavratura cancelada com sucesso!");
-    isModalCancelamentoOpen.value = false;
-  } else if (data.value[0].status === "ERRO") {
-    $toast.error("erro ao cancelar ato");
-    // isModalCancelamentoOpen.value = true;
-    // condMessage.value = data.value[0].status_mensagem;
+
+  isModalCancelamentoOpen.value = false;
+
+  if (status.value === "success" && data.value && data.value[0]) {
+    const resultado = data.value[0];
+
+    if (resultado.status === "OK") {
+      $toast.success("Lavratura cancelada com sucesso!");
+      cancelamentoForcadoPendente.value = false;
+      await searchAtos();
+    } else {
+      mensagemAvisoCondicional.value = `${resultado.status_mensagem} Confirma o cancelamento?`;
+      condMessage.value = mensagemAvisoCondicional.value;
+      cancelamentoForcadoPendente.value = true;
+      isModalCancelamentoOpen.value = true;
+    }
+  } else {
+    $toast.error("Erro ao tentar cancelar o ato. Tente novamente.");
   }
 };
 </script>

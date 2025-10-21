@@ -94,7 +94,7 @@ const v$ = useVuelidate(rules, state);
 
 const atoAutentica = async () => {
   if (await v$.value.$validate()) {
-    if (isSaving.value) return; // 🔹 evita duplo clique
+    if (isSaving.value) return;
     isSaving.value = true;
     const {
       data: ato_token,
@@ -142,10 +142,20 @@ const etiquetaAutentica = async (ato_token) => {
         body: {
           zpl: atob(data.value.etiqueta),
         },
+        timeout: 30000, // Set timeout to 30 seconds
       });
       if (zplStatus.value !== "success") {
         errorModalVisible.value = true;
-        errorMessage.value = error.value.data.message;
+
+        const apiErrorMessage = error.value?.data?.message;
+
+        if (apiErrorMessage) {
+          errorMessage.value = apiErrorMessage;
+        } else {
+          errorMessage.value =
+            "O sistema demorou demais para responder e a impressão não foi feita.";
+        }
+
         return;
       }
     }
