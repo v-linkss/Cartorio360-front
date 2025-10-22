@@ -309,7 +309,7 @@ async function reconhecerEtiquetaSemelhanca(token) {
       const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
         method: "POST",
         body: {
-          zpl: atob(data.value.etiqueta),
+          zpl: atob(data.value[0].etiqueta),
         },
         timeout: 30000,
       });

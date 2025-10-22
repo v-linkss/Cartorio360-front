@@ -331,9 +331,9 @@ async function reconhecerEtiquetaAutencidade(token) {
       const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
         method: "POST",
         body: {
-          zpl: atob(data.value.etiqueta),
+          zpl: atob(data.value[0].etiqueta),
         },
-        timeout: 30000, // Set timeout to 30 seconds
+        timeout: 30000,
       });
       if (zplStatus.value !== "success") {
         errorModalVisible.value = true;

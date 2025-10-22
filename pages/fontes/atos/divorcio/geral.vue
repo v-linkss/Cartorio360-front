@@ -110,7 +110,6 @@ function onTabChange(newTab) {
 
 function onDivorcioTabClick() {
   if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
-    console.log("oi");
     tabEvent.value++;
     divorcioTabClicks.value++;
   }

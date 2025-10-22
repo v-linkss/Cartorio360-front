@@ -94,6 +94,7 @@ const route = useRoute();
 const allEscreventes = `${config.public.managemant}/listarEscrevente`;
 const lavraAtoLivro = `${config.public.managemant}/lavrarAto`;
 const validaAto = `${config.public.managemant}/valida_lavratura`;
+const calculaAto = `${config.public.managemant}/ato_calcular`;
 const condMessage = ref(
   "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?"
 );
@@ -189,6 +190,7 @@ const confirmLavrar = async () => {
 };
 const openModalCond = async () => {
   isModalCondOpen.value = true;
+  console.log("oi");
   await calcularAto();
 };
 const { data } = await useFetch(allEscreventes, {
