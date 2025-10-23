@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-5">
-    <v-row class="mb-10 ">
+    <v-row class="mb-10">
       <h1>Integração CENSEC</h1>
     </v-row>
 
@@ -10,12 +10,20 @@
         <h3 class="text-h6 mb-2">Período de Consulta</h3>
         <v-row>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_inicio" label="Data Inicio" placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"></v-text-field>
+            <v-text-field
+              v-model="state.data_inicio"
+              label="Data Inicio"
+              placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_fim" label="Data Fim" placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"></v-text-field>
+            <v-text-field
+              v-model="state.data_fim"
+              label="Data Fim"
+              placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"
+            ></v-text-field>
           </v-col>
         </v-row>
       </div>
@@ -26,13 +34,16 @@
           <v-col cols="12" , sm="6" md="4"></v-col>
           <v-col cols="12" , sm="6" md="4">
             <h3 class="text-h6 mb-4">Gerar Arquivo</h3>
-
           </v-col>
         </v-row>
         <v-radio-group v-model="state.validar" class="mt-2">
           <v-row>
             <v-col cols="12" sm="6" md="4" lg="2-4">
-              <v-radio label="VALIDAR ATOS" value="ATOS" color="primary"></v-radio>
+              <v-radio
+                label="VALIDAR ATOS"
+                value="ATOS"
+                color="primary"
+              ></v-radio>
             </v-col>
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CESDI" value="CESDI" color="primary"></v-radio>
@@ -40,8 +51,7 @@
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CEP" value="CEP" color="primary"></v-radio>
             </v-col>
-            <v-col cols="12" sm="6" md="4" lg="2-4">
-            </v-col>
+            <v-col cols="12" sm="6" md="4" lg="2-4"> </v-col>
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="RCTO" value="RCTO" color="primary"></v-radio>
             </v-col>
@@ -59,11 +69,18 @@
         <h3 class="text-h6 mb-4">Arquivo</h3>
         <v-row align="center">
           <v-col cols="12" md="8">
-            <v-text-field label="Nome do arquivo" v-model="state.file_name"
-              :disabled="!state.validar || state.validar === 'ATOS'"></v-text-field>
+            <v-text-field
+              label="Nome do arquivo"
+              v-model="state.file_name"
+              :disabled="!state.validar || state.validar === 'ATOS'"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="4" class="d-flex justify-end">
-            <SaveButton :text="'Enviar'" :onSave="enviaDadosCensec" class="px-8" />
+            <SaveButton
+              :text="'Enviar'"
+              :onSave="enviaDadosCensec"
+              class="px-8"
+            />
           </v-col>
         </v-row>
       </div>
@@ -99,7 +116,6 @@ const state = reactive({
 
 const dadosCensec = ref(null);
 
-
 function getCurrentDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -115,8 +131,6 @@ function convertToISODate(date) {
 }
 
 const enviaDadosCensec = async () => {
-  console.log("Token:", token);
-
   if (!state.validar) {
     $toast.warning("Selecione um tipo de validação antes de enviar!");
     return;
@@ -127,7 +141,7 @@ const enviaDadosCensec = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         cartorio_token: useCookie("user-data").value.cartorio_token,
@@ -150,7 +164,9 @@ const enviaDadosCensec = async () => {
         newWindow.document.write(htmlContent);
         newWindow.document.close();
       } else {
-        $toast.warning("Não foi possível abrir a nova aba (bloqueador de pop-up?).");
+        $toast.warning(
+          "Não foi possível abrir a nova aba (bloqueador de pop-up?)."
+        );
       }
     } else {
       if (!state.file_name) {
@@ -160,7 +176,8 @@ const enviaDadosCensec = async () => {
 
       const blob = await response.blob();
       const contentDisposition = response.headers.get("Content-Disposition");
-      const match = contentDisposition && contentDisposition.match(/filename="(.+)"/);
+      const match =
+        contentDisposition && contentDisposition.match(/filename="(.+)"/);
       const fileName = match ? match[1] : `${state.file_name}.json`;
 
       const url = window.URL.createObjectURL(blob);
@@ -179,6 +196,4 @@ const enviaDadosCensec = async () => {
     $toast.error("Erro ao processar a requisição.");
   }
 };
-
-
 </script>

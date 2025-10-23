@@ -317,8 +317,6 @@ async function onSubmit() {
       body: payloadFormated,
     });
     if (status.value === "error" && error.value.statusCode === 500) {
-      console.log(JSON.stringify(error.value));
-
       $toast.error(error.value.data.details);
     } else {
       $toast.success("Documento cadastrado com sucesso!");
@@ -336,8 +334,6 @@ async function onSubmit() {
 }
 async function handleScannerClick(pessoa_docs_token) {
   try {
-    console.log("Ação do scanner iniciada\n");
-    console.log("Token do documento:", pessoa_docs_token);
     await openScanner();
     await enviarArquivo(pessoa_docs_token);
   } catch (error) {

@@ -120,7 +120,7 @@ const gerarRelatorioDiarioCaixaCSV = async () => {
     // Se o header não vier, usamos "relatorio.csv" como padrão.
     let filename = "relatorio.csv";
     const disposition = response.headers.get("Content-Disposition");
-    console.log("######\n", disposition);
+
     if (disposition && disposition.includes("filename=")) {
       filename = disposition.split("filename=")[1].replace(/['"]/g, "").trim();
     }

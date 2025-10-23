@@ -114,18 +114,26 @@ const state = reactive({
 
 const lavraAto = async (force = false) => {
   if (!force) {
-    const { data: validaData } = await useFetch(validaAto, {
+    const { data, error, status } = await useFetch(validaAto, {
       method: "POST",
       body: { ato_token: props.ato_token },
     });
-    const statusResp = validaData.value[0].status;
-    const statusMsg = validaData.value[0].status_mensagem;
+    let statusResp, statusMsg;
+
+    if (status.value === "success" && data.value) {
+      statusResp = data.value[0].status;
+      statusMsg = data.value[0].status_mensagem;
+    } else if (error.value && error.value.data) {
+      statusResp = error.value.data[0].status;
+      statusMsg = error.value.data[0].status_mensagem;
+    }
+
     if (statusResp !== "OK") {
       condStatus.value = statusResp;
       condStatusMensagem.value = statusMsg;
       valorAto.value = null;
       isModalCondOpen.value = true;
-      condMessage.value = `O ato apresenta inconsistências, deseja prosseguir?`;
+      condMessage.value = ` O ato apresenta inconsistências, deseja prosseguir?`;
       return;
     }
   }
@@ -179,7 +187,7 @@ const calcularAto = async () => {
 
 const confirmLavrar = async () => {
   isModalCondOpen.value = false;
-  // Se condStatus está preenchido e não é OK, força lavratura
+
   if (condStatus.value && condStatus.value !== "OK") {
     await lavraAto(true);
     condStatus.value = null;
@@ -190,7 +198,8 @@ const confirmLavrar = async () => {
 };
 const openModalCond = async () => {
   isModalCondOpen.value = true;
-  console.log("oi");
+  condMessage.value =
+    "Ao lavrar esse ato, a operação não poderá ser desfeita. Confirma ?";
   await calcularAto();
 };
 const { data } = await useFetch(allEscreventes, {
