@@ -169,6 +169,8 @@ const executaCancelaAto = async (forcar) => {
     const resultado = data.value[0];
     if (resultado.status === "OK") {
       $toast.success("Lavratura cancelada com sucesso!");
+      atos.value = [];
+      state.id = null;
       cancelamentoForcadoPendente.value = false;
     }
   } else if (status.value === "error" && error.value) {

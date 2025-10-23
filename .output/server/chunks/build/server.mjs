@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "cancela_lavratura",
     path: "/cancela_lavratura",
-    component: () => import('./index-D7HayNnq.mjs')
+    component: () => import('./index-B-nurHZs.mjs')
   },
   {
     name: "carregar_arquivo_texto",
@@ -660,7 +660,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-DSK1v933.mjs')
+    component: () => import('./geral-DB0cj69o.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
@@ -670,7 +670,7 @@ const _routes = [
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral--i_f6PuF.mjs')
+    component: () => import('./geral-BskOTUmb.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -685,12 +685,12 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
-    component: () => import('./geral-0eC4xaQX.mjs')
+    component: () => import('./geral-lnGZzIEH.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-BB9OgE2u.mjs')
+    component: () => import('./procuracao-BqoQ5vhx.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-4aRTQgcc.mjs')
+    component: () => import('./criar-ato-Bp8B4ZLm.mjs')
   },
   {
     name: "os-criar-registro",

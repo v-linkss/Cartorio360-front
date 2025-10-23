@@ -161,7 +161,7 @@ const calcularAto = async () => {
   const { data, status } = await useFetch(calculaAto, {
     method: "POST",
     body: {
-      ato_token: route.query.ato_token_edit,
+      ato_token: props.ato_token,
       cartorio_token: cartorio_token,
       quantidade: 1,
       usuario_token: usuario_token,
