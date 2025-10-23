@@ -27,15 +27,20 @@
           <v-btn class="ml-4" size="large" color="red">Voltar</v-btn>
         </NuxtLink>
 
-        <v-btn class="ml-4" size="large" color="green" @click="atoAutentica"
-          >Salvar</v-btn
+        <SaveButton
+          class="ml-4"
+          size="large"
+          color="green"
+          :onSave="atoAutentica"
+          :disabled="isSaving"
+          >Salvar</SaveButton
         >
       </v-row>
     </v-container>
     <ErrorModalCard
       :show="errorModalVisible"
       :errorMessage="errorMessage"
-      @close="errorModalVisible = false"
+      @close="returnToPreviousPage"
     />
   </v-card>
 </template>
@@ -55,7 +60,7 @@ const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
 const allEscreventes = `${config.public.auth}/service/gerencia/listarEscrevente`;
-
+const { $toast } = useNuxtApp();
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token).value;
 const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
@@ -66,6 +71,7 @@ const autenticaEtiquetas = `${config.public.auth}/service/gerencia/etiquetaAuten
 const imprimeZplSelo = `${config.public.envioDoc}/print`;
 const errorModalVisible = ref(false);
 const errorMessage = ref("");
+const isSaving = ref(false);
 const state = reactive({
   escrevente: null,
   quantidade: 1,
@@ -88,6 +94,8 @@ const v$ = useVuelidate(rules, state);
 
 const atoAutentica = async () => {
   if (await v$.value.$validate()) {
+    if (isSaving.value) return;
+    isSaving.value = true;
     const {
       data: ato_token,
       status,
@@ -103,7 +111,7 @@ const atoAutentica = async () => {
       },
     });
     if (status.value === "success" && ato_token.value.status === "OK") {
-      etiquetaAutentica(ato_token.value.token);
+      await etiquetaAutentica(ato_token.value.token);
     } else {
       errorModalVisible.value = true;
       errorMessage.value =
@@ -113,7 +121,7 @@ const atoAutentica = async () => {
 };
 
 const etiquetaAutentica = async (ato_token) => {
-  const { data, status } = await fetchWithToken(autenticaEtiquetas, {
+  const { data, status, error } = await fetchWithToken(autenticaEtiquetas, {
     method: "POST",
     body: {
       escrevente_token: state.escrevente,
@@ -122,25 +130,42 @@ const etiquetaAutentica = async (ato_token) => {
     },
   });
   if (status.value === "success") {
+    $toast.success("Ato autenticado com sucesso!");
     if (data.value.tipo_etiqueta === "html") {
       const newWindow = window.open("", "_blank");
       newWindow.document.open();
       newWindow.document.write(data.value.etiqueta);
       newWindow.document.close();
     } else if (data.value.tipo_etiqueta === "zpl") {
-      const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
+      const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
         method: "POST",
         body: {
           zpl: atob(data.value.etiqueta),
         },
+        timeout: 30000, // Set timeout to 30 seconds
       });
       if (zplStatus.value !== "success") {
-        $toast.error("Não foi possivel fazer a impressao da etiqueta");
+        errorModalVisible.value = true;
+
+        const apiErrorMessage = error.value?.data?.message;
+
+        if (apiErrorMessage) {
+          errorMessage.value = apiErrorMessage;
+        } else {
+          errorMessage.value =
+            "O sistema demorou demais para responder e a impressão não foi feita.";
+        }
+
         return;
       }
     }
     goBack();
   }
+};
+
+const returnToPreviousPage = () => {
+  errorModalVisible.value = false;
+  goBack();
 };
 
 const goBack = () => {

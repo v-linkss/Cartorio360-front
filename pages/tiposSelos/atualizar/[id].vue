@@ -21,7 +21,9 @@ const ufList = ref([]);
 // Função para carregar os dados do selo
 async function loadSeloData() {
   try {
-    const { data: seloData } = await useFetch(`${selo}/${id}`, { method: "GET" });
+    const { data: seloData } = await useFetch(`${selo}/${id}`, {
+      method: "GET",
+    });
     if (seloData.value) {
       form.value = {
         uf: seloData.value.uf,
@@ -56,7 +58,7 @@ async function HandleSubmitEdit() {
       body: edicaoSelo,
     });
 
-    navigateTo("/tiposSelos/lista")
+    navigateTo("/tiposSelos/lista");
   } catch (error) {
     console.error("Erro ao atualizar o selo:", error);
   }
@@ -80,38 +82,29 @@ async function HandleSubmitEdit() {
           />
         </v-col>
         <v-col cols="3">
+          <v-text-field v-model="form.cor" label="Cor" required outlined />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
           <v-text-field
-            v-model="form.cor"
-            label="Cor"
+            v-model="form.descricao"
+            label="Descrição"
             required
             outlined
           />
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="6">
-          <v-text-field
-          v-model="form.descricao"
-          label="Descrição"
-          required
-          outlined
-        />
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="3">
+          <label>Valor</label>
           <MoneyInput required v-model="form.vlr_compra" />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <v-btn size="large" color="red" to="/tiposSelos/lista">Voltar</v-btn>
-          <v-btn
-            type="submit"
-            class="ml-4"
-            size="large"
-            color="green"
-          >
+          <v-btn type="submit" class="ml-4" size="large" color="green">
             Salvar
           </v-btn>
         </v-col>

@@ -621,9 +621,9 @@ const _routes = [
     component: () => import('./index-CVQ2Bx3S.mjs')
   },
   {
-    name: "cancela_ato",
-    path: "/cancela_ato",
-    component: () => import('./index-BRWTQ6-6.mjs')
+    name: "cancela_lavratura",
+    path: "/cancela_lavratura",
+    component: () => import('./index-B-nurHZs.mjs')
   },
   {
     name: "carregar_arquivo_texto",
@@ -654,7 +654,7 @@ const _routes = [
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
-    component: () => import('./autenticacao-CVxNTpYl.mjs')
+    component: () => import('./autenticacao-C3RM6CCz.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
@@ -664,12 +664,12 @@ const _routes = [
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
-    component: () => import('./autencidade-B9vUluvx.mjs')
+    component: () => import('./autencidade-RbpsfKMl.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
-    component: () => import('./semelhanca-z5I-H-jC.mjs')
+    component: () => import('./semelhanca-i3wKCHMR.mjs')
   },
   {
     name: "index",
@@ -679,7 +679,7 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
-    component: () => import('./censec-DmK-8Q3h.mjs')
+    component: () => import('./censec-C0E2i4Or.mjs')
   },
   {
     name: "integracao-importa-onrtd",
@@ -726,7 +726,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-DoKvtTTA.mjs')
+    component: () => import('./criar-ato-B4Wmm_9K.mjs')
   },
   {
     name: "os-criar-registro",
@@ -822,17 +822,17 @@ const _routes = [
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
-    component: () => import('./_id_-DoQ5ACNc.mjs')
+    component: () => import('./_id_-Lm9sW3JX.mjs')
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
-    component: () => import('./index-DUid2Pnt.mjs')
+    component: () => import('./index-C5g1ZHAP.mjs')
   },
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
-    component: () => import('./lista-EylYLhBJ.mjs')
+    component: () => import('./lista-xYnrqEw2.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {

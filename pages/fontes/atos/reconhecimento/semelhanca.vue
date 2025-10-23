@@ -124,18 +124,19 @@
       <v-btn size="large" color="red">Voltar</v-btn>
     </NuxtLink>
 
-    <v-btn
+    <SaveButton
       class="ml-5"
-      @click="reconhecerAtoSemelhanca"
+      :disabled="isSaving"
+      :onSave="reconhecerAtoSemelhanca"
       size="large"
       color="green"
-      >Salvar</v-btn
-    >
+      >Salvar
+    </SaveButton>
   </v-row>
   <ErrorModalCard
     :show="errorModalVisible"
     :errorMessage="errorMessage"
-    @close="errorModalVisible = false"
+    @close="returnToPreviousPage"
   />
 </template>
 
@@ -162,7 +163,7 @@ const ordemserv_token =
   ref(useCookie("user-service").value.token).value ||
   ref(useCookie("user-service").value).value;
 const usuario_token = useCookie("auth_token").value;
-
+const isSaving = ref(false);
 const pessoasItems = ref([]);
 const escreventesItems = ref([]);
 const selectedObjects = ref([]);
@@ -198,7 +199,9 @@ const { data } = await useFetch(allEscreventes, {
   method: "POST",
   body: { cartorio_token: cartorio_token },
 });
-escreventesItems.value = data.value[0].func_json_escreventes;
+
+escreventesItems.value =
+  (Array.isArray(data.value) && data.value[0]?.func_json_escreventes) || [];
 
 async function searchPessoasService() {
   try {
@@ -253,67 +256,86 @@ async function reconhecerAtoSemelhanca() {
     $toast.error("Por favor selecione um Escrevente");
     return;
   }
+  if (isSaving.value) return; // 🔹 evita duplo clique
+  isSaving.value = true;
   const selectedTokens = selectedObjects.value.map((item) => {
     return { pessoa_token: item.token };
   });
-  try {
-    const { data, error, status } = await useFetch(reconhecerPessoa, {
-      method: "POST",
-      body: {
-        pessoas: selectedTokens,
-        cartorio_token: cartorio_token.value,
-        ordemserv_token: ordemserv_token,
-        quantidade: stateSemelhanca.quantidade,
-        usuario_token: usuario_token,
-        ato_tipo_token: props.ato_token,
-      },
-    });
 
-    if (status.value === "success" && data.value[0].status === "OK") {
-      reconhecerEtiquetaSemelhanca(data.value[0].token);
-    } else {
-      errorModalVisible.value = true;
-      errorMessage.value =
-        ato_token.value.status_mensagem || error.value.data.details;
-    }
-  } catch (error) {
-    console.error("Erro na requisição", error);
+  const { data, error, status } = await useFetch(reconhecerPessoa, {
+    method: "POST",
+    body: {
+      pessoas: selectedTokens,
+      cartorio_token: cartorio_token.value,
+      ordemserv_token: ordemserv_token,
+      quantidade: stateSemelhanca.quantidade,
+      usuario_token: usuario_token,
+      ato_tipo_token: props.ato_token,
+    },
+  });
+
+  if (
+    status.value === "success" &&
+    Array.isArray(data.value) &&
+    data.value[0]?.status === "OK"
+  ) {
+    reconhecerEtiquetaSemelhanca(data.value[0].token);
+  } else {
+    goBack();
+    errorModalVisible.value = true;
+    errorMessage.value =
+      (Array.isArray(data.value) && data.value[0]?.status_mensagem) ||
+      error?.value?.data?.details ||
+      "Não foi possível concluir o reconhecimento";
   }
 }
 
 async function reconhecerEtiquetaSemelhanca(token) {
-  try {
-    const { data, error, status } = await useFetch(etiquetaSemelhanca, {
-      method: "POST",
-      body: {
-        ato_token: token,
-        cartorio_token: cartorio_token.value,
-        escrevente_token: stateSemelhanca.escrevente,
-      },
-    });
-    if (status.value === "success") {
-      if (data.value[0].tipo_etiqueta === "html") {
-        const newWindow = window.open("", "_blank");
-        newWindow.document.open();
-        newWindow.document.write(data.value[0].etiqueta);
-        newWindow.document.close();
-      } else if (data.value[0].tipo_etiqueta === "zpl") {
-        const { status: zplStatus } = await useFetch(`${imprimeZplSelo}`, {
-          method: "POST",
-          body: {
-            zpl: atob(data.value[0].etiqueta),
-          },
-        });
-        if (zplStatus.value !== "success") {
-          $toast.error("Não foi possivel fazer a impressao da etiqueta");
-          return;
+  const { data, error, status } = await useFetch(etiquetaSemelhanca, {
+    method: "POST",
+    body: {
+      ato_token: token,
+      cartorio_token: cartorio_token.value,
+      escrevente_token: stateSemelhanca.escrevente,
+    },
+  });
+  if (status.value === "success") {
+    if (data.value[0].tipo_etiqueta === "html") {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.open();
+      newWindow.document.write(data.value[0].etiqueta);
+      newWindow.document.close();
+    } else if (data.value[0].tipo_etiqueta === "zpl") {
+      const { status: zplStatus, error } = await useFetch(`${imprimeZplSelo}`, {
+        method: "POST",
+        body: {
+          zpl: atob(data.value[0].etiqueta),
+        },
+        timeout: 30000,
+      });
+      if (zplStatus.value !== "success") {
+        errorModalVisible.value = true;
+
+        const apiErrorMessage = error.value?.data?.message;
+
+        if (apiErrorMessage) {
+          errorMessage.value = apiErrorMessage;
+        } else {
+          errorMessage.value =
+            "O sistema demorou demais para responder e a impressão não foi feita.";
         }
+
+        return;
       }
     }
-  } catch (error) {
-    console.error("Erro na requisição", error);
+    goBack();
   }
 }
+
+const returnToPreviousPage = () => {
+  errorModalVisible.value = false;
+  goBack();
+};
 
 const goBack = () => {
   const origem = route.query.origem || "criar";

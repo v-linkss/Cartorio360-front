@@ -11,7 +11,7 @@ const { data: ufs } = await useFetch(getUfs, { method: "GET" });
 ufList.value = ufs.value;
 
 const { data: selosList } = await useFetch(getSelo, { method: "GET" });
-selos.value = selosList.value;
+selos.value = selosList.value.data;
 
 const headers = [
   { title: "ID", value: "id" },
@@ -46,28 +46,28 @@ async function HandleDeleteSelo(item) {
       </NuxtLink>
       <h1 class="mt-3 ml-3">Tipos de Selos</h1>
     </v-row>
-    <v-data-table
-      :items="selosList"
-      :headers="headers"
-      item-value="id"
-    >
+    <v-data-table :items="selos" :headers="headers" item-value="id">
       <template #item.actions="{ item }">
-        <v-row style="margin-top: -6px;">
-
+        <v-row style="margin-top: -6px">
           <div>
-          <nuxt-link :to="`/tiposSelos/atualizar/${item.id}`">
-            <img
-              style="width: 30px; height: 30px;cursor: pointer;"
-              src="../../assets/editar.png"
-              alt="Atualizar"
-            />
-          </nuxt-link>
+            <nuxt-link :to="`/tiposSelos/atualizar/${item.id}`">
+              <img
+                style="width: 30px; height: 30px; cursor: pointer"
+                src="../../assets/editar.png"
+                alt="Atualizar"
+              />
+            </nuxt-link>
           </div>
-  
+
           <div @click="HandleDeleteSelo(item)" title="Deletar">
             <img
               v-if="item.excluido"
-              style="width: 30px; height: 30px;cursor: pointer; margin-left: 7px;"
+              style="
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                margin-left: 7px;
+              "
               src="../../assets/excluido.png"
               alt="Visualizar"
               title="Reativar"
@@ -77,7 +77,12 @@ async function HandleDeleteSelo(item) {
               src="../../assets/mudarStatus.png"
               alt="Excluir"
               class="trash-icon"
-              style="width: 30px; height: 30px;cursor: pointer;margin-left: 7px;"
+              style="
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                margin-left: 7px;
+              "
               title="Excluir"
             />
           </div>
