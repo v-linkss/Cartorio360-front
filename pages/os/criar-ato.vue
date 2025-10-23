@@ -48,6 +48,7 @@ import autencidade from "../fontes/atos/reconhecimento/autencidade.vue";
 import autenticacao from "../fontes/atos/autenticacao/autenticacao.vue";
 import procuracao from "../fontes/atos/atos-sem-bem/geral.vue";
 import procuracaoComBens from "../fontes/atos/atos-com-bem/geral.vue";
+import divorcio from "../fontes/atos/divorcio/geral.vue";
 
 const route = useRoute();
 const numeroOs = route.query.numeroOs;
@@ -58,6 +59,7 @@ const components = {
   "/fontes/atos/autenticacao/autenticacao": autenticacao,
   "/fontes/atos/ato-sem-bem/geral": procuracao,
   "/fontes/atos/ato-com-bem/geral": procuracaoComBens,
+  "/fontes/atos/divorcio/geral": divorcio,
 };
 
 const servicos = ref([]);
