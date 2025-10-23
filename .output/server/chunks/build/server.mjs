@@ -731,12 +731,12 @@ const _routes = [
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
-    component: () => import('./criar-registro-D0TEHwYx.mjs')
+    component: () => import('./criar-registro-C8w8ztoH.mjs')
   },
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-BGlMnTpC.mjs')
+    component: () => import('./index-BtcrEcIN.mjs')
   },
   {
     name: "pessoas-atualizar-id",

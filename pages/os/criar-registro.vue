@@ -84,7 +84,10 @@
                 alt="Visualizar"
               />
             </div>
-            <div @click="redirectToModalReimprimir()" title="Reimprimir">
+            <div
+              @click="redirectToModalReimprimir(item.token)"
+              title="Reimprimir"
+            >
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/selo.png"
@@ -100,7 +103,7 @@
                       tipo: item.tipo,
                       token: item.token,
                       tipo_token: item.tipo_token,
-                      usa_imoveis: item.usa_imoveis,
+                      rota: item.rota,
                     })
                   : null
               "
@@ -140,6 +143,7 @@
 
       <ReimpressaoSelos
         :show="isModalReimprimirOpen"
+        :ato_token="ato_token"
         @close="isModalReimprimirOpen = false"
       />
     </v-row>
@@ -159,7 +163,6 @@ const createOs = `${config.public.managemant}/createOrdensServico`;
 const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 const atosPayload = `${config.public.managemant}/listarAtos`;
 const updateAto = `${config.public.managemant}/updateAtos`;
-
 const cartorio_id = ref(useCookie("user-data").value.cartorio_id);
 const pessoa_id = ref(useCookie("user-data").value.usuario_id);
 const ordemserv_token =
@@ -172,6 +175,7 @@ let showCreateAtos = ref(!!useCookie("user-service").value?.numero);
 let showCreateOrdemServ = ref(useCookie("ordem-button").value);
 
 let isValidatingCpf = false;
+const ato_token = ref(null);
 const isModalReimprimirOpen = ref(false);
 const atosItems = ref([]);
 
@@ -244,7 +248,8 @@ function limparDados() {
   isTrueOrdemServ.value = null;
 }
 
-const redirectToModalReimprimir = () => {
+const redirectToModalReimprimir = (token) => {
+  ato_token.value = token;
   isModalReimprimirOpen.value = true;
 };
 
