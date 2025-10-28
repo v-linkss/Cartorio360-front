@@ -58,6 +58,11 @@
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CCN" value="CCN" color="primary"></v-radio>
             </v-col>
+            <v-col cols="12" sm="6" md="4" lg="2-4">
+            </v-col>
+            <v-col cols="12" sm="6" md="4" lg="2-4">
+              <v-radio label="CTP" value="CTP" color="primary"></v-radio>
+            </v-col>
           </v-row>
         </v-radio-group>
       </div>
