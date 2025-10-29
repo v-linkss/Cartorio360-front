@@ -6,12 +6,12 @@ import { f as fetchWithToken } from './fetchWithToken-CCGIQo0b.mjs';
 import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';
@@ -39,7 +39,7 @@ const _sfc_main = {
       const _component_NuxtLink = __nuxt_component_0;
       _push(`<!--[-->`);
       if (!unref(pending)) {
-        _push(`<div data-v-d264e454>`);
+        _push(`<div data-v-6941efb5>`);
         _push(ssrRenderComponent(VContainer, { class: "data-container mt-16" }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
@@ -411,11 +411,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/tipoAtos/visualizar/[id].vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
-const _id_ = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-d264e454"]]);
+const _id_ = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6941efb5"]]);
 
 export { _id_ as default };
-<<<<<<<< HEAD:.output/server/chunks/build/_id_-zYVB_QHB.mjs
-//# sourceMappingURL=_id_-zYVB_QHB.mjs.map
-========
 //# sourceMappingURL=_id_-Cbiqfgh3.mjs.map
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/_id_-Cbiqfgh3.mjs

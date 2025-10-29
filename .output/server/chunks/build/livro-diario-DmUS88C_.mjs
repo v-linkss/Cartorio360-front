@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:.output/server/chunks/build/livro-diario-DmUS88C_.mjs
 import { a as buildAssetsURL } from '../routes/renderer.mjs';
-========
-import { _ as _sfc_main$1 } from './SaveButton-CahdIl3Y.mjs';
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/livro-diario-9AABsQJw.mjs
 import { ref, reactive, resolveDirective, withCtx, mergeProps, unref, withDirectives, createVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrGetDirectiveProps, ssrRenderStyle, ssrRenderAttr } from 'vue/server-renderer';
 import { e as useCookie, f as VTextField, c as useRuntimeConfig } from './server.mjs';
@@ -11,12 +7,12 @@ import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
 import 'vue-bundle-renderer/runtime';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import 'devalue';
 import '@unhead/ssr';
 import 'unhead';
@@ -409,8 +405,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-<<<<<<<< HEAD:.output/server/chunks/build/livro-diario-DmUS88C_.mjs
 //# sourceMappingURL=livro-diario-DmUS88C_.mjs.map
-========
-//# sourceMappingURL=livro-diario-9AABsQJw.mjs.map
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/livro-diario-9AABsQJw.mjs

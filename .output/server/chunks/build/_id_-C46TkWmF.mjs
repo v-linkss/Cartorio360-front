@@ -9,12 +9,12 @@ import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
 import { V as VAutocomplete } from './VAutocomplete-B9VRQqKl.mjs';
 import 'v-money3';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';
@@ -54,9 +54,7 @@ const _sfc_main = {
     const ufList = ref([]);
     async function loadSeloData() {
       try {
-        const { data: seloData } = await useFetch(`${selo}/${id}`, {
-          method: "GET"
-        }, "$6TZfMfcZ97");
+        const { data: seloData } = await useFetch(`${selo}/${id}`, { method: "GET" }, "$6TZfMfcZ97");
         if (seloData.value) {
           form.value = {
             uf: seloData.value.uf,
@@ -603,8 +601,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-<<<<<<<< HEAD:.output/server/chunks/build/_id_-C46TkWmF.mjs
 //# sourceMappingURL=_id_-C46TkWmF.mjs.map
-========
-//# sourceMappingURL=_id_-Lm9sW3JX.mjs.map
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/_id_-Lm9sW3JX.mjs

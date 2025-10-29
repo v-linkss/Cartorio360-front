@@ -1,9 +1,5 @@
 import { _ as _sfc_main$1 } from './SaveButton-CahdIl3Y.mjs';
-<<<<<<<< HEAD:.output/server/chunks/build/importa-onrtd-Ca1sGBqG.mjs
-import { _ as __nuxt_component_1 } from './Confirmacao-Dgl39c3X.mjs';
-========
 import { _ as __nuxt_component_1 } from './Confirmacao-CQvuimra.mjs';
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/importa-onrtd-CsrtWzrE.mjs
 import { ref, unref, mergeProps, withCtx, createVNode, openBlock, createBlock, toDisplayString, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderStyle, ssrRenderAttr, ssrInterpolate } from 'vue/server-renderer';
 import { _ as _imports_0 } from './abre-arquivo-KvIa04gq.mjs';
@@ -15,12 +11,12 @@ import './VCard-Dbn6yWsi.mjs';
 import './VAvatar-CfQAG9re.mjs';
 import './VImg-CtUi4yCS.mjs';
 import './VResponsive-BwPb2GHE.mjs';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';
@@ -169,8 +165,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-<<<<<<<< HEAD:.output/server/chunks/build/importa-onrtd-Ca1sGBqG.mjs
-//# sourceMappingURL=importa-onrtd-Ca1sGBqG.mjs.map
-========
 //# sourceMappingURL=importa-onrtd-CsrtWzrE.mjs.map
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/importa-onrtd-CsrtWzrE.mjs

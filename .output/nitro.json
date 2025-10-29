@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "date": "2025-10-29T11:53:59.666Z",
-=======
-  "date": "2025-10-23T23:32:55.290Z",
->>>>>>> lavratura-cancela-um-selo
+  "date": "2025-10-29T17:55:22.709Z",
   "preset": "node-server",
   "framework": {
     "name": "nuxt",

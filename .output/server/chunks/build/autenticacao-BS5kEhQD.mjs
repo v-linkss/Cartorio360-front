@@ -12,12 +12,12 @@ import { V as VCard } from './VCard-Dbn6yWsi.mjs';
 import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VAutocomplete } from './VAutocomplete-B9VRQqKl.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
-import '../nitro/nitro.mjs';
+import '../_/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
-import 'node:path';
 import 'node:url';
+import 'node:path';
 import './VDialog-BVe31KMa.mjs';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
@@ -169,11 +169,7 @@ const _sfc_main = {
             _push2(ssrRenderComponent(VContainer, null, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-<<<<<<<< HEAD:.output/server/chunks/build/autenticacao-s1MYc7WW.mjs
-                  _push3(`<div style="${ssrRenderStyle({ "width": "600px", "margin-top": "10px" })}" data-v-fe35a555${_scopeId2}>`);
-========
                   _push3(`<div style="${ssrRenderStyle({ "width": "600px", "margin-top": "10px" })}" data-v-8528ced6${_scopeId2}>`);
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/autenticacao-BS5kEhQD.mjs
                   _push3(ssrRenderComponent(VAutocomplete, {
                     label: "Tabeli\xE3o/escriv\xE3o",
                     modelValue: unref(state).escrevente,
@@ -186,11 +182,7 @@ const _sfc_main = {
                     onBlur: unref(v$).escrevente.$touch,
                     onInput: unref(v$).escrevente.$touch
                   }, null, _parent3, _scopeId2));
-<<<<<<<< HEAD:.output/server/chunks/build/autenticacao-s1MYc7WW.mjs
-                  _push3(`</div><div style="${ssrRenderStyle({ "width": "180px", "margin-top": "20px" })}" data-v-fe35a555${_scopeId2}>`);
-========
                   _push3(`</div><div style="${ssrRenderStyle({ "width": "180px", "margin-top": "20px" })}" data-v-8528ced6${_scopeId2}>`);
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/autenticacao-BS5kEhQD.mjs
                   _push3(ssrRenderComponent(VTextField, {
                     type: "number",
                     label: "Quantidade",
@@ -435,14 +427,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/fontes/atos/autenticacao/autenticacao.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
-<<<<<<<< HEAD:.output/server/chunks/build/autenticacao-s1MYc7WW.mjs
-const autenticacao = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-fe35a555"]]);
-
-export { autenticacao as default };
-//# sourceMappingURL=autenticacao-s1MYc7WW.mjs.map
-========
 const autenticacao = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8528ced6"]]);
 
 export { autenticacao as default };
 //# sourceMappingURL=autenticacao-BS5kEhQD.mjs.map
->>>>>>>> lavratura-cancela-um-selo:.output/server/chunks/build/autenticacao-BS5kEhQD.mjs
