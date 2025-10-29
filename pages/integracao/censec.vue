@@ -10,11 +10,11 @@
         <h3 class="text-h6 mb-2">Período de Consulta</h3>
         <v-row>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_inicio" label="Data Inicio" placeholder="dd/mm/yyyy"
+            <v-text-field v-model="state.data_inicial" label="Data Inicio" placeholder="dd/mm/yyyy"
               v-mask="'##/##/####'"></v-text-field>
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_fim" label="Data Fim" placeholder="dd/mm/yyyy"
+            <v-text-field v-model="state.data_final" label="Data Fim" placeholder="dd/mm/yyyy"
               v-mask="'##/##/####'"></v-text-field>
           </v-col>
         </v-row>
@@ -96,8 +96,8 @@ const enviaCensec = `${config.public.ws}/censec/enviar`;
 const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
 const state = reactive({
-  data_inicio: getCurrentDate(),
-  data_fim: getCurrentDate(),
+  data_inicial: getCurrentDate(),
+  data_final: getCurrentDate(),
   validar: null,
   file_name: "",
 });
@@ -136,8 +136,8 @@ const enviaDadosCensec = async () => {
       },
       body: JSON.stringify({
         cartorio_token: useCookie("user-data").value.cartorio_token,
-        data_inicio: convertToISODate(state.data_inicio),
-        data_fim: convertToISODate(state.data_fim),
+        data_inicial: convertToISODate(state.data_inicial),
+        data_final: convertToISODate(state.data_final),
         validar: state.validar,
         file_name: state.file_name,
       }),
