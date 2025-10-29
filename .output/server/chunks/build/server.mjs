@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "cancela_lavratura",
     path: "/cancela_lavratura",
-    component: () => import('./index-BLxohqb_.mjs')
+    component: () => import('./index-BoVtDxk-.mjs')
   },
   {
     name: "carregar_arquivo_texto",
@@ -10499,7 +10499,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-CogAmbzW.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-ByWZ3qR7.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",

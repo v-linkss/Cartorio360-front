@@ -6,9 +6,6 @@
 
     <v-row>
       <v-col cols="2">
-        <<<<<<< HEAD
-        <v-text-field v-model="state.id" label="ID"></v-text-field>
-        =======
         <v-text-field v-model="state.id" label="ID do ato"></v-text-field>
       </v-col>
       <v-col cols="2">
@@ -16,7 +13,6 @@
           v-model="state.selo_numero"
           label="Numero do selo"
         ></v-text-field>
-        >>>>>>> lavratura-cancela-um-selo
       </v-col>
       <v-col>
         <div>

@@ -53,24 +53,27 @@
       </v-btn>
 
       <!-- Menu do usuário -->
-      <v-menu>
-        <template #activator="{ props }">
-          <v-btn class="user" v-bind="props">{{ userName }}</v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            v-for="(item, i) in items"
-            :key="`item-${i}`"
-            @click="itemClick(item.title)"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <h4 class="mt-1">
-        CPF: <span>{{ cpf }}</span>
-      </h4>
+      <div class="flex flex-col justify-center align-center mt-6">
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn class="user" v-bind="props">
+              {{ useCookie("user-data").value.nome }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="itemClick(item.title)"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <h4 class="mt-1">
+          CPF: <span>{{ cpf }}</span>
+        </h4>
+      </div>
     </v-app-bar>
 
     <!-- Conteúdo principal -->
@@ -88,6 +91,7 @@ const router = useRouter();
 const items = [{ title: "Alterar Senha" }, { title: "Sair" }];
 
 const perfilCookie = useCookie("menu-navbar");
+const userData = useCookie("user-data").value;
 const userCookie = useCookie("user-data");
 const authToken = useCookie("auth_token");
 const SECRET_KEY = useRuntimeConfig().public.docEditor;
