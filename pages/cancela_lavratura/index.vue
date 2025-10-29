@@ -6,7 +6,13 @@
 
     <v-row>
       <v-col cols="2">
-        <v-text-field v-model="state.id" label="ID"></v-text-field>
+        <v-text-field v-model="state.id" label="ID do ato"></v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-text-field
+          v-model="state.selo_numero"
+          label="Numero do selo"
+        ></v-text-field>
       </v-col>
       <v-col>
         <div>
@@ -31,7 +37,10 @@
       >
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px; justify-content: center">
-            <div @click="abrirModalCancelamento(item.token)" title="Excluir">
+            <div
+              @click="abrirModalCancelamento(item.token, item.selo_numero)"
+              title="Excluir"
+            >
               <img
                 style="width: 30px; height: 30px; cursor: pointer"
                 src="../../assets/btn_cancela_lavratura.png"
@@ -66,11 +75,13 @@ const atos = ref([]);
 const isModalCancelamentoOpen = ref(false);
 const condMessage = ref("");
 const ato_token = ref(null);
+const selo_numero = ref(null);
 const cancelamentoForcadoPendente = ref(false);
 const mensagemAvisoCondicional = ref("");
 
 const state = reactive({
   id: null,
+  selo_numero: null,
 });
 
 const headers = [
@@ -104,6 +115,10 @@ const headers = [
 
 async function searchAtos() {
   try {
+    if (state.id === null) {
+      $toast.error("Informe o ID do ato!");
+      return;
+    }
     sessionStorage.setItem("pesquisaAto", JSON.stringify(state));
 
     const { data: atosData } = await useFetch(pesquisaAtos, {
@@ -134,8 +149,9 @@ async function searchAtos() {
   }
 }
 
-const abrirModalCancelamento = (token) => {
+const abrirModalCancelamento = (token, selo_numero) => {
   ato_token.value = token;
+  selo_numero.value = selo_numero;
   condMessage.value =
     "O cancelamento de lavratura é definitivo e não poderá ser revertido. Confirma o cancelamento da lavratura deste ato?";
   cancelamentoForcadoPendente.value = false;
@@ -159,6 +175,7 @@ const executaCancelaAto = async (forcar) => {
     body: {
       ato_token: ato_token.value,
       user_token: usuario_token.value,
+      selo_numero: selo_numero.value,
       forcar_cancelamento: forcar,
     },
   });
