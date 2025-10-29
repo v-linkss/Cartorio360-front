@@ -634,22 +634,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-C4zsxnEO.mjs')
+    component: () => import('./_id_-Dwkxitnq.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-DnA636Xc.mjs')
+    component: () => import('./geral-Bolh2VcV.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-7TXdmyH-.mjs')
+    component: () => import('./_id_-Bm3eyszW.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-DUEKQlGg.mjs')
+    component: () => import('./geral-DQnNIffg.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -659,17 +659,17 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-DWBtqV5r.mjs')
+    component: () => import('./_id_-BmFMOM8L.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
-    component: () => import('./geral-BYwZa0Oz.mjs')
+    component: () => import('./geral-Dh5XJ4dX.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-BC4-HACx.mjs')
+    component: () => import('./procuracao-DLFtTg1t.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -689,7 +689,7 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
-    component: () => import('./censec-DA4-0niE.mjs')
+    component: () => import('./censec-o1yu3hD4.mjs')
   },
   {
     name: "integracao-importa-onrtd",
@@ -700,7 +700,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$2,
-    component: () => import('./index-BNEPa_XV.mjs')
+    component: () => import('./index-Dk57uo02.mjs')
   },
   {
     name: "login-tipo-perfil",
@@ -736,7 +736,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-BGzYHjsV.mjs')
+    component: () => import('./criar-ato-Bq21c_-g.mjs')
   },
   {
     name: "os-criar-registro",
@@ -10466,7 +10466,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-  default: defineAsyncComponent(() => import('./default-DloYjgTv.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-DPYI-GAV.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",

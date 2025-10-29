@@ -214,7 +214,7 @@ const setCookies = (userInfo) => {
     cartorio_id: userInfo.cartorios[0].cartorio_id,
     cartorio_nome: userInfo.cartorios[0].cartorio_descricao,
     cartorio_token: userInfo.cartorios[0].cartorio_token,
-    cpf: encryptData(userInfo.cpf),
+    cpf: userInfo.cpf ? encryptData(userInfo.cpf) : null,
   });
 
   const tokenCookie = useCookie("auth_token");
