@@ -10,20 +10,12 @@
         <h3 class="text-h6 mb-2">Período de Consulta</h3>
         <v-row>
           <v-col cols="12" md="2">
-            <v-text-field
-              v-model="state.data_inicio"
-              label="Data Inicio"
-              placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"
-            ></v-text-field>
+            <v-text-field v-model="state.data_inicial" label="Data Inicio" placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"></v-text-field>
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field
-              v-model="state.data_fim"
-              label="Data Fim"
-              placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"
-            ></v-text-field>
+            <v-text-field v-model="state.data_final" label="Data Fim" placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"></v-text-field>
           </v-col>
         </v-row>
       </div>
@@ -31,19 +23,15 @@
       <!-- Seção de Tipo de Validação -->
       <div class="mb-6">
         <v-row>
-          <v-col cols="12" , sm="6" md="4"></v-col>
-          <v-col cols="12" , sm="6" md="4">
+          <v-col cols="12" sm="6" md="4"></v-col>
+          <v-col cols="12" sm="6" md="4">
             <h3 class="text-h6 mb-4">Gerar Arquivo</h3>
           </v-col>
         </v-row>
         <v-radio-group v-model="state.validar" class="mt-2">
           <v-row>
             <v-col cols="12" sm="6" md="4" lg="2-4">
-              <v-radio
-                label="VALIDAR ATOS"
-                value="ATOS"
-                color="primary"
-              ></v-radio>
+              <v-radio label="VALIDAR ATOS" value="ATOS" color="primary"></v-radio>
             </v-col>
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CESDI" value="CESDI" color="primary"></v-radio>
@@ -74,18 +62,11 @@
         <h3 class="text-h6 mb-4">Arquivo</h3>
         <v-row align="center">
           <v-col cols="12" md="8">
-            <v-text-field
-              label="Nome do arquivo"
-              v-model="state.file_name"
-              :disabled="!state.validar || state.validar === 'ATOS'"
-            ></v-text-field>
+            <v-text-field label="Nome do arquivo" v-model="state.file_name"
+              :disabled="!state.validar || state.validar === 'ATOS'"></v-text-field>
           </v-col>
           <v-col cols="12" md="4" class="d-flex justify-end">
-            <SaveButton
-              :text="'Enviar'"
-              :onSave="enviaDadosCensec"
-              class="px-8"
-            />
+            <SaveButton :text="'Enviar'" :onSave="enviaDadosCensec" class="px-8" />
           </v-col>
         </v-row>
       </div>
@@ -113,8 +94,8 @@ const enviaCensec = `${config.public.ws}/censec/enviar`;
 const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
 const state = reactive({
-  data_inicio: getCurrentDate(),
-  data_fim: getCurrentDate(),
+  data_inicial: getCurrentDate(),
+  data_final: getCurrentDate(),
   validar: null,
   file_name: "",
 });
@@ -150,8 +131,8 @@ const enviaDadosCensec = async () => {
       },
       body: JSON.stringify({
         cartorio_token: useCookie("user-data").value.cartorio_token,
-        data_inicio: convertToISODate(state.data_inicio),
-        data_fim: convertToISODate(state.data_fim),
+        data_inicial: convertToISODate(state.data_inicial),
+        data_final: convertToISODate(state.data_final),
         validar: state.validar,
         file_name: state.file_name,
       }),
