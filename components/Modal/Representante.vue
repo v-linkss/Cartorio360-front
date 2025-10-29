@@ -21,9 +21,10 @@
             src="../../assets/novo.png"
             style="width: 40px; cursor: pointer"
             title="Adicionar Representante"
+            @click="addRepresentante"
           />
         </div>
-        <v-data-table :headers="headers">
+        <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
             <div
               class="mr-1"
@@ -32,7 +33,7 @@
               title="Deletar Pessoa"
             >
               <img
-                src="../../../assets/mudarStatus.png"
+                src="../../assets/mudarStatus.png"
                 alt="Excluir"
                 class="trash-icon"
                 style="width: 30px; height: 30px"
@@ -41,6 +42,7 @@
             </div>
           </template>
         </v-data-table>
+        {{ tableData }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -74,6 +76,7 @@ const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 const headers = [
   {
     title: "Representante",
+    key: "nome",
     align: "start",
   },
 
@@ -83,7 +86,7 @@ const headers = [
 const state = reactive({
   representante_id: null,
 });
-
+const tableData = ref([]);
 const emit = defineEmits(["close", "update-representante"]);
 
 watch(
@@ -96,6 +99,30 @@ const closeModal = () => {
   state.representante_id = null;
   isVisible.value = false;
   emit("close");
+};
+
+const addRepresentante = () => {
+  if (state.representante_id) {
+    const exists = tableData.value.some(
+      (item) => item.id === state.representante_id.id
+    );
+    if (!exists) {
+      tableData.value.push({
+        id: state.representante_id.id,
+        nome: state.representante_id.nome,
+      });
+    } else {
+      $toast.error("Este representante já foi adicionado!");
+    }
+    state.representante_id = null;
+  }
+};
+
+const deletePessoa = (item) => {
+  const index = tableData.value.findIndex((rep) => rep.id === item.id);
+  if (index !== -1) {
+    tableData.value.splice(index, 1);
+  }
 };
 
 const updateAtoPessoa = async (clear) => {
