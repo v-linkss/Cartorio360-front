@@ -632,7 +632,11 @@ const _routes = [
   {
     name: "cancela_lavratura",
     path: "/cancela_lavratura",
+<<<<<<< HEAD
     component: () => import('./index-D_HWwFuw.mjs')
+=======
+    component: () => import('./index-B-nurHZs.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "carregar_arquivo_texto",
@@ -655,52 +659,92 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-Dg1UZlv-.mjs')
+=======
+    component: () => import('./_id_-C4zsxnEO.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
+<<<<<<< HEAD
     component: () => import('./geral-DjW8tZzu.mjs')
+=======
+    component: () => import('./geral-DnA636Xc.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-BM-jpyGn.mjs')
+=======
+    component: () => import('./_id_-7TXdmyH-.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
+<<<<<<< HEAD
     component: () => import('./geral-B8_VoNEG.mjs')
+=======
+    component: () => import('./geral-DUEKQlGg.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
+<<<<<<< HEAD
     component: () => import('./autenticacao-s1MYc7WW.mjs')
+=======
+    component: () => import('./autenticacao-BS5kEhQD.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-B44i3m5H.mjs')
+=======
+    component: () => import('./_id_-DWBtqV5r.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
+<<<<<<< HEAD
     component: () => import('./geral-C-46CPAx.mjs')
+=======
+    component: () => import('./geral-BYwZa0Oz.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
+<<<<<<< HEAD
     component: () => import('./procuracao-DaFw6t8z.mjs')
+=======
+    component: () => import('./procuracao-BC4-HACx.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
+<<<<<<< HEAD
     component: () => import('./autencidade-BA6_FHPc.mjs')
+=======
+    component: () => import('./autencidade-CvO39UUA.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
+<<<<<<< HEAD
     component: () => import('./semelhanca-CNXTJ1Fb.mjs')
+=======
+    component: () => import('./semelhanca-CsC1JF62.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "index",
@@ -710,18 +754,31 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
+<<<<<<< HEAD
     component: () => import('./censec-EtHEYUMs.mjs')
+=======
+    component: () => import('./censec-DA4-0niE.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "integracao-importa-onrtd",
     path: "/integracao/importa-onrtd",
+<<<<<<< HEAD
     component: () => import('./importa-onrtd-Ca1sGBqG.mjs')
+=======
+    component: () => import('./importa-onrtd-CsrtWzrE.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "login",
     path: "/login",
+<<<<<<< HEAD
     meta: __nuxt_page_meta$3,
     component: () => import('./index-BHqRWloz.mjs')
+=======
+    meta: __nuxt_page_meta$2,
+    component: () => import('./index-BNEPa_XV.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "login-tipo-perfil",
@@ -747,7 +804,11 @@ const _routes = [
   {
     name: "matriculas-vizualizar-id",
     path: "/matriculas/vizualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-CM6SBO5s.mjs')
+=======
+    component: () => import('./_id_-BfWK2zlw.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "os-atualizar-id",
@@ -757,7 +818,11 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
+<<<<<<< HEAD
     component: () => import('./criar-ato-RnIfLDWB.mjs')
+=======
+    component: () => import('./criar-ato-BGzYHjsV.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "os-criar-registro",
@@ -772,12 +837,20 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-C-uGG_QZ.mjs')
+=======
+    component: () => import('./_id_-C7cJpl-Z.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-DKyfrwg4.mjs')
+=======
+    component: () => import('./index-CSkEkm4B.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "pessoas-lista",
@@ -798,7 +871,11 @@ const _routes = [
   {
     name: "relatorios-livro-diario",
     path: "/relatorios/livro-diario",
+<<<<<<< HEAD
     component: () => import('./livro-diario-DmUS88C_.mjs')
+=======
+    component: () => import('./livro-diario-9AABsQJw.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "selos-enviar",
@@ -828,7 +905,11 @@ const _routes = [
   {
     name: "situacoes-matriculas-vizualizar-id",
     path: "/situacoes-matriculas/vizualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-Cq9R-d15.mjs')
+=======
+    component: () => import('./_id_-BjmAY0pJ.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "tipoAtos-atualizar-id",
@@ -848,12 +929,20 @@ const _routes = [
   {
     name: "tipoAtos-visualizar-id",
     path: "/tipoAtos/visualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-zYVB_QHB.mjs')
+=======
+    component: () => import('./_id_-Cbiqfgh3.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-C46TkWmF.mjs')
+=======
+    component: () => import('./_id_-Lm9sW3JX.mjs')
+>>>>>>> lavratura-cancela-um-selo
   },
   {
     name: "tiposSelos-cadastro",
@@ -864,12 +953,15 @@ const _routes = [
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
     component: () => import('./lista-xYnrqEw2.mjs')
+<<<<<<< HEAD
   },
   {
     name: "upload_arquivo_texto",
     path: "/upload_arquivo_texto",
     meta: __nuxt_page_meta,
     component: () => import('./index-CkAbfoEE.mjs')
+=======
+>>>>>>> lavratura-cancela-um-selo
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -10499,7 +10591,11 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
+<<<<<<< HEAD
   default: defineAsyncComponent(() => import('./default-DuGML2og.mjs').then((m) => m.default || m))
+=======
+  default: defineAsyncComponent(() => import('./default-DloYjgTv.mjs').then((m) => m.default || m))
+>>>>>>> lavratura-cancela-um-selo
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -10911,5 +11007,9 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
+<<<<<<< HEAD
 export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VBtn as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, makeFormProps as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, useFocus as aA, filterInputAttrs as aB, VInput as aC, filterFieldProps as aD, VField as aE, VCounter as aF, callEvent as aG, asyncDataDefaults as aH, createError as aI, makeGroupProps as aJ, useGroup as aK, useGoTo as aL, VFadeTransition as aM, focusableChildren as aN, makeGroupItemProps as aO, useSize as aP, useGroupItem as aQ, VExpandXTransition as aR, debounce as aS, useToggleScope as aT, getUid as aU, defineComponent as aV, MaybeTransition as aW, VExpandTransition as aX, deprecate as aY, focusChild as aZ, VLabel as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, makeVInputProps as ax, makeVFieldProps as ay, Intersect as az, useNuxtApp as b, createForm as b0, makeVBtnProps as b1, animate as b2, standardEasing as b3, keys as b4, makeLazyProps as b5, useLazy as b6, isObject as b7, VProgressCircular as b8, VSheet as b9, VSpacer as ba, getDecimals as bb, VScaleTransition as bc, makeFocusProps as bd, makeLayoutItemProps as be, useLayoutItem as bf, useTheme as bg, pickWithRest as bh, useLayout as bi, VApp as bj, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VTextField as f, useRoute$1 as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
+=======
+export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VBtn as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, makeFormProps as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, useFocus as aA, filterInputAttrs as aB, VInput as aC, filterFieldProps as aD, VField as aE, VCounter as aF, callEvent as aG, asyncDataDefaults as aH, createError as aI, makeGroupProps as aJ, useGroup as aK, useGoTo as aL, VFadeTransition as aM, focusableChildren as aN, makeGroupItemProps as aO, useSize as aP, useGroupItem as aQ, VExpandXTransition as aR, debounce as aS, useToggleScope as aT, getUid as aU, defineComponent as aV, MaybeTransition as aW, VExpandTransition as aX, deprecate as aY, focusChild as aZ, VLabel as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, makeVInputProps as ax, makeVFieldProps as ay, Intersect as az, useNuxtApp as b, createForm as b0, makeVBtnProps as b1, animate as b2, standardEasing as b3, keys as b4, makeLazyProps as b5, useLazy as b6, isObject as b7, VProgressCircular as b8, VSheet as b9, VSpacer as ba, getDecimals as bb, VScaleTransition as bc, makeFocusProps as bd, makeLayoutItemProps as be, useLayoutItem as bf, useLayout as bg, VApp as bh, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VTextField as f, useRoute$1 as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
+>>>>>>> lavratura-cancela-um-selo
 //# sourceMappingURL=server.mjs.map
