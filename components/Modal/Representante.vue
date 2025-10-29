@@ -8,15 +8,41 @@
           </h2>
         </v-row>
         <hr class="mb-5" />
-        <v-autocomplete
-          class="mb-5"
-          label="Selecione o Representante"
-          v-model="state.representante_id"
-          :items="props.representantes"
-          item-title="nome"
-          item-value="id"
-          return-object
-        ></v-autocomplete>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <v-autocomplete
+            label="Selecione o Representante"
+            v-model="state.representante_id"
+            :items="props.representantes"
+            item-title="nome"
+            item-value="id"
+            return-object
+          ></v-autocomplete>
+          <img
+            src="../../assets/novo.png"
+            style="width: 40px; cursor: pointer"
+            title="Adicionar Representante"
+            @click="addRepresentante"
+          />
+        </div>
+        <v-data-table :headers="headers" :items="tableData">
+          <template v-slot:item.actions="{ item }">
+            <div
+              class="mr-1"
+              style="display: flex; cursor: pointer; justify-content: flex-end"
+              @click="deletePessoa(item)"
+              title="Deletar Pessoa"
+            >
+              <img
+                src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
+            </div>
+          </template>
+        </v-data-table>
+        {{ tableData }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -47,10 +73,20 @@ const isClear = ref(false);
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
 
+const headers = [
+  {
+    title: "Representante",
+    key: "nome",
+    align: "start",
+  },
+
+  { value: "actions" },
+];
+
 const state = reactive({
   representante_id: null,
 });
-
+const tableData = ref([]);
 const emit = defineEmits(["close", "update-representante"]);
 
 watch(
@@ -63,6 +99,30 @@ const closeModal = () => {
   state.representante_id = null;
   isVisible.value = false;
   emit("close");
+};
+
+const addRepresentante = () => {
+  if (state.representante_id) {
+    const exists = tableData.value.some(
+      (item) => item.id === state.representante_id.id
+    );
+    if (!exists) {
+      tableData.value.push({
+        id: state.representante_id.id,
+        nome: state.representante_id.nome,
+      });
+    } else {
+      $toast.error("Este representante já foi adicionado!");
+    }
+    state.representante_id = null;
+  }
+};
+
+const deletePessoa = (item) => {
+  const index = tableData.value.findIndex((rep) => rep.id === item.id);
+  if (index !== -1) {
+    tableData.value.splice(index, 1);
+  }
 };
 
 const updateAtoPessoa = async (clear) => {
