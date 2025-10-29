@@ -153,6 +153,7 @@
 </template>
 
 <script setup>
+import CryptoJS from "crypto-js";
 definePageMeta({
   layout: "false",
 });
@@ -185,6 +186,7 @@ const config = useRuntimeConfig();
 const listarMenu = `${config.public.auth}/service/gerencia/listarMenu`;
 const auth = config.public.auth;
 const managemant = config.public.managemant;
+const SECRET_KEY = config.public.docEditor;
 
 const recoveryCode = ref("");
 const authenticateUser = async () => {
@@ -198,6 +200,11 @@ const authenticateUser = async () => {
 
   return { data: data?.value, status: status?.value, error: error?.value };
 };
+
+function encryptData(data) {
+  const json = JSON.stringify(data);
+  return CryptoJS.AES.encrypt(json, SECRET_KEY).toString();
+}
 
 const setCookies = (userInfo) => {
   const userCookie = useCookie("user-data");

@@ -8,15 +8,39 @@
           </h2>
         </v-row>
         <hr class="mb-5" />
-        <v-autocomplete
-          class="mb-5"
-          label="Selecione o Representante"
-          v-model="state.representante_id"
-          :items="props.representantes"
-          item-title="nome"
-          item-value="id"
-          return-object
-        ></v-autocomplete>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <v-autocomplete
+            label="Selecione o Representante"
+            v-model="state.representante_id"
+            :items="props.representantes"
+            item-title="nome"
+            item-value="id"
+            return-object
+          ></v-autocomplete>
+          <img
+            src="../../assets/novo.png"
+            style="width: 40px; cursor: pointer"
+            title="Adicionar Representante"
+          />
+        </div>
+        <v-data-table :headers="headers">
+          <template v-slot:item.actions="{ item }">
+            <div
+              class="mr-1"
+              style="display: flex; cursor: pointer; justify-content: flex-end"
+              @click="deletePessoa(item)"
+              title="Deletar Pessoa"
+            >
+              <img
+                src="../../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
+            </div>
+          </template>
+        </v-data-table>
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -46,6 +70,15 @@ const config = useRuntimeConfig();
 const isClear = ref(false);
 const { $toast } = useNuxtApp();
 const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+
+const headers = [
+  {
+    title: "Representante",
+    align: "start",
+  },
+
+  { value: "actions" },
+];
 
 const state = reactive({
   representante_id: null,
