@@ -68,6 +68,9 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <h4 class="mt-1">
+        CPF: <span>{{ cpf }}</span>
+      </h4>
     </v-app-bar>
 
     <!-- Conteúdo principal -->
@@ -78,9 +81,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
-import { useCookie } from "#app";
+import CryptoJS from "crypto-js";
 const config = useRuntimeConfig();
 
 const router = useRouter();
@@ -89,6 +90,15 @@ const items = [{ title: "Alterar Senha" }, { title: "Sair" }];
 const perfilCookie = useCookie("menu-navbar");
 const userCookie = useCookie("user-data");
 const authToken = useCookie("auth_token");
+const SECRET_KEY = useRuntimeConfig().public.docEditor;
+
+const decryptData = (ciphertext) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
+  const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  return JSON.parse(decrypted);
+};
+
+const cpf = userData ? decryptData(userData.cpf) : null;
 
 const menuName = computed(() =>
   Object.keys(perfilCookie.value || {})

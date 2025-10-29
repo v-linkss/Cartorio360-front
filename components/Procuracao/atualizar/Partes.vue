@@ -397,6 +397,7 @@ const redirectToRepresentante = (item) => {
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
+      token: p.pessoa.token,
     }));
   ato_pessoa_id.value = item.id;
   pessoasRepresentantes.value = pessoasFiltradas;
