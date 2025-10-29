@@ -38,7 +38,7 @@
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px; justify-content: center">
             <div
-              @click="abrirModalCancelamento(item.token, item.selo_numero)"
+              @click="abrirModalCancelamento(item.token, state.selo_numero)"
               title="Excluir"
             >
               <img

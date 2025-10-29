@@ -632,7 +632,7 @@ const _routes = [
   {
     name: "cancela_lavratura",
     path: "/cancela_lavratura",
-    component: () => import('./index-BoVtDxk-.mjs')
+    component: () => import('./index-BAKG0NIM.mjs')
   },
   {
     name: "carregar_arquivo_texto",
