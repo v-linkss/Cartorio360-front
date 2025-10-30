@@ -17,14 +17,14 @@
             item-value="id"
             return-object
           ></v-autocomplete>
-          <img
+          <!-- <img
             src="../../assets/novo.png"
             style="width: 40px; cursor: pointer"
             title="Adicionar Representante"
             @click="addRepresentante"
-          />
+          /> -->
         </div>
-        <v-data-table :headers="headers" :items="tableData">
+        <!-- <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
             <div
               class="mr-1"
@@ -41,8 +41,7 @@
               />
             </div>
           </template>
-        </v-data-table>
-        {{ tableData }}
+        </v-data-table> -->
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"

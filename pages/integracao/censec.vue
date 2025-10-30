@@ -31,8 +31,8 @@
       <!-- Seção de Tipo de Validação -->
       <div class="mb-6">
         <v-row>
-          <v-col cols="12" , sm="6" md="4"></v-col>
-          <v-col cols="12" , sm="6" md="4">
+          <v-col cols="12" sm="6" md="4"></v-col>
+          <v-col cols="12" sm="6" md="4">
             <h3 class="text-h6 mb-4">Gerar Arquivo</h3>
           </v-col>
         </v-row>
