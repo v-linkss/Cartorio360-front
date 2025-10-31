@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "date": "2025-10-31T17:59:16.893Z",
-=======
-  "date": "2025-10-30T20:36:25.467Z",
->>>>>>> new-logic-add-representante
+  "date": "2025-10-31T20:58:16.406Z",
   "preset": "node-server",
   "framework": {
     "name": "nuxt",

@@ -84,11 +84,7 @@ const _sfc_main = {
         cartorio_id: userInfo.cartorios[0].cartorio_id,
         cartorio_nome: userInfo.cartorios[0].cartorio_descricao,
         cartorio_token: userInfo.cartorios[0].cartorio_token,
-<<<<<<<< HEAD:.output/server/chunks/build/index-DpvLW0EQ.mjs
-        cpf: encryptData(userInfo.cpf)
-========
         cpf: userInfo.cpf ? encryptData(userInfo.cpf) : null
->>>>>>>> new-logic-add-representante:.output/server/chunks/build/index-Dk57uo02.mjs
       });
       const tokenCookie = useCookie("auth_token");
       tokenCookie.value = userInfo.token;
@@ -215,11 +211,7 @@ const _sfc_main = {
                           }),
                           _: 1
                         }, _parent4, _scopeId3));
-<<<<<<<< HEAD:.output/server/chunks/build/index-DpvLW0EQ.mjs
-                        _push4(`<div class="text" data-v-ba739fc7${_scopeId3}>Login</div>`);
-========
                         _push4(`<div class="text" data-v-682a4217${_scopeId3}>Login</div>`);
->>>>>>>> new-logic-add-representante:.output/server/chunks/build/index-Dk57uo02.mjs
                         _push4(ssrRenderComponent(VTextField, {
                           autofocus: "",
                           autocomplete: "email",
@@ -539,11 +531,7 @@ const _sfc_main = {
                           }),
                           _: 1
                         }, _parent4, _scopeId3));
-<<<<<<<< HEAD:.output/server/chunks/build/index-DpvLW0EQ.mjs
-                        _push4(`<div data-v-ba739fc7${_scopeId3}><a class="text-decoration-none" rel="noopener noreferrer" style="${ssrRenderStyle({ "color": "white", "margin-left": "10px", "cursor": "pointer" })}" data-v-ba739fc7${_scopeId3}> Esqueceu a senha? </a></div>`);
-========
                         _push4(`<div data-v-682a4217${_scopeId3}><a class="text-decoration-none" rel="noopener noreferrer" style="${ssrRenderStyle({ "color": "white", "margin-left": "10px", "cursor": "pointer" })}" data-v-682a4217${_scopeId3}> Esqueceu a senha? </a></div>`);
->>>>>>>> new-logic-add-representante:.output/server/chunks/build/index-Dk57uo02.mjs
                       } else {
                         return [
                           createVNode(_component_center, null, {
@@ -1313,14 +1301,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/login/index.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
-<<<<<<<< HEAD:.output/server/chunks/build/index-DpvLW0EQ.mjs
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ba739fc7"]]);
-
-export { index as default };
-//# sourceMappingURL=index-DpvLW0EQ.mjs.map
-========
 const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-682a4217"]]);
 
 export { index as default };
 //# sourceMappingURL=index-Dk57uo02.mjs.map
->>>>>>>> new-logic-add-representante:.output/server/chunks/build/index-Dk57uo02.mjs

@@ -655,38 +655,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-<<<<<<< HEAD
-    component: () => import('./_id_-Bxb-W6z0.mjs')
-=======
-    component: () => import('./_id_-8V7_VEiv.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./_id_-D-QggD3Z.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-<<<<<<< HEAD
-    component: () => import('./geral-B8qjXeED.mjs')
-=======
-    component: () => import('./geral-BT3VHdXf.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./geral-BgIKPzON.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-<<<<<<< HEAD
-    component: () => import('./_id_-Dr3KhVnw.mjs')
-=======
-    component: () => import('./_id_-EdzFPPvH.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./_id_-CK5po8QA.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-<<<<<<< HEAD
-    component: () => import('./geral-DIZvxnn4.mjs')
-=======
-    component: () => import('./geral-CXhl80e0.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./geral-Bdd9wsnL.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -696,29 +680,17 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-<<<<<<< HEAD
-    component: () => import('./_id_-BlcZlaGt.mjs')
-=======
-    component: () => import('./_id_-DE0stmAF.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./_id_-ExzkhDG2.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
-<<<<<<< HEAD
-    component: () => import('./geral-_USxBGey.mjs')
-=======
-    component: () => import('./geral-B_PPfgNN.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./geral-BMgJYC1H.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-<<<<<<< HEAD
-    component: () => import('./procuracao-CbCTseCm.mjs')
-=======
-    component: () => import('./procuracao-CEnu62YB.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./procuracao-CfPkQZ5f.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -738,11 +710,7 @@ const _routes = [
   {
     name: "integracao-censec",
     path: "/integracao/censec",
-<<<<<<< HEAD
-    component: () => import('./censec-EtHEYUMs.mjs')
-=======
-    component: () => import('./censec-DH9MVPS1.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./censec-DNYfoOz1.mjs')
   },
   {
     name: "integracao-importa-onrtd",
@@ -752,13 +720,8 @@ const _routes = [
   {
     name: "login",
     path: "/login",
-<<<<<<< HEAD
     meta: __nuxt_page_meta$3,
-    component: () => import('./index-DpvLW0EQ.mjs')
-=======
-    meta: __nuxt_page_meta$2,
     component: () => import('./index-Dk57uo02.mjs')
->>>>>>> new-logic-add-representante
   },
   {
     name: "login-tipo-perfil",
@@ -794,11 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-<<<<<<< HEAD
-    component: () => import('./criar-ato-CMgXmMTw.mjs')
-=======
-    component: () => import('./criar-ato-DRGCjgik.mjs')
->>>>>>> new-logic-add-representante
+    component: () => import('./criar-ato-BGvPJEn4.mjs')
   },
   {
     name: "os-criar-registro",
@@ -10540,11 +10499,7 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
-<<<<<<< HEAD
-  default: defineAsyncComponent(() => import('./default-ByWZ3qR7.mjs').then((m) => m.default || m))
-=======
-  default: defineAsyncComponent(() => import('./default-CoW_ehY-.mjs').then((m) => m.default || m))
->>>>>>> new-logic-add-representante
+  default: defineAsyncComponent(() => import('./default-BWBVpWab.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
