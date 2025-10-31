@@ -1,23 +1,69 @@
 <template>
-  <v-dialog persistent v-model="isVisible" max-width="1100">
-    <div v-if="pending" class="loading-overlay">
-      <v-progress-circular indeterminate color="white" size="60" class="loading-spinner"></v-progress-circular>
-    </div>
+  <v-dialog persistent v-model="isVisible" max-width="1200">
     <v-card>
-      <v-card-title class="text-h5">Ficha de Firma2</v-card-title>
+      <!-- Cabeçalho -->
+      <v-card-title class="text-h5 d-flex justify-space-between align-center">
+        <span>Ficha de Firma</span>
+        <span v-if="images.length > 1 && !isEditing" class="mx-2">
+          {{ currentIndex + 1 }} / {{ images.length }}
+        </span>
+      </v-card-title>
 
-      <div class="d-flex justify-center align-center">
+      <!-- Quando há várias imagens -->
+      <v-carousel v-if="!isEditing && images.length > 1" v-model="currentIndex" show-arrows="hover"
+        hide-delimiter-background height="750" width="1000" class="rounded-lg overflow-hidden">
+        <v-carousel-item v-for="(image, index) in images" :key="index" :value="index">
+          <v-img :src="image.url" cover />
+        </v-carousel-item>
+      </v-carousel>
+
+      <!-- Quando há apenas uma imagem -->
+      <v-img v-else-if="!isEditing && images.length === 1" :src="images[0].url" height="750" width="1000"
+        class="rounded-lg overflow-hidden" cover />
+
+      <!-- Quando não há nenhuma imagem -->
+      <div v-else-if="!isEditing && images.length === 0"
+        class="d-flex flex-column align-center justify-center mx-auto text-center" style="
+    height: 750px;
+    width: 1000px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+  ">
+        <v-icon size="64" color="grey">mdi-file-alert-outline</v-icon>
+        <p class="mt-4 text-subtitle-1">
+          Nenhuma ficha cadastrada para esta pessoa.
+        </p>
+      </div>
+
+
+
+      <!-- Edição -->
+      <div v-if="isEditing" class="d-flex justify-center align-center mt-4">
         <ejs-imageeditor height="750px" width="850px" ref="imageEditorRef" :toolbar="toolbar"
-          :toolbarUpdating="onToolbarUpdating"></ejs-imageeditor>
+          :toolbarUpdating="onToolbarUpdating" />
       </div>
 
       <v-card-actions>
+        <!-- Botão Salvar só no modo edição -->
+        <v-btn style="background-color: #429946; color: white" @click="toggleEditing"
+          :disabled="isCropActive || images.length === 0">
+          {{ isEditing ? 'Voltar ao carrossel' : 'Editar imagem' }}
+        </v-btn>
+
         <v-btn style="background-color: #429946; color: white" @click="editarImagem"
-          :disabled="isCropActive">Salvar</v-btn>
-        <v-btn v-if="!props.isView" style="background-color: #085a98; color: white"
-          @click="confirmarRecebimento">Reconhecer</v-btn>
-        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
+          :disabled="isCropActive || !isEditing || images.length === 0">
+          Salvar
+        </v-btn>
+
+        <v-btn v-if="!props.isView" style="background-color: #085a98; color: white" @click="confirmarRecebimento">
+          Reconhecer
+        </v-btn>
+
+        <v-btn style="background-color: red; color: white" @click="closeModal">
+          Voltar
+        </v-btn>
       </v-card-actions>
+
     </v-card>
   </v-dialog>
 </template>
@@ -25,6 +71,8 @@
 <script setup>
 import { registerLicense } from "@syncfusion/ej2-base";
 import { ImageEditorComponent as EjsImageeditor } from "@syncfusion/ej2-vue-image-editor";
+
+/***** Props *****/
 const props = defineProps({
   show: Boolean,
   item: Object,
@@ -33,31 +81,52 @@ const props = defineProps({
     default: false,
   },
   linkView: String,
+  images: {
+    type: Array,
+    default: () => [],
+  },
   pessoaObj: Object,
 });
+
+/***** Global utils *****/
 const toolbar = ["RotateLeft", "RotateRight", "Crop", "ZoomIn", "ZoomOut"];
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 registerLicense(`${config.public.docEditor}`);
+
+/***** Endpoints *****/
 const transformarTiffParaPng = `${config.public.managemant}/minio/tiff_para_png`;
 const atualizarFicha = `${config.public.managemant}/minio/update_image`;
+
+/***** State *****/
 const imageEditorRef = ref(null);
-const pending = ref(false);
-
 const isVisible = ref(props.show);
-const fichaRender = ref(props.linkView || null);
+const currentIndex = ref(0);
 const isCropActive = ref(false);
-
+const isEditing = ref(false);
 const emit = defineEmits(["close", "confirmar"]);
 
-const onToolbarUpdating = (args) => {
-  if (args.toolbarType === "crop-transform") {
-    isCropActive.value = true;
-    return;
+/***** Imagens *****/
+const images = computed(() => {
+  if (props.linkView && props.linkView.length > 0) {
+    // Se linkView é um array aninhado [[]], pega o primeiro array interno
+    if (Array.isArray(props.linkView[0])) {
+      console.log('é um array aninhado\n', props.linkView)
+      return props.linkView;
+    }
+    // Se linkView é um array simples []
+    console.log('é um array simples\n', props.linkView)
+    return props.linkView;
   }
-  isCropActive.value = false;
+  return props.linkView ? [props.linkView] : [];
+});
+
+/***** Toolbar update *****/
+const onToolbarUpdating = (args) => {
+  isCropActive.value = args.toolbarType === "crop-transform";
 };
 
+/***** Ações *****/
 const confirmarRecebimento = () => {
   emit("confirmar");
   closeModal();
@@ -66,120 +135,116 @@ const confirmarRecebimento = () => {
 const editarImagem = async () => {
   try {
     const imageEditor = imageEditorRef.value?.ej2Instances;
-    if (!imageEditor) return;
+    if (!imageEditor) {
+      $toast.warning("Editor de imagem não está disponível");
+      return;
+    }
 
     const imageData = imageEditor.getImageData();
-    if (!imageData) return;
-
     const canvas = document.createElement("canvas");
     canvas.width = imageData.width;
     canvas.height = imageData.height;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
     ctx.putImageData(imageData, 0, 0);
 
-    const blob = await new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob);
-      }, "image/png");
-    });
-
-    if (!blob) return;
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
 
     const formData = new FormData();
-    formData.append(
-      "cartorio_token",
-      useCookie("user-data").value?.cartorio_token || ""
-    );
-    formData.append("path", props.pessoaObj?.link_ficha || "");
-    formData.append("file", blob, "ficha_editada.png");
+    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append("path", images.value[0][currentIndex.value].path);
+    formData.append("file", blob, `ficha_editada_${currentIndex.value}.png`);
 
-    const { status } = await useFetch(atualizarFicha, {
-      method: "PUT",
-      body: formData,
-    });
-
-    if (status.value === "success") {
-      $toast.success("Ficha Atualizada com Sucesso!");
-    }
+    const { status } = await useFetch(atualizarFicha, { method: "PUT", body: formData });
+    if (status.value === "success") $toast.success(`Ficha ${currentIndex.value + 1} atualizada com sucesso!`);
   } catch (error) {
-    console.error("Erro ao editar imagem:", error);
+    console.error(error);
     $toast.error("Erro ao atualizar a ficha");
   }
 };
 
-const loadImageIntoEditor = async () => {
-  // Se não houver link, apenas exibe o modal sem carregar imagem
-  if (!fichaRender.value || !imageEditorRef.value?.ej2Instances) return;
+/***** Carregamento de imagens *****/
+const loadImageIntoEditor = async (imageObj) => {
+  // Verificar se o editor está disponível antes de continuar
+  if (!imageEditorRef.value?.ej2Instances) {
+    console.warn("Editor de imagem não está disponível ainda");
+    return;
+  }
 
-  pending.value = true;
+  if (!imageObj) {
+    console.warn("Objeto de imagem não fornecido");
+    return;
+  }
 
   try {
     const imageEditor = imageEditorRef.value.ej2Instances;
-
-    const response = await fetch(fichaRender.value);
-    if (!response.ok) throw new Error("Falha ao baixar imagem");
+    const response = await fetch(imageObj.url);
     const blob = await response.blob();
-
-    // Se não houver conteúdo, não tenta abrir
-    if (!blob || blob.size === 0) return;
-
-    const file = new File([blob], "image.tiff", {
-      type: blob.type || "application/octet-stream",
-    });
+    const file = new File([blob], "image.tiff", { type: blob.type || "application/octet-stream" });
 
     const formData = new FormData();
     formData.append("tipo", "ficha");
-    formData.append(
-      "cartorio_token",
-      useCookie("user-data").value?.cartorio_token || ""
-    );
-    formData.append("path", props.pessoaObj?.link_ficha || "");
-    formData.append("pessoa_token", props.pessoaObj?.token || "");
+    formData.append("cartorio_token", useCookie("user-data").value.cartorio_token);
+    formData.append("path", imageObj.path);
+    formData.append("pessoa_token", props.pessoaObj.token);
     formData.append("file", file);
 
-    const { data: imagemBiometria, status } = await useFetch(transformarTiffParaPng, {
-      method: "POST",
-      body: formData,
-    });
+    const { data } = await useFetch(transformarTiffParaPng, { method: "POST", body: formData });
 
-    const pngUrl = imagemBiometria?.value?.msg;
-    if (status.value === "success" && pngUrl) {
-      await imageEditor.open(pngUrl);
-    } else {
-      // Sem imagem válida: mantém o editor vazio
-      console.warn("Nenhuma imagem para abrir no editor");
+    if (data.value?.msg) {
+      await imageEditor.open(data.value.msg);
     }
   } catch (error) {
-    console.error("Erro ao carregar imagem no editor:", error);
-  } finally {
-    pending.value = false;
+    console.error("Erro ao carregar imagem:", error);
+    $toast.error("Erro ao carregar imagem no editor");
   }
 };
 
-watch(
-  () => props.linkView,
-  async (newLinkView) => {
-    fichaRender.value = newLinkView || null;
-    if (newLinkView) {
-      await loadImageIntoEditor();
-    }
-  },
-  { immediate: true }
-);
+const loadCurrentImage = async () => {
+  // Só carregar se estiver no modo de edição
+  if (!isEditing.value) return;
 
-// Mantém o v-model do dialog sincronizado com a prop `show`
-watch(
-  () => props.show,
-  (val) => {
-    isVisible.value = !!val;
+  // Aguardar o próximo tick para garantir que o editor foi renderizado
+  await nextTick();
+
+  if (images.value?.length && images.value[currentIndex.value]) {
+    await loadImageIntoEditor(images.value[currentIndex.value]);
   }
-);
+};
 
+/***** Watchers *****/
+// Remover watchers que chamavam loadCurrentImage automaticamente
+// pois agora só carregamos quando isEditing é true
+
+watch(currentIndex, async () => {
+  if (isEditing.value) {
+    await loadCurrentImage();
+  }
+});
+
+/***** Ciclo de vida *****/
+// Remover o onMounted que carregava a imagem automaticamente
+
+/***** Encerrar *****/
 const closeModal = () => {
   isVisible.value = false;
-  fichaRender.value = null;
+  isEditing.value = false; // Resetar o estado de edição ao fechar
   emit("close");
+};
+
+/***** Alternador *****/
+const toggleEditing = async () => {
+  console.log("Antes\n", isEditing.value);
+  isEditing.value = !isEditing.value;
+  console.log("Depois\n", isEditing.value);
+
+  if (isEditing.value) {
+    // Aguardar o componente ser renderizado
+    await nextTick();
+    // Pequeno delay adicional para garantir que o Syncfusion foi inicializado
+    await new Promise(resolve => setTimeout(resolve, 100));
+    // Agora sim carregar a imagem
+    await loadCurrentImage();
+  }
 };
 </script>
 
@@ -194,29 +259,17 @@ const closeModal = () => {
 @import "../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-image-editor/styles/material.css";
 
-#image-editor {
-  width: 550px !important;
-  height: 350px !important;
-}
-
-v.slider {
-  width: 100%;
-}
-
-.loading-overlay {
-  position: fixed;
-  top: 0;
+.overlay-chips {
+  position: absolute;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
-.loading-spinner {
-  margin-right: 20px;
+.v-chip--active {
+  background-color: #1976d2 !important;
+  color: white !important;
 }
 </style>
