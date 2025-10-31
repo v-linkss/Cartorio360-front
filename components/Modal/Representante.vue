@@ -42,17 +42,10 @@
             </div>
           </template>
         </v-data-table>
-        {{ tableData }}
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
-        >
-        <v-btn @click="limparRepresentante" border>Limpar</v-btn>
-        <v-btn
-          style="background-color: green; color: white"
-          @click="updateAtoPessoa"
-          >Salvar</v-btn
         >
       </v-card-actions>
     </v-card>
@@ -71,7 +64,7 @@ const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const isClear = ref(false);
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const pessoasUpdate = `${config.public.managemant}/atos_pessoas_repres`;
 
 const headers = [
   {
@@ -97,20 +90,34 @@ watch(
 );
 const closeModal = () => {
   state.representante_id = null;
+  tableData.value = [];
   isVisible.value = false;
   emit("close");
 };
 
-const addRepresentante = () => {
+const addRepresentante = async () => {
   if (state.representante_id) {
     const exists = tableData.value.some(
       (item) => item.id === state.representante_id.id
     );
     if (!exists) {
-      tableData.value.push({
-        id: state.representante_id.id,
-        nome: state.representante_id.nome,
+      const { data, error, status } = await useFetch(`${pessoasUpdate}`, {
+        method: "POST",
+        body: {
+          ato_pessoa_id: props.ato_id,
+          representante_id: state.representante_id.id,
+          user_id: useCookie("user-data").value.usuario_id,
+        },
       });
+
+      if (status.value === "success") {
+        tableData.value.push({
+          id: state.representante_id.id,
+          nome: state.representante_id.nome,
+        });
+        emit("update-representante", state.representante_id.nome);
+        $toast.success("Representante adicionado com Sucesso!");
+      }
     } else {
       $toast.error("Este representante já foi adicionado!");
     }
@@ -127,15 +134,14 @@ const deletePessoa = (item) => {
 
 const updateAtoPessoa = async (clear) => {
   const representanteId = state.representante_id?.id ?? null;
-  const { data, error, status } = await useFetch(
-    `${pessoasUpdate}/${props.ato_id}`,
-    {
-      method: "PUT",
-      body: {
-        representante_id: representanteId,
-      },
-    }
-  );
+  const { data, error, status } = await useFetch(`${pessoasUpdate}`, {
+    method: "POST",
+    body: {
+      ato_pessoa_id: props.ato_id,
+      representante_id: representanteId,
+      user_id: useCookie("user-data").value.usuario_id,
+    },
+  });
   if (status.value === "success") {
     if (clear === true) {
       $toast.success("Representante removido com Sucesso!");
@@ -147,11 +153,5 @@ const updateAtoPessoa = async (clear) => {
       closeModal();
     }
   }
-};
-
-const limparRepresentante = () => {
-  state.representante_id = null;
-  isClear.value = true;
-  updateAtoPessoa(isClear.value);
 };
 </script>

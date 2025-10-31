@@ -10,12 +10,20 @@
         <h3 class="text-h6 mb-2">Período de Consulta</h3>
         <v-row>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_inicial" label="Data Inicio" placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"></v-text-field>
+            <v-text-field
+              v-model="state.data_inicial"
+              label="Data Inicio"
+              placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="state.data_final" label="Data Fim" placeholder="dd/mm/yyyy"
-              v-mask="'##/##/####'"></v-text-field>
+            <v-text-field
+              v-model="state.data_final"
+              label="Data Fim"
+              placeholder="dd/mm/yyyy"
+              v-mask="'##/##/####'"
+            ></v-text-field>
           </v-col>
         </v-row>
       </div>
@@ -31,7 +39,11 @@
         <v-radio-group v-model="state.validar" class="mt-2">
           <v-row>
             <v-col cols="12" sm="6" md="4" lg="2-4">
-              <v-radio label="VALIDAR ATOS" value="ATOS" color="primary"></v-radio>
+              <v-radio
+                label="VALIDAR ATOS"
+                value="ATOS"
+                color="primary"
+              ></v-radio>
             </v-col>
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CESDI" value="CESDI" color="primary"></v-radio>
@@ -46,8 +58,7 @@
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CCN" value="CCN" color="primary"></v-radio>
             </v-col>
-            <v-col cols="12" sm="6" md="4" lg="2-4">
-            </v-col>
+            <v-col cols="12" sm="6" md="4" lg="2-4"> </v-col>
             <v-col cols="12" sm="6" md="4" lg="2-4">
               <v-radio label="CTP" value="CTP" color="primary"></v-radio>
             </v-col>
@@ -62,11 +73,18 @@
         <h3 class="text-h6 mb-4">Arquivo</h3>
         <v-row align="center">
           <v-col cols="12" md="8">
-            <v-text-field label="Nome do arquivo" v-model="state.file_name"
-              :disabled="!state.validar || state.validar === 'ATOS'"></v-text-field>
+            <v-text-field
+              label="Nome do arquivo"
+              v-model="state.file_name"
+              :disabled="!state.validar || state.validar === 'ATOS'"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="4" class="d-flex justify-end">
-            <SaveButton :text="'Enviar'" :onSave="enviaDadosCensec" class="px-8" />
+            <SaveButton
+              :text="'Enviar'"
+              :onSave="enviaDadosCensec"
+              class="px-8"
+            />
           </v-col>
         </v-row>
       </div>
@@ -89,8 +107,6 @@
 const config = useRuntimeConfig();
 const { $toast } = useNuxtApp();
 const integraCensec = `${config.public.auth}/service/gerencia/integra_censec`;
-const enviaCensec = `${config.public.ws}/censec/enviar`;
-
 const tokenCookie = useCookie("auth_token");
 const token = tokenCookie.value;
 const state = reactive({

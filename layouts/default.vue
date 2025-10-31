@@ -102,7 +102,8 @@ const decryptData = (ciphertext) => {
   return JSON.parse(decrypted);
 };
 
-const cpf = userData ? decryptData(userData.cpf) : null;
+const cpf = userData.cpf ? decryptData(userData.cpf) : null;
+const tipoPerfilData = useCookie("menu-navbar");
 
 const menuName = computed(() =>
   Object.keys(perfilCookie.value || {})
