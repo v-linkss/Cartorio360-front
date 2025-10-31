@@ -75,7 +75,7 @@ const atos = ref([]);
 const isModalCancelamentoOpen = ref(false);
 const condMessage = ref("");
 const ato_token = ref(null);
-const selo_numero = ref(null);
+const numero_selo = ref(null);
 const cancelamentoForcadoPendente = ref(false);
 const mensagemAvisoCondicional = ref("");
 
@@ -151,7 +151,7 @@ async function searchAtos() {
 
 const abrirModalCancelamento = (token, selo_numero) => {
   ato_token.value = token;
-  selo_numero.value = selo_numero;
+  numero_selo.value = selo_numero;
   condMessage.value =
     "O cancelamento de lavratura é definitivo e não poderá ser revertido. Confirma o cancelamento da lavratura deste ato?";
   cancelamentoForcadoPendente.value = false;
@@ -175,7 +175,7 @@ const executaCancelaAto = async (forcar) => {
     body: {
       ato_token: ato_token.value,
       user_token: usuario_token.value,
-      selo_numero: selo_numero.value,
+      selo_numero: numero_selo.value,
       forcar_cancelamento: forcar,
     },
   });
