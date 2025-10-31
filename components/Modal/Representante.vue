@@ -47,12 +47,6 @@
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
         >
-        <v-btn @click="limparRepresentante" border>Limpar</v-btn>
-        <v-btn
-          style="background-color: green; color: white"
-          @click="updateAtoPessoa"
-          >Salvar</v-btn
-        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -96,20 +90,34 @@ watch(
 );
 const closeModal = () => {
   state.representante_id = null;
+  tableData.value = [];
   isVisible.value = false;
   emit("close");
 };
 
-const addRepresentante = () => {
+const addRepresentante = async () => {
   if (state.representante_id) {
     const exists = tableData.value.some(
       (item) => item.id === state.representante_id.id
     );
     if (!exists) {
-      tableData.value.push({
-        id: state.representante_id.id,
-        nome: state.representante_id.nome,
+      const { data, error, status } = await useFetch(`${pessoasUpdate}`, {
+        method: "POST",
+        body: {
+          ato_pessoa_id: props.ato_id,
+          representante_id: state.representante_id.id,
+          user_id: useCookie("user-data").value.usuario_id,
+        },
       });
+
+      if (status.value === "success") {
+        tableData.value.push({
+          id: state.representante_id.id,
+          nome: state.representante_id.nome,
+        });
+        emit("update-representante", state.representante_id.nome);
+        $toast.success("Representante adicionado com Sucesso!");
+      }
     } else {
       $toast.error("Este representante já foi adicionado!");
     }
@@ -145,11 +153,5 @@ const updateAtoPessoa = async (clear) => {
       closeModal();
     }
   }
-};
-
-const limparRepresentante = () => {
-  state.representante_id = null;
-  isClear.value = true;
-  updateAtoPessoa(isClear.value);
 };
 </script>

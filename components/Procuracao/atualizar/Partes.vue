@@ -262,7 +262,7 @@ const headers = [
   {
     title: "Representante",
     align: "start",
-    key: "representante.nome",
+    key: "representante",
     width: "320px",
   },
   { value: "actions" },
