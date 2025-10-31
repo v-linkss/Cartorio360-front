@@ -17,14 +17,14 @@
             item-value="id"
             return-object
           ></v-autocomplete>
-          <!-- <img
+          <img
             src="../../assets/novo.png"
             style="width: 40px; cursor: pointer"
             title="Adicionar Representante"
             @click="addRepresentante"
-          /> -->
+          />
         </div>
-        <!-- <v-data-table :headers="headers" :items="tableData">
+        <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
             <div
               class="mr-1"
@@ -41,7 +41,7 @@
               />
             </div>
           </template>
-        </v-data-table> -->
+        </v-data-table>
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
@@ -70,7 +70,7 @@ const isVisible = ref(props.show);
 const config = useRuntimeConfig();
 const isClear = ref(false);
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const pessoasUpdate = `${config.public.managemant}/atos_pessoas_repres`;
 
 const headers = [
   {
@@ -126,15 +126,14 @@ const deletePessoa = (item) => {
 
 const updateAtoPessoa = async (clear) => {
   const representanteId = state.representante_id?.id ?? null;
-  const { data, error, status } = await useFetch(
-    `${pessoasUpdate}/${props.ato_id}`,
-    {
-      method: "PUT",
-      body: {
-        representante_id: representanteId,
-      },
-    }
-  );
+  const { data, error, status } = await useFetch(`${pessoasUpdate}`, {
+    method: "POST",
+    body: {
+      ato_pessoa_id: props.ato_id,
+      representante_id: representanteId,
+      user_id: useCookie("user-data").value.usuario_id,
+    },
+  });
   if (status.value === "success") {
     if (clear === true) {
       $toast.success("Representante removido com Sucesso!");
