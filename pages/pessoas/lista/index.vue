@@ -141,7 +141,7 @@
 const config = useRuntimeConfig();
 const pessoasLista = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
 const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
-const baixarDocumento = `${config.public.managemant}/lista_download`;
+const baixarDocumento = `${config.public.managemant}/download`;
 const isModalFichaOpen = ref(false);
 const linkFichaPessoa = ref([]);
 const pathFichaPessoa = ref(null);
@@ -209,8 +209,8 @@ const openModalFicha = async (link, objeto) => {
       path: link,
     },
   });
-  linkFichaPessoa.value = linkUrl.value;
 
+  linkFichaPessoa.value = linkUrl.value;
   pathFichaPessoa.value = link;
   pessoaObj.value = objeto;
 };
