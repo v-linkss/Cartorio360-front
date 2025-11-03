@@ -1,16 +1,16 @@
 <template>
-  <v-app >
+  <v-app>
     <v-app-bar color="#0a063b" height="100">
       <div>
         <img
-        class="ml-5 mt-2"
+          class="ml-5 mt-2"
           :width="300"
           :height="50"
           src="../assets/logo_navbar.png"
-        ></img>
-    <h3 style="color: white; margin-left: 30px">
-      {{ useCookie("user-data").value.cartorio_nome }}
-    </h3> 
+        />
+        <h3 style="color: white; margin-left: 30px">
+          {{ useCookie("user-data").value.cartorio_nome }}
+        </h3>
       </div>
       <v-spacer></v-spacer>
 
@@ -39,22 +39,27 @@
       </v-menu>
 
       <!-- Menu de usuário -->
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn class="user" v-bind="props">
-            {{ useCookie("user-data").value.nome }}
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
-            @click="itemClick(item.title)"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <div class="flex flex-col justify-center align-center mt-6">
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn class="user" v-bind="props">
+              {{ useCookie("user-data").value.nome }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="itemClick(item.title)"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <h4 class="mt-1">
+          CPF: <span>{{ cpf }}</span>
+        </h4>
+      </div>
     </v-app-bar>
 
     <!-- Corpo da página -->
@@ -65,20 +70,30 @@
 </template>
 
 <script setup>
+import CryptoJS from "crypto-js";
 const router = useRouter();
 const items = [{ title: "Alterar Senha" }, { title: "Sair" }];
+const userData = useCookie("user-data").value;
+const SECRET_KEY = useRuntimeConfig().public.docEditor;
 
+const decryptData = (ciphertext) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
+  const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  return JSON.parse(decrypted);
+};
+
+const cpf = userData.cpf ? decryptData(userData.cpf) : null;
 const tipoPerfilData = useCookie("menu-navbar");
 
 const menuName = ref(
   Object.keys(tipoPerfilData.value || {})
-    .filter(key => key !== "Tela Principal")
-    .map(key => ({
+    .filter((key) => key !== "Tela Principal")
+    .map((key) => ({
       name: key,
-      subMenus: Object.keys(tipoPerfilData.value[key]).map(subKey => ({
+      subMenus: Object.keys(tipoPerfilData.value[key]).map((subKey) => ({
         name: subKey,
-        url: tipoPerfilData.value[key][subKey].url
-      }))
+        url: tipoPerfilData.value[key][subKey].url,
+      })),
     }))
 );
 
