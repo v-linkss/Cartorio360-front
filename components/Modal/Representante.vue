@@ -9,44 +9,23 @@
         </v-row>
         <hr class="mb-5" />
         <div style="display: flex; align-items: center; gap: 10px">
-          <v-autocomplete
-            label="Selecione o Representante"
-            v-model="state.representante_id"
-            :items="props.representantes"
-            item-title="nome"
-            item-value="id"
-            return-object
-          ></v-autocomplete>
-          <img
-            src="../../assets/novo.png"
-            style="width: 40px; cursor: pointer"
-            title="Adicionar Representante"
-            @click="addRepresentante"
-          />
+          <v-autocomplete label="Selecione o Representante" v-model="state.representante_id"
+            :items="props.representantes" item-title="nome" item-value="id" return-object></v-autocomplete>
+          <img src="../../assets/novo.png" style="width: 40px; cursor: pointer" title="Adicionar Representante"
+            @click="addRepresentante" />
         </div>
         <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
-            <div
-              class="mr-1"
-              style="display: flex; cursor: pointer; justify-content: flex-end"
-              @click="deletePessoa(item)"
-              title="Deletar Pessoa"
-            >
-              <img
-                src="../../assets/mudarStatus.png"
-                alt="Excluir"
-                class="trash-icon"
-                style="width: 30px; height: 30px"
-                title="Excluir"
-              />
+            <div class="mr-1" style="display: flex; cursor: pointer; justify-content: flex-end"
+              @click="deletePessoa(item)" title="Deletar Pessoa">
+              <img src="../../assets/mudarStatus.png" alt="Excluir" class="trash-icon" style="width: 30px; height: 30px"
+                title="Excluir" />
             </div>
           </template>
         </v-data-table>
       </v-container>
       <v-card-actions>
-        <v-btn style="background-color: red; color: white" @click="closeModal"
-          >Voltar</v-btn
-        >
+        <v-btn style="background-color: red; color: white" @click="closeModal">Voltar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

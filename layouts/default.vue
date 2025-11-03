@@ -2,12 +2,7 @@
   <v-app>
     <v-app-bar color="#0a063b" height="100">
       <div class="d-flex align-center">
-        <img
-          class="ml-5 mt-2"
-          width="300"
-          height="50"
-          src="../assets/logo_navbar.png"
-        />
+        <img class="ml-5 mt-2" width="300" height="50" src="../assets/logo_navbar.png" />
         <h3 class="cartorio ml-6">{{ cartorioNome }}</h3>
       </div>
 
@@ -22,14 +17,8 @@
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(sub, sIdx) in menu.subMenus"
-              :key="`submenu-${sIdx}`"
-            >
-              <NuxtLink
-                :to="`/${sub.url}`"
-                class="text-decoration-none inherit"
-              >
+            <v-list-item v-for="(sub, sIdx) in menu.subMenus" :key="`submenu-${sIdx}`">
+              <NuxtLink :to="`/${sub.url}`" class="text-decoration-none inherit">
                 <v-list-item-title>{{ sub.name }}</v-list-item-title>
               </NuxtLink>
             </v-list-item>
@@ -38,12 +27,7 @@
       </template>
 
       <!-- Ícone de notificações -->
-      <v-badge
-        v-if="notificationCount > 0"
-        :content="notificationCount"
-        color="red"
-        overlap
-      >
+      <v-badge v-if="notificationCount > 0" :content="notificationCount" color="red" overlap>
         <v-btn icon @click="openNotificationPanel">
           <v-icon color="white">mdi-bell</v-icon>
         </v-btn>
@@ -61,11 +45,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item
-              v-for="(item, index) in items"
-              :key="index"
-              @click="itemClick(item.title)"
-            >
+            <v-list-item v-for="(item, index) in items" :key="index" @click="itemClick(item.title)">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>

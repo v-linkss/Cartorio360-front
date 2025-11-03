@@ -9,19 +9,12 @@
         <v-text-field v-model="state.id" label="ID do ato"></v-text-field>
       </v-col>
       <v-col cols="2">
-        <v-text-field
-          v-model="state.selo_numero"
-          label="Numero do selo"
-        ></v-text-field>
+        <v-text-field v-model="state.selo_numero" label="Numero do selo"></v-text-field>
       </v-col>
       <v-col>
         <div>
-          <img
-            @click="searchAtos"
-            style="width: 40px; height: 40px; cursor: pointer"
-            src="../../assets/visualizar.png"
-            alt="Pesquisar"
-          />
+          <img @click="searchAtos" style="width: 40px; height: 40px; cursor: pointer" src="../../assets/visualizar.png"
+            alt="Pesquisar" />
         </div>
       </v-col>
     </v-row>
@@ -29,24 +22,12 @@
     <div>
       <hr class="mt-5 mb-5" />
 
-      <v-data-table
-        :headers="headers"
-        :items="atos"
-        style="font-size: 12px"
-        item-key="id"
-      >
+      <v-data-table :headers="headers" :items="atos" style="font-size: 12px" item-key="id">
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px; justify-content: center">
-            <div
-              @click="abrirModalCancelamento(item.token, state.selo_numero)"
-              title="Excluir"
-            >
-              <img
-                style="width: 30px; height: 30px; cursor: pointer"
-                src="../../assets/btn_cancela_lavratura.png"
-                alt="Cancelar"
-                title="Cancelar"
-              />
+            <div @click="abrirModalCancelamento(item.token, state.selo_numero)" title="Excluir">
+              <img style="width: 30px; height: 30px; cursor: pointer" src="../../assets/btn_cancela_lavratura.png"
+                alt="Cancelar" title="Cancelar" />
             </div>
           </div>
         </template>
@@ -54,12 +35,8 @@
     </div>
   </v-container>
 
-  <ModalConfirmacao
-    :show="isModalCancelamentoOpen"
-    :condMessage="condMessage"
-    @close="isModalCancelamentoOpen = false"
-    @confirm="cancelaAto"
-  />
+  <ModalConfirmacao :show="isModalCancelamentoOpen" :condMessage="condMessage" @close="isModalCancelamentoOpen = false"
+    @confirm="cancelaAto" />
 </template>
 
 <script setup>
