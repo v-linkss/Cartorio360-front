@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "date": "2025-11-03T14:41:53.968Z",
-=======
-  "date": "2025-10-31T21:08:57.938Z",
->>>>>>> fix-view-ficha-pessoa
+  "date": "2025-11-04T00:02:47.213Z",
   "preset": "node-server",
   "framework": {
     "name": "nuxt",
