@@ -23,7 +23,7 @@ async function handleScannerClick() {
     await openScanner();
     await enviarArquivo();
   } catch (error) {
-    console.error("Erro ao executar scanner ou listar arquivos:", error);
+    $toast.error("Erro ao executar scanner ou listar arquivos:", error);
   }
 }
 
@@ -39,7 +39,7 @@ async function openScanner() {
 // Função para enviar um arquivo específico
 async function enviarArquivo() {
   try {
-    const { status, data } = await useFetch(viewDoc, {
+    const { status } = await useFetch(viewDoc, {
       method: "POST",
       body: {
         tipo: "ficha",
@@ -47,6 +47,9 @@ async function enviarArquivo() {
         cartorio_token: useCookie("user-data").value.cartorio_token,
       },
     });
+    if (status.value === "success") {
+      $toast.success("Arquivo enviado com sucesso!");
+    }
   } catch (error) {
     $toast.error(error);
     console.error("Erro ao enviar o arquivo:", error);

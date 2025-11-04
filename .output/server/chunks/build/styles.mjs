@@ -1,8 +1,8 @@
 const interopDefault = r => r.default || r || [];
 const styles = {
   "node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.CstcGR3t.mjs').then(interopDefault),
-  "plugins/toast.ts": () => import('./toast-styles.card-CM_.mjs').then(interopDefault),
   "plugins/vuetify.ts": () => import('./vuetify-styles.B4rUdRRA.mjs').then(interopDefault),
+<<<<<<< HEAD
   "pages/atos/lista/index.vue": () => import('./index-styles.B6_FVLBP.mjs').then(interopDefault),
   "pages/cancela_lavratura/index.vue": () => import('./index-styles.DL3Nn-e_.mjs').then(interopDefault),
   "pages/carregar_arquivo_texto/index.vue": () => import('./index-styles.DMnbxD3l.mjs').then(interopDefault),
@@ -41,9 +41,42 @@ const styles = {
   "components/Modal/ValidadorAutencidade.vue": () => import('./ValidadorAutencidade-styles.DD-28jp9.mjs').then(interopDefault),
   "pages/upload_arquivo_texto/index.vue?vue&type=style&index=0&scoped=841ff2d9&lang.css": () => import('./index-styles.DTcfgUTp.mjs').then(interopDefault),
   "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=453a2cd8&lang.css": () => import('./_id_-styles.ZLi7fJ9N.mjs').then(interopDefault),
+=======
+  "plugins/toast.ts": () => import('./toast-styles.card-CM_.mjs').then(interopDefault),
+  "pages/atos/lista/index.vue": () => import('./index-styles.BuwVLCLo.mjs').then(interopDefault),
+  "pages/cancela_lavratura/index.vue": () => import('./index-styles.DqJO7yOn.mjs').then(interopDefault),
+  "pages/carregar_arquivo_texto/index.vue": () => import('./index-styles.fsc79-ZC.mjs').then(interopDefault),
+  "pages/fontes/atos/autenticacao/autenticacao.vue": () => import('./autenticacao-styles.STRkag91.mjs').then(interopDefault),
+  "pages/login/index.vue": () => import('./index-styles.fMGZAkdb.mjs').then(interopDefault),
+  "pages/matriculas/vizualizar/[id].vue": () => import('./_id_-styles.CNjCnpmS.mjs').then(interopDefault),
+  "pages/os/criar-ato.vue": () => import('./criar-ato-styles.e4u0JV7H.mjs').then(interopDefault),
+  "pages/pessoas/atualizar/[id].vue": () => import('./_id_-styles.C8YadBhH.mjs').then(interopDefault),
+  "pages/recupera_senha/index.vue": () => import('./index-styles.DRc-cJFX.mjs').then(interopDefault),
+  "pages/situacoes-matriculas/vizualizar/[id].vue": () => import('./_id_-styles.CIbTPJau.mjs').then(interopDefault),
+  "pages/tipoAtos/visualizar/[id].vue": () => import('./_id_-styles.C0f_Fqll.mjs').then(interopDefault),
+  "node_modules/nuxt/dist/app/components/error-404.vue": () => import('./error-404-styles.B5yeQDbX.mjs').then(interopDefault),
+  "node_modules/nuxt/dist/app/components/error-500.vue": () => import('./error-500-styles.HhVXVi60.mjs').then(interopDefault),
+  "pages/atos/lista/index.vue?vue&type=style&index=0&scoped=9ea35206&lang.css": () => import('./index-styles.dlwNDcX3.mjs').then(interopDefault),
+  "pages/cancela_lavratura/index.vue?vue&type=style&index=0&scoped=32fed6c9&lang.css": () => import('./index-styles.CBxUJ7SD.mjs').then(interopDefault),
+  "components/MoneyInput.vue": () => import('./MoneyInput-styles.CkIF0DEc.mjs').then(interopDefault),
+  "pages/carregar_arquivo_texto/index.vue?vue&type=style&index=0&scoped=9f2a103d&lang.css": () => import('./index-styles.I9Uxavzy.mjs').then(interopDefault),
+  "components/Modal/Confirmacao.vue": () => import('./Confirmacao-styles.DtFjTbqR.mjs').then(interopDefault),
+  "pages/fontes/atos/autenticacao/autenticacao.vue?vue&type=style&index=0&scoped=8528ced6&lang.css": () => import('./autenticacao-styles.CGjmRbDn.mjs').then(interopDefault),
+  "pages/login/index.vue?vue&type=style&index=0&scoped=682a4217&lang.css": () => import('./index-styles.DqiuL6YY.mjs').then(interopDefault),
+  "components/Procuracao/atualizar/Minuta.vue": () => import('./Minuta-styles.Dh8e43v6.mjs').then(interopDefault),
+  "pages/matriculas/vizualizar/[id].vue?vue&type=style&index=0&scoped=15d7606b&lang.css": () => import('./_id_-styles.DCa0y04E.mjs').then(interopDefault),
+  "pages/os/criar-ato.vue?vue&type=style&index=0&scoped=faadf132&lang.css": () => import('./criar-ato-styles.RvLUto61.mjs').then(interopDefault),
+  "components/Procuracao/Minuta.vue": () => import('./Minuta-styles.CXtO_BS4.mjs').then(interopDefault),
+  "pages/recupera_senha/index.vue?vue&type=style&index=0&scoped=7db2d31a&lang.css": () => import('./index-styles.CZ7ndS0e.mjs').then(interopDefault),
+  "pages/situacoes-matriculas/vizualizar/[id].vue?vue&type=style&index=0&scoped=9589e0ff&lang.css": () => import('./_id_-styles.Cf-hQ_GY.mjs').then(interopDefault),
+  "pages/tipoAtos/visualizar/[id].vue?vue&type=style&index=0&scoped=6941efb5&lang.css": () => import('./_id_-styles.ZBpQuve2.mjs').then(interopDefault),
+  "components/Modal/FichaCard.vue": () => import('./FichaCard-styles.CK_s-YAL.mjs').then(interopDefault),
+  "components/Modal/ValidadorAutencidade.vue": () => import('./ValidadorAutencidade-styles.C0W7x6Bs.mjs').then(interopDefault),
+  "pages/pessoas/atualizar/[id].vue?vue&type=style&index=0&scoped=86b9f3ce&lang.css": () => import('./_id_-styles.ChhgmWdb.mjs').then(interopDefault),
+>>>>>>> fix-view-ficha-pessoa
   "node_modules/vuetify/lib/components/VDatePicker/VDatePicker.mjs": () => import('./VDatePicker-styles.ZB7Ix1z8.mjs').then(interopDefault),
-  "node_modules/vuetify/lib/components/VMenu/VMenu.mjs": () => import('./VMenu-styles.DWU_ZlPW.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VTextField/VTextField.mjs": () => import('./VTextField-styles.aaJU4X3r.mjs').then(interopDefault),
+  "node_modules/vuetify/lib/components/VMenu/VMenu.mjs": () => import('./VMenu-styles.DWU_ZlPW.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VApp/VApp.mjs": () => import('./VApp-styles.DfPsTpRD.mjs').then(interopDefault),
   "node_modules/nuxt/dist/app/components/error-404.vue?vue&type=style&index=0&scoped=c2c324f7&lang.css": () => import('./error-404-styles.PedwCpCK.mjs').then(interopDefault),
   "node_modules/nuxt/dist/app/components/error-500.vue?vue&type=style&index=0&scoped=3726f659&lang.css": () => import('./error-500-styles.K0bbvuT_.mjs').then(interopDefault),
@@ -52,15 +85,25 @@ const styles = {
   "components/chat_atendimento/ChatSidebar.vue?vue&type=style&index=0&scoped=2cb5d4ee&lang.css": () => import('./ChatSidebar-styles.BoP2qKjQ.mjs').then(interopDefault),
   "components/chat_atendimento/ChatWindow.vue?vue&type=style&index=0&scoped=cd49accb&lang.css": () => import('./ChatWindow-styles.RTYNkEdA.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VGrid/VSpacer.mjs": () => import('./VSpacer-styles.B6j6RHRr.mjs').then(interopDefault),
+<<<<<<< HEAD
   "node_modules/vuetify/lib/components/VBtn/VBtn.mjs": () => import('./VBtn-styles.ciukOywf.mjs').then(interopDefault),
   "components/chat_atendimento/ChatHistory.vue": () => import('./ChatHistory-styles.GRJOKRrP.mjs').then(interopDefault),
   "components/chat_atendimento/ChatInput.vue": () => import('./ChatInput-styles.BTvp3TKc.mjs').then(interopDefault),
   "components/Modal/ValidadorAutencidade.vue?vue&type=style&index=0&scoped=ca5b7e48&lang.css": () => import('./ValidadorAutencidade-styles.CNgB8cPr.mjs').then(interopDefault),
+=======
+>>>>>>> fix-view-ficha-pessoa
   "node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.mjs": () => import('./VProgressCircular-styles.AJFtC2xE.mjs').then(interopDefault),
+  "components/Modal/ValidadorAutencidade.vue?vue&type=style&index=0&scoped=c978e7cc&lang.css": () => import('./ValidadorAutencidade-styles.DuGM2NME.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VSheet/VSheet.mjs": () => import('./VSheet-styles.1o-fy70V.mjs').then(interopDefault),
+<<<<<<< HEAD
   "node_modules/vuetify/lib/components/VIcon/VIcon.mjs": () => import('./VIcon-styles.VmzmbvFi.mjs').then(interopDefault),
   "components/Biometria/Digital.vue": () => import('./Digital-styles.TVlO2Jf4.mjs').then(interopDefault),
   "layouts/default.vue": () => import('./default-styles.DrV-c2C5.mjs').then(interopDefault),
+=======
+  "layouts/default.vue": () => import('./default-styles.Xw8i-d-j.mjs').then(interopDefault),
+  "components/Biometria/Digital.vue": () => import('./Digital-styles.BKiM8NLx.mjs').then(interopDefault),
+  "node_modules/vuetify/lib/components/VIcon/VIcon.mjs": () => import('./VIcon-styles.VmzmbvFi.mjs').then(interopDefault),
+>>>>>>> fix-view-ficha-pessoa
   "node_modules/vuetify/lib/components/VDatePicker/VDatePickerControls.mjs": () => import('./VDatePickerControls-styles.CQegjLtm.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VDatePicker/VDatePickerHeader.mjs": () => import('./VDatePickerHeader-styles.BqhU3mkR.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VDatePicker/VDatePickerMonth.mjs": () => import('./VDatePickerMonth-styles.BAWAHk1a.mjs').then(interopDefault),
@@ -78,7 +121,11 @@ const styles = {
   "layouts/default.vue?vue&type=style&index=0&scoped=aef0caa3&lang.css": () => import('./default-styles.cHrdF4cJ.mjs').then(interopDefault),
   "components/Biometria/Digital.vue?vue&type=style&index=0&scoped=12f11fb7&lang.css": () => import('./Digital-styles.C6iRFih6.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VMessages/VMessages.mjs": () => import('./VMessages-styles.DznP6KE3.mjs').then(interopDefault),
+<<<<<<< HEAD
   "components/Modal/FichaCard.vue?vue&type=style&index=0&lang.css": () => import('./FichaCard-styles.B4vfXxc9.mjs').then(interopDefault),
+=======
+  "components/Modal/FichaCard.vue?vue&type=style&index=0&lang.css": () => import('./FichaCard-styles.CAQLyG3z.mjs').then(interopDefault),
+>>>>>>> fix-view-ficha-pessoa
   "components/Procuracao/atualizar/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.C3vkKxsh.mjs').then(interopDefault),
   "components/Procuracao/Minuta.vue?vue&type=style&index=0&lang.css": () => import('./Minuta-styles.jC4Lqykp.mjs').then(interopDefault),
   "node_modules/vuetify/lib/components/VBtnGroup/VBtnGroup.mjs": () => import('./VBtnGroup-styles.t2DZ1n_R.mjs').then(interopDefault),
