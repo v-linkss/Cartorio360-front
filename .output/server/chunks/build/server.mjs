@@ -659,7 +659,7 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-DE0stmAF.mjs')
+    component: () => import('./_id_-CX6_uOlg.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
@@ -746,7 +746,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-BtcrEcIN.mjs')
+    component: () => import('./index-mcrZLw0Y.mjs')
   },
   {
     name: "pessoas-atualizar-id",

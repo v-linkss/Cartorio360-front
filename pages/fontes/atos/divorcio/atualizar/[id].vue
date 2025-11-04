@@ -121,7 +121,6 @@ const label = ref(null);
 const updatedAtoDetails = ref(null);
 const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(" - ");
 const tabEvent = ref(0);
-const divorcioTabClicks = ref(0);
 label.value = initialLabel || ""; // Primeiro autocomplete
 updatedAtoDetails.value = initialUpdatedAtoDetails || ""; // Segundo autocomplete
 
@@ -167,10 +166,7 @@ function onTabChange(newTab) {
 }
 
 function onDivorcioTabClick() {
-  // if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
   tabEvent.value++;
-  // divorcioTabClicks.value++;
-  // }
 }
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
