@@ -1,6 +1,17 @@
 <template>
   <v-container class="mt-3" style="height: 425px">
     <v-row>
+      <v-col md="4">
+        <v-text-field
+          v-model="state.doc_identificacao"
+          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
+          label="CNPJ"
+          v-mask="'##.###.###/####-##'"
+          required
+          @blur="validarCnpj(state.doc_identificacao)"
+          @input="v$.doc_identificacao.$touch"
+        ></v-text-field>
+      </v-col>
       <v-col md="8">
         <v-text-field
           v-model="state.nome"
@@ -9,17 +20,6 @@
           required
           @blur="v$.nome.$touch"
           @input="v$.nome.$touch"
-        ></v-text-field>
-      </v-col>
-      <v-col md="4">
-        <v-text-field
-          v-model="state.doc_identificacao"
-          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
-          label="CNPJ"
-          v-mask="'##.###.###/####-##'"
-          required
-          @blur="v$.doc_identificacao.$touch"
-          @input="v$.doc_identificacao.$touch"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -79,6 +79,7 @@ const config = useRuntimeConfig();
 const buscarPessoaJuridica = `${config.public.auth}/service/gerencia/getPessoaById`;
 const createPessoa = `${config.public.auth}/service/gerencia/createPessoa`;
 const updatePessoa = `${config.public.auth}/service/gerencia/updatePessoa`;
+const routeValidaCnpj = `${config.public.managemant}/validarCpf`;
 const { id } = route.params;
 
 const initialState = {
@@ -94,6 +95,7 @@ const initialState = {
 
 const isEditMode = ref(false);
 const pessoaId = useCookie("pessoa-id");
+let isValidatingcnpj = false;
 
 const state = reactive({
   ...initialState,
@@ -202,6 +204,37 @@ const voltar = () => {
   }
   router.push("/pessoas/lista");
 };
+
+async function validarCnpj(cnpj) {
+  const cnpjFormated = removeFormatting(cnpj);
+  console.log(cnpj);
+  if (!isValidatingcnpj) {
+    isValidatingcnpj = true;
+
+    const payloadFormated = {
+      cpf: cnpjFormated,
+    };
+
+    try {
+      const { data, error, status } = await useFetch(routeValidaCnpj, {
+        method: "POST",
+        body: payloadFormated,
+      });
+
+      if (status.value === "error" && error.value.statusCode === 500) {
+        $toast.error(" o cnpj já está cadastrado.");
+        return;
+      }
+      if (data.value.cpfValidation) {
+        $toast.error("Já existe uma pessoa cadastrada com o cnpj digitado.");
+      }
+    } catch (error) {
+      console.error("Erro ao validar cnpj:", error);
+    } finally {
+      isValidatingcnpj = false;
+    }
+  }
+}
 
 onMounted(() => {
   if (id) {
