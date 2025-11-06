@@ -1,11 +1,20 @@
 import { a as buildAssetsURL } from '../routes/renderer.mjs';
 import { _ as __nuxt_component_0 } from './nuxt-link-TpvcaGEw.mjs';
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
 import { p as propsFactory, m as makeComponentProps, l as makeTagProps, o as genericComponent, s as useRender, L as makeBorderProps, N as makeElevationProps, O as makeRoundedProps, Q as makeThemeProps, a8 as useBackgroundColor, ao as useBorder, ar as useElevation, au as useRounded, S as provideTheme, q as useRtl, U as provideDefaults, F as VDefaultsProvider, a1 as convertToUnit, aX as VExpandTransition, bf as makeLayoutItemProps, z as useProxiedModel, aT as useToggleScope, bg as useLayoutItem, K as IconValue, ak as makeLocationProps, x as makeTransitionProps$1, y as useLocale, A as useTextColor, bh as useTheme, as as useLocation, bi as pickWithRest, aW as MaybeTransition, h as VIcon, aj as makeDimensionProps, aq as useDimension, bj as useLayout, _ as _export_sfc, $ as clamp, u as useRouter$1, e as useCookie, c as useRuntimeConfig, bk as VApp, ba as VSpacer, D as VMenu, V as VBtn } from './server.mjs';
 import { createVNode, toRef, shallowRef, computed, ref, mergeProps, withDirectives, vShow, watch, watchEffect, withCtx, unref, createTextVNode, toDisplayString, openBlock, createBlock, Fragment, renderList, renderSlot, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderAttr, ssrInterpolate, ssrRenderList, ssrRenderSlot } from 'vue/server-renderer';
 import CryptoJS from 'crypto-js';
 import { V as VImg } from './VImg-DADPV1UJ.mjs';
 import { b as useSsrBoot, V as VList, a as VListItem, c as VListItemTitle } from './VList-D_RDxmYC.mjs';
+=======
+import { p as propsFactory, m as makeComponentProps, l as makeTagProps, o as genericComponent, s as useRender, L as makeBorderProps, N as makeElevationProps, O as makeRoundedProps, Q as makeThemeProps, a8 as useBackgroundColor, ao as useBorder, ar as useElevation, au as useRounded, S as provideTheme, q as useRtl, U as provideDefaults, F as VDefaultsProvider, a1 as convertToUnit, aX as VExpandTransition, be as makeLayoutItemProps, z as useProxiedModel, aT as useToggleScope, bf as useLayoutItem, aj as makeDimensionProps, aq as useDimension, bg as useLayout, _ as _export_sfc, $ as clamp, u as useRouter$1, e as useCookie, c as useRuntimeConfig, bh as VApp, ba as VSpacer, D as VMenu, V as VBtn } from './server.mjs';
+import { createVNode, toRef, shallowRef, computed, ref, mergeProps, watch, watchEffect, withCtx, unref, createTextVNode, toDisplayString, openBlock, createBlock, Fragment, renderList, renderSlot, useSSRContext } from 'vue';
+import { ssrRenderComponent, ssrRenderAttr, ssrRenderStyle, ssrInterpolate, ssrRenderList, ssrRenderSlot } from 'vue/server-renderer';
+import CryptoJS from 'crypto-js';
+import { V as VImg } from './VImg-CtUi4yCS.mjs';
+import { b as useSsrBoot, V as VList, a as VListItem, c as VListItemTitle } from './VList-w5fWkTAt.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
 import 'vue-bundle-renderer/runtime';
 import '../_/nitro.mjs';
 import 'node:http';
@@ -533,10 +542,14 @@ const _sfc_main = {
   setup(__props) {
     const router = useRouter$1();
     const items = [{ title: "Alterar Senha" }, { title: "Sair" }];
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
     const perfilCookie = useCookie("menu-navbar");
     const userData = useCookie("user-data").value;
     const userCookie = useCookie("user-data");
     const authToken = useCookie("auth_token");
+=======
+    const userData = useCookie("user-data").value;
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
     const SECRET_KEY = useRuntimeConfig().public.docEditor;
     const decryptData = (ciphertext) => {
       const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
@@ -544,9 +557,15 @@ const _sfc_main = {
       return JSON.parse(decrypted);
     };
     const cpf = userData.cpf ? decryptData(userData.cpf) : null;
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
     useCookie("menu-navbar");
     const menuName = computed(
       () => Object.keys(perfilCookie.value || {}).filter((key) => key !== "Tela Principal").map((key) => ({
+=======
+    const tipoPerfilData = useCookie("menu-navbar");
+    const menuName = ref(
+      Object.keys(tipoPerfilData.value || {}).filter((key) => key !== "Tela Principal").map((key) => ({
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
         name: key,
         subMenus: Object.keys(perfilCookie.value[key]).map((subKey) => ({
           name: subKey,
@@ -589,7 +608,11 @@ const _sfc_main = {
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
                   _push3(`<div class="d-flex align-center" data-v-b150cbea${_scopeId2}><img class="ml-5 mt-2" width="300" height="50"${ssrRenderAttr("src", _imports_0)} data-v-b150cbea${_scopeId2}><h3 class="cartorio ml-6" data-v-b150cbea${_scopeId2}>${ssrInterpolate(unref(cartorioNome))}</h3></div>`);
+=======
+                  _push3(`<div data-v-a0622566${_scopeId2}><img class="ml-5 mt-2"${ssrRenderAttr("width", 300)}${ssrRenderAttr("height", 50)}${ssrRenderAttr("src", _imports_0)} data-v-a0622566${_scopeId2}><h3 style="${ssrRenderStyle({ "color": "white", "margin-left": "30px" })}" data-v-a0622566${_scopeId2}>${ssrInterpolate(("useCookie" in _ctx ? _ctx.useCookie : unref(useCookie))("user-data").value.cartorio_nome)}</h3></div>`);
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
                   _push3(ssrRenderComponent(VSpacer, null, null, _parent3, _scopeId2));
                   _push3(`<!--[-->`);
                   ssrRenderList(unref(menuName), (menu, idx) => {
@@ -757,6 +780,7 @@ const _sfc_main = {
                       _: 2
                     }, _parent3, _scopeId2));
                   });
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
                   _push3(`<!--]-->`);
                   if (unref(notificationCount) > 0) {
                     _push3(ssrRenderComponent(VBadge, {
@@ -852,6 +876,9 @@ const _sfc_main = {
                     }, _parent3, _scopeId2));
                   }
                   _push3(`<div class="flex flex-col justify-center align-center mt-6" data-v-b150cbea${_scopeId2}>`);
+=======
+                  _push3(`<!--]--><div class="flex flex-col justify-center align-center mt-6" data-v-a0622566${_scopeId2}>`);
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
                   _push3(ssrRenderComponent(VMenu, null, {
                     activator: withCtx(({ props }, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
@@ -969,7 +996,11 @@ const _sfc_main = {
                     }),
                     _: 1
                   }, _parent3, _scopeId2));
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
                   _push3(`<h4 class="mt-1" data-v-b150cbea${_scopeId2}> CPF: <span data-v-b150cbea${_scopeId2}>${ssrInterpolate(unref(cpf))}</span></h4></div>`);
+=======
+                  _push3(`<h4 class="mt-1" data-v-a0622566${_scopeId2}> CPF: <span data-v-a0622566${_scopeId2}>${ssrInterpolate(unref(cpf))}</span></h4></div>`);
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
                 } else {
                   return [
                     createVNode("div", { class: "d-flex align-center" }, [
@@ -1030,6 +1061,7 @@ const _sfc_main = {
                         _: 2
                       }, 1024);
                     }), 128)),
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
                     unref(notificationCount) > 0 ? (openBlock(), createBlock(VBadge, {
                       key: 0,
                       content: unref(notificationCount),
@@ -1068,6 +1100,8 @@ const _sfc_main = {
                       ]),
                       _: 1
                     })),
+=======
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
                     createVNode("div", { class: "flex flex-col justify-center align-center mt-6" }, [
                       createVNode(VMenu, null, {
                         activator: withCtx(({ props }) => [
@@ -1132,6 +1166,7 @@ const _sfc_main = {
                 height: "100"
               }, {
                 default: withCtx(() => [
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
                   createVNode("div", { class: "d-flex align-center" }, [
                     createVNode("img", {
                       class: "ml-5 mt-2",
@@ -1263,6 +1298,100 @@ const _sfc_main = {
                       ]),
                       _: 1
                     }),
+=======
+                  createVNode("div", null, [
+                    createVNode("img", {
+                      class: "ml-5 mt-2",
+                      width: 300,
+                      height: 50,
+                      src: _imports_0
+                    }),
+                    createVNode("h3", { style: { "color": "white", "margin-left": "30px" } }, toDisplayString(("useCookie" in _ctx ? _ctx.useCookie : unref(useCookie))("user-data").value.cartorio_nome), 1)
+                  ]),
+                  createVNode(VSpacer),
+                  (openBlock(true), createBlock(Fragment, null, renderList(unref(menuName), (menu, index) => {
+                    return openBlock(), createBlock(VMenu, { key: index }, {
+                      activator: withCtx(({ props }) => [
+                        createVNode(VBtn, mergeProps({
+                          style: { "color": "white" },
+                          ref_for: true
+                        }, props), {
+                          default: withCtx(() => [
+                            createTextVNode(toDisplayString(menu.name), 1)
+                          ]),
+                          _: 2
+                        }, 1040)
+                      ]),
+                      default: withCtx(() => [
+                        createVNode(VList, null, {
+                          default: withCtx(() => [
+                            (openBlock(true), createBlock(Fragment, null, renderList(menu.subMenus, (subMenu, subIndex) => {
+                              return openBlock(), createBlock(VListItem, {
+                                key: subIndex,
+                                value: subMenu.url
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(_component_NuxtLink, {
+                                    style: { "text-decoration": "none", "color": "inherit" },
+                                    to: `/${subMenu.url}`
+                                  }, {
+                                    default: withCtx(() => [
+                                      createVNode(VListItemTitle, null, {
+                                        default: withCtx(() => [
+                                          createTextVNode(toDisplayString(subMenu.name), 1)
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["to"])
+                                ]),
+                                _: 2
+                              }, 1032, ["value"]);
+                            }), 128))
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ]),
+                      _: 2
+                    }, 1024);
+                  }), 128)),
+                  createVNode("div", { class: "flex flex-col justify-center align-center mt-6" }, [
+                    createVNode(VMenu, null, {
+                      activator: withCtx(({ props }) => [
+                        createVNode(VBtn, mergeProps({ class: "user" }, props), {
+                          default: withCtx(() => [
+                            createTextVNode(toDisplayString(("useCookie" in _ctx ? _ctx.useCookie : unref(useCookie))("user-data").value.nome), 1)
+                          ]),
+                          _: 2
+                        }, 1040)
+                      ]),
+                      default: withCtx(() => [
+                        createVNode(VList, null, {
+                          default: withCtx(() => [
+                            (openBlock(), createBlock(Fragment, null, renderList(items, (item, index) => {
+                              return createVNode(VListItem, {
+                                key: index,
+                                onClick: ($event) => itemClick(item.title)
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(VListItemTitle, null, {
+                                    default: withCtx(() => [
+                                      createTextVNode(toDisplayString(item.title), 1)
+                                    ]),
+                                    _: 2
+                                  }, 1024)
+                                ]),
+                                _: 2
+                              }, 1032, ["onClick"]);
+                            }), 64))
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }),
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs
                     createVNode("h4", { class: "mt-1" }, [
                       createTextVNode(" CPF: "),
                       createVNode("span", null, toDisplayString(unref(cpf)), 1)
@@ -1291,7 +1420,14 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("layouts/default.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
+<<<<<<< HEAD:.output/server/chunks/build/default-B_h1HuJu.mjs
 const _default = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b150cbea"]]);
 
 export { _default as default };
 //# sourceMappingURL=default-B_h1HuJu.mjs.map
+=======
+const _default = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-a0622566"]]);
+
+export { _default as default };
+//# sourceMappingURL=default-CoW_ehY-.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/default-CoW_ehY-.mjs

@@ -1145,4 +1145,8 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
+<<<<<<< HEAD:.output/server/chunks/build/censec-DNYfoOz1.mjs
 //# sourceMappingURL=censec-DNYfoOz1.mjs.map
+=======
+//# sourceMappingURL=censec-DH9MVPS1.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/censec-DH9MVPS1.mjs

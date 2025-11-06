@@ -1,12 +1,21 @@
 import { _ as _export_sfc, g as useRoute$1, e as useCookie, c as useRuntimeConfig } from './server.mjs';
 import { ref, computed, watch, withCtx, unref, createVNode, toDisplayString, isRef, resolveDynamicComponent, openBlock, createBlock, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrRenderVNode } from 'vue/server-renderer';
+<<<<<<< HEAD:.output/server/chunks/build/criar-ato-RyCJMhAl.mjs
 import _sfc_main$1 from './semelhanca-Bptn8MZk.mjs';
 import _sfc_main$2 from './autencidade-D4gr9gLO.mjs';
 import autenticacao from './autenticacao-BBkrYggt.mjs';
 import _sfc_main$3 from './geral-I-IqgpxI.mjs';
 import _sfc_main$4 from './geral-Des6pvGU.mjs';
 import _sfc_main$5 from './geral-r4n93DYW.mjs';
+=======
+import _sfc_main$1 from './semelhanca-CsC1JF62.mjs';
+import _sfc_main$2 from './autencidade-CvO39UUA.mjs';
+import autenticacao from './autenticacao-BS5kEhQD.mjs';
+import _sfc_main$3 from './geral-CXhl80e0.mjs';
+import _sfc_main$4 from './geral-BT3VHdXf.mjs';
+import _sfc_main$5 from './geral-B_PPfgNN.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/criar-ato-DRGCjgik.mjs
 import { u as useFetch } from './fetch-uf6n1sXR.mjs';
 import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
@@ -45,6 +54,23 @@ import './nuxt-link-TpvcaGEw.mjs';
 import './novo-CWU3oYa5.mjs';
 import './editar-BcGPsVK2.mjs';
 import './excluido-D7FHZla7.mjs';
+<<<<<<< HEAD:.output/server/chunks/build/criar-ato-RyCJMhAl.mjs
+=======
+import './VDataTable-BqxaRhj7.mjs';
+import './VDialog-BVe31KMa.mjs';
+import './VCard-Dbn6yWsi.mjs';
+import 'utif';
+import './FichaCard-BDq7cEeS.mjs';
+import './visualizar-BoZ30DMV.mjs';
+import './VTabs-CQrE9VMQ.mjs';
+import './SaveButton-CahdIl3Y.mjs';
+import './ErrorModalCard-BjuJgtQ6.mjs';
+import './visualizar-vermelho-Ly_aKn8Z.mjs';
+import './Anexos-CzLwbTn5.mjs';
+import './abre-arquivo-verde-CiKqsOQ8.mjs';
+import './VTextarea-DJCeftNm.mjs';
+import './Confirmacao-CQvuimra.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/criar-ato-DRGCjgik.mjs
 import './escanear-CJoLAgRx.mjs';
 import './VDataTable-C_f4_7jt.mjs';
 import './VDialog-BVe31KMa.mjs';
@@ -324,4 +350,8 @@ _sfc_main.setup = (props, ctx) => {
 const criarAto = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-faadf132"]]);
 
 export { criarAto as default };
+<<<<<<< HEAD:.output/server/chunks/build/criar-ato-RyCJMhAl.mjs
 //# sourceMappingURL=criar-ato-RyCJMhAl.mjs.map
+=======
+//# sourceMappingURL=criar-ato-DRGCjgik.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/criar-ato-DRGCjgik.mjs

@@ -1,5 +1,10 @@
+<<<<<<< HEAD:.output/server/chunks/build/procuracao-Dbvnmxns.mjs
 import { _ as _sfc_main$5, a as _sfc_main$4, b as _sfc_main$3, c as _sfc_main$2$1, d as _sfc_main$1$1, e as _sfc_main$6 } from './Anexos-EuF6DiyS.mjs';
 import { _ as _sfc_main$1, a as _sfc_main$2 } from './Imoveis-CaylkE0w.mjs';
+=======
+import { _ as _sfc_main$5, a as _sfc_main$4, b as _sfc_main$3, c as _sfc_main$2$1, d as _sfc_main$1$1, e as _sfc_main$6 } from './Anexos-CzLwbTn5.mjs';
+import { _ as _sfc_main$1, a as _sfc_main$2 } from './Imoveis-DLno7DHR.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/procuracao-CEnu62YB.mjs
 import { ref, mergeProps, withCtx, unref, isRef, createTextVNode, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { V as VCard } from './VCard-DfXRXpQ0.mjs';
@@ -50,7 +55,11 @@ import 'utif';
 import './FichaCard-C0MTdS0w.mjs';
 import './VWindowItem-C7Tv7CBi.mjs';
 import './visualizar-BoZ30DMV.mjs';
+<<<<<<< HEAD:.output/server/chunks/build/procuracao-Dbvnmxns.mjs
 import './Observacao-B4y9qcNx.mjs';
+=======
+import './abre-arquivo-verde-CiKqsOQ8.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/procuracao-CEnu62YB.mjs
 import './VTextarea-DJCeftNm.mjs';
 import './Confirmacao-BqR7T8Ab.mjs';
 import './MoneyInput-ot-UsY0X.mjs';
@@ -778,4 +787,8 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
+<<<<<<< HEAD:.output/server/chunks/build/procuracao-Dbvnmxns.mjs
 //# sourceMappingURL=procuracao-Dbvnmxns.mjs.map
+=======
+//# sourceMappingURL=procuracao-CEnu62YB.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/procuracao-CEnu62YB.mjs

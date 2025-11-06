@@ -1,5 +1,10 @@
+<<<<<<< HEAD:.output/server/chunks/build/_id_-CthMPqJB.mjs
 import { _ as _sfc_main$5, a as _sfc_main$4, b as _sfc_main$3, c as _sfc_main$2, d as _sfc_main$1, e as _sfc_main$6 } from './Anexos-Cw0RDY8Z.mjs';
 import { _ as _sfc_main$7 } from './TiposAtos-CQwkAZsB.mjs';
+=======
+import { _ as _sfc_main$5, a as _sfc_main$4, b as _sfc_main$3, c as _sfc_main$2, d as _sfc_main$1, e as _sfc_main$6 } from './Anexos-CSMuhLV6.mjs';
+import { _ as _sfc_main$7 } from './TiposAtos-0IGR3Hwr.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/_id_-EdzFPPvH.mjs
 import { ref, withAsyncContext, withCtx, unref, createVNode, toDisplayString, isRef, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderStyle, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
 import { _ as _imports_1 } from './editar-BcGPsVK2.mjs';
@@ -46,7 +51,11 @@ import 'utif';
 import './FichaCard-C0MTdS0w.mjs';
 import './VWindowItem-C7Tv7CBi.mjs';
 import './visualizar-BoZ30DMV.mjs';
+<<<<<<< HEAD:.output/server/chunks/build/_id_-CthMPqJB.mjs
 import './Observacao-B4y9qcNx.mjs';
+=======
+import './abre-arquivo-verde-CiKqsOQ8.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/_id_-EdzFPPvH.mjs
 import './VTextarea-DJCeftNm.mjs';
 import './visualizar-vermelho-Ly_aKn8Z.mjs';
 import './Confirmacao-BqR7T8Ab.mjs';
@@ -629,4 +638,8 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
+<<<<<<< HEAD:.output/server/chunks/build/_id_-CthMPqJB.mjs
 //# sourceMappingURL=_id_-CthMPqJB.mjs.map
+=======
+//# sourceMappingURL=_id_-EdzFPPvH.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/_id_-EdzFPPvH.mjs

@@ -8,10 +8,17 @@ import { u as useFetch } from './fetch-uf6n1sXR.mjs';
 import { V as VContainer } from './VContainer-CUysD4sO.mjs';
 import { V as VRow } from './VRow-Bqz0CuIN.mjs';
 import { V as VCol } from './VCol-BT4RzX0Q.mjs';
+<<<<<<< HEAD:.output/server/chunks/build/Anexos-EuF6DiyS.mjs
 import { V as VAutocomplete } from './VAutocomplete-C8djLHoj.mjs';
 import { _ as _imports_0$3, a as _imports_1$2, b as _sfc_main$6 } from './RegistroPessoas-fDsYI81f.mjs';
 import { _ as _imports_5, T as Toolbar, W as WordExport, D as DocumentEditorContainerComponent, a as _imports_0$1, b as _sfc_main$2$1, c as _sfc_main$1$1, d as _sfc_main$8 } from './Observacao-B4y9qcNx.mjs';
 import { r as registerLicense, _ as _sfc_main$7 } from './FichaCard-C0MTdS0w.mjs';
+=======
+import { V as VAutocomplete } from './VAutocomplete-B9VRQqKl.mjs';
+import { _ as _sfc_main$6 } from './RegistroPessoas-Dm_bitTh.mjs';
+import { _ as _imports_5, T as Toolbar, W as WordExport, D as DocumentEditorContainerComponent, a as _imports_0$1, b as _imports_0$2, c as _imports_1$2, d as _sfc_main$2$1, e as _sfc_main$1$1, f as _sfc_main$8 } from './abre-arquivo-verde-CiKqsOQ8.mjs';
+import { r as registerLicense, _ as _sfc_main$7 } from './FichaCard-BDq7cEeS.mjs';
+>>>>>>> validate-document:.output/server/chunks/build/Anexos-CzLwbTn5.mjs
 import { _ as _imports_1 } from './visualizar-BoZ30DMV.mjs';
 import { _ as _imports_0 } from './novo-CWU3oYa5.mjs';
 import { _ as _imports_1$1 } from './editar-BcGPsVK2.mjs';
@@ -3563,4 +3570,8 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main$5 as _, _sfc_main$4 as a, _sfc_main$3 as b, _sfc_main$2 as c, _sfc_main$1 as d, _sfc_main as e };
+<<<<<<< HEAD:.output/server/chunks/build/Anexos-EuF6DiyS.mjs
 //# sourceMappingURL=Anexos-EuF6DiyS.mjs.map
+=======
+//# sourceMappingURL=Anexos-CzLwbTn5.mjs.map
+>>>>>>> validate-document:.output/server/chunks/build/Anexos-CzLwbTn5.mjs
