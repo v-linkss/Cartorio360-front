@@ -402,8 +402,4 @@ _sfc_main.setup = (props, ctx) => {
 const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-32fed6c9"]]);
 
 export { index as default };
-<<<<<<< HEAD:.output/server/chunks/build/index-cS8Lfhwg.mjs
 //# sourceMappingURL=index-cS8Lfhwg.mjs.map
-=======
-//# sourceMappingURL=index-Cv4DZFN-.mjs.map
->>>>>>> validate-document:.output/server/chunks/build/index-Cv4DZFN-.mjs

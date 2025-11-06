@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:.output/public/_nuxt/wvowXzEd.js
-import{c as s}from"./Dq_N2V3P.js";const i=s.withMessage("CPF inválido",f=>{if(!f)return!1;const t=f.replace(/[^\d]+/g,"");if(t.length!==11||/^(\d)\1+$/.test(t))return!1;let a=0;for(let e=0;e<9;e++)a+=parseInt(t.charAt(e))*(10-e);let r=11-a%11;if((r===10||r===11)&&(r=0),r!==parseInt(t.charAt(9)))return!1;a=0;for(let e=0;e<10;e++)a+=parseInt(t.charAt(e))*(11-e);return r=11-a%11,(r===10||r===11)&&(r=0),r===parseInt(t.charAt(10))});export{i as c};
-========
-import{c as s}from"./N260uwgK.js";const i=s.withMessage("CPF inválido",f=>{if(!f)return!1;const t=f.replace(/[^\d]+/g,"");if(t.length!==11||/^(\d)\1+$/.test(t))return!1;let a=0;for(let e=0;e<9;e++)a+=parseInt(t.charAt(e))*(10-e);let r=11-a%11;if((r===10||r===11)&&(r=0),r!==parseInt(t.charAt(9)))return!1;a=0;for(let e=0;e<10;e++)a+=parseInt(t.charAt(e))*(11-e);return r=11-a%11,(r===10||r===11)&&(r=0),r===parseInt(t.charAt(10))});export{i as c};
->>>>>>>> validate-document:.output/public/_nuxt/DbV2tsck.js
