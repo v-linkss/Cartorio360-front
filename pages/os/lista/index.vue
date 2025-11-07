@@ -86,7 +86,7 @@
             }" src="../../../assets/editar.png" alt="Editar" />
           </div>
 
-          <div :class="{ disabled: !item.btn_recibo }" @click="item.btn_recibo ? emitirRecibo(item.token) : null"
+          <div :class="{ disabled: !item.btn_recibo }" @click="item.btn_recibo ? redirectToImprecaoRecibo(item) : null"
             :title="item.btn_recibo ? 'Emitir Recibo' : 'Bloqueado'">
             <img :style="{
               cursor: item.btn_recibo ? 'pointer' : 'default',
@@ -112,6 +112,8 @@
       @close="isModalRecebimentoOpen = false" @refresh-value="servicosDataTable()" />
     <CancelamentoOrdem :show="isModalCancelamentoOpen" :numero_os="numero_os" :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false" />
+    <ModalImprecaoRecibo :show="isModalImprecaoRecibo" :apresentante_nome="selectedRecibo.apresentante_nome"
+      :apresentante_cpf="selectedRecibo.apresentante_cpf" @close="isModalImprecaoRecibo = false" />
   </v-container>
 </template>
 
@@ -132,10 +134,12 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
+const isModalImprecaoRecibo = ref(false)
 const showCreateOrdemServ = ref(null);
 const ordemserv_token = ref(null);
 const numero_os = ref(null);
 const selectedOrder = ref({});
+const selectedRecibo = ref({});
 const tokenCookie = useCookie("auth_token");
 
 const state = reactive({
@@ -284,6 +288,16 @@ function redirectToCancelamento(item) {
   ordemserv_token.value = item.token;
   isModalCancelamentoOpen.value = true;
 }
+
+function redirectToImprecaoRecibo(item) {
+  // numero_os.value = item.numero;
+  // ordemserv_token.value = item.token;
+  selectedRecibo.value.apresentante_nome = item.apresentante_nome;
+  selectedRecibo.value.apresentante_cpf = item.apresentante_cpf;
+
+  isModalImprecaoRecibo.value = true;
+}
+
 
 function redirectToUpdate(id) {
   const serviceCookie = useCookie("user-service");
