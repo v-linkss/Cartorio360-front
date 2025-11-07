@@ -113,7 +113,8 @@
     <CancelamentoOrdem :show="isModalCancelamentoOpen" :numero_os="numero_os" :ordemserv_token="ordemserv_token"
       @close="isModalCancelamentoOpen = false" />
     <ModalImprecaoRecibo :show="isModalImprecaoRecibo" :apresentante_nome="selectedRecibo.apresentante_nome"
-      :apresentante_cpf="selectedRecibo.apresentante_cpf" @close="isModalImprecaoRecibo = false" />
+      :apresentante_cpf="selectedRecibo.apresentante_cpf" :token="ordemserv_token"
+      @close="isModalImprecaoRecibo = false" />
   </v-container>
 </template>
 
@@ -291,7 +292,7 @@ function redirectToCancelamento(item) {
 
 function redirectToImprecaoRecibo(item) {
   // numero_os.value = item.numero;
-  // ordemserv_token.value = item.token;
+  ordemserv_token.value = item.token;
   selectedRecibo.value.apresentante_nome = item.apresentante_nome;
   selectedRecibo.value.apresentante_cpf = item.apresentante_cpf;
 
@@ -321,26 +322,26 @@ function redirectToRecebimento(numero, item) {
   isModalRecebimentoOpen.value = true;
 }
 
-async function emitirRecibo(token) {
+// async function emitirRecibo(token) {
 
-  const { data, pending, error } = await useFetch(imprimirRecibo, {
-    method: "POST",
-    body: {
-      os_token: token,
-    },
-    headers: {
-      Authorization: `Bearer ${tokenCookie.value}`,
-    },
-  })
-  if (data.value) {
-    const blob = new Blob([data.value], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-  } else {
-    $toast.error(error?.value?.data?.details ||
-      "Erro ao emitir recibo");
-  }
-}
+//   const { data, pending, error } = await useFetch(imprimirRecibo, {
+//     method: "POST",
+//     body: {
+//       os_token: token,
+//     },
+//     headers: {
+//       Authorization: `Bearer ${tokenCookie.value}`,
+//     },
+//   })
+//   if (data.value) {
+//     const blob = new Blob([data.value], { type: 'text/html' });
+//     const url = URL.createObjectURL(blob);
+//     window.open(url, '_blank');
+//   } else {
+//     $toast.error(error?.value?.data?.details ||
+//       "Erro ao emitir recibo");
+//   }
+// }
 
 
 const showCreateOrdem = () => {
