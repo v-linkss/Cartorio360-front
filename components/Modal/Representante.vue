@@ -33,7 +33,16 @@
               title="Deletar Pessoa"
             >
               <img
+                v-if="!item.excluido"
                 src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
+              <img
+                v-else
+                src="../../assets/excluido.png"
                 alt="Excluir"
                 class="trash-icon"
                 style="width: 30px; height: 30px"

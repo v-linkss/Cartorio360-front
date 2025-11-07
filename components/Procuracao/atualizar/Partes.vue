@@ -403,7 +403,7 @@ const redirectToRepresentante = (item) => {
     }));
   ato_pessoa_id.value = item.id;
   ato_pessoa_token.value = item.token;
-  console.log(ato_pessoa_token.value);
+
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
