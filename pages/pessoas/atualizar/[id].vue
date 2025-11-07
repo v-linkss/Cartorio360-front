@@ -394,7 +394,7 @@ async function validarCpf(cpf) {
     };
 
     try {
-      const { error, status } = await useFetch(routeValidaCpf, {
+      const { data, error, status } = await useFetch(routeValidaCpf, {
         method: "POST",
         body: payloadFormated,
       });
