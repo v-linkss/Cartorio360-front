@@ -9,6 +9,13 @@
   <v-container v-if="!pending">
     <v-row>
       <v-col md="3">
+        <v-text-field
+          v-model="state.doc_identificacao"
+          label="Documento"
+          @blur="validarDocument(state.doc_identificacao)"
+        ></v-text-field>
+      </v-col>
+      <v-col md="3">
         <v-autocomplete
           label="País"
           v-model="state.tabvalores_nacionalidade_id"
@@ -25,12 +32,6 @@
           required
           @blur="v$.nome.$touch"
           @input="v$.nome.$touch"
-        ></v-text-field>
-      </v-col>
-      <v-col md="3">
-        <v-text-field
-          v-model="state.doc_identificacao"
-          label="Documento"
         ></v-text-field>
       </v-col>
       <v-col md="2">
@@ -172,6 +173,7 @@ const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidade
 const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
 const listarPais = `${config.public.auth}/service/gerencia/listarPais`;
+const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 const { id } = route.params;
 
 const initialState = {
@@ -196,6 +198,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
+let isValidatingDocument = false;
 const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({
@@ -332,6 +335,37 @@ async function onUpdate() {
     router.push("/pessoas/lista");
   } else {
     $toast.error("Erro ao atualizar Pessoa Estrangeira");
+  }
+}
+
+async function validarDocument(cpf) {
+  if (!isValidatingDocument) {
+    isValidatingDocument = true;
+
+    const payloadFormated = {
+      cpf: cpf,
+    };
+
+    try {
+      const { data, error, status } = await useFetch(routeValidaCpf, {
+        method: "POST",
+        body: payloadFormated,
+      });
+
+      if (status.value === "error" && error.value.statusCode === 500) {
+        $toast.error(" o DOCUMENTO já está cadastrado.");
+        return;
+      }
+      if (data.value.cpfValidation) {
+        $toast.error(
+          "Já existe uma pessoa cadastrada com o DOCUMENTO digitado."
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao validar CPF:", error);
+    } finally {
+      isValidatingDocument = false;
+    }
   }
 }
 

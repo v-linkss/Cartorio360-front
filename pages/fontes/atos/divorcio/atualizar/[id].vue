@@ -142,10 +142,14 @@ function onTabChange(newTab) {
 }
 
 function onDivorcioTabClick() {
+<<<<<<< HEAD
   // if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
   tabEvent.value++;
   // divorcioTabClicks.value++;
   // }
+=======
+  tabEvent.value++;
+>>>>>>> be077681d55cbcf26d415a29375ae3d2f2a10fd2
 }
 
 
