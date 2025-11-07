@@ -160,6 +160,7 @@ const isModalFichaOpen = ref(false);
 const isModalEspecialOpen = ref(false);
 const linkFichaPessoa = ref([]);
 const pathFichaPessoa = ref(null);
+const pending = ref(false);
 const pessoaObj = ref({});
 
 const searchName = ref(null);

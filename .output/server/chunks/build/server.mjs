@@ -782,7 +782,7 @@ const _routes = [
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
-    component: () => import('./index-qr2U5_Cq.mjs')
+    component: () => import('./index-CpRXGzCb.mjs')
   },
   {
     name: "recupera_senha",
