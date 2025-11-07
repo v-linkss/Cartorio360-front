@@ -9,32 +9,17 @@
       </v-row>
       <v-row>
         <v-col md="6">
-          <v-autocomplete
-            label="Serviço"
-            class="mr-5"
-            v-model="label"
-            disabled
-          ></v-autocomplete>
+          <v-autocomplete label="Serviço" class="mr-5" v-model="label" disabled></v-autocomplete>
         </v-col>
         <v-col md="5">
-          <v-autocomplete
-            v-model="updatedAtoDetails"
-            label="Tipo de Ato"
-            disabled
-          ></v-autocomplete>
+          <v-autocomplete v-model="updatedAtoDetails" label="Tipo de Ato" disabled></v-autocomplete>
         </v-col>
         <div v-if="!isVisualizar">
-          <img
-            class="mt-2"
-            :style="{
-              cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
-              width: '35px',
-              height: '35px',
-            }"
-            src="../../../../../assets/editar.png"
-            alt="Editar"
-            @click="openModal"
-          />
+          <img class="mt-2" :style="{
+            cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
+            width: '35px',
+            height: '35px',
+          }" src="../../../../../assets/editar.png" alt="Editar" @click="openModal" />
         </div>
       </v-row>
     </div>
@@ -55,10 +40,7 @@
 
       <v-tabs-window v-model="tab" @update:modelValue="onTabChange">
         <v-tabs-window-item value="dados">
-          <ProcuracaoAtualizarDados
-            :item_dados="dadosData"
-            :item_situacoes="situacoesItems"
-          />
+          <ProcuracaoAtualizarDados :item_dados="dadosData" :item_situacoes="situacoesItems" />
         </v-tabs-window-item>
         <v-tabs-window-item value="partes">
           <ProcuracaoAtualizarPartes />
@@ -90,14 +72,8 @@
       </v-tabs-window>
     </v-card>
   </v-container>
-  <ModalTiposAtos
-    v-if="modalVisible"
-    :show="modalVisible"
-    :servicos="dadosData.servicos || []"
-    :tiposAtos="dadosData.tiposAtos || []"
-    @close="modalVisible = false"
-    @updateAto="handleUpdateAto"
-  />
+  <ModalTiposAtos v-if="modalVisible" :show="modalVisible" :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []" @close="modalVisible = false" @updateAto="handleUpdateAto" />
 </template>
 
 <script setup>
@@ -166,15 +142,12 @@ function onTabChange(newTab) {
 }
 
 function onDivorcioTabClick() {
-<<<<<<< HEAD
   // if (tab.value === "divorcio" && divorcioTabClicks.value < 3) {
-    tabEvent.value++;
-    // divorcioTabClicks.value++;
-  // }
-=======
   tabEvent.value++;
->>>>>>> refact/Recibos
+  // divorcioTabClicks.value++;
+  // }
 }
+
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
   const [firstPart, secondPart] = descricao.split(" - ");
