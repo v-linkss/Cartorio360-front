@@ -161,8 +161,10 @@ const isModalEspecialOpen = ref(false);
 const linkFichaPessoa = ref([]);
 const pathFichaPessoa = ref(null);
 const pending = ref(false);
+const pessoasItems = ref([]);
 const pessoaObj = ref({});
 
+const router = useRouter();
 const searchName = ref(null);
 const searchDoc = ref(null);
 const searchCartao = ref(null);
