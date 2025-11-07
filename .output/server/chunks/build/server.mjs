@@ -767,7 +767,7 @@ const _routes = [
   {
     name: "os-lista",
     path: "/os/lista",
-    component: () => import('./index-vccZxoG1.mjs')
+    component: () => import('./index-CsrKKaIg.mjs')
   },
   {
     name: "pessoas-atualizar-id",
