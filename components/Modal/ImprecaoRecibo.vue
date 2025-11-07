@@ -39,8 +39,8 @@ const props = defineProps({
     visualizar: Boolean,
 });
 const state = reactive({
-    apresentante_nome: props.apresentante_nome || "",
-    apresentante_cpf: props.apresentante_cpf || "",
+    apresentante_nome: props.apresentante_nome,
+    apresentante_cpf: props.apresentante_cpf,
     usuario_token: useCookie("auth_token").value
 });
 const emit = defineEmits(["close"]);
@@ -60,7 +60,14 @@ watch(
     },
     { immediate: true } // <<< ISSO É IMPORTANTE
 )
-
+watch(
+    () => props,
+    (val) => {
+        state.apresentante_nome = val.apresentante_nome
+        state.apresentante_cpf = val.apresentante_cpf
+    },
+    { deep: true, immediate: true }
+)
 
 const closeModal = () => {
     isVisible.value = false;
