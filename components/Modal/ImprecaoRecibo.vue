@@ -32,19 +32,21 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
     show: Boolean,
     apresentante_nome: String,
     apresentante_cpf: String,
     visualizar: Boolean,
+    token: String,
 });
 const state = reactive({
     apresentante_nome: props.apresentante_nome,
     apresentante_cpf: props.apresentante_cpf,
+    token: props.token,
     usuario_token: useCookie("auth_token").value
 });
 const emit = defineEmits(["close"]);
-const usuario_token = useCookie("auth_token").value;
 
 const isVisible = ref(props.show);
 const { $toast } = useNuxtApp()
@@ -58,7 +60,7 @@ watch(
     (val) => {
         isVisible.value = val
     },
-    { immediate: true } // <<< ISSO É IMPORTANTE
+    { immediate: true }
 )
 watch(
     () => props,
@@ -84,12 +86,15 @@ async function onSubmit() {
                     nome_recibo: state.apresentante_nome,
                     doc_recibo: state.apresentante_cpf,
                     usuario_token: state.usuario_token,
+                    os_token: state.token,
+
                 },
                 headers: {
                     Authorization: `Bearer ${state.usuario_token}`,
                 },
             }
         );
+        console.log(data)
 
         if (data.value) {
             const blob = new Blob([data.value], { type: "text/html" });
