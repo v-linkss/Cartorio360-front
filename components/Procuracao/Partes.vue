@@ -175,6 +175,7 @@
       :representante_nome="representante_nome"
       :representantes="pessoasRepresentantes"
       :ato_id="ato_pessoa_id"
+      :ato_pessoa_token="ato_pessoa_token"
       :show="isModalRepresentanteOpen"
       @close="isModalRepresentanteOpen = false"
       @updateRepresentante="atualizarRepresentante"
@@ -241,6 +242,7 @@ const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
 const representante_pessoa_id = ref(null);
 const papel_id = ref(null);
+const ato_pessoa_token = ref(null);
 const fichaRender = ref(null);
 
 const headers = [
@@ -387,8 +389,10 @@ const redirectToRepresentante = (item) => {
     .map((p) => ({
       id: p.pessoa.id,
       nome: p.pessoa.nome,
+      token: p.pessoa.token,
     }));
   ato_pessoa_id.value = item.id;
+  ato_pessoa_token.value = item.token;
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
