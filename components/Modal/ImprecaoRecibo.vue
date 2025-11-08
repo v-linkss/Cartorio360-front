@@ -2,7 +2,6 @@
     <v-dialog persistent v-model="isVisible" max-width="600">
         <v-card>
             <v-container>
-                {{ props }}
 
                 <v-row class="mt-1 mb-3" style="justify-content: space-between">
                     <h1 class="ml-4">
