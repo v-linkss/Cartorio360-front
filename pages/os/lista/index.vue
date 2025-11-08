@@ -2,6 +2,7 @@
   <v-container class="mt-5" style="width: 100%">
     <v-row class="mb-5">
       <h1>Ordens de Serviço</h1>
+      {{ ordemserv_token }}
       <NuxtLink to="/os/criar-registro">
         <img style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px" src="../../../assets/novo.png"
           alt="novo" @click="showCreateOrdem" />

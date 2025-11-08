@@ -2,6 +2,8 @@
     <v-dialog persistent v-model="isVisible" max-width="600">
         <v-card>
             <v-container>
+                {{ props }}
+
                 <v-row class="mt-1 mb-3" style="justify-content: space-between">
                     <h1 class="ml-4">
                         Emitir Recibo
@@ -67,6 +69,8 @@ watch(
     (val) => {
         state.apresentante_nome = val.apresentante_nome
         state.apresentante_cpf = val.apresentante_cpf
+        state.token = val.token
+
     },
     { deep: true, immediate: true }
 )
