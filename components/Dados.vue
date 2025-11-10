@@ -8,6 +8,20 @@
   <div v-else-if="error">{{ error.message }}</div>
   <v-container v-if="!pending">
     <v-row>
+      <v-col md="4">
+        <v-text-field
+          v-model="state.doc_identificacao"
+          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
+          label="CPF"
+          v-mask="'###.###.###-##'"
+          required
+          @blur="
+            v$.doc_identificacao.$touch();
+            validarCpf(state.doc_identificacao);
+          "
+          @input="v$.doc_identificacao.$touch"
+        ></v-text-field>
+      </v-col>
       <v-col md="6">
         <v-text-field
           v-model="state.nome"
@@ -18,17 +32,7 @@
           @input="v$.nome.$touch"
         ></v-text-field>
       </v-col>
-      <v-col md="4">
-        <v-text-field
-          v-model="state.doc_identificacao"
-          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
-          label="CPF"
-          v-mask="'###.###.###-##'"
-          required
-          @blur="v$.doc_identificacao.$touch"
-          @input="v$.doc_identificacao.$touch"
-        ></v-text-field>
-      </v-col>
+
       <v-col md="2">
         <v-select
           label="Sexo"
@@ -160,7 +164,6 @@ const props = defineProps({
 
 const emit = defineEmits(["saved", "close-modal"]);
 const router = useRouter();
-const route = useRoute();
 const { $toast } = useNuxtApp();
 
 const config = useRuntimeConfig();
@@ -170,6 +173,7 @@ const estadoCivil = `${config.public.auth}/service/gerencia/listarEstadoCivil`;
 const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidadeCivil`;
 const cidade = `${config.public.auth}/service/gerencia/listarCidades`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
+const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 
 const initialState = {
   nome: null,
@@ -192,6 +196,7 @@ const initialState = {
 };
 
 const isEditMode = ref(false);
+let isValidatingCpf = false;
 const pessoaId = useCookie("pessoa-id");
 
 const state = reactive({
@@ -298,13 +303,10 @@ async function onUpdate() {
     fone_celular: state.fone_celular.replace(/[^0-9]/g, ""),
     data_nascimento: formatToISO(state.data_nascimento),
   };
-  const { data, error, status } = await fetchWithToken(
-    `${updatePessoa}/${pessoaId.value}`,
-    {
-      method: "PUT",
-      body: payloadFormated,
-    }
-  );
+  const { status } = await fetchWithToken(`${updatePessoa}/${pessoaId.value}`, {
+    method: "PUT",
+    body: payloadFormated,
+  });
   if (status.value === "success") {
     if (props.isModal === true) {
       $toast.success("Pessoa atualizada com sucesso!");
@@ -325,4 +327,35 @@ const voltar = () => {
   }
   router.push("/pessoas/lista");
 };
+
+async function validarCpf(cpf) {
+  const cpfFormated = removeFormatting(cpf);
+
+  if (cpfFormated.length === 11 && !isValidatingCpf) {
+    isValidatingCpf = true;
+
+    const payloadFormated = {
+      cpf: cpfFormated,
+    };
+
+    try {
+      const { data, error, status } = await useFetch(routeValidaCpf, {
+        method: "POST",
+        body: payloadFormated,
+      });
+
+      if (status.value === "error" && error.value.statusCode === 500) {
+        $toast.error(" o CPF já está cadastrado.");
+        return;
+      }
+      if (data.value.cpfValidation) {
+        $toast.error("Já existe uma pessoa cadastrada com o CPF digitado.");
+      }
+    } catch (error) {
+      console.error("Erro ao validar CPF:", error);
+    } finally {
+      isValidatingCpf = false;
+    }
+  }
+}
 </script>

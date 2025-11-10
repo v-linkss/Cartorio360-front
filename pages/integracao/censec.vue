@@ -133,8 +133,6 @@ function convertToISODate(date) {
 }
 
 const enviaDadosCensec = async () => {
-  console.log("Token:", token);
-
   if (!state.validar) {
     $toast.warning("Selecione um tipo de validação antes de enviar!");
     return;
