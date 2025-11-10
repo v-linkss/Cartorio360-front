@@ -751,7 +751,7 @@ const _routes = [
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
-    component: () => import('./_id_-b2liUP8r.mjs')
+    component: () => import('./_id_-DBKWmWkj.mjs')
   },
   {
     name: "pessoas-cadastro",

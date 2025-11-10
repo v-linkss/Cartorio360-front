@@ -58,19 +58,21 @@
           <v-tabs-window-item value="dados">
             <v-container v-if="state.tipo_pessoa === 'FISICA'">
               <v-row>
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    v-model="state.doc_identificacao"
+                    label="CPF"
+                    v-mask="'###.###.###-##'"
+                    @blur="validarCpf(state.doc_identificacao)"
+                  ></v-text-field>
+                </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
                     v-model="state.nome"
                     label="Nome"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
-                  <v-text-field
-                    v-model="state.doc_identificacao"
-                    label="CPF"
-                    v-mask="'###.###.###-##'"
-                  ></v-text-field>
-                </v-col>
+
                 <v-col md="2">
                   <v-select
                     label="Sexo"
@@ -226,6 +228,7 @@ const capacidadeCivil = `${config.public.auth}/service/gerencia/listarCapacidade
 const cidades = `${config.public.auth}/service/gerencia/listarCidades`;
 const buscarPessoa = `${config.public.auth}/service/gerencia/getPessoaById`;
 const sexo = `${config.public.auth}/service/gerencia/listarSexo`;
+const routeValidaCpf = `${config.public.managemant}/validarCpf`;
 
 const estadoCivilItemsData = ref([]);
 const capacidadeCivilItemsData = ref([]);
@@ -234,6 +237,7 @@ const sexoItemsData = ref([]);
 const loading = ref(true);
 const link_ficha = ref(null);
 const criacaoData = ref(null);
+let isValidatingCpf = false;
 
 const initialState = {
   nome: null,
@@ -318,7 +322,6 @@ async function loadPessoaData() {
   }
 }
 
-// Chamando a função para carregar dados quando o componente é montado
 onMounted(() => {
   if (id) {
     loadPessoaData();
@@ -371,6 +374,42 @@ async function onUpdate() {
     router.push("/pessoas/lista");
   } else {
     $toast.error("Erro ao atualizar pessoa.");
+  }
+}
+
+async function validarCpf(cpf) {
+  const cpfFormated = removeFormatting(cpf);
+
+  const cpfNoMask = removeFormatting(originalState.doc_identificacao);
+  if (
+    cpfFormated.length === 11 &&
+    !isValidatingCpf &&
+    cpfFormated !== cpfNoMask
+  ) {
+    isValidatingCpf = true;
+
+    const payloadFormated = {
+      cpf: cpfFormated,
+    };
+
+    try {
+      const { data, error, status } = await useFetch(routeValidaCpf, {
+        method: "POST",
+        body: payloadFormated,
+      });
+
+      if (status.value === "error" && error.value.statusCode === 500) {
+        $toast.error(" o CPF já está cadastrado.");
+        return;
+      }
+      if (data.value.cpfValidation) {
+        $toast.error("Já existe uma pessoa cadastrada com o CPF digitado.");
+      }
+    } catch (error) {
+      console.error("Erro ao validar CPF:", error);
+    } finally {
+      isValidatingCpf = false;
+    }
   }
 }
 </script>
