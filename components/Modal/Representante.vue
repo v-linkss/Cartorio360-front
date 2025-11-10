@@ -108,6 +108,7 @@ const closeModal = () => {
   tableData.value = [];
   isVisible.value = false;
   emit("close");
+  emit("update-representante");
 };
 
 const addRepresentante = async () => {

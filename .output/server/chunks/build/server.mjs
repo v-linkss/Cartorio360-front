@@ -655,22 +655,22 @@ const _routes = [
   {
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
-    component: () => import('./_id_-B1Fn0a9Y.mjs')
+    component: () => import('./_id_-CUWmb3FT.mjs')
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
-    component: () => import('./geral-CzFU8_yU.mjs')
+    component: () => import('./geral-_CY8IkT6.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
-    component: () => import('./_id_-LD6LPy-F.mjs')
+    component: () => import('./_id_-CQRj4GiP.mjs')
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
-    component: () => import('./geral-BdKssIYq.mjs')
+    component: () => import('./geral-BEnWfHME.mjs')
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
@@ -680,17 +680,17 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-jCnGuAnO.mjs')
+    component: () => import('./_id_-T1Pa4-vg.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
-    component: () => import('./geral-DDQ1sZvR.mjs')
+    component: () => import('./geral-CkLRk85v.mjs')
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
-    component: () => import('./procuracao-NJyQ0DsK.mjs')
+    component: () => import('./procuracao-BckQ-f4m.mjs')
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
@@ -757,7 +757,7 @@ const _routes = [
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
-    component: () => import('./criar-ato-B3flx-8H.mjs')
+    component: () => import('./criar-ato-GhdOqZoV.mjs')
   },
   {
     name: "os-criar-registro",
