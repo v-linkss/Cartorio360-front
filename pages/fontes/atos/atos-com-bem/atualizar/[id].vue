@@ -134,7 +134,6 @@ async function loadData() {
     );
     dadosData.value = tipoAtoId.value;
     linkLivro.value = dadosData.value[0].link_livro;
-    console.log(dadosData.value[0].link_livro);
   } catch (error) {
     console.error(error);
   }

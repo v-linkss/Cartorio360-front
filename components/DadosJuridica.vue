@@ -207,7 +207,7 @@ const voltar = () => {
 
 async function validarCnpj(cnpj) {
   const cnpjFormated = removeFormatting(cnpj);
-  console.log(cnpj);
+
   if (!isValidatingcnpj) {
     isValidatingcnpj = true;
 
