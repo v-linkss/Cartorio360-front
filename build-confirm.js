@@ -9,14 +9,14 @@ dotenv.config();
 const envVars = {
   // DEV
   dev: {
-    MS_AUTH_DESENV: "http://157.230.216.74:40176",
-    MS_MANAGEMENT_DESENV: "http://157.230.216.74:14193",
+    MS_AUTH_DESENV: "https://dev.cartorio360.com.br:40176",
+    MS_MANAGEMENT_DESENV: "https://dev.cartorio360.com.br:14193",
     BIOMETRIA: "http://localhost:5000/apiservice",
     OBSERVER: "http://localhost:3500",
     LICENSE_KEY:
       "Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXpec3VXRmhfVUx2WUFWYUA=",
     WEB_SERVICE: "http://localhost:3333",
-    CHAT_BOT_DESENV: "http://157.230.216.74:3452",
+    CHAT_BOT_DESENV: "https://dev.cartorio360.com.br:3452",
 
     DEV_MODE: "true",
   },
