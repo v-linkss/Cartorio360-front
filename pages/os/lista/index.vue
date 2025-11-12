@@ -4,8 +4,12 @@
       <h1>Ordens de Serviço</h1>
       {{ ordemserv_token }}
       <NuxtLink to="/os/criar-registro">
-        <img style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px" src="../../../assets/novo.png"
-          alt="novo" @click="showCreateOrdem" />
+        <img
+          style="width: 60px; height: 60px; cursor: pointer; margin-left: 70px"
+          src="../../../assets/novo.png"
+          alt="novo"
+          @click="showCreateOrdem"
+        />
       </NuxtLink>
     </v-row>
     <v-row style="margin-bottom: -35px">
@@ -13,23 +17,46 @@
         <v-text-field v-model="state.numero" label="Número"></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="state.data_inicio" label="Abertura de" placeholder="dd/mm/yyyy" v-mask="'##/##/####'"
-          style="width: 150px"></v-text-field>
+        <v-text-field
+          v-model="state.data_inicio"
+          label="Abertura de"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="state.data_fim" label="Abertura até" placeholder="dd/mm/yyyy" v-mask="'##/##/####'"
-          style="width: 150px"></v-text-field>
+        <v-text-field
+          v-model="state.data_fim"
+          label="Abertura até"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="state.data_lavratura_inicio" label="Lavratura de" placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'" style="width: 150px"></v-text-field>
+        <v-text-field
+          v-model="state.data_lavratura_inicio"
+          label="Lavratura de"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="state.data_lavratura_fim" label="Lavratura até" placeholder="dd/mm/yyyy"
-          v-mask="'##/##/####'" style="width: 150px"></v-text-field>
+        <v-text-field
+          v-model="state.data_lavratura_fim"
+          label="Lavratura até"
+          placeholder="dd/mm/yyyy"
+          v-mask="'##/##/####'"
+          style="width: 150px"
+        ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field v-model="state.protocolo" label="Protocolo"></v-text-field>
+        <v-text-field
+          v-model="state.protocolo"
+          label="Protocolo"
+        ></v-text-field>
       </v-col>
       <v-col md="1">
         <v-text-field v-model="state.livro" label="Livro"></v-text-field>
@@ -40,82 +67,167 @@
     </v-row>
     <v-row>
       <v-col md="3">
-        <v-autocomplete v-model="state.situacao" :items="situacaoItems" label="Situação"></v-autocomplete>
+        <v-autocomplete
+          v-model="state.situacao"
+          :items="situacaoItems"
+          label="Situação"
+        ></v-autocomplete>
       </v-col>
       <v-col md="2">
-        <v-autocomplete :items="usuariosItems" v-model="state.usuario_token" item-title="user_nome"
-          item-value="user_token" label="Usuario"></v-autocomplete>
+        <v-autocomplete
+          :items="usuariosItems"
+          v-model="state.usuario_token"
+          item-title="user_nome"
+          item-value="user_token"
+          label="Usuario"
+        ></v-autocomplete>
       </v-col>
       <v-col md="1">
         <v-text-field v-model="state.selo" label="Selo"></v-text-field>
       </v-col>
       <v-col md="3">
-        <v-autocomplete v-model="state.ato_tipo_token" :items="tipoAtosItems" item-title="descricao" item-value="token"
-          label="Serviço"></v-autocomplete>
+        <v-autocomplete
+          v-model="state.ato_tipo_token"
+          :items="tipoAtosItems"
+          item-title="descricao"
+          item-value="token"
+          label="Serviço"
+        ></v-autocomplete>
       </v-col>
       <v-col md="2">
-        <v-text-field v-model="state.apresentante" label="Apresentante"></v-text-field>
+        <v-text-field
+          v-model="state.apresentante"
+          label="Apresentante"
+        ></v-text-field>
       </v-col>
       <v-col>
         <div>
-          <img @click="searchOrdersService" style="width: 40px; height: 40px; cursor: pointer"
-            src="../../../assets/visualizar.png" alt="Pesquisar" />
+          <img
+            @click="searchOrdersService"
+            style="width: 40px; height: 40px; cursor: pointer"
+            src="../../../assets/visualizar.png"
+            alt="Pesquisar"
+          />
         </div>
       </v-col>
     </v-row>
     <hr class="mt-5 mb-5" />
     <!-- {{ servicosItems }} -->
-    <v-data-table :headers="headers" style="min-width: 1230px; font-size: 12px" :items="servicosItems" item-key="id">
+    <v-data-table
+      :headers="headers"
+      style="min-width: 1230px; font-size: 12px"
+      :items="servicosItems"
+      item-key="id"
+    >
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 2px; margin-top: -5px">
-          <div :class="{ disabled: !item.btn_receber }" :title="item.btn_receber ? 'Receber' : 'Bloqueado'" @click="
-            item.btn_receber ? redirectToRecebimento(item.numero, item) : null
-            " title="Receber">
-            <img :style="{
-              cursor: item.btn_receber ? 'pointer' : 'default',
-              width: '30px',
-              height: '30px',
-            }" src="../../../assets/recebe.png" alt="Receber" />
+          <div
+            :class="{ disabled: !item.btn_receber }"
+            :title="item.btn_receber ? 'Receber' : 'Bloqueado'"
+            @click="
+              item.btn_receber ? redirectToRecebimento(item.numero, item) : null
+            "
+            title="Receber"
+          >
+            <img
+              :style="{
+                cursor: item.btn_receber ? 'pointer' : 'default',
+                width: '30px',
+                height: '30px',
+              }"
+              src="../../../assets/recebe.png"
+              alt="Receber"
+            />
           </div>
 
-          <div :class="{ disabled: !item.btn_editar }" @click="item.btn_editar ? redirectToUpdate(item.id) : null"
-            :title="item.btn_editar ? 'Editar' : 'Bloqueado'">
-            <img :style="{
-              cursor: item.btn_editar ? 'pointer' : 'default',
-              width: '30px',
-              height: '30px',
-            }" src="../../../assets/editar.png" alt="Editar" />
+          <div
+            :class="{ disabled: !item.btn_editar }"
+            @click="item.btn_editar ? redirectToUpdate(item.id) : null"
+            :title="item.btn_editar ? 'Editar' : 'Bloqueado'"
+          >
+            <img
+              :style="{
+                cursor: item.btn_editar ? 'pointer' : 'default',
+                width: '30px',
+                height: '30px',
+              }"
+              src="../../../assets/editar.png"
+              alt="Editar"
+            />
           </div>
 
-          <div :class="{ disabled: !item.btn_recibo }" @click="item.btn_recibo ? redirectToImprecaoRecibo(item) : null"
-            :title="item.btn_recibo ? 'Emitir Recibo' : 'Bloqueado'">
-            <img :style="{
-              cursor: item.btn_recibo ? 'pointer' : 'default',
-              width: '30px',
-              height: '30px',
-            }" src="../../../assets/imprimir.png" alt="Emitir Recibo" />
+          <div
+            :class="{ disabled: !item.btn_recibo }"
+            @click="item.btn_recibo ? redirectToImprecaoRecibo(item) : null"
+            :title="item.btn_recibo ? 'Emitir Recibo' : 'Bloqueado'"
+          >
+            <img
+              :style="{
+                cursor: item.btn_recibo ? 'pointer' : 'default',
+                width: '30px',
+                height: '30px',
+              }"
+              src="../../../assets/imprimir.png"
+              alt="Emitir Recibo"
+            />
+          </div>
+          <div @click="digitalizeDocument(item.token)">
+            <img
+              style="width: 30px; height: 30px; cursor: pointer"
+              src="../../../assets/escanear.png"
+              alt="escanear"
+              title="escanear"
+            />
           </div>
 
-          <div :disabled="!item.btn_cancelar" @click="item.btn_cancelar ? redirectToCancelamento(item) : null"
-            title="Cancelamento" :style="{
+          <div
+            :disabled="!item.btn_cancelar"
+            @click="item.btn_cancelar ? redirectToCancelamento(item) : null"
+            title="Cancelamento"
+            :style="{
               opacity: item.btn_cancelar ? 1 : 0.5,
               cursor: item.btn_cancelar ? 'pointer' : 'not-allowed',
-            }">
-            <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
-              alt="Visualizar" title="Reativar" />
-            <img v-else src="../../../assets/mudarStatus.png" alt="Cancelamento" class="trash-icon"
-              style="width: 30px; height: 30px" title="Excluir" />
+            }"
+          >
+            <img
+              v-if="item.excluido"
+              style="width: 30px; height: 30px"
+              src="../../../assets/excluido.png"
+              alt="Visualizar"
+              title="Reativar"
+            />
+            <img
+              v-else
+              src="../../../assets/mudarStatus.png"
+              alt="Cancelamento"
+              class="trash-icon"
+              style="width: 30px; height: 30px"
+              title="Excluir"
+            />
           </div>
         </v-row>
       </template>
     </v-data-table>
-    <RecebimentoOrdem :show="isModalRecebimentoOpen" :numero_os="numero_os" :ordem="selectedOrder"
-      @close="isModalRecebimentoOpen = false" @refresh-value="servicosDataTable()" />
-    <CancelamentoOrdem :show="isModalCancelamentoOpen" :numero_os="numero_os" :ordemserv_token="ordemserv_token"
-      @close="isModalCancelamentoOpen = false" />
-    <ModalImprecaoRecibo :show="isModalImprecaoRecibo" :apresentante_nome="selectedRecibo.apresentante_nome"
-      :apresentante_cpf="selectedRecibo.apresentante_cpf" :token="ordemserv_token"
-      @close="isModalImprecaoRecibo = false" />
+    <RecebimentoOrdem
+      :show="isModalRecebimentoOpen"
+      :numero_os="numero_os"
+      :ordem="selectedOrder"
+      @close="isModalRecebimentoOpen = false"
+      @refresh-value="servicosDataTable()"
+    />
+    <CancelamentoOrdem
+      :show="isModalCancelamentoOpen"
+      :numero_os="numero_os"
+      :ordemserv_token="ordemserv_token"
+      @close="isModalCancelamentoOpen = false"
+    />
+    <ModalImprecaoRecibo
+      :show="isModalImprecaoRecibo"
+      :apresentante_nome="selectedRecibo.apresentante_nome"
+      :apresentante_cpf="selectedRecibo.apresentante_cpf"
+      :token="ordemserv_token"
+      @close="isModalImprecaoRecibo = false"
+    />
   </v-container>
 </template>
 
@@ -126,6 +238,8 @@ const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
 const imprimirRecibo = `${config.public.auth}/service/gerencia/emitir_recibo`;
+const acionarScanner = `${config.public.biometria}/run-scanner?format=pdf`;
+const viewDoc = `${config.public.envioDoc}/upload`;
 const router = useRouter();
 
 const usuario_token = ref(useCookie("auth_token").value) || null;
@@ -136,7 +250,7 @@ const tipoAtosItems = ref([]);
 const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
-const isModalImprecaoRecibo = ref(false)
+const isModalImprecaoRecibo = ref(false);
 const showCreateOrdemServ = ref(null);
 const ordemserv_token = ref(null);
 const numero_os = ref(null);
@@ -198,6 +312,40 @@ async function usuariosDataPayload() {
   });
   usuariosItems.value = usuarioData.value;
 }
+
+async function openScanner() {
+  try {
+    const { data } = await useFetch(acionarScanner, { method: "GET" });
+  } catch (error) {
+    $toast.error("Erro ao acionar o scanner:", error);
+  }
+}
+async function enviarArquivo(ato_token) {
+  try {
+    const { status, data } = await useFetch(viewDoc, {
+      method: "POST",
+      body: {
+        tipo: "ato_livro",
+        token: ato_token,
+        cartorio_token: useCookie("user-data").value.cartorio_token,
+      },
+    });
+    if (status.value === "success") {
+      $toast.success("Arquivo enviado com sucesso!");
+    }
+  } catch (error) {
+    $toast.error(error);
+    console.error("Erro ao enviar o arquivo:", error);
+  }
+}
+const digitalizeDocument = async (token) => {
+  try {
+    await openScanner();
+    await enviarArquivo(token);
+  } catch (error) {
+    console.error("Erro ao executar scanner ou listar arquivos:", error);
+  }
+};
 
 async function searchOrdersService() {
   try {
@@ -300,7 +448,6 @@ function redirectToImprecaoRecibo(item) {
   isModalImprecaoRecibo.value = true;
 }
 
-
 function redirectToUpdate(id) {
   const serviceCookie = useCookie("user-service");
   const servico = servicosItems.value.find((item) => item.id === id);
@@ -343,7 +490,6 @@ function redirectToRecebimento(numero, item) {
 //       "Erro ao emitir recibo");
 //   }
 // }
-
 
 const showCreateOrdem = () => {
   const serviceCookie = useCookie("user-service");
