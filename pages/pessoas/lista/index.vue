@@ -1,153 +1,62 @@
 <template>
   <v-container class="mt-5">
     <NuxtLink to="/pessoas/cadastro">
-      <img
-        style="cursor: pointer"
-        src="../../../assets/novo.png"
-        alt="Cadastro"
-      />
+      <img style="cursor: pointer" src="../../../assets/novo.png" alt="Cadastro" />
     </NuxtLink>
     <v-row style="gap: 1rem">
       <div style="width: 200px">
-        <v-text-field
-          class="mt-7 mb-4"
-          v-model="searchDoc"
-          label="Documento"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
+        <v-text-field class="mt-7 mb-4" v-model="searchDoc" label="Documento" prepend-inner-icon="mdi-magnify"
+          variant="outlined" hide-details></v-text-field>
       </div>
       <div style="width: 150px">
-        <v-text-field
-          class="mt-7 mb-4"
-          v-model="searchCartao"
-          label="Cartão"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
+        <v-text-field class="mt-7 mb-4" v-model="searchCartao" label="Cartão" prepend-inner-icon="mdi-magnify"
+          variant="outlined" hide-details></v-text-field>
       </div>
       <div style="width: 300px">
-        <v-text-field
-          class="mt-7 mb-4"
-          v-model="searchName"
-          label="Pessoa"
-          prepend-inner-icon="mdi-magnify"
-          variant="outlined"
-          hide-details
-        ></v-text-field>
+        <v-text-field class="mt-7 mb-4" v-model="searchName" label="Pessoa" prepend-inner-icon="mdi-magnify"
+          variant="outlined" hide-details></v-text-field>
       </div>
-      <div
-        style="cursor: pointer"
-        @click="searchPessoas()"
-        title="Visualizar"
-        class="mt-7"
-      >
-        <img
-          style="width: 40px; height: 40px"
-          src="../../../assets/visualizar.png"
-          alt="Visualizar"
-          title="Possui Ficha"
-        />
+      <div style="cursor: pointer" @click="searchPessoas()" title="Visualizar" class="mt-7">
+        <img style="width: 40px; height: 40px" src="../../../assets/visualizar.png" alt="Visualizar"
+          title="Possui Ficha" />
       </div>
     </v-row>
 
-    <v-progress-circular
-      class="loading-spinner"
-      indeterminate
-      size="80"
-      v-if="pending"
-    ></v-progress-circular>
+    <v-progress-circular class="loading-spinner" indeterminate size="80" v-if="pending"></v-progress-circular>
 
-    <v-data-table
-      v-else
-      density="compact"
-      :headers="headers"
-      :items="pessoasItems"
-      item-key="id"
-      :items-per-page-options="[10, 25, 50]"
-    >
+    <v-data-table v-else density="compact" :headers="headers" :items="pessoasItems" item-key="id"
+      :items-per-page-options="[10, 25, 50]">
       <template v-slot:item.doc_identificacao="{ item }">
         {{ formatDoc(item.documento) }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-row style="display: flex; gap: 10px; justify-content: flex-end">
-          <div
-            style="cursor: pointer"
-            @click="openModalFicha(item.link_ficha, item)"
-            title="Visualizar"
-          >
-            <img
-              v-if="item.link_ficha"
-              style="width: 30px; height: 30px"
-              src="../../../assets/visualizar.png"
-              alt="Visualizar"
-              title="Possui Ficha"
-            />
-            <img
-              v-else
-              style="width: 30px; height: 30px"
-              src="../../../assets/visualizar-vermelho.png"
-              alt="Visualizar"
-              title="Não Ficha"
-            />
+          <div style="cursor: pointer" @click="openModalFicha(item.link_ficha, item)" title="Visualizar">
+            <img v-if="item.link_ficha" style="width: 30px; height: 30px" src="../../../assets/visualizar.png"
+              alt="Visualizar" title="Possui Ficha" />
+            <img v-else style="width: 30px; height: 30px" src="../../../assets/visualizar-vermelho.png" alt="Visualizar"
+              title="Não Ficha" />
           </div>
-          <div
-            style="cursor: pointer"
-            @click="redirectToUpdate(item.id)"
-            title="Atualizar"
-          >
-            <img
-              style="width: 30px; height: 30px"
-              src="../../../assets/editar.png"
-              alt="Atualizar"
-            />
+          <div style="cursor: pointer" @click="redirectToUpdate(item.id)" title="Atualizar">
+            <img style="width: 30px; height: 30px" src="../../../assets/editar.png" alt="Atualizar" />
           </div>
-          <div
-            style="cursor: pointer"
-            @click="deletePessoa(item)"
-            title="Deletar"
-          >
-            <img
-              v-if="item.excluido"
-              style="width: 30px; height: 30px"
-              src="../../../assets/excluido.png"
-              alt="Visualizar"
-              title="Reativar"
-            />
-            <img
-              v-else
-              src="../../../assets/mudarStatus.png"
-              alt="Excluir"
-              class="trash-icon"
-              style="width: 30px; height: 30px"
-              title="Excluir"
-            />
+          <div style="cursor: pointer" @click="deletePessoa(item)" title="Deletar">
+            <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
+              alt="Visualizar" title="Reativar" />
+            <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
+              style="width: 30px; height: 30px" title="Excluir" />
           </div>
         </v-row>
       </template>
     </v-data-table>
 
     <!-- Modal normal -->
-    <ModalFichaCard
-      v-if="isModalFichaOpen && !isModalEspecialOpen"
-      :show="isModalFichaOpen"
-      :link-view="linkFichaPessoa"
-      :is-view="true"
-      :pessoa-obj="pessoaObj"
-      @close="isModalFichaOpen = false"
-    />
+    <ModalFichaCard v-if="isModalFichaOpen && !isModalEspecialOpen" :show="isModalFichaOpen"
+      :link-view="linkFichaPessoa" :is-view="true" :pessoa-obj="pessoaObj" @close="isModalFichaOpen = false" />
 
     <!-- Novo modal duplicado -->
-    <ModalFichaEspecial
-      v-if="isModalEspecialOpen"
-      :show="isModalEspecialOpen"
-      :link-view="linkFichaPessoa"
-      :is-view="true"
-      :pessoa-obj="pessoaObj"
-      @close="isModalEspecialOpen = false"
-    />
+    <ModalFichaEspecial v-if="isModalEspecialOpen" :show="isModalEspecialOpen" :link-view="linkFichaPessoa"
+      :is-view="true" :pessoa-obj="pessoaObj" @close="isModalEspecialOpen = false" />
   </v-container>
 </template>
 
@@ -155,7 +64,7 @@
 const config = useRuntimeConfig();
 const pessoasLista = `${config.public.auth}/service/gerencia/pesquisarPessoas`;
 const pessoasUpdate = `${config.public.auth}/service/gerencia/updatePessoa`;
-const baixarDocumento = `${config.public.managemant}/download`;
+const baixarDocumento = `${config.public.managemant}/lista_download`;
 const isModalFichaOpen = ref(false);
 const isModalEspecialOpen = ref(false);
 const linkFichaPessoa = ref([]);
