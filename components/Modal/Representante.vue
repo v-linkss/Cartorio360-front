@@ -17,23 +17,32 @@
             item-value="id"
             return-object
           ></v-autocomplete>
-          <!-- <img
+          <img
             src="../../assets/novo.png"
             style="width: 40px; cursor: pointer"
             title="Adicionar Representante"
             @click="addRepresentante"
-          /> -->
+          />
         </div>
-        <!-- <v-data-table :headers="headers" :items="tableData">
+        <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
             <div
               class="mr-1"
               style="display: flex; cursor: pointer; justify-content: flex-end"
-              @click="deletePessoa(item)"
+              @click="updateRepresentante(item)"
               title="Deletar Pessoa"
             >
               <img
+                v-if="!item.excluido"
                 src="../../assets/mudarStatus.png"
+                alt="Excluir"
+                class="trash-icon"
+                style="width: 30px; height: 30px"
+                title="Excluir"
+              />
+              <img
+                v-else
+                src="../../assets/excluido.png"
                 alt="Excluir"
                 class="trash-icon"
                 style="width: 30px; height: 30px"
@@ -41,17 +50,11 @@
               />
             </div>
           </template>
-        </v-data-table> -->
+        </v-data-table>
       </v-container>
       <v-card-actions>
         <v-btn style="background-color: red; color: white" @click="closeModal"
           >Voltar</v-btn
-        >
-        <v-btn @click="limparRepresentante" border>Limpar</v-btn>
-        <v-btn
-          style="background-color: green; color: white"
-          @click="updateAtoPessoa"
-          >Salvar</v-btn
         >
       </v-card-actions>
     </v-card>
@@ -64,13 +67,15 @@ const props = defineProps({
   representantes: Array,
   ato_id: Number,
   representante_nome: String,
+  ato_pessoa_token: String,
 });
 const isVisible = ref(props.show);
 
 const config = useRuntimeConfig();
-const isClear = ref(false);
 const { $toast } = useNuxtApp();
-const pessoasUpdate = `${config.public.managemant}/updateAtosPessoa`;
+const pessoasCreate = `${config.public.managemant}/atos_pessoas_repres`;
+const pessoasDelete = `${config.public.managemant}/delete/atos_pessoas_repres`;
+const listaRepresentanes = `${config.public.managemant}/lista_representantes`;
 
 const headers = [
   {
@@ -92,24 +97,43 @@ watch(
   () => props.show,
   async (newVal) => {
     isVisible.value = newVal;
+
+    if (props.show) {
+      listaRepresentantes();
+    }
   }
 );
 const closeModal = () => {
   state.representante_id = null;
+  tableData.value = [];
   isVisible.value = false;
   emit("close");
+  emit("update-representante");
 };
 
-const addRepresentante = () => {
+const addRepresentante = async () => {
   if (state.representante_id) {
     const exists = tableData.value.some(
       (item) => item.id === state.representante_id.id
     );
     if (!exists) {
-      tableData.value.push({
-        id: state.representante_id.id,
-        nome: state.representante_id.nome,
+      const { data, error, status } = await useFetch(`${pessoasCreate}`, {
+        method: "POST",
+        body: {
+          ato_pessoa_id: props.ato_id,
+          representante_id: state.representante_id.id,
+          user_id: useCookie("user-data").value.usuario_id,
+        },
       });
+
+      if (status.value === "success") {
+        tableData.value.push({
+          id: state.representante_id.id,
+          nome: state.representante_id.nome,
+        });
+        emit("update-representante", state.representante_id.nome);
+        $toast.success("Representante adicionado com Sucesso!");
+      }
     } else {
       $toast.error("Este representante já foi adicionado!");
     }
@@ -117,40 +141,31 @@ const addRepresentante = () => {
   }
 };
 
-const deletePessoa = (item) => {
-  const index = tableData.value.findIndex((rep) => rep.id === item.id);
-  if (index !== -1) {
-    tableData.value.splice(index, 1);
-  }
-};
-
-const updateAtoPessoa = async (clear) => {
-  const representanteId = state.representante_id?.id ?? null;
-  const { data, error, status } = await useFetch(
-    `${pessoasUpdate}/${props.ato_id}`,
-    {
-      method: "PUT",
-      body: {
-        representante_id: representanteId,
-      },
-    }
-  );
+const updateRepresentante = async (item) => {
+  item.excluido = !item.excluido;
+  const { status } = await useFetch(`${pessoasDelete}/${item.id}`, {
+    method: "PUT",
+    body: {
+      excluido: item.excluido,
+    },
+  });
   if (status.value === "success") {
-    if (clear === true) {
-      $toast.success("Representante removido com Sucesso!");
-      emit("update-representante", "");
-      closeModal();
-    } else {
-      $toast.success("Representante adicionado com Sucesso!");
-      emit("update-representante", state.representante_id.nome);
-      closeModal();
-    }
+    $toast.success("Representante deletado com Sucesso!");
   }
 };
 
-const limparRepresentante = () => {
-  state.representante_id = null;
-  isClear.value = true;
-  updateAtoPessoa(isClear.value);
-};
+async function listaRepresentantes() {
+  const { data, error, status } = await useFetch(`${listaRepresentanes}`, {
+    method: "POST",
+    body: {
+      ato_pessoa_token: props.ato_pessoa_token,
+    },
+  });
+  if (status.value === "success") {
+    tableData.value = data.value.map((item) => ({
+      ...item,
+      nome: item.descricao,
+    }));
+  }
+}
 </script>

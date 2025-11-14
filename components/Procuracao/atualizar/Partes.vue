@@ -182,6 +182,7 @@
     <ModalRepresentante
       :representante_nome="representante_nome"
       :representantes="pessoasRepresentantes"
+      :ato_pessoa_token="ato_pessoa_token"
       :ato_id="ato_pessoa_id"
       :show="isModalRepresentanteOpen"
       @close="isModalRepresentanteOpen = false"
@@ -237,6 +238,7 @@ const isModalPapelOpen = ref(false);
 const pessoasRepresentantes = ref(null);
 const representante_nome = ref(null);
 const ato_pessoa_id = ref(null);
+const ato_pessoa_token = ref(null);
 const ato_papel_id = ref(null);
 const representante_pessoa_id = ref(null);
 const ato_token = ref(route.query.tipo_ato_token);
@@ -262,7 +264,7 @@ const headers = [
   {
     title: "Representante",
     align: "start",
-    key: "representante.nome",
+    key: "representante",
     width: "320px",
   },
   { value: "actions" },
@@ -400,6 +402,7 @@ const redirectToRepresentante = (item) => {
       token: p.pessoa.token,
     }));
   ato_pessoa_id.value = item.id;
+  ato_pessoa_token.value = item.token;
   pessoasRepresentantes.value = pessoasFiltradas;
   isModalRepresentanteOpen.value = true;
   representante_nome.value = item.pessoa.nome;
