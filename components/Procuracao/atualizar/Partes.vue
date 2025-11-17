@@ -9,57 +9,29 @@
         <v-text-field label="Pessoa" v-model="state.nome"> </v-text-field>
       </v-col>
       <div>
-        <img
-          class="mt-1"
-          src="../../../assets/visualizar.png"
-          style="width: 40px; cursor: pointer"
-          title="Pesquisar Pessoa"
-          @click="searchPessoasService"
-        />
+        <img class="mt-1" src="../../../assets/visualizar.png" style="width: 40px; cursor: pointer"
+          title="Pesquisar Pessoa" @click="searchPessoasService" />
       </div>
       <div>
-        <img
-          class="mt-1 ml-2"
-          src="../../../assets/novo.png"
-          style="width: 40px; cursor: pointer"
-          title="Criar Pessoa"
-          @click="createPessoa"
-        />
+        <img class="mt-1 ml-2" src="../../../assets/novo.png" style="width: 40px; cursor: pointer" title="Criar Pessoa"
+          @click="createPessoa" />
       </div>
     </v-row>
 
     <v-row v-if="!isVisualizar">
       <v-col cols="4">
-        <v-autocomplete
-          label="Selecione a Pessoa"
-          v-model="state.pessoa"
-          :items="pessoasItems"
-          item-title="nome"
-          item-value="id"
-          return-object
-          required
-        >
+        <v-autocomplete label="Selecione a Pessoa" v-model="state.pessoa" :items="pessoasItems" item-title="nome"
+          item-value="id" return-object required>
         </v-autocomplete>
       </v-col>
       <v-col cols="3">
-        <v-autocomplete
-          label="Papel"
-          v-model="state.papeis"
-          :items="papeisItems"
-          item-title="descricao"
-          item-value="id"
-          required
-        >
+        <v-autocomplete label="Papel" v-model="state.papeis" :items="papeisItems" item-title="descricao" item-value="id"
+          required>
         </v-autocomplete>
       </v-col>
       <div v-if="!isVisualizar">
-        <img
-          class="mt-1"
-          src="../../../assets/novo.png"
-          style="width: 40px; cursor: pointer"
-          title="Criar Representante"
-          @click="createRepresentante"
-        />
+        <img class="mt-1" src="../../../assets/novo.png" style="width: 40px; cursor: pointer"
+          title="Criar Representante" @click="createRepresentante" />
         <!-- 
         <img
           v-if="possuiFicha"
@@ -81,93 +53,42 @@
 
     <v-row>
       <v-col>
-        <v-data-table
-          style="height: 465px"
-          :headers="headers"
-          :items="pessoasTable"
-        >
+        <v-data-table style="height: 465px" :headers="headers" :items="pessoasTable">
           <template v-slot:item.actions="{ item }">
             <v-row v-if="!isVisualizar">
-              <div
-                style="
+              <div style="
                   display: flex;
                   cursor: pointer;
                   justify-content: flex-end;
-                "
-                class="mr-1"
-                @click="redirectToFicha(item)"
-                title="Visualizar Ficha"
-              >
-                <img
-                  v-if="item.pessoa.link_ficha"
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/visualizar.png"
-                  alt="Visualizar"
-                />
-                <img
-                  v-else
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/visualizar-vermelho.png"
-                  alt="Visualizar"
-                />
+                " class="mr-1" @click="redirectToFicha(item)" title="Visualizar Ficha">
+                <img v-if="item.pessoa.link_ficha" style="width: 30px; height: 30px"
+                  src="../../../assets/visualizar.png" alt="Visualizar" />
+                <img v-else style="width: 30px; height: 30px" src="../../../assets/visualizar-vermelho.png"
+                  alt="Visualizar" />
               </div>
-              <div
-                style="
+              <div style="
                   display: flex;
                   cursor: pointer;
                   justify-content: flex-end;
-                "
-                @click="redirectToPapel(item)"
-                class="mr-1"
-                title="Alterar Papel"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/editar.png"
-                  alt="Visualizar"
-                />
+                " @click="redirectToPapel(item)" class="mr-1" title="Alterar Papel">
+                <img style="width: 30px; height: 30px" src="../../../assets/editar.png" alt="Visualizar" />
               </div>
-              <div
-                class="mr-1"
-                style="
+              <div class="mr-1" style="
                   display: flex;
                   cursor: pointer;
                   justify-content: flex-end;
-                "
-                @click="deletePessoa(item)"
-                title="Deletar Pessoa"
-              >
-                <img
-                  v-if="item.excluido"
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/excluido.png"
-                  alt="Visualizar"
-                  title="Reativar"
-                />
-                <img
-                  v-else
-                  src="../../../assets/mudarStatus.png"
-                  alt="Excluir"
-                  class="trash-icon"
-                  style="width: 30px; height: 30px"
-                  title="Excluir"
-                />
+                " @click="deletePessoa(item)" title="Deletar Pessoa">
+                <img v-if="item.excluido" style="width: 30px; height: 30px" src="../../../assets/excluido.png"
+                  alt="Visualizar" title="Reativar" />
+                <img v-else src="../../../assets/mudarStatus.png" alt="Excluir" class="trash-icon"
+                  style="width: 30px; height: 30px" title="Excluir" />
               </div>
-              <div
-                style="
+              <div style="
                   display: flex;
                   cursor: pointer;
                   justify-content: flex-end;
-                "
-                class="mr-1"
-                @click="redirectToRepresentante(item)"
-                title="Selecionar Representante"
-              >
-                <img
-                  style="width: 30px; height: 30px"
-                  src="../../../assets/btn-pessoa.png"
-                  alt="Visualizar"
-                />
+                " class="mr-1" @click="redirectToRepresentante(item)" title="Selecionar Representante">
+                <img style="width: 30px; height: 30px" src="../../../assets/btn-pessoa.png" alt="Visualizar" />
               </div>
             </v-row>
           </template>
@@ -175,35 +96,14 @@
       </v-col>
     </v-row>
 
-    <ModalRegistroPessoas
-      :show="isModalRegistroOpen"
-      @close="isModalRegistroOpen = false"
-    />
-    <ModalRepresentante
-      :representante_nome="representante_nome"
-      :representantes="pessoasRepresentantes"
-      :ato_pessoa_token="ato_pessoa_token"
-      :ato_id="ato_pessoa_id"
-      :show="isModalRepresentanteOpen"
-      @close="isModalRepresentanteOpen = false"
-      @updateRepresentante="atualizarRepresentante"
-    />
-    <ModalPapel
-      :representante_nome="representante_nome"
-      :ato_token="ato_token"
-      :ato_id="ato_papel_id"
-      :show="isModalPapelOpen"
-      @close="isModalPapelOpen = false"
-      @updatePapel="atualizarPapel"
-    />
-    <ModalFichaCard
-      v-if="isModalFichaOpen"
-      :show="isModalFichaOpen"
-      :link-view="fichaRender"
-      :pessoa-obj="pessoasItem"
-      :is-view="true"
-      @close="isModalFichaOpen = false"
-    />
+    <ModalRegistroPessoas :show="isModalRegistroOpen" @close="isModalRegistroOpen = false" />
+    <ModalRepresentante :representante_nome="representante_nome" :representantes="pessoasRepresentantes"
+      :ato_pessoa_token="ato_pessoa_token" :ato_id="ato_pessoa_id" :show="isModalRepresentanteOpen"
+      @close="isModalRepresentanteOpen = false" @updateRepresentante="atualizarRepresentante" />
+    <ModalPapel :representante_nome="representante_nome" :ato_token="ato_token" :ato_id="ato_papel_id"
+      :show="isModalPapelOpen" @close="isModalPapelOpen = false" @updatePapel="atualizarPapel" />
+    <ModalFichaCard v-if="isModalFichaOpen" :show="isModalFichaOpen" :link-view="fichaRender" :pessoa-obj="pessoasItem"
+      :is-view="true" @close="isModalFichaOpen = false" />
     <v-row>
       <NuxtLink @click="goBack">
         <v-btn size="large" color="red">Voltar</v-btn>
@@ -344,7 +244,7 @@ const createRepresentante = async () => {
   const representante = {
     pessoa: state.pessoa,
     papel: papeisItems.value.find((papel) => papel.id === state.papeis), // Objeto completo do papel
-    representante: { nome: null },
+    representante: '',
   };
 
   const atosPessoas = await useFetch(`${getPartesId}/${route.query.ato_id}`, {

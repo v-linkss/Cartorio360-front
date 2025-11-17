@@ -322,7 +322,6 @@ async function loadPessoaData() {
   }
 }
 
-// Chamando a função para carregar dados quando o componente é montado
 onMounted(() => {
   if (id) {
     loadPessoaData();

@@ -2,58 +2,32 @@
   <v-container class="mt-3" style="height: 425px">
     <v-row>
       <v-col md="4">
-        <v-text-field
-          v-model="state.doc_identificacao"
-          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)"
-          label="CNPJ"
-          v-mask="'##.###.###/####-##'"
-          required
-          @blur="validarCnpj(state.doc_identificacao)"
-          @input="v$.doc_identificacao.$touch"
-        ></v-text-field>
+        <v-text-field v-model="state.doc_identificacao"
+          :error-messages="v$.doc_identificacao.$errors.map((e) => e.$message)" label="CNPJ"
+          v-mask="'##.###.###/####-##'" required @blur="validarCnpj(state.doc_identificacao)"
+          @input="v$.doc_identificacao.$touch"></v-text-field>
       </v-col>
       <v-col md="8">
-        <v-text-field
-          v-model="state.nome"
-          :error-messages="v$.nome.$errors.map((e) => e.$message)"
-          label="Razão Social"
-          required
-          @blur="v$.nome.$touch"
-          @input="v$.nome.$touch"
-        ></v-text-field>
+        <v-text-field v-model="state.nome" :error-messages="v$.nome.$errors.map((e) => e.$message)" label="Razão Social"
+          required @blur="v$.nome.$touch" @input="v$.nome.$touch"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="8">
-        <v-text-field
-          v-model="state.nome_fantasia"
-          label="Nome Fantasia"
-        ></v-text-field>
+        <v-text-field v-model="state.nome_fantasia" label="Nome Fantasia"></v-text-field>
       </v-col>
       <v-col md="4">
-        <v-text-field
-          v-model="state.inscricao_estadual"
-          label="Inscrição Estadual"
-        ></v-text-field>
+        <v-text-field v-model="state.inscricao_estadual" label="Inscrição Estadual"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="12">
-        <v-text-field
-          v-model="state.observacao"
-          label="Observação"
-        ></v-text-field>
+        <v-text-field v-model="state.observacao" label="Observação"></v-text-field>
       </v-col>
     </v-row>
     <v-row class="mb-3">
       <v-btn @click="voltar" size="large" color="red">Voltar</v-btn>
-      <v-btn
-        @click="isEditMode ? onUpdate() : onSubmit()"
-        class="ml-4"
-        size="large"
-        color="green"
-        >Salvar</v-btn
-      >
+      <v-btn @click="isEditMode ? onUpdate() : onSubmit()" class="ml-4" size="large" color="green">Salvar</v-btn>
     </v-row>
   </v-container>
 </template>
