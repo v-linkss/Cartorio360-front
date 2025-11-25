@@ -9,17 +9,32 @@
       </v-row>
       <v-row>
         <v-col md="6">
-          <v-autocomplete label="Serviço" class="mr-5" v-model="label" disabled></v-autocomplete>
+          <v-autocomplete
+            label="Serviço"
+            class="mr-5"
+            v-model="label"
+            disabled
+          ></v-autocomplete>
         </v-col>
         <v-col md="5">
-          <v-autocomplete v-model="updatedAtoDetails" label="Tipo de Ato" disabled></v-autocomplete>
+          <v-autocomplete
+            v-model="updatedAtoDetails"
+            label="Tipo de Ato"
+            disabled
+          ></v-autocomplete>
         </v-col>
         <div v-if="!isVisualizar">
-          <img class="mt-2" :style="{
-            cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
-            width: '35px',
-            height: '35px',
-          }" src="../../../../../assets/editar.png" alt="Editar" @click="openModal" />
+          <img
+            class="mt-2"
+            :style="{
+              cursor: dadosData.dt_lavratura ? 'default' : 'pointer',
+              width: '35px',
+              height: '35px',
+            }"
+            src="../../../../../assets/editar.png"
+            alt="Editar"
+            @click="openModal"
+          />
         </div>
       </v-row>
     </div>
@@ -40,7 +55,10 @@
 
       <v-tabs-window v-model="tab" @update:modelValue="onTabChange">
         <v-tabs-window-item value="dados">
-          <ProcuracaoAtualizarDados :item_dados="dadosData" :item_situacoes="situacoesItems" />
+          <ProcuracaoAtualizarDados
+            :item_dados="dadosData"
+            :item_situacoes="situacoesItems"
+          />
         </v-tabs-window-item>
         <v-tabs-window-item value="partes">
           <ProcuracaoAtualizarPartes />
@@ -58,7 +76,11 @@
           <ProcuracaoAtualizarMinuta @page="getPages" @doc="getDocument" />
         </v-tabs-window-item>
         <v-tabs-window-item value="livro">
-          <ProcuracaoAtualizarLivro :pages="pages_prop" :document="doc_prop" />
+          <ProcuracaoAtualizarLivro
+            :pages="pages_prop"
+            :document="doc_prop"
+            :linkLivro="linkLivro"
+          />
         </v-tabs-window-item>
         <v-tabs-window-item value="observacao">
           <ProcuracaoAtualizarObservacao />
@@ -72,8 +94,14 @@
       </v-tabs-window>
     </v-card>
   </v-container>
-  <ModalTiposAtos v-if="modalVisible" :show="modalVisible" :servicos="dadosData.servicos || []"
-    :tiposAtos="dadosData.tiposAtos || []" @close="modalVisible = false" @updateAto="handleUpdateAto" />
+  <ModalTiposAtos
+    v-if="modalVisible"
+    :show="modalVisible"
+    :servicos="dadosData.servicos || []"
+    :tiposAtos="dadosData.tiposAtos || []"
+    @close="modalVisible = false"
+    @updateAto="handleUpdateAto"
+  />
 </template>
 
 <script setup>
@@ -94,6 +122,7 @@ const dadosData = ref([]);
 const modalVisible = ref(false);
 const tipoAto = route.query.tipo_ato || "";
 const label = ref(null);
+const linkLivro = ref(null);
 const updatedAtoDetails = ref(null);
 const [initialLabel, initialUpdatedAtoDetails] = tipoAto.split(" - ");
 const tabEvent = ref(0);
@@ -109,6 +138,8 @@ async function loadData() {
       }
     );
     dadosData.value = tipoAtoId.value;
+
+    linkLivro.value = dadosData.value[0].link_livro;
   } catch (error) {
     console.error(error);
   }
@@ -144,7 +175,6 @@ function onTabChange(newTab) {
 function onDivorcioTabClick() {
   tabEvent.value++;
 }
-
 
 function handleUpdateAto({ descricao, usaImoveisParams }) {
   const [firstPart, secondPart] = descricao.split(" - ");

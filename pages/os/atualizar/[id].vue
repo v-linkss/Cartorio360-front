@@ -82,10 +82,15 @@
             </div>
             <div
               @click="redirectToModalReimprimir(item.token)"
-              title="Reimprimir"
+              :title="item.btn_selos ? 'Reimprimir Selo' : 'Não permitido'"
             >
               <img
-                style="width: 30px; height: 30px; cursor: pointer"
+                :style="{
+                  opacity: item.btn_selos ? '1' : '0.5',
+                  cursor: item.btn_selos ? 'pointer' : 'not-allowed',
+                  width: '30px',
+                  height: '30px',
+                }"
                 src="../../../assets/selo.png"
                 alt="Reimprimir"
               />
@@ -107,7 +112,8 @@
             >
               <img
                 :style="{
-                  cursor: item.btn_editar ? 'pointer' : 'default',
+                  opacity: item.btn_editar ? '1' : '0.5',
+                  cursor: item.btn_editar ? 'pointer' : 'not-allowed',
                   width: '30px',
                   height: '30px',
                 }"

@@ -1,0 +1,2226 @@
+[33mcommit c32251d201f70d4a0252624308c83dcafa77a9fc[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Nov 25 10:21:39 2025 -0300
+
+    merge with integracoes centrais
+
+[33mcommit e210a3d9159959405bf730ce622a109baaea5eb7[m
+Merge: aab139b8 ce6ee2a1
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Nov 25 09:55:52 2025 -0300
+
+    merge with integracoes centrais
+
+[33mcommit ce6ee2a13336f6d5319314378df424e37209631f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mintegracoes_centrais[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sun Nov 23 13:55:35 2025 -0300
+
+    fix: relatorios diario de caixa
+
+[33mcommit e74c8e190d6afdaed0a0147a7bf9170affc0da7e[m[33m ([m[1;31morigin/fix/relatorios[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 21 13:36:38 2025 -0300
+
+    feat: add CSV export functionality and improve UI for report generation
+
+[33mcommit aab139b88fcbacbe685d73737efca3dfcbb562c4[m
+Merge: 5fae57c6 fc84a31b
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Nov 17 11:54:37 2025 -0300
+
+    fix: excluir múltiplos representantes e coluna representante que recebia {nome: null}
+
+[33mcommit fc84a31ba1e81486143dec3ba8cfa1fda3741e75[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Nov 17 11:39:09 2025 -0300
+
+    fix: excluir múltiplos representantes e coluna representante que recebia {nome: null}
+
+[33mcommit 5fae57c633c21a72c386cec9742e2fd00cfde0ba[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 14 11:17:22 2025 -0300
+
+    fix: download list
+
+[33mcommit 434ce04e72ae6a60c3cbb33db76ee98b362d383a[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Nov 13 21:38:19 2025 -0300
+
+    add multples representantes
+
+[33mcommit 31248bda6da70e62e4912b85d23dbe745dba4f4e[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Nov 12 14:58:00 2025 -0300
+
+    add icon to os lista
+
+[33mcommit 90eecb1c2a2b1f9ef3ce2909162195c769638cb8[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Nov 12 10:54:25 2025 -0300
+
+    add https
+
+[33mcommit 0689d6b9ae715f01550144bf9e23453409ea5dba[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Nov 11 19:54:59 2025 -0300
+
+    add feature impressao recibo
+
+[33mcommit 3981a9a097ba9a303758011b85b720510c88d8ff[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Nov 10 17:15:23 2025 -0300
+
+    refetch after delete representante
+
+[33mcommit 1fa9c408f95a2a5b3912c31bfce63f8aa98b1d62[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Nov 9 22:51:53 2025 -0300
+
+    add verify in update pessoa
+
+[33mcommit 4885ba848f167033d8a5f337096df8e32ec68fff[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Nov 9 22:46:17 2025 -0300
+
+    deploy verify document
+
+[33mcommit ddfea6580c6c20bad8f273d3a20133d4598ea7ed[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Nov 8 09:03:40 2025 -0300
+
+    deploy
+
+[33mcommit d5fb8d468de84c279211b4edc242065487e40f89[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 21:12:18 2025 -0300
+
+    refact: recibo
+
+[33mcommit d2cf2f8e6be17101b95a19a83426242558537bad[m
+Merge: c9a2a600 51e22a11
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 21:02:41 2025 -0300
+
+    Merge branch 'refact/Recibos' into develop
+
+[33mcommit 51e22a116c6f249a18b0668b424ce99d1777b8ab[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 21:01:31 2025 -0300
+
+    refact: recibo
+
+[33mcommit c9a2a6008c7affee5193207cacb2a65cc9d77655[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 20:30:01 2025 -0300
+
+    refact: recibo
+
+[33mcommit 431ab0913723aa037fcc7e9e08abe285dd518b6a[m
+Merge: 016cb448 a1aa7fb9
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 20:14:01 2025 -0300
+
+    Merge branch 'refact/Recibos' into develop
+
+[33mcommit a1aa7fb9c6eb928574f7816d35af36f4ab50542d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 20:13:18 2025 -0300
+
+    fix: erro impreção
+
+[33mcommit 016cb4485bb69f951c29c8154dba3f630e3e3970[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 12:32:06 2025 -0300
+
+    refact: recibo
+
+[33mcommit c41f51b6d7e4a191dce86320d01607463c0d326a[m
+Merge: 39d47e9a be077681
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 12:25:17 2025 -0300
+
+    refact: recibo
+
+[33mcommit 39d47e9a8e86c6d626e9a3b780550843deccf973[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 12:23:37 2025 -0300
+
+    refact: recibo
+
+[33mcommit 4372ca1c4f35fbab5c2dfbd5b44c459d0111b677[m
+Merge: d316e499 ebd0709b
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 12:00:53 2025 -0300
+
+    teste
+
+[33mcommit ebd0709bff9900d17420adb3dc86c8b2458d06a5[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Fri Nov 7 11:51:06 2025 -0300
+
+    Refactor state initialization and add props watcher
+    
+    Update state initialization to directly use props values and add a watcher for props changes.
+
+[33mcommit 421893053bcad18290fbf5d2eb498019a9a82fb4[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 11:37:37 2025 -0300
+
+    feature : modal recibo
+
+[33mcommit a4c01ad3d0051811a6f8b8bd10b076e0a016bb2c[m
+Merge: ab2c39a3 a7b8b7d4
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 10:24:11 2025 -0300
+
+    Merge branch 'refact/Recibos'
+
+[33mcommit ab2c39a3f02e4c88c12dfd937ac1b101df7ccf48[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 10:20:06 2025 -0300
+
+    refact:adding modal to recibo
+
+[33mcommit a7b8b7d4e55cf21168696dc22c7d15931bc1fa48[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Nov 7 10:18:16 2025 -0300
+
+    refact:adding modal to recibo
+
+[33mcommit be077681d55cbcf26d415a29375ae3d2f2a10fd2[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Nov 7 09:02:34 2025 -0300
+
+    fix data
+
+[33mcommit c69f3f3c425905b2b4af5f750221cf65c94f08b5[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Nov 7 08:22:33 2025 -0300
+
+    fix
+
+[33mcommit 4ab2a2c31ea52ff4b9dcd0a6375cc92b8291da49[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Nov 7 08:11:09 2025 -0300
+
+    fix error pending
+
+[33mcommit 71afce15c5a4ca183245f59424883edfab9584a9[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Nov 6 20:42:46 2025 -0300
+
+    deploy
+
+[33mcommit 32cd3d6f3f591adef285dfaafeb9dd9781f7ab6c[m
+Merge: 0ce7e940 302b5310
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Nov 6 20:42:31 2025 -0300
+
+    Merge branch 'validate-document' into develop
+
+[33mcommit 302b53109801a1f95126c905ff7d66532ce9b9fa[m[33m ([m[1;31morigin/validate-document[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Nov 6 20:26:58 2025 -0300
+
+    add
+
+[33mcommit f3f35ddf0c85113ccfdf03e4b616890eb696ae57[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Nov 4 20:41:32 2025 -0300
+
+    add recibo
+
+[33mcommit 0fee144025a1afb48b753ee0df7704d29c5e6314[m
+Merge: d7e2e4cd 2841b2af
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Nov 4 20:19:23 2025 -0300
+
+    Merge remote-tracking branch 'origin/feature/os_boao_recibo'
+
+[33mcommit 0ce7e940694c79c41798131803ccd25844659ed1[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Nov 3 22:11:40 2025 -0300
+
+    add
+
+[33mcommit 1e49ccf9e6ae78807b3824d17c6fd21e8ef3d0af[m
+Merge: d316e499 dfea3dfa
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Nov 3 22:11:28 2025 -0300
+
+    Merge branch 'fix-view-ficha-pessoa' into develop
+
+[33mcommit dfea3dfab6f138d01479b367ef88055c48e61c0a[m[33m ([m[1;31morigin/fix-view-ficha-pessoa[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Nov 3 20:52:18 2025 -0300
+
+    commit
+
+[33mcommit d316e4998d5deb6c7c14b3d3f56651da3765a7d1[m
+Merge: 4665750b 2841b2af
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Nov 3 11:47:51 2025 -0300
+
+    merge
+
+[33mcommit 4665750b0add19854e8e8f3ef3e41b778fc13af0[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Nov 3 10:34:03 2025 -0300
+
+    feat: add crypto-js for data encryption and enhance UI components
+
+[33mcommit 2841b2af395a8c5fcd2ce0e175dfdc47fa357f46[m[33m ([m[1;31morigin/feature/os_boao_recibo[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Nov 3 10:32:14 2025 -0300
+
+    feat: add crypto-js for data encryption and enhance UI components
+
+[33mcommit 1e1ebb31b16a3227b916f4c0a40dca84c6a7da50[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Oct 31 20:38:25 2025 -0300
+
+    refact: improve FichaCard component layout and functionality
+
+[33mcommit c908d898ad674b7190fc224feb73b73d74204070[m
+Merge: 5dd47a94 bd3e84d2
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Oct 31 20:29:41 2025 -0300
+
+    refact: improve FichaCard component layout and functionality
+
+[33mcommit bd3e84d2a2ebb851d410fd1ce9a09076547a79e2[m[33m ([m[1;31morigin/refact/FichaCard[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Oct 31 20:22:48 2025 -0300
+
+    refact: improve FichaCard component layout and functionality
+
+[33mcommit d7e2e4cd25b2a6ed55e5d03d7154ffc6e07210db[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 18:18:53 2025 -0300
+
+    add cancela_lavratura to main
+
+[33mcommit 5dd47a94b034b97ea1f68382adfa4f386eaed404[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 17:58:40 2025 -0300
+
+    add multiples represetantes
+
+[33mcommit d755782aa07c6568c4d5a8439f83c01775be7dc5[m
+Merge: 8ff52dc9 5adc46dc
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 17:54:19 2025 -0300
+
+    Merge branch 'new-logic-add-representante' into develop
+
+[33mcommit 5adc46dc0cebfaa78ca4d56c4370c074203eccde[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 17:50:21 2025 -0300
+
+    finish logic to add table
+
+[33mcommit 8ff52dc9203b603913d81d4833f1520d83e7b7da[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 15:01:01 2025 -0300
+
+    remove problem duplicate item
+
+[33mcommit 51bb6a095cd12424c08453388630816c6b046ffd[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 31 14:51:11 2025 -0300
+
+    commit
+
+[33mcommit 863c81fdbb499fee0070f776f4f402ceb0f735e4[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 30 17:37:01 2025 -0300
+
+    hide table add representante
+
+[33mcommit 3b71b7b070e0314571eb15adabd4bc96839f97db[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 20:13:30 2025 -0300
+
+    add censec att and cpf in navbar
+
+[33mcommit b4ca4409b5fedd845c6c03d992a1923bedd0aeff[m
+Merge: ef31cc2b 9b3d291c
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 19:57:17 2025 -0300
+
+    Merge branch 'partes-and-cpf-user'
+
+[33mcommit ef31cc2bd235533e779290ae27b60eaa5c79953b[m
+Merge: eb9bb0cb 51edf4e6
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 19:55:43 2025 -0300
+
+    Merge branch 'refact/integracao_CENSEC_atualizacao'
+
+[33mcommit 56b2e1b333c76a77135e45d61bdde060af95c9b0[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 19:52:48 2025 -0300
+
+    add selo numero
+
+[33mcommit cf316dd669f21da144d3d661e4b836c80c2004be[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 15:43:03 2025 -0300
+
+    fix bugs
+
+[33mcommit 282d11b59166d23e038b74eb0ea3091b9309d471[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:57:26 2025 -0300
+
+    cpf e cancelamento
+
+[33mcommit fe51bc5761791e0264f4a613f502cc254463c636[m
+Merge: 5cf37e53 9b3d291c
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:50:45 2025 -0300
+
+    Merge branch 'partes-and-cpf-user' into develop
+
+[33mcommit 5cf37e5376cd77d52d9ebe7672a3d2cd470e3fb0[m
+Merge: d64df1a8 300eafad
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:41:24 2025 -0300
+
+    Merge branch 'lavratura-cancela-um-selo' into develop
+
+[33mcommit 300eafad2589a28c549d96814fe3ec3632d3493e[m[33m ([m[1;31morigin/lavratura-cancela-um-selo[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:37:11 2025 -0300
+
+    done
+
+[33mcommit 9b3d291c15d6e866c6c2206507097a0b2c29ca4a[m[33m ([m[1;31morigin/partes-and-cpf-user[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:27:29 2025 -0300
+
+    add logic table add representante
+
+[33mcommit ce80c7c821aad7d4b5788ab22e9e48cf83d3ec2c[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 29 14:13:52 2025 -0300
+
+    remove utils crypto
+
+[33mcommit d64df1a8957b60249374b08859e9199b999e789a[m
+Merge: 5301206d 51edf4e6
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 29 08:56:27 2025 -0300
+
+    Merge branch 'refact/integracao_CENSEC_atualizacao' into develop
+
+[33mcommit 51edf4e68119db5f95912f78572719e642c0ed50[m[33m ([m[1;31morigin/refact/integracao_CENSEC_atualizacao[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 29 08:38:42 2025 -0300
+
+    refact: update date fields in censec interface to use 'data_inicial' and 'data_final'
+
+[33mcommit 47dde6243cec4c105cc40f67739e7caa63757d37[m
+Merge: e0c1b809 acaa6afa
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 28 17:05:15 2025 -0300
+
+    Merge branch 'partes-and-cpf-user' of https://github.com/v-linkss/Cartorio360-front into partes-and-cpf-user
+
+[33mcommit e0c1b809f6774b8f128180e242dbb83794489441[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 28 17:04:22 2025 -0300
+
+    fix error composable crypto js
+
+[33mcommit 7d9080c1b759eb52fb2deb4025b7296f43342e19[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 28 10:53:29 2025 -0300
+
+    teste
+
+[33mcommit 5301206d14692f7b628e4247aec3ac7c49215a9d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 28 10:49:38 2025 -0300
+
+    merge with refact/integracao_CENSEC_atualizacao
+
+[33mcommit c7b1bfed1d186cbe5f9aa548ddcda8e3515e899c[m
+Merge: 3b8e3c08 e52f91b7
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 28 10:42:57 2025 -0300
+
+    Merge branch 'refact/integracao_CENSEC_atualizacao' into develop
+
+[33mcommit e52f91b7557648582b443d86ce59754b5d9434be[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 28 10:40:15 2025 -0300
+
+    refact: add CTP radio option to censec interface
+
+[33mcommit acaa6afa2782939233965dc8c430c975ce6231ee[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Oct 27 21:27:27 2025 -0300
+
+    cpf show in headerbar
+
+[33mcommit eb9bb0cbf33dfd9e001f0b5cf83fc6e5f0e1e4e0[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 23 20:33:25 2025 -0300
+
+    add separacao divorcio to main
+
+[33mcommit 469f2bebd7733e04d7b861cb041780d5c17fcee9[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 23 18:14:07 2025 -0300
+
+    fix icons trash
+
+[33mcommit 3d967decd68ca3d0488e61c6c1cf0f1adfccc5ac[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 23 17:30:28 2025 -0300
+
+    deploy
+
+[33mcommit 3b8e3c08dda148d95f3dc244cb47ad529657be24[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 23 16:23:30 2025 -0300
+
+    remove console logs
+
+[33mcommit 8a22c8b76e009f8d6be7654427a88a83ef3a3fbe[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Oct 23 13:14:56 2025 -0300
+
+    fix cancela lavratura e divorcio
+
+[33mcommit 0801f56ffad21f9d35144feddff4e5d39d696ca6[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 22 17:24:02 2025 -0300
+
+    fix behaviors
+
+[33mcommit 30cca2cb5d6924b8415a2ba765df0cc3cebca9b6[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 21 19:43:34 2025 -0300
+
+    fix
+
+[33mcommit 663a15288acdde88312846c52a5d30720938a53e[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 21 17:41:02 2025 -0300
+
+    fix error show in cancelamento lavratura
+
+[33mcommit 9e44939b914d32e261d55efc8d668cdd55253c09[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 21 17:22:49 2025 -0300
+
+    remove logic allow cancelamento in cancela lavratura
+
+[33mcommit 404c884051fa4a17731e3cccda476651d3c41e33[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 21 17:09:57 2025 -0300
+
+    change payload pesquisa atos from cancela lavratura
+
+[33mcommit f959418e0025c8af3aa0d3b9d93aa049e4382092[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 21 16:10:22 2025 -0300
+
+    fix issues about cancela lavratura e autenticacao
+
+[33mcommit 70c2c808e12a09e9e1ca9d7ec22d77392fbab969[m
+Merge: 3fdad5f6 366596a2
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 21 13:00:59 2025 -0300
+
+    Merge branch 'refact/tipo-selo' into develop
+
+[33mcommit 366596a2f48c7e8fa983f2373122d446ad7a2060[m[33m ([m[1;31morigin/refact/tipo-selo[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 21 10:08:52 2025 -0300
+
+    refact: adding lab el to valor input
+
+[33mcommit 3fdad5f6dc220d2559a87e072cdf4f728c1e6f93[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 17 12:52:11 2025 -0300
+
+    fix redirect autencidade
+
+[33mcommit 44a245e6c454fca4450326c2c9ce590a8b8953e7[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 17 12:32:11 2025 -0300
+
+    add disabled button in autenticacao and reconhecimento
+
+[33mcommit 4e03e789324f187fa071e095cc474c7807562377[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 15 20:23:00 2025 -0300
+
+    fix deploy
+
+[33mcommit 7d990a9d734af13702ae5dfdb796dcc49acff04b[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 15 19:57:24 2025 -0300
+
+    fix logic expose error to modal
+
+[33mcommit 1047541118613acdff690ee597f6a007429ebb05[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 14 20:39:54 2025 -0300
+
+    chage logic error expose modal
+
+[33mcommit d00e095d10bec111e48a1995c39b648a255046e3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Oct 14 13:43:52 2025 -0300
+
+    fix deploy
+
+[33mcommit 20d23397028c6e779717dbd2a2d8ba6938bd129b[m
+Merge: 154edac5 31ba95b5
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 14 10:02:07 2025 -0300
+
+    Merge branch 'refact/tipo-selo' into develop
+
+[33mcommit 154edac56c740937c010115e876d33d35b85f6c9[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 14 10:00:27 2025 -0300
+
+    refact tipo-selo table
+
+[33mcommit 31ba95b58c3a48d65439356c93f934ac5658f174[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 14 09:59:22 2025 -0300
+
+    refact tipo-selo table
+
+[33mcommit d80719743fe59871ecd9245af6c8fd33e92435e3[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Oct 14 09:54:08 2025 -0300
+
+    refact tipo-selo table
+
+[33mcommit 335c5a81242e0c3cb3dbfe1954ac3d4155eb2838[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Oct 13 22:12:45 2025 -0300
+
+    fix logic button cancel os
+
+[33mcommit 8886af76bd08b8ec98e018220d4e864b9b4a0c02[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Oct 13 11:51:19 2025 -0300
+
+    fix import
+
+[33mcommit 466c34ea73a72bc5aa994024d7659c3ab79596f4[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Oct 11 13:30:44 2025 -0300
+
+    add feature censec and validador autenticacao de volta
+
+[33mcommit 1f86c98adc575480ffe075ff1afd11f1b9daf382[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Oct 11 13:25:52 2025 -0300
+
+    deploy improve save reconhecimento e autenticacao
+
+[33mcommit 40cce0f07eed7ad1e0cc170c9c60e2ddabb24d56[m
+Merge: 1d5c04c7 ce17ec5c
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Oct 11 10:28:30 2025 -0300
+
+    Merge remote-tracking branch 'origin/improve-save-reconhecimento' into develop
+
+[33mcommit ce17ec5cd3a74e11e28eeb2b5989028f94f58564[m[33m ([m[1;31morigin/improve-save-reconhecimento[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Oct 11 10:27:01 2025 -0300
+
+    imrpove
+
+[33mcommit 1d5c04c711fc111bdfd3be361dfcd8f510cc5953[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Oct 10 10:44:23 2025 -0300
+
+    add parte tela cancela ato de volta
+
+[33mcommit 7d617cf4eeab937b4ec39ad79dc37eff6984ac11[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 17:00:06 2025 -0300
+
+    refact: interface censec
+
+[33mcommit 76ee2641a0ee75dc00b8c5d85fe6610872a75a4c[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 13:05:35 2025 -0300
+
+    refact: censec
+
+[33mcommit 7d3d01e7a8e9322bd5381baa06b03969e81b17ae[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 13:05:29 2025 -0300
+
+    refact: censec
+
+[33mcommit 6e7f84f1a00e971517813be265d0a0f7a75c5be9[m
+Merge: 52de3eca 7ac9ebc8
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 13:05:03 2025 -0300
+
+    Merge branch 'develop' of https://github.com/v-linkss/Cartorio360-front into develop
+
+[33mcommit 52de3ecac662a754ef7fabaa9c2c1ddfa04540bf[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 13:04:33 2025 -0300
+
+    refact: censec
+
+[33mcommit bd4b46edbb0b4acdff3aee54860d2488e43bec23[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 13:04:25 2025 -0300
+
+    refact: censec
+
+[33mcommit 7ac9ebc8fd9f419d6c5abada062b13b90bb9b7f7[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Thu Oct 9 12:39:06 2025 -0300
+
+    Update main.yml
+
+[33mcommit 160996ab630f0bdca8c5a98e513993bbe3ba6855[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Thu Oct 9 12:37:27 2025 -0300
+
+    Update main.yml
+
+[33mcommit 69d7f3ec7760993185f33dfdc14c124a44e72dea[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 12:32:20 2025 -0300
+
+    refact: censec
+
+[33mcommit 88c2672222c01920ff37b72e9f06b49953c7d7c7[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Thu Oct 9 12:28:23 2025 -0300
+
+    Update redirectTo.ts
+
+[33mcommit 0fa97377750212b1b8eb5b74caeb089d59a46972[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 12:23:19 2025 -0300
+
+    refact: censec
+
+[33mcommit af4d89642faedcf4058442507d87f8cc85097cb4[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 10:42:39 2025 -0300
+
+    refact: interface censec
+
+[33mcommit 645d4e436fbc8ec6c1721a1cc632c02f871782ec[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 10:25:05 2025 -0300
+
+    refact: censec layout
+
+[33mcommit 9c601924a95e1a0152c9a307830ff0a9f185e911[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 9 10:25:05 2025 -0300
+
+    refact: censec layout
+
+[33mcommit b3d6712acb896d8ee7fe1508d6179e8f306a614f[m
+Merge: 58c3e949 208c8e7f
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 8 11:49:55 2025 -0300
+
+    refact: cencec
+
+[33mcommit 58c3e9494b226bee06a7abb01afe43897b4252dd[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 8 11:43:55 2025 -0300
+
+    refact: cencec
+
+[33mcommit 208c8e7f74369542b55a52595e40aa01306502df[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 8 11:42:33 2025 -0300
+
+    refact: cencec
+
+[33mcommit 5474b2740867ffda0a8f581fe7d96c048f6b38e6[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Oct 8 11:42:05 2025 -0300
+
+    refact: cencec
+
+[33mcommit 347b06db0258456aa237e7bad1a21ad312fa1afc[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Oct 4 13:51:00 2025 -0300
+
+    fix cancelamento button and bring new confirm build
+
+[33mcommit 56b653dd3bd29ac711ae5c35426a6a1df871577f[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Oct 3 10:57:13 2025 -0300
+
+    feat(build): adicionar script de confirmação de build com variáveis de ambiente
+    
+    * Criado  para centralizar configuração das variáveis de ambiente (DEV e PROD)
+    * Incluída lógica de confirmação interativa antes de iniciar o build
+    * Variáveis de ambiente são aplicadas dinamicamente no  em vez de ficarem inline no
+    * Ajustados scripts  e  para usar o novo fluxo
+
+[33mcommit 6e2ba53265925973b9af6cdc978a0a8191b2499e[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 2 10:14:08 2025 -0300
+
+    merge with validator-autenticidade
+
+[33mcommit 22408a94341203a90f3e2d003a713a38e9209794[m
+Merge: 868ae96f 5def9d16
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Oct 2 09:44:38 2025 -0300
+
+    mege validator-autencidade
+
+[33mcommit 868ae96f9be30ffbe1a9a9bb838cbc532ee6cb54[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 1 20:59:03 2025 -0300
+
+    feat: cacnelamento button,dinheiro recebido e validador autencidade
+
+[33mcommit 5034cb122db0ebce1e65315edc0fd1f19555b9a1[m
+Merge: ecca24d6 ff6dff42
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Oct 1 20:51:45 2025 -0300
+
+    Merge remote-tracking branch 'origin/fix-cancelamento-button'
+
+[33mcommit 9de22c0a3edeacc5ea39f7fcabcd941a9addb29b[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 30 19:57:22 2025 -0300
+
+    add validator in update imovel
+
+[33mcommit 2b64ba457b9cbf771fa56c2c291018db09d1b784[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 30 18:31:55 2025 -0300
+
+    bring valor recebido develop
+
+[33mcommit e0abf10aa10f12912031285dc1b49ef2c136d369[m
+Merge: 4fa677aa ecca24d6
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 30 18:16:54 2025 -0300
+
+    Merge remote-tracking branch 'origin/Add-valor-recebido' into develop
+
+[33mcommit ecca24d67e1022fcdd6ca1af5737055fff65dbb6[m[33m ([m[1;31morigin/Add-valor-recebido[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 30 18:14:23 2025 -0300
+
+    add feat
+
+[33mcommit 4fa677aa12771adc5ab75fed9e2e9f3d380602cb[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Sep 30 10:56:25 2025 -0300
+
+    feature: separação e divorcio
+
+[33mcommit e0f21fef2a1f003fb1b437c22da185d48e36fe56[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Sep 30 10:40:06 2025 -0300
+
+    feature: separação e divorcio
+
+[33mcommit b94cab917793f003cf5530d7c0678e6f54127806[m
+Merge: aeeca48b 5def9d16
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Sep 30 10:08:38 2025 -0300
+
+    refact: abrindo livro em outra aba ao recenhecer ato por autenticidade
+
+[33mcommit 5def9d164cd24af76edd5c68a1f2bbb14cc206f3[m[33m ([m[1;31morigin/validator-autencidade[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Sep 30 10:03:02 2025 -0300
+
+    refact: abrindo livro em outra aba ao recenhecer ato por autenticidade
+
+[33mcommit aeeca48ba1d158b2fba3239bae9bdaed629b8ff5[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 21:52:55 2025 -0300
+
+    refact: melhorando desempenho do carregamento
+
+[33mcommit 18e685a3c34a444f17d0f672fba276a9661cbc38[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 21:47:36 2025 -0300
+
+    refact: melhorando desempenho do carregamento
+
+[33mcommit dd84c1cdddaa836444d4efce39faeb576259f080[m
+Merge: a2310319 18573161
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 21:47:08 2025 -0300
+
+    refact: melhorando desempenho do carregamento
+
+[33mcommit 185731612d707245a56047418878818e2e2dca9f[m[33m ([m[1;31morigin/fix/divorcio[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 21:43:47 2025 -0300
+
+    refact: melhorando desempenho do carregamento
+
+[33mcommit a4a52c3a7d0e26cbb0e71deb494efc1933178c57[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 21:38:01 2025 -0300
+
+    refact: melhorando desempenho do carregamento
+
+[33mcommit a2310319197e0cd3c5533892772de7045c806d75[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 09:14:49 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit ce02186da5ed44c20f651b8405ce859ac35b2cda[m
+Merge: a9325072 929b1804
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 09:06:32 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit a932507210618f8cc6ffea9b07c0107172350f3e[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 08:45:12 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit bb24a52eb4ee723f8a84b04921bc6d21fd12654c[m
+Merge: 165b147c 3a303530
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 08:31:56 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit 165b147cea6aea2cca29e3b3674df3de59823bb8[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 07:32:21 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit ff6dff424e75a9e7248085d3c23bdca8c7036801[m[33m ([m[1;31morigin/fix-cancelamento-button[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Sep 26 07:28:43 2025 -0300
+
+    feature: modal de cancelamento de ato
+
+[33mcommit 929b18041f102f2adae4757ed6fdc756dc018b21[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 17:43:50 2025 -0300
+
+    fix
+
+[33mcommit 56ea35bd1397224351e8440c943ea0d2caba8385[m
+Merge: eacad652 887d0b9b
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 17:38:01 2025 -0300
+
+    Merge remote-tracking branch 'origin/fix-cancelamento-button' into develop
+
+[33mcommit 887d0b9b5bf95fbb014ba766a8bfeb76beea0929[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 17:37:04 2025 -0300
+
+    remove trash icon from list atos and os atos
+
+[33mcommit eacad652ce4f94035acc2b4d984fb21d97a7e14c[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 10:36:59 2025 -0300
+
+    fix deploy
+
+[33mcommit b1571eae47a354f942ee839137d6c8593dbfe1c4[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 09:16:31 2025 -0300
+
+    fix cancelamento button
+
+[33mcommit 463275d15c3b9650f6ff188ba6be341442d0dee5[m
+Merge: c6a19cee 81657425
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 09:05:46 2025 -0300
+
+    Merge remote-tracking branch 'origin/fix-cancelamento-button' into develop
+
+[33mcommit 81657425ca7568a1f648b6912340c66566e6e77e[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Sep 24 09:01:28 2025 -0300
+
+    fix
+
+[33mcommit c6a19cee8db01b83ae10eddf8408440900bcacd7[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Sep 19 08:58:10 2025 -0300
+
+    deploy
+
+[33mcommit 0527aefef376529e584c9b4bb4cd54f088a16748[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Sep 14 11:24:13 2025 -0300
+
+    remove token from table atos lista
+
+[33mcommit 1c240196da045fb3ff45a318565c3ef324622a63[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Sep 12 18:36:32 2025 -0300
+
+    scrip alert build
+
+[33mcommit 2510550d80491ce7e59c7a333963479aab9e0fc7[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Sep 11 19:43:41 2025 -0300
+
+    feat: zpl multiple tickets and scan pdf layout
+
+[33mcommit 925645d5213f8cb2adfffc623ee1b661e1ccf922[m
+Merge: 994e09b9 8107d6c2
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Sep 11 19:38:33 2025 -0300
+
+    Merge remote-tracking branch 'origin/feat/scan-livro'
+
+[33mcommit 3a30353087dd46eb3c30541e4b9666c869c30307[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Sep 11 11:43:34 2025 -0300
+
+    fix: bog do modal de ficha
+
+[33mcommit b990188a8decb1f578032f1b2e73092c5b08ddaf[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Sep 11 11:22:15 2025 -0300
+
+    feature: testr
+
+[33mcommit b48ed98adf7aa9449ecfe4c28b8981489da72dcd[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Sep 11 11:14:20 2025 -0300
+
+    feature:test
+
+[33mcommit 994e09b910bc3dd75146bd0a3ee97b1be2784bd2[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Sep 11 10:46:11 2025 -0300
+
+    feature: testr
+
+[33mcommit 033a298239d7f39259607158bc364d453c6e6c1d[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 9 15:54:22 2025 -0300
+
+    fix layout validator autencidade
+
+[33mcommit 6c53a616147c22662c1203d0c922f46c6091c094[m
+Merge: e7e52612 eb405dcd
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 9 15:29:34 2025 -0300
+
+    Merge remote-tracking branch 'origin/validator-autencidade' into develop
+
+[33mcommit eb405dcd135bd4c48ac81145c78fcc8c247151a1[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Sep 9 15:29:00 2025 -0300
+
+    refactor: remove title and change messagem from validator autencidade
+
+[33mcommit d58051c16bc201b113d545fc0de48161826fdfae[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Tue Sep 9 07:22:16 2025 -0300
+
+    Update main.yml
+
+[33mcommit e7e52612498508ca74f2601305809af64ebc9350[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 17:46:56 2025 -0300
+
+    fix
+
+[33mcommit 29268e21c1c6c20dd3fb173882dbc21af2c4f5a9[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 17:36:45 2025 -0300
+
+    fix
+
+[33mcommit e3cf869fc761af599a08061013dd178cf68e2d60[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Mon Sep 8 17:30:49 2025 -0300
+
+    Update main.yml
+
+[33mcommit 31f87315fd6c7c64c3a23085a08efcce99b34938[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Mon Sep 8 17:21:28 2025 -0300
+
+    Update main.yml
+
+[33mcommit f3ec3a0f554a02da05d0505ced131023579939e9[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 17:20:52 2025 -0300
+
+    deploy
+
+[33mcommit eb64ab9581242444e13e2b6adc0cb51ae741dbd2[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 16:59:33 2025 -0300
+
+    fix main.yml
+
+[33mcommit 9579d58ae6f08de863f0858dc54c5150f6c32319[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 16:51:58 2025 -0300
+
+    bring the validator autencidade to develop
+
+[33mcommit 3a7f431a5cb209fd4255917f2940206e015d773c[m
+Merge: d6d8c488 9b87a8fc
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 16:46:30 2025 -0300
+
+    Merge remote-tracking branch 'origin/validator-autencidade' into develop
+
+[33mcommit 9b87a8fc223085f30f5c9b6f8df3bc3f675ffc83[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 8 16:29:38 2025 -0300
+
+    feat: validator autencidade
+
+[33mcommit 506199c9c0fbc040701abd839e0d39284526873a[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Sep 6 10:20:18 2025 -0300
+
+    fix: change the variable from reconhecimento to print zpl
+
+[33mcommit 8107d6c2b700923684e7faf86c17e93a5d742ed6[m[33m ([m[1;31morigin/feat/scan-livro[m[33m)[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Sep 1 21:17:47 2025 -0300
+
+    feat: iframe to redirize document pdf
+
+[33mcommit 2d3f56edc9a140c3652144b44f048cf1ff940e2a[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Aug 31 12:38:14 2025 -0300
+
+    add feat scan document pdf in atos lista
+
+[33mcommit 0ff051902344906dbe1596f22d10a9d6b8910dc1[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Aug 25 20:21:43 2025 -0300
+
+    fix env
+
+[33mcommit 214b2171ad06ee90dcaf1c5a6dfc31766e8c515f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Aug 25 19:17:36 2025 -0300
+
+    fix error create pessoa in show another tabs
+
+[33mcommit d6d8c488f857f2cd0c81d3c515ae6c7e0144a397[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Aug 25 17:34:22 2025 -0300
+
+    fix error code address and document
+
+[33mcommit 8bf486ab623beb63c83cea92a17671128cf62519[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Aug 23 21:09:07 2025 -0300
+
+    deploy
+
+[33mcommit ca3627f76431a94e8371b755f453e8710cb23e45[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Aug 23 10:22:46 2025 -0300
+
+    fix estrangeiro
+
+[33mcommit 24896fd2edf1546f2a2f849427daeeeb1b84c0ed[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Aug 22 09:48:21 2025 -0300
+
+    FIX
+
+[33mcommit 487e6284898b3eb20c2190a12ccbeba865717b6d[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Aug 22 09:08:54 2025 -0300
+
+    build
+
+[33mcommit 8d9f7c495b739c9942ad139a1a4b06dcf268fab3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 21 20:44:10 2025 -0300
+
+    anotjer fix
+
+[33mcommit c1d9f7ec2ea7eed4a80ce7b5b4a68a1dbe2df0cc[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 21 20:23:37 2025 -0300
+
+    new fix
+
+[33mcommit eb463dcf4cf0b8763d66df9937b07f823ce92520[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 21 18:04:52 2025 -0300
+
+    deploy
+
+[33mcommit edf6b9f7e394092af723123dfbd016ce058267c8[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 21 17:56:37 2025 -0300
+
+    fix bug redirect
+
+[33mcommit 760a50c7c1d10c48b97b449fd592ac49d1c91144[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Aug 20 21:00:41 2025 -0300
+
+    fix update strangers
+
+[33mcommit 62b6162279086fdef4e886be498511915644e036[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Aug 20 17:59:17 2025 -0300
+
+    new layout observacao and descompact base 64 selos
+
+[33mcommit 8b1325d3fa3ce61436d92e35dfb6254244fd72a8[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Aug 20 08:56:48 2025 -0300
+
+    fix env
+
+[33mcommit 39580f1842dfc11c4679b2c78f53696d49e7319a[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Aug 20 08:19:43 2025 -0300
+
+    fix env
+
+[33mcommit e730bc927cf0688e6a9d689737c52d443a5844df[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Aug 19 21:26:44 2025 -0300
+
+    fix refetch observacao
+
+[33mcommit 4b1f28dcecd01eb3c1efa3cbadf9b765a94b1ba6[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Aug 19 20:25:00 2025 -0300
+
+    remove mock body from reimpressao selos
+
+[33mcommit 99cf905137b934c1ca4fec534bffd67f286607ab[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Aug 18 08:07:26 2025 -0300
+
+    fix: matrimonio
+
+[33mcommit 00a36a4a2b2f6687606f0ff5fb84d14c02c312dd[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Aug 16 13:34:04 2025 -0300
+
+    commit branch
+
+[33mcommit 7468036fa260c70ebf08051d3832f55c9c9f413f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Aug 15 19:26:00 2025 -0300
+
+    merge from some features: stranger create and recovery password
+
+[33mcommit dcce8dfe283bb2c192a5816224ec7783a940970c[m[33m ([m[1;31morigin/feature/recupera_senha_main[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Aug 15 11:27:59 2025 -0300
+
+    feature: recupera senha
+
+[33mcommit 77549f22fc058b00e1f70b2928ddd98d0c99aff2[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 14 22:10:35 2025 -0300
+
+    novo layout observacao
+
+[33mcommit 444cd907791118318435b08540a532487bdfd25b[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Aug 14 20:06:14 2025 -0300
+
+    fix endereco em pessoas e imoveis
+
+[33mcommit e03b2ca1c9353e021d54db41042f6d08f8dece85[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Aug 14 11:15:37 2025 -0300
+
+    fix: formatação
+
+[33mcommit 9fee1578862bf670b093b52e363ba000cdc9b983[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Aug 14 10:38:57 2025 -0300
+
+    fix: errmo messnage ao recuperar a senha
+
+[33mcommit cca891126b3480fe7e43e366d94857e7a388b0bc[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Aug 13 20:52:17 2025 -0300
+
+    fix tipo ato token payload and fix validator endereco
+
+[33mcommit 1738692d1a87736acdc2eff1254571d385739bb6[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Aug 12 21:24:43 2025 -0300
+
+    feature: relatorio csv
+
+[33mcommit 9591d1ca1977b5637e6c0adae1d8b0f9df0782c3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Aug 11 20:53:20 2025 -0300
+
+    tela de estrangeiro feita
+
+[33mcommit 92bc867a685dcb729ac758ba778cef4988a5f513[m
+Merge: 28de6e87 ccdcabf8
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Aug 7 11:49:13 2025 -0300
+
+    feature: recupera senha
+
+[33mcommit 28de6e87e0523b40ee30b3f9a4fbac8e2f2b0773[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Aug 6 20:51:47 2025 -0300
+
+    frature: recuperação de senha
+
+[33mcommit ccdcabf8bfe3f421b52b1c84e5ccc5ffd5434168[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 31 22:07:32 2025 -0300
+
+    new page from cancelar ato
+
+[33mcommit 7c46aa78c99e3e394a64ceeb47e62e0f81305608[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 31 20:57:04 2025 -0300
+
+    fix redirect in atos lista
+
+[33mcommit 7a04d36ceada6abefe8c2ed34cf4eb8bab79c4f7[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jul 29 21:18:18 2025 -0300
+
+    fix env
+
+[33mcommit 3de7889087461f493b771208839dd42543850326[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jul 29 21:14:16 2025 -0300
+
+    merge from develop
+
+[33mcommit c65c1245761f6d34878dd97ec341c1abba89b514[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jul 26 10:58:03 2025 -0300
+
+    fix env
+
+[33mcommit 94aa7b7b6602f6b41aa8bdb2d64977251763606f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jul 26 10:51:27 2025 -0300
+
+    fix bug livro in restart process if regret modal confirmation
+
+[33mcommit 74a70598eb54a912851392f3cc3b6ac432d5df2f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jul 26 10:20:25 2025 -0300
+
+    add loading in ficha card
+
+[33mcommit e338833cfb5c53d9ac96be417034de0e26ce401d[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 24 20:54:58 2025 -0300
+
+    improve loading in ficha card
+
+[33mcommit f0279b58bcabc334b6acc04e322671cdc71ec9eb[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 24 20:09:16 2025 -0300
+
+    add overflow in confirmacao modal
+
+[33mcommit 4b03e76cb00d21a3bbfb4c1973b93259b232dea3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 24 18:44:09 2025 -0300
+
+    fix
+
+[33mcommit febd54e5d71d572d7c4abb5cc9a192b3b808e379[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 24 10:35:39 2025 -0300
+
+    fix lavratura validation
+
+[33mcommit 0865664315172d2d537b275c93692b8a5577dafe[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jul 23 21:58:49 2025 -0300
+
+    fix lavratura
+
+[33mcommit 84a2e0a998d93b40a62f523aa5994d60f8533bbe[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 23 11:58:11 2025 -0300
+
+    fix: Atos de Separação e Divórcio
+
+[33mcommit 7de28f9332b3d994a08e71675051b939202c0086[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 23 10:37:13 2025 -0300
+
+    refact: email job
+
+[33mcommit 6b05b25ee3a3e1308cef60d12177693537eda41c[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 23 10:21:30 2025 -0300
+
+    fix: Atos de Separação e Divórcio
+
+[33mcommit cb93228aa741c7b9ca0791cec633faf38688f2d3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jul 22 21:26:51 2025 -0300
+
+    fix bugs
+
+[33mcommit bf8224d801f7b3d22594c56f44180cee4d4228e3[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jul 20 14:02:11 2025 -0300
+
+    validate ato befor lavrar
+
+[33mcommit 6f04a88cc543a1126a8db67f4c57d56f4a575e1b[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jul 20 12:46:50 2025 -0300
+
+    add utils to redirect page in edit and view atos
+
+[33mcommit 049f108db5f7521443aa04e92c508bf92f466a8a[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jul 20 12:16:34 2025 -0300
+
+    new features in partes representantes
+
+[33mcommit 75a7590e6e1541d7b5c623306ab49f04d0bc95db[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 19 12:35:00 2025 -0300
+
+    deploy
+
+[33mcommit b8319ef560456d4e5f41818ef10956bcb81fcac2[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 19 11:35:10 2025 -0300
+
+    feature: chat bot
+
+[33mcommit c1c9fd0a6c1b34d1fa52b479ee61579151fa71fd[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 19 10:09:19 2025 -0300
+
+    fix: chat buble
+
+[33mcommit a0c5be84043610964fc0c4830a5a9353773d935b[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Jul 18 19:05:02 2025 -0300
+
+    fix some bugs
+
+[33mcommit 75fe3729f8b40fefb3fe2d2a5a75f860fa43266d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jul 18 18:40:36 2025 -0300
+
+    fix: chat bot
+
+[33mcommit 9d88ce9b0a7fb9619a41d58031c912f9bfef8570[m
+Merge: 84c096a2 53919b03
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 16 19:44:47 2025 -0300
+
+     relatorio
+
+[33mcommit baf3dde61f600cb7506ab042e58efa3cb4befd8e[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jul 16 19:36:33 2025 -0300
+
+    new features
+
+[33mcommit 84c096a2c71d848722c8ed731784bbdb9e6e8dfe[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 16 19:21:24 2025 -0300
+
+     feature: relatorio
+
+[33mcommit 6b3bbd91fcf28f1cf3754e27ed3f602cd01b68b3[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 16 09:48:57 2025 -0300
+
+    feature: layout novo do carrosel
+
+[33mcommit 53919b037bea9b7788c098dfbfc31b9b5fcef653[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Jul 11 20:23:02 2025 -0300
+
+    fix bugs
+
+[33mcommit 58d48e6b8956d267d770fd45bb3467c1e2afb179[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Fri Jul 11 19:28:49 2025 -0300
+
+    fix some bugs
+
+[33mcommit fb7362621077684974f55c99a4949bf16188b1c4[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 10 18:32:36 2025 -0300
+
+    bring some features to prd
+
+[33mcommit fd259fbdf2e5e70fbaa1edf8d953412c7a0f24a5[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 9 19:54:22 2025 -0300
+
+    feature: layout novo do carrosel
+
+[33mcommit fb391223fbf24875c182b47c72945dfce0fb3266[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jul 9 19:41:18 2025 -0300
+
+    fix error layout in atos lista if push to view or edit
+
+[33mcommit 3f49abeb1205d1874ed3c25e72fa71c695c02a92[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 9 10:23:30 2025 -0300
+
+    feature carrossel
+
+[33mcommit 2519cbe141d78da3d68e1ff1888ec14f1834f9c5[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 11:21:48 2025 -0300
+
+    fix: config undefined from chat_atendimento
+
+[33mcommit 20a7642a9a1d4953d46ac4fa302f7cc67ee2d7d3[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 11:13:07 2025 -0300
+
+    fix: config undefined from chat_atendimento
+
+[33mcommit 5336787b882af9e172ad6761d9c95250bdaa1104[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 10:26:05 2025 -0300
+
+    deploy
+
+[33mcommit e6f300e49008fdaf9d759ffccba2d6d393166eae[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 09:11:35 2025 -0300
+
+    feature: deploy
+
+[33mcommit 94ed3f1154a45a1c10187a397b3cc04fccb77f9a[m
+Merge: ef34e076 76049f77
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 08:49:36 2025 -0300
+
+    Merge branch 'develop' of https://github.com/v-linkss/Cartorio360-front into develop
+
+[33mcommit 76049f77bcc8ce62294f815d5bae3a5e04399e60[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jul 5 08:34:51 2025 -0300
+
+    feature: deploy
+
+[33mcommit 5950e2e65f6e42af451688a381d2dca7c9b812d0[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 3 18:09:00 2025 -0300
+
+    change env
+
+[33mcommit 15247311103fdcf94b3f10c2f8dc40e1f3f531dd[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jul 3 17:56:53 2025 -0300
+
+    add print zpl in reimpressao de selos
+
+[33mcommit ef34e0763b0855f4b0067538b72c13e0e507fb13[m
+Merge: 5a59257f 512c2485
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 2 19:36:27 2025 -0300
+
+    Merge branch 'develop' of https://github.com/v-linkss/Cartorio360-front into develop
+
+[33mcommit 4a0c5d7debbe83e8c685b925ca1a32d799b535ff[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 2 19:35:57 2025 -0300
+
+    fix: historico do chat, desativação do contador de tempo o cioso qaundo o atendimento é humano, icone de notificação
+
+[33mcommit b4b13ff510d54a42c5b3316a03dffb3b4446310d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 2 19:35:20 2025 -0300
+
+    fix: historico do chat, desativação do contador de tempo o cioso qaundo o atendimento é humano, icone de notificação
+
+[33mcommit 2f6848db04f46468cacea2d3ba2c2484a719e561[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jul 2 19:00:59 2025 -0300
+
+    add validate if zpl or html in livro
+
+[33mcommit 512c2485a3755a040097bf16299b61dff74e1b6d[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Wed Jul 2 13:42:42 2025 -0300
+
+    Update main.yml
+
+[33mcommit 36df64732a3b811060bd370678b3cf2d73025d07[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Wed Jul 2 13:35:44 2025 -0300
+
+    Update main.yml
+
+[33mcommit 732760e75b991ecc5d34f8075c0e9f5d6ae478ba[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jul 2 13:26:49 2025 -0300
+
+    fix: historico do chat, desativação do contador de tempo o cioso qaundo o atendimento é humano, icone de notificação
+
+[33mcommit 5a59257ff808c5bfeb75e00c9d695d07d99a8c6e[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jul 1 10:19:57 2025 -0300
+
+    feature: chat de atendimento
+
+[33mcommit fc889953e18c35c531fe3b5c8b9ada0836aae638[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jul 1 08:17:12 2025 -0300
+
+    feature: chat de atendimento
+
+[33mcommit d6959e22bd0d17fddcc109fc70b3c5cc73f2cdfc[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Jun 30 21:03:16 2025 -0300
+
+    fix some bugs break layout in some modals
+
+[33mcommit daf94cad51989ead85f00f23131bc522726bd2d4[m
+Merge: 909ed0ba 03d1a5d5
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Jun 30 11:57:17 2025 -0300
+
+    Merge branch 'fix/chat_bot' into develop
+
+[33mcommit 909ed0ba45e06fc9e54e13449abb9c6ca3358741[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Jun 30 11:57:04 2025 -0300
+
+    feature: chat de atendimento
+
+[33mcommit 03d1a5d5ae6f32bb9a2a55b1fb23d28faa127276[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Mon Jun 30 11:54:43 2025 -0300
+
+    feature: chat de atendimento
+
+[33mcommit bf027d0a2ae7baff042747ff7113e31cadadcf89[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 25 11:42:53 2025 -0300
+
+    deploy
+
+[33mcommit 485bbad0944c2b5dff2eaf138848839050d08193[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 25 11:32:51 2025 -0300
+
+    deploy
+
+[33mcommit 40e2c7f4c814970c1d1350148fce0f115c2ea279[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 25 09:49:10 2025 -0300
+
+    deploy
+
+[33mcommit b71cbd395c2a08923d5c132f53ded4460bbd9c76[m
+Merge: 562a42a8 e9655b4f
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 25 09:44:34 2025 -0300
+
+    Merge branch 'develop' of https://github.com/v-linkss/Cartorio360-front into develop
+
+[33mcommit 562a42a8a35b102fe8f05a9e664f66c7c3628bfa[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 25 09:18:13 2025 -0300
+
+    feature: teste
+
+[33mcommit e9655b4f8174e5273e7c4c225145552a57098269[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Wed Jun 25 09:09:02 2025 -0300
+
+    Update main.yml
+
+[33mcommit 15e1636912da8909737a84f0379a2f7ef945af1f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jun 24 20:11:38 2025 -0300
+
+    add function to refetch if return in matrimonio
+
+[33mcommit 51d776338a9e79e1fa8016d054e4d66f310994ec[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 24 11:50:33 2025 -0300
+
+    feature: tela de migração de dados
+
+[33mcommit cc6db2c056802c87395830f24234d8f5e4ad706a[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 24 11:30:11 2025 -0300
+
+    feature: tela de migração de dados
+
+[33mcommit ee5f8a5471bfa4895ad247d4ddf01241623ddfcf[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 24 11:28:13 2025 -0300
+
+    feature: tela de migração de dados
+
+[33mcommit a16107d52d1edd5cc475c84995a80c4326a998db[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jun 21 14:23:45 2025 -0300
+
+    feature chat bot
+
+[33mcommit a2b06dd63a14beb1c2b38623b21ff83034edeec0[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jun 21 14:02:34 2025 -0300
+
+    add print zpl in reimpressaoselos
+
+[33mcommit f6791f8461728b9278980489b50021c82af90508[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jun 21 12:27:51 2025 -0300
+
+    new logic to return pessoas from lista pessoas
+
+[33mcommit 2016f18575093b6df54c9e8525db0338f2b49a64[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat Jun 21 11:52:17 2025 -0300
+
+    add validate in enderecos e dados from imoveis
+
+[33mcommit 7c4f4867a740b283fdda7753eb3c6822423d6f2d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:58:27 2025 -0300
+
+    feature/ chatbot
+
+[33mcommit 11e8518317cee9ffafe1660cf201b5a9c09d4b7a[m
+Merge: 25a7a55e 699a2423
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:42:02 2025 -0300
+
+    feature/ chatbot
+
+[33mcommit 25a7a55ee213f6070f814e6455696f4a82186e34[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:41:20 2025 -0300
+
+    feature/ chatbot
+
+[33mcommit 5db921da7040035fe14aa171ec6f75db658a12a7[m
+Merge: 73d2ab6d 491b6eff
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:40:55 2025 -0300
+
+    Merge branch 'feature/chat_bot' into develop
+
+[33mcommit 73d2ab6d8c00ba8b96023eb039a9be3311301a67[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:40:46 2025 -0300
+
+    feature/ chatbot
+
+[33mcommit 491b6eff308e3c16f58ab584dd5f13759faa9330[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 12:34:46 2025 -0300
+
+    feature/ chatbot
+
+[33mcommit ddf4dcb968be4da644385e305b8242629e054f11[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 11:56:27 2025 -0300
+
+    feature: merge wwith chatbot
+
+[33mcommit 8fec407a98445236a3a754bb77f2e76cd7316295[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 11:55:28 2025 -0300
+
+    feature: merge wwith chatbot
+
+[33mcommit 15b80d61033c8eaf24057195327331221d4b69cb[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 11:51:42 2025 -0300
+
+    feature: merge wwith chatbot
+
+[33mcommit e839806d2caeacd30f420a0e331fa0cc2a960171[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 20 11:27:57 2025 -0300
+
+    feature: btn donload
+
+[33mcommit 699a24233871bd78d2574d004758037ef643f840[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jun 19 22:19:20 2025 -0300
+
+    refactor new redirect to divorcio
+
+[33mcommit e332810592c26c31c5c950bdad7c287d0502fe0f[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 18 11:54:39 2025 -0300
+
+    fix: tela de divorcio
+
+[33mcommit fa3d2b3544d757befd841a469396f4d84c8008f5[m
+Merge: 6588c8c7 a8e51288
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 17 13:23:24 2025 -0300
+
+    merge chat-bot
+
+[33mcommit 6588c8c73517766f28ebd3a260070f2ed283857d[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 17 13:08:01 2025 -0300
+
+    merge chat-bot
+
+[33mcommit f06c30311f02acb39a586b599132df51ae491f40[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 17 13:01:30 2025 -0300
+
+    feature:chat bot
+
+[33mcommit a8e51288bc249635fddb23a499d5442a4dd18309[m
+Merge: e6a1ba18 a5f5b034
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Thu Jun 12 11:32:40 2025 -0300
+
+    Merge pull request #9 from v-linkss/feature/divorcio
+    
+    deploy
+
+[33mcommit a5f5b0341674507956e9258a3eda387048d567e1[m[33m ([m[1;31morigin/feature/divorcio[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Jun 12 11:28:23 2025 -0300
+
+    deploy
+
+[33mcommit e6a1ba18dd7eea6f89e3aff8e6e1bfef8c904fd1[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Thu Jun 12 08:30:06 2025 -0300
+
+    deploy
+
+[33mcommit 5ed9f4b482462feaef7c400ea92c8f219af76fdb[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 11 21:16:39 2025 -0300
+
+    feature: finalizando tela de edição de divorcio
+
+[33mcommit 8a8b121d5a93417348772e3d58ae5735618157ee[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jun 11 18:58:45 2025 -0300
+
+    add
+
+[33mcommit ce7401b447dfd931d7e212c8d9522275d4dd075e[m
+Merge: 658380a8 77a270de
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jun 11 18:57:46 2025 -0300
+
+    new deploy
+
+[33mcommit 77a270de2a72d208729fc2dd2563cce6cc1d0c20[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed Jun 11 18:42:26 2025 -0300
+
+    deploy
+
+[33mcommit 658380a87c3e2cb4645b54347dc480a53e7180ec[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jun 11 18:03:35 2025 -0300
+
+    new features from development
+
+[33mcommit 87efdd924d6a131d3da2884500c11e8140a604cb[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed Jun 11 17:38:04 2025 -0300
+
+    ato cancelamento function
+
+[33mcommit 2d726c7592e4b1ddd4b699589776efcd31e967d6[m
+Merge: 4c9e7dd8 9d235a8c
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 19:58:25 2025 -0300
+
+    fix: lista menu
+
+[33mcommit 4c9e7dd8ad939d3c4b3323dac41e2af9b72445a7[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 19:47:56 2025 -0300
+
+    fix: lista menu
+
+[33mcommit 9d235a8c347a6c1ee603139d936693e5b72a2682[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jun 10 17:26:48 2025 -0300
+
+    fix menu users, layout parts and label in relatorios
+
+[33mcommit 03df485d5173b96a6b676b3bf2c8550f88b9ebef[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 10:38:20 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 0c2b0f43f2915bf3d0fc9ea96bab7634eb4d0dd0[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Tue Jun 10 10:24:42 2025 -0300
+
+    Update main.yml
+
+[33mcommit e2e89d82d5e0b53cba83f64c011a0193ad874534[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Tue Jun 10 10:21:43 2025 -0300
+
+    Update main.yml
+
+[33mcommit 2e44dc78e7b09c2bf9222124a79b14a47da080be[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:59:25 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 1b63836c0903bb6016ee487ac43ca8819177299a[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:57:45 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 4d0ef09f89e02b703e18631f2fcd77567bdae7cf[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:54:36 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 2ad736783094e8f750b1210156e2eab7df83c78b[m
+Merge: 164a29d5 0c745dee
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:47:44 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 164a29d50c31131b51d4280d3ea01b90444022ed[m
+Merge: 0f49438f ffe13076
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:27:57 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 0c745dee30e8515f58cdb33ec353310f80870d05[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Tue Jun 10 08:23:40 2025 -0300
+
+    fix: listagem de menu
+
+[33mcommit 4d542c6e29531ae74a1f7f515b892834c2d0629f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue Jun 10 08:06:14 2025 -0300
+
+    add censec
+
+[33mcommit ffe13076d741ba890efad41b795c5336429e8d07[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Jun 9 21:16:46 2025 -0300
+
+    nex fix
+
+[33mcommit bb2c039fe93bcb9af7358a4b051cda5bcec9f5b7[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jun 8 18:27:27 2025 -0300
+
+    change url
+
+[33mcommit c0088403d8e2e678a7d949a483a284f4bb0c6637[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jun 8 12:24:26 2025 -0300
+
+    add
+
+[33mcommit 6d7e2798f26fd7a2e9b915061ae4de07c95cc472[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jun 8 12:23:52 2025 -0300
+
+    new profile logic and fix atos lista logic
+
+[33mcommit 45fcd797ee1495d08200689243a6fa2907dda783[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun Jun 8 11:53:47 2025 -0300
+
+    add format currency in lavrar, fixed 50 items in send selos and onrtd
+
+[33mcommit 1b55392c65a902bd09fa7fc409fc01d2a18a03f7[m[33m ([m[1;31morigin/feature/scanner_documento[m[33m)[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat Jun 7 11:38:16 2025 -0300
+
+    refact: listarMenu
+
+[33mcommit 0f49438f0f76b064fda6a12c82967f9e08211a89[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Fri Jun 6 11:14:20 2025 -0300
+
+    feature: scane de documento de pessoas
+
+[33mcommit 631315b6cc88c1480fa0b095670929ca9deecdc6[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu Jun 5 17:33:51 2025 -0300
+
+    fix bugs layouts
+
+[33mcommit 4a61fbc1368a858398d99e01f3759785f89dc189[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Jun 2 18:13:14 2025 -0300
+
+    envio censec
+
+[33mcommit 43b6917a25bbae0f07d68488a688a84812a44137[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon Jun 2 17:49:11 2025 -0300
+
+    teste onrtd
+
+[33mcommit 318f0021d261b142334d279d776b4aca636bd7a4[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat May 31 10:07:44 2025 -0300
+
+    import caixas onrtd
+
+[33mcommit 585d090b5935e688756bc1e8920e8e4880a7d6b5[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue May 27 18:11:25 2025 -0300
+
+    livro diario
+
+[33mcommit ca475b4103227deb1ccf5345db1583f89d6ef5a5[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue May 27 18:02:39 2025 -0300
+
+    create page book diary
+
+[33mcommit 2599b3c749d840c905852bb8e445dccd1ecfe2bd[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon May 26 21:04:23 2025 -0300
+
+    get censec
+
+[33mcommit d5e7836f3aa7d1a9671eb088325ef72091b0773f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon May 26 20:48:14 2025 -0300
+
+    add censec in develop
+
+[33mcommit 3449739e0f4f2a35157bf7a74e65a27bb46ad060[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 14:00:33 2025 -0300
+
+    Update main.yml
+
+[33mcommit 88e817b6fbf6ee9e8327dd27dcb50263f4f5001a[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:49:36 2025 -0300
+
+    Update main.yml
+
+[33mcommit 928c258e80bab0f74e3937e16309550b11eebac1[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:45:10 2025 -0300
+
+    Update main.yml
+
+[33mcommit 837428d4eeaef5407363c657c9b7821250eb27ed[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:42:03 2025 -0300
+
+    Update main.yml
+
+[33mcommit 73c53ed799118106ffd832602dfd3efa0636a150[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:41:12 2025 -0300
+
+    Update main.yml
+
+[33mcommit cfe8c14963a1ec48c8b4ff4afb1c76895f7ca7f7[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:11:43 2025 -0300
+
+    Update main.yml
+
+[33mcommit 1950ee27ce1db771e298f6593ae563b9d398b553[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:10:13 2025 -0300
+
+    Update main.yml
+
+[33mcommit b63f6271cd88de639aad78d300d21bf38f255077[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:08:41 2025 -0300
+
+    Update main.yml
+
+[33mcommit 3a2460a732c89c9b830964d38a150fa39ce152c2[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 13:05:05 2025 -0300
+
+    Update main.yml
+
+[33mcommit b9b9af5b747ff88ae9f53c5972e6976306d18c38[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 12:57:50 2025 -0300
+
+    Update main.yml
+
+[33mcommit f11581766aa881a628b06af22fefbf16b32df2c2[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 12:56:22 2025 -0300
+
+    Update main.yml
+
+[33mcommit c3f8ac803cb92a626ff0b31121a6c4ae67fabaa7[m
+Author: Ewerton Hugo <83283878+Ewerton-Hugo@users.noreply.github.com>
+Date:   Sat May 24 12:50:41 2025 -0300
+
+    Update main.yml
+
+[33mcommit 0037a587bb1ebef2618a7b7bd6275093e5411981[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat May 24 12:35:02 2025 -0300
+
+    deploy
+
+[33mcommit 9da924804453817cdb0141fff259a504f8c11e25[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat May 24 12:05:07 2025 -0300
+
+    deploy
+
+[33mcommit d4ad92ec63dc32ba4116158ac210a131757dea17[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat May 24 12:04:10 2025 -0300
+
+    deploy
+
+[33mcommit 68238185f5b4f19fce6299b2135ea78c44b00f0b[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat May 24 11:14:36 2025 -0300
+
+    deploy
+
+[33mcommit 2a87637846a34ebe1bd7879889aa0a06e9cabb1c[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Sat May 24 11:09:31 2025 -0300
+
+    deploy
+
+[33mcommit 65eaffee257db051b47f767313b723c7a73c0c4e[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu May 22 22:15:44 2025 -0300
+
+    Add layout censec
+
+[33mcommit 13a2427fdcadf588a2dd200ef7328de513a9b5a1[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu May 22 21:54:32 2025 -0300
+
+    fix bug calculte ato in create ato
+
+[33mcommit e76c3d01427a3d5d2f7a8cd4526609c7b6d11995[m
+Author: Ewerton-Hugo <hugocd71@gmail.com>
+Date:   Wed May 21 10:48:23 2025 -0300
+
+    feature: updait actions
+
+[33mcommit c327ef20e4a1fb676c1f13f2efff3e41169cbb78[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sun May 18 21:27:31 2025 -0300
+
+    fix error env
+
+[33mcommit 34e0abb0a5e3aa0302bb8780cf740b30123ca18c[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat May 17 15:03:38 2025 -0300
+
+    add validate in imoveis and calculate values from atos
+
+[33mcommit ab0438057c86874cc8d84d1cb23c3be8db2a0c80[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat May 17 12:48:39 2025 -0300
+
+    add break line in headers from list atos
+
+[33mcommit 9f037c94ca5ba69c1643b1c65c98a0ab42728bd2[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Sat May 17 09:12:10 2025 -0300
+
+    fix layout from list atos
+
+[33mcommit 0d87c37e940a0468d011d0abb0c653ceb9a5534d[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu May 15 21:09:40 2025 -0300
+
+    load in imoveis
+
+[33mcommit ea8d229b8043ef0db92111dd073f65bbb999f14f[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Thu May 15 20:08:12 2025 -0300
+
+    fix bug lista atos
+
+[33mcommit 755a980d6f9c651681cebda30159440a7c9db7a1[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Wed May 14 18:01:33 2025 -0300
+
+    fix routing about list atos
+
+[33mcommit bfa9ff15e797999ba9ad3615e809b656a63b0ffe[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Tue May 13 18:02:11 2025 -0300
+
+    hide some tools from editor image and fix table atos
+
+[33mcommit 0438be6cc45c8ae84be03ebb4ab276f580401886[m
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon May 12 18:00:51 2025 -0300
+
+    add atos list
+
+[33mcommit 12ffca6d9809b5856692838acda9678cc5c2ef6a[m
+Merge: e21e1894 621c0946
+Author: Rodrigo Teixeira <71793817+RodrigoTF2001@users.noreply.github.com>
+Date:   Mon May 12 18:00:41 2025 -0300
+
+    Merge remote-tracking branch 'origin/feat-tela-atos'
+
+[33mcommit 621c0946bf5accacddd0e1dff8ca2bff894d5c33[m[33m ([m[1;31morigin/feat-tela-atos[m[33m)[m
+Author: GabrielLacerda000 <gabrielglacerda000@gmail.com>
+Date:   Mon May 12 16:06:25 2025 -0300
+
+    update: configurações

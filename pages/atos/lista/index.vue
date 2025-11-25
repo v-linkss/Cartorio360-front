@@ -142,20 +142,30 @@
                 numero_os: item.numero_os,
               })
             "
-            title="Visualizar"
+            :title="item.btn_visualizar ? 'Visualizar' : 'Desabilitado'"
           >
             <img
-              style="width: 30px; height: 30px; cursor: pointer"
+              :style="{
+                width: '30px',
+                height: '30px',
+                cursor: item.btn_visualizar ? 'pointer' : 'not-allowed',
+                opacity: item.btn_visualizar ? '1' : '0.5',
+              }"
               src="../../../assets/visualizar.png"
               alt="Visualizar"
             />
           </div>
           <div
             @click="redirectToModalReimprimir(item.token)"
-            title="Reimprimir"
+            :title="item.btn_selos ? 'Reimprimir Selos' : 'Não permitido'"
           >
             <img
-              style="width: 30px; height: 30px; cursor: pointer"
+              :style="{
+                width: '30px',
+                height: '30px',
+                cursor: item.btn_selos ? 'pointer' : 'not-allowed',
+                opacity: item.btn_selos ? '1' : '0.5',
+              }"
               src="../../../assets/selo.png"
               alt="Reimprimir"
             />
@@ -181,6 +191,7 @@
                 cursor: item.btn_editar ? 'pointer' : 'default',
                 width: '30px',
                 height: '30px',
+                opacity: item.btn_editar ? '1' : '0.5',
               }"
               src="../../../assets/editar.png"
               alt="Editar"
@@ -205,10 +216,15 @@
           </div>
           <div @click="digitalizeDocument(item.token)">
             <img
-              style="width: 30px; height: 30px; cursor: pointer"
+              :style="{
+                width: '30px',
+                height: '30px',
+                cursor: item.btn_escanear ? 'pointer' : 'not-allowed',
+                opacity: item.btn_escanear ? '1' : '0.5',
+              }"
               src="../../../assets/escanear.png"
               alt="escanear"
-              title="escanear"
+              :title="item.btn_escanear ? 'Escanear' : 'Não permitido'"
             />
           </div>
         </div>

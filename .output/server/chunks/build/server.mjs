@@ -612,7 +612,7 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
-    component: () => import('./index-UQTC9-FY.mjs')
+    component: () => import('./index-B8AJtRIa.mjs')
   },
   {
     name: "caixas-cadastro",
@@ -680,7 +680,7 @@ const _routes = [
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
-    component: () => import('./_id_-CKhs-0fP.mjs')
+    component: () => import('./_id_-fph93ZJK.mjs')
   },
   {
     name: "fontes-atos-divorcio-geral",
@@ -752,7 +752,7 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
-    component: () => import('./_id_-dKa_TBrM.mjs')
+    component: () => import('./_id_-dA0-uHYX.mjs')
   },
   {
     name: "os-criar-ato",
