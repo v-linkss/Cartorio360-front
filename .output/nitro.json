@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "date": "2025-11-17T14:50:16.888Z",
+=======
+  "date": "2025-11-23T16:46:09.708Z",
+>>>>>>> integracoes_centrais
   "preset": "node-server",
   "framework": {
     "name": "nuxt",

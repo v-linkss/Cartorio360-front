@@ -585,6 +585,7 @@ const generateRouteKey$1 = (routeProps, override) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+<<<<<<< HEAD
 const __nuxt_page_meta$6 = {
   layout: "empty"
 };
@@ -596,6 +597,10 @@ const __nuxt_page_meta$4 = {
 };
 const __nuxt_page_meta$3 = {
   layout: "false"
+=======
+const __nuxt_page_meta$3 = {
+  layout: "empty"
+>>>>>>> integracoes_centrais
 };
 const __nuxt_page_meta$2 = {
   layout: "false"
@@ -604,7 +609,11 @@ const __nuxt_page_meta$1 = {
   layout: "false"
 };
 const __nuxt_page_meta = {
+<<<<<<< HEAD
   layout: "empty"
+=======
+  layout: "false"
+>>>>>>> integracoes_centrais
 };
 function handleHotUpdate(_router, _generateRoutes) {
 }
@@ -612,31 +621,52 @@ const _routes = [
   {
     name: "atos-lista",
     path: "/atos/lista",
+<<<<<<< HEAD
     component: () => import('./index-UQTC9-FY.mjs')
+=======
+    component: () => import('./index-DcSOhNUh.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "caixas-cadastro",
     path: "/caixas/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-BdjfMOzv.mjs')
+=======
+    component: () => import('./index-Buq_NlZS.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "caixas-caixasRecebimentoOs",
     path: "/caixas/caixasRecebimentoOs",
+<<<<<<< HEAD
     component: () => import('./index-U8Z79dm4.mjs')
+=======
+    component: () => import('./index-Bsmjs-In.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "caixas-lista",
     path: "/caixas/lista",
+<<<<<<< HEAD
     component: () => import('./index-D2YMTcQD.mjs')
+=======
+    component: () => import('./index-CVQ2Bx3S.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "cancela_lavratura",
     path: "/cancela_lavratura",
+<<<<<<< HEAD
     component: () => import('./index-Byxza_h-.mjs')
+=======
+    component: () => import('./index-BUFP8fIX.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "carregar_arquivo_texto",
     path: "/carregar_arquivo_texto",
+<<<<<<< HEAD
     meta: __nuxt_page_meta$6,
     component: () => import('./index-B5AR3wJy.mjs')
   },
@@ -656,51 +686,96 @@ const _routes = [
     name: "fontes-atos-atos-com-bem-atualizar-id",
     path: "/fontes/atos/atos-com-bem/atualizar/:id()",
     component: () => import('./_id_-BCUl1VAp.mjs')
+=======
+    meta: __nuxt_page_meta$3,
+    component: () => import('./index-B5AR3wJy.mjs')
+  },
+  {
+    name: "fontes-atos-atos-com-bem-atualizar-id",
+    path: "/fontes/atos/atos-com-bem/atualizar/:id()",
+    component: () => import('./_id_-BgGBrYAD.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-atos-com-bem-geral",
     path: "/fontes/atos/atos-com-bem/geral",
+<<<<<<< HEAD
     component: () => import('./geral-CvB-8cNF.mjs')
+=======
+    component: () => import('./geral-B22owFEd.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-atos-sem-bem-atualizar-id",
     path: "/fontes/atos/atos-sem-bem/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-B7zvbH9U.mjs')
+=======
+    component: () => import('./_id_-Bvya_vBV.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-atos-sem-bem-geral",
     path: "/fontes/atos/atos-sem-bem/geral",
+<<<<<<< HEAD
     component: () => import('./geral-D_9I9K7j.mjs')
+=======
+    component: () => import('./geral-B8-uzBPf.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-autenticacao-autenticacao",
     path: "/fontes/atos/autenticacao/autenticacao",
+<<<<<<< HEAD
     component: () => import('./autenticacao-DRiwamyY.mjs')
+=======
+    component: () => import('./autenticacao-s1MYc7WW.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-divorcio-atualizar-id",
     path: "/fontes/atos/divorcio/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-CKhs-0fP.mjs')
+=======
+    component: () => import('./_id_-UOg5XbUh.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-divorcio-geral",
     path: "/fontes/atos/divorcio/geral",
+<<<<<<< HEAD
     component: () => import('./geral-Bz2Tltpq.mjs')
+=======
+    component: () => import('./geral-CupyKLZV.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-procuracoes-procuracao",
     path: "/fontes/atos/procuracoes/procuracao",
+<<<<<<< HEAD
     component: () => import('./procuracao-C0h3c33Y.mjs')
+=======
+    component: () => import('./procuracao-CuT8TUBC.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-reconhecimento-autencidade",
     path: "/fontes/atos/reconhecimento/autencidade",
+<<<<<<< HEAD
     component: () => import('./autencidade-DHcFUBQH.mjs')
+=======
+    component: () => import('./autencidade-BV9-M2vx.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "fontes-atos-reconhecimento-semelhanca",
     path: "/fontes/atos/reconhecimento/semelhanca",
+<<<<<<< HEAD
     component: () => import('./semelhanca-uigcSIhL.mjs')
+=======
+    component: () => import('./semelhanca-CWsVyiBl.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "index",
@@ -715,34 +790,60 @@ const _routes = [
   {
     name: "integracao-importa-onrtd",
     path: "/integracao/importa-onrtd",
+<<<<<<< HEAD
     component: () => import('./importa-onrtd-CCLHhWzH.mjs')
+=======
+    component: () => import('./importa-onrtd-Ca1sGBqG.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "login",
     path: "/login",
+<<<<<<< HEAD
     meta: __nuxt_page_meta$3,
     component: () => import('./index-CJ3fdzSr.mjs')
+=======
+    meta: __nuxt_page_meta$2,
+    component: () => import('./index-B4-J_cFT.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "login-tipo-perfil",
     path: "/login/tipo-perfil",
+<<<<<<< HEAD
     meta: __nuxt_page_meta$2,
     component: () => import('./tipo-perfil-Cxssl75s.mjs')
+=======
+    meta: __nuxt_page_meta$1,
+    component: () => import('./tipo-perfil-BcF3vnXf.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "matriculas-atualizar-id",
     path: "/matriculas/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-C7_S_Dmu.mjs')
+=======
+    component: () => import('./_id_-Y24tkS4Z.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "matriculas-cadastro",
     path: "/matriculas/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-DnZ_GUtN.mjs')
+=======
+    component: () => import('./index-C1WVVSh6.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "matriculas-lista",
     path: "/matriculas/lista",
+<<<<<<< HEAD
     component: () => import('./index-B6P3iikn.mjs')
+=======
+    component: () => import('./index-HX9nMHre.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "matriculas-vizualizar-id",
@@ -752,48 +853,85 @@ const _routes = [
   {
     name: "os-atualizar-id",
     path: "/os/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-dKa_TBrM.mjs')
+=======
+    component: () => import('./_id_-3wIA0mq0.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "os-criar-ato",
     path: "/os/criar-ato",
+<<<<<<< HEAD
     component: () => import('./criar-ato-CvD_RZVT.mjs')
+=======
+    component: () => import('./criar-ato-DLp5kfxa.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "os-criar-registro",
     path: "/os/criar-registro",
+<<<<<<< HEAD
     component: () => import('./criar-registro-Dek_FC34.mjs')
+=======
+    component: () => import('./criar-registro-C8w8ztoH.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "os-lista",
     path: "/os/lista",
+<<<<<<< HEAD
     component: () => import('./index-DWgPVW9Z.mjs')
+=======
+    component: () => import('./index-BgBjojz-.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "pessoas-atualizar-id",
     path: "/pessoas/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-CD-Z_htC.mjs')
+=======
+    component: () => import('./_id_-CrmR_jEA.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "pessoas-cadastro",
     path: "/pessoas/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-Bl9HGreg.mjs')
+=======
+    component: () => import('./index-BfWlhYZm.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "pessoas-lista",
     path: "/pessoas/lista",
+<<<<<<< HEAD
     component: () => import('./index-C1CAnqd0.mjs')
+=======
+    component: () => import('./index-CMuUX4j_.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "recupera_senha",
     path: "/recupera_senha",
+<<<<<<< HEAD
     meta: __nuxt_page_meta$1,
     component: () => import('./index-lskFbOH5.mjs')
+=======
+    meta: __nuxt_page_meta,
+    component: () => import('./index-o7XNfbUR.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "relatorios-lista",
     path: "/relatorios/lista",
+<<<<<<< HEAD
     component: () => import('./lista-IVOLMUr3.mjs')
+=======
+    component: () => import('./lista-wBAeWtq-.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "relatorios-livro-diario",
@@ -803,27 +941,47 @@ const _routes = [
   {
     name: "selos-enviar",
     path: "/selos/enviar",
+<<<<<<< HEAD
     component: () => import('./index-Bw05ZD_Y.mjs')
+=======
+    component: () => import('./index-D13Xzax1.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "selos-importar",
     path: "/selos/importar",
+<<<<<<< HEAD
     component: () => import('./index-D1ONjLkl.mjs')
+=======
+    component: () => import('./index-B0BAK4La.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "situacoes-matriculas-atualizar-id",
     path: "/situacoes-matriculas/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-DoB8f3cf.mjs')
+=======
+    component: () => import('./_id_-Ba8O7y2P.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "situacoes-matriculas-cadastro",
     path: "/situacoes-matriculas/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-D7p07jba.mjs')
+=======
+    component: () => import('./index-BtgL7GGK.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "situacoes-matriculas-lista",
     path: "/situacoes-matriculas/lista",
+<<<<<<< HEAD
     component: () => import('./index-B3agqHAR.mjs')
+=======
+    component: () => import('./index-plaj69zp.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "situacoes-matriculas-vizualizar-id",
@@ -833,17 +991,29 @@ const _routes = [
   {
     name: "tipoAtos-atualizar-id",
     path: "/tipoAtos/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-8ieCAM4Q.mjs')
+=======
+    component: () => import('./_id_-BmRTIPm9.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "tipoAtos-cadastro",
     path: "/tipoAtos/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-BMDwtCdm.mjs')
+=======
+    component: () => import('./index-C4PHzWpY.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "tipoAtos-lista",
     path: "/tipoAtos/lista",
+<<<<<<< HEAD
     component: () => import('./index-BrRHrfyc.mjs')
+=======
+    component: () => import('./index-DFyPCAEO.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "tipoAtos-visualizar-id",
@@ -853,16 +1023,25 @@ const _routes = [
   {
     name: "tiposSelos-atualizar-id",
     path: "/tiposSelos/atualizar/:id()",
+<<<<<<< HEAD
     component: () => import('./_id_-CNtwxrZz.mjs')
+=======
+    component: () => import('./_id_-Lm9sW3JX.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "tiposSelos-cadastro",
     path: "/tiposSelos/cadastro",
+<<<<<<< HEAD
     component: () => import('./index-AIhrUX0a.mjs')
+=======
+    component: () => import('./index-C5g1ZHAP.mjs')
+>>>>>>> integracoes_centrais
   },
   {
     name: "tiposSelos-lista",
     path: "/tiposSelos/lista",
+<<<<<<< HEAD
     component: () => import('./lista-CLf7N9RV.mjs')
   },
   {
@@ -870,6 +1049,9 @@ const _routes = [
     path: "/upload_arquivo_texto",
     meta: __nuxt_page_meta,
     component: () => import('./index-CkAbfoEE.mjs')
+=======
+    component: () => import('./lista-xYnrqEw2.mjs')
+>>>>>>> integracoes_centrais
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -4261,12 +4443,15 @@ function provideTheme(props) {
   provide(ThemeSymbol, newTheme);
   return newTheme;
 }
+<<<<<<< HEAD
 function useTheme() {
   getCurrentInstance("useTheme");
   const theme = inject$1(ThemeSymbol, null);
   if (!theme) throw new Error("Could not find Vuetify theme injection");
   return theme;
 }
+=======
+>>>>>>> integracoes_centrais
 function createCssClass(lines, selector, content) {
   lines.push(`${selector} {
 `, ...content.map((line) => `  ${line};
@@ -10499,7 +10684,11 @@ const __nuxt_component_0 = defineComponent$1({
   }
 });
 const layouts = {
+<<<<<<< HEAD
   default: defineAsyncComponent(() => import('./default-CEoZWFIn.mjs').then((m) => m.default || m))
+=======
+  default: defineAsyncComponent(() => import('./default-22bzjMAt.mjs').then((m) => m.default || m))
+>>>>>>> integracoes_centrais
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -10911,5 +11100,9 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
+<<<<<<< HEAD
 export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VBtn as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, makeFormProps as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, useFocus as aA, filterInputAttrs as aB, VInput as aC, filterFieldProps as aD, VField as aE, VCounter as aF, callEvent as aG, asyncDataDefaults as aH, createError as aI, makeGroupProps as aJ, useGroup as aK, useGoTo as aL, VFadeTransition as aM, focusableChildren as aN, makeGroupItemProps as aO, useSize as aP, useGroupItem as aQ, VExpandXTransition as aR, debounce as aS, useToggleScope as aT, getUid as aU, defineComponent as aV, MaybeTransition as aW, VExpandTransition as aX, deprecate as aY, focusChild as aZ, VLabel as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, makeVInputProps as ax, makeVFieldProps as ay, Intersect as az, useNuxtApp as b, createForm as b0, makeVBtnProps as b1, animate as b2, standardEasing as b3, isObject as b4, keys as b5, makeLazyProps as b6, useLazy as b7, VProgressCircular as b8, VSheet as b9, VSpacer as ba, getDecimals as bb, VScaleTransition as bc, makeFocusProps as bd, VProgressLinear as be, makeLayoutItemProps as bf, useLayoutItem as bg, useTheme as bh, pickWithRest as bi, useLayout as bj, VApp as bk, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VTextField as f, useRoute$1 as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
+=======
+export { clamp as $, useTextColor as A, useForm as B, forwardRefs as C, VMenu as D, ensureValidVNode as E, VDefaultsProvider as F, noop as G, wrapInArray as H, matchesSelector as I, isOn as J, IconValue as K, makeBorderProps as L, makeDensityProps as M, makeElevationProps as N, makeRoundedProps as O, makeSizeProps as P, makeThemeProps as Q, makeVariantProps as R, provideTheme as S, useDisplay as T, provideDefaults as U, VBtn as V, useResizeObserver as W, createRange as X, keyValues as Y, getCurrentInstance as Z, _export_sfc as _, navigateTo as a, makeFormProps as a$, defineFunctionalComponent as a0, convertToUnit as a1, consoleError as a2, deepEqual as a3, isEmpty as a4, makeDisplayProps as a5, makeLoaderProps as a6, useLoader as a7, useBackgroundColor as a8, LoaderSlot as a9, useFocus as aA, filterInputAttrs as aB, VInput as aC, filterFieldProps as aD, VField as aE, VCounter as aF, callEvent as aG, asyncDataDefaults as aH, createError as aI, makeGroupProps as aJ, useGroup as aK, useGoTo as aL, VFadeTransition as aM, focusableChildren as aN, makeGroupItemProps as aO, useSize as aP, useGroupItem as aQ, VExpandXTransition as aR, debounce as aS, useToggleScope as aT, getUid as aU, defineComponent as aV, MaybeTransition as aW, VExpandTransition as aX, deprecate as aY, focusChild as aZ, VLabel as a_, getObjectValueByPath as aa, EventProp as ab, useDensity as ac, getPropertyFromItem as ad, makeVOverlayProps as ae, VDialogTransition as af, useScopeId as ag, VOverlay as ah, createSimpleFunctional as ai, makeDimensionProps as aj, makeLocationProps as ak, makePositionProps as al, makeRouterProps as am, Ripple as an, useBorder as ao, useVariant as ap, useDimension as aq, useElevation as ar, useLocation as as, usePosition as at, useRounded as au, useLink as av, genOverlays as aw, makeVInputProps as ax, makeVFieldProps as ay, Intersect as az, useNuxtApp as b, createForm as b0, makeVBtnProps as b1, animate as b2, standardEasing as b3, keys as b4, makeLazyProps as b5, useLazy as b6, isObject as b7, VProgressCircular as b8, VSheet as b9, VSpacer as ba, getDecimals as bb, VScaleTransition as bc, makeFocusProps as bd, makeLayoutItemProps as be, useLayoutItem as bf, useLayout as bg, VApp as bh, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useCookie as e, VTextField as f, useRoute$1 as g, VIcon as h, injectHead as i, fetchDefaults as j, useRequestFetch as k, makeTagProps as l, makeComponentProps as m, nuxtLinkDefaults as n, genericComponent as o, propsFactory as p, useRtl as q, resolveRouteObject as r, useRender as s, breakpoints as t, useRouter$1 as u, omit as v, makeVTextFieldProps as w, makeTransitionProps$1 as x, useLocale as y, useProxiedModel as z };
+>>>>>>> integracoes_centrais
 //# sourceMappingURL=server.mjs.map
