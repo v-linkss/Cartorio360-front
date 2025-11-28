@@ -135,7 +135,7 @@ const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
-const situacaoAto = `${config.public.auth}/service/gerencia/lista_sit_atos`;
+const situacaoAto = `${config.public.auth}/service/gerencia/lista_sit_os`;
 const imprimirRecibo = `${config.public.auth}/service/gerencia/emitir_recibo`;
 const acionarScanner = `${config.public.biometria}/run-scanner?format=pdf`;
 const viewDoc = `${config.public.envioDoc}/upload`;
