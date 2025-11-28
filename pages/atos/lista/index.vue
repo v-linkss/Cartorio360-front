@@ -94,12 +94,9 @@
           dense
         ></v-autocomplete>
       </v-col>
-      <v-col cols="3">
+      <v-col md="3">
         <v-autocomplete
-          v-model="state.situacao"
-          :items="situacaoItems"
-          label="Situação"
-          dense
+          v-model="state.situacao" :items="situacaoItems" item-title="descricao" item-value="descricao" label="Situação"
         ></v-autocomplete>
       </v-col>
       <v-col cols="1">
@@ -274,6 +271,8 @@ const acionarScanner = `${config.public.biometria}/run-scanner?format=pdf`;
 const viewDoc = `${config.public.envioDoc}/upload`;
 const updateAto = `${config.public.managemant}/updateAtos`;
 const pesquisaAtos = `${config.public.managemant}/pesquisaAtos`;
+const situacaoAto = `${config.public.auth}/service/gerencia/lista_sit_atos`;
+const tokenCookie = useCookie("auth_token");
 
 const { redirectTo } = useRedirectTo();
 
@@ -285,7 +284,8 @@ const modalVisible = ref(false);
 const atos = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
-const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+// const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+const situacaoItems = ref([]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 const isModalCancelamentoAtoOpen = ref(false);
@@ -428,6 +428,17 @@ async function usuariosDataPayload() {
   usuariosItems.value = usuarioData.value;
 }
 
+async function listarSituacaoAto() {
+  const { data: situacoesData, error } = await useFetch(situacaoAto, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tokenCookie.value}`,
+    },
+  });
+
+  situacaoItems.value = situacoesData.value;
+}
+
 async function searchAtos() {
   try {
     sessionStorage.setItem("pesquisaAto", JSON.stringify(state));
@@ -566,6 +577,7 @@ onMounted(() => {
 
 usuariosDataPayload();
 tipoAtosDataPayload();
+listarSituacaoAto();
 </script>
 
 <style scoped>

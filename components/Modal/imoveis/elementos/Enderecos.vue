@@ -135,6 +135,8 @@ const listarNaturezaImoveis = `${config.public.managemant}/natureza_imoveis`;
 const listarTipoLogradouro = `${config.public.managemant}/tipo_logradouros`;
 const listarSituacaoImoveis = `${config.public.managemant}/situacao_imoveis`;
 const cep = `${config.public.auth}/service/gerencia/cep`;
+
+
 const listarCidades = `${config.public.managemant}/listarCidades`;
 const listarBens = `${config.public.managemant}/listarTipoBens`;
 const cartorio_token = ref(useCookie("user-data").value.cartorio_token);
