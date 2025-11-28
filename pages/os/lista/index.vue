@@ -40,9 +40,6 @@
     </v-row>
     <v-row>
       <v-col md="3">
-<<<<<<< HEAD
-        <v-autocomplete v-model="state.situacao" :items="situacaoItems" label="Situação"></v-autocomplete>
-=======
         <v-autocomplete
           v-model="state.situacao"
           :items="situacaoItems"
@@ -50,7 +47,6 @@
           item-value="descricao"
           label="Situação"
         ></v-autocomplete>
->>>>>>> refact/combolist
       </v-col>
       <v-col md="2">
         <v-autocomplete :items="usuariosItems" v-model="state.usuario_token" item-title="user_nome"
@@ -385,26 +381,26 @@ function redirectToRecebimento(numero, item) {
   isModalRecebimentoOpen.value = true;
 }
 
-// async function emitirRecibo(token) {
+async function emitirRecibo(token) {
 
-//   const { data, pending, error } = await useFetch(imprimirRecibo, {
-//     method: "POST",
-//     body: {
-//       os_token: token,
-//     },
-//     headers: {
-//       Authorization: `Bearer ${tokenCookie.value}`,
-//     },
-//   })
-//   if (data.value) {
-//     const blob = new Blob([data.value], { type: 'text/html' });
-//     const url = URL.createObjectURL(blob);
-//     window.open(url, '_blank');
-//   } else {
-//     $toast.error(error?.value?.data?.details ||
-//       "Erro ao emitir recibo");
-//   }
-// }
+  const { data, pending, error } = await useFetch(imprimirRecibo, {
+    method: "POST",
+    body: {
+      os_token: token,
+    },
+    headers: {
+      Authorization: `Bearer ${tokenCookie.value}`,
+    },
+  })
+  if (data.value) {
+    const blob = new Blob([data.value], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  } else {
+    $toast.error(error?.value?.data?.details ||
+      "Erro ao emitir recibo");
+  }
+}
 
 const showCreateOrdem = () => {
   const serviceCookie = useCookie("user-service");
