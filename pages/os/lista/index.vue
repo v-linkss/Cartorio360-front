@@ -69,6 +69,8 @@
         <v-autocomplete
           v-model="state.situacao"
           :items="situacaoItems"
+          item-title="descricao"
+          item-value="descricao"
           label="Situação"
         ></v-autocomplete>
       </v-col>
@@ -228,6 +230,7 @@ const { $toast } = useNuxtApp();
 const allUsuarios = `${config.public.managemant}/listarUsuarios`;
 const allServicos = `${config.public.managemant}/listarOrdensServico`;
 const allTiposAtos = `${config.public.managemant}/tipoAtos`;
+const situacaoAto = `${config.public.auth}/service/gerencia/lista_sit_atos`;
 const imprimirRecibo = `${config.public.auth}/service/gerencia/emitir_recibo`;
 const router = useRouter();
 
@@ -236,7 +239,8 @@ const cartorio_token = ref(useCookie("user-data").value.cartorio_token) || null;
 const servicosItems = ref([]);
 const usuariosItems = ref([]);
 const tipoAtosItems = ref([]);
-const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+// const situacaoItems = ref(["PENDENTE", "EM ANDAMENTO", "CONCLUÍDA", "LAVRADA"]);
+const situacaoItems = ref([]);
 const isModalRecebimentoOpen = ref(false);
 const isModalCancelamentoOpen = ref(false);
 const isModalImprecaoRecibo = ref(false);
@@ -356,6 +360,17 @@ async function tipoAtosDataPayload() {
   tipoAtosItems.value = tipoAtosData.value;
 }
 
+async function listarSituacaoAto() {
+  const { data: situacoesData, error } = await useFetch(situacaoAto, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${tokenCookie.value}`,
+    },
+  });
+
+  situacaoItems.value = situacoesData.value;
+}
+
 const servicosDataTable = async () => {
   try {
     const currentDate = getCurrentDate();
@@ -451,7 +466,9 @@ const showCreateOrdem = () => {
   isTrueOrdemServ.value = showCreateOrdemServ.value;
 };
 
+
 onMounted(() => {
+
   nextTick(async () => {
     const pesquisaSalva = sessionStorage.getItem("pesquisaOS");
 
@@ -466,4 +483,6 @@ onMounted(() => {
 
 usuariosDataPayload();
 tipoAtosDataPayload();
+listarSituacaoAto();
+
 </script>
